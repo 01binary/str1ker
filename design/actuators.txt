@@ -1,0 +1,23 @@
+360 watts = 6 actuators
+
+Linear Heavy: 12 VDC by 5 Amps = 60 Watts draw
+Linear Light: 12 VDC by 1.4 Amps = 16.8 Watt
+Solenoid: 12 VDC 10 Watts
+Arm rotation servo: 12 VDC by 1.4Amps = 16.8 Watt
+
+
+1 large arm = 60W + 16.8W + 10W + 16.8W = 86.8W
+4 large arms = 364 Watts
+
+1 small arm = ?
+
+Rotator base torque??
+
+Need moments of Inertia to calc all that, so back to design.
+
++ 4 small arms + base rotation servo? Let's forget about the wheel drive for now.
+Get a huge PS and worry about it later.
+
+
+
+P(W) = I(A) × V(V)
