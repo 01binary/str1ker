@@ -1,0 +1,7 @@
+To get the real torque required, you have to specify how fast you want to be able to accellerate this mass upwards. For example, let's say you need at least 3 m/s². Solving Newton's law of F = ma:
+
+(0.450 kg)(3 m/s²) = 1.35 N
+
+
+5 kg * 1 m/s2 = 5 N added to gravity?
+
