@@ -1,0 +1,42 @@
+﻿Study Shape Generator:1 started: 3/29/2020, 6:06:30 PM
+Number of configurations: 1
+Default mesh: 11481 elements, 17937 nodes
+Study        Worst Jacobian ratio :  2.41  on element 4755 finished: 3/29/2020, 6:06:40 PM
+Total time 0:00:10
+
+Study Shape Generator:1 started: 3/29/2020, 6:07:23 PM
+Number of configurations: 1
+Default mesh: 11481 elements, 17937 nodes
+Study Shape Generator:1 finished: 3/29/2020, 6:07:30 PM
+Total time 0:00:07
+
+Study Shape Generator:1 started: 3/29/2020, 6:08:08 PM
+Number of configurations: 1
+Default mesh: 11481 elements, 17937 nodes
+Study Shape Generator:1 finished: 3/29/2020, 6:08:14 PM
+Total time 0:00:06
+
+Study Shape Generator:1 started: 3/29/2020, 6:08:54 PM
+Number of configurations: 1
+Default mesh: 11481 elements, 17937 nodes
+Study Shape Generator:1 finished: 3/29/2020, 6:09:01 PM
+Total time 0:00:07
+
+Study Shape Generator:1 started: 3/29/2020, 6:14:53 PM
+Number of configurations: 1
+Default mesh: 146810 elements, 212232 nodes
+Study        Worst Jacobian ratio :  1.61  on element 71689 finished: 3/29/2020, 6:16:12 PM
+Total time 0:01:19
+
+Study Shape Generator:1 started: 3/29/2020, 6:17:50 PM
+Number of configurations: 1
+Default mesh: 146810 elements, 212232 nodes
+Study        Worst Jacobian ratio :  1.61  on element 71689 finished: 3/29/2020, 6:19:04 PM
+Total time 0:01:14
+
+Study Shape Generator:1 started: 3/29/2020, 6:25:51 PM
+Number of configurations: 1
+Default mesh: 146810 elements, 212232 nodes
+Study Shape Generator:1 finished: 3/29/2020, 6:26:57 PM
+Total time 0:01:06
+
