@@ -19,6 +19,28 @@ Frames
 	https://www.robotis.us/frames/
 	https://www.trossenrobotics.com/p/Robotis-Dynamixel-FR05-S101K-Side-Frame-Set.aspx
 
+Forearm actuator
+	4 lb for the upper arm (over-estimated by .5 lb)
+	Needs linear actuator with a force of at least 27.4 lb
+	Min 5.9
+	Max 9.5
+	Travel 3.6"
+	12V, 110lb, 4" stroke, .88 lbs
+	FA-B-110-12V-4: https://www.firgelliauto.com/products/bullet-series-mini-actuators
+	MB14 bracket: https://www.firgelliauto.com/products/mb14-bracket
+	Could this be a problem? Retracted length is 10.693. Need a model of this thing.
+
+Upper arm actuator
+	7 lb + .88 lb for the forearm actuator
+	Let's say 8 lb
+	Max 8
+	Min 4.7
+	Travel 4"
+	12V, 150lb, 4" stroke, 2.2 lbs
+	FA-150-S-12-4: https://www.firgelliauto.com/products/linear-actuators
+	MB1 Bracket: https://www.firgelliauto.com/products/mb1-bracket?variant=846046107
+
+
 Arm rotation servo: 12 VDC by 1.4Amps = 16.8 Watt
 
 
