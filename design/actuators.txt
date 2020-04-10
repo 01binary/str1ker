@@ -2,7 +2,23 @@
 
 Linear Heavy: 12 VDC by 5 Amps = 60 Watts draw
 Linear Light: 12 VDC by 1.4 Amps = 16.8 Watt
+
 Solenoid: 12 VDC 10 Watts
+	Determine how to put in rotation spring
+	https://www.mcmaster.com/69905k179-69905K621
+	https://www.mcmaster.com/69905k117-69905K521
+	https://www.mcmaster.com/electric-solenoids/direction-of-force~push/duty-cycle~intermittent/
+	https://www.mcmaster.com/electric-solenoids/duty-cycle~intermittent/direction-of-force~pull/
+	https://americas.rsdelivers.com/product/johnson-electric/195205-230/push-action-tubular-solenoid-12-v-dc-7w/1736462
+	https://www.johnsonelectric.com/en/product-technology/motion/solenoids/sta-tubular-linear-dc-solenoids
+	https://www.johnsonelectric.com/en/product-technology/motion/solenoids/open-frame-linear-dc-solenoids
+	https://americas.rsdelivers.com/product/johnson-electric/195227-228/push-action-tubular-solenoid-25mm-stroke-12-v-dc/1857563?cm_mmc=US-PLA-DS3A-_-google-_-DA+%7C+Smart+Shopping-_-All+Products-_-&matchtype=&pla-895757573199&gclid=EAIaIQobChMImIvQ77bc6AIVka_sCh2gPwZjEAQYBSABEgLMUPD_BwE&gclsrc=aw.ds
+	https://www.mscdirect.com/product/details/74098096
+	
+Frames
+	https://www.robotis.us/frames/
+	https://www.trossenrobotics.com/p/Robotis-Dynamixel-FR05-S101K-Side-Frame-Set.aspx
+
 Arm rotation servo: 12 VDC by 1.4Amps = 16.8 Watt
 
 
