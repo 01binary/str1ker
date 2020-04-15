@@ -22,8 +22,8 @@ Frames
 Forearm actuator
 	4 lb for the upper arm (over-estimated by .5 lb)
 	Needs linear actuator with a force of at least 27.4 lb
-	12V, 110lb, 3" stroke, .88 lbs
-	FA-B-110-12V-3: https://www.firgelliauto.com/products/bullet-series-mini-actuators
+	12V, 110lb, 2" stroke, .88 lbs
+	FA-B-110-12V-2: https://www.firgelliauto.com/products/bullet-series-mini-actuators
 	MB14 bracket: https://www.firgelliauto.com/products/mb14-bracket
 
 Upper arm actuator
