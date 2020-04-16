@@ -1,7 +1,3 @@
-360 watts = 6 actuators
-
-Linear Heavy: 12 VDC by 5 Amps = 60 Watts draw
-Linear Light: 12 VDC by 1.4 Amps = 16.8 Watt
 
 Solenoid: 12 VDC 10 Watts
 	Determine how to put in rotation spring
@@ -14,10 +10,6 @@ Solenoid: 12 VDC 10 Watts
 	https://www.johnsonelectric.com/en/product-technology/motion/solenoids/open-frame-linear-dc-solenoids
 	https://americas.rsdelivers.com/product/johnson-electric/195227-228/push-action-tubular-solenoid-25mm-stroke-12-v-dc/1857563?cm_mmc=US-PLA-DS3A-_-google-_-DA+%7C+Smart+Shopping-_-All+Products-_-&matchtype=&pla-895757573199&gclid=EAIaIQobChMImIvQ77bc6AIVka_sCh2gPwZjEAQYBSABEgLMUPD_BwE&gclsrc=aw.ds
 	https://www.mscdirect.com/product/details/74098096
-	
-Frames
-	https://www.robotis.us/frames/
-	https://www.trossenrobotics.com/p/Robotis-Dynamixel-FR05-S101K-Side-Frame-Set.aspx
 
 Forearm actuator
 	4 lb for the upper arm (over-estimated by .5 lb)
@@ -27,18 +19,21 @@ Forearm actuator
 	MB14 bracket: https://www.firgelliauto.com/products/mb14-bracket
 
 Upper arm actuator
-	7 lb + .88 lb for the forearm actuator
-	Let's say 8 lb
-	Max 8
-	Min 4.7
+	8 lb to lift
 	Travel 4"
 	12V, 150lb, 4" stroke, 2.2 lbs
 	FA-150-S-12-4: https://www.firgelliauto.com/products/linear-actuators
 	MB1 Bracket: https://www.firgelliauto.com/products/mb1-bracket?variant=846046107
 
+Arm servo
+	https://www.teknic.com/products/clearpath-brushless-dc-servo-motors/clearpath-mc/mcpv-models/
+	
+Frames
+	https://www.robotis.us/frames/
+	https://www.trossenrobotics.com/p/Robotis-Dynamixel-FR05-S101K-Side-Frame-Set.aspx
 
-Arm rotation servo: 12 VDC by 1.4Amps = 16.8 Watt
-
+Arm rotation servo
+	XM430-W350-T
 
 1 large arm = 60W + 16.8W + 10W + 16.8W = 86.8W
 4 large arms = 364 Watts
