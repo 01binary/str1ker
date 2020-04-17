@@ -23,30 +23,26 @@ Upper arm actuator
 	Travel 4"
 	12V, 150lb, 4" stroke, 2.2 lbs
 	FA-150-S-12-4: https://www.firgelliauto.com/products/linear-actuators
-	MB1 Bracket: https://www.firgelliauto.com/products/mb1-bracket?variant=846046107
 
 Arm servo
+	Mass to move: 8 lb (above) + 2.2 lb + 0.14lb * 2 + 0.083 * 2 = ~10.7 lbs
+	I = 16221.970 lbmass in^2
+	How fast = rad/s = .8rad (45deg) in 1 second
+	Torque = I (lbs in^2) * a (radians/s^2)
+	Torque = 16221.970 lb in^2 * .8 rad/s^2
+	Torque = 16221.970 lb/in
+	Torque = 1832.84 Nm
+	Torque = 259,551.52 Oz/in
+	Absolute min is 1622.197 (if moving .1 rad/sec)
+	Absolute min in oz = 25955.153034 oz/in
+	XM430-W350-T?
 	https://www.teknic.com/products/clearpath-brushless-dc-servo-motors/clearpath-mc/mcpv-models/
 	
 Frames
 	https://www.robotis.us/frames/
 	https://www.trossenrobotics.com/p/Robotis-Dynamixel-FR05-S101K-Side-Frame-Set.aspx
 
-Arm rotation servo
-	XM430-W350-T
-
-1 large arm = 60W + 16.8W + 10W + 16.8W = 86.8W
-4 large arms = 364 Watts
-
-1 small arm = ?
-
-Rotator base torque??
-
-Need moments of Inertia to calc all that, so back to design.
-
-+ 4 small arms + base rotation servo? Let's forget about the wheel drive for now.
-Get a huge PS and worry about it later.
 
 
-
-P(W) = I(A) × V(V)
+Torque = Inertia * Angular Acceleration
+Inertia of the arm: 
