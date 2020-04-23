@@ -15,6 +15,10 @@ Forearm actuator
 	4 lb for the upper arm (over-estimated by .5 lb)
 	Needs linear actuator with a force of at least 27.4 lb
 	12V, 110lb, 2" stroke, .88 lbs
+		Density = Mass / Volume
+		body: .43 lbs, volume 4.489 in^3, density = 0.096 lbs/in^3
+		gland: .1 lbs, volume 0.054 in^3, density = 1.852 lbs/in^3
+		shaft: .35 lbs, volume 2.550 in^3, density = 0.137 lbs/in^3
 	FA-B-110-12V-2: https://www.firgelliauto.com/products/bullet-series-mini-actuators
 	MB14 bracket: https://www.firgelliauto.com/products/mb14-bracket
 
@@ -22,21 +26,19 @@ Upper arm actuator
 	8 lb to lift
 	Travel 4"
 	12V, 150lb, 4" stroke, 2.2 lbs
+		body: 1.2 lbs, volume 17.997 in^3, density = 0.067 lbs/in^3
+		shaft: 1 lbs, volume 1.582 in^3, density = 0.632 lbs/in^3
 	FA-150-S-12-4: https://www.firgelliauto.com/products/linear-actuators
 
 Arm servo
 	Mass to move: 8 lb (above) + 2.2 lb + 0.14lb * 2 + 0.083 * 2 = ~10.7 lbs
-	I = 16221.970 lbmass in^2
-	How fast = rad/s = .8rad (45deg) in 1 second
+	I = 851.245 lbmass in^2
+	How fast = .05 rad/s
 	Torque = I (lbs in^2) * a (radians/s^2)
-	Torque = 16221.970 lb in^2 * .8 rad/s^2
-	Torque = 16221.970 lb/in
-	Torque = 1832.84 Nm
-	Torque = 259,551.52 Oz/in
-	Absolute min is 1622.197 (if moving .1 rad/sec)
-	Absolute min in oz = 25955.153034 oz/in
-	XM430-W350-T?
-	https://www.teknic.com/products/clearpath-brushless-dc-servo-motors/clearpath-mc/mcpv-models/
+	Torque = 851.245 * .05 = 42.56 lb/in = 681 0z/in = 7.6 kg/cm = 4.8 Nm
+
+	https://www.trossenrobotics.com/dynamixel-pro-plus-h42p-020-s300-r.aspx
+	
 	
 Frames
 	https://www.robotis.us/frames/
