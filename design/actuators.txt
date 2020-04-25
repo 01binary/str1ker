@@ -1,3 +1,6 @@
+Spring:
+	.25" shoft left-hand 90deg .55lbs Torque = https://www.mcmaster.com/9271K579
+	.25" shoft right-hand 90deg .55lbs Torque = https://www.mcmaster.com/9271K647
 
 Solenoid: 12 VDC 10 Watts
 	Determine how to put in rotation spring
@@ -45,6 +48,8 @@ Frames
 	https://www.trossenrobotics.com/p/Robotis-Dynamixel-FR05-S101K-Side-Frame-Set.aspx
 
 
+Turntables
+	https://www.mcmaster.com/turntables
 
 Torque = Inertia * Angular Acceleration
 Inertia of the arm: 
