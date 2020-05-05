@@ -2,6 +2,8 @@
 
 Work-in-progress design for an aethetic live drum machine.
 
-<img src="https://raw.githubusercontent.com/01binary/drummingrobot/master/render/ray1.PNG">
+<img src="render/new-front.PNG">
 
-<img src="https://raw.githubusercontent.com/01binary/drummingrobot/master/render/ray2.PNG">
+<img src="render/new-back.PNG">
+
+<img src="render/new-bottom.PNG">
