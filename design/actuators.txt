@@ -52,10 +52,11 @@ Turntables
 	https://www.mcmaster.com/turntables
 
 Upper Arm Shocks 5.5"
-	? https://www.amazon.com/s?i=automotive&bbn=18420927011&rh=n%3A15684181%2Cn%3A2334085011%2Cn%3A2334147011%2Cn%3A18420927011%2Cp_36%3A1253494011&dc&page=2&qid=1589389247&rnid=386419011&suppress-ve=1&ref=sr_pg_1
+	https://www.amazon.com/Integy-Hop-ups-C27173SILVER-Machined-Suspension/dp/B076F3YCY9
 
 Torso Spring Shocks 9"
-	https://www.alibaba.com/product-detail/motorcycle-mono-rear-shock-absorber-for_62226662574.html?spm=a2700.wholesale.deiletai6.2.6fc550b2WYSUYz&bypass=true
+	230 mm external spring RC shocks
+	https://www.ebay.com/i/273547931664
 
 Torque = Inertia * Angular Acceleration
 Inertia of the arm: 
