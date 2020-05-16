@@ -49,7 +49,12 @@ Frames
 
 
 Turntables
-	https://www.mcmaster.com/turntables
+	17414 lbmass in^2 
+	100 lb load capacity
+	200 mm diameter
+	Torque = 17414 lb/in = 278624 oz/in
+	151:1 for highest performing ClearPath
+	CPM-SDSK-3441S-ELN
 
 Upper Arm Shocks 5.5"
 	https://www.amazon.com/Integy-Hop-ups-C27173SILVER-Machined-Suspension/dp/B076F3YCY9
