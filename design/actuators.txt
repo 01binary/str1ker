@@ -63,5 +63,8 @@ Torso Spring Shocks 9"
 	230 mm external spring RC shocks
 	https://www.ebay.com/i/273547931664
 
+Wheels
+	https://www.mcmaster.com/standard-wheels
+
 Torque = Inertia * Angular Acceleration
 Inertia of the arm: 
