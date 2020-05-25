@@ -64,7 +64,8 @@ Torso Spring Shocks 9"
 	https://www.ebay.com/i/273547931664
 
 Wheels
-	https://www.mcmaster.com/standard-wheels
+	https://www.mcmaster.com/standard-wheels/omni-directional-wheels-5/
+	6"
 
 Torque = Inertia * Angular Acceleration
 Inertia of the arm: 
