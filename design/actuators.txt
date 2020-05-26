@@ -56,12 +56,16 @@ Turntables
 	151:1 for highest performing ClearPath
 	CPM-SDSK-3441S-ELN
 
-Upper Arm Shocks 5.5"
+Upper Arm Linkage 140mm
 	https://www.amazon.com/Integy-Hop-ups-C27173SILVER-Machined-Suspension/dp/B076F3YCY9
 
 Torso Spring Shocks 9"
 	230 mm external spring RC shocks
 	https://www.ebay.com/i/273547931664
+
+Leg Shocks 6.881" eye to eye
+	Closest 9"
+	https://www.amazon.com/dp/B074H27S4L
 
 Wheels
 	https://www.mcmaster.com/standard-wheels/omni-directional-wheels-5/
