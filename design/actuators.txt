@@ -41,7 +41,14 @@ Arm servo
 	Torque = 851.245 * .05 = 42.56 lb/in = 681 0z/in = 7.6 kg/cm = 4.8 Nm
 
 	https://www.trossenrobotics.com/dynamixel-pro-plus-h42p-020-s300-r.aspx
+
+	What about regular high torque DC motor?
+	https://www.mouser.com/datasheet/2/120/492.92455-1544381.pdf
+
+	Or what about a high torque gearmotor? Just need encoder and controller to go with this, right?
+	https://makermotor.com/pn01007-38-3-8-d-shaft-electric-gear-motor-12v-low-speed-50-rpm-gearmotor-dc/?sku=PN01007-38&_vsrefdom=adwords&gclid=Cj0KCQjwiYL3BRDVARIsAF9E4Gcq7GSBSsHfwsXjd1PnNGZMIKlWCNsivD7sVBvfM7_bKCvZ54CB-MkaAtdiEALw_wcB
 	
+	In the end, the low form factor and ease of control may be a win over alternatives.
 	
 Frames
 	https://www.robotis.us/frames/
