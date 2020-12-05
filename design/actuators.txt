@@ -1,18 +1,8 @@
-Total Watts
-38W (1 connection) - Torso
-70W (7 connections) - Solenoids
-67.2W (4 connections) - Forearm
-240W (4 connections) - Upper Arm
-144W (4 connections) - Arm Servo
-	== 600 W power supply, should handle 12VDC to 24VDC
+Spring:
+	.25" shoft left-hand 90deg .55lbs Torque = https://www.mcmaster.com/9271K579
+	.25" shoft right-hand 90deg .55lbs Torque = https://www.mcmaster.com/9271K647
 
-Torso Motor
-	ClearPath NEMA 34
-	https://www.teknic.com/model-info/CPM-SDSK-3441S-RLN/?model_voltage=75VDC
-	24VDC or 75 VDC
-	38 Watts at 24 VDC
-
-Solenoid: 12 VDC 10 Watts x 7 copies (kicks and hat) = 70 Watts
+Solenoid: 12 VDC 10 Watts
 	Determine how to put in rotation spring
 	https://www.mcmaster.com/69905k179-69905K621
 	https://www.mcmaster.com/69905k117-69905K521
@@ -27,18 +17,18 @@ Solenoid: 12 VDC 10 Watts x 7 copies (kicks and hat) = 70 Watts
 Forearm actuator
 	4 lb for the upper arm (over-estimated by .5 lb)
 	Needs linear actuator with a force of at least 27.4 lb
-	24V, 110lb, 2" stroke, .88 lbs
-	16.8 Watt x 4 copies = 67.2 Watts
+	12V, 110lb, 2" stroke, .88 lbs
 		Density = Mass / Volume
 		body: .43 lbs, volume 4.489 in^3, density = 0.096 lbs/in^3
 		gland: .1 lbs, volume 0.054 in^3, density = 1.852 lbs/in^3
 		shaft: .35 lbs, volume 2.550 in^3, density = 0.137 lbs/in^3
 	FA-B-110-12V-2: https://www.firgelliauto.com/products/bullet-series-mini-actuators
+	MB14 bracket: https://www.firgelliauto.com/products/mb14-bracket
 
 Upper arm actuator
-	8 lb to lift, travel 4"
+	8 lb to lift
+	Travel 4"
 	12V, 150lb, 4" stroke, 2.2 lbs
-	60 Watt x 4 copies = 240 Watt
 		body: 1.2 lbs, volume 17.997 in^3, density = 0.067 lbs/in^3
 		shaft: 1 lbs, volume 1.582 in^3, density = 0.632 lbs/in^3
 	FA-150-S-12-4: https://www.firgelliauto.com/products/linear-actuators
@@ -51,15 +41,30 @@ Arm servo
 	Torque = 851.245 * .05 = 42.56 lb/in = 681 0z/in = 7.6 kg/cm = 4.8 Nm
 
 	https://www.trossenrobotics.com/dynamixel-pro-plus-h42p-020-s300-r.aspx
-		specs: https://emanual.robotis.com/docs/en/dxl/p/ph42-020-s300-r/#reference
-		24 VDC
-		36 Watt x 4 copies = 144 Watt
-		MOLEX power connector
-		RS485 control connector
 
-Spring:
-	.25" shoft left-hand 90deg .55lbs Torque = https://www.mcmaster.com/9271K579
-	.25" shoft right-hand 90deg .55lbs Torque = https://www.mcmaster.com/9271K647
+	What about regular high torque DC motor?
+	https://www.mouser.com/datasheet/2/120/492.92455-1544381.pdf
+
+	Or what about a high torque gearmotor? Just need encoder and controller to go with this, right?
+	https://makermotor.com/pn01007-38-3-8-d-shaft-electric-gear-motor-12v-low-speed-50-rpm-gearmotor-dc/?sku=PN01007-38&_vsrefdom=adwords&gclid=Cj0KCQjwiYL3BRDVARIsAF9E4Gcq7GSBSsHfwsXjd1PnNGZMIKlWCNsivD7sVBvfM7_bKCvZ54CB-MkaAtdiEALw_wcB
+	
+	In the end, the low form factor and ease of control may be a win over alternatives.
+	
+Frames
+	https://www.robotis.us/frames/
+	https://www.trossenrobotics.com/p/Robotis-Dynamixel-FR05-S101K-Side-Frame-Set.aspx
+
+
+Turntables
+	17414 lbmass in^2 
+	100 lb load capacity
+	200 mm diameter
+	Torque = 17414 lb/in = 278624 oz/in
+	151:1 for highest performing ClearPath
+	CPM-SDSK-3441S-ELN
+
+Upper Arm Linkage 140mm
+	https://www.amazon.com/Integy-Hop-ups-C27173SILVER-Machined-Suspension/dp/B076F3YCY9
 
 Torso Spring Shocks 9"
 	230 mm external spring RC shocks
@@ -72,9 +77,6 @@ Leg Shocks 6.881" eye to eye
 Wheels
 	https://www.mcmaster.com/standard-wheels/omni-directional-wheels-5/
 	6"
-
-Computer
-	Raspberri PI4, 4 GB
 
 Torque = Inertia * Angular Acceleration
 Inertia of the arm: 
