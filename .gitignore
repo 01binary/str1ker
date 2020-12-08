@@ -1,2 +1,4 @@
 src/OldVersions/**/*
+src/external/OldVersions/**/*
+src/Head/OldVersions/**/*
 *.lck
