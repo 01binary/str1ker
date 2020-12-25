@@ -1,3 +1,43 @@
+4 Servos = 20W x 4 = 		80W or 24V 3.3A
+4 Solenoids = 24W x 4 =		96W or 12V 8A
+4 Classics = 5A x 4 =		240W or 12V 20A
+4 Bullets = 12V 1.4A x 4 = 	67.2W or 12V 5.6A
+1 Torso = 75V 251W = 3.4A =	251W or 75V 3.4A
+4 Neck = 12V 60W x 4 = 		240W or 12V 20A
+3 Big solenoids = 12 V 60W =	180W or 12V 15A
+1 Raspi = 			15W or 5V 3A
+
+Total Watts = 1169.2W
+
+12V total = 96W + 240W + 67.2W + 240W + 180W or (180W + 96W + 67.2W) + 240W + 240W = 343.2W + 240W + 240W = 823.2W
+	One slot for 4 classics
+	One slot for 4 high speeds neck
+	One slot for 4 solenoids and 4 bullets (76W left over)
+	One slot for 3 big solenoids (60W left over)
+
+12V total = 823.2W
+24V total = 80W
+75V total = 251W
+5V total = 15W
+
+12V and 75V groups:
+	12V = 823.2W + 80W + 15W = 918.2 Watts (A)	-- Could try SE-1000-12aaaa
+	75V = 251 Watts					-- Use Amazon IPC
+	-----
+	Total 1170 Watts
+
+Maybe the best way to do this is a 12V power supply that's 1200W ?
+
+Let's just think about it...
+
+12 power supply, 1200 W, all parallel
+	* 24V converter, just one, for all the servos (check watts)
+	* 5V converter, just one, for pi
+	* 75V converter, just one, for torso
+
+
+CPM-MCVC-3441S-RLN
+
 Spring:
 	.25" shoft left-hand 90deg .55lbs Torque = https://www.mcmaster.com/9271K579
 	.25" shoft right-hand 90deg .55lbs Torque = https://www.mcmaster.com/9271K647
