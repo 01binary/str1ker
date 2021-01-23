@@ -1,0 +1,26 @@
+Ohm's law
+V = I * R
+
+Power Loss and Wattage calculation
+P = I * V = I^2 * R = V ^ 2 / R
+
+Resistance in series = 1 / (1/R1 + 1/R2 + 1/R3 ...)
+Resistance in series (2) = R1 * R2 / (R1 + R2)
+
+Voltage divider = 10% rule (bleeder)
+Seleect R2 so that I2 is 10% of desired load current
+
+Let's say we need step 5 volt down to 3.3 volt.
+
+V source = V R1 + V R2
+
+5 = 3.3 (R1) + x (R2)
+
+V R2 = 1.7 (the drop)
+
+V R1 = I * R1
+V R2 = I * R2 = 3.3
+
+(the current is common for both)
+
+
