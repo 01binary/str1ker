@@ -1,0 +1,30 @@
+<launch>
+  <node name="robot" pkg="str1ker" type="robot" required="true" output="screen">
+    <rosparam>
+      arms:
+        arm1:
+          shoulder:
+            actuator: 'servo'
+            enable: true
+            lpwm: 0
+            rpwm: 0
+            time: 5
+          upperarm:
+            actuator: 'linear'
+            enable: true
+            lpwm: 25
+            rpwm: 24
+            time: 5
+          forearm:
+            actuator: 'linear'
+            enable: true
+            lpwm: 18
+            rpwm: 17
+            time: 4
+          trigger:
+            actuator: 'solenoid'
+            enable: true
+            output: 23
+    </rosparam>
+  </node>
+</launch>

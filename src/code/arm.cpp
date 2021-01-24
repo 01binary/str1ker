@@ -1,0 +1,118 @@
+/*
+                                                                                     @@@@@@@                  
+ @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
+@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
+ @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
+             @ @     @       @            @      @    @@           @@@@      @                  @            @
+ @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
+                                                                                     @@@@@@@                  
+ arm.cpp
+
+ Robot arm implementation
+ Created 1/19/2021
+
+ This software is licensed under GNU GPLv3
+*/
+
+/*----------------------------------------------------------*\
+| Includes
+\*----------------------------------------------------------*/
+
+#include <ros/ros.h>
+#include "robot.h"
+#include "actuatorFactory.h"
+#include "arm.h"
+
+/*----------------------------------------------------------*\
+| Namespace
+\*----------------------------------------------------------*/
+
+using namespace str1ker;
+using namespace std;
+
+/*----------------------------------------------------------*\
+| arm implementation
+\*----------------------------------------------------------*/
+
+arm::arm(
+    const char* path,
+    servo* shoulder,
+    linear* upperarm,
+    linear* forearm,
+    solenoid* trigger) :
+        m_path(path),
+        m_name(robot::getComponentName(path)),
+        m_shoulder(shoulder),
+        m_upperarm(upperarm),
+        m_forearm(forearm),
+        m_trigger(trigger)
+{
+}
+
+arm::arm(const char* path) :
+    m_path(path),
+    m_name(robot::getComponentName(path)),
+    m_shoulder(NULL),
+    m_upperarm(NULL),
+    m_forearm(NULL),
+    m_trigger(NULL)
+{
+}
+
+arm::~arm()
+{
+    delete m_shoulder;
+    delete m_upperarm;
+    delete m_forearm;
+    delete m_trigger;
+}
+
+bool arm::init()
+{
+    if (m_shoulder && !m_shoulder->init()) return false;
+    if (m_upperarm && !m_upperarm->init()) return false;
+    if (m_forearm && !m_forearm->init()) return false;
+    if (m_trigger && !m_trigger->init()) return false;
+
+    return true;
+}
+
+void arm::rotate(double deltaRad)
+{
+    return m_shoulder->rotate(deltaRad);
+}
+
+void arm::raise(double amount)
+{
+    return m_upperarm->extend(amount);
+}
+
+void arm::lower(double amount)
+{
+    return m_upperarm->contract(amount);
+}
+
+void arm::extend(double amount)
+{
+    return m_forearm->extend(amount);
+}
+
+void arm::contract(double amount)
+{
+    return m_forearm->contract(amount);
+}
+
+void arm::trigger(double durationSeconds)
+{
+    return m_trigger->trigger(durationSeconds);
+}
+
+void arm::deserialize()
+{
+    ROS_INFO("  loading %s arm", m_name.c_str());
+
+    m_shoulder = actuatorFactory::deserialize<servo>(m_path.c_str(), "shoulder");
+    m_upperarm = actuatorFactory::deserialize<linear>(m_path.c_str(), "upperarm");
+    m_forearm = actuatorFactory::deserialize<linear>(m_path.c_str(), "forearm");
+    m_trigger = actuatorFactory::deserialize<solenoid>(m_path.c_str(), "trigger");
+}
