@@ -112,7 +112,7 @@ bool dynamixelServo::init()
         return false;
     }
 
-    ROS_INFO("  initialized %s %s", getPath(), getType());
+    ROS_INFO("  initialized %s %s with id %d", getPath(), getType(), m_id);
     return true;
 }
 

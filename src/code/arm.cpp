@@ -81,7 +81,7 @@ void arm::rotate(double deltaRad)
 {
     if (!m_shoulder) return;
 
-    ROS_INFO("rotate %s by %g", m_shoulder->getPath(), delta);
+    ROS_INFO("rotate %s by %g", m_shoulder->getPath(), deltaRad);
 
     return m_shoulder->rotate(deltaRad);
 }

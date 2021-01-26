@@ -65,7 +65,7 @@ bool solenoid::init()
     
     gpioSetMode(m_output, PI_OUTPUT);
 
-    ROS_INFO("  initialized %s %s", getPath(), getType());
+    ROS_INFO("  initialized %s %s on pin %d", getPath(), getType(), m_output);
 
     return true;
 }

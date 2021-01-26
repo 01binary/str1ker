@@ -71,7 +71,7 @@ bool pwmServo::init()
     gpioSetMode(m_lpwm, PI_OUTPUT);
     gpioSetMode(m_rpwm, PI_OUTPUT);
 
-    ROS_INFO("  initialized %s %s on pins %d (RPWM/forward) and %d (LPWM/reverse)",
+    ROS_INFO("  initialized %s %s on %d (RPWM forward) and %d (LPWM reverse)",
         getPath(), getType(), m_rpwm, m_lpwm);
 
     return true;
