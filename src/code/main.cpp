@@ -22,12 +22,6 @@
 #include "robot.h"
 
 /*----------------------------------------------------------*\
-| Namespace
-\*----------------------------------------------------------*/
-
-using namespace str1ker;
-
-/*----------------------------------------------------------*\
 | Module
 \*----------------------------------------------------------*/
 
@@ -36,17 +30,22 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "robot");
     ros::NodeHandle node;
 
-    bool init = robot()
-        .logo()
-        .deserialize()
-        .init();
+    str1ker::robot robot;
 
-    if (!init) return 1;
+    if (!robot
+            .logo()
+            .deserialize()
+            .init())
+    {
+        return 1;
+    }
 
     ros::Rate rate(1000);
 
     while(node.ok())
     {
+        robot.getArm(0)->rotate(0.25);
+
         rate.sleep();
     }
 

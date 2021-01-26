@@ -6,24 +6,24 @@
           shoulder:
             actuator: 'servo'
             enable: true
-            lpwm: 0
-            rpwm: 0
+            lpwm: 13
+            rpwm: 26
             time: 5
           upperarm:
             actuator: 'linear'
-            enable: true
+            enable: false
             lpwm: 25
             rpwm: 24
             time: 5
           forearm:
             actuator: 'linear'
-            enable: true
+            enable: false
             lpwm: 18
             rpwm: 17
             time: 4
           trigger:
             actuator: 'solenoid'
-            enable: true
+            enable: false
             output: 23
     </rosparam>
   </node>
