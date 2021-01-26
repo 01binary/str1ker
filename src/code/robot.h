@@ -36,6 +36,7 @@ namespace str1ker {
 | Definitions
 \*----------------------------------------------------------*/
 
+typedef std::vector<arm*> armArray;
 typedef std::map<std::string, arm*> armMap;
 
 /*----------------------------------------------------------*\
@@ -46,11 +47,11 @@ class robot
 {
 private:
     // Robot arms
-    armMap m_arms;
+    armArray m_arms;
+    armMap m_armNames;
 
 public:
     robot();
-    robot(armMap arms);
     ~robot();
 
 public:
@@ -62,6 +63,9 @@ public:
 
     // Print logo
     robot& logo();
+
+    // Get robot arm by index
+    arm* getArm(int index);
 
     // Get robot arm by name
     arm* getArm(const char* name);

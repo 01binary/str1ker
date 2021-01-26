@@ -39,23 +39,24 @@ robot::robot()
 {
 }
 
-robot::robot(armMap arms) : m_arms(arms)
-{
-}
-
 robot::~robot()
 {
-    for(armMap::iterator pos = m_arms.begin();
+    for(armArray::iterator pos = m_arms.begin();
         pos != m_arms.end();
         ++pos)
     {
-        delete pos->second;
+        delete *pos;
     }
+}
+
+arm* robot::getArm(int index)
+{
+    return m_arms[index];
 }
 
 arm* robot::getArm(const char* name)
 {
-    return m_arms[name];
+    return m_armNames[name];
 }
 
 bool robot::init()
@@ -68,11 +69,11 @@ bool robot::init()
         return false;
     }
 
-    for (armMap::iterator pos = m_arms.begin();
+    for (armArray::iterator pos = m_arms.begin();
         pos != m_arms.end();
         pos++)
     {
-        if (!pos->second->init())
+        if (!(*pos)->init())
             return false;
     }
 
@@ -113,7 +114,8 @@ void robot::deserializeArms()
             arm* robotArm = new arm(path);
             robotArm->deserialize();
 
-            m_arms[getComponentName(path)] = robotArm;
+            m_armNames[getComponentName(path)] = robotArm;
+            m_arms.push_back(robotArm);
         }
     }
 }

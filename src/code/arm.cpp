@@ -79,31 +79,55 @@ bool arm::init()
 
 void arm::rotate(double deltaRad)
 {
+    if (!m_shoulder) return;
+
+    ROS_INFO("rotate %s by %g", m_shoulder->getPath(), delta);
+
     return m_shoulder->rotate(deltaRad);
 }
 
 void arm::raise(double amount)
 {
+    if (!m_upperarm) return;
+
+    ROS_INFO("raise %s by %g", m_upperarm->getPath(), amount);
+
     return m_upperarm->extend(amount);
 }
 
 void arm::lower(double amount)
 {
+    if (!m_upperarm) return;
+
+    ROS_INFO("lower %s by %g", m_upperarm->getPath(), amount);
+
     return m_upperarm->contract(amount);
 }
 
 void arm::extend(double amount)
 {
+    if (!m_forearm) return;
+
+    ROS_INFO("extend %s by %g", m_forearm->getPath(), amount);
+
     return m_forearm->extend(amount);
 }
 
 void arm::contract(double amount)
 {
+    if (!m_forearm) return;
+
+    ROS_INFO("contract %s by %g", m_forearm->getPath(), amount);
+
     return m_forearm->contract(amount);
 }
 
 void arm::trigger(double durationSeconds)
 {
+    if (!m_trigger) return;
+
+    ROS_INFO("trigger %s for %g", m_trigger->getPath(), durationSeconds);
+
     return m_trigger->trigger(durationSeconds);
 }
 

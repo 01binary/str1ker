@@ -71,7 +71,8 @@ bool pwmServo::init()
     gpioSetMode(m_lpwm, PI_OUTPUT);
     gpioSetMode(m_rpwm, PI_OUTPUT);
 
-    ROS_INFO("  initialized %s %s", getPath(), getType());
+    ROS_INFO("  initialized %s %s on pins %d (RPWM/forward) and %d (LPWM/reverse)",
+        getPath(), getType(), m_rpwm, m_lpwm);
 
     return true;
 }
@@ -84,8 +85,6 @@ double pwmServo::getPos()
 void pwmServo::rotate(double delta)
 {
     if (!m_enable) return;
-
-    ROS_INFO("extend %s", m_name.c_str());
 
     bool forward = delta >= 0;
 
