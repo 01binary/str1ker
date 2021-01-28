@@ -6,16 +6,16 @@
              @ @     @       @            @      @    @@           @@@@      @                  @            @
  @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
                                                                                      @@@@@@@                  
- robot.h
+ controllerFactory.h
 
- Robot Controller
- Created 1/19/2021
+ Controller Factory class
+ Created 1/21/2021
 
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_ROBOT_H
-#define STR1KER_ROBOT_H
+#ifndef STR1KER_CONTROLLER_FACTORY_H
+#define STR1KER_CONTROLLER_FACTORY_H
 
 /*----------------------------------------------------------*\
 | Includes
@@ -23,8 +23,7 @@
 
 #include <string>
 #include <map>
-#include "servo.h"
-#include "arm.h"
+#include "controller.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -33,54 +32,45 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
+| Macros
+\*----------------------------------------------------------*/
+
+#define REGISTER_CONTROLLER(a) \
+    class register_##a { public: register_##a() { controllerFactory::registerType(a::TYPE, a::create);}}; \
+    register_##a reg##a;
+
+/*----------------------------------------------------------*\
 | Definitions
 \*----------------------------------------------------------*/
 
-typedef std::vector<arm*> armArray;
-typedef std::map<std::string, arm*> armMap;
+typedef controller* (*createController)(const char*);
 
 /*----------------------------------------------------------*\
-| robot class
+| controllerFactory class
 \*----------------------------------------------------------*/
 
-class robot
+class controllerFactory
 {
 private:
-    // Robot arms
-    armArray m_arms;
-    armMap m_armNames;
+    // Controller types
+    static std::map<std::string, createController> s_types;
 
 public:
-    robot();
-    ~robot();
+    // Deserialize controller with type
+    template<class T> static T* deserialize(
+        const char* parentPath,
+        const char* controllerName)
+    {
+        return (T*)deserialize(parentPath, controllerName);
+    }
 
-public:
-    // Initialize controllers
-    bool init();
+    // Deserialize controller
+    static controller* deserialize(const char* parentPath, const char* controllerName);
 
-    // Load controller settings
-    robot& deserialize();
-
-    // Print logo
-    robot& logo();
-
-    // Get robot arm by index
-    arm* getArm(int index);
-
-    // Get robot arm by name
-    arm* getArm(const char* name);
-
-public:
-    // Get component name
-    static const char* getControllerName(const char* path);
-
-    // Get parent name
-    static const char* getControllerPath(const char* path, const char* componentType, char* componentPath);
-
-private:
-    void deserializeArms();
+    // Register controller type
+    static void registerType(const char* type, createController create);
 };
 
 } // namespace str1ker
 
-#endif // STR1KER_ROBOT_H
+#endif // STR1KER_CONTROLLER_FACTORY_H

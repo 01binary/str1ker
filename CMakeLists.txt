@@ -46,8 +46,8 @@ add_executable(robot
   src/code/main.cpp
   src/code/robot.cpp
   src/code/arm.cpp
-  src/code/actuator.cpp
-  src/code/actuatorFactory.cpp
+  src/code/controller.cpp
+  src/code/controllerFactory.cpp
   src/code/servo.cpp
   src/code/pwmServo.cpp
   src/code/dynamixelServo.cpp

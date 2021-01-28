@@ -22,7 +22,7 @@
 #include <pigpio.h>
 #include <ros/ros.h>
 #include "solenoid.h"
-#include "actuatorFactory.h"
+#include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -40,16 +40,16 @@ const char solenoid::TYPE[] = "solenoid";
 | solenoid implementation
 \*----------------------------------------------------------*/
 
-REGISTER_ACTUATOR(solenoid)
+REGISTER_CONTROLLER(solenoid)
 
 solenoid::solenoid(const char* path) :
-    actuator(path),
+    controller(path),
     m_output(0)
 {
 }
 
 solenoid::solenoid(const char* path, int output) :
-    actuator(path),
+    controller(path),
     m_output(output)
 {
 }
@@ -85,12 +85,12 @@ void solenoid::trigger(double durationSeconds)
 
 void solenoid::deserialize()
 {
-    actuator::deserialize();
+    controller::deserialize();
 
-    ros::param::get(getComponentPath("output"), m_output);
+    ros::param::get(getControllerPath("output"), m_output);
 }
 
-actuator* solenoid::create(const char* path)
+controller* solenoid::create(const char* path)
 {
     return new solenoid(path);
 }

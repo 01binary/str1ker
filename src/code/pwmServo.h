@@ -8,7 +8,7 @@
                                                                                      @@@@@@@                  
  pwmServo.h
 
- PWM servo controller
+ PWM Servo Controller
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
@@ -36,7 +36,7 @@ namespace str1ker {
 class pwmServo : public servo
 {
 public:
-    // Actuator type
+    // Controller type
     static const char TYPE[];
 
 private:
@@ -78,7 +78,7 @@ public:
 
 public:
     // Create instance
-    static actuator* create(const char* path);
+    static controller* create(const char* path);
 };
 
 } // namespace str1ker

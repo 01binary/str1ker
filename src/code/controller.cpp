@@ -6,69 +6,65 @@
              @ @     @       @            @      @    @@           @@@@      @                  @            @
  @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
                                                                                      @@@@@@@                  
- arm.h
+ controller.cpp
 
- Actuator base class
+ Controller base class implementation
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_ACTUATOR_H
-#define STR1KER_ACTUATOR_H
-
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
 
-#include <string>
+#include <ros/ros.h>
+#include "robot.h"
+#include "solenoid.h"
+#include "pwmServo.h"
+#include "dynamixelServo.h"
 
 /*----------------------------------------------------------*\
 | Namespace
 \*----------------------------------------------------------*/
 
-namespace str1ker {
+using namespace str1ker;
+using namespace std;
 
 /*----------------------------------------------------------*\
-| actuator base class
+| controller implementation
 \*----------------------------------------------------------*/
 
-class actuator
+controller::controller(const char* path) :
+    m_name(robot::getControllerName(path)),
+    m_path(path),
+    m_enable(true)
 {
-protected:
-    // Actuator display name
-    std::string m_name;
+}
 
-    // Actuator control path
-    std::string m_path;
+const char* controller::getName()
+{
+    return m_name.c_str();
+}
 
-    // Whether actuator is enabled
-    bool m_enable;
+const char* controller::getPath()
+{
+    return m_path.c_str();
+}
 
-public:
-    actuator(const char* path);
+const bool controller::isEnabled()
+{
+    return m_enable;
+}
 
-public:
-    // Get actuator display name
-    const char* getName();
+void controller::deserialize()
+{
+    ROS_INFO("    loading %s %s", getName(), getType());
 
-    // Get actuator control path
-    const char* getPath();
+    ros::param::get(getControllerPath("enable"), m_enable);
+}
 
-    // Get enabled status
-    const bool isEnabled();
-
-    // Get actuator type display name
-    virtual const char* getType() = 0;
-
-    // Deserialize from settings
-    virtual void deserialize();
-
-protected:
-    // Get child component control path
-    std::string getComponentPath(const char* componentName);
-};
-
-} // namespace str1ker
-
-#endif // STR1KER_ACTUATOR_H
+string controller::getControllerPath(const char* controllerName)
+{
+    return m_path + "/" + controllerName;
+}

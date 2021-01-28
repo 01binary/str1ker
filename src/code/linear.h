@@ -8,7 +8,7 @@
                                                                                      @@@@@@@                  
  linear.h
 
- PWM linear actuator controller
+ PWM Linear Actuator Controller
  Created 1/21/2021
 
  This software is licensed under GNU GPLv3
@@ -36,7 +36,7 @@ namespace str1ker {
 class linear : public pwmServo
 {
 public:
-    // Actuator type
+    // Controller type
     static const char TYPE[];
 
 public:
@@ -55,7 +55,7 @@ public:
 
 public:
     // Create instance
-    static actuator* create(const char* path);
+    static controller* create(const char* path);
 };
 
 } // namespace str1ker

@@ -8,22 +8,20 @@
                                                                                      @@@@@@@                  
  arm.h
 
- Actuator factory class
- Created 1/21/2021
+ Controller base class
+ Created 1/19/2021
 
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_ACTUATOR_FACTORY_H
-#define STR1KER_ACTUATOR_FACTORY_H
+#ifndef STR1KER_CONTROLLER_H
+#define STR1KER_CONTROLLER_H
 
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
 
 #include <string>
-#include <map>
-#include "actuator.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -32,45 +30,45 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| Macros
+| controller base class
 \*----------------------------------------------------------*/
 
-#define REGISTER_ACTUATOR(a) \
-    class register_##a { public: register_##a() { actuatorFactory::registerType(a::TYPE, a::create);}}; \
-    register_##a reg##a;
-
-/*----------------------------------------------------------*\
-| Definitions
-\*----------------------------------------------------------*/
-
-typedef actuator* (*createActuator)(const char*);
-
-/*----------------------------------------------------------*\
-| actuatorFactory class
-\*----------------------------------------------------------*/
-
-class actuatorFactory
+class controller
 {
-private:
-    // Actuator types
-    static std::map<std::string, createActuator> s_types;
+protected:
+    // Controller display name
+    std::string m_name;
+
+    // Controller control path
+    std::string m_path;
+
+    // Whether controller is enabled
+    bool m_enable;
 
 public:
-    // Deserialize actuator with type
-    template<class T> static T* deserialize(
-        const char* parentPath,
-        const char* componentName)
-    {
-        return (T*)deserialize(parentPath, componentName);
-    }
+    controller(const char* path);
 
-    // Deserialize actuator
-    static actuator* deserialize(const char* parentPath, const char* componentName);
+public:
+    // Get controller display name
+    const char* getName();
 
-    // Register actuator type
-    static void registerType(const char* type, createActuator create);
+    // Get controller control path
+    const char* getPath();
+
+    // Get enabled status
+    const bool isEnabled();
+
+    // Get controller type display name
+    virtual const char* getType() = 0;
+
+    // Deserialize from settings
+    virtual void deserialize();
+
+protected:
+    // Get child controller path
+    std::string getControllerPath(const char* controllerName);
 };
 
 } // namespace str1ker
 
-#endif // STR1KER_ACTUATOR_FACTORY_H
+#endif // STR1KER_CONTROLLER_H

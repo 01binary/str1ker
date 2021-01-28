@@ -20,7 +20,7 @@
 
 #include <ros/ros.h>
 #include "robot.h"
-#include "actuatorFactory.h"
+#include "controllerFactory.h"
 #include "arm.h"
 
 /*----------------------------------------------------------*\
@@ -41,7 +41,7 @@ arm::arm(
     linear* forearm,
     solenoid* trigger) :
         m_path(path),
-        m_name(robot::getComponentName(path)),
+        m_name(robot::getControllerName(path)),
         m_shoulder(shoulder),
         m_upperarm(upperarm),
         m_forearm(forearm),
@@ -51,7 +51,7 @@ arm::arm(
 
 arm::arm(const char* path) :
     m_path(path),
-    m_name(robot::getComponentName(path)),
+    m_name(robot::getControllerName(path)),
     m_shoulder(NULL),
     m_upperarm(NULL),
     m_forearm(NULL),
@@ -135,8 +135,8 @@ void arm::deserialize()
 {
     ROS_INFO("  loading %s arm", m_name.c_str());
 
-    m_shoulder = actuatorFactory::deserialize<servo>(m_path.c_str(), "shoulder");
-    m_upperarm = actuatorFactory::deserialize<linear>(m_path.c_str(), "upperarm");
-    m_forearm = actuatorFactory::deserialize<linear>(m_path.c_str(), "forearm");
-    m_trigger = actuatorFactory::deserialize<solenoid>(m_path.c_str(), "trigger");
+    m_shoulder = controllerFactory::deserialize<servo>(m_path.c_str(), "shoulder");
+    m_upperarm = controllerFactory::deserialize<linear>(m_path.c_str(), "upperarm");
+    m_forearm = controllerFactory::deserialize<linear>(m_path.c_str(), "forearm");
+    m_trigger = controllerFactory::deserialize<solenoid>(m_path.c_str(), "trigger");
 }

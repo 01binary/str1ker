@@ -32,6 +32,6 @@ using namespace std;
 | servo implementation
 \*----------------------------------------------------------*/
 
-servo::servo(const char* path) : actuator(path)
+servo::servo(const char* path) : controller(path)
 {
 }

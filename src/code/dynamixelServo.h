@@ -37,7 +37,7 @@ namespace str1ker {
 class dynamixelServo : public servo
 {
 public:
-    // Actuator type
+    // Controller type
     static const char TYPE[];
 
 private:
@@ -75,7 +75,7 @@ public:
 
 public:
     // Create instance
-    static actuator* create(const char* path);
+    static controller* create(const char* path);
 };
 
 } // namespace str1ker

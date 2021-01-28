@@ -84,7 +84,7 @@ bool robot::init()
 
 robot& robot::deserialize()
 {
-    ROS_INFO("loading actuators...");
+    ROS_INFO("loading controllers...");
 
     deserializeArms();
 
@@ -105,7 +105,7 @@ void robot::deserializeArms()
         pos != params.end();
         pos++)
     {
-        const char* path = getComponentPath(pos->c_str(), "arms", armPath);
+        const char* path = getControllerPath(pos->c_str(), "arms", armPath);
 
         if (path && unique.find(path) == unique.end())
         {
@@ -114,13 +114,13 @@ void robot::deserializeArms()
             arm* robotArm = new arm(path);
             robotArm->deserialize();
 
-            m_armNames[getComponentName(path)] = robotArm;
+            m_armNames[getControllerName(path)] = robotArm;
             m_arms.push_back(robotArm);
         }
     }
 }
 
-const char* robot::getComponentName(const char* path)
+const char* robot::getControllerName(const char* path)
 {
     const char* lastSep = strrchr(path, '/');
 
@@ -129,7 +129,7 @@ const char* robot::getComponentName(const char* path)
     return lastSep + 1;
 }
 
-const char* robot::getComponentPath(const char* path, const char* componentType, char* componentPath)
+const char* robot::getControllerPath(const char* path, const char* componentType, char* componentPath)
 {
     char componentTypePath[64] = {0};
     sprintf(componentTypePath, "/%s/", componentType);

@@ -8,7 +8,7 @@
                                                                                      @@@@@@@                  
  pwmServo.cpp
 
- PWM servo controller implementation
+ PWM Servo Controller implementation
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
@@ -22,7 +22,7 @@
 #include <pigpio.h>
 #include <ros/ros.h>
 #include "pwmServo.h"
-#include "actuatorFactory.h"
+#include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -41,7 +41,7 @@ const char pwmServo::TYPE[] = "servo";
 | pwmServo implementation
 \*----------------------------------------------------------*/
 
-REGISTER_ACTUATOR(pwmServo)
+REGISTER_CONTROLLER(pwmServo)
 
 pwmServo::pwmServo(const char* path, int lpwm, int rpwm, int time) :
     servo(path),
@@ -111,12 +111,12 @@ void pwmServo::deserialize()
 {
     servo::deserialize();
 
-    ros::param::get(getComponentPath("lpwm"), m_lpwm);
-    ros::param::get(getComponentPath("rpwm"), m_rpwm);
-    ros::param::get(getComponentPath("time"), m_time);
+    ros::param::get(getControllerPath("lpwm"), m_lpwm);
+    ros::param::get(getControllerPath("rpwm"), m_rpwm);
+    ros::param::get(getControllerPath("time"), m_time);
 }
 
-actuator* pwmServo::create(const char* path)
+controller* pwmServo::create(const char* path)
 {
     return new pwmServo(path);
 }

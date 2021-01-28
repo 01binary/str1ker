@@ -20,7 +20,7 @@
 
 #include <ros/ros.h>
 #include "linear.h"
-#include "actuatorFactory.h"
+#include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -39,7 +39,7 @@ const char linear::TYPE[] = "linear";
 | linear implementation
 \*----------------------------------------------------------*/
 
-REGISTER_ACTUATOR(linear)
+REGISTER_CONTROLLER(linear)
 
 linear::linear(const char* path, int lpwm, int rpwm, int time) : pwmServo(path, lpwm, rpwm, time)
 {
@@ -64,7 +64,7 @@ void linear::contract(double amount)
     rotate(-amount);
 }
 
-actuator* linear::create(const char* path)
+controller* linear::create(const char* path)
 {
     return new linear(path);
 }

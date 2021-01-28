@@ -4,25 +4,25 @@
       arms:
         arm1:
           shoulder:
-            actuator: 'servo'
+            controller: 'servo'
             enable: true
             lpwm: 13
             rpwm: 26
             time: 5
           upperarm:
-            actuator: 'linear'
+            controller: 'linear'
             enable: false
             lpwm: 25
             rpwm: 24
             time: 5
           forearm:
-            actuator: 'linear'
+            controller: 'linear'
             enable: false
             lpwm: 18
             rpwm: 17
             time: 4
           trigger:
-            actuator: 'solenoid'
+            controller: 'solenoid'
             enable: false
             output: 23
     </rosparam>

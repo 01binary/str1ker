@@ -22,7 +22,7 @@
 \*----------------------------------------------------------*/
 
 #include <string>
-#include "actuator.h"
+#include "controller.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -34,7 +34,7 @@ namespace str1ker {
 | pwmServo class
 \*----------------------------------------------------------*/
 
-class servo : public actuator
+class servo : public controller
 {
 public:
     servo(const char* path);

@@ -6,10 +6,10 @@
              @ @     @       @            @      @    @@           @@@@      @                  @            @
  @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
                                                                                      @@@@@@@                  
- actuator.cpp
+ controllerFactory.cpp
 
- Actuator base class implementation
- Created 1/19/2021
+ Controller factory implementation
+ Created 1/21/2021
 
  This software is licensed under GNU GPLv3
 */
@@ -19,10 +19,11 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
-#include "robot.h"
+#include "controllerFactory.h"
 #include "solenoid.h"
 #include "pwmServo.h"
 #include "dynamixelServo.h"
+#include "linear.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -32,39 +33,29 @@ using namespace str1ker;
 using namespace std;
 
 /*----------------------------------------------------------*\
-| actuator implementation
+| controllerFactory implementation
 \*----------------------------------------------------------*/
 
-actuator::actuator(const char* path) :
-    m_name(robot::getComponentName(path)),
-    m_path(path),
-    m_enable(true)
+map<string, createController> controllerFactory::s_types;
+
+controller* controllerFactory::deserialize(const char* parentPath, const char* controllerName)
 {
+    string componentPath = string(parentPath) + "/" + controllerName;
+    string controllerTypePath = componentPath + "/controller";
+    string controllerType;
+
+    ros::param::get(controllerTypePath, controllerType);
+
+    if (s_types.find(controllerType.c_str()) == s_types.end())
+        return NULL;
+
+    controller* created = s_types[controllerType](componentPath.c_str());
+    created->deserialize();
+
+    return created;
 }
 
-const char* actuator::getName()
+void controllerFactory::registerType(const char* type, createController create)
 {
-    return m_name.c_str();
-}
-
-const char* actuator::getPath()
-{
-    return m_path.c_str();
-}
-
-const bool actuator::isEnabled()
-{
-    return m_enable;
-}
-
-void actuator::deserialize()
-{
-    ROS_INFO("    loading %s %s", getName(), getType());
-
-    ros::param::get(getComponentPath("enable"), m_enable);
-}
-
-string actuator::getComponentPath(const char* componentName)
-{
-    return m_path + "/" + componentName;
+    s_types[type] = create;
 }

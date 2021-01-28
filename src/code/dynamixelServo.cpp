@@ -22,7 +22,7 @@
 #include <pigpio.h>
 #include <ros/ros.h>
 #include "dynamixelServo.h"
-#include "actuatorFactory.h"
+#include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -47,7 +47,7 @@ DynamixelWorkbench* dynamixelServo::s_wb = NULL;
 | dynamixel implementation
 \*----------------------------------------------------------*/
 
-REGISTER_ACTUATOR(dynamixelServo)
+REGISTER_CONTROLLER(dynamixelServo)
 
 dynamixelServo::dynamixelServo(const char* path) :
     servo(path),
@@ -150,10 +150,10 @@ void dynamixelServo::deserialize()
 {
     servo::deserialize();
 
-    ros::param::get(getComponentPath("id"), m_id);
+    ros::param::get(getControllerPath("id"), m_id);
 }
 
-actuator* dynamixelServo::create(const char* path)
+controller* dynamixelServo::create(const char* path)
 {
     return new dynamixelServo(path);
 }

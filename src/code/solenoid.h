@@ -22,7 +22,7 @@
 \*----------------------------------------------------------*/
 
 #include <string>
-#include "actuator.h"
+#include "controller.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -34,10 +34,10 @@ namespace str1ker {
 | solenoid class
 \*----------------------------------------------------------*/
 
-class solenoid : public actuator
+class solenoid : public controller
 {
 public:
-    // Actuator type
+    // Controller type
     static const char TYPE[];
 
 private:
@@ -63,7 +63,7 @@ public:
 
 public:
     // Create instance
-    static actuator* create(const char* path);
+    static controller* create(const char* path);
 };
 
 } // namespace str1ker
