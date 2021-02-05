@@ -2,3 +2,4 @@ src/OldVersions/**/*
 src/external/OldVersions/**/*
 src/Head/OldVersions/**/*
 *.lck
+./post_build.sh.in
