@@ -2,8 +2,18 @@
 
 Work-in-progress design for an aethetic live drum machine.
 
-<img src="render/new-front.PNG">
+* See [build log](https://hackaday.io/project/171607-drumming-robot) on Hackaday.io.
+* [Watch robot arm protype](https://www.youtube.com/watch?v=Abf0k5A4z88)
 
-<img src="render/new-back.PNG">
+![readme1](doc/readme/readme1.png)
 
-<img src="render/new-bottom.PNG">
+![readme2](doc/readme/readme2.png)
+
+![readme3](doc/readme/readme3.png)
+
+
+![readme5](doc/readme/readme5.png)
+
+![readme4](doc/readme/readme4.png)
+
+![readme6](doc/readme/readme6.png)
