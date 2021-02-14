@@ -22,7 +22,7 @@
 #include "controllerFactory.h"
 #include "solenoid.h"
 #include "pwmServo.h"
-#include "dynamixelServo.h"
+#include "dynamixel.h"
 #include "linear.h"
 
 /*----------------------------------------------------------*\

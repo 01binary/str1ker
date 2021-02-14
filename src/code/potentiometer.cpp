@@ -6,10 +6,10 @@
              @ @     @       @            @      @    @@           @@@@      @                  @            @
  @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
                                                                                      @@@@@@@                  
- analogPotentiometer.cpp
+ potentiometer.cpp
 
- Analog Potentiometer Controller implementation
- Created 1/19/2021
+ Potentiometer Controller
+ Created 1/27/2021
 
  This software is licensed under GNU GPLv3
 */
@@ -21,7 +21,8 @@
 #include <ros/ros.h>
 #include <numeric>
 #include <algorithm>
-#include "analogPotentiometer.h"
+#include "potentiometer.h"
+#include "adc.h"
 #include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
@@ -35,16 +36,16 @@ using namespace str1ker;
 | Constants
 \*----------------------------------------------------------*/
 
-const char analogPotentiometer::TYPE[] = "potentiometer";
+const char potentiometer::TYPE[] = "potentiometer";
 
 /*----------------------------------------------------------*\
-| analogPotentiometer implementation
+| potentiometer implementation
 \*----------------------------------------------------------*/
 
-REGISTER_CONTROLLER(analogPotentiometer)
+REGISTER_CONTROLLER(potentiometer)
 
-analogPotentiometer::analogPotentiometer(const char* path) :
-    potentiometer(path),
+potentiometer::potentiometer(const char* path) :
+    controller(path),
     m_adc(NULL),
     m_id(0),
     m_sampleId(0),
@@ -55,36 +56,34 @@ analogPotentiometer::analogPotentiometer(const char* path) :
 {
 }
 
-const char* analogPotentiometer::getType()
+const char* potentiometer::getType()
 {
-    return analogPotentiometer::TYPE;
+    return potentiometer::TYPE;
 }
 
-bool analogPotentiometer::init()
+bool potentiometer::init()
 {
     if (!m_enable) return true;
 
-    if (m_adc && !m_adc->init())
+    if (m_adc)
     {
-        ROS_ERROR("  %s cannot read from adc", getPath());
-        return false;
+        if (!m_adc->init())
+        {
+            ROS_ERROR("  %s cannot read from adc", getPath());
+            return false;
+        }
+
+        //m_lastSample = round2(m_adc->getValue(m_id) / (double)m_adc->getMaxValue());
     }
 
     return true;
 }
 
-double round2(double num)
+double potentiometer::getPos()
 {
-    return std::floor((num * 100) + 0.5) / 100.0;
-}
+    if (!m_enable || !m_adc) return m_lastSample;
 
-double analogPotentiometer::getPos()
-{
-    double sample = m_adc
-        ? round2(m_adc->getValue(m_id) / (double)m_adc->getMaxValue())
-        : 0.0;
-
-    if (m_lastSample == 0) m_lastSample = sample;
+    double sample = round2(m_adc->getValue(m_id) / (double)m_adc->getMaxValue());
 
     m_samples[m_sampleId++] = sample;
 
@@ -115,9 +114,9 @@ double analogPotentiometer::getPos()
     return m_lastSample;
 }
 
-void analogPotentiometer::deserialize()
+void potentiometer::deserialize()
 {
-    potentiometer::deserialize();
+    controller::deserialize();
 
     ros::param::get(getControllerPath("id"), m_id);
 
@@ -126,7 +125,12 @@ void analogPotentiometer::deserialize()
     m_adc = controllerFactory::deserialize<adc>(source.c_str());
 }
 
-controller* analogPotentiometer::create(const char* path)
+controller* potentiometer::create(const char* path)
 {
-    return new analogPotentiometer(path);
+    return new potentiometer(path);
+}
+
+double potentiometer::round2(double num)
+{
+    return std::floor((num * 100) + 0.5) / 100.0;
 }

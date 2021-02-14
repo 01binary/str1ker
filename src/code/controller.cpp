@@ -23,7 +23,7 @@
 #include "robot.h"
 #include "solenoid.h"
 #include "pwmServo.h"
-#include "dynamixelServo.h"
+#include "dynamixel.h"
 
 /*----------------------------------------------------------*\
 | Namespace

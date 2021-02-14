@@ -8,7 +8,7 @@
                                                                                      @@@@@@@                  
  adc.cpp
 
- Analog to Digital Converter implementation
+ Analog to Digital Converter using MCP3008 implementation
  Created 1/27/2021
 
  This software is licensed under GNU GPLv3

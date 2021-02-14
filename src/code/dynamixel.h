@@ -6,25 +6,23 @@
              @ @     @       @            @      @    @@           @@@@      @                  @            @
  @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
                                                                                      @@@@@@@                  
- analogPotentiometer.h
+ dynamixel.h
 
- Analog Potentiometer Controller
- Created 1/28/2021
+ Dynamixel servo controller
+ Created 1/19/2021
 
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_ANALOG_POTENTIOMETER_H
-#define STR1KER_ANALOG_POTENTIOMETER_H
+#ifndef STR1KER_DYNAMIXEL_SERVO_H
+#define STR1KER_DYNAMIXEL_SERVO_H
 
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
 
-#include <string>
-#include <vector>
-#include "potentiometer.h"
-#include "adc.h"
+#include <dynamixel_workbench_toolbox/dynamixel_workbench.h>
+#include "servo.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -33,60 +31,49 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| potentiometer class
+| dynamixel class
 \*----------------------------------------------------------*/
 
-class analogPotentiometer : public potentiometer
+class dynamixel : public servo
 {
 public:
     // Controller type
     static const char TYPE[];
 
 private:
-    // Number of samples to average for de-noising
-    const int SAMPLE_COUNT = 8;
+    // Dynamixel interface
+    static DynamixelWorkbench* s_wb;
 
-    // Number of averages to analyze
-    const int AVG_COUNT = 4;
-
-    // Threshold for picking stable average
-    const double AVG_THRESHOLD = 0.2;
-
-    // Analog to digital converter (ADC) for reading measurements
-    adc* m_adc;
-
-    // Channel index to use when reading from ADC
+    // Servo id on serial bus
     int m_id;
 
-    // Samples collected
-    std::vector<double> m_samples;
+    // Current position control
+    const ControlItem* m_pos;
 
-    // Current sample index
-    int m_sampleId;
-
-    // Averages collected
-    std::vector<double> m_avg;
-
-    // Current average index
-    int m_avgId;
-
-    // Last reading
-    double m_lastSample;
+    // Goal position control
+    const ControlItem* m_goal;
 
 public:
-    analogPotentiometer(const char* path);
+    dynamixel(const char* path);
+    dynamixel(const char* path, int id);
 
 public:
     // Get display type
     virtual const char* getType();
 
-    // Initialize potentiometer controller
+    // Initialize the servo
     virtual bool init();
 
-    // Get absolute position
+    // Get servo position
     virtual double getPos();
 
-    // Deserialize from settings
+    // Set servo position
+    virtual void setPos(double pos);
+
+    // Rotate servo given delta in radians
+    virtual void deltaPos(double delta);
+
+    // Load from settings
     virtual void deserialize();
 
 public:
@@ -96,4 +83,4 @@ public:
 
 } // namespace str1ker
 
-#endif // STR1KER_ANALOG_POTENTIOMETER_H
+#endif // STR1KER_DYNAMIXEL_SERVO_H
