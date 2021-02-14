@@ -23,6 +23,7 @@
 #include <pigpio.h>
 #include <ros/ros.h>
 #include "robot.h"
+#include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -30,6 +31,12 @@
 
 using namespace str1ker;
 using namespace std;
+
+/*----------------------------------------------------------*\
+| Constants
+\*----------------------------------------------------------*/
+
+const char robot::PATH[] = "/robot";
 
 /*----------------------------------------------------------*\
 | robot implementation
@@ -77,6 +84,8 @@ bool robot::init()
             return false;
     }
 
+    if (m_adc && !m_adc->init()) return false;
+
     ROS_INFO("initialization completed");
 
     return true;
@@ -85,6 +94,8 @@ bool robot::init()
 robot& robot::deserialize()
 {
     ROS_INFO("loading controllers...");
+
+    m_adc = controllerFactory::deserialize<adc>("/robot", "sensors");
 
     deserializeArms();
 

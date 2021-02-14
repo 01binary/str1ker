@@ -6,23 +6,23 @@
              @ @     @       @            @      @    @@           @@@@      @                  @            @
  @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
                                                                                      @@@@@@@                  
- pwmServo.h
+ potentiometer.h
 
- PWM Servo Controller
- Created 1/19/2021
+ Potentiometer Controller
+ Created 1/27/2021
 
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_BASIC_SERVO_H
-#define STR1KER_BASIC_SERVO_H
+#ifndef STR1KER_POTENTIOMETER_H
+#define STR1KER_POTENTIOMETER_H
 
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
 
-#include "servo.h"
-#include "potentiometer.h"
+#include <string>
+#include "controller.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -31,56 +31,22 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| pwmServo class
+| potentiometer class
 \*----------------------------------------------------------*/
 
-class pwmServo : public servo
+class potentiometer : public controller
 {
 public:
-    // Controller type
-    static const char TYPE[];
-
-private:
-    // Max speed for PWM pulse
-    const int MAX_SPEED = 255;
-
-private:
-    // Left PWM pin
-    int m_lpwm;
-
-    // Right PWM pin
-    int m_rpwm;
-
-    // Potentiometer measuring absolute position
-    potentiometer* m_pot;
+    potentiometer(const char* path) : controller(path) {}
 
 public:
-    pwmServo(const char* path);
+    // Initialize potentiometer controller
+    virtual bool init() = 0;
 
-public:
-    // Get display type
-    virtual const char* getType();
-
-    // Initialize
-    virtual bool init();
-
-    // Get absolute position using related potentiometer
-    virtual double getPos();
-
-    // Move to absolute position by tracking potentiometer
-    virtual void setPos(double pos);
-
-    // Move by delta
-    virtual void deltaPos(double delta);
-
-    // Deserialize from settings
-    virtual void deserialize();
-
-public:
-    // Create instance
-    static controller* create(const char* path);
+    // Get absolute position
+    virtual double getPos() = 0;
 };
 
 } // namespace str1ker
 
-#endif // STR1KER_BASIC_SERVO_H
+#endif // STR1KER_POTENTIOMETER_H

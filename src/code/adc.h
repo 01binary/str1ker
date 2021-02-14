@@ -6,32 +6,92 @@
              @ @     @       @            @      @    @@           @@@@      @                  @            @
  @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
                                                                                      @@@@@@@                  
- servo.cpp
+ adc.h
 
- Servo base class implementation
- Created 1/19/2021
+ Analog to Digital Converter using MCP3008
+ Created 1/27/2021
 
  This software is licensed under GNU GPLv3
 */
+
+#ifndef STR1KER_ADC_H
+#define STR1KER_ADC_H
 
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
 
-#include <ros/ros.h>
-#include "servo.h"
+#include <string>
+#include "controller.h"
 
 /*----------------------------------------------------------*\
 | Namespace
 \*----------------------------------------------------------*/
 
-using namespace str1ker;
-using namespace std;
+namespace str1ker {
 
 /*----------------------------------------------------------*\
-| servo implementation
+| adc class
 \*----------------------------------------------------------*/
 
-servo::servo(const char* path) : controller(path)
+/*
+
+ Wiring MCP3008 on Raspberri PI 4B SPI0:
+
+ Vdd  - 3V3
+ Vref - 3V3
+ Agnd - GND
+ CLK  - CLK
+ Dout - MISO
+ Din  - MOSI
+ CS   - CS
+ Dgnd - GND
+
+*/
+
+class adc : public controller
 {
-}
+public:
+    // Controller type
+    static const char TYPE[];
+
+private:
+    // SPI rate for MCP3008 (100 kbps)
+    const int SPI_RATE = 100000;
+
+    // SPI mode for MCP3008
+    const int SPI_MODE = 0;
+
+     // SPI bus ID where MCP3008 is attached
+    int m_spiBus;
+
+    // SPI bus handle
+    int m_spi;
+
+public:
+    adc(const char* path);
+
+public:
+    // Get display type
+    virtual const char* getType();
+
+    // Initialize
+    virtual bool init();
+
+    // Get value on channel 0-8
+    int getValue(int channel);
+
+    // Get max possible value
+    int getMaxValue();
+
+    // Load controller settings
+    virtual void deserialize();
+
+public:
+    // Create instance
+    static controller* create(const char* path);
+};
+
+} // namespace str1ker
+
+#endif // STR1KER_ADC_H

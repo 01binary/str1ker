@@ -43,19 +43,11 @@ const char pwmServo::TYPE[] = "servo";
 
 REGISTER_CONTROLLER(pwmServo)
 
-pwmServo::pwmServo(const char* path, int lpwm, int rpwm, int time) :
-    servo(path),
-    m_lpwm(lpwm),
-    m_rpwm(rpwm),
-    m_pos(0.0)
-{
-}
-
 pwmServo::pwmServo(const char* path):
     servo(path),
     m_lpwm(0),
     m_rpwm(0),
-    m_pos(0.0)
+    m_pot(NULL)
 {
 }
 
@@ -71,7 +63,10 @@ bool pwmServo::init()
     gpioSetMode(m_lpwm, PI_OUTPUT);
     gpioSetMode(m_rpwm, PI_OUTPUT);
 
-    ROS_INFO("  initialized %s %s on %d (RPWM forward) and %d (LPWM reverse)",
+    if (m_pot && !m_pot->init())
+        return false;
+
+    ROS_INFO("  initialized %s %s on pins %d RPWM and %d LPWM",
         getPath(), getType(), m_rpwm, m_lpwm);
 
     return true;
@@ -79,32 +74,47 @@ bool pwmServo::init()
 
 double pwmServo::getPos()
 {
-    return m_pos;
+    if (m_pot) return m_pot->getPos();
+
+    return 0.0;
 }
 
-void pwmServo::rotate(double delta)
+void pwmServo::setPos(double pos)
 {
     if (!m_enable) return;
 
-    bool forward = delta >= 0;
+    double cur = getPos();
+    bool forward = (pos - cur) >= 0;
+    double delta = 0.0;
+
+    double lastCur = 0;
 
     gpioPWM(m_rpwm, forward ? MAX_SPEED : 0);
     gpioPWM(m_lpwm, forward ? 0 : MAX_SPEED);
 
-    // todo: <unistd.h> usleep(microseconds)
-    sleep(int(m_time * abs(delta)));
+    do
+    {
+        usleep(10000);
+
+        cur = getPos();
+        delta = cur - pos;
+
+        if (abs(lastCur - cur) > 0.01)
+            ROS_INFO("tracking %g", cur);
+
+        lastCur = cur;
+
+    } while (forward ? delta < 0 : delta > 0);
 
     gpioPWM(m_rpwm, 0);
     gpioPWM(m_lpwm, 0);
 
-    m_pos = m_pos + delta;
-
-    if (m_pos > 1.0)
-        m_pos = 1.0;
-    else if (m_pos < 0.0)
-        m_pos = 0.0;
-
     sleep(1);
+}
+
+void pwmServo::deltaPos(double delta)
+{
+    setPos(getPos() + delta);
 }
 
 void pwmServo::deserialize()
@@ -113,7 +123,13 @@ void pwmServo::deserialize()
 
     ros::param::get(getControllerPath("lpwm"), m_lpwm);
     ros::param::get(getControllerPath("rpwm"), m_rpwm);
-    ros::param::get(getControllerPath("time"), m_time);
+
+    m_pot = controllerFactory::deserialize<potentiometer>(getPath(), "feedback");
+
+    if (!m_pot)
+    {
+        ROS_WARN("%s failed to load feedback", getPath());
+    }
 }
 
 controller* pwmServo::create(const char* path)

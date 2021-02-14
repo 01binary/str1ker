@@ -6,10 +6,10 @@
              @ @     @       @            @      @    @@           @@@@      @                  @            @
  @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
                                                                                      @@@@@@@                  
- linear.cpp
+ adc.cpp
 
- PWM Linear Actuator Controller implementation
- Created 1/19/2021
+ Analog to Digital Converter implementation
+ Created 1/27/2021
 
  This software is licensed under GNU GPLv3
 */
@@ -19,48 +19,81 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
-#include "linear.h"
+#include <pigpio.h>
+#include "adc.h"
 #include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
 | Namespace
 \*----------------------------------------------------------*/
 
-using namespace std;
 using namespace str1ker;
+using namespace std;
 
 /*----------------------------------------------------------*\
 | Constants
 \*----------------------------------------------------------*/
 
-const char linear::TYPE[] = "linear";
+const char adc::TYPE[] = "adc";
 
 /*----------------------------------------------------------*\
-| linear implementation
+| adc implementation
 \*----------------------------------------------------------*/
 
-REGISTER_CONTROLLER(linear)
+REGISTER_SINGLETON(adc)
 
-linear::linear(const char* path) : pwmServo(path)
+adc::adc(const char* path) :
+    controller(path),
+    m_spiBus(-1),
+    m_spi(-1)
 {
 }
 
-const char* linear::getType()
+const char* adc::getType()
 {
-    return linear::TYPE;
+    return adc::TYPE;
 }
 
-void linear::extend(double delta)
+bool adc::init()
 {
-    deltaPos(delta);
+    if (!m_enable || m_spi >= 0) return true;
+
+    m_spi = spiOpen(m_spiBus, SPI_RATE, SPI_MODE);
+
+    if (m_spi < 0)
+    {
+        ROS_ERROR("failed to initialize ADC on SPI %d: 0x%x", m_spiBus, m_spi);
+        return false;
+    }
+
+    ROS_INFO("  initialized %s %s on SPI %d", getPath(), getType(), m_spiBus);
+
+    return true;
 }
 
-void linear::contract(double delta)
+int adc::getValue(int channel)
 {
-    deltaPos(-delta);
+    if (!m_enable) return 0;
+
+    char buffer[3] = { 1, char((8 + channel) << 4), 0 };
+    spiXfer(m_spi, buffer, buffer, sizeof(buffer));
+
+    return ((buffer[1] & 3) << 8) | buffer[2];
 }
 
-controller* linear::create(const char* path)
+int adc::getMaxValue()
 {
-    return new linear(path);
+    // MCP3008 is 10-bit (0 to 1024)
+    return 1 << 10;
+}
+
+void adc::deserialize()
+{
+    controller::deserialize();
+    ros::param::get(getControllerPath("spi"), m_spiBus);
+}
+
+controller* adc::create(const char* path)
+{
+    return new adc(path);
 }

@@ -23,8 +23,8 @@
 
 #include <string>
 #include <map>
-#include "servo.h"
 #include "arm.h"
+#include "adc.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -46,9 +46,12 @@ typedef std::map<std::string, arm*> armMap;
 class robot
 {
 private:
+    static const char PATH[];
+
     // Robot arms
     armArray m_arms;
     armMap m_armNames;
+    adc* m_adc;
 
 public:
     robot();

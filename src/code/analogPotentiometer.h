@@ -6,23 +6,25 @@
              @ @     @       @            @      @    @@           @@@@      @                  @            @
  @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
                                                                                      @@@@@@@                  
- pwmServo.h
+ analogPotentiometer.h
 
- PWM Servo Controller
- Created 1/19/2021
+ Analog Potentiometer Controller
+ Created 1/28/2021
 
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_BASIC_SERVO_H
-#define STR1KER_BASIC_SERVO_H
+#ifndef STR1KER_ANALOG_POTENTIOMETER_H
+#define STR1KER_ANALOG_POTENTIOMETER_H
 
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
 
-#include "servo.h"
+#include <string>
+#include <vector>
 #include "potentiometer.h"
+#include "adc.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -31,47 +33,58 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| pwmServo class
+| potentiometer class
 \*----------------------------------------------------------*/
 
-class pwmServo : public servo
+class analogPotentiometer : public potentiometer
 {
 public:
     // Controller type
     static const char TYPE[];
 
 private:
-    // Max speed for PWM pulse
-    const int MAX_SPEED = 255;
+    // Number of samples to average for de-noising
+    const int SAMPLE_COUNT = 8;
 
-private:
-    // Left PWM pin
-    int m_lpwm;
+    // Number of averages to analyze
+    const int AVG_COUNT = 4;
 
-    // Right PWM pin
-    int m_rpwm;
+    // Threshold for picking stable average
+    const double AVG_THRESHOLD = 0.2;
 
-    // Potentiometer measuring absolute position
-    potentiometer* m_pot;
+    // Analog to digital converter (ADC) for reading measurements
+    adc* m_adc;
+
+    // Channel index to use when reading from ADC
+    int m_id;
+
+    // Samples collected
+    std::vector<double> m_samples;
+
+    // Current sample index
+    int m_sampleId;
+
+    // Averages collected
+    std::vector<double> m_avg;
+
+    // Current average index
+    int m_avgId;
+
+    // Last reading
+    double m_lastSample;
 
 public:
-    pwmServo(const char* path);
+    analogPotentiometer(const char* path);
 
 public:
     // Get display type
     virtual const char* getType();
 
-    // Initialize
+    // Initialize potentiometer controller
     virtual bool init();
 
-    // Get absolute position using related potentiometer
+    // Get absolute position
     virtual double getPos();
-
-    // Move to absolute position by tracking potentiometer
-    virtual void setPos(double pos);
-
-    // Move by delta
-    virtual void deltaPos(double delta);
 
     // Deserialize from settings
     virtual void deserialize();
@@ -83,4 +96,4 @@ public:
 
 } // namespace str1ker
 
-#endif // STR1KER_BASIC_SERVO_H
+#endif // STR1KER_ANALOG_POTENTIOMETER_H

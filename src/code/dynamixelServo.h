@@ -67,8 +67,11 @@ public:
     // Get servo position
     virtual double getPos();
 
+    // Set servo position
+    virtual void setPos(double pos);
+
     // Rotate servo given delta in radians
-    virtual void rotate(double delta);
+    virtual void deltaPos(double delta);
 
     // Load from settings
     virtual void deserialize();

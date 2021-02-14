@@ -77,13 +77,13 @@ bool arm::init()
     return true;
 }
 
-void arm::rotate(double deltaRad)
+void arm::rotate(double delta)
 {
     if (!m_shoulder) return;
 
-    ROS_INFO("rotate %s by %g", m_shoulder->getPath(), deltaRad);
+    ROS_INFO("rotate %s by %g", m_shoulder->getPath(), delta);
 
-    return m_shoulder->rotate(deltaRad);
+    return m_shoulder->deltaPos(delta);
 }
 
 void arm::raise(double amount)

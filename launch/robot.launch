@@ -1,6 +1,10 @@
 <launch>
   <node name="robot" pkg="str1ker" type="robot" required="true" output="screen">
     <rosparam>
+      sensors:
+        controller: 'adc'
+        enable: true
+        spi: 0
       arms:
         arm1:
           shoulder:
@@ -8,19 +12,33 @@
             enable: true
             lpwm: 13
             rpwm: 26
-            time: 5
+            feedback:
+              controller: 'potentiometer'
+              enable: true
+              source: 'adc'
+              id: 0
           upperarm:
             controller: 'linear'
             enable: false
             lpwm: 25
             rpwm: 24
             time: 5
+            feedback:
+              controller: 'potentiometer'
+              enable: true
+              source: 'adc'
+              id: 1
           forearm:
             controller: 'linear'
             enable: false
             lpwm: 18
             rpwm: 17
             time: 4
+            feedback:
+              controller: 'potentiometer'
+              enable: true
+              source: 'adc'
+              id: 2
           trigger:
             controller: 'solenoid'
             enable: false

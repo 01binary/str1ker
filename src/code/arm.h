@@ -66,8 +66,8 @@ public:
     // Initialize arm controllers
     bool init();
 
-    // Rotate arm by delta in radians
-    void rotate(double deltaRad);
+    // Rotate arm by delta in possible range
+    void rotate(double delta);
 
     // Raise arm all the way
     void raise(double amount = 1.0);

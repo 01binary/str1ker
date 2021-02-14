@@ -131,7 +131,21 @@ double dynamixelServo::getPos()
     return s_wb->convertValue2Radian(id, value);
 }
 
-void dynamixelServo::rotate(double delta)
+void dynamixelServo::setPos(double pos)
+{
+    if (!m_enable) return;
+
+    uint8_t id = m_id;
+    int32_t value = s_wb->convertRadian2Value(m_id, pos);
+
+    if (!s_wb->syncWrite(0, &id, 1, &value, 1))
+    {
+        ROS_ERROR("failed to write %s dynamixel servo position", m_name.c_str());
+        return;
+    }
+}
+
+void dynamixelServo::deltaPos(double delta)
 {
     if (!m_enable) return;
 

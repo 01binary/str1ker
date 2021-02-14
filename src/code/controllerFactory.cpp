@@ -36,7 +36,7 @@ using namespace std;
 | controllerFactory implementation
 \*----------------------------------------------------------*/
 
-map<string, createController> controllerFactory::s_types;
+map<string, controllerRegistration> controllerFactory::s_types;
 
 controller* controllerFactory::deserialize(const char* parentPath, const char* controllerName)
 {
@@ -47,15 +47,60 @@ controller* controllerFactory::deserialize(const char* parentPath, const char* c
     ros::param::get(controllerTypePath, controllerType);
 
     if (s_types.find(controllerType.c_str()) == s_types.end())
+    {
+        ROS_WARN("could not find type '%s'", controllerType.c_str());
         return NULL;
+    }
 
-    controller* created = s_types[controllerType](componentPath.c_str());
-    created->deserialize();
+    struct controllerRegistration& reg = s_types[controllerType];
+    controller* instance = NULL;
 
-    return created;
+    if (reg.shared)
+    {
+        if (NULL == reg.instance)
+        {
+            reg.instance = reg.create(componentPath.c_str());
+            reg.instance->deserialize();
+        }
+
+        instance = reg.instance;
+    }
+    else
+    {
+        instance = reg.create(componentPath.c_str());
+        instance->deserialize();
+    }
+
+    return instance;
 }
 
-void controllerFactory::registerType(const char* type, createController create)
+controller* controllerFactory::deserialize(const char* type)
 {
-    s_types[type] = create;
+    if (s_types.find(type) == s_types.end())
+    {
+        ROS_ERROR("failed to deserialize type '%s'", type);
+        return NULL;
+    }
+
+    controller* instance = s_types[type].instance;
+
+    if (NULL == instance)
+    {
+        ROS_ERROR("type '%s' requested before it was loaded", type);
+    }
+
+    return instance;
+}
+
+void controllerFactory::registerType(const char* type, createController create, bool shared)
+{
+    struct controllerRegistration reg;
+
+    reg.create = create;
+    reg.shared = shared;
+    reg.instance = NULL;
+
+    s_types[type] = reg;
+
+    ROS_INFO("registered %s %s", type, shared ? "singleton" : "scoped");
 }

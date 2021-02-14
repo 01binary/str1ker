@@ -18,6 +18,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#include <algorithm>
 #include <ros/ros.h>
 #include "robot.h"
 #include "solenoid.h"
@@ -59,7 +60,10 @@ const bool controller::isEnabled()
 
 void controller::deserialize()
 {
-    ROS_INFO("    loading %s %s", getName(), getType());
+    string indent;
+    indent.resize((max(count(m_path.begin(), m_path.end(), '/') - 2, 1)) * 2, ' ');
+
+    ROS_INFO("%sloading %s %s", indent.c_str(), getName(), getType());
 
     ros::param::get(getControllerPath("enable"), m_enable);
 }

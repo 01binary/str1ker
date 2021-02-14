@@ -37,7 +37,7 @@ namespace str1ker {
 class servo : public controller
 {
 public:
-    servo(const char* path);
+    servo(const char* path) : controller(path) {}
 
 public:
     // Initialize servo controller
@@ -46,10 +46,13 @@ public:
     // Get absolute servo position
     virtual double getPos() = 0;
 
+    // Set absolute servo position
+    virtual void setPos(double pos) = 0;
+
     // Rotate servo
-    virtual void rotate(double delta) = 0;
+    virtual void deltaPos(double delta) = 0;
 };
 
 } // namespace str1ker
 
-#endif // STR1KER_BASIC_SERVO_H
+#endif // STR1KER_SERVO_H

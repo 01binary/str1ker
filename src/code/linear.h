@@ -41,17 +41,16 @@ public:
 
 public:
     linear(const char* path);
-    linear(const char* path, int lwpm, int rpwm, int time);
 
 public:
     // Get display type
     virtual const char* getType();
 
-    // Extend linear actuator by amount
-    void extend(double amount = 1.0);
+    // Extend linear actuator
+    void extend(double delta = 1.0);
 
-    // Contract linear actuator by amount
-    void contract(double amount = 1.0);
+    // Contract linear actuator
+    void contract(double delta = 1.0);
 
 public:
     // Create instance
