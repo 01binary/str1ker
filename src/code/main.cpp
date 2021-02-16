@@ -14,6 +14,8 @@
  This software is licensed under GNU GPLv3
 */
 
+#define DEBUG
+
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
@@ -44,7 +46,7 @@ int main(int argc, char** argv)
 
     while(node.ok())
     {
-        robot.getArm(0)->rotate(0.25);
+        robot.getArm(0)->rotate(-0.25);
 
         rate.sleep();
     }
