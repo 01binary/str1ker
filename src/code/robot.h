@@ -14,8 +14,7 @@
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_ROBOT_H
-#define STR1KER_ROBOT_H
+#pragma once
 
 /*----------------------------------------------------------*\
 | Includes
@@ -85,5 +84,3 @@ private:
 };
 
 } // namespace str1ker
-
-#endif // STR1KER_ROBOT_H

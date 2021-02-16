@@ -14,8 +14,7 @@
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_ARM_H
-#define STR1KER_ARM_H
+#pragma once
 
 /*----------------------------------------------------------*\
 | Includes
@@ -89,5 +88,3 @@ public:
 };
 
 } // namespace str1ker
-
-#endif // STR1KER_ARM_H

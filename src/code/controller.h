@@ -14,8 +14,7 @@
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_CONTROLLER_H
-#define STR1KER_CONTROLLER_H
+#pragma once
 
 /*----------------------------------------------------------*\
 | Includes
@@ -70,5 +69,3 @@ protected:
 };
 
 } // namespace str1ker
-
-#endif // STR1KER_CONTROLLER_H

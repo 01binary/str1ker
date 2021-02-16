@@ -14,8 +14,7 @@
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_POTENTIOMETER_H
-#define STR1KER_POTENTIOMETER_H
+#pragma once
 
 /*----------------------------------------------------------*\
 | Includes
@@ -98,5 +97,3 @@ private:
 };
 
 } // namespace str1ker
-
-#endif // STR1KER_POTENTIOMETER_H
