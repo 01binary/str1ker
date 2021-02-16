@@ -6,16 +6,15 @@
              @ @     @       @            @      @    @@           @@@@      @                  @            @
  @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
                                                                                      @@@@@@@                  
- dynamixel.h
+ dynamixelPro.h
 
- Dynamixel servo controller
+ dynamixelPro servo controller
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_DYNAMIXEL_SERVO_H
-#define STR1KER_DYNAMIXEL_SERVO_H
+#pragma once
 
 /*----------------------------------------------------------*\
 | Includes
@@ -31,17 +30,17 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| dynamixel class
+| dynamixelPro class
 \*----------------------------------------------------------*/
 
-class dynamixel : public servo
+class dynamixelPro : public servo
 {
 public:
     // Controller type
     static const char TYPE[];
 
 private:
-    // Dynamixel interface
+    // dynamixelPro interface
     static DynamixelWorkbench* s_wb;
 
     // Servo id on serial bus
@@ -54,8 +53,8 @@ private:
     const ControlItem* m_goal;
 
 public:
-    dynamixel(const char* path);
-    dynamixel(const char* path, int id);
+    dynamixelPro(const char* path);
+    dynamixelPro(const char* path, int id);
 
 public:
     // Get display type
@@ -82,5 +81,3 @@ public:
 };
 
 } // namespace str1ker
-
-#endif // STR1KER_DYNAMIXEL_SERVO_H

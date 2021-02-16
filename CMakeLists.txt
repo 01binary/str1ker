@@ -49,7 +49,7 @@ add_executable(robot
   src/code/controller.cpp
   src/code/controllerFactory.cpp
   src/code/pwmServo.cpp
-  src/code/dynamixel.cpp
+  src/code/dynamixelPro.cpp
   src/code/linear.cpp
   src/code/solenoid.cpp
   src/code/potentiometer.cpp
