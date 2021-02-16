@@ -21,6 +21,7 @@
 #include <math.h>
 #include <pigpio.h>
 #include <ros/ros.h>
+#include <std_msgs/Float32.h>
 #include "dynamixelPro.h"
 #include "controllerFactory.h"
 
@@ -160,11 +161,20 @@ void dynamixelPro::deltaPos(double delta)
     }
 }
 
-void dynamixelPro::deserialize()
+void dynamixelPro::deserialize(ros::NodeHandle node)
 {
-    servo::deserialize();
+    servo::deserialize(node);
 
     ros::param::get(getControllerPath("id"), m_id);
+
+    m_pub = node.advertise<std_msgs::Float32>(getPath(), 256);
+}
+
+void dynamixelPro::publish()
+{
+    std_msgs::Float32 msg;
+    msg.data = getPos();
+    m_pub.publish(msg);
 }
 
 controller* dynamixelPro::create(const char* path)

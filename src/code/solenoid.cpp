@@ -83,11 +83,13 @@ void solenoid::trigger(double durationSeconds)
     usleep(durationMicroseconds);
 }
 
-void solenoid::deserialize()
+void solenoid::deserialize(ros::NodeHandle node)
 {
-    controller::deserialize();
+    controller::deserialize(node);
 
     ros::param::get(getControllerPath("output"), m_output);
+
+    // TODO: advertise service
 }
 
 controller* solenoid::create(const char* path)

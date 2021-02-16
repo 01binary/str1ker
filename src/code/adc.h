@@ -84,7 +84,7 @@ public:
     int getMaxValue();
 
     // Load controller settings
-    virtual void deserialize();
+    virtual void deserialize(ros::NodeHandle node);
 
 public:
     // Create instance

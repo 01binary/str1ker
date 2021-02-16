@@ -38,7 +38,7 @@ using namespace std;
 
 map<string, controllerRegistration> controllerFactory::s_types;
 
-controller* controllerFactory::deserialize(const char* parentPath, const char* controllerName)
+controller* controllerFactory::deserialize(const char* parentPath, const char* controllerName, ros::NodeHandle node)
 {
     string componentPath = string(parentPath) + "/" + controllerName;
     string controllerTypePath = componentPath + "/controller";
@@ -60,7 +60,7 @@ controller* controllerFactory::deserialize(const char* parentPath, const char* c
         if (NULL == reg.instance)
         {
             reg.instance = reg.create(componentPath.c_str());
-            reg.instance->deserialize();
+            reg.instance->deserialize(node);
         }
 
         instance = reg.instance;
@@ -68,7 +68,7 @@ controller* controllerFactory::deserialize(const char* parentPath, const char* c
     else
     {
         instance = reg.create(componentPath.c_str());
-        instance->deserialize();
+        instance->deserialize(node);
     }
 
     return instance;

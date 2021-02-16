@@ -84,7 +84,10 @@ public:
     void trigger(double durationSeconds = 0.023);
 
     // Load arm controller settings
-    void deserialize();
+    void deserialize(ros::NodeHandle node);
+
+    // Publish topic
+    void publish();
 };
 
 } // namespace str1ker

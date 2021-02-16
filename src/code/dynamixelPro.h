@@ -52,6 +52,9 @@ private:
     // Goal position control
     const ControlItem* m_goal;
 
+    // Publisher
+    ros::Publisher m_pub;
+
 public:
     dynamixelPro(const char* path);
     dynamixelPro(const char* path, int id);
@@ -73,7 +76,10 @@ public:
     virtual void deltaPos(double delta);
 
     // Load from settings
-    virtual void deserialize();
+    virtual void deserialize(ros::NodeHandle node);
+
+    // Publish current position
+    virtual void publish();
 
 public:
     // Create instance

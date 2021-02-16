@@ -87,9 +87,9 @@ int adc::getMaxValue()
     return 1 << 10;
 }
 
-void adc::deserialize()
+void adc::deserialize(ros::NodeHandle node)
 {
-    controller::deserialize();
+    controller::deserialize(node);
     ros::param::get(getControllerPath("spi"), m_spiBus);
 }
 

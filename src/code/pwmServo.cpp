@@ -126,19 +126,24 @@ void pwmServo::deltaPos(double delta)
     setPos(norm);
 }
 
-void pwmServo::deserialize()
+void pwmServo::deserialize(ros::NodeHandle node)
 {
-    servo::deserialize();
+    servo::deserialize(node);
 
     ros::param::get(getControllerPath("lpwm"), m_lpwm);
     ros::param::get(getControllerPath("rpwm"), m_rpwm);
 
-    m_pot = controllerFactory::deserialize<potentiometer>(getPath(), "feedback");
+    m_pot = controllerFactory::deserialize<potentiometer>(getPath(), "feedback", node);
 
     if (!m_pot)
     {
         ROS_WARN("%s failed to load feedback", getPath());
     }
+}
+
+void pwmServo::publish()
+{
+    if (m_pot) m_pot->publish();
 }
 
 controller* pwmServo::create(const char* path)

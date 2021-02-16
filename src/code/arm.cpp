@@ -131,12 +131,20 @@ void arm::trigger(double durationSeconds)
     return m_trigger->trigger(durationSeconds);
 }
 
-void arm::deserialize()
+void arm::deserialize(ros::NodeHandle node)
 {
     ROS_INFO("  loading %s arm", m_name.c_str());
 
-    m_shoulder = controllerFactory::deserialize<servo>(m_path.c_str(), "shoulder");
-    m_upperarm = controllerFactory::deserialize<linear>(m_path.c_str(), "upperarm");
-    m_forearm = controllerFactory::deserialize<linear>(m_path.c_str(), "forearm");
-    m_trigger = controllerFactory::deserialize<solenoid>(m_path.c_str(), "trigger");
+    m_shoulder = controllerFactory::deserialize<servo>(m_path.c_str(), "shoulder", node);
+    m_upperarm = controllerFactory::deserialize<linear>(m_path.c_str(), "upperarm", node);
+    m_forearm = controllerFactory::deserialize<linear>(m_path.c_str(), "forearm", node);
+    m_trigger = controllerFactory::deserialize<solenoid>(m_path.c_str(), "trigger", node);
+}
+
+void arm::publish()
+{
+    if (m_shoulder) m_shoulder->publish();
+    if (m_upperarm) m_upperarm->publish();
+    if (m_forearm) m_forearm->publish();
+    if (m_trigger) m_trigger->publish();
 }

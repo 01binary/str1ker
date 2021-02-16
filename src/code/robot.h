@@ -61,7 +61,10 @@ public:
     bool init();
 
     // Load controller settings
-    robot& deserialize();
+    robot& deserialize(ros::NodeHandle node);
+
+    // Publish controller topics
+    void publish();
 
     // Print logo
     robot& logo();
@@ -80,7 +83,7 @@ public:
     static const char* getControllerPath(const char* path, const char* componentType, char* componentPath);
 
 private:
-    void deserializeArms();
+    void deserializeArms(ros::NodeHandle node);
 };
 
 } // namespace str1ker

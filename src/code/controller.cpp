@@ -58,7 +58,7 @@ const bool controller::isEnabled()
     return m_enable;
 }
 
-void controller::deserialize()
+void controller::deserialize(ros::NodeHandle node)
 {
     string indent;
     indent.resize((max(count(m_path.begin(), m_path.end(), '/') - 2, 1)) * 2, ' ');
@@ -66,6 +66,10 @@ void controller::deserialize()
     ROS_INFO("%sloading %s %s", indent.c_str(), getName(), getType());
 
     ros::param::get(getControllerPath("enable"), m_enable);
+}
+
+void controller::publish()
+{
 }
 
 string controller::getControllerPath(const char* controllerName)

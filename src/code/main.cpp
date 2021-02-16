@@ -36,7 +36,7 @@ int main(int argc, char** argv)
 
     if (!robot
             .logo()
-            .deserialize()
+            .deserialize(node)
             .init())
     {
         return 1;
@@ -46,6 +46,8 @@ int main(int argc, char** argv)
 
     while(node.ok())
     {
+        robot.publish();
+
         robot.getArm(0)->rotate(-0.25);
 
         rate.sleep();

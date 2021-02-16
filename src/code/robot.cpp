@@ -91,20 +91,30 @@ bool robot::init()
     return true;
 }
 
-robot& robot::deserialize()
+void robot::publish()
+{
+    for(armArray::iterator pos = m_arms.begin();
+        pos != m_arms.end();
+        ++pos)
+    {
+        (*pos)->publish();
+    }
+}
+
+robot& robot::deserialize(ros::NodeHandle node)
 {
     ROS_INFO("loading controllers...");
 
-    m_adc = controllerFactory::deserialize<adc>("/robot", "sensors");
+    m_adc = controllerFactory::deserialize<adc>("/robot", "sensors", node);
 
-    deserializeArms();
+    deserializeArms(node);
 
     ROS_INFO("loaded successfully");
 
     return *this;
 }
 
-void robot::deserializeArms()
+void robot::deserializeArms(ros::NodeHandle node)
 {
     vector<string> params;
     set<string> unique;
@@ -123,7 +133,7 @@ void robot::deserializeArms()
             unique.insert(armPath);
 
             arm* robotArm = new arm(path);
-            robotArm->deserialize();
+            robotArm->deserialize(node);
 
             m_armNames[getControllerName(path)] = robotArm;
             m_arms.push_back(robotArm);

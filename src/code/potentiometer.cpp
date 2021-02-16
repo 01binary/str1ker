@@ -21,6 +21,7 @@
 #include <ros/ros.h>
 #include <numeric>
 #include <algorithm>
+#include <std_msgs/Float32.h>
 #include "potentiometer.h"
 #include "adc.h"
 #include "controllerFactory.h"
@@ -114,15 +115,25 @@ double potentiometer::getPos()
     return m_lastSample;
 }
 
-void potentiometer::deserialize()
+void potentiometer::deserialize(ros::NodeHandle node)
 {
-    controller::deserialize();
+    controller::deserialize(node);
 
     ros::param::get(getControllerPath("id"), m_id);
 
     string source;
     ros::param::get(getControllerPath("source"), source);
     m_adc = controllerFactory::deserialize<adc>(source.c_str());
+
+    m_pub = node.advertise<std_msgs::Float32>(getPath(), 256);
+}
+
+void potentiometer::publish()
+{
+    std_msgs::Float32 msg;
+    msg.data = getPos();
+    m_pub.publish(msg);
+    ROS_INFO("publish %g", msg.data);
 }
 
 controller* potentiometer::create(const char* path)

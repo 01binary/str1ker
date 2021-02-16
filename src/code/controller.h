@@ -61,7 +61,10 @@ public:
     virtual const char* getType() = 0;
 
     // Deserialize from settings
-    virtual void deserialize();
+    virtual void deserialize(ros::NodeHandle node);
+
+    // Publish self or children
+    virtual void publish();
 
 protected:
     // Get child controller path

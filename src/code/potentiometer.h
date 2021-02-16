@@ -71,6 +71,9 @@ private:
     // Last reading
     double m_lastSample;
 
+    // Publisher
+    ros::Publisher m_pub;
+
 public:
     potentiometer(const char* path);
 
@@ -85,7 +88,10 @@ public:
     virtual double getPos();
 
     // Deserialize from settings
-    virtual void deserialize();
+    virtual void deserialize(ros::NodeHandle node);
+
+    // Publish current position
+    virtual void publish();
 
 public:
     // Create instance

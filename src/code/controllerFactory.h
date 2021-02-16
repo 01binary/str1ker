@@ -78,9 +78,10 @@ public:
     // Deserialize controller with type cast
     template<class T> static T* deserialize(
         const char* parentPath,
-        const char* controllerName)
+        const char* controllerName,
+        ros::NodeHandle node)
     {
-        return dynamic_cast<T*>(deserialize(parentPath, controllerName));
+        return dynamic_cast<T*>(deserialize(parentPath, controllerName, node));
     }
 
     // Deserialize controller by type with type cast
@@ -90,7 +91,7 @@ public:
     }
 
     // Deserialize controller by path
-    static controller* deserialize(const char* parentPath, const char* controllerName);
+    static controller* deserialize(const char* parentPath, const char* controllerName, ros::NodeHandle node);
 
     // Deserialize controller by type
     static controller* deserialize(const char* type);

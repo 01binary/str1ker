@@ -58,7 +58,7 @@ public:
     void trigger(double durationSeconds);
 
     // Deserialize from settings
-    void deserialize();
+    void deserialize(ros::NodeHandle node);
 
 public:
     // Create instance
