@@ -53,7 +53,7 @@ add_executable(robot
   src/code/linear.cpp
   src/code/solenoid.cpp
   src/code/potentiometer.cpp
-  src/code/adc.cpp
+  src/code/mcp3008.cpp
 )
 
 add_dependencies(robot ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

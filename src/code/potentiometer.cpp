@@ -74,7 +74,7 @@ bool potentiometer::init()
             return false;
         }
 
-        //m_lastSample = round2(m_adc->getValue(m_id) / (double)m_adc->getMaxValue());
+        m_lastSample = round2(m_adc->getValue(m_id) / (double)m_adc->getMaxValue());
     }
 
     return true;
@@ -121,9 +121,9 @@ void potentiometer::deserialize(ros::NodeHandle node)
 
     ros::param::get(getControllerPath("id"), m_id);
 
-    string source;
-    ros::param::get(getControllerPath("source"), source);
-    m_adc = controllerFactory::deserialize<adc>(source.c_str());
+    string adcName;
+    ros::param::get(getControllerPath("adc"), adcName);
+    m_adc = controllerFactory::deserialize<adc>(adcName.c_str());
 
     m_pub = node.advertise<std_msgs::Float32>(getPath(), 256);
 }
@@ -133,7 +133,10 @@ void potentiometer::publish()
     std_msgs::Float32 msg;
     msg.data = getPos();
     m_pub.publish(msg);
+
+#if DEBUG
     ROS_INFO("publish %g", msg.data);
+#endif
 }
 
 controller* potentiometer::create(const char* path)

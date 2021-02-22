@@ -1,8 +1,8 @@
 <launch>
   <node name="robot" pkg="str1ker" type="robot" required="true" output="screen">
     <rosparam>
-      sensors:
-        controller: 'adc'
+      adc:
+        controller: 'mcp3008'
         enable: true
         spi: 0
       arms:
@@ -15,7 +15,7 @@
             feedback:
               controller: 'potentiometer'
               enable: true
-              source: 'adc'
+              adc: 'mcp3008'
               id: 0
           upperarm:
             controller: 'linear'
@@ -26,7 +26,7 @@
             feedback:
               controller: 'potentiometer'
               enable: true
-              source: 'adc'
+              adc: 'mcp3008'
               id: 1
           forearm:
             controller: 'linear'
@@ -37,7 +37,7 @@
             feedback:
               controller: 'potentiometer'
               enable: true
-              source: 'adc'
+              adc: 'mcp3008'
               id: 2
           trigger:
             controller: 'solenoid'

@@ -6,10 +6,10 @@
              @ @     @       @            @      @    @@           @@@@      @                  @            @
  @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
                                                                                      @@@@@@@                  
- adc.cpp
+ mcp3008.cpp
 
  Analog to Digital Converter using MCP3008 implementation
- Created 1/27/2021
+ Created 02/22/2021
 
  This software is licensed under GNU GPLv3
 */
@@ -20,7 +20,7 @@
 
 #include <ros/ros.h>
 #include <pigpio.h>
-#include "adc.h"
+#include "mcp3008.h"
 #include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
@@ -34,27 +34,27 @@ using namespace std;
 | Constants
 \*----------------------------------------------------------*/
 
-const char adc::TYPE[] = "adc";
+const char mcp3008::TYPE[] = "mcp3008";
 
 /*----------------------------------------------------------*\
-| adc implementation
+| mcp3008 implementation
 \*----------------------------------------------------------*/
 
-REGISTER_SINGLETON(adc)
+REGISTER_SINGLETON(mcp3008)
 
-adc::adc(const char* path) :
-    controller(path),
+mcp3008::mcp3008(const char* path) :
+    adc(path),
     m_spiBus(-1),
     m_spi(-1)
 {
 }
 
-const char* adc::getType()
+const char* mcp3008::getType()
 {
-    return adc::TYPE;
+    return mcp3008::TYPE;
 }
 
-bool adc::init()
+bool mcp3008::init()
 {
     if (!m_enable || m_spi >= 0) return true;
 
@@ -62,7 +62,7 @@ bool adc::init()
 
     if (m_spi < 0)
     {
-        ROS_ERROR("failed to initialize ADC on SPI %d: 0x%x", m_spiBus, m_spi);
+        ROS_ERROR("failed to initialize MCP3008 ADC on SPI %d: 0x%x", m_spiBus, m_spi);
         return false;
     }
 
@@ -71,7 +71,7 @@ bool adc::init()
     return true;
 }
 
-int adc::getValue(int channel)
+int mcp3008::getValue(int channel)
 {
     if (!m_enable) return 0;
 
@@ -81,19 +81,25 @@ int adc::getValue(int channel)
     return ((buffer[1] & 3) << 8) | buffer[2];
 }
 
-int adc::getMaxValue()
+int mcp3008::getMaxValue()
 {
     // MCP3008 is 10-bit (0 to 1024)
     return 1 << 10;
 }
 
-void adc::deserialize(ros::NodeHandle node)
+int mcp3008::getChannels()
+{
+    // MCP3008 has 8 channels
+    return 8;
+}
+
+void mcp3008::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
     ros::param::get(getControllerPath("spi"), m_spiBus);
 }
 
-controller* adc::create(const char* path)
+controller* mcp3008::create(const char* path)
 {
-    return new adc(path);
+    return new mcp3008(path);
 }

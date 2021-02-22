@@ -60,8 +60,11 @@ public:
     // Get controller type display name
     virtual const char* getType() = 0;
 
-    // Deserialize from settings
+    // Load controller settings
     virtual void deserialize(ros::NodeHandle node);
+
+    // Initialize controller
+    virtual bool init();
 
     // Publish self or children
     virtual void publish();

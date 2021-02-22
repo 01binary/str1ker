@@ -137,7 +137,7 @@ void pwmServo::deserialize(ros::NodeHandle node)
 
     if (!m_pot)
     {
-        ROS_WARN("%s failed to load feedback", getPath());
+        ROS_WARN("%s failed to load encoder", getPath());
     }
 }
 

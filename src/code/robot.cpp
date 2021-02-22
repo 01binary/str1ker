@@ -105,7 +105,7 @@ robot& robot::deserialize(ros::NodeHandle node)
 {
     ROS_INFO("loading controllers...");
 
-    m_adc = controllerFactory::deserialize<adc>("/robot", "sensors", node);
+    m_adc = controllerFactory::deserialize<adc>("/robot", "adc", node);
 
     deserializeArms(node);
 
