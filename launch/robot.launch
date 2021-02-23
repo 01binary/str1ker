@@ -5,44 +5,45 @@
         controller: 'mcp3008'
         enable: true
         spi: 0
-      arms:
-        arm1:
-          shoulder:
-            controller: 'servo'
+      arm1:
+        controller: 'arm'
+        enable: true
+        shoulder:
+          controller: 'servo'
+          enable: true
+          lpwm: 13
+          rpwm: 26
+          feedback:
+            controller: 'potentiometer'
             enable: true
-            lpwm: 13
-            rpwm: 26
-            feedback:
-              controller: 'potentiometer'
-              enable: true
-              adc: 'mcp3008'
-              id: 0
-          upperarm:
-            controller: 'linear'
-            enable: false
-            lpwm: 25
-            rpwm: 24
-            time: 5
-            feedback:
-              controller: 'potentiometer'
-              enable: true
-              adc: 'mcp3008'
-              id: 1
-          forearm:
-            controller: 'linear'
-            enable: false
-            lpwm: 18
-            rpwm: 17
-            time: 4
-            feedback:
-              controller: 'potentiometer'
-              enable: true
-              adc: 'mcp3008'
-              id: 2
-          trigger:
-            controller: 'solenoid'
-            enable: false
-            output: 23
+            adc: 'mcp3008'
+            id: 0
+        upperarm:
+          controller: 'linear'
+          enable: false
+          lpwm: 25
+          rpwm: 24
+          time: 5
+          feedback:
+            controller: 'potentiometer'
+            enable: true
+            adc: 'mcp3008'
+            id: 1
+        forearm:
+          controller: 'linear'
+          enable: false
+          lpwm: 18
+          rpwm: 17
+          time: 4
+          feedback:
+            controller: 'potentiometer'
+            enable: true
+            adc: 'mcp3008'
+            id: 2
+        trigger:
+          controller: 'solenoid'
+          enable: false
+          output: 23
     </rosparam>
   </node>
 </launch>

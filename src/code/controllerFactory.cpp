@@ -64,7 +64,9 @@ controller* controllerFactory::deserialize(const char* parentPath, const char* c
 
         if (s_types.find(controllerType.c_str()) == s_types.end())
         {
-            ROS_WARN("could not find type '%s'", controllerType.c_str());
+            ROS_WARN("could not find type '%s' loading %s from parent %s (no %s defined)",
+                controllerType.c_str(), controllerName, parentPath, controllerTypePath.c_str());
+
             return NULL;
         }
 

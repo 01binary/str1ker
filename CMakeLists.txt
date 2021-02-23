@@ -43,11 +43,11 @@ include_directories(
 )
 
 add_executable(robot
-  src/code/controllerFactory.cpp
   src/code/main.cpp
   src/code/robot.cpp
-  src/code/arm.cpp
+  src/code/controllerFactory.cpp
   src/code/controller.cpp
+  src/code/arm.cpp
   src/code/pwmServo.cpp
   src/code/dynamixelPro.cpp
   src/code/linear.cpp

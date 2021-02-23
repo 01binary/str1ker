@@ -22,6 +22,13 @@
 
 #include <ros/ros.h>
 #include "robot.h"
+#include "arm.h"
+
+/*----------------------------------------------------------*\
+| Namespaces
+\*----------------------------------------------------------*/
+
+using namespace str1ker;
 
 /*----------------------------------------------------------*\
 | Module
@@ -32,7 +39,7 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "robot");
     ros::NodeHandle node;
 
-    str1ker::robot robot;
+    robot robot;
 
     if (!robot
             .logo()
@@ -44,11 +51,13 @@ int main(int argc, char** argv)
 
     ros::Rate rate(1000);
 
+    arm* arm1 = robot.getController<arm>("arm1");
+
     while(node.ok())
     {
         robot.publish();
 
-        robot.getArm(0)->rotate(-0.25);
+        if (arm1) arm1->rotate(-0.25);
 
         rate.sleep();
     }

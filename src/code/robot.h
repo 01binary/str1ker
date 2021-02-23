@@ -35,8 +35,7 @@ namespace str1ker {
 | Definitions
 \*----------------------------------------------------------*/
 
-typedef std::vector<arm*> armArray;
-typedef std::map<std::string, arm*> armMap;
+typedef std::map<std::string, controller*> controllerMap;
 
 /*----------------------------------------------------------*\
 | robot class
@@ -47,21 +46,19 @@ class robot
 private:
     static const char PATH[];
 
-    // Robot arms
-    armArray m_arms;
-    armMap m_armNames;
-    adc* m_adc;
+private:
+    controllerMap m_controllers;
 
 public:
     robot();
     ~robot();
 
 public:
-    // Initialize controllers
-    bool init();
-
     // Load controller settings
     robot& deserialize(ros::NodeHandle node);
+
+    // Initialize controllers
+    bool init();
 
     // Publish controller topics
     void publish();
@@ -69,11 +66,14 @@ public:
     // Print logo
     robot& logo();
 
-    // Get robot arm by index
-    arm* getArm(int index);
+    // Get controller of type by name
+    template <class C> C* getController(const char* name)
+    {
+        return dynamic_cast<C*>(getController(name));
+    }
 
-    // Get robot arm by name
-    arm* getArm(const char* name);
+    // Get any controller by name
+    controller* getController(const char* name);
 
 public:
     // Get component name
@@ -81,9 +81,6 @@ public:
 
     // Get parent name
     static const char* getControllerPath(const char* path, const char* componentType, char* componentPath);
-
-private:
-    void deserializeArms(ros::NodeHandle node);
 };
 
 } // namespace str1ker
