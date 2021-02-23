@@ -20,7 +20,6 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <string>
 #include "adc.h"
 #include "controller.h"
 

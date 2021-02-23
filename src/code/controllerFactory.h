@@ -35,8 +35,9 @@ namespace str1ker {
 \*----------------------------------------------------------*/
 
 #define REGISTER_CONTROLLER(a) \
-    class register_##a { public: register_##a() { controllerFactory::registerType(a::TYPE, a::create, false);}}; \
-    register_##a reg##a;
+    class register_##a { public: register_##a() { \
+    try { controllerFactory::registerType(a::TYPE, a::create, false); } catch (...) {} \
+    }}; register_##a reg##a;
 
 #define REGISTER_SINGLETON(a) \
     class register_##a { public: register_##a() { controllerFactory::registerType(a::TYPE, a::create, true);}}; \
@@ -71,8 +72,11 @@ struct controllerRegistration
 class controllerFactory
 {
 private:
-    // Controller types
+    static bool s_initialized;
     static std::map<std::string, controllerRegistration> s_types;
+
+public:
+    controllerFactory();
 
 public:
     // Deserialize controller with type cast
