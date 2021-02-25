@@ -133,10 +133,6 @@ void potentiometer::publish()
     std_msgs::Float32 msg;
     msg.data = getPos();
     m_pub.publish(msg);
-
-#if DEBUG
-    ROS_INFO("publish %g", msg.data);
-#endif
 }
 
 controller* potentiometer::create(const char* path)

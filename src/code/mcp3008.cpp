@@ -83,7 +83,7 @@ int mcp3008::getValue(int channel)
 
 int mcp3008::getMaxValue()
 {
-    // MCP3008 is 10-bit (0 to 1024)
+    // MCP3008 is 10-bit
     return 1 << 10;
 }
 
