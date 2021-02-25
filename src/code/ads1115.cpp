@@ -45,6 +45,7 @@ REGISTER_SINGLETON(ads1115)
 
 ads1115::ads1115(const char* path) :
     adc(path),
+    m_initialized(false),
     m_devices(1),
     m_i2cBus(-1),
     m_gain(gainMultiplier::PGA_2_048V),
@@ -53,8 +54,7 @@ ads1115::ads1115(const char* path) :
     m_sampleMode(sampleMode::SINGLE),
     m_sampleRate(sampleRate::SPS_128)
 {
-    memset(m_i2c, sizeof(m_i2c), -1);
-    memset(m_reg, sizeof(m_reg), 0);
+    memset(m_i2c, -1, sizeof(m_i2c));
 }
 
 const char* ads1115::getType()
@@ -64,7 +64,7 @@ const char* ads1115::getType()
 
 bool ads1115::init()
 {
-    if (!m_enable || m_i2c >= 0) return true;
+    if (!m_enable || m_initialized) return true;
 
     for (int n = 0; n < m_devices; n++)
     {
@@ -72,31 +72,43 @@ bool ads1115::init()
 
         if (m_i2c[n] < 0)
         {
-            ROS_ERROR("failed to initialize ADS1115 ADC on I2C bus %d at 0x%x: 0x%x",
+            ROS_ERROR("  failed to initialize ADS1115 ADC on I2C bus %d at 0x%x: 0x%x",
                 m_i2cBus, DEVICE_IDS[n], m_i2c[n]);
 
             return false;
         }
+
+        for (int channel = 0; channel < MAX_CHANNELS; channel++)
+        {
+            if (!configure(n, channel)) return false;
+        }
+
+        ROS_INFO("  initialized %s %s on i2c %d 0x%x", getPath(), getType(), m_i2cBus, DEVICE_IDS[n]);
     }
 
-    if (!configure()) return false;
-
-    ROS_INFO("  initialized %s %s on I2C 0x%x", getPath(), getType(), m_i2cBus);
+    m_initialized = true;
 
     return true;
 }
 
 int ads1115::getValue(int channel)
 {
-    if (!m_enable) return 0;
+    int device = channel >> 2;
 
-    // TODO
+    if (!m_enable || !m_initialized || device >= m_devices || !configure(device, channel)) return 0;
 
-    int deviceIndex = channel >> 4;
+    unsigned short data = i2cReadWordData(m_i2c[device], registers::CONVERT);
 
-    ROS_WARN("dev index %d for channel %d", deviceIndex, channel);
+    if (data > 32767) data -= 65535;
 
-    return 0;
+    int ret = int(data * m_coefficient);
+
+    if (channel == 0)
+    {
+        ROS_INFO("-- read %d on device %d channel %d", ret, device, channel);
+    }
+
+    return ret;
 }
 
 int ads1115::getMaxValue()
@@ -114,74 +126,81 @@ int ads1115::getChannels()
 void ads1115::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
+
     ros::param::get(getControllerPath("i2c"), m_i2cBus);
     ros::param::get(getControllerPath("devices"), m_devices);
 
     string gainEnum;
-    ros::param::get(getControllerPath("gain"), gainEnum);
+    if (ros::param::get(getControllerPath("gain"), gainEnum))
+    {
+        if (gainEnum == "6.144V")
+        {
+            m_gain = gainMultiplier::PGA_6_144V;
+        }
+        else if (gainEnum == "4.096V")
+        {
+            m_gain = gainMultiplier::PGA_4_096V;
+        }
+        else if (gainEnum == "2.048V")
+        {
+            m_gain = gainMultiplier::PGA_2_048V;
+        }
+        else if (gainEnum == "1.024V")
+        {
+            m_gain = gainMultiplier::PGA_1_024V;
+        }
+        else if (gainEnum == "0.512V")
+        {
+            m_gain = gainMultiplier::PGA_0_512V;
+        }
+        else if (gainEnum == "0.256V")
+        {
+            m_gain = gainMultiplier::PGA_0_256V;
+        }
 
-    if (gainEnum == "6.144V")
-    {
-        m_gain = gainMultiplier::PGA_6_144V;
+        m_coefficient = getCoefficient();
     }
-    else if (gainEnum == "4.096V")
-    {
-        m_gain = gainMultiplier::PGA_4_096V;
-    }
-    else if (gainEnum == "2.048V")
-    {
-        m_gain = gainMultiplier::PGA_2_048V;
-    }
-    else if (gainEnum == "1.024V")
-    {
-        m_gain = gainMultiplier::PGA_1_024V;
-    }
-    else if (gainEnum == "0.512V")
-    {
-        m_gain = gainMultiplier::PGA_0_512V;
-    }
-    else if (gainEnum == "0.256V")
-    {
-        m_gain = gainMultiplier::PGA_0_256V;
-    }
-
-    m_coefficient = getCoefficient();
 
     ros::param::get(getControllerPath("differential"), m_differential);
 
     bool continuous = false;
-    ros::param::get(getControllerPath("continuous"), continuous);
-    m_sampleMode = continuous ? sampleMode::CONTINUOUS : sampleMode::SINGLE;
+
+    if (ros::param::get(getControllerPath("continuous"), continuous))
+    {
+        m_sampleMode = continuous ? sampleMode::CONTINUOUS : sampleMode::SINGLE;
+    }
 
     int sampleRateNumber;
-    ros::param::get(getControllerPath("rate"), sampleRateNumber);
 
-    switch(sampleRateNumber)
+    if (ros::param::get(getControllerPath("rate"), sampleRateNumber))
     {
-    case 8:
-        m_sampleRate = sampleRate::SPS_8;
-        break;
-    case 16:
-        m_sampleRate = sampleRate::SPS_16;
-        break;
-    case 32:
-        m_sampleRate = sampleRate::SPS_32;
-        break;
-    case 64:
-        m_sampleRate = sampleRate::SPS_64;
-        break;
-    case 128:
-        m_sampleRate = sampleRate::SPS_128;
-        break;
-    case 250:
-        m_sampleRate = sampleRate::SPS_250;
-        break;
-    case 475:
-        m_sampleRate = sampleRate::SPS_475;
-        break;
-    case 860:
-        m_sampleRate = sampleRate::SPS_860;
-        break;
+        switch(sampleRateNumber)
+        {
+        case 8:
+            m_sampleRate = sampleRate::SPS_8;
+            break;
+        case 16:
+            m_sampleRate = sampleRate::SPS_16;
+            break;
+        case 32:
+            m_sampleRate = sampleRate::SPS_32;
+            break;
+        case 64:
+            m_sampleRate = sampleRate::SPS_64;
+            break;
+        case 128:
+            m_sampleRate = sampleRate::SPS_128;
+            break;
+        case 250:
+            m_sampleRate = sampleRate::SPS_250;
+            break;
+        case 475:
+            m_sampleRate = sampleRate::SPS_475;
+            break;
+        case 860:
+            m_sampleRate = sampleRate::SPS_860;
+            break;
+        }
     }
 }
 
@@ -215,7 +234,6 @@ void ads1115::setGain(gainMultiplier gain)
 {
     m_gain = gain;
     m_coefficient = getCoefficient();
-    configure();
 }
 
 bool ads1115::getDifferential()
@@ -226,7 +244,6 @@ bool ads1115::getDifferential()
 void ads1115::setDifferential(bool differential)
 {
     m_differential = differential;
-    configure();
 }
 
 ads1115::sampleMode ads1115::getSampleMode()
@@ -237,7 +254,6 @@ ads1115::sampleMode ads1115::getSampleMode()
 void ads1115::setSampleMode(sampleMode sampleMode)
 {
     m_sampleMode = sampleMode;
-    configure();
 }
 
 ads1115::sampleRate ads1115::getSampleRate()
@@ -248,49 +264,52 @@ ads1115::sampleRate ads1115::getSampleRate()
 void ads1115::setSampleRate(sampleRate sampleRate)
 {
     m_sampleRate = sampleRate;
-    configure();
 }
 
-bool ads1115::configure()
+bool ads1115::configure(int device, int channel)
 {
-    if (!m_enable) return true;
+    if (!m_enable || m_i2c[device] < 0) return true;
 
-    for (int n = 0; n < MAX_DEVICES; n++)
+    unsigned char ref = m_differential
+        ? referenceMode::DIFF_0_1 + channel
+        : referenceMode::SINGLE_0 + channel;
+
+    unsigned char reg[2] =
     {
-        if (m_i2c[n] < 0) continue;
+        (unsigned char)(command::CONV | ref | m_gain | m_sampleMode),
+        (unsigned char)(m_sampleRate | alertMode::NONE)
+    };
 
-        for (int channel = 0; channel < MAX_CHANNELS; channel++)
-        {
-            unsigned char ref = m_differential
-                ? referenceMode::DIFF_0_1 + channel
-                : referenceMode::SINGLE_0 + channel;
+    unsigned short* word = (unsigned short*)reg;
+    int result = i2cWriteWordData(m_i2c[device], registers::CONFIG, *word);
+    const char* error = NULL;
 
-            unsigned char reg[2] =
-            {
-                (unsigned char)(command::CONV | ref | m_gain | m_sampleMode),
-                (unsigned char)(m_sampleRate | alertMode::NONE)
-            };
+    switch (result)
+    {
+    case PI_BAD_HANDLE:
+        error = "bad handle";
+        break;
+    case PI_BAD_PARAM:
+        error = "bad param";
+        break;
+    case PI_I2C_WRITE_FAILED:
+        error = "I2C write failed";
+        break;
+    }
 
-            unsigned short* word = (unsigned short*)reg;
+    if (result != 0)
+    {
+        ROS_ERROR("  failed to configure ADS1115 at 0x%x %s",
+            DEVICE_IDS[device], error);
 
-            int result = i2cWriteWordData(m_i2c[n], registers::CONFIG, *word);
-
-            if (result == PI_BAD_HANDLE)
-            {
-                ROS_ERROR("failed to configure ADS1115 at %d: bad handle");
-                return false;
-            }
-            else if (result == PI_BAD_PARAM)
-            {
-                ROS_ERROR("failed to configure ADS1115 at %d: bad parameter");
-                return false;
-            }
-            else if (result == PI_I2C_WRITE_FAILED)
-            {
-                ROS_ERROR("failed to configure ADS1115 at %d: write failed");
-                return false;
-            }
-        }
+        return false;
+    }
+    else
+    {
+#if DEBUG
+        ROS_INFO("  wrote 0x%x to register 0x%x on 0x%x",
+            *word, registers::CONFIG, DEVICE_IDS[device]);
+#endif
     }
 
     return true;

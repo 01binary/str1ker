@@ -2,9 +2,11 @@
   <node name="robot" pkg="str1ker" type="robot" required="true" output="screen">
     <rosparam>
       adc:
-        controller: 'mcp3008'
+        controller: 'ads1115'
         enable: true
-        spi: 0
+        i2c: 1
+        devices: 1
+        continuous: true
       arm1:
         controller: 'arm'
         enable: true
@@ -16,7 +18,7 @@
           feedback:
             controller: 'potentiometer'
             enable: true
-            adc: 'mcp3008'
+            adc: 'ads1115'
             id: 0
         upperarm:
           controller: 'linear'
@@ -27,7 +29,7 @@
           feedback:
             controller: 'potentiometer'
             enable: true
-            adc: 'mcp3008'
+            adc: 'ads1115'
             id: 1
         forearm:
           controller: 'linear'
@@ -38,7 +40,7 @@
           feedback:
             controller: 'potentiometer'
             enable: true
-            adc: 'mcp3008'
+            adc: 'ads1115'
             id: 2
         trigger:
           controller: 'solenoid'

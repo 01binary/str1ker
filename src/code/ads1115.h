@@ -137,8 +137,8 @@ private:
     // I2C device handles
     int m_i2c[MAX_DEVICES];
 
-    // Device Register configuration
-    unsigned short m_reg[MAX_DEVICES * MAX_CHANNELS];
+    // Whether ADS was initialized
+    bool m_initialized;
 
     // Number of chained ADS1115 devices up to MAX_DEVICES
     int m_devices;
@@ -198,7 +198,7 @@ public:
 
 private:
     double getCoefficient();
-    bool configure();
+    bool configure(int device, int channel);
 
 public:
     // Create instance
