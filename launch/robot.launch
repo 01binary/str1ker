@@ -6,7 +6,8 @@
         enable: true
         i2c: 1
         devices: 1
-        continuous: true
+        rate: 8
+        continuous: false
       arm1:
         controller: 'arm'
         enable: true

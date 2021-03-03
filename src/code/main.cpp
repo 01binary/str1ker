@@ -14,8 +14,6 @@
  This software is licensed under GNU GPLv3
 */
 
-#define DEBUG
-
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
@@ -49,7 +47,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    ros::Rate rate(1000);
+    ros::Rate rate(100000);
 
     arm* arm1 = robot.getController<arm>("arm1");
 

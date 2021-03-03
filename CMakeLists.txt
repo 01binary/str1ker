@@ -3,6 +3,8 @@ project(str1ker)
 
 add_compile_options(-std=c++11 -Wno-psabi)
 
+add_definitions(-DDEBUG)
+
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs

@@ -1,14 +1,14 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
  ads1115.cpp
 
- Analog to Digital Converter ADS1115 implementation
+ Analog to Digital Converter using ADS1115 implementation
  Created 02/22/2021
 
  This software is licensed under GNU GPLv3
@@ -37,6 +37,64 @@ using namespace std;
 const char ads1115::TYPE[] = "ads1115";
 const unsigned char ads1115::DEVICE_IDS[] = { 0x48, 0x49, 0x4A, 0x4B };
 
+const char* ads1115::OP[] =
+{
+    "idle",
+    "converting"
+};
+
+const char* ads1115::MULTIPLEXER[] =
+{
+    "diff_0_1",
+    "diff_0_3",
+    "diff_1_3",
+    "diff_2_3",
+    "single_0",
+    "single_1",
+    "single_2",
+    "single_3"
+};
+
+const char* ads1115::GAIN[] =
+{
+    "6.144V",
+    "4.096V",
+    "2.048V",
+    "1.024V",
+    "0.512V",
+    "0.256V"
+};
+
+const int ads1115::RATE[] =
+{
+    8, 16, 32, 64, 128, 250, 475, 860
+};
+
+const char* ads1115::COMP[] =
+{
+    "traditional",
+    "window"
+};
+
+const char* ads1115::LATCH[] =
+{
+    "non-latching",
+    "latching"
+};
+
+const char* ads1115::ALERT[] =
+{
+    "alert1",
+    "alert2",
+    "alert4",
+    "none"
+};
+
+const char* ads1115::POLARITY[] = {
+    "active low",
+    "active high"
+};
+
 /*----------------------------------------------------------*\
 | ads1115 implementation
 \*----------------------------------------------------------*/
@@ -48,11 +106,11 @@ ads1115::ads1115(const char* path) :
     m_initialized(false),
     m_devices(1),
     m_i2cBus(-1),
-    m_gain(gainMultiplier::PGA_2_048V),
+    m_gain(gainMultiplier::pga_2_048V),
     m_coefficient(0.0625),
     m_differential(false),
-    m_sampleMode(sampleMode::SINGLE),
-    m_sampleRate(sampleRate::SPS_128)
+    m_sampleMode(sampleMode::single),
+    m_sampleRate(sampleRate::sps128)
 {
     memset(m_i2c, -1, sizeof(m_i2c));
 }
@@ -66,24 +124,16 @@ bool ads1115::init()
 {
     if (!m_enable || m_initialized) return true;
 
-    for (int n = 0; n < m_devices; n++)
+    for (int device = 0; device < m_devices; device++)
     {
-        m_i2c[n] = i2cOpen(m_i2cBus, DEVICE_IDS[n], 0);
-
-        if (m_i2c[n] < 0)
-        {
-            ROS_ERROR("  failed to initialize ADS1115 ADC on I2C bus %d at 0x%x: 0x%x",
-                m_i2cBus, DEVICE_IDS[n], m_i2c[n]);
-
+        if (!openDevice(device) ||
+            !configureDevice(device, 0, state::convert) ||
+            !testDevice(device))
             return false;
-        }
 
-        for (int channel = 0; channel < MAX_CHANNELS; channel++)
-        {
-            if (!configure(n, channel)) return false;
-        }
+        ROS_INFO("  initialized %s %s on I2C%d at 0x%x", getPath(), getType(), m_i2cBus, DEVICE_IDS[device]);
 
-        ROS_INFO("  initialized %s %s on i2c %d 0x%x", getPath(), getType(), m_i2cBus, DEVICE_IDS[n]);
+        dump(device);
     }
 
     m_initialized = true;
@@ -91,21 +141,125 @@ bool ads1115::init()
     return true;
 }
 
+bool ads1115::openDevice(int device)
+{
+    m_i2c[device] = i2cOpen(m_i2cBus, DEVICE_IDS[device], 0);
+
+    if (m_i2c[device] < 0)
+    {
+        ROS_ERROR("  failed to access ADS1115 ADC on I2C%d at 0x%x: %s",
+            m_i2cBus, DEVICE_IDS[device], getError(m_i2c[device]));
+
+        return false;
+    }
+
+    return true;
+}
+
+bool ads1115::testDevice(int device)
+{
+    int result = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
+
+    if (result < 0)
+    {
+        ROS_ERROR("  failed to test ADS1115 conversion at 0x%x: %s", DEVICE_IDS[device], getError(result));
+        return false;
+    }
+
+    return true;
+}
+
+void ads1115::dump(config* conf)
+{
+    ROS_INFO("    operation   = %s", OP[conf->operation]);
+    ROS_INFO("    multiplexer = %s", MULTIPLEXER[conf->multiplexer]);
+    ROS_INFO("    gain        = %s", GAIN[conf->gain]);
+    ROS_INFO("    mode        = %s", conf->mode == sampleMode::single ? "single" : "continuous");
+    ROS_INFO("    rate        = %d s/sec", RATE[conf->rate]);
+    ROS_INFO("    comparator  = %s", COMP[conf->comparator]);
+    ROS_INFO("    polarity    = %s", POLARITY[conf->polarity]);
+    ROS_INFO("    latch       = %s", LATCH[conf->latch]);
+    ROS_INFO("    alert       = %s", ALERT[conf->alert]);
+}
+
+void ads1115::dump(int device)
+{
+    if (!m_enable || m_i2c[device] < 0) return;
+    int word = i2cReadWordData(m_i2c[device], deviceRegister::configuration);
+    dump((config*)&word);
+}
+
+bool ads1115::configureDevice(int device, int deviceChannel, state operation)
+{
+    if (!m_enable || m_i2c[device] < 0) return true;
+
+    config conf;
+    conf.operation = operation;
+    conf.multiplexer = m_differential
+        ? (referenceMode)(referenceMode::diff_0_1 + deviceChannel)
+        : (referenceMode)(referenceMode::single_0 + deviceChannel);
+    conf.gain = m_gain;
+    conf.mode = m_sampleMode;
+    conf.rate = m_sampleRate;
+    conf.comparator = comparatorMode::traditional;
+    conf.polarity = alertPolarity::activeLow;
+    conf.latch = latchMode::nonLatching;
+    conf.alert = alertMode::none;
+
+    int result = i2cWriteWordData(m_i2c[device], deviceRegister::configuration, (unsigned int)conf);
+ 
+    if (result != 0)
+    {
+        ROS_ERROR("  failed to configure ADS1115 at 0x%x: %s", DEVICE_IDS[device], getError(result));
+        return false;
+    }
+
+    return true;
+}
+
+bool ads1115::trigger(int channel)
+{
+    return configure(channel, state::convert);
+}
+
+bool ads1115::poll(int channel)
+{
+    int device = getDevice(channel);
+
+    if (!m_enable || device >= m_devices || m_i2c[device] < 0) return false;
+
+    for (int n = 0; n < 8; n++)
+    {
+        unsigned short word = i2cReadWordData(m_i2c[device], deviceRegister::configuration);
+        config* conf = (config*)&word;
+
+        if (conf->operation == state::convert) return true;
+    }
+
+    return false;
+}
+
 int ads1115::getValue(int channel)
 {
-    int device = channel >> 2;
+    int device = getDevice(channel);
 
-    if (!m_enable || !m_initialized || device >= m_devices || !configure(device, channel)) return 0;
+    if (!m_enable || !m_initialized || device >= m_devices) return 0;
 
-    unsigned short data = i2cReadWordData(m_i2c[device], registers::CONVERT);
+    if (m_sampleMode == sampleMode::single)
+    {
+        if (!trigger(channel) || !poll(channel)) return 0;
+    }
 
-    if (data > 32767) data -= 65535;
+    unsigned short data = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
 
     int ret = int(data * m_coefficient);
 
+    static int prev = 0;
+
     if (channel == 0)
     {
-        ROS_INFO("-- read %d on device %d channel %d", ret, device, channel);
+        if (ret != prev) ROS_INFO("-- read %d on device %d channel %d (original %d)", ret, device, channel, data);
+        prev = ret;
     }
 
     return ret;
@@ -133,29 +287,13 @@ void ads1115::deserialize(ros::NodeHandle node)
     string gainEnum;
     if (ros::param::get(getControllerPath("gain"), gainEnum))
     {
-        if (gainEnum == "6.144V")
+        for (int n = 0; n <= gainMultiplier::pga_0_256V; n++)
         {
-            m_gain = gainMultiplier::PGA_6_144V;
-        }
-        else if (gainEnum == "4.096V")
-        {
-            m_gain = gainMultiplier::PGA_4_096V;
-        }
-        else if (gainEnum == "2.048V")
-        {
-            m_gain = gainMultiplier::PGA_2_048V;
-        }
-        else if (gainEnum == "1.024V")
-        {
-            m_gain = gainMultiplier::PGA_1_024V;
-        }
-        else if (gainEnum == "0.512V")
-        {
-            m_gain = gainMultiplier::PGA_0_512V;
-        }
-        else if (gainEnum == "0.256V")
-        {
-            m_gain = gainMultiplier::PGA_0_256V;
+            if (gainEnum == GAIN[n])
+            {
+                m_gain = (gainMultiplier)n;
+                break;
+            }
         }
 
         m_coefficient = getCoefficient();
@@ -167,39 +305,20 @@ void ads1115::deserialize(ros::NodeHandle node)
 
     if (ros::param::get(getControllerPath("continuous"), continuous))
     {
-        m_sampleMode = continuous ? sampleMode::CONTINUOUS : sampleMode::SINGLE;
+        m_sampleMode = continuous ? sampleMode::continuous : sampleMode::single;
     }
 
     int sampleRateNumber;
 
     if (ros::param::get(getControllerPath("rate"), sampleRateNumber))
     {
-        switch(sampleRateNumber)
+        for (int n = 0; n <= sampleRate::sps860; n++)
         {
-        case 8:
-            m_sampleRate = sampleRate::SPS_8;
-            break;
-        case 16:
-            m_sampleRate = sampleRate::SPS_16;
-            break;
-        case 32:
-            m_sampleRate = sampleRate::SPS_32;
-            break;
-        case 64:
-            m_sampleRate = sampleRate::SPS_64;
-            break;
-        case 128:
-            m_sampleRate = sampleRate::SPS_128;
-            break;
-        case 250:
-            m_sampleRate = sampleRate::SPS_250;
-            break;
-        case 475:
-            m_sampleRate = sampleRate::SPS_475;
-            break;
-        case 860:
-            m_sampleRate = sampleRate::SPS_860;
-            break;
+            if (sampleRateNumber == RATE[n])
+            {
+                m_sampleRate = (sampleRate)n;
+                break;
+            }
         }
     }
 }
@@ -213,17 +332,17 @@ double ads1115::getCoefficient()
 {
     switch(m_gain)
     {
-    case PGA_6_144V:
+    case pga_6_144V:
         return 0.1875;
-    case PGA_4_096V:
+    case pga_4_096V:
         return 0.125;
-    case PGA_2_048V:
+    case pga_2_048V:
         return 0.0625;
-    case PGA_1_024V:
+    case pga_1_024V:
         return 0.03125;
-    case PGA_0_512V:
+    case pga_0_512V:
         return 0.015625;
-    case PGA_0_256V:
+    case pga_0_256V:
         return 0.0078125;
     default:
         return 0.125;
@@ -266,53 +385,44 @@ void ads1115::setSampleRate(sampleRate sampleRate)
     m_sampleRate = sampleRate;
 }
 
-bool ads1115::configure(int device, int channel)
+bool ads1115::configure(int channel, state operation)
 {
-    if (!m_enable || m_i2c[device] < 0) return true;
+    int device = getDevice(channel);
+    int deviceChannel = channel - device * 4;
 
-    unsigned char ref = m_differential
-        ? referenceMode::DIFF_0_1 + channel
-        : referenceMode::SINGLE_0 + channel;
+    return configureDevice(device, deviceChannel, operation);
+}
 
-    unsigned char reg[2] =
-    {
-        (unsigned char)(command::CONV | ref | m_gain | m_sampleMode),
-        (unsigned char)(m_sampleRate | alertMode::NONE)
-    };
-
-    unsigned short* word = (unsigned short*)reg;
-    int result = i2cWriteWordData(m_i2c[device], registers::CONFIG, *word);
-    const char* error = NULL;
+const char* ads1115::getError(int result)
+{
+    static char buffer[256] = {0};
 
     switch (result)
     {
+    case PI_BAD_I2C_BUS:
+        return "bad I2C bus";
+    case PI_BAD_I2C_ADDR:
+        return "bad I2C address";
+    case PI_BAD_FLAGS:
+        return "bad I2C flags";
+    case PI_NO_HANDLE:
+        return "no handle";
+    case PI_I2C_OPEN_FAILED:
+        return "I2C open failed";
     case PI_BAD_HANDLE:
-        error = "bad handle";
-        break;
+        return "bad handle";
     case PI_BAD_PARAM:
-        error = "bad param";
-        break;
+        return "bad param";
     case PI_I2C_WRITE_FAILED:
-        error = "I2C write failed";
-        break;
+        return "I2C write failed";
+    case PI_I2C_READ_FAILED:
+        return "I2C read failed";
+    default:
+        {
+            sprintf(buffer, "unknown error %d (0x%x)", result, result);
+            return buffer;
+        }
     }
-
-    if (result != 0)
-    {
-        ROS_ERROR("  failed to configure ADS1115 at 0x%x %s",
-            DEVICE_IDS[device], error);
-
-        return false;
-    }
-    else
-    {
-#if DEBUG
-        ROS_INFO("  wrote 0x%x to register 0x%x on 0x%x",
-            *word, registers::CONFIG, DEVICE_IDS[device]);
-#endif
-    }
-
-    return true;
 }
 
 controller* ads1115::create(const char* path)
