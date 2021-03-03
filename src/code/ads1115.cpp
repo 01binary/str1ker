@@ -8,7 +8,7 @@
                                                                                      ███████                  
  ads1115.cpp
 
- Analog to Digital Converter using ADS1115 implementation
+ Analog to Digital Converter Using ADS1115 Implementation
  Created 02/22/2021
 
  This software is licensed under GNU GPLv3
