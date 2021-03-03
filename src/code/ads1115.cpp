@@ -65,6 +65,12 @@ const char* ads1115::GAIN[] =
     "0.256V"
 };
 
+const char* ads1115::MODE[] =
+{
+    "continuous",
+    "single"
+};
+
 const int ads1115::RATE[] =
 {
     8, 16, 32, 64, 128, 250, 475, 860
@@ -105,13 +111,12 @@ ads1115::ads1115(const char* path) :
     adc(path),
     m_initialized(false),
     m_devices(1),
-    m_i2cBus(-1),
-    m_gain(gainMultiplier::pga_2_048V),
-    m_coefficient(0.0625),
-    m_differential(false),
-    m_sampleMode(sampleMode::single),
-    m_sampleRate(sampleRate::sps128)
+    m_i2cBus(-1)
 {
+    setGain(gainMultiplier::pga_2_048V);
+    setDifferential(false);
+    setSampleMode(sampleMode::single);
+    setSampleRate(sampleRate::sps128);
     memset(m_i2c, -1, sizeof(m_i2c));
 }
 
@@ -127,13 +132,9 @@ bool ads1115::init()
     for (int device = 0; device < m_devices; device++)
     {
         if (!openDevice(device) ||
-            !configureDevice(device, 0, state::convert) ||
+            !configureDevice(device, 0, state::idle) ||
             !testDevice(device))
             return false;
-
-        ROS_INFO("  initialized %s %s on I2C%d at 0x%x", getPath(), getType(), m_i2cBus, DEVICE_IDS[device]);
-
-        dump(device);
     }
 
     m_initialized = true;
@@ -158,12 +159,40 @@ bool ads1115::openDevice(int device)
 
 bool ads1115::testDevice(int device)
 {
+    if (!m_enable || m_i2c[device] < 0) return true;
+
     int result = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
+
+    gettimeofday(&m_last[device], NULL);
 
     if (result < 0)
     {
         ROS_ERROR("  failed to test ADS1115 conversion at 0x%x: %s", DEVICE_IDS[device], getError(result));
         return false;
+    }
+
+    ROS_INFO("  initialized %s %s on I2C%d at 0x%x", getPath(), getType(), m_i2cBus, DEVICE_IDS[device]);
+
+    int word = i2cReadWordData(m_i2c[device], deviceRegister::configuration);
+    config* conf = (config*)&word;
+    dump(conf);
+
+    if (m_gain != conf->gain)
+    {
+        ROS_WARN("    synced gain from %s to %s", GAIN[m_gain], GAIN[conf->gain]);
+        setGain(conf->gain);
+    }
+
+    if (m_sampleMode != conf->mode)
+    {
+        ROS_WARN("    synced sample mode from %s to %s", MODE[m_sampleMode], MODE[conf->mode]);
+        setSampleMode(conf->mode);
+    }
+
+    if (m_sampleRate != conf->rate)
+    {
+        ROS_WARN("    synced sample rate from %d sps to %d sps", RATE[m_sampleRate], RATE[conf->rate]);
+        setSampleRate(conf->rate);
     }
 
     return true;
@@ -174,19 +203,12 @@ void ads1115::dump(config* conf)
     ROS_INFO("    operation   = %s", OP[conf->operation]);
     ROS_INFO("    multiplexer = %s", MULTIPLEXER[conf->multiplexer]);
     ROS_INFO("    gain        = %s", GAIN[conf->gain]);
-    ROS_INFO("    mode        = %s", conf->mode == sampleMode::single ? "single" : "continuous");
-    ROS_INFO("    rate        = %d s/sec", RATE[conf->rate]);
+    ROS_INFO("    mode        = %s", MODE[conf->mode]);
+    ROS_INFO("    rate        = %d s/sec (%d ms per sample)", RATE[conf->rate], m_sampleTimeMilliseconds);
     ROS_INFO("    comparator  = %s", COMP[conf->comparator]);
     ROS_INFO("    polarity    = %s", POLARITY[conf->polarity]);
     ROS_INFO("    latch       = %s", LATCH[conf->latch]);
     ROS_INFO("    alert       = %s", ALERT[conf->alert]);
-}
-
-void ads1115::dump(int device)
-{
-    if (!m_enable || m_i2c[device] < 0) return;
-    int word = i2cReadWordData(m_i2c[device], deviceRegister::configuration);
-    dump((config*)&word);
 }
 
 bool ads1115::configureDevice(int device, int deviceChannel, state operation)
@@ -239,11 +261,31 @@ bool ads1115::poll(int channel)
     return false;
 }
 
+void ads1115::wait(int device)
+{
+    timeval now;
+    gettimeofday(&now, NULL);
+
+    time_t diffSeconds = now.tv_sec - m_last[device].tv_sec;
+    time_t diffMicroseconds = now.tv_usec - m_last[device].tv_usec;
+    unsigned int diffMilliseconds = diffSeconds * 1000 + diffMicroseconds / 1000;
+
+    if (diffMilliseconds < m_sampleTimeMilliseconds)
+    {
+        unsigned int diff = m_sampleTimeMilliseconds - diffMilliseconds;
+        usleep(diff * 1000);
+    }
+
+    gettimeofday(&m_last[device], NULL);
+}
+
 int ads1115::getValue(int channel)
 {
     int device = getDevice(channel);
 
     if (!m_enable || !m_initialized || device >= m_devices) return 0;
+
+    wait(device);
 
     if (m_sampleMode == sampleMode::single)
     {
@@ -254,13 +296,7 @@ int ads1115::getValue(int channel)
 
     int ret = int(data * m_coefficient);
 
-    static int prev = 0;
-
-    if (channel == 0)
-    {
-        if (ret != prev) ROS_INFO("-- read %d on device %d channel %d (original %d)", ret, device, channel, data);
-        prev = ret;
-    }
+    if (channel == 0) ROS_INFO("-- read %d on device %d channel %d (original %d)", ret, device, channel, data);
 
     return ret;
 }
@@ -284,39 +320,35 @@ void ads1115::deserialize(ros::NodeHandle node)
     ros::param::get(getControllerPath("i2c"), m_i2cBus);
     ros::param::get(getControllerPath("devices"), m_devices);
 
-    string gainEnum;
-    if (ros::param::get(getControllerPath("gain"), gainEnum))
+    string gain;
+    if (ros::param::get(getControllerPath("gain"), gain))
     {
         for (int n = 0; n <= gainMultiplier::pga_0_256V; n++)
         {
-            if (gainEnum == GAIN[n])
+            if (gain == GAIN[n])
             {
-                m_gain = (gainMultiplier)n;
+                setGain((gainMultiplier)n);
                 break;
             }
         }
-
-        m_coefficient = getCoefficient();
     }
 
-    ros::param::get(getControllerPath("differential"), m_differential);
+    bool diff = false;
+    if (ros::param::get(getControllerPath("differential"), diff))
+        setDifferential(diff);
 
     bool continuous = false;
-
     if (ros::param::get(getControllerPath("continuous"), continuous))
-    {
-        m_sampleMode = continuous ? sampleMode::continuous : sampleMode::single;
-    }
+        setSampleMode(continuous ? sampleMode::continuous : sampleMode::single);
 
-    int sampleRateNumber;
-
-    if (ros::param::get(getControllerPath("rate"), sampleRateNumber))
+    int rate;
+    if (ros::param::get(getControllerPath("rate"), rate))
     {
         for (int n = 0; n <= sampleRate::sps860; n++)
         {
-            if (sampleRateNumber == RATE[n])
+            if (rate == RATE[n])
             {
-                m_sampleRate = (sampleRate)n;
+                setSampleRate((sampleRate)n);
                 break;
             }
         }
@@ -328,31 +360,33 @@ ads1115::gainMultiplier ads1115::getGain()
     return m_gain;
 }
 
-double ads1115::getCoefficient()
-{
-    switch(m_gain)
-    {
-    case pga_6_144V:
-        return 0.1875;
-    case pga_4_096V:
-        return 0.125;
-    case pga_2_048V:
-        return 0.0625;
-    case pga_1_024V:
-        return 0.03125;
-    case pga_0_512V:
-        return 0.015625;
-    case pga_0_256V:
-        return 0.0078125;
-    default:
-        return 0.125;
-    }
-}
-
 void ads1115::setGain(gainMultiplier gain)
 {
     m_gain = gain;
-    m_coefficient = getCoefficient();
+    
+    switch(m_gain)
+    {
+    case pga_6_144V:
+        m_coefficient = 0.1875;
+        break;
+    case pga_4_096V:
+        m_coefficient = 0.125;
+        break;
+    case pga_2_048V:
+        m_coefficient = 0.0625;
+        break;
+    case pga_1_024V:
+        m_coefficient = 0.03125;
+        break;
+    case pga_0_512V:
+        m_coefficient = 0.015625;
+        break;
+    case pga_0_256V:
+        m_coefficient = 0.0078125;
+        break;
+    default:
+        m_coefficient = 0.125;
+    }
 }
 
 bool ads1115::getDifferential()
@@ -383,6 +417,7 @@ ads1115::sampleRate ads1115::getSampleRate()
 void ads1115::setSampleRate(sampleRate sampleRate)
 {
     m_sampleRate = sampleRate;
+    m_sampleTimeMilliseconds = 1000 / RATE[m_sampleRate];
 }
 
 bool ads1115::configure(int channel, state operation)

@@ -27,6 +27,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#include <sys/time.h>
 #include <string>
 #include "adc.h"
 
@@ -42,9 +43,9 @@ namespace str1ker {
 
 /*
 
- Wiring ADS1115 on Raspberri PI 4B I2C0:
+ Wiring ADS1115 on Raspberri PI 4B I2C1:
 
- VDD - 5V
+ VDD - 3V3
  GND - GND
  SCL - SCL
  SDA - SDA
@@ -146,35 +147,6 @@ public:
     static const char TYPE[];
 
 private:
-    static const unsigned char DEVICE_IDS[];
-    static const char* OP[];
-    static const char* MULTIPLEXER[];
-    static const char* GAIN[];
-    static const int RATE[];
-    static const char* COMP[];
-    static const char* LATCH[];
-    static const char* ALERT[];
-    static const char* POLARITY[];
-
-    struct config
-    {
-        alertMode alert : 2;
-        latchMode latch: 1;
-        alertPolarity polarity: 1;
-        comparatorMode comparator: 1;
-        sampleRate rate: 3;
-        sampleMode mode: 1;
-        gainMultiplier gain: 3;
-        referenceMode multiplexer: 3;
-        state operation: 1;
-
-        explicit operator unsigned int()
-        {
-            return (unsigned int)(*((unsigned short*)this));
-        }
-    };
-
-private:
      // I2C bus ID where ADS1115 is attached
     int m_i2cBus;
 
@@ -186,6 +158,9 @@ private:
 
     // Number of chained ADS1115 devices up to MAX_DEVICES
     int m_devices;
+
+    // Last time each device was sampled
+    timeval m_last[MAX_DEVICES];
 
     // Gain mode
     gainMultiplier m_gain;
@@ -201,6 +176,9 @@ private:
 
     // Sample rate
     sampleRate m_sampleRate;
+
+    // Time it takes to acquire a sample
+    unsigned int m_sampleTimeMilliseconds;
 
 public:
     ads1115(const char* path);
@@ -241,6 +219,36 @@ public:
     void setSampleRate(sampleRate sampleRate);
 
 private:
+    static const unsigned char DEVICE_IDS[];
+    static const char* OP[];
+    static const char* MULTIPLEXER[];
+    static const char* GAIN[];
+    static const char* MODE[];
+    static const int RATE[];
+    static const char* COMP[];
+    static const char* LATCH[];
+    static const char* ALERT[];
+    static const char* POLARITY[];
+
+    struct config
+    {
+        alertMode alert : 2;
+        latchMode latch: 1;
+        alertPolarity polarity: 1;
+        comparatorMode comparator: 1;
+        sampleRate rate: 3;
+        sampleMode mode: 1;
+        gainMultiplier gain: 3;
+        referenceMode multiplexer: 3;
+        state operation: 1;
+
+        explicit operator unsigned int()
+        {
+            return (unsigned int)(*((unsigned short*)this));
+        }
+    };
+
+private:
     bool openDevice(int device);
     bool testDevice(int device);
     bool configureDevice(int device, int deviceChannel, state operation);
@@ -248,8 +256,8 @@ private:
     bool configure(int channel, state operation);
     bool trigger(int channel);
     bool poll(int channel);
+    void wait(int device);
     void dump(config* conf);
-    void dump(int device);
     double getCoefficient();
     const char* getError(int result);
 
