@@ -131,7 +131,7 @@ bool ads1115::init()
     for (int device = 0; device < m_devices; device++)
     {
         if (!openDevice(device) ||
-            !configureDevice(device, 0, state::idle) ||
+            !configureDevice(device, 0, state::idle, true) ||
             !testDevice(device))
             return false;
     }
@@ -160,6 +160,8 @@ bool ads1115::testDevice(int device)
 {
     if (!m_enable || m_i2c[device] < 0) return true;
 
+    usleep(m_sampleTimeMilliseconds * 1000);
+
     int result = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
 
     gettimeofday(&m_last[device], NULL);
@@ -172,7 +174,7 @@ bool ads1115::testDevice(int device)
 
     ROS_INFO("  initialized %s %s on I2C%d at 0x%x", getPath(), getType(), m_i2cBus, DEVICE_IDS[device]);
 
-    int word = i2cReadWordData(m_i2c[device], deviceRegister::configuration);
+    unsigned short word = i2cReadWordData(m_i2c[device], deviceRegister::configuration);
     config* conf = (config*)&word;
     dump(conf);
 
@@ -197,14 +199,14 @@ void ads1115::dump(config* conf)
     ROS_INFO("    multiplexer = %s", MULTIPLEXER[conf->multiplexer]);
     ROS_INFO("    gain        = %s", GAIN[conf->gain]);
     ROS_INFO("    mode        = %s", MODE[conf->mode]);
-    ROS_INFO("    rate        = %d s/sec (%d ms per sample)", RATE[conf->rate], m_sampleTimeMilliseconds);
+    ROS_INFO("    rate        = %d s/sec (%d ms per sample)", RATE[conf->rate], 1000 / RATE[conf->rate]);
     ROS_INFO("    comparator  = %s", COMP[conf->comparator]);
     ROS_INFO("    polarity    = %s", POLARITY[conf->polarity]);
     ROS_INFO("    latch       = %s", LATCH[conf->latch]);
     ROS_INFO("    alert       = %s", ALERT[conf->alert]);
 }
 
-bool ads1115::configureDevice(int device, int deviceChannel, state operation)
+bool ads1115::configureDevice(int device, int deviceChannel, state operation, bool reset)
 {
     if (!m_enable || m_i2c[device] < 0) return true;
 
@@ -214,7 +216,7 @@ bool ads1115::configureDevice(int device, int deviceChannel, state operation)
         ? (referenceMode)(referenceMode::diff_0_1 + deviceChannel)
         : (referenceMode)(referenceMode::single_0 + deviceChannel);
     conf.gain = m_gain;
-    conf.mode = sampleMode::single;
+    conf.mode = reset ? sampleMode::continuous : sampleMode::single;
     conf.rate = m_sampleRate;
     conf.comparator = comparatorMode::traditional;
     conf.polarity = alertPolarity::activeLow;
@@ -227,6 +229,21 @@ bool ads1115::configureDevice(int device, int deviceChannel, state operation)
     {
         ROS_ERROR("  failed to configure ADS1115 at 0x%x: %s", DEVICE_IDS[device], getError(result));
         return false;
+    }
+
+    if (reset)
+    {
+        result = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
+
+        conf.mode = sampleMode::single;
+
+        result = i2cWriteWordData(m_i2c[device], deviceRegister::configuration, (unsigned int)conf);
+ 
+        if (result != 0)
+        {
+            ROS_ERROR("  failed to reset ADS1115 at 0x%x: %s", DEVICE_IDS[device], getError(result));
+            return false;
+        }
     }
 
     return true;
@@ -266,7 +283,7 @@ void ads1115::wait(int device)
     if (diffMilliseconds < m_sampleTimeMilliseconds)
     {
         unsigned int diff = m_sampleTimeMilliseconds - diffMilliseconds;
-        usleep(diff * 1000 + 30);
+        usleep(diff * 1000 + 20);
     }
 
     gettimeofday(&m_last[device], NULL);
@@ -282,18 +299,30 @@ int ads1115::getValue(int channel)
 
     wait(device);
 
-    unsigned short sample = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
-    int ret = int(sample * m_coefficient);
+    int bigEndian = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
+    char* bigEndianBytes = (char*)&bigEndian;
+    char littleEndianBytes[] = {bigEndianBytes[1], bigEndianBytes[0]};
+    unsigned short littleEndian = *((unsigned short*)littleEndianBytes);
 
-    ROS_INFO("-- read %d (%d | 0x%x) on device %d channel %d", ret, sample, sample, device, channel);
+    int result = littleEndian;
 
-    return ret;
+    ROS_INFO(
+        "-- read %d (<= %d 0x%x) [0x%x 0x%x] max %d on device %d channel %d",
+        result,
+        littleEndian,
+        littleEndian,
+        bigEndianBytes[0], bigEndianBytes[1],
+        getMaxValue(),
+        device,
+        channel);
+
+    return result;
 }
 
 int ads1115::getMaxValue()
 {
-    // ADS1115 is 16-bit, but 1 bit is used for differential sign
-    return 1 << 15;
+    // ADS1115 is 16-bit
+    return 1 << 16;
 }
 
 int ads1115::getChannels()
@@ -348,30 +377,6 @@ ads1115::gainMultiplier ads1115::getGain()
 void ads1115::setGain(gainMultiplier gain)
 {
     m_gain = gain;
-    
-    switch(m_gain)
-    {
-    case pga_6_144V:
-        m_coefficient = 0.1875;
-        break;
-    case pga_4_096V:
-        m_coefficient = 0.125;
-        break;
-    case pga_2_048V:
-        m_coefficient = 0.0625;
-        break;
-    case pga_1_024V:
-        m_coefficient = 0.03125;
-        break;
-    case pga_0_512V:
-        m_coefficient = 0.015625;
-        break;
-    case pga_0_256V:
-        m_coefficient = 0.0078125;
-        break;
-    default:
-        m_coefficient = 0.125;
-    }
 }
 
 bool ads1115::getDifferential()
@@ -400,7 +405,7 @@ bool ads1115::configure(int channel, state operation)
     int device = getDevice(channel);
     int deviceChannel = channel - device * 4;
 
-    return configureDevice(device, deviceChannel, operation);
+    return configureDevice(device, deviceChannel, operation, false);
 }
 
 const char* ads1115::getError(int result)

@@ -165,9 +165,6 @@ private:
     // Gain mode
     gainMultiplier m_gain;
 
-    // Gain coefficient
-    double m_coefficient;
-
     // Reference mode
     bool m_differential;
 
@@ -244,7 +241,7 @@ private:
 private:
     bool openDevice(int device);
     bool testDevice(int device);
-    bool configureDevice(int device, int deviceChannel, state operation);
+    bool configureDevice(int device, int deviceChannel, state operation, bool reset);
     inline int getDevice(int channel) { return channel >> 2;}
     bool configure(int channel, state operation);
     bool trigger(int channel);

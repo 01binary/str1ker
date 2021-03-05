@@ -6,7 +6,7 @@
         enable: true
         i2c: 1
         devices: 1
-        rate: 128
+        rate: 8
       arm1:
         controller: 'arm'
         enable: true
