@@ -171,9 +171,6 @@ private:
     // Reference mode
     bool m_differential;
 
-    // Sample mode
-    sampleMode m_sampleMode;
-
     // Sample rate
     sampleRate m_sampleRate;
 
@@ -209,10 +206,6 @@ public:
     // Reference mode
     bool getDifferential();
     void setDifferential(bool differential);
-
-    // Sample mode
-    sampleMode getSampleMode();
-    void setSampleMode(sampleMode sampleMode);
 
     // Sample rate
     sampleRate getSampleRate();

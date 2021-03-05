@@ -115,7 +115,6 @@ ads1115::ads1115(const char* path) :
 {
     setGain(gainMultiplier::pga_2_048V);
     setDifferential(false);
-    setSampleMode(sampleMode::single);
     setSampleRate(sampleRate::sps128);
     memset(m_i2c, -1, sizeof(m_i2c));
 }
@@ -183,12 +182,6 @@ bool ads1115::testDevice(int device)
         setGain(conf->gain);
     }
 
-    if (m_sampleMode != conf->mode)
-    {
-        ROS_WARN("    synced sample mode from %s to %s", MODE[m_sampleMode], MODE[conf->mode]);
-        setSampleMode(conf->mode);
-    }
-
     if (m_sampleRate != conf->rate)
     {
         ROS_WARN("    synced sample rate from %d sps to %d sps", RATE[m_sampleRate], RATE[conf->rate]);
@@ -221,7 +214,7 @@ bool ads1115::configureDevice(int device, int deviceChannel, state operation)
         ? (referenceMode)(referenceMode::diff_0_1 + deviceChannel)
         : (referenceMode)(referenceMode::single_0 + deviceChannel);
     conf.gain = m_gain;
-    conf.mode = m_sampleMode;
+    conf.mode = sampleMode::single;
     conf.rate = m_sampleRate;
     conf.comparator = comparatorMode::traditional;
     conf.polarity = alertPolarity::activeLow;
@@ -273,7 +266,7 @@ void ads1115::wait(int device)
     if (diffMilliseconds < m_sampleTimeMilliseconds)
     {
         unsigned int diff = m_sampleTimeMilliseconds - diffMilliseconds;
-        usleep(diff * 1000);
+        usleep(diff * 1000 + 30);
     }
 
     gettimeofday(&m_last[device], NULL);
@@ -285,26 +278,22 @@ int ads1115::getValue(int channel)
 
     if (!m_enable || !m_initialized || device >= m_devices) return 0;
 
+    if (!trigger(channel) || !poll(channel)) return 0;
+
     wait(device);
 
-    if (m_sampleMode == sampleMode::single)
-    {
-        if (!trigger(channel) || !poll(channel)) return 0;
-    }
+    unsigned short sample = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
+    int ret = int(sample * m_coefficient);
 
-    unsigned short data = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
-
-    int ret = int(data * m_coefficient);
-
-    if (channel == 0) ROS_INFO("-- read %d on device %d channel %d (original %d)", ret, device, channel, data);
+    ROS_INFO("-- read %d (%d | 0x%x) on device %d channel %d", ret, sample, sample, device, channel);
 
     return ret;
 }
 
 int ads1115::getMaxValue()
 {
-    // ADS1115 is 16-bit
-    return 1 << 16;
+    // ADS1115 is 16-bit, but 1 bit is used for differential sign
+    return 1 << 15;
 }
 
 int ads1115::getChannels()
@@ -336,10 +325,6 @@ void ads1115::deserialize(ros::NodeHandle node)
     bool diff = false;
     if (ros::param::get(getControllerPath("differential"), diff))
         setDifferential(diff);
-
-    bool continuous = false;
-    if (ros::param::get(getControllerPath("continuous"), continuous))
-        setSampleMode(continuous ? sampleMode::continuous : sampleMode::single);
 
     int rate;
     if (ros::param::get(getControllerPath("rate"), rate))
@@ -397,16 +382,6 @@ bool ads1115::getDifferential()
 void ads1115::setDifferential(bool differential)
 {
     m_differential = differential;
-}
-
-ads1115::sampleMode ads1115::getSampleMode()
-{
-    return m_sampleMode;
-}
-
-void ads1115::setSampleMode(sampleMode sampleMode)
-{
-    m_sampleMode = sampleMode;
 }
 
 ads1115::sampleRate ads1115::getSampleRate()

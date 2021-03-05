@@ -6,8 +6,7 @@
         enable: true
         i2c: 1
         devices: 1
-        rate: 8
-        continuous: false
+        rate: 128
       arm1:
         controller: 'arm'
         enable: true
@@ -30,7 +29,7 @@
           feedback:
             controller: 'potentiometer'
             enable: true
-            adc: 'ads1115'
+            adc: 'ads1115?'
             id: 1
         forearm:
           controller: 'linear'
@@ -41,7 +40,7 @@
           feedback:
             controller: 'potentiometer'
             enable: true
-            adc: 'ads1115'
+            adc: 'ads1115?'
             id: 2
         trigger:
           controller: 'solenoid'
