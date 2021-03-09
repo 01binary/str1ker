@@ -99,7 +99,7 @@ void pwmServo::setPos(double pos)
         cur = getPos();
         delta = cur - pos;
 
-#if DEBUG
+#ifdef DEBUG
         if (abs(lastCur - cur) > 0.02)
             ROS_INFO("%g -> %g, delta %g", cur, pos, delta);
 #endif
@@ -119,7 +119,7 @@ void pwmServo::deltaPos(double delta)
     double pos = getPos();
     double norm = max(min(pos + delta, 1.0), 0.0);
 
-#if DEBUG
+#ifdef DEBUG
     ROS_INFO("setPos %g + %g = %g", pos, delta, norm);
 #endif
 
