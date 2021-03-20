@@ -119,7 +119,7 @@ void potentiometer::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
 
-    ros::param::get(getControllerPath("id"), m_id);
+    ros::param::get(getControllerPath("channel"), m_id);
 
     string adcName;
     ros::param::get(getControllerPath("adc"), adcName);

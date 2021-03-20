@@ -35,15 +35,26 @@ using namespace std;
 \*----------------------------------------------------------*/
 
 const char ads1115::TYPE[] = "ads1115";
-const unsigned char ads1115::DEVICE_IDS[] = { 0x48, 0x49, 0x4A, 0x4B };
+const uint8_t ads1115::DEVICE_IDS[] = { 0x48, 0x49, 0x4A, 0x4B };
 
-const char* ads1115::OP[] =
+const char* ads1115::OP_NAMES_READ[] =
 {
-    "idle",
-    "converting"
+    "busy",
+    "ready"
 };
 
-const char* ads1115::MULTIPLEXER[] =
+const char* ads1115::OP_NAMES_WRITE[] =
+{
+    "idle",
+    "convert"
+};
+
+const uint16_t ads1115::OP_VALUES[] = {
+    operationStatus::read_busy,
+    operationStatus::read_ready
+};
+
+const char* ads1115::MULTIPLEXER_NAMES[] =
 {
     "diff_0_1",
     "diff_0_3",
@@ -55,40 +66,108 @@ const char* ads1115::MULTIPLEXER[] =
     "single_3"
 };
 
-const char* ads1115::GAIN[] =
+const uint16_t ads1115::MULTIPLEXER_VALUES[] =
+{
+    referenceMode::diff_0_1,
+    referenceMode::diff_0_3,
+    referenceMode::diff_1_3,
+    referenceMode::diff_2_3,
+    referenceMode::single_0,
+    referenceMode::single_1,
+    referenceMode::single_2,
+    referenceMode::single_3
+};
+
+const char* ads1115::GAIN_NAMES[] =
 {
     "6.144V",
     "4.096V",
     "2.048V",
     "1.024V",
     "0.512V",
-    "0.256V"
+    "0.256V",
+    "0.256V2",
+    "0.256V3"
 };
 
-const char* ads1115::MODE[] =
+const uint16_t ads1115::GAIN_VALUES[] =
+{
+    gainMultiplier::pga_6_144V,
+    gainMultiplier::pga_4_096V,
+    gainMultiplier::pga_2_048V,
+    gainMultiplier::pga_1_024V,
+    gainMultiplier::pga_0_512V,
+    gainMultiplier::pga_0_256V,
+    gainMultiplier::pga_0_256V2,
+    gainMultiplier::pga_0_256V3
+};
+
+const char* ads1115::MODE_NAMES[] =
 {
     "continuous",
     "single"
 };
 
-const int ads1115::RATE[] =
+const uint16_t ads1115::MODE_VALUES[] =
+{
+    sampleMode::continuous,
+    sampleMode::single
+};
+
+const int ads1115::RATE_NAMES[] =
 {
     8, 16, 32, 64, 128, 250, 475, 860
 };
 
-const char* ads1115::COMP[] =
+const char* ads1115::RATE_NAMES_PRINT[] =
+{
+    "sps8",
+    "sps16",
+    "sps32",
+    "sps64",
+    "sps128",
+    "sps250",
+    "sps475",
+    "sps860"
+};
+
+const uint16_t ads1115::RATE_VALUES[] =
+{
+    ads1115::sps8,
+    ads1115::sps16,
+    ads1115::sps32,
+    ads1115::sps64,
+    ads1115::sps128,
+    ads1115::sps250,
+    ads1115::sps475,
+    ads1115::sps860
+};
+
+const char* ads1115::COMP_NAMES[] =
 {
     "traditional",
     "window"
 };
 
-const char* ads1115::LATCH[] =
+const uint16_t ads1115::COMP_VALUES[] =
+{
+    comparatorMode::traditional,
+    comparatorMode::window
+};
+
+const char* ads1115::LATCH_NAMES[] =
 {
     "non-latching",
     "latching"
 };
 
-const char* ads1115::ALERT[] =
+const uint16_t ads1115::LATCH_VALUES[] =
+{
+    latchMode::nonLatching,
+    latchMode::latching
+};
+
+const char* ads1115::ALERT_NAMES[] =
 {
     "alert1",
     "alert2",
@@ -96,9 +175,40 @@ const char* ads1115::ALERT[] =
     "none"
 };
 
-const char* ads1115::POLARITY[] = {
+const uint16_t ads1115::ALERT_VALUES[] =
+{
+    alertMode::alert1,
+    alertMode::alert2,
+    alertMode::alert4,
+    alertMode::none
+};
+
+const char* ads1115::POLARITY_NAMES[] =
+{
     "active low",
     "active high"
+};
+
+const uint16_t ads1115::POLARITY_VALUES[] =
+{
+    alertPolarity::activeLow,
+    alertPolarity::activeHigh
+};
+
+const uint16_t ads1115::MUX_SINGLE[] =
+{
+    ads1115::single_0,
+    ads1115::single_1,
+    ads1115::single_2,
+    ads1115::single_3
+};
+
+const uint16_t ads1115::MUX_DIFF[] =
+{
+    ads1115::diff_0_1,
+    ads1115::diff_0_3,
+    ads1115::diff_1_3,
+    ads1115::diff_2_3
 };
 
 /*----------------------------------------------------------*\
@@ -114,9 +224,9 @@ ads1115::ads1115(const char* path) :
     m_i2cBus(-1)
 {
     setGain(gainMultiplier::pga_2_048V);
-    setDifferential(false);
     setSampleRate(sampleRate::sps128);
     memset(m_i2c, -1, sizeof(m_i2c));
+    memset(m_samples, 0, sizeof(m_samples));
 }
 
 const char* ads1115::getType()
@@ -131,7 +241,7 @@ bool ads1115::init()
     for (int device = 0; device < m_devices; device++)
     {
         if (!openDevice(device) ||
-            !configureDevice(device, 0, state::idle, true) ||
+            !configureDevice(device, 0) ||
             !testDevice(device))
             return false;
     }
@@ -160,11 +270,7 @@ bool ads1115::testDevice(int device)
 {
     if (!m_enable || m_i2c[device] < 0) return true;
 
-    usleep(m_sampleTimeMilliseconds * 1000);
-
     int result = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
-
-    gettimeofday(&m_last[device], NULL);
 
     if (result < 0)
     {
@@ -173,162 +279,117 @@ bool ads1115::testDevice(int device)
     }
 
     ROS_INFO("  initialized %s %s on I2C%d at 0x%x", getPath(), getType(), m_i2cBus, DEVICE_IDS[device]);
-
-    unsigned short word = i2cReadWordData(m_i2c[device], deviceRegister::configuration);
-    config* conf = (config*)&word;
-    dump(conf);
-
-    if (m_gain != conf->gain)
-    {
-        ROS_WARN("    synced gain from %s to %s", GAIN[m_gain], GAIN[conf->gain]);
-        setGain(conf->gain);
-    }
-
-    if (m_sampleRate != conf->rate)
-    {
-        ROS_WARN("    synced sample rate from %d sps to %d sps", RATE[m_sampleRate], RATE[conf->rate]);
-        setSampleRate(conf->rate);
-    }
-
     return true;
 }
 
-void ads1115::dump(config* conf)
-{
-    ROS_INFO("    operation   = %s", OP[conf->operation]);
-    ROS_INFO("    multiplexer = %s", MULTIPLEXER[conf->multiplexer]);
-    ROS_INFO("    gain        = %s", GAIN[conf->gain]);
-    ROS_INFO("    mode        = %s", MODE[conf->mode]);
-    ROS_INFO("    rate        = %d s/sec (%d ms per sample)", RATE[conf->rate], 1000 / RATE[conf->rate]);
-    ROS_INFO("    comparator  = %s", COMP[conf->comparator]);
-    ROS_INFO("    polarity    = %s", POLARITY[conf->polarity]);
-    ROS_INFO("    latch       = %s", LATCH[conf->latch]);
-    ROS_INFO("    alert       = %s", ALERT[conf->alert]);
-}
-
-bool ads1115::configureDevice(int device, int deviceChannel, state operation, bool reset)
+bool ads1115::configureDevice(int device, int deviceChannel)
 {
     if (!m_enable || m_i2c[device] < 0) return true;
 
-    config conf;
-    conf.operation = operation;
-    conf.multiplexer = m_differential
-        ? (referenceMode)(referenceMode::diff_0_1 + deviceChannel)
-        : (referenceMode)(referenceMode::single_0 + deviceChannel);
-    conf.gain = m_gain;
-    conf.mode = reset ? sampleMode::continuous : sampleMode::single;
-    conf.rate = m_sampleRate;
-    conf.comparator = comparatorMode::traditional;
-    conf.polarity = alertPolarity::activeLow;
-    conf.latch = latchMode::nonLatching;
-    conf.alert = alertMode::none;
+    uint16_t conf =
+        operationStatus::write_convert |
+        MUX_SINGLE[deviceChannel] |
+        m_gain |
+        sampleMode::single |
+        m_sampleRate |
+        comparatorMode::traditional |
+        alertPolarity::activeLow |
+        latchMode::nonLatching |
+        alertMode::none;
 
-    int result = i2cWriteWordData(m_i2c[device], deviceRegister::configuration, (unsigned int)conf);
- 
+    ROS_INFO("config chann %d value 0x%x", deviceChannel, conf);
+
+    ROS_INFO("conf >> 12 = 0x%x", conf >> 12);
+    ROS_INFO("single_0 >> 12 = 0x%x", referenceMode::single_0 >> 12);
+    ROS_INFO("single_1 >> 12 = 0x%x", referenceMode::single_1 >> 12);
+    ROS_INFO("single_2 >> 12 = 0x%x", referenceMode::single_2 >> 12);
+    ROS_INFO("single_3 >> 12 = 0x%x", referenceMode::single_3 >> 12);
+
+
+    dump(conf, false);
+
+    int result = i2cWriteWordData(m_i2c[device], deviceRegister::configuration, conf);
+
     if (result != 0)
     {
         ROS_ERROR("  failed to configure ADS1115 at 0x%x: %s", DEVICE_IDS[device], getError(result));
+        dump(conf, false);
         return false;
-    }
-
-    if (reset)
-    {
-        result = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
-
-        conf.mode = sampleMode::single;
-
-        result = i2cWriteWordData(m_i2c[device], deviceRegister::configuration, (unsigned int)conf);
- 
-        if (result != 0)
-        {
-            ROS_ERROR("  failed to reset ADS1115 at 0x%x: %s", DEVICE_IDS[device], getError(result));
-            return false;
-        }
     }
 
     return true;
 }
 
-bool ads1115::trigger(int channel)
+bool ads1115::poll(int device)
 {
-    return configure(channel, state::convert);
-}
-
-bool ads1115::poll(int channel)
-{
-    int device = getDevice(channel);
-
     if (!m_enable || device >= m_devices || m_i2c[device] < 0) return false;
 
-    for (int n = 0; n < 8; n++)
+    for (int n = 0; n < MAX_ATTEMPTS; n++)
     {
-        unsigned short word = i2cReadWordData(m_i2c[device], deviceRegister::configuration);
-        config* conf = (config*)&word;
-
-        if (conf->operation == state::convert) return true;
+        uint16_t conf = i2cReadWordData(m_i2c[device], deviceRegister::configuration);
+        if (conf & operationStatus::read_ready) return true;
     }
+
+#ifdef DEBUG
+    ROS_WARN("  failed to poll ADS1115 at 0x%x after %d attempts", DEVICE_IDS[device], MAX_ATTEMPTS);
+#endif
 
     return false;
 }
 
-void ads1115::wait(int device)
-{
-    timeval now;
-    gettimeofday(&now, NULL);
-
-    time_t diffSeconds = now.tv_sec - m_last[device].tv_sec;
-    time_t diffMicroseconds = now.tv_usec - m_last[device].tv_usec;
-    unsigned int diffMilliseconds = diffSeconds * 1000 + diffMicroseconds / 1000;
-
-    if (diffMilliseconds < m_sampleTimeMilliseconds)
-    {
-        unsigned int diff = m_sampleTimeMilliseconds - diffMilliseconds;
-        usleep(diff * 1000 + 20);
-    }
-
-    gettimeofday(&m_last[device], NULL);
-}
-
 int ads1115::getValue(int channel)
 {
-    int device = getDevice(channel);
-
-    if (!m_enable || !m_initialized || device >= m_devices) return 0;
-
-    if (!trigger(channel) || !poll(channel)) return 0;
-
-    wait(device);
-
-    int bigEndian = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
-    char* bigEndianBytes = (char*)&bigEndian;
-    char littleEndianBytes[] = {bigEndianBytes[1], bigEndianBytes[0]};
-    unsigned short littleEndian = *((unsigned short*)littleEndianBytes);
-
-    int result = littleEndian;
-
-    ROS_INFO(
-        "-- read %d (<= %d 0x%x) [0x%x 0x%x] max %d on device %d channel %d",
-        result,
-        littleEndian,
-        littleEndian,
-        bigEndianBytes[0], bigEndianBytes[1],
-        getMaxValue(),
-        device,
-        channel);
-
-    return result;
+    if (!m_enable || !m_initialized || channel >= m_devices * MAX_CHANNELS) return 0;
+    return m_samples[channel];
 }
 
 int ads1115::getMaxValue()
 {
-    // ADS1115 is 16-bit
-    return 1 << 16;
+    // Single-ended measurements read from 0 to 7FFFh
+    return 0x7FFF;
 }
 
 int ads1115::getChannels()
 {
     // A single ADS1115 has 4 channels
-    return m_devices * 4;
+    return m_devices * MAX_CHANNELS;
+}
+
+void ads1115::publish()
+{
+    if (!m_enable || !m_initialized) return;
+
+    int channel = 0;
+
+    for (int device = 0; device < m_devices; device++)
+    {
+        for (int deviceChannel = 0; deviceChannel < MAX_CHANNELS; deviceChannel++, channel++)
+        {
+            if (configure(channel) && poll(device))
+            {
+                int raw = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
+
+                if (raw < 0)
+                {
+                    ROS_ERROR("  failed to read ADS1115 channel %d conversion at 0x%x: %s",
+                        deviceChannel, DEVICE_IDS[device], getError(raw));
+
+                    continue;
+                }
+
+                uint8_t* data = (uint8_t*)&raw;
+                m_samples[channel] = (data[1] | data[0] << 8);
+            }
+        }
+    }
+
+#ifdef DEBUG
+    ROS_INFO("ADS 1115 [%s] [%s] [%s] [%s]",
+        dumpValue(m_samples[0]).c_str(),
+        dumpValue(m_samples[1]).c_str(),
+        dumpValue(m_samples[2]).c_str(),
+        dumpValue(m_samples[3]).c_str());
+#endif
 }
 
 void ads1115::deserialize(ros::NodeHandle node)
@@ -341,28 +402,18 @@ void ads1115::deserialize(ros::NodeHandle node)
     string gain;
     if (ros::param::get(getControllerPath("gain"), gain))
     {
-        for (int n = 0; n <= gainMultiplier::pga_0_256V; n++)
-        {
-            if (gain == GAIN[n])
-            {
-                setGain((gainMultiplier)n);
-                break;
-            }
-        }
+        m_gain = (gainMultiplier)getFlagsValue(
+            gain.c_str(), GAIN_NAMES, GAIN_VALUES, sizeof(GAIN_VALUES) / sizeof(uint16_t));
     }
-
-    bool diff = false;
-    if (ros::param::get(getControllerPath("differential"), diff))
-        setDifferential(diff);
 
     int rate;
     if (ros::param::get(getControllerPath("rate"), rate))
     {
-        for (int n = 0; n <= sampleRate::sps860; n++)
+        for (int n = 0; n <= sizeof(RATE_NAMES) / sizeof(int); n++)
         {
-            if (rate == RATE[n])
+            if (rate == RATE_NAMES[n])
             {
-                setSampleRate((sampleRate)n);
+                m_sampleRate = (sampleRate)RATE_VALUES[n];
                 break;
             }
         }
@@ -379,16 +430,6 @@ void ads1115::setGain(gainMultiplier gain)
     m_gain = gain;
 }
 
-bool ads1115::getDifferential()
-{
-    return m_differential;
-}
-
-void ads1115::setDifferential(bool differential)
-{
-    m_differential = differential;
-}
-
 ads1115::sampleRate ads1115::getSampleRate()
 {
     return m_sampleRate;
@@ -397,15 +438,102 @@ ads1115::sampleRate ads1115::getSampleRate()
 void ads1115::setSampleRate(sampleRate sampleRate)
 {
     m_sampleRate = sampleRate;
-    m_sampleTimeMilliseconds = 1000 / RATE[m_sampleRate];
 }
 
-bool ads1115::configure(int channel, state operation)
+bool ads1115::configure(int channel)
 {
     int device = getDevice(channel);
-    int deviceChannel = channel - device * 4;
+    return configureDevice(device, channel - device * 4);
+}
 
-    return configureDevice(device, deviceChannel, operation, false);
+const char* ads1115::getFlagsName(uint16_t value, const char** names, const uint16_t* values, int count, int shift)
+{
+    int defaultIndex = -1;
+
+    if (shift) value = (value >> shift) & 0x7;
+
+    for (int n = 0; n < count; n++)
+    {
+        if (values[n] == 0) defaultIndex = n;
+
+        if (shift)
+        {
+            if (values[n] >> shift == value) return names[n];
+        }
+        else
+        {
+            if (value & values[n]) return names[n];
+        }
+    }
+
+    if (defaultIndex != -1) return names[defaultIndex];
+
+    return "unknown";
+}
+
+uint16_t ads1115::getFlagsValue(const char* name, const char** names, const uint16_t* values, int count)
+{
+    for (int n = 0; n < count; n++)
+    {
+        if (strcmp(name, names[n])) return values[n];
+    }
+
+    return 0;
+}
+
+void ads1115::dump(uint16_t conf, bool read)
+{
+    ROS_INFO("    operation   = %s",
+        getFlagsName(conf, read ? OP_NAMES_READ : OP_NAMES_WRITE, OP_VALUES, sizeof(OP_VALUES) / sizeof(uint16_t)));
+
+    ROS_INFO("    multiplexer = %s",
+        getFlagsName(conf, MULTIPLEXER_NAMES, MULTIPLEXER_VALUES, sizeof(MULTIPLEXER_VALUES) / sizeof(uint16_t), 12));
+
+    ROS_INFO("    gain        = %s",
+        getFlagsName(conf, GAIN_NAMES, GAIN_VALUES, sizeof(GAIN_VALUES) / sizeof(uint16_t), 9));
+
+    ROS_INFO("    mode        = %s",
+        getFlagsName(conf, MODE_NAMES, MODE_VALUES, sizeof(MODE_VALUES) / sizeof(uint16_t)));
+
+    ROS_INFO("    rate        = %s",
+        getFlagsName(conf, RATE_NAMES_PRINT, RATE_VALUES, sizeof(RATE_VALUES) / sizeof(uint16_t), 5));
+
+    ROS_INFO("    comparator  = %s",
+        getFlagsName(conf, COMP_NAMES, COMP_VALUES, sizeof(COMP_VALUES) / sizeof(uint16_t)));
+
+    ROS_INFO("    polarity    = %s",
+        getFlagsName(conf, POLARITY_NAMES, POLARITY_VALUES, sizeof(POLARITY_VALUES) / sizeof(uint16_t)));
+
+    ROS_INFO("    latch       = %s",
+        getFlagsName(conf, LATCH_NAMES, LATCH_VALUES, sizeof(LATCH_VALUES) / sizeof(uint16_t)));
+
+    ROS_INFO("    alert       = %s",
+        getFlagsName(conf, ALERT_NAMES, ALERT_VALUES, sizeof(ALERT_VALUES) / sizeof(uint16_t), 0));
+}
+
+string ads1115::dumpValue(int value)
+{
+    const int MIN = 0;
+    const int MAX = 0x7FFF;
+    const int RANGE = MAX - MIN;
+
+    if (value < MIN) value = MIN;
+    if (value > MAX) value = MAX;
+
+    int scaled = int(double(value - MIN) / double(RANGE) * RES);
+    char scale[RES + 1] = {0};
+
+    for (int n = 0; n < RES; n++)
+    {
+        if (n < scaled)
+            scale[n] = '|';
+        else
+            scale[n] = ' ';
+    }
+
+    scale[RES] = 0;
+
+    return scale;
 }
 
 const char* ads1115::getError(int result)

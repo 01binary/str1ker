@@ -1,12 +1,16 @@
 <launch>
-  <node name="robot" pkg="str1ker" type="robot" required="true" output="screen">
+  <node
+    name="robot"
+    pkg="str1ker"
+    type="robot"
+    required="true"
+    output="screen"
+  >
     <rosparam>
       adc:
-        controller: 'ads1115'
+        controller: 'pi16adc'
         enable: true
         i2c: 1
-        devices: 1
-        rate: 8
       arm1:
         controller: 'arm'
         enable: true
@@ -18,8 +22,8 @@
           feedback:
             controller: 'potentiometer'
             enable: true
-            adc: 'ads1115'
-            id: 0
+            adc: 'pi16adc'
+            channel: 0
         upperarm:
           controller: 'linear'
           enable: false
@@ -28,9 +32,9 @@
           time: 5
           feedback:
             controller: 'potentiometer'
-            enable: true
-            adc: 'ads1115?'
-            id: 1
+            enable: false
+            adc: 'pi16adc'
+            channel: 1
         forearm:
           controller: 'linear'
           enable: false
@@ -39,9 +43,9 @@
           time: 4
           feedback:
             controller: 'potentiometer'
-            enable: true
-            adc: 'ads1115?'
-            id: 2
+            enable: false
+            adc: 'pi16adc'
+            channel: 2
         trigger:
           controller: 'solenoid'
           enable: false

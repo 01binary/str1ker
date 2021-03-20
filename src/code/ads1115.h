@@ -22,6 +22,9 @@
 
 #define MAX_DEVICES 4
 #define MAX_CHANNELS 4
+#define TOTAL_CHANNELS MAX_DEVICES * MAX_CHANNELS
+#define MAX_ATTEMPTS 8
+#define RES 16
 
 /*----------------------------------------------------------*\
 | Includes
@@ -57,6 +60,8 @@ namespace str1ker {
  Channels 8 - 11:   tie ADDR to SDA, I2C address 0x4A (3 devices)
  Channels 12 - 15:  tie ADDR to SCL, I2C address 0x4B (4 devices)
 
+ This class supports only single conversions
+
 */
 
 class ads1115 : public adc
@@ -64,82 +69,86 @@ class ads1115 : public adc
 public:
     enum deviceRegister
     {
-        conversion,         // Conversion register
-        configuration,      // Configuration register
-        loThreshold,        // Lo_thresh register
-        hiThreshold         // Hi_thresh register
+        conversion    = 0x0000, // Conversion register
+        configuration = 0x0001, // Configuration register
+        loThreshold   = 0x0002, // Lo_thresh register
+        hiThreshold   = 0x0003  // Hi_thresh register
     };
 
-    enum state
+    enum operationStatus
     {
-        idle,               // Not performing conversion
-        convert             // Perform(ing) conversion
+        write_idle    = 0x0000, // Write: not requesting conversion
+        write_convert = 0x8000, // Write: requesting conversion
+        read_busy     = 0x0000, // Read: conversion not ready
+        read_ready    = 0x8000  // Read 
     };
 
     enum gainMultiplier
     {
-        pga_6_144V,         // +/-6.144V range = Gain 2/3
-        pga_4_096V,         // +/-4.096V range = Gain 1
-        pga_2_048V,         // +/-2.048V range = Gain 2 (default)
-        pga_1_024V,         // +/-1.024V range = Gain 4
-        pga_0_512V,         // +/-0.512V range = Gain 8
-        pga_0_256V         // +/-0.256V range = Gain 16
+        pga_6_144V    = 0x0000, // +/-6.144V range = Gain 2/3
+        pga_4_096V    = 0x0200, // +/-4.096V range = Gain 1
+        pga_2_048V    = 0x0400, // +/-2.048V range = Gain 2 (default)
+        pga_1_024V    = 0x0600, // +/-1.024V range = Gain 4
+        pga_0_512V    = 0x0800, // +/-0.512V range = Gain 8
+        pga_0_256V    = 0x0A00, // +/-0.256V range = Gain 16
+        pga_0_256V2   = 0x0C00, // dummy 1
+        pga_0_256V3   = 0x0E00  // dummy 2
     };
 
     enum referenceMode
     {
-        diff_0_1,           // 000 Differential P = AIN0, N = AIN1 (default)
-        diff_0_3,           // 001 Differential P = AIN0, N = AIN3
-        diff_1_3,           // 010 Differential P = AIN1, N = AIN3
-        diff_2_3,           // 011 Differential P = AIN2, N = AIN3
-        single_0,           // 100 Single-ended P = AIN0, N = GND
-        single_1,           // 101 Single-ended P = AIN1, N = GND
-        single_2,           // 110 Single-ended P = AIN2, N = GND
-        single_3            // 111 Single-ended P = AIN3, N = GND
+        diff_0_1      = 0x0000, // 000 Differential P = AIN0, N = AIN1 (default)
+        diff_0_3      = 0x1000, // 001 Differential P = AIN0, N = AIN3
+        diff_1_3      = 0x2000, // 010 Differential P = AIN1, N = AIN3
+        diff_2_3      = 0x3000, // 011 Differential P = AIN2, N = AIN3
+        single_0      = 0x4000, // 100 Single-ended P = AIN0, N = GND
+        single_1      = 0x5000, // 101 Single-ended P = AIN1, N = GND
+        single_2      = 0x6000, // 110 Single-ended P = AIN2, N = GND
+        single_3      = 0x7000  // 111 Single-ended P = AIN3, N = GND
     };
 
     enum sampleMode
     {
-        continuous,         // Continuous conversion mode
-        single              // Power-down single-shot mode (default)
+        continuous    = 0x000,  // Continuous conversion mode
+        single        = 0x0100  // Power-down single-shot mode (default)
     };
 
     enum sampleRate
     {
-        sps8,               // 8 samples per second
-        sps16,              // 16 samples per second
-        sps32,              // 32 samples per second
-        sps64,              // 64 samples per second
-        sps128,             // 128 samples per second (default)
-        sps250,             // 250 samples per second
-        sps475,             // 475 samples per second
-        sps860              // 860 samples per second
+        sps8          = 0x0000, // 8 samples per second
+        sps16         = 0x0020, // 16 samples per second
+        sps32         = 0x0040, // 32 samples per second
+        sps64         = 0x0060, // 64 samples per second
+        sps128        = 0x0080, // 128 samples per second (default)
+        sps250        = 0x00A0, // 250 samples per second
+        sps475        = 0x00C0, // 475 samples per second
+        sps860        = 0x00E0  // 860 samples per second
     };
 
     enum comparatorMode
     {
-        traditional,        // Traditional comparator (default)
-        window              // Window comparator
+        traditional   = 0x0000, // Traditional comparator (default)
+        window        = 0x0010  // Window comparator
     };
 
     enum latchMode
     {
-        nonLatching,        // The ALERT/RDY pin does not latch when asserted (default)
-        latching            // The asserted ALERT/RDY pin remains latched until data is read
+        nonLatching   = 0x0000, // The ALERT/RDY pin does not latch when asserted (default)
+        latching      = 0x0004  // The asserted ALERT/RDY pin remains latched until data is read
     };
 
     enum alertMode
     {
-        alert1,             // Assert ALERT/RDY after one conversions
-        alert2,             // Assert ALERT/RDY after two conversions
-        alert4,             // Assert ALERT/RDY after four conversions
-        none                // Disable the comparator and put ALERT/RDY in high state (default)
+        alert1        = 0x0000, // Assert ALERT/RDY after one conversions
+        alert2        = 0x0001, // Assert ALERT/RDY after two conversions
+        alert4        = 0x0002, // Assert ALERT/RDY after four conversions
+        none          = 0x0003  // Disable the comparator and put ALERT/RDY in high state (default)
     };
 
     enum alertPolarity
     {
-        activeLow,          // Polarity of the ALERT/RDY pin active low (default)
-        activeHigh          // Polarity of the ALERT/RDY pin active high
+        activeLow     = 0x0000, // Polarity of the ALERT/RDY pin active low (default)
+        activeHigh    = 0x0008  // Polarity of the ALERT/RDY pin active high
     };
 
 public:
@@ -153,26 +162,20 @@ private:
     // I2C device handles
     int m_i2c[MAX_DEVICES];
 
+    // Last published values for all channels
+    int m_samples[TOTAL_CHANNELS];
+
     // Whether ADS was initialized
     bool m_initialized;
 
     // Number of chained ADS1115 devices up to MAX_DEVICES
     int m_devices;
 
-    // Last time each device was sampled
-    timeval m_last[MAX_DEVICES];
-
     // Gain mode
     gainMultiplier m_gain;
 
-    // Reference mode
-    bool m_differential;
-
     // Sample rate
     sampleRate m_sampleRate;
-
-    // Time it takes to acquire a sample
-    unsigned int m_sampleTimeMilliseconds;
 
 public:
     ads1115(const char* path);
@@ -193,6 +196,9 @@ public:
     // Get max possible value
     virtual int getMaxValue();
 
+    // Publish channel values
+    virtual void publish();
+
     // Load controller settings
     virtual void deserialize(ros::NodeHandle node);
 
@@ -200,55 +206,47 @@ public:
     gainMultiplier getGain();
     void setGain(gainMultiplier gain);
 
-    // Reference mode
-    bool getDifferential();
-    void setDifferential(bool differential);
-
     // Sample rate
     sampleRate getSampleRate();
     void setSampleRate(sampleRate sampleRate);
 
 private:
-    static const unsigned char DEVICE_IDS[];
-    static const char* OP[];
-    static const char* MULTIPLEXER[];
-    static const char* GAIN[];
-    static const char* MODE[];
-    static const int RATE[];
-    static const char* COMP[];
-    static const char* LATCH[];
-    static const char* ALERT[];
-    static const char* POLARITY[];
-
-    struct config
-    {
-        alertMode alert : 2;
-        latchMode latch: 1;
-        alertPolarity polarity: 1;
-        comparatorMode comparator: 1;
-        sampleRate rate: 3;
-        sampleMode mode: 1;
-        gainMultiplier gain: 3;
-        referenceMode multiplexer: 3;
-        state operation: 1;
-
-        explicit operator unsigned int()
-        {
-            return (unsigned int)(*((unsigned short*)this));
-        }
-    };
+    static const uint8_t DEVICE_IDS[];
+    static const char* OP_NAMES_READ[];
+    static const char* OP_NAMES_WRITE[];
+    static const uint16_t OP_VALUES[];
+    static const char* MULTIPLEXER_NAMES[];
+    static const uint16_t MULTIPLEXER_VALUES[];
+    static const char* GAIN_NAMES[];
+    static const uint16_t GAIN_VALUES[];
+    static const char* MODE_NAMES[];
+    static const uint16_t MODE_VALUES[];
+    static const int RATE_NAMES[];
+    static const char* RATE_NAMES_PRINT[];
+    static const uint16_t RATE_VALUES[];
+    static const char* COMP_NAMES[];
+    static const uint16_t COMP_VALUES[];
+    static const char* LATCH_NAMES[];
+    static const uint16_t LATCH_VALUES[];
+    static const char* ALERT_NAMES[];
+    static const uint16_t ALERT_VALUES[];
+    static const char* POLARITY_NAMES[];
+    static const uint16_t POLARITY_VALUES[];
+    static const uint16_t MUX_SINGLE[];
+    static const uint16_t MUX_DIFF[];
 
 private:
     bool openDevice(int device);
     bool testDevice(int device);
-    bool configureDevice(int device, int deviceChannel, state operation, bool reset);
+    bool configureDevice(int device, int deviceChannel);
     inline int getDevice(int channel) { return channel >> 2;}
-    bool configure(int channel, state operation);
-    bool trigger(int channel);
-    bool poll(int channel);
-    void wait(int device);
-    void dump(config* conf);
+    bool configure(int channel);
+    bool poll(int device);
+    void dump(uint16_t conf, bool read);
     double getCoefficient();
+    std::string dumpValue(int value);
+    const char* getFlagsName(uint16_t value, const char** names, const uint16_t* values, int count, int shift = 0);
+    uint16_t getFlagsValue(const char* name, const char** names, const uint16_t* values, int count);
     const char* getError(int result);
 
 public:
