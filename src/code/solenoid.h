@@ -1,21 +1,20 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
  solenoid.h
 
- Solenoid class
+ Solenoid Controller
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_SOLENOID_H
-#define STR1KER_SOLENOID_H
+#pragma once
 
 /*----------------------------------------------------------*\
 | Includes
@@ -59,7 +58,7 @@ public:
     void trigger(double durationSeconds);
 
     // Deserialize from settings
-    void deserialize();
+    void deserialize(ros::NodeHandle node);
 
 public:
     // Create instance
@@ -67,5 +66,3 @@ public:
 };
 
 } // namespace str1ker
-
-#endif // STR1KER_SOLENOID_H

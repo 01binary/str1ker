@@ -6,10 +6,10 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- linear.h
+ potentiometer.h
 
- PWM Linear Actuator Controller
- Created 1/21/2021
+ Potentiometer Controller
+ Created 1/27/2021
 
  This software is licensed under GNU GPLv3
 */
@@ -20,7 +20,8 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include "pwmServo.h"
+#include "adc.h"
+#include "controller.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -29,31 +30,75 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| linear class
+| potentiometer class
 \*----------------------------------------------------------*/
 
-class linear : public pwmServo
+class potentiometer : public controller
 {
 public:
     // Controller type
     static const char TYPE[];
 
+private:
+    // Number of samples to average for de-noising
+    const int SAMPLE_COUNT = 8;
+
+    // Number of averages to analyze
+    const int AVG_COUNT = 4;
+
+    // Threshold for picking stable average
+    const double AVG_THRESHOLD = 0.2;
+
+    // Analog to digital converter (ADC) for reading measurements
+    adc* m_adc;
+
+    // Channel index to use when reading from ADC
+    int m_id;
+
+    // Samples collected
+    std::vector<double> m_samples;
+
+    // Current sample index
+    int m_sampleId;
+
+    // Averages collected
+    std::vector<double> m_avg;
+
+    // Current average index
+    int m_avgId;
+
+    // Last reading
+    double m_lastSample;
+
+    // Publisher
+    ros::Publisher m_pub;
+
 public:
-    linear(const char* path);
+    potentiometer(const char* path);
 
 public:
     // Get display type
     virtual const char* getType();
 
-    // Extend linear actuator
-    void extend(double delta = 1.0);
+    // Initialize potentiometer controller
+    virtual bool init();
 
-    // Contract linear actuator
-    void contract(double delta = 1.0);
+    // Get absolute position
+    virtual double getPos();
+
+    // Deserialize from settings
+    virtual void deserialize(ros::NodeHandle node);
+
+    // Publish current position
+    virtual void publish();
 
 public:
     // Create instance
     static controller* create(const char* path);
+
+private:
+    // Round number to two decimal places
+    static double round2(double num);
 };
 
 } // namespace str1ker

@@ -1,14 +1,14 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
- dynamixelServo.cpp
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
+ dynamixelPro.cpp
 
- Dynamixel servo controller implementation
+ Dynamixel Pro Servo Controller Implementation
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
@@ -21,7 +21,8 @@
 #include <math.h>
 #include <pigpio.h>
 #include <ros/ros.h>
-#include "dynamixelServo.h"
+#include <std_msgs/Float32.h>
+#include "dynamixelPro.h"
 #include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
@@ -35,21 +36,21 @@ using namespace str1ker;
 | Constants
 \*----------------------------------------------------------*/
 
-const char dynamixelServo::TYPE[] = "dynamixel";
+const char dynamixelPro::TYPE[] = "dynamixelPro";
 
 /*----------------------------------------------------------*\
 | Variables
 \*----------------------------------------------------------*/
 
-DynamixelWorkbench* dynamixelServo::s_wb = NULL;
+DynamixelWorkbench* dynamixelPro::s_wb = NULL;
 
 /*----------------------------------------------------------*\
-| dynamixel implementation
+| dynamixelPro implementation
 \*----------------------------------------------------------*/
 
-REGISTER_CONTROLLER(dynamixelServo)
+REGISTER_CONTROLLER(dynamixelPro)
 
-dynamixelServo::dynamixelServo(const char* path) :
+dynamixelPro::dynamixelPro(const char* path) :
     servo(path),
     m_id(0),
     m_pos(NULL),
@@ -57,7 +58,7 @@ dynamixelServo::dynamixelServo(const char* path) :
 {
 }
 
-dynamixelServo::dynamixelServo(const char* path, int id) :
+dynamixelPro::dynamixelPro(const char* path, int id) :
     servo(path),
     m_id(id),
     m_pos(NULL),
@@ -65,12 +66,12 @@ dynamixelServo::dynamixelServo(const char* path, int id) :
 {
 }
 
-const char* dynamixelServo::getType()
+const char* dynamixelPro::getType()
 {
-    return dynamixelServo::TYPE;
+    return dynamixelPro::TYPE;
 }
 
-bool dynamixelServo::init()
+bool dynamixelPro::init()
 {
     const char *log;
 
@@ -116,7 +117,7 @@ bool dynamixelServo::init()
     return true;
 }
 
-double dynamixelServo::getPos()
+double dynamixelPro::getPos()
 {
     uint8_t id = m_id;
     int32_t value = 0;
@@ -124,14 +125,28 @@ double dynamixelServo::getPos()
     if (!s_wb->syncRead(0, &id, 1) ||
         !s_wb->getSyncReadData(0, &id, 1, m_pos->address, m_pos->data_length, &value))
     {
-        ROS_ERROR("failed to read %s dynamixel servo position", m_name.c_str());
+        ROS_ERROR("failed to read %s dynamixelPro servo position", m_name.c_str());
         return 0.0;
     }
 
     return s_wb->convertValue2Radian(id, value);
 }
 
-void dynamixelServo::rotate(double delta)
+void dynamixelPro::setPos(double pos)
+{
+    if (!m_enable) return;
+
+    uint8_t id = m_id;
+    int32_t value = s_wb->convertRadian2Value(m_id, pos);
+
+    if (!s_wb->syncWrite(0, &id, 1, &value, 1))
+    {
+        ROS_ERROR("failed to write %s dynamixelPro servo position", m_name.c_str());
+        return;
+    }
+}
+
+void dynamixelPro::deltaPos(double delta)
 {
     if (!m_enable) return;
 
@@ -141,19 +156,28 @@ void dynamixelServo::rotate(double delta)
 
     if (!s_wb->syncWrite(0, &id, 1, &value, 1))
     {
-        ROS_ERROR("failed to write %s dynamixel servo position", m_name.c_str());
+        ROS_ERROR("failed to write %s dynamixelPro servo position", m_name.c_str());
         return;
     }
 }
 
-void dynamixelServo::deserialize()
+void dynamixelPro::deserialize(ros::NodeHandle node)
 {
-    servo::deserialize();
+    servo::deserialize(node);
 
     ros::param::get(getControllerPath("id"), m_id);
+
+    m_pub = node.advertise<std_msgs::Float32>(getPath(), 256);
 }
 
-controller* dynamixelServo::create(const char* path)
+void dynamixelPro::publish()
 {
-    return new dynamixelServo(path);
+    std_msgs::Float32 msg;
+    msg.data = getPos();
+    m_pub.publish(msg);
+}
+
+controller* dynamixelPro::create(const char* path)
+{
+    return new dynamixelPro(path);
 }

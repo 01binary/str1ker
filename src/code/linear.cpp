@@ -1,14 +1,14 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
  linear.cpp
 
- PWM Linear Actuator Controller implementation
+ PWM Linear Actuator Controller Implementation
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
@@ -41,10 +41,6 @@ const char linear::TYPE[] = "linear";
 
 REGISTER_CONTROLLER(linear)
 
-linear::linear(const char* path, int lpwm, int rpwm, int time) : pwmServo(path, lpwm, rpwm, time)
-{
-}
-
 linear::linear(const char* path) : pwmServo(path)
 {
 }
@@ -54,14 +50,14 @@ const char* linear::getType()
     return linear::TYPE;
 }
 
-void linear::extend(double amount)
+void linear::extend(double delta)
 {
-    rotate(amount);
+    deltaPos(delta);
 }
 
-void linear::contract(double amount)
+void linear::contract(double delta)
 {
-    rotate(-amount);
+    deltaPos(-delta);
 }
 
 controller* linear::create(const char* path)

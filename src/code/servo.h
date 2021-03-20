@@ -1,21 +1,20 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
  servo.h
 
- Servo base class
+ Servo Controller Base Class
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_SERVO_H
-#define STR1KER_SERVO_H
+#pragma once
 
 /*----------------------------------------------------------*\
 | Includes
@@ -31,13 +30,13 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| pwmServo class
+| servo class
 \*----------------------------------------------------------*/
 
 class servo : public controller
 {
 public:
-    servo(const char* path);
+    servo(const char* path) : controller(path) {}
 
 public:
     // Initialize servo controller
@@ -46,10 +45,11 @@ public:
     // Get absolute servo position
     virtual double getPos() = 0;
 
+    // Set absolute servo position
+    virtual void setPos(double pos) = 0;
+
     // Rotate servo
-    virtual void rotate(double delta) = 0;
+    virtual void deltaPos(double delta) = 0;
 };
 
 } // namespace str1ker
-
-#endif // STR1KER_BASIC_SERVO_H

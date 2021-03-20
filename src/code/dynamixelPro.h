@@ -6,10 +6,10 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- linear.h
+ dynamixelPro.h
 
- PWM Linear Actuator Controller
- Created 1/21/2021
+ Dynamixel Pro Servo Controller
+ Created 1/19/2021
 
  This software is licensed under GNU GPLv3
 */
@@ -20,7 +20,8 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include "pwmServo.h"
+#include <dynamixel_workbench_toolbox/dynamixel_workbench.h>
+#include "servo.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -29,27 +30,56 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| linear class
+| dynamixelPro class
 \*----------------------------------------------------------*/
 
-class linear : public pwmServo
+class dynamixelPro : public servo
 {
 public:
     // Controller type
     static const char TYPE[];
 
+private:
+    // dynamixelPro interface
+    static DynamixelWorkbench* s_wb;
+
+    // Servo id on serial bus
+    int m_id;
+
+    // Current position control
+    const ControlItem* m_pos;
+
+    // Goal position control
+    const ControlItem* m_goal;
+
+    // Publisher
+    ros::Publisher m_pub;
+
 public:
-    linear(const char* path);
+    dynamixelPro(const char* path);
+    dynamixelPro(const char* path, int id);
 
 public:
     // Get display type
     virtual const char* getType();
 
-    // Extend linear actuator
-    void extend(double delta = 1.0);
+    // Initialize the servo
+    virtual bool init();
 
-    // Contract linear actuator
-    void contract(double delta = 1.0);
+    // Get servo position
+    virtual double getPos();
+
+    // Set servo position
+    virtual void setPos(double pos);
+
+    // Rotate servo given delta in radians
+    virtual void deltaPos(double delta);
+
+    // Load from settings
+    virtual void deserialize(ros::NodeHandle node);
+
+    // Publish current position
+    virtual void publish();
 
 public:
     // Create instance

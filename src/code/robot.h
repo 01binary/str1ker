@@ -1,11 +1,11 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
  robot.h
 
  Robot Controller
@@ -14,8 +14,7 @@
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_ROBOT_H
-#define STR1KER_ROBOT_H
+#pragma once
 
 /*----------------------------------------------------------*\
 | Includes
@@ -23,8 +22,8 @@
 
 #include <string>
 #include <map>
-#include "servo.h"
 #include "arm.h"
+#include "adc.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -36,8 +35,7 @@ namespace str1ker {
 | Definitions
 \*----------------------------------------------------------*/
 
-typedef std::vector<arm*> armArray;
-typedef std::map<std::string, arm*> armMap;
+typedef std::map<std::string, controller*> controllerMap;
 
 /*----------------------------------------------------------*\
 | robot class
@@ -46,29 +44,36 @@ typedef std::map<std::string, arm*> armMap;
 class robot
 {
 private:
-    // Robot arms
-    armArray m_arms;
-    armMap m_armNames;
+    static const char PATH[];
+
+private:
+    controllerMap m_controllers;
 
 public:
     robot();
     ~robot();
 
 public:
+    // Load controller settings
+    robot& deserialize(ros::NodeHandle node);
+
     // Initialize controllers
     bool init();
 
-    // Load controller settings
-    robot& deserialize();
+    // Publish controller topics
+    void publish();
 
     // Print logo
     robot& logo();
 
-    // Get robot arm by index
-    arm* getArm(int index);
+    // Get controller of type by name
+    template <class C> C* getController(const char* name)
+    {
+        return dynamic_cast<C*>(getController(name));
+    }
 
-    // Get robot arm by name
-    arm* getArm(const char* name);
+    // Get any controller by name
+    controller* getController(const char* name);
 
 public:
     // Get component name
@@ -76,11 +81,6 @@ public:
 
     // Get parent name
     static const char* getControllerPath(const char* path, const char* componentType, char* componentPath);
-
-private:
-    void deserializeArms();
 };
 
 } // namespace str1ker
-
-#endif // STR1KER_ROBOT_H

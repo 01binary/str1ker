@@ -1,14 +1,14 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
  controller.cpp
 
- Controller base class implementation
+ Controller Base Class Implementation
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
@@ -18,11 +18,12 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#include <algorithm>
 #include <ros/ros.h>
 #include "robot.h"
 #include "solenoid.h"
 #include "pwmServo.h"
-#include "dynamixelServo.h"
+#include "dynamixelPro.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -57,11 +58,23 @@ const bool controller::isEnabled()
     return m_enable;
 }
 
-void controller::deserialize()
+void controller::deserialize(ros::NodeHandle node)
 {
-    ROS_INFO("    loading %s %s", getName(), getType());
+    string indent;
+    indent.resize((max(count(m_path.begin(), m_path.end(), '/') - 2, 1)) * 2, ' ');
+
+    ROS_INFO("%sloading %s %s", indent.c_str(), getName(), getType());
 
     ros::param::get(getControllerPath("enable"), m_enable);
+}
+
+bool controller::init()
+{
+    return true;
+}
+
+void controller::publish()
+{
 }
 
 string controller::getControllerPath(const char* controllerName)

@@ -1,11 +1,11 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
  pwmServo.h
 
  PWM Servo Controller
@@ -14,14 +14,14 @@
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_BASIC_SERVO_H
-#define STR1KER_BASIC_SERVO_H
+#pragma once
 
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
 
 #include "servo.h"
+#include "potentiometer.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -50,15 +50,11 @@ private:
     // Right PWM pin
     int m_rpwm;
 
-    // Current position
-    double m_pos;
-
-    // Time it takes to reach limit in seconds
-    int m_time;
+    // Potentiometer measuring absolute position
+    potentiometer* m_pot;
 
 public:
     pwmServo(const char* path);
-    pwmServo(const char* path, int lwpm, int rpwm, int time);
 
 public:
     // Get display type
@@ -67,14 +63,20 @@ public:
     // Initialize
     virtual bool init();
 
-    // Get current position
+    // Get absolute position using related potentiometer
     virtual double getPos();
 
-    // Rotate by delta
-    virtual void rotate(double delta);
+    // Move to absolute position by tracking potentiometer
+    virtual void setPos(double pos);
+
+    // Move by delta
+    virtual void deltaPos(double delta);
 
     // Deserialize from settings
-    virtual void deserialize();
+    virtual void deserialize(ros::NodeHandle node);
+
+    // Publish current position
+    virtual void publish();
 
 public:
     // Create instance
@@ -82,5 +84,3 @@ public:
 };
 
 } // namespace str1ker
-
-#endif // STR1KER_BASIC_SERVO_H

@@ -1,14 +1,14 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
  robot.cpp
 
- Robot controller implementation
+ Robot Controller Implementation
  Created 11/28/2020
 
  This software is licensed under GNU GPLv3
@@ -23,6 +23,7 @@
 #include <pigpio.h>
 #include <ros/ros.h>
 #include "robot.h"
+#include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -30,6 +31,12 @@
 
 using namespace str1ker;
 using namespace std;
+
+/*----------------------------------------------------------*\
+| Constants
+\*----------------------------------------------------------*/
+
+const char robot::PATH[] = "/robot";
 
 /*----------------------------------------------------------*\
 | robot implementation
@@ -41,22 +48,17 @@ robot::robot()
 
 robot::~robot()
 {
-    for(armArray::iterator pos = m_arms.begin();
-        pos != m_arms.end();
+    for(controllerMap::iterator pos = m_controllers.begin();
+        pos != m_controllers.end();
         ++pos)
     {
-        delete *pos;
+        delete pos->second;
     }
 }
 
-arm* robot::getArm(int index)
+controller* robot::getController(const char* name)
 {
-    return m_arms[index];
-}
-
-arm* robot::getArm(const char* name)
-{
-    return m_armNames[name];
+    return m_controllers[name];
 }
 
 bool robot::init()
@@ -69,12 +71,11 @@ bool robot::init()
         return false;
     }
 
-    for (armArray::iterator pos = m_arms.begin();
-        pos != m_arms.end();
-        pos++)
+    for(controllerMap::iterator pos = m_controllers.begin();
+        pos != m_controllers.end();
+        ++pos)
     {
-        if (!(*pos)->init())
-            return false;
+        if (!pos->second->init()) return false;
     }
 
     ROS_INFO("initialization completed");
@@ -82,42 +83,41 @@ bool robot::init()
     return true;
 }
 
-robot& robot::deserialize()
+void robot::publish()
+{
+    for(controllerMap::iterator pos = m_controllers.begin();
+        pos != m_controllers.end();
+        ++pos)
+    {
+        if (pos->second) pos->second->publish();
+    }
+}
+
+robot& robot::deserialize(ros::NodeHandle node)
 {
     ROS_INFO("loading controllers...");
 
-    deserializeArms();
-
-    ROS_INFO("loaded successfully");
-
-    return *this;
-}
-
-void robot::deserializeArms()
-{
+    char path[255] = {0};
     vector<string> params;
-    set<string> unique;
-    char armPath[255] = {0};
-
     ros::param::getParamNames(params);
 
     for (vector<string>::iterator pos = params.begin();
         pos != params.end();
         pos++)
     {
-        const char* path = getControllerPath(pos->c_str(), "arms", armPath);
-
-        if (path && unique.find(path) == unique.end())
+        if (getControllerPath(pos->c_str(), PATH + 1, path) &&
+            m_controllers.find(path) == m_controllers.end())
         {
-            unique.insert(armPath);
+            const char* name = getControllerName(path);
+            controller* instance = controllerFactory::deserialize(PATH, name, node);
 
-            arm* robotArm = new arm(path);
-            robotArm->deserialize();
-
-            m_armNames[getControllerName(path)] = robotArm;
-            m_arms.push_back(robotArm);
+            if (instance) m_controllers[path] = instance;
         }
     }
+
+    ROS_INFO("loaded successfully");
+
+    return *this;
 }
 
 const char* robot::getControllerName(const char* path)
@@ -148,13 +148,13 @@ const char* robot::getControllerPath(const char* path, const char* componentType
 
 robot& robot::logo()
 {
-    puts("                                                                                     @@@@@@@                  ");
-    puts(" @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ ");
-    puts("@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @");
-    puts(" @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ ");
-    puts("             @ @     @       @            @      @    @@           @@@@      @                  @            @");
-    puts(" @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @");
-    puts("                                                                                     @@@@@@@                  ");
+    puts("                                                                                     ███████                  ");
+    puts(" ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ ");
+    puts("█              █ █           █            █    █ █  █              █        ███      ███████    █            █");
+    puts(" ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ ");
+    puts("             █ █     █       █            █      █    █            ████      █                  █            █");
+    puts(" ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █");
+    puts("                                                                                     ███████                  ");
 
     return *this;
 }

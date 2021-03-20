@@ -1,21 +1,20 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
  arm.h
 
- Controller base class
+ Controller Base Class
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_CONTROLLER_H
-#define STR1KER_CONTROLLER_H
+#pragma once
 
 /*----------------------------------------------------------*\
 | Includes
@@ -61,8 +60,14 @@ public:
     // Get controller type display name
     virtual const char* getType() = 0;
 
-    // Deserialize from settings
-    virtual void deserialize();
+    // Load controller settings
+    virtual void deserialize(ros::NodeHandle node);
+
+    // Initialize controller
+    virtual bool init();
+
+    // Publish self or children
+    virtual void publish();
 
 protected:
     // Get child controller path
@@ -70,5 +75,3 @@ protected:
 };
 
 } // namespace str1ker
-
-#endif // STR1KER_CONTROLLER_H

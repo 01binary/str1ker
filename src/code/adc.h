@@ -6,10 +6,10 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- linear.h
+ adc.h
 
- PWM Linear Actuator Controller
- Created 1/21/2021
+ Analog to Digital Converter Using MCP3008
+ Created 1/27/2021
 
  This software is licensed under GNU GPLv3
 */
@@ -20,7 +20,8 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include "pwmServo.h"
+#include <string>
+#include "controller.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -29,31 +30,23 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| linear class
+| adc class
 \*----------------------------------------------------------*/
 
-class linear : public pwmServo
+class adc : public controller
 {
 public:
-    // Controller type
-    static const char TYPE[];
+    adc(const char* path): controller(path) {}
 
 public:
-    linear(const char* path);
+    // Get value on channel
+    virtual int getValue(int channel = 0) = 0;
 
-public:
-    // Get display type
-    virtual const char* getType();
+    // Get number of channels
+    virtual int getChannels() = 0;
 
-    // Extend linear actuator
-    void extend(double delta = 1.0);
-
-    // Contract linear actuator
-    void contract(double delta = 1.0);
-
-public:
-    // Create instance
-    static controller* create(const char* path);
+    // Get max possible value
+    virtual int getMaxValue() = 0;
 };
 
 } // namespace str1ker

@@ -1,14 +1,14 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
  arm.cpp
 
- Robot arm implementation
+ Robot Arm Controller Implementation
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
@@ -31,27 +31,19 @@ using namespace str1ker;
 using namespace std;
 
 /*----------------------------------------------------------*\
+| Constants
+\*----------------------------------------------------------*/
+
+const char arm::TYPE[] = "arm";
+
+/*----------------------------------------------------------*\
 | arm implementation
 \*----------------------------------------------------------*/
 
-arm::arm(
-    const char* path,
-    servo* shoulder,
-    linear* upperarm,
-    linear* forearm,
-    solenoid* trigger) :
-        m_path(path),
-        m_name(robot::getControllerName(path)),
-        m_shoulder(shoulder),
-        m_upperarm(upperarm),
-        m_forearm(forearm),
-        m_trigger(trigger)
-{
-}
+REGISTER_CONTROLLER(arm)
 
 arm::arm(const char* path) :
-    m_path(path),
-    m_name(robot::getControllerName(path)),
+    controller(path),
     m_shoulder(NULL),
     m_upperarm(NULL),
     m_forearm(NULL),
@@ -67,23 +59,18 @@ arm::~arm()
     delete m_trigger;
 }
 
-bool arm::init()
+const char* arm::getType()
 {
-    if (m_shoulder && !m_shoulder->init()) return false;
-    if (m_upperarm && !m_upperarm->init()) return false;
-    if (m_forearm && !m_forearm->init()) return false;
-    if (m_trigger && !m_trigger->init()) return false;
-
-    return true;
+    return arm::TYPE;
 }
 
-void arm::rotate(double deltaRad)
+void arm::rotate(double delta)
 {
     if (!m_shoulder) return;
 
-    ROS_INFO("rotate %s by %g", m_shoulder->getPath(), deltaRad);
+    ROS_INFO("rotate %s by %g", m_shoulder->getPath(), delta);
 
-    return m_shoulder->rotate(deltaRad);
+    return m_shoulder->deltaPos(delta);
 }
 
 void arm::raise(double amount)
@@ -131,12 +118,35 @@ void arm::trigger(double durationSeconds)
     return m_trigger->trigger(durationSeconds);
 }
 
-void arm::deserialize()
+void arm::deserialize(ros::NodeHandle node)
 {
-    ROS_INFO("  loading %s arm", m_name.c_str());
+    controller::deserialize(node);
 
-    m_shoulder = controllerFactory::deserialize<servo>(m_path.c_str(), "shoulder");
-    m_upperarm = controllerFactory::deserialize<linear>(m_path.c_str(), "upperarm");
-    m_forearm = controllerFactory::deserialize<linear>(m_path.c_str(), "forearm");
-    m_trigger = controllerFactory::deserialize<solenoid>(m_path.c_str(), "trigger");
+    m_shoulder = controllerFactory::deserialize<servo>(m_path.c_str(), "shoulder", node);
+    m_upperarm = controllerFactory::deserialize<linear>(m_path.c_str(), "upperarm", node);
+    m_forearm = controllerFactory::deserialize<linear>(m_path.c_str(), "forearm", node);
+    m_trigger = controllerFactory::deserialize<solenoid>(m_path.c_str(), "trigger", node);
+}
+
+bool arm::init()
+{
+    if (m_shoulder && !m_shoulder->init()) return false;
+    if (m_upperarm && !m_upperarm->init()) return false;
+    if (m_forearm && !m_forearm->init()) return false;
+    if (m_trigger && !m_trigger->init()) return false;
+
+    return true;
+}
+
+void arm::publish()
+{
+    if (m_shoulder) m_shoulder->publish();
+    if (m_upperarm) m_upperarm->publish();
+    if (m_forearm) m_forearm->publish();
+    if (m_trigger) m_trigger->publish();
+}
+
+controller* arm::create(const char* path)
+{
+    return new arm(path);
 }

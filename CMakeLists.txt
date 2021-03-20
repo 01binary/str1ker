@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(str1ker)
 
-add_compile_options(-std=c++11)
+add_compile_options(-std=c++11 -Wno-psabi)
+
+add_definitions(-DDEBUG)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -45,14 +47,16 @@ include_directories(
 add_executable(robot
   src/code/main.cpp
   src/code/robot.cpp
-  src/code/arm.cpp
-  src/code/controller.cpp
   src/code/controllerFactory.cpp
-  src/code/servo.cpp
+  src/code/controller.cpp
+  src/code/arm.cpp
   src/code/pwmServo.cpp
-  src/code/dynamixelServo.cpp
+  src/code/dynamixelPro.cpp
   src/code/linear.cpp
   src/code/solenoid.cpp
+  src/code/potentiometer.cpp
+  src/code/mcp3008.cpp
+  src/code/ads1115.cpp
 )
 
 add_dependencies(robot ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -68,19 +72,13 @@ install(
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
-configure_file(
-  ${PROJECT_SOURCE_DIR}/build/post_build.sh.in
-  ${PROJECT_SOURCE_DIR}/build/post_build.sh
-  @ONLY
-)
-
 file(
-  COPY ${PROJECT_SOURCE_DIR}/build/post_build.sh.in
+  COPY ${PROJECT_SOURCE_DIR}/build/post_build.sh
   DESTINATION ${PROJECT_SOURCE_DIR}
   FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
 )
 
 add_custom_command(
   TARGET robot
-  POST_BUILD COMMAND ${PROJECT_SOURCE_DIR}/build/post_build.sh
+  POST_BUILD COMMAND ${PROJECT_SOURCE_DIR}/post_build.sh
 )

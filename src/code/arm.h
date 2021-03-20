@@ -1,27 +1,26 @@
 /*
-                                                                                     @@@@@@@                  
- @@@@@@@@@@@@  @@@@@@@@@@@@   @@@@@@@@@@@@       @  @@@@@@@@@@@@@  @           @  @@@       @@@  @@@@@@@@@@@@ 
-@              @ @           @            @    @ @  @              @        @@@      @@@@@@@    @            @
- @@@@@@@@@@@@  @   @         @@@@@@@@@@@@@   @   @   @             @   @@@@@      @@@       @@@ @@@@@@@@@@@@@ 
-             @ @     @       @            @      @    @@           @@@@      @                  @            @
- @@@@@@@@@@@@  @       @     @            @      @      @@@@@@@@@  @          @   @@@       @@@ @            @
-                                                                                     @@@@@@@                  
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
  arm.h
 
- Robot arm controller
+ Robot Arm Controller
  Created 1/19/2021
 
  This software is licensed under GNU GPLv3
 */
 
-#ifndef STR1KER_ARM_H
-#define STR1KER_ARM_H
+#pragma once
 
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
 
-#include <string>
+#include "controller.h"
 #include "servo.h"
 #include "linear.h"
 #include "solenoid.h"
@@ -36,15 +35,13 @@ namespace str1ker {
 | arm class
 \*----------------------------------------------------------*/
 
-class arm
+class arm : public controller
 {
+public:
+    // Controller type
+    static const char TYPE[];
+
 private:
-    // Robot arm path
-    std::string m_path;
-
-    // Robot arm name
-    std::string m_name;
-
     // Rotation servo
     servo* m_shoulder;
 
@@ -58,16 +55,15 @@ private:
     solenoid* m_trigger;
 
 public:
-    arm(const char* path, servo* shoulder, linear* upperarm, linear* forearm, solenoid* trigger);
     arm(const char* path);
     ~arm();
 
 public:
-    // Initialize arm controllers
-    bool init();
+    // Get display type
+    virtual const char* getType();
 
-    // Rotate arm by delta in radians
-    void rotate(double deltaRad);
+    // Rotate arm by delta in possible range
+    void rotate(double delta);
 
     // Raise arm all the way
     void raise(double amount = 1.0);
@@ -85,9 +81,17 @@ public:
     void trigger(double durationSeconds = 0.023);
 
     // Load arm controller settings
-    void deserialize();
+    virtual void deserialize(ros::NodeHandle node);
+
+    // Initialize arm controllers
+    virtual bool init();
+
+    // Publish topic
+    virtual void publish();
+
+public:
+    // Create instance
+    static controller* create(const char* path);
 };
 
 } // namespace str1ker
-
-#endif // STR1KER_ARM_H
