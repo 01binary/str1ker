@@ -58,30 +58,12 @@ class pi16adc : public adc
 {
 public:
     const int DEFAULT_ADDRESS = 0x76;
-    const int CHANNELS = 16;
+    const int MAX_CHANNELS = 16;
     const int MAX_VALUE = 0x800000;
-    const int BLOCK_SIZE = 6;
-    const int SLEEP_TIME = 100 * 1000;
-
-    enum channels
-    {
-        channel0 =  0xB0,
-        channel1 =  0xB8,
-        channel2 =  0xB1,
-        channel3 =  0xB9,
-        channel4 =  0xB2,
-        channel5 =  0xBA,
-        channel6 =  0xB3,
-        channel7 =  0xBB,
-        channel8 =  0xB4,
-        channel9 =  0xBC,
-        channel10 = 0xB5,
-        channel11 = 0xBD,
-        channel12 = 0xB6,
-        channel13 = 0xBE,
-        channel14 = 0xB7,
-        channel15 = 0xBF
-    };
+    const int VALUE_SIZE = 3;
+    const int SLEEP_TIME_US = 150 * 1000;
+    const uint16_t RESET_COMMAND = 0xA0;
+    static const uint8_t CHANNEL_COMMANDS[];
 
 public:
     // Controller type
@@ -96,6 +78,9 @@ private:
 
     // I2C address 
     int m_i2cAddress;
+
+    // Number of channels to read
+    int m_channels;
 
     // Last published values for all channels
     int m_samples[16];
@@ -129,10 +114,7 @@ public:
     virtual void deserialize(ros::NodeHandle node);
 
 private:
-    bool selectChannel(channels channel);
-    bool readRegister(int reg, uint8_t *value, int size);
-    bool writeRegister(int reg, uint8_t* value, int size);
-
+    bool configure(uint8_t config);
 
 public:
     // Create instance
