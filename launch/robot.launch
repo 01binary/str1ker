@@ -12,6 +12,7 @@
         enable: true
         i2c: 1
         channels: 2
+        delay: 0.15
       arm1:
         controller: 'arm'
         enable: true

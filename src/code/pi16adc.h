@@ -67,8 +67,9 @@ public:
     const int DEFAULT_ADDRESS = 0x76;
     const int MAX_CHANNELS = 16;
     const int MAX_VALUE = 0x800000;
+    const int MAX_RETRY = 8;
     const int VALUE_SIZE = 3;
-    const int SLEEP_TIME_US = 200 * 1000;
+    const int DEFAULT_DELAY_US = 200 * 1000;
     const uint16_t RESET_COMMAND = 0xA0;
     static const uint8_t CHANNEL_COMMANDS[];
 
@@ -88,6 +89,9 @@ private:
 
     // Number of channels to read
     int m_channels;
+
+    // How many microseconds to wait between commands
+    int m_delayUs;
 
     // Last published values for all channels
     int m_samples[16];

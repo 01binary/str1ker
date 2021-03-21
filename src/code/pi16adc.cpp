@@ -46,7 +46,7 @@ using namespace std;
 const char pi16adc::TYPE[] = "pi16adc";
 
 /*
-    If the first three bits shifted into the device are 101, then
+    If the first three bits shifted into the device are 101 ("preamble"), then
     the next five bits select the input channel for the next conversion cycle.
 
     The first input bit (SGL) following the 101 sequence determines
@@ -85,6 +85,7 @@ pi16adc::pi16adc(const char* path) :
     m_i2cBus(-1),
     m_i2cHandle(0),
     m_i2cAddress(DEFAULT_ADDRESS),
+    m_delayUs(DEFAULT_DELAY_US),
     m_channels(1)
 {
     memset(m_samples, 0, sizeof(m_samples));
@@ -149,10 +150,10 @@ bool pi16adc::configure(uint8_t config)
 {
     int result = 0;
 
-    for (int attempt = 0; attempt < 8; attempt++)
+    for (int attempt = 0; attempt < MAX_RETRY; attempt++)
     {
         result = write(m_i2cHandle, &config, 1);
-        usleep(SLEEP_TIME_US);
+        usleep(m_delayUs);
 
         if (result == 1) break;
     }
@@ -180,7 +181,7 @@ void pi16adc::publish()
         // Read conversion
         if (read(m_i2cHandle, buffer, VALUE_SIZE) != VALUE_SIZE)
         {
-            ROS_ERROR("  failed to read %s channel %d", getName(), n);
+            ROS_ERROR("  failed to read %s channel %d: chip may not respond faster than .15s", getName(), n);
             return;
         }
 
@@ -209,6 +210,13 @@ void pi16adc::deserialize(ros::NodeHandle node)
     ros::param::get(getControllerPath("i2c"), m_i2cBus);
     ros::param::get(getControllerPath("address"), m_i2cAddress);
     ros::param::get(getControllerPath("channels"), m_channels);
+
+    double delay;
+    if (ros::param::get(getControllerPath("delay"), delay))
+    {
+        // Read delay in fractions of a second and convert to microseconds.
+        m_delayUs = int(delay * 1000000.0);
+    }
 }
 
 controller* pi16adc::create(const char* path)
