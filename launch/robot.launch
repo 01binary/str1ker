@@ -11,6 +11,7 @@
         controller: 'pi16adc'
         enable: true
         i2c: 1
+        channels: 2
       arm1:
         controller: 'arm'
         enable: true

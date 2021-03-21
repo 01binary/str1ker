@@ -18,6 +18,13 @@
     Default I2C bus on Raspberry Pi 4: 1
     Default Address: 0x76
 
+    Maximum analog Voltage: 2.5V p-p.
+    More than 2.5V indicates an over-voltage condition.
+    Differential channels - maximum voltage is from -2.5V to +2.5V.
+
+    Maximum 7 samples per second (SPS) across all channels.
+    Please review data sheet of the ADC chip (LTC 2497).
+
     A2    A1     A0      Address
     LOW   LOW    LOW     0x14
     LOW   LOW    HIGH    0x16
@@ -61,7 +68,7 @@ public:
     const int MAX_CHANNELS = 16;
     const int MAX_VALUE = 0x800000;
     const int VALUE_SIZE = 3;
-    const int SLEEP_TIME_US = 150 * 1000;
+    const int SLEEP_TIME_US = 200 * 1000;
     const uint16_t RESET_COMMAND = 0xA0;
     static const uint8_t CHANNEL_COMMANDS[];
 

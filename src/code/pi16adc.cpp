@@ -147,13 +147,21 @@ bool pi16adc::init()
 
 bool pi16adc::configure(uint8_t config)
 {
-    if (write(m_i2cHandle, &config, 1) != 1)
+    int result = 0;
+
+    for (int attempt = 0; attempt < 8; attempt++)
+    {
+        result = write(m_i2cHandle, &config, 1);
+        usleep(SLEEP_TIME_US);
+
+        if (result == 1) break;
+    }
+
+    if (result != 1)
     {
         ROS_ERROR("  failed to configure %s with 0x%x", getName(), config);
         return false;
     }
-
-    usleep(SLEEP_TIME_US);
 
     return true;
 }
