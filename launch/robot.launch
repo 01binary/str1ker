@@ -8,11 +8,11 @@
   >
     <rosparam>
       adc:
-        controller: 'pi16adc'
+        controller: 'ads1115'
         enable: true
         i2c: 1
-        channels: 2
-        delay: 0.15
+        devices: 1
+        rate: 128
       arm1:
         controller: 'arm'
         enable: true
@@ -24,7 +24,7 @@
           feedback:
             controller: 'potentiometer'
             enable: true
-            adc: 'pi16adc'
+            adc: 'ads1115'
             channel: 0
         upperarm:
           controller: 'linear'
@@ -35,7 +35,7 @@
           feedback:
             controller: 'potentiometer'
             enable: false
-            adc: 'pi16adc'
+            adc: 'ads1115'
             channel: 1
         forearm:
           controller: 'linear'
@@ -46,7 +46,7 @@
           feedback:
             controller: 'potentiometer'
             enable: false
-            adc: 'pi16adc'
+            adc: 'ads1115'
             channel: 2
         trigger:
           controller: 'solenoid'

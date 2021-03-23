@@ -57,6 +57,8 @@ int main(int argc, char** argv)
 
         if (arm1) arm1->rotate(-0.25);
 
+        ros::spinOnce();
+
         rate.sleep();
     }
 

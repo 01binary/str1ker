@@ -171,6 +171,12 @@ private:
     // Number of chained ADS1115 devices up to MAX_DEVICES
     int m_devices;
 
+    // The last channel configured for each device
+    int m_lastConfChannel[MAX_DEVICES];
+
+    // The last channel read for each device
+    int m_lastReadChannel[MAX_DEVICES];
+
     // Gain mode
     gainMultiplier m_gain;
 
@@ -210,6 +216,9 @@ public:
     sampleRate getSampleRate();
     void setSampleRate(sampleRate sampleRate);
 
+    // Convert conversion register data to sample value
+    int convertSample(uint8_t* data);
+
 private:
     static const uint8_t DEVICE_IDS[];
     static const char* OP_NAMES_READ[];
@@ -245,7 +254,8 @@ private:
     void dump(uint16_t conf, bool read);
     double getCoefficient();
     std::string dumpValue(int value);
-    const char* getFlagsName(uint16_t value, const char** names, const uint16_t* values, int count, int shift = 0);
+    const char* getFlags(uint16_t value, const char** names, const uint16_t* values, int count);
+    const char* getField(uint16_t value, const char** names, const uint16_t* values, int count, int field);
     uint16_t getFlagsValue(const char* name, const char** names, const uint16_t* values, int count);
     const char* getError(int result);
 

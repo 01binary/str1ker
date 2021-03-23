@@ -227,6 +227,8 @@ ads1115::ads1115(const char* path) :
     setSampleRate(sampleRate::sps128);
     memset(m_i2c, -1, sizeof(m_i2c));
     memset(m_samples, 0, sizeof(m_samples));
+    memset(m_lastConfChannel, -1, sizeof(m_lastConfChannel));
+    memset(m_lastReadChannel, 0, sizeof(m_lastReadChannel));
 }
 
 const char* ads1115::getType()
@@ -270,13 +272,16 @@ bool ads1115::testDevice(int device)
 {
     if (!m_enable || m_i2c[device] < 0) return true;
 
-    int result = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
+    int conversion = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
 
-    if (result < 0)
+    if (conversion < 0)
     {
-        ROS_ERROR("  failed to test ADS1115 conversion at 0x%x: %s", DEVICE_IDS[device], getError(result));
+        ROS_ERROR("  failed to test %s conversion at 0x%x: %s", getName(), DEVICE_IDS[device], getError(conversion));
         return false;
     }
+
+    m_samples[device * 4] = convertSample((uint8_t*)&conversion);
+    m_lastReadChannel[device] = 0;
 
     ROS_INFO("  initialized %s %s on I2C%d at 0x%x", getPath(), getType(), m_i2cBus, DEVICE_IDS[device]);
     return true;
@@ -284,7 +289,7 @@ bool ads1115::testDevice(int device)
 
 bool ads1115::configureDevice(int device, int deviceChannel)
 {
-    if (!m_enable || m_i2c[device] < 0) return true;
+    if (!m_enable || m_i2c[device] < 0 || m_lastConfChannel[device] == deviceChannel) return true;
 
     uint16_t conf =
         operationStatus::write_convert |
@@ -297,24 +302,20 @@ bool ads1115::configureDevice(int device, int deviceChannel)
         latchMode::nonLatching |
         alertMode::none;
 
-    ROS_INFO("config chann %d value 0x%x", deviceChannel, conf);
-
-    ROS_INFO("conf >> 12 = 0x%x", conf >> 12);
-    ROS_INFO("single_0 >> 12 = 0x%x", referenceMode::single_0 >> 12);
-    ROS_INFO("single_1 >> 12 = 0x%x", referenceMode::single_1 >> 12);
-    ROS_INFO("single_2 >> 12 = 0x%x", referenceMode::single_2 >> 12);
-    ROS_INFO("single_3 >> 12 = 0x%x", referenceMode::single_3 >> 12);
-
-
-    dump(conf, false);
-
     int result = i2cWriteWordData(m_i2c[device], deviceRegister::configuration, conf);
 
     if (result != 0)
     {
-        ROS_ERROR("  failed to configure ADS1115 at 0x%x: %s", DEVICE_IDS[device], getError(result));
+        ROS_ERROR("  failed to configure ADS1115 channel %d at 0x%x: %s", deviceChannel, DEVICE_IDS[device], getError(result));
         dump(conf, false);
         return false;
+    }
+
+    m_lastConfChannel[device] = deviceChannel;
+
+    if (!m_initialized)
+    {
+        dump(conf, false);
     }
 
     return true;
@@ -365,31 +366,39 @@ void ads1115::publish()
     {
         for (int deviceChannel = 0; deviceChannel < MAX_CHANNELS; deviceChannel++, channel++)
         {
+            if (m_lastReadChannel[device] == deviceChannel) continue;
+
             if (configure(channel) && poll(device))
             {
-                int raw = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
+                int conversion = i2cReadWordData(m_i2c[device], deviceRegister::conversion);
 
-                if (raw < 0)
+                if (conversion < 0)
                 {
                     ROS_ERROR("  failed to read ADS1115 channel %d conversion at 0x%x: %s",
-                        deviceChannel, DEVICE_IDS[device], getError(raw));
+                        deviceChannel, DEVICE_IDS[device], getError(conversion));
 
                     continue;
                 }
 
-                uint8_t* data = (uint8_t*)&raw;
-                m_samples[channel] = (data[1] | data[0] << 8);
+                m_samples[channel] = convertSample((uint8_t*)&conversion);
+
+                m_lastReadChannel[device] = deviceChannel;
             }
         }
     }
 
 #ifdef DEBUG
-    ROS_INFO("ADS 1115 [%s] [%s] [%s] [%s]",
-        dumpValue(m_samples[0]).c_str(),
-        dumpValue(m_samples[1]).c_str(),
-        dumpValue(m_samples[2]).c_str(),
-        dumpValue(m_samples[3]).c_str());
+    ROS_INFO("ADS 1115 [%s] %d [%s] %d [%s] %d [%s] %d",
+        dumpValue(m_samples[0]).c_str(), m_samples[0],
+        dumpValue(m_samples[1]).c_str(), m_samples[1],
+        dumpValue(m_samples[2]).c_str(), m_samples[2],
+        dumpValue(m_samples[3]).c_str(), m_samples[3]);
 #endif
+}
+
+int ads1115::convertSample(uint8_t* data)
+{
+    return (data[1] | data[0] << 8);
 }
 
 void ads1115::deserialize(ros::NodeHandle node)
@@ -446,28 +455,51 @@ bool ads1115::configure(int channel)
     return configureDevice(device, channel - device * 4);
 }
 
-const char* ads1115::getFlagsName(uint16_t value, const char** names, const uint16_t* values, int count, int shift)
+const char* ads1115::getField(uint16_t value, const char** names, const uint16_t* values, int count, int field)
 {
     int defaultIndex = -1;
+    int max = 0;
 
-    if (shift) value = (value >> shift) & 0x7;
+    value = value >> field;
 
     for (int n = 0; n < count; n++)
     {
+        int shifted = values[n] >> field;
+        if (shifted > max) max = shifted;
         if (values[n] == 0) defaultIndex = n;
+    }
 
-        if (shift)
-        {
-            if (values[n] >> shift == value) return names[n];
-        }
-        else
-        {
-            if (value & values[n]) return names[n];
-        }
+    if (max == 0b111)
+    {
+        // Mask out 3 bits because value is up to 3 bits long
+        value &= 0x7;
+    }
+    else if (max == 0b11)
+    {
+        // Mask out 2 bits because value is up to 2 bits long
+        value &= 0x3;
+    }
+
+    for (int n = 0; n < count; n++)
+    {
+        if (values[n] >> field == value) return names[n];
     }
 
     if (defaultIndex != -1) return names[defaultIndex];
+    return "unknown";
+}
 
+const char* ads1115::getFlags(uint16_t value, const char** names, const uint16_t* values, int count)
+{
+    int defaultIndex = -1;
+    
+    for (int n = 0; n < count; n++)
+    {
+        if (values[n] == 0) defaultIndex = n;
+        if (value & values[n]) return names[n];
+    }
+
+    if (defaultIndex != -1) return names[defaultIndex];
     return "unknown";
 }
 
@@ -475,7 +507,7 @@ uint16_t ads1115::getFlagsValue(const char* name, const char** names, const uint
 {
     for (int n = 0; n < count; n++)
     {
-        if (strcmp(name, names[n])) return values[n];
+        if (strcmp(name, names[n]) == 0) return values[n];
     }
 
     return 0;
@@ -484,31 +516,31 @@ uint16_t ads1115::getFlagsValue(const char* name, const char** names, const uint
 void ads1115::dump(uint16_t conf, bool read)
 {
     ROS_INFO("    operation   = %s",
-        getFlagsName(conf, read ? OP_NAMES_READ : OP_NAMES_WRITE, OP_VALUES, sizeof(OP_VALUES) / sizeof(uint16_t)));
+        getFlags(conf, read ? OP_NAMES_READ : OP_NAMES_WRITE, OP_VALUES, sizeof(OP_VALUES) / sizeof(uint16_t)));
 
     ROS_INFO("    multiplexer = %s",
-        getFlagsName(conf, MULTIPLEXER_NAMES, MULTIPLEXER_VALUES, sizeof(MULTIPLEXER_VALUES) / sizeof(uint16_t), 12));
+        getField(conf, MULTIPLEXER_NAMES, MULTIPLEXER_VALUES, sizeof(MULTIPLEXER_VALUES) / sizeof(uint16_t), 12));
 
     ROS_INFO("    gain        = %s",
-        getFlagsName(conf, GAIN_NAMES, GAIN_VALUES, sizeof(GAIN_VALUES) / sizeof(uint16_t), 9));
+        getField(conf, GAIN_NAMES, GAIN_VALUES, sizeof(GAIN_VALUES) / sizeof(uint16_t), 9));
 
     ROS_INFO("    mode        = %s",
-        getFlagsName(conf, MODE_NAMES, MODE_VALUES, sizeof(MODE_VALUES) / sizeof(uint16_t)));
+        getFlags(conf, MODE_NAMES, MODE_VALUES, sizeof(MODE_VALUES) / sizeof(uint16_t)));
 
     ROS_INFO("    rate        = %s",
-        getFlagsName(conf, RATE_NAMES_PRINT, RATE_VALUES, sizeof(RATE_VALUES) / sizeof(uint16_t), 5));
+        getField(conf, RATE_NAMES_PRINT, RATE_VALUES, sizeof(RATE_VALUES) / sizeof(uint16_t), 5));
 
     ROS_INFO("    comparator  = %s",
-        getFlagsName(conf, COMP_NAMES, COMP_VALUES, sizeof(COMP_VALUES) / sizeof(uint16_t)));
+        getFlags(conf, COMP_NAMES, COMP_VALUES, sizeof(COMP_VALUES) / sizeof(uint16_t)));
 
     ROS_INFO("    polarity    = %s",
-        getFlagsName(conf, POLARITY_NAMES, POLARITY_VALUES, sizeof(POLARITY_VALUES) / sizeof(uint16_t)));
+        getFlags(conf, POLARITY_NAMES, POLARITY_VALUES, sizeof(POLARITY_VALUES) / sizeof(uint16_t)));
 
     ROS_INFO("    latch       = %s",
-        getFlagsName(conf, LATCH_NAMES, LATCH_VALUES, sizeof(LATCH_VALUES) / sizeof(uint16_t)));
+        getFlags(conf, LATCH_NAMES, LATCH_VALUES, sizeof(LATCH_VALUES) / sizeof(uint16_t)));
 
     ROS_INFO("    alert       = %s",
-        getFlagsName(conf, ALERT_NAMES, ALERT_VALUES, sizeof(ALERT_VALUES) / sizeof(uint16_t), 0));
+        getField(conf, ALERT_NAMES, ALERT_VALUES, sizeof(ALERT_VALUES) / sizeof(uint16_t), 0));
 }
 
 string ads1115::dumpValue(int value)
