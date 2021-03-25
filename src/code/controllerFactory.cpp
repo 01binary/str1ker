@@ -11,6 +11,7 @@
  Controller Factory Implementation
  Created 1/21/2021
 
+ Copyright (C) 2021 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
 

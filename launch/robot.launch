@@ -11,8 +11,8 @@
         controller: 'ads1115'
         enable: true
         i2c: 1
-        devices: 1
-        rate: 128
+        devices: 2
+        rate: 64
       arm1:
         controller: 'arm'
         enable: true

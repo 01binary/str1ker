@@ -15,12 +15,6 @@ cd ~/catkin_ws
 catkin_make
 ```
 
-## Run ROS
-
-```
-roscore
-```
-
 ## Run this package
 
 ```

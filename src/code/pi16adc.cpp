@@ -8,7 +8,7 @@
                                                                                      ███████                  
  pi16adc.cpp
 
- Analog to Digital Converter Using Alchemy PI-16ADC
+ PI16ADC Analog to Digital Converter
  Created 03/20/2021
 
  This software is licensed under GNU GPLv3
@@ -116,14 +116,14 @@ bool pi16adc::init()
 {
     if (!m_enable || m_initialized) return true;
 
-    char deviceName[16] = {0};
-    sprintf(deviceName, "/dev/i2c-%d", m_i2cBus);
+    char busName[16] = {0};
+    sprintf(busName, "/dev/i2c-%d", m_i2cBus);
 
-    m_i2cHandle = open(deviceName, O_RDWR);
+    m_i2cHandle = open(busName, O_RDWR);
     
     if (m_i2cHandle < 0)
     {
-        ROS_ERROR("  failed to initialize %s: could not open %s", getName(), deviceName);
+        ROS_ERROR("  failed to initialize %s: could not open %s", getName(), busName);
         return false;
     }
 

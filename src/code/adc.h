@@ -8,9 +8,10 @@
                                                                                      ███████                  
  adc.h
 
- Analog to Digital Converter Using MCP3008
+ Analog to Digital Converter Controller Base Class
  Created 1/27/2021
 
+ Copyright (C) 2021 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
 

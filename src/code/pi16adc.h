@@ -8,15 +8,14 @@
                                                                                      ███████                  
  pi16adc.h
 
- Analog to Digital Converter Using Alchemy PI-16ADC
+ Alchemy PI16ADC Analog to Digital Converter
  Created 03/20/2021
 
  This software is licensed under GNU GPLv3
 */
 
 /*
-    Default I2C bus on Raspberry Pi 4: 1
-    Default Address: 0x76
+    Default I2C Address: 0x76
 
     Maximum analog Voltage: 2.5V p-p.
     More than 2.5V indicates an over-voltage condition.

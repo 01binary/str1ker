@@ -11,6 +11,7 @@
  Robot Arm Controller Implementation
  Created 1/19/2021
 
+ Copyright (C) 2021 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
 

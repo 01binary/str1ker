@@ -8,7 +8,7 @@
                                                                                      ███████                  
  mcp3008.h
 
- Analog to Digital Converter Using MCP3008
+ MCP3008 Analog to Digital Converter
  Created 02/22/2021
 
  This software is licensed under GNU GPLv3

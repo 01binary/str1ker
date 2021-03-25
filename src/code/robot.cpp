@@ -11,6 +11,7 @@
  Robot Controller Implementation
  Created 11/28/2020
 
+ Copyright (C) 2021 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
 
