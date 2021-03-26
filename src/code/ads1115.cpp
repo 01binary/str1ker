@@ -20,6 +20,9 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
+#include <std_msgs/UInt16MultiArray.h>
+#include <std_msgs/MultiArrayLayout.h>
+#include <std_msgs/MultiArrayDimension.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -210,6 +213,7 @@ bool ads1115::configureDevice(int deviceIndex, int deviceChannelIndex, uint16_t 
         return false;
     }
 
+    // Store last device and channel for debugging and validation
     m_lastDevice = deviceIndex;
     m_lastDeviceChannel = deviceChannelIndex;
 
@@ -308,6 +312,16 @@ void ads1115::publish()
     if (!m_enable) return;
 
     uint16_t value = 0;
+    int size = m_devices * DEVICE_CHANNELS;
+    std_msgs::MultiArrayDimension dim;
+    std_msgs::UInt16MultiArray msg;
+
+    dim.size = size;
+    dim.stride = 1;
+    dim.label = "channels";
+    msg.layout.dim.push_back(dim);
+    msg.data.reserve(size);
+
     uint16_t config =
         // Trigger conversion
         writeOperation::convert |
@@ -336,9 +350,12 @@ void ads1115::publish()
                 readConversion(value))
             {
                 m_lastSample[deviceIndex * DEVICE_CHANNELS + deviceChannelIndex] = value;
+                msg.data.push_back(value);
             }
         }
     }
+
+    m_pub.publish(msg);
 }
 
 int ads1115::getValue(int channel)
@@ -397,4 +414,6 @@ void ads1115::deserialize(ros::NodeHandle node)
             }
         }
     }
+
+    m_pub = node.advertise<std_msgs::UInt16MultiArray>(getPath(), PUBLISH_QUEUE);
 }

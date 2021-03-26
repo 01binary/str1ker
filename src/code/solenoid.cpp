@@ -45,13 +45,13 @@ REGISTER_CONTROLLER(solenoid)
 
 solenoid::solenoid(const char* path) :
     controller(path),
-    m_output(0)
+    m_gpio(0)
 {
 }
 
-solenoid::solenoid(const char* path, int output) :
+solenoid::solenoid(const char* path, int gpio) :
     controller(path),
-    m_output(output)
+    m_gpio(gpio)
 {
 }
 
@@ -64,9 +64,9 @@ bool solenoid::init()
 {
     if (!m_enable) return true;
     
-    gpioSetMode(m_output, PI_OUTPUT);
+    gpioSetMode(m_gpio, PI_OUTPUT);
 
-    ROS_INFO("  initialized %s %s on pin %d", getPath(), getType(), m_output);
+    ROS_INFO("  initialized %s %s on GPIO %d", getPath(), getType(), m_gpio);
 
     return true;
 }
@@ -77,10 +77,10 @@ void solenoid::trigger(double durationSeconds)
 
     useconds_t durationMicroseconds = durationSeconds / 1000000.0;
 
-    gpioWrite(m_output, 1);
+    gpioWrite(m_gpio, 1);
     usleep(durationMicroseconds);
 
-    gpioWrite(m_output, 0);
+    gpioWrite(m_gpio, 0);
     usleep(durationMicroseconds);
 }
 
@@ -88,7 +88,7 @@ void solenoid::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
 
-    ros::param::get(getControllerPath("output"), m_output);
+    ros::param::get(getControllerPath("gpio"), m_gpio);
 
     // TODO: advertise service
 }

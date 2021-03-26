@@ -46,13 +46,13 @@ private:
 
 private:
     // Left PWM pin
-    int m_lpwm;
+    int m_gpioLPWM;
 
     // Right PWM pin
-    int m_rpwm;
+    int m_gpioRPWM;
 
     // Potentiometer measuring absolute position
-    potentiometer* m_pot;
+    potentiometer* m_encoder;
 
 public:
     pwmServo(const char* path);

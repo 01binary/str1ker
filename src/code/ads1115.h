@@ -45,6 +45,9 @@ public:
     // How many times to retry polling for conversion result
     static const int MAX_RETRY = 4;
 
+    // Publish queue size
+    static const int PUBLISH_QUEUE = 16;
+
     // ads1115 registers
     enum deviceRegister
     {
@@ -71,12 +74,10 @@ public:
     // configuration register bits 12-14 (3 bits long)
     enum multiplexer
     {
-        // differential channels are not used by this class
         diff_0_1      = 0b000 << 12,    // Differential P = AIN0, N = AIN1 (default)
         diff_0_3      = 0b001 << 12,    // Differential P = AIN0, N = AIN3
         diff_1_3      = 0b010 << 12,    // Differential P = AIN1, N = AIN3
         diff_2_3      = 0b011 << 12,    // Differential P = AIN2, N = AIN3
-        // only single ended channels can be read by this class
         single_0      = 0b100 << 12,    // Single-ended P = AIN0, N = GND
         single_1      = 0b101 << 12,    // Single-ended P = AIN1, N = GND
         single_2      = 0b110 << 12,    // Single-ended P = AIN2, N = GND
@@ -170,6 +171,9 @@ private:
 
     // I2C device handle
     int m_i2cHandle;
+
+    // Publisher for last sample on each channel
+    ros::Publisher m_pub;
 
     // Last sample recorded for each channel
     uint16_t m_lastSample[MAX_DEVICES * DEVICE_CHANNELS];

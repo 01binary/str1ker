@@ -42,11 +42,11 @@ public:
 
 private:
     // Output pin
-    int m_output;
+    int m_gpio;
 
 public:
     solenoid(const char* path);
-    solenoid(const char* path, int output);
+    solenoid(const char* path, int gpio);
 
 public:
     // Get display type

@@ -46,9 +46,9 @@ REGISTER_CONTROLLER(pwmServo)
 
 pwmServo::pwmServo(const char* path):
     servo(path),
-    m_lpwm(0),
-    m_rpwm(0),
-    m_pot(NULL)
+    m_gpioLPWM(0),
+    m_gpioRPWM(0),
+    m_encoder(NULL)
 {
 }
 
@@ -61,21 +61,24 @@ bool pwmServo::init()
 {
     if (!m_enable) return true;
 
-    gpioSetMode(m_lpwm, PI_OUTPUT);
-    gpioSetMode(m_rpwm, PI_OUTPUT);
+    gpioSetMode(m_gpioLPWM, PI_OUTPUT);
+    gpioSetMode(m_gpioRPWM, PI_OUTPUT);
 
-    if (m_pot && !m_pot->init())
+    if (m_encoder && !m_encoder->init())
+    {
+        ROS_ERROR("  failed to initialize %s encoder", getPath());
         return false;
+    }
 
-    ROS_INFO("  initialized %s %s on pins %d RPWM and %d LPWM",
-        getPath(), getType(), m_rpwm, m_lpwm);
+    ROS_INFO("  initialized %s %s on GPIO %d RPWM and %d LPWM",
+        getPath(), getType(), m_gpioRPWM, m_gpioLPWM);
 
     return true;
 }
 
 double pwmServo::getPos()
 {
-    if (m_pot) return m_pot->getPos();
+    if (m_encoder) return m_encoder->getPos();
 
     return 0.0;
 }
@@ -90,8 +93,8 @@ void pwmServo::setPos(double pos)
 
     double lastCur = 0;
 
-    gpioPWM(m_rpwm, forward ? MAX_SPEED : 0);
-    gpioPWM(m_lpwm, forward ? 0 : MAX_SPEED);
+    gpioPWM(m_gpioRPWM, forward ? MAX_SPEED : 0);
+    gpioPWM(m_gpioLPWM, forward ? 0 : MAX_SPEED);
 
     do
     {
@@ -109,8 +112,8 @@ void pwmServo::setPos(double pos)
 
     } while (forward ? delta < 0 : delta > 0);
 
-    gpioPWM(m_rpwm, 0);
-    gpioPWM(m_lpwm, 0);
+    gpioPWM(m_gpioRPWM, 0);
+    gpioPWM(m_gpioLPWM, 0);
 
     sleep(1);
 }
@@ -131,12 +134,12 @@ void pwmServo::deserialize(ros::NodeHandle node)
 {
     servo::deserialize(node);
 
-    ros::param::get(getControllerPath("lpwm"), m_lpwm);
-    ros::param::get(getControllerPath("rpwm"), m_rpwm);
+    ros::param::get(getControllerPath("gpioLPWM"), m_gpioLPWM);
+    ros::param::get(getControllerPath("gpioRPWM"), m_gpioRPWM);
 
-    m_pot = controllerFactory::deserialize<potentiometer>(getPath(), "feedback", node);
+    m_encoder = controllerFactory::deserialize<potentiometer>(getPath(), "encoder", node);
 
-    if (!m_pot)
+    if (!m_encoder)
     {
         ROS_WARN("%s failed to load encoder", getPath());
     }
@@ -144,7 +147,7 @@ void pwmServo::deserialize(ros::NodeHandle node)
 
 void pwmServo::publish()
 {
-    if (m_pot) m_pot->publish();
+    if (m_encoder) m_encoder->publish();
 }
 
 controller* pwmServo::create(const char* path)

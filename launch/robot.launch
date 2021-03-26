@@ -19,9 +19,9 @@
         shoulder:
           controller: 'servo'
           enable: true
-          lpwm: 13
-          rpwm: 26
-          feedback:
+          gpioLPWM: 13
+          gpioRPWM: 26
+          encoder:
             controller: 'potentiometer'
             enable: true
             adc: 'ads1115'
@@ -29,10 +29,10 @@
         upperarm:
           controller: 'linear'
           enable: false
-          lpwm: 25
-          rpwm: 24
+          gpioLPWM: 25
+          gpioRPWM: 24
           time: 5
-          feedback:
+          encoder:
             controller: 'potentiometer'
             enable: false
             adc: 'ads1115'
@@ -40,10 +40,10 @@
         forearm:
           controller: 'linear'
           enable: false
-          lpwm: 18
-          rpwm: 17
+          gpioLPWM: 18
+          gpioRPWM: 17
           time: 4
-          feedback:
+          encoder:
             controller: 'potentiometer'
             enable: false
             adc: 'ads1115'
@@ -51,7 +51,7 @@
         trigger:
           controller: 'solenoid'
           enable: false
-          output: 23
+          gpio: 23
     </rosparam>
   </node>
 </launch>
