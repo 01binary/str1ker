@@ -6,12 +6,12 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- adc.h
+ arduinoMicro.h
 
- Analog to Digital Converter Controller Base Class
- Created 1/27/2021
+ Arduino Micro as Analog to Digital Converter
+ Created 02/22/2021
 
- Copyright (C) 2021 Valeriy Novytskyy
+ Copyright (C) 2022 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
 
@@ -21,7 +21,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include "controller.h"
+#include "adc.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -30,23 +30,62 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| adc class
+| ads1115 class
 \*----------------------------------------------------------*/
 
-class adc : public controller
+class arduinoMicro : public adc
 {
 public:
-    adc(const char* path): controller(path) {}
+    // Arduino Micro analog channels
+    const int CHANNELS = 12;
+
+    // Controller type
+    static const char TYPE[];
+
+private:
+    // USB device name, like /dev/ttyACM0
+    std::string m_device;
+
+    // USB device handle
+    int m_usbHandle;
+
+    // Publisher for last sample on each channel
+    ros::Publisher m_pub;
+
+    // Last sample recorded for each channel
+    uint16_t m_lastSample[CHANNELS];
 
 public:
-    // Get value on channel
-    virtual int getValue(int channel = 0) = 0;
+    arduinoMicro(const char* path);
 
-    // Get number of channels
-    virtual int getChannels() = 0;
+public:
+    // Create instance
+    static controller* create(const char* path);
+
+    // Get display type
+    virtual const char* getType();
+
+    // Initialize
+    virtual bool init();
+
+    // Get last published channel value after calling publish()
+    virtual int getValue(int channel);
 
     // Get max possible value
-    virtual int getMaxValue() = 0;
+    virtual int getMaxValue();
+
+    // Get number of channels available across all devices on I2C bus
+    virtual int getChannels();
+
+    // Publish channel values
+    virtual void publish();
+
+    // Load controller settings
+    virtual void deserialize(ros::NodeHandle node);
+
+private:
+    // Data frame signature
+    static const unsigned char SIGNATURE[];
 };
 
 } // namespace str1ker
