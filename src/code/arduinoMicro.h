@@ -37,7 +37,7 @@ class arduinoMicro : public adc
 {
 public:
     // Arduino Micro analog channels
-    const int CHANNELS = 12;
+    static const int CHANNELS = 12;
 
     // Controller type
     static const char TYPE[];
