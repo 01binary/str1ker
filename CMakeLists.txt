@@ -58,6 +58,7 @@ add_executable(robot
   src/code/mcp3008.cpp
   src/code/ads1115.cpp
   src/code/pi16adc.cpp
+  src/code/arduinoMicro.cpp
 )
 
 add_dependencies(robot ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
