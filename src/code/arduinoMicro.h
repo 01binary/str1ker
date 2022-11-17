@@ -82,10 +82,6 @@ public:
 
     // Load controller settings
     virtual void deserialize(ros::NodeHandle node);
-
-private:
-    // Data frame signature
-    static const unsigned char SIGNATURE[];
 };
 
 } // namespace str1ker

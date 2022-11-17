@@ -19,6 +19,8 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
+#include <std_msgs/UInt16MultiArray.h>
+#include <std_msgs/MultiArrayDimension.h>
 #include <pigpio.h>
 #include "arduinoMicro.h"
 #include "controllerFactory.h"
@@ -35,7 +37,7 @@ using namespace std;
 \*----------------------------------------------------------*/
 
 const char arduinoMicro::TYPE[] = "arduinoMicro";
-const char arduinoMicro::SIGNATURE[] = { 'a', 'd', 'c', 'd' };
+const unsigned char SIGNATURE[] = { 'a', 'd', 'c', 'd' };
 
 /*----------------------------------------------------------*\
 | Types
@@ -43,7 +45,7 @@ const char arduinoMicro::SIGNATURE[] = { 'a', 'd', 'c', 'd' };
 
 struct SAMPLE
 {
-  unsigned char signature[sizeof(arduinoMicro::SIGNATURE)];
+  unsigned char signature[sizeof(SIGNATURE)];
   uint16_t readings[arduinoMicro::CHANNELS];
 };
 
@@ -55,7 +57,7 @@ REGISTER_SINGLETON(arduinoMicro)
 
 arduinoMicro::arduinoMicro(const char* path) :
     adc(path),
-    m_usbHandle(-1),
+    m_usbHandle(-1)
 {
   memset(m_lastSample, 0, sizeof(m_lastSample));
 }
@@ -69,7 +71,7 @@ bool arduinoMicro::init()
 {
     if (!m_enable || m_usbHandle >= 0) return true;
 
-    m_usbHandle = serOpen(m_device.c_str(), 9600, 0);
+    m_usbHandle = serOpen((char*)m_device.c_str(), 9600, 0);
 
     if (m_usbHandle < 0)
     {
@@ -85,7 +87,7 @@ bool arduinoMicro::init()
 int arduinoMicro::getValue(int channel)
 {
     if (!m_enable) return 0;
-    return m_lastSample[n];
+    return m_lastSample[channel];
 }
 
 int arduinoMicro::getMaxValue()
@@ -110,13 +112,13 @@ void arduinoMicro::publish()
 
     SAMPLE sample;
 
-    if (serDataAvailable(usb) < sizeof(SAMPLE))
+    if (serDataAvailable(m_usbHandle) < sizeof(SAMPLE))
     {
       // Not enough data to read
       return;
     }
 
-    if (serRead(usb, (char*)&sample, sizeof(SAMPLE)) != sizeof(SAMPLE))
+    if (serRead(m_usbHandle, (char*)&sample, sizeof(SAMPLE)) != sizeof(SAMPLE))
     {
       // Failed to read
       return;
@@ -131,7 +133,7 @@ void arduinoMicro::publish()
     std_msgs::MultiArrayDimension dim;
     std_msgs::UInt16MultiArray msg;
 
-    dim.size = m_devices * CHANNELS;
+    dim.size = CHANNELS;
     dim.stride = 1;
     dim.label = "channels";
     msg.layout.dim.push_back(dim);

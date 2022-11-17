@@ -5,10 +5,11 @@
   <description>Str1ker drumming robot</description>
   <maintainer email="valeriy.novytskyy@outlook.com">Valeriy Novytskyy</maintainer>
   <license>GNU GPLv3</license>
-  <!-- <url type="website">http://wiki.ros.org/str1ker</url> -->
+  <url type="website">https://www.01binary.us/projects/drumming-robot/</url>
   <author email="valeriy.novytskyy@outlook.com">Valeriy Novytskyy</author>
   <buildtool_depend>catkin</buildtool_depend>
   <depend>roscpp</depend>
+  <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>trajectory_msgs</depend>
