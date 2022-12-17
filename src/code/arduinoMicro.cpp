@@ -71,6 +71,10 @@ bool arduinoMicro::init()
 {
     if (!m_enable || m_usbHandle >= 0) return true;
 
+    if (!m_device.getLength()) {
+      return false;
+    }
+
     m_usbHandle = serOpen((char*)m_device.c_str(), 9600, 0);
 
     if (m_usbHandle < 0)

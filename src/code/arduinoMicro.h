@@ -36,7 +36,7 @@ namespace str1ker {
 class arduinoMicro : public adc
 {
 public:
-    // Arduino Micro analog channels
+    // Arduino Micro analog channels A0 - A11
     static const int CHANNELS = 12;
 
     // Controller type
