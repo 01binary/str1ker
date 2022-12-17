@@ -1,6 +1,9 @@
 // Arduino Micro analog channels
 const int CHANNELS = 12;
 
+// USB serial baud rate
+const int BAUD_RATE = 9600;
+
 // Signature for each data frame
 const unsigned char SIGNATURE[] = { 'a', 'd', 'c', 'd' };
 
@@ -26,7 +29,6 @@ const int PINS[] =
   A11,  // Digital 12
 };
 
-
 // Data transfer structure to send values of all channels
 struct SAMPLE
 {
@@ -38,7 +40,7 @@ struct SAMPLE sample;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(BAUD_RATE);
 
   for (int channel = 0; channel < CHANNELS; channel++)
     pinMode(PINS[channel], INPUT);

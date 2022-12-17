@@ -75,7 +75,7 @@ bool arduinoMicro::init()
       return false;
     }
 
-    m_usbHandle = serOpen((char*)m_device.c_str(), 9600, 0);
+    m_usbHandle = serOpen((char*)m_device.c_str(), arduinoMicro::BAUD_RATE, 0);
 
     if (m_usbHandle < 0)
     {
