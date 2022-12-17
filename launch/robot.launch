@@ -10,46 +10,46 @@
       adc:
         controller: 'arduinoMicro'
         enable: true
-        device: '/dev/ttyACM0'
+        dev: '/dev/ttyAMA0'
       arm1:
         controller: 'arm'
         enable: true
         shoulder:
           controller: 'servo'
           enable: true
-          gpioLPWM: 13
-          gpioRPWM: 26
+          gpioLPWM: 22
+          gpioRPWM: 23
           encoder:
             controller: 'potentiometer'
             enable: true
-            adc: 'ads1115'
+            adc: 'arduinoMicro'
             channel: 0
         upperarm:
           controller: 'linear'
           enable: false
-          gpioLPWM: 25
-          gpioRPWM: 24
+          gpioLPWM: 6
+          gpioRPWM: 5
           time: 5
           encoder:
             controller: 'potentiometer'
             enable: false
-            adc: 'ads1115'
+            adc: 'arduinoMicro'
             channel: 1
         forearm:
           controller: 'linear'
           enable: false
-          gpioLPWM: 18
-          gpioRPWM: 17
+          gpioLPWM: 25
+          gpioRPWM: 24
           time: 4
           encoder:
             controller: 'potentiometer'
             enable: false
-            adc: 'ads1115'
+            adc: 'arduinoMicro'
             channel: 2
         trigger:
           controller: 'solenoid'
           enable: false
-          gpio: 23
+          gpio: 16
     </rosparam>
   </node>
 </launch>
