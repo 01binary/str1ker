@@ -43,8 +43,8 @@ const char arm::TYPE[] = "arm";
 
 REGISTER_CONTROLLER(arm)
 
-arm::arm(const char* path) :
-    controller(path),
+arm::arm(robot& robot, const char* path) :
+    controller(robot, path),
     m_shoulder(NULL),
     m_upperarm(NULL),
     m_forearm(NULL),
@@ -147,7 +147,7 @@ void arm::publish()
     if (m_trigger) m_trigger->publish();
 }
 
-controller* arm::create(const char* path)
+controller* arm::create(robot& robot, const char* path)
 {
-    return new arm(path);
+    return new arm(robot, path);
 }

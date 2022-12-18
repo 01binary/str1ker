@@ -57,8 +57,8 @@ private:
     ros::Publisher m_pub;
 
 public:
-    dynamixelPro(const char* path);
-    dynamixelPro(const char* path, int id);
+    dynamixelPro(class robot& robot, const char* path);
+    dynamixelPro(class robot& robot, const char* path, int id);
 
 public:
     // Get display type
@@ -84,7 +84,7 @@ public:
 
 public:
     // Create instance
-    static controller* create(const char* path);
+    static controller* create(class robot& robot, const char* path);
 };
 
 } // namespace str1ker

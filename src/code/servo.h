@@ -31,13 +31,19 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
+| Forward declarations
+\*----------------------------------------------------------*/
+
+class robot;
+
+/*----------------------------------------------------------*\
 | servo class
 \*----------------------------------------------------------*/
 
 class servo : public controller
 {
 public:
-    servo(const char* path) : controller(path) {}
+    servo(robot& robot, const char* path) : controller(robot, path) {}
 
 public:
     // Initialize servo controller

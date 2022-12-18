@@ -45,8 +45,8 @@ const char potentiometer::TYPE[] = "potentiometer";
 
 REGISTER_CONTROLLER(potentiometer)
 
-potentiometer::potentiometer(const char* path) :
-    controller(path),
+potentiometer::potentiometer(class robot& robot, const char* path) :
+    controller(robot, path),
     m_adc(NULL),
     m_channel(0),
     m_lastSample(0.0)
@@ -98,7 +98,7 @@ void potentiometer::publish()
     }
 }
 
-controller* potentiometer::create(const char* path)
+controller* potentiometer::create(robot& robot, const char* path)
 {
-    return new potentiometer(path);
+    return new potentiometer(robot, path);
 }

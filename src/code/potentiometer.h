@@ -55,7 +55,7 @@ private:
     ros::Publisher m_pub;
 
 public:
-    potentiometer(const char* path);
+    potentiometer(class robot& robot, const char* path);
 
 public:
     // Get display type
@@ -75,7 +75,7 @@ public:
 
 public:
     // Create instance
-    static controller* create(const char* path);
+    static controller* create(class robot& robot, const char* path);
 };
 
 } // namespace str1ker

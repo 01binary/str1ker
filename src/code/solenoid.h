@@ -45,8 +45,8 @@ private:
     int m_gpio;
 
 public:
-    solenoid(const char* path);
-    solenoid(const char* path, int gpio);
+    solenoid(class robot& robot, const char* path);
+    solenoid(class robot& robot, const char* path, int gpio);
 
 public:
     // Get display type
@@ -63,7 +63,7 @@ public:
 
 public:
     // Create instance
-    static controller* create(const char* path);
+    static controller* create(robot& robot, const char* path);
 };
 
 } // namespace str1ker

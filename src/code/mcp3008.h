@@ -68,7 +68,7 @@ private:
     int m_spi;
 
 public:
-    mcp3008(const char* path);
+    mcp3008(class robot& robot, const char* path);
 
 public:
     // Get display type
@@ -91,7 +91,7 @@ public:
 
 public:
     // Create instance
-    static controller* create(const char* path);
+    static controller* create(class robot& robot, const char* path);
 };
 
 } // namespace str1ker

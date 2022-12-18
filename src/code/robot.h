@@ -48,7 +48,11 @@ private:
     static const char PATH[];
 
 private:
+    // Loaded controllers
     controllerMap m_controllers;
+
+    // GPIO connection
+    int m_gpio;
 
 public:
     robot();
@@ -66,6 +70,9 @@ public:
 
     // Print logo
     robot& logo();
+
+    // Get GPIO daemon handle
+    int getGpio();
 
     // Get controller of type by name
     template <class C> C* getController(const char* name)

@@ -49,6 +49,10 @@ robot::robot()
 
 robot::~robot()
 {
+    // Release GPIO pins
+    pigpio_stop(m_gpio);
+
+    // Release controllers
     for(controllerMap::iterator pos = m_controllers.begin();
         pos != m_controllers.end();
         ++pos)
@@ -66,7 +70,7 @@ bool robot::init()
 {
     ROS_INFO("initializing controllers...");
 
-    if (gpioInitialise() < 0)
+    if (m_gpio = pigpio_start(NULL, NULL) < 0)
     {
         ROS_ERROR("failed to initialize GPIO");
         return false;
@@ -110,7 +114,7 @@ robot& robot::deserialize(ros::NodeHandle node)
             m_controllers.find(path) == m_controllers.end())
         {
             const char* name = getControllerName(path);
-            controller* instance = controllerFactory::deserialize(PATH, name, node);
+            controller* instance = controllerFactory::deserialize(*this, PATH, name, node);
 
             if (instance) m_controllers[path] = instance;
         }
@@ -145,6 +149,10 @@ const char* robot::getControllerPath(const char* path, const char* componentType
 
     strncpy(componentPath, path, nextNode - path);
     return componentPath;
+}
+
+int robot::getGpio() {
+    return m_gpio;
 }
 
 robot& robot::logo()

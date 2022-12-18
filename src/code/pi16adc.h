@@ -99,7 +99,7 @@ private:
     bool m_initialized;
 
 public:
-    pi16adc(const char* path);
+    pi16adc(class robot& robot, const char* path);
 
 public:
     // Get display type
@@ -128,7 +128,7 @@ private:
 
 public:
     // Create instance
-    static controller* create(const char* path);
+    static controller* create(robot& robot, const char* path);
 };
 
 } // namespace str1ker

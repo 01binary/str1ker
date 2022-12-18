@@ -19,8 +19,6 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
-#include "pi16adc.h"
-#include "controllerFactory.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -31,6 +29,9 @@
 #include <sys/stat.h>
 #include <linux/i2c-dev.h>
 #include <linux/i2c.h>
+#include "robot.h"
+#include "pi16adc.h"
+#include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -79,8 +80,8 @@ const uint8_t pi16adc::CHANNEL_COMMANDS[] =
 
 REGISTER_SINGLETON(pi16adc)
 
-pi16adc::pi16adc(const char* path) :
-    adc(path),
+pi16adc::pi16adc(robot& robot, const char* path) :
+    adc(robot, path),
     m_initialized(false),
     m_i2cBus(-1),
     m_i2cHandle(0),
@@ -219,7 +220,7 @@ void pi16adc::deserialize(ros::NodeHandle node)
     }
 }
 
-controller* pi16adc::create(const char* path)
+controller* pi16adc::create(robot& robot, const char* path)
 {
-    return new pi16adc(path);
+    return new pi16adc(robot, path);
 }

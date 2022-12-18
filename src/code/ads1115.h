@@ -179,12 +179,9 @@ private:
     uint16_t m_lastSample[MAX_DEVICES * DEVICE_CHANNELS];
 
 public:
-    ads1115(const char* path);
+    ads1115(class robot& robot, const char* path);
 
 public:
-    // Create instance
-    static controller* create(const char* path);
-
     // Get display type
     virtual const char* getType();
 
@@ -240,6 +237,10 @@ private:
 
     // sample rate values
     static const uint16_t RATE_VALUES[];
+
+public:
+    // Create instance
+    static controller* create(class robot& robot, const char* path);
 };
 
 } // namespace str1ker

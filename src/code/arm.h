@@ -56,7 +56,7 @@ private:
     solenoid* m_trigger;
 
 public:
-    arm(const char* path);
+    arm(class robot& robot, const char* path);
     ~arm();
 
 public:
@@ -92,7 +92,7 @@ public:
 
 public:
     // Create instance
-    static controller* create(const char* path);
+    static controller* create(class robot& robot, const char* path);
 };
 
 } // namespace str1ker

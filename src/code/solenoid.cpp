@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <pigpiod_if2.h>
 #include <ros/ros.h>
+#include "robot.h"
 #include "solenoid.h"
 #include "controllerFactory.h"
 
@@ -43,14 +44,14 @@ const char solenoid::TYPE[] = "solenoid";
 
 REGISTER_CONTROLLER(solenoid)
 
-solenoid::solenoid(const char* path) :
-    controller(path),
+solenoid::solenoid(robot& robot, const char* path) :
+    controller(robot, path),
     m_gpio(0)
 {
 }
 
-solenoid::solenoid(const char* path, int gpio) :
-    controller(path),
+solenoid::solenoid(robot& robot, const char* path, int gpio) :
+    controller(robot, path),
     m_gpio(gpio)
 {
 }
@@ -64,7 +65,7 @@ bool solenoid::init()
 {
     if (!m_enable) return true;
     
-    gpioSetMode(m_gpio, PI_OUTPUT);
+    set_mode(m_robot.getGpio(), m_gpio, PI_OUTPUT);
 
     ROS_INFO("  initialized %s %s on GPIO %d", getPath(), getType(), m_gpio);
 
@@ -77,10 +78,10 @@ void solenoid::trigger(double durationSeconds)
 
     useconds_t durationMicroseconds = durationSeconds / 1000000.0;
 
-    gpioWrite(m_gpio, 1);
+    gpio_write(m_robot.getGpio(), m_gpio, 1);
     usleep(durationMicroseconds);
 
-    gpioWrite(m_gpio, 0);
+    gpio_write(m_robot.getGpio(), m_gpio, 0);
     usleep(durationMicroseconds);
 }
 
@@ -93,7 +94,7 @@ void solenoid::deserialize(ros::NodeHandle node)
     // TODO: advertise service
 }
 
-controller* solenoid::create(const char* path)
+controller* solenoid::create(robot& robot, const char* path)
 {
-    return new solenoid(path);
+    return new solenoid(robot, path);
 }

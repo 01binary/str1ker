@@ -41,9 +41,9 @@ int main(int argc, char** argv)
     robot robot;
 
     if (!robot
-            .logo()
-            .deserialize(node)
-            .init())
+        .logo()
+        .deserialize(node)
+        .init())
     {
         return 1;
     }

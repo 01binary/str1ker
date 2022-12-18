@@ -96,7 +96,7 @@ public:
     }
 
     // Deserialize controller by path
-    static controller* deserialize(const char* parentPath, const char* controllerName, ros::NodeHandle node);
+    static controller* deserialize(class robot& robot, const char* parentPath, const char* controllerName, ros::NodeHandle node);
 
     // Deserialize controller by type
     static controller* deserialize(const char* type);

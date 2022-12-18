@@ -34,6 +34,7 @@
 #include <inttypes.h>
 #include <linux/i2c-dev.h>
 #include <linux/i2c.h>
+#include "robot.h"
 #include "ads1115.h"
 #include "controllerFactory.h"
 
@@ -137,8 +138,8 @@ const uint16_t ads1115::RATE_VALUES[] =
 
 REGISTER_SINGLETON(ads1115)
 
-ads1115::ads1115(const char* path) :
-    adc(path),
+ads1115::ads1115(robot& robot, const char* path) :
+    adc(robot, path),
     m_i2cBus(-1),
     m_devices(1),
     m_lastDevice(-1),
@@ -150,9 +151,9 @@ ads1115::ads1115(const char* path) :
     memset(m_lastSample, 0, sizeof(m_lastSample));
 }
 
-controller* ads1115::create(const char* path)
+controller* ads1115::create(robot& robot, const char* path)
 {
-    return new ads1115(path);
+    return new ads1115(robot, path);
 }
 
 const char* ads1115::getType()

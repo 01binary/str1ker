@@ -59,11 +59,11 @@ private:
     uint16_t m_lastSample[CHANNELS];
 
 public:
-    arduinoMicro(const char* path);
+    arduinoMicro(class robot& robot, const char* path);
 
 public:
     // Create instance
-    static controller* create(const char* path);
+    static controller* create(class robot& robot, const char* path);
 
     // Get display type
     virtual const char* getType();

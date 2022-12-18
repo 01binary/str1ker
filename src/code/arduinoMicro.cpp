@@ -55,11 +55,16 @@ struct SAMPLE
 
 REGISTER_SINGLETON(arduinoMicro)
 
-arduinoMicro::arduinoMicro(const char* path) :
-    adc(path),
+arduinoMicro::arduinoMicro(robot& robot, const char* path) :
+    adc(robot, path),
     m_usbHandle(-1)
 {
   memset(m_lastSample, 0, sizeof(m_lastSample));
+}
+
+controller* arduinoMicro::create(robot& robot, const char* path)
+{
+    return new arduinoMicro(robot, path);
 }
 
 const char* arduinoMicro::getType()
@@ -150,9 +155,4 @@ void arduinoMicro::publish()
     }
 
     m_pub.publish(msg);
-}
-
-controller* arduinoMicro::create(const char* path)
-{
-    return new arduinoMicro(path);
 }

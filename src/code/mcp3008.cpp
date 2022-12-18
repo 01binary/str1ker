@@ -20,6 +20,7 @@
 
 #include <ros/ros.h>
 #include <pigpiod_if2.h>
+#include "robot.h"
 #include "mcp3008.h"
 #include "controllerFactory.h"
 
@@ -42,8 +43,8 @@ const char mcp3008::TYPE[] = "mcp3008";
 
 REGISTER_SINGLETON(mcp3008)
 
-mcp3008::mcp3008(const char* path) :
-    adc(path),
+mcp3008::mcp3008(robot& robot, const char* path) :
+    adc(robot, path),
     m_spiBus(-1),
     m_spi(-1)
 {
@@ -99,7 +100,7 @@ void mcp3008::deserialize(ros::NodeHandle node)
     ros::param::get(getControllerPath("spi"), m_spiBus);
 }
 
-controller* mcp3008::create(const char* path)
+controller* mcp3008::create(robot& robot, const char* path)
 {
-    return new mcp3008(path);
+    return new mcp3008(robot, path);
 }

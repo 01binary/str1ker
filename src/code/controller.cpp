@@ -37,11 +37,17 @@ using namespace std;
 | controller implementation
 \*----------------------------------------------------------*/
 
-controller::controller(const char* path) :
+controller::controller(robot& robot, const char* path) :
+    m_robot(robot),
     m_name(robot::getControllerName(path)),
     m_path(path),
     m_enable(true)
 {
+}
+
+robot& controller::getRobot()
+{
+    return m_robot;
 }
 
 const char* controller::getName()

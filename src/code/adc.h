@@ -36,7 +36,7 @@ namespace str1ker {
 class adc : public controller
 {
 public:
-    adc(const char* path): controller(path) {}
+    adc(class robot& robot, const char* path): controller(robot, path) {}
 
 public:
     // Get value on channel

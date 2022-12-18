@@ -20,6 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
+#include "robot.h"
 #include "linear.h"
 #include "controllerFactory.h"
 
@@ -42,7 +43,8 @@ const char linear::TYPE[] = "linear";
 
 REGISTER_CONTROLLER(linear)
 
-linear::linear(const char* path) : pwmServo(path)
+linear::linear(robot& robot, const char* path) :
+    pwmServo(robot, path)
 {
 }
 
@@ -61,7 +63,7 @@ void linear::contract(double delta)
     deltaPos(-delta);
 }
 
-controller* linear::create(const char* path)
+controller* linear::create(robot& robot, const char* path)
 {
-    return new linear(path);
+    return new linear(robot, path);
 }

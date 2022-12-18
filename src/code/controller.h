@@ -30,12 +30,21 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
+| Declarations
+\*----------------------------------------------------------*/
+
+class robot;
+
+/*----------------------------------------------------------*\
 | controller base class
 \*----------------------------------------------------------*/
 
 class controller
 {
 protected:
+    // Robot the controller belongs to
+    robot& m_robot;
+
     // Controller display name
     std::string m_name;
 
@@ -46,9 +55,12 @@ protected:
     bool m_enable;
 
 public:
-    controller(const char* path);
+    controller(robot& robot, const char* path);
 
 public:
+    // Get robot
+    robot& getRobot();
+
     // Get controller display name
     const char* getName();
 

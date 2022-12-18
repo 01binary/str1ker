@@ -40,7 +40,7 @@ public:
     static const char TYPE[];
 
 public:
-    linear(const char* path);
+    linear(class robot& robot, const char* path);
 
 public:
     // Get display type
@@ -54,7 +54,7 @@ public:
 
 public:
     // Create instance
-    static controller* create(const char* path);
+    static controller* create(class robot& robot, const char* path);
 };
 
 } // namespace str1ker

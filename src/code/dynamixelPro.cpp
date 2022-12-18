@@ -23,6 +23,7 @@
 #include <pigpiod_if2.h>
 #include <ros/ros.h>
 #include <std_msgs/Float32.h>
+#include "robot.h"
 #include "dynamixelPro.h"
 #include "controllerFactory.h"
 
@@ -51,16 +52,16 @@ DynamixelWorkbench* dynamixelPro::s_wb = NULL;
 
 REGISTER_CONTROLLER(dynamixelPro)
 
-dynamixelPro::dynamixelPro(const char* path) :
-    servo(path),
+dynamixelPro::dynamixelPro(robot& robot, const char* path) :
+    servo(robot, path),
     m_id(0),
     m_pos(NULL),
     m_goal(NULL)
 {
 }
 
-dynamixelPro::dynamixelPro(const char* path, int id) :
-    servo(path),
+dynamixelPro::dynamixelPro(robot& robot, const char* path, int id) :
+    servo(robot, path),
     m_id(id),
     m_pos(NULL),
     m_goal(NULL)
@@ -178,7 +179,7 @@ void dynamixelPro::publish()
     m_pub.publish(msg);
 }
 
-controller* dynamixelPro::create(const char* path)
+controller* dynamixelPro::create(robot& robot, const char* path)
 {
-    return new dynamixelPro(path);
+    return new dynamixelPro(robot, path);
 }

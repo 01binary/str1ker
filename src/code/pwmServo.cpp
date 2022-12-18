@@ -44,8 +44,8 @@ const char pwmServo::TYPE[] = "servo";
 
 REGISTER_CONTROLLER(pwmServo)
 
-pwmServo::pwmServo(const char* path):
-    servo(path),
+pwmServo::pwmServo(robot& robot, const char* path):
+    servo(robot, path),
     m_gpioLPWM(0),
     m_gpioRPWM(0),
     m_encoder(NULL)
@@ -61,8 +61,8 @@ bool pwmServo::init()
 {
     if (!m_enable) return true;
 
-    gpioSetMode(m_gpioLPWM, PI_OUTPUT);
-    gpioSetMode(m_gpioRPWM, PI_OUTPUT);
+    set_mode(robot.getGpio(), m_gpioLPWM, PI_OUTPUT);
+    set_mode(robot.getGpio(), m_gpioRPWM, PI_OUTPUT);
 
     if (m_encoder && !m_encoder->init())
     {
@@ -93,8 +93,8 @@ void pwmServo::setPos(double pos)
 
     double lastCur = 0;
 
-    gpioPWM(m_gpioRPWM, forward ? MAX_SPEED : 0);
-    gpioPWM(m_gpioLPWM, forward ? 0 : MAX_SPEED);
+    set_PWM_dutycycle(m_robot.getGpio(), m_gpioRPWM, forward ? MAX_SPEED : 0);
+    set_PWM_dutycycle(m_robot.getGpio(), m_gpioLPWM, forward ? 0 : MAX_SPEED);
 
     do
     {
@@ -112,8 +112,8 @@ void pwmServo::setPos(double pos)
 
     } while (forward ? delta < 0 : delta > 0);
 
-    gpioPWM(m_gpioRPWM, 0);
-    gpioPWM(m_gpioLPWM, 0);
+    set_PWM_dutycycle(m_robot.getGpio(), m_gpioRPWM, 0);
+    set_PWM_dutycycle(m_robot.getGpio(), m_gpioLPWM, 0);
 
     sleep(1);
 }

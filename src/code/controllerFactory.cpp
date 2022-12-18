@@ -20,6 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
+#include "robot.h"
 #include "controllerFactory.h"
 #include "solenoid.h"
 #include "pwmServo.h"
@@ -47,7 +48,7 @@ controllerFactory::controllerFactory()
     s_initialized = true;
 }
 
-controller* controllerFactory::deserialize(const char* parentPath, const char* controllerName, ros::NodeHandle node)
+controller* controllerFactory::deserialize(robot& robot, const char* parentPath, const char* controllerName, ros::NodeHandle node)
 {
     try
     {
@@ -78,7 +79,7 @@ controller* controllerFactory::deserialize(const char* parentPath, const char* c
         {
             if (NULL == reg.instance)
             {
-                reg.instance = reg.create(componentPath.c_str());
+                reg.instance = reg.create(robot, componentPath.c_str());
                 reg.instance->deserialize(node);
             }
 
@@ -86,7 +87,7 @@ controller* controllerFactory::deserialize(const char* parentPath, const char* c
         }
         else
         {
-            instance = reg.create(componentPath.c_str());
+            instance = reg.create(robot, componentPath.c_str());
             instance->deserialize(node);
         }
 

@@ -55,7 +55,7 @@ private:
     potentiometer* m_encoder;
 
 public:
-    pwmServo(const char* path);
+    pwmServo(class robot& robot, const char* path);
 
 public:
     // Get display type
@@ -81,7 +81,7 @@ public:
 
 public:
     // Create instance
-    static controller* create(const char* path);
+    static controller* create(class robot& robot, const char* path);
 };
 
 } // namespace str1ker
