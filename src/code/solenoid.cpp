@@ -20,7 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include <unistd.h>
-#include <pigpio.h>
+#include <pigpiod_if2.h>
 #include <ros/ros.h>
 #include "solenoid.h"
 #include "controllerFactory.h"

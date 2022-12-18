@@ -19,7 +19,7 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
-#include <pigpio.h>
+#include <pigpiod_if2.h>
 #include "mcp3008.h"
 #include "controllerFactory.h"
 

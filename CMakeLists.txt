@@ -63,7 +63,7 @@ add_executable(robot
 )
 
 add_dependencies(robot ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(robot ${catkin_LIBRARIES} ${Eigen3_LIBRARIES} ${YAML_CPP_LIBRARIES} -lpigpio)
+target_link_libraries(robot ${catkin_LIBRARIES} ${Eigen3_LIBRARIES} ${YAML_CPP_LIBRARIES} -lpigpiod_if2 -lrt)
 
 install(
   TARGETS robot
@@ -71,17 +71,6 @@ install(
 )
 
 install(
-  DIRECTORY launch config
+  DIRECTORY launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
-
-file(
-  COPY ${PROJECT_SOURCE_DIR}/build/post_build.sh
-  DESTINATION ${PROJECT_SOURCE_DIR}
-  FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-)
-
-add_custom_command(
-  TARGET robot
-  POST_BUILD COMMAND ${PROJECT_SOURCE_DIR}/post_build.sh
 )

@@ -21,7 +21,7 @@
 #include <ros/ros.h>
 #include <std_msgs/UInt16MultiArray.h>
 #include <std_msgs/MultiArrayDimension.h>
-#include <pigpio.h>
+#include <pigpiod_if2.h>
 #include "arduinoMicro.h"
 #include "controllerFactory.h"
 
@@ -71,7 +71,7 @@ bool arduinoMicro::init()
 {
     if (!m_enable || m_usbHandle >= 0) return true;
 
-    if (!m_device.getLength()) {
+    if (!m_device.length()) {
       return false;
     }
 

@@ -20,7 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include <math.h>
-#include <pigpio.h>
+#include <pigpiod_if2.h>
 #include <ros/ros.h>
 #include <std_msgs/Float32.h>
 #include "dynamixelPro.h"
