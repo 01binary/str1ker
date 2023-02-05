@@ -78,11 +78,21 @@ void solenoid::trigger(double durationSeconds)
 
     useconds_t durationMicroseconds = durationSeconds / 1000000.0;
 
-    gpio_write(m_robot.getGpio(), m_gpio, 1);
+    if (gpio_write(m_robot.getGpio(), m_gpio, 1) < 0) {
+        setLastError("failed to write gpio high");
+        return;
+    }
+
     usleep(durationMicroseconds);
 
-    gpio_write(m_robot.getGpio(), m_gpio, 0);
+    if (gpio_write(m_robot.getGpio(), m_gpio, 0) < 0) {
+        setLastError("failed to write gpio low");
+        return;
+    }
+
     usleep(durationMicroseconds);
+
+    setLastError(NULL);
 }
 
 void solenoid::deserialize(ros::NodeHandle node)

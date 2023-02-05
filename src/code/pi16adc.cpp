@@ -162,9 +162,11 @@ bool pi16adc::configure(uint8_t config)
     if (result != 1)
     {
         ROS_ERROR("  failed to configure %s with 0x%x", getName(), config);
+        setLastError("failed to request a reading");
         return false;
     }
 
+    setLastError(NULL);
     return true;
 }
 
@@ -183,6 +185,7 @@ void pi16adc::publish()
         if (read(m_i2cHandle, buffer, VALUE_SIZE) != VALUE_SIZE)
         {
             ROS_ERROR("  failed to read %s channel %d: chip may not respond faster than .15s", getName(), n);
+            setLastError("failed to read channel");
             return;
         }
 
@@ -198,6 +201,8 @@ void pi16adc::publish()
             m_samples[n] = ((buffer[0] & 0x3F) << 16) + (buffer[1] << 8) + (buffer[2] & 0xE0);
         }
     }
+
+    setLastError(NULL);
 
     ROS_INFO("[%.2g][%.2g]",
         double(m_samples[0]) / double(MAX_VALUE),

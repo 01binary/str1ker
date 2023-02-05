@@ -79,8 +79,12 @@ int mcp3008::getValue(int channel)
     if (!m_enable) return 0;
 
     char buffer[3] = { 1, char((8 + channel) << 4), 0 };
-    spi_xfer(m_robot.getGpio(), m_spi, buffer, buffer, sizeof(buffer));
 
+    if (spi_xfer(m_robot.getGpio(), m_spi, buffer, buffer, sizeof(buffer)) < 0) {
+        setLastError("failed to read from spi");
+    }
+
+    setLastError(NULL);
     return ((buffer[1] & 3) << 8) | buffer[2];
 }
 

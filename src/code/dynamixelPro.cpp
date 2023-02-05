@@ -128,9 +128,11 @@ double dynamixelPro::getPos()
         !s_wb->getSyncReadData(0, &id, 1, m_pos->address, m_pos->data_length, &value))
     {
         ROS_ERROR("failed to read %s dynamixelPro servo position", m_name.c_str());
+        setLastError("failed to read position");
         return 0.0;
     }
 
+    setLastError(NULL);
     return s_wb->convertValue2Radian(id, value);
 }
 
@@ -144,8 +146,11 @@ void dynamixelPro::setPos(double pos)
     if (!s_wb->syncWrite(0, &id, 1, &value, 1))
     {
         ROS_ERROR("failed to write %s dynamixelPro servo position", m_name.c_str());
+        setLastError("failed to set position");
         return;
     }
+
+    setLastError(NULL);
 }
 
 void dynamixelPro::deltaPos(double delta)
@@ -159,8 +164,11 @@ void dynamixelPro::deltaPos(double delta)
     if (!s_wb->syncWrite(0, &id, 1, &value, 1))
     {
         ROS_ERROR("failed to write %s dynamixelPro servo position", m_name.c_str());
+        setLastError("failed to set position");
         return;
     }
+
+    setLastError(NULL);
 }
 
 void dynamixelPro::deserialize(ros::NodeHandle node)

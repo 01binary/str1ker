@@ -350,8 +350,11 @@ void ads1115::publish()
                 pollDevice() &&
                 readConversion(value))
             {
+                setLastError(NULL);
                 m_lastSample[deviceIndex * DEVICE_CHANNELS + deviceChannelIndex] = value;
                 msg.data.push_back(value);
+            } else {
+                setLastError("failed to configure, poll, or read");
             }
         }
     }

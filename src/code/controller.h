@@ -54,6 +54,9 @@ protected:
     // Whether controller is enabled
     bool m_enable;
 
+    // Last reported error
+    const char* m_error;
+
 public:
     controller(robot& robot, const char* path);
 
@@ -70,6 +73,9 @@ public:
     // Get enabled status
     const bool isEnabled();
 
+    // Get last run-time error
+    const char* getLastError();
+
     // Get controller type display name
     virtual const char* getType() = 0;
 
@@ -85,6 +91,9 @@ public:
 protected:
     // Get child controller path
     std::string getControllerPath(const char* controllerName);
+
+    // Set last run-time error
+    void setLastError(const char* lastError);
 };
 
 } // namespace str1ker

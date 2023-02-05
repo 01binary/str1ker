@@ -93,12 +93,26 @@ void pwmServo::setPos(double pos)
     double cur = getPos();
     bool forward = (pos - cur) >= 0;
     double delta = 0.0;
-
+    int result = 0;
     double lastCur = 0;
 
-    set_PWM_dutycycle(m_robot.getGpio(), m_gpioRPWM, forward ? MAX_SPEED : 0);
-    set_PWM_dutycycle(m_robot.getGpio(), m_gpioLPWM, forward ? 0 : MAX_SPEED);
+    // Start RPWM
+    result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioRPWM, forward ? MAX_SPEED : 0);
 
+    if (result < 0) {
+        handlePWMError(result);
+        return;
+    }
+
+    // Start LPWM
+    result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioLPWM, forward ? 0 : MAX_SPEED);
+
+    if (result < 0) {
+        handlePWMError(result);
+        return;
+    }
+
+    // Wait until servo reaches position
     do
     {
         usleep(10000);
@@ -115,10 +129,45 @@ void pwmServo::setPos(double pos)
 
     } while (forward ? delta < 0 : delta > 0);
 
-    set_PWM_dutycycle(m_robot.getGpio(), m_gpioRPWM, 0);
-    set_PWM_dutycycle(m_robot.getGpio(), m_gpioLPWM, 0);
+    // Stop RPWM
+    result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioRPWM, 0);
 
+    if (result < 0) {
+        handlePWMError(result);
+        return;
+    }
+
+    // Stop LPWM
+    result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioLPWM, 0);
+
+    if (result < 0) {
+        handlePWMError(result);
+        return;
+    }
+
+    // Movement completed
+    setLastError(NULL);
+
+    // Allow time before next command
     sleep(1);
+}
+
+void pwmServo::handlePWMError(int error)
+{
+    switch (error) {
+        case PI_BAD_USER_GPIO:
+            setLastError("invalid GPIO handle");
+            break;
+        case PI_NOT_PERMITTED:
+            setLastError("access to GPIO pins denied");
+            break;
+        case PI_BAD_DUTYCYCLE:
+            setLastError("invalid duty cycle");
+            break;
+        case PI_BAD_MODE:
+            setLastError("invalid mode");
+            break;
+    }
 }
 
 void pwmServo::deltaPos(double delta)

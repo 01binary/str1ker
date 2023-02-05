@@ -131,12 +131,14 @@ void arduinoMicro::publish()
     if (serial_read(m_robot.getGpio(), m_usbHandle, (char*)&sample, sizeof(SAMPLE)) != sizeof(SAMPLE))
     {
       // Failed to read
+      setLastError("failed to read from serial port");
       return;
     }
 
     if (memcmp(sample.signature, SIGNATURE, sizeof(SIGNATURE)) != 0)
     {
       // Invalid or corrupted data
+      setLastError("corrupted payload read from serial port");
       return;
     }
 
@@ -156,4 +158,6 @@ void arduinoMicro::publish()
     }
 
     m_pub.publish(msg);
+
+    setLastError(NULL);
 }

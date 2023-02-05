@@ -79,6 +79,9 @@ public:
     // Publish current position
     virtual void publish();
 
+protected:
+    void handlePWMError(int error);
+
 public:
     // Create instance
     static controller* create(class robot& robot, const char* path);
