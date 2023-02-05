@@ -123,10 +123,10 @@ void arm::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
 
-    m_shoulder = controllerFactory::deserialize<servo>(m_path.c_str(), "shoulder", node);
-    m_upperarm = controllerFactory::deserialize<linear>(m_path.c_str(), "upperarm", node);
-    m_forearm = controllerFactory::deserialize<linear>(m_path.c_str(), "forearm", node);
-    m_trigger = controllerFactory::deserialize<solenoid>(m_path.c_str(), "trigger", node);
+    m_shoulder = controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "shoulder", node);
+    m_upperarm = controllerFactory::deserialize<linear>(m_robot, m_path.c_str(), "upperarm", node);
+    m_forearm = controllerFactory::deserialize<linear>(m_robot, m_path.c_str(), "forearm", node);
+    m_trigger = controllerFactory::deserialize<solenoid>(m_robot, m_path.c_str(), "trigger", node);
 }
 
 bool arm::init()

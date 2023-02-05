@@ -22,6 +22,7 @@
 #include <std_msgs/UInt16MultiArray.h>
 #include <std_msgs/MultiArrayDimension.h>
 #include <pigpiod_if2.h>
+#include "robot.h"
 #include "arduinoMicro.h"
 #include "controllerFactory.h"
 
@@ -80,7 +81,7 @@ bool arduinoMicro::init()
       return false;
     }
 
-    m_usbHandle = serOpen((char*)m_device.c_str(), arduinoMicro::BAUD_RATE, 0);
+    m_usbHandle = serial_open(m_robot.getGpio(), (char*)m_device.c_str(), arduinoMicro::BAUD_RATE, 0);
 
     if (m_usbHandle < 0)
     {
@@ -121,13 +122,13 @@ void arduinoMicro::publish()
 
     SAMPLE sample;
 
-    if (serDataAvailable(m_usbHandle) < sizeof(SAMPLE))
+    if (serial_data_available(m_robot.getGpio(), m_usbHandle) < sizeof(SAMPLE))
     {
       // Not enough data to read
       return;
     }
 
-    if (serRead(m_usbHandle, (char*)&sample, sizeof(SAMPLE)) != sizeof(SAMPLE))
+    if (serial_read(m_robot.getGpio(), m_usbHandle, (char*)&sample, sizeof(SAMPLE)) != sizeof(SAMPLE))
     {
       // Failed to read
       return;

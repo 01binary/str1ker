@@ -11,6 +11,8 @@
  MCP3008 Analog to Digital Converter
  Created 02/22/2021
 
+Uses pigpiod C interface: https://abyz.me.uk/rpi/pigpio/pdif2.html
+
  This software is licensed under GNU GPLv3
 */
 
@@ -59,7 +61,7 @@ bool mcp3008::init()
 {
     if (!m_enable || m_spi >= 0) return true;
 
-    m_spi = spiOpen(m_spiBus, SPI_RATE, SPI_MODE);
+    m_spi = spi_open(m_robot.getGpio(), m_spiBus, SPI_RATE, SPI_MODE);
 
     if (m_spi < 0)
     {
@@ -77,7 +79,7 @@ int mcp3008::getValue(int channel)
     if (!m_enable) return 0;
 
     char buffer[3] = { 1, char((8 + channel) << 4), 0 };
-    spiXfer(m_spi, buffer, buffer, sizeof(buffer));
+    spi_xfer(m_robot.getGpio(), m_spi, buffer, buffer, sizeof(buffer));
 
     return ((buffer[1] & 3) << 8) | buffer[2];
 }

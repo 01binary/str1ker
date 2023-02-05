@@ -11,6 +11,8 @@
  PWM Servo Controller Implementation
  Created 1/19/2021
 
+ Uses pigpiod C interface: https://abyz.me.uk/rpi/pigpio/pdif2.html
+
  Copyright (C) 2021 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -22,6 +24,7 @@
 #include <math.h>
 #include <pigpiod_if2.h>
 #include <ros/ros.h>
+#include "robot.h"
 #include "pwmServo.h"
 #include "controllerFactory.h"
 
@@ -61,8 +64,8 @@ bool pwmServo::init()
 {
     if (!m_enable) return true;
 
-    set_mode(robot.getGpio(), m_gpioLPWM, PI_OUTPUT);
-    set_mode(robot.getGpio(), m_gpioRPWM, PI_OUTPUT);
+    set_mode(m_robot.getGpio(), m_gpioLPWM, PI_OUTPUT);
+    set_mode(m_robot.getGpio(), m_gpioRPWM, PI_OUTPUT);
 
     if (m_encoder && !m_encoder->init())
     {
@@ -137,7 +140,7 @@ void pwmServo::deserialize(ros::NodeHandle node)
     ros::param::get(getControllerPath("gpioLPWM"), m_gpioLPWM);
     ros::param::get(getControllerPath("gpioRPWM"), m_gpioRPWM);
 
-    m_encoder = controllerFactory::deserialize<potentiometer>(getPath(), "encoder", node);
+    m_encoder = controllerFactory::deserialize<potentiometer>(m_robot, getPath(), "encoder", node);
 
     if (!m_encoder)
     {
@@ -150,7 +153,7 @@ void pwmServo::publish()
     if (m_encoder) m_encoder->publish();
 }
 
-controller* pwmServo::create(const char* path)
+controller* pwmServo::create(robot& robot, const char* path)
 {
-    return new pwmServo(path);
+    return new pwmServo(robot, path);
 }

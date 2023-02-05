@@ -48,7 +48,7 @@ namespace str1ker {
 | Definitions
 \*----------------------------------------------------------*/
 
-typedef controller* (*createController)(const char*);
+typedef controller* (*createController)(class robot& robot, const char*);
 
 /*----------------------------------------------------------*\
 | controllerRegistration struct
@@ -82,11 +82,12 @@ public:
 public:
     // Deserialize controller with type cast
     template<class T> static T* deserialize(
+        class robot& robot,
         const char* parentPath,
         const char* controllerName,
         ros::NodeHandle node)
     {
-        return dynamic_cast<T*>(deserialize(parentPath, controllerName, node));
+        return dynamic_cast<T*>(deserialize(robot, parentPath, controllerName, node));
     }
 
     // Deserialize controller by type with type cast
@@ -96,7 +97,12 @@ public:
     }
 
     // Deserialize controller by path
-    static controller* deserialize(class robot& robot, const char* parentPath, const char* controllerName, ros::NodeHandle node);
+    static controller* deserialize(
+        class robot& robot,
+        const char* parentPath,
+        const char* controllerName,
+        ros::NodeHandle node
+    );
 
     // Deserialize controller by type
     static controller* deserialize(const char* type);
