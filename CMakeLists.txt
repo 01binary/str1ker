@@ -7,6 +7,10 @@ add_definitions(-DDEBUG)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  rospy
+  tf2
+  angles
+  genmsg
   std_msgs
   sensor_msgs
   geometry_msgs
@@ -35,7 +39,7 @@ if(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
 endif(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
 
 catkin_package(
-  CATKIN_DEPENDS roscpp std_msgs sensor_msgs geometry_msgs dynamixel_workbench_msgs trajectory_msgs dynamixel_workbench_toolbox cmake_modules
+  CATKIN_DEPENDS roscpp rospy tf2 std_msgs sensor_msgs geometry_msgs genmsg dynamixel_workbench_msgs trajectory_msgs dynamixel_workbench_toolbox cmake_modules
   DEPENDS EIGEN3
 )
 

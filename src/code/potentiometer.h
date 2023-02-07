@@ -42,17 +42,26 @@ public:
     static const char TYPE[];
 
 private:
+    // Message publishing queue size
+    const int PUBLISH_QUEUE_SIZE = 16;
+
     // Analog to digital converter (ADC) for reading measurements
     adc* m_adc;
 
     // Channel index to use when reading from ADC
     int m_channel;
 
-    // Last reading
-    double m_lastSample;
+    // Last reading as rotation angle in radians
+    double m_rotation;
 
-    // Publisher
-    ros::Publisher m_pub;
+    // Offset angle for advertised rotation in degrees
+    double m_offset;
+
+    // Range for advertised rotation in degrees
+    double m_range;
+
+    // Rotation angle publisher
+    ros::Publisher m_anglePublisher;
 
 public:
     potentiometer(class robot& robot, const char* path);

@@ -24,6 +24,8 @@
             enable: true
             adc: 'arduinoMicro'
             channel: 0
+            offset: 0
+            range: 360
         upperarm:
           controller: 'linear'
           enable: false
@@ -35,6 +37,8 @@
             enable: false
             adc: 'arduinoMicro'
             channel: 1
+            offset: 0
+            range: 360
         forearm:
           controller: 'linear'
           enable: false
@@ -46,6 +50,8 @@
             enable: false
             adc: 'arduinoMicro'
             channel: 2
+            offset: 0
+            range: 360
         trigger:
           controller: 'solenoid'
           enable: false

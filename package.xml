@@ -9,6 +9,10 @@
   <author email="valeriy.novytskyy@outlook.com">Valeriy Novytskyy</author>
   <buildtool_depend>catkin</buildtool_depend>
   <depend>roscpp</depend>
+  <depend>rospy</depend>
+  <depend>tf2</depend>
+  <depend>angles</depend>
+  <depend>genmsg</depend>
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>

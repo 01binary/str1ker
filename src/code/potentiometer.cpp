@@ -20,8 +20,12 @@
 \*----------------------------------------------------------*/
 
 #include <numeric>
+#include <math.h>
 #include <algorithm>
-#include <std_msgs/Float32.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <geometry_msgs/Quaternion.h>
+#include <angles/angles.h>
 #include "potentiometer.h"
 #include "adc.h"
 #include "controllerFactory.h"
@@ -49,7 +53,9 @@ potentiometer::potentiometer(class robot& robot, const char* path) :
     controller(robot, path),
     m_adc(NULL),
     m_channel(0),
-    m_lastSample(0.0)
+    m_rotation(0.0),
+    m_offset(0.0),
+    m_range(360.0)
 {
 }
 
@@ -70,7 +76,7 @@ bool potentiometer::init()
 
 double potentiometer::getPos()
 {
-    return m_lastSample;
+    return m_rotation;
 }
 
 void potentiometer::deserialize(ros::NodeHandle node)
@@ -79,23 +85,38 @@ void potentiometer::deserialize(ros::NodeHandle node)
 
     ros::param::get(getControllerPath("channel"), m_channel);
 
+    ros::param::get(getControllerPath("offset"), m_offset);
+    m_offset = angles::to_degrees(m_offset);
+
+    ros::param::get(getControllerPath("range"), m_range);
+    m_range = angles::to_degrees(m_range);
+
     string adcName;
     ros::param::get(getControllerPath("adc"), adcName);
     m_adc = controllerFactory::deserialize<adc>(adcName.c_str());
 
-    m_pub = node.advertise<std_msgs::Float32>(getPath(), 256);
+    m_anglePublisher = node.advertise<geometry_msgs::Quaternion>(
+        getPath(),
+        PUBLISH_QUEUE_SIZE
+    );
 }
 
 void potentiometer::publish()
 {
-    if (m_enable && m_adc)
-    {
-        m_lastSample = double(m_adc->getValue(m_channel)) / double(m_adc->getMaxValue());
+    if (!m_enable || !m_adc) return;
 
-        std_msgs::Float32 msg;
-        msg.data = m_lastSample;
-        m_pub.publish(msg);
-    }
+    m_rotation =
+        m_offset +
+        double(m_adc->getValue(m_channel)) /
+        double(m_adc->getMaxValue()) *
+        m_range;
+
+    tf2::Quaternion q;
+    q.setRPY(m_rotation, 0, 0);
+    q.normalize();
+
+    geometry_msgs::Quaternion angleMessage = tf2::toMsg(w);
+    m_anglePublisher.publish(angleMessage);
 }
 
 controller* potentiometer::create(robot& robot, const char* path)
