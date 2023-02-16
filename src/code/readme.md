@@ -40,5 +40,6 @@ catkin_make
 ## Run this package
 
 ```
+source devel/setup.bash
 roslaunch str1ker robot.launch
 ```

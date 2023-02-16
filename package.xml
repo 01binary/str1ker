@@ -11,12 +11,10 @@
   <depend>roscpp</depend>
   <depend>rospy</depend>
   <depend>tf2</depend>
+  <depend>tf2_ros</depend>
   <depend>angles</depend>
   <depend>genmsg</depend>
   <depend>std_msgs</depend>
-  <depend>sensor_msgs</depend>
-  <depend>geometry_msgs</depend>
-  <depend>trajectory_msgs</depend>
   <depend>dynamixel_workbench_msgs</depend>
   <depend>dynamixel_workbench_toolbox</depend>
   <depend>cmake_modules</depend>

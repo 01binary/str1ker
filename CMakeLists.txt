@@ -3,18 +3,15 @@ project(str1ker)
 
 add_compile_options(-std=c++11 -Wno-psabi)
 
-add_definitions(-DDEBUG)
-
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   tf2
+  tf2_ros
   angles
   genmsg
   std_msgs
-  sensor_msgs
-  geometry_msgs
-  trajectory_msgs
+  tf2_geometry_msgs
   dynamixel_workbench_msgs
   dynamixel_workbench_toolbox
   cmake_modules
@@ -39,7 +36,16 @@ if(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
 endif(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
 
 catkin_package(
-  CATKIN_DEPENDS roscpp rospy tf2 std_msgs sensor_msgs geometry_msgs genmsg dynamixel_workbench_msgs trajectory_msgs dynamixel_workbench_toolbox cmake_modules
+  CATKIN_DEPENDS
+  roscpp
+  rospy
+  tf2
+  tf2_ros
+  std_msgs
+  genmsg
+  dynamixel_workbench_msgs
+  dynamixel_workbench_toolbox
+  cmake_modules
   DEPENDS EIGEN3
 )
 
@@ -49,7 +55,8 @@ include_directories(
   ${YAML_CPP_INCLUDE_DIRS}
 )
 
-add_executable(robot
+add_executable(
+  robot
   src/code/main.cpp
   src/code/robot.cpp
   src/code/controllerFactory.cpp
@@ -66,8 +73,19 @@ add_executable(robot
   src/code/arduinoMicro.cpp
 )
 
-add_dependencies(robot ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(robot ${catkin_LIBRARIES} ${Eigen3_LIBRARIES} ${YAML_CPP_LIBRARIES} -lpigpiod_if2 -lrt)
+add_dependencies(
+  robot ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+
+target_link_libraries(
+  robot
+  ${catkin_LIBRARIES}
+  ${Eigen3_LIBRARIES}
+  ${YAML_CPP_LIBRARIES}
+  -lpigpiod_if2
+  -lrt
+)
 
 install(
   TARGETS robot

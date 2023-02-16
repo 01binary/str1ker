@@ -24,7 +24,7 @@
 #include <algorithm>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
-#include <geometry_msgs/Quaternion.h>
+#include <tf2/convert.h>
 #include <angles/angles.h>
 #include "potentiometer.h"
 #include "adc.h"
@@ -95,7 +95,7 @@ void potentiometer::deserialize(ros::NodeHandle node)
     ros::param::get(getControllerPath("adc"), adcName);
     m_adc = controllerFactory::deserialize<adc>(adcName.c_str());
 
-    m_anglePublisher = node.advertise<geometry_msgs::Quaternion>(
+    m_pub = node.advertise<geometry_msgs::QuaternionStamped>(
         getPath(),
         PUBLISH_QUEUE_SIZE
     );
@@ -103,7 +103,7 @@ void potentiometer::deserialize(ros::NodeHandle node)
 
 void potentiometer::publish()
 {
-    if (!m_enable || !m_adc) return;
+    if (!m_enable || !m_adc || !m_pub) return;
 
     m_rotation =
         m_offset +
@@ -111,12 +111,16 @@ void potentiometer::publish()
         double(m_adc->getMaxValue()) *
         m_range;
 
-    tf2::Quaternion q;
+    tf2::Stamped<tf2::Quaternion> q;
     q.setRPY(m_rotation, 0, 0);
     q.normalize();
 
-    geometry_msgs::Quaternion angleMessage = tf2::toMsg(w);
-    m_anglePublisher.publish(angleMessage);
+    tf2::Stamped<tf2::Quaternion> payload(q, ros::Time::now(), "world");
+    geometry_msgs::QuaternionStamped msg = tf2::toMsg(payload);
+
+    ROS_INFO("publishing %g quaternion [%g %g %g %g]", m_rotation, msg.quaternion.x, msg.quaternion.y, msg.quaternion.z, msg.quaternion.w);
+
+    m_pub.publish(msg);
 }
 
 controller* potentiometer::create(robot& robot, const char* path)

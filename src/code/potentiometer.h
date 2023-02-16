@@ -61,7 +61,7 @@ private:
     double m_range;
 
     // Rotation angle publisher
-    ros::Publisher m_anglePublisher;
+    ros::Publisher m_pub;
 
 public:
     potentiometer(class robot& robot, const char* path);

@@ -78,6 +78,7 @@ bool arduinoMicro::init()
     if (!m_enable || m_usbHandle >= 0) return true;
 
     if (!m_device.length()) {
+      ROS_ERROR("no device name specified for Arduino Micro ADC");
       return false;
     }
 
@@ -114,6 +115,11 @@ void arduinoMicro::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
     ros::param::get(getControllerPath("dev"), m_device);
+
+    m_pub = node.advertise<std_msgs::UInt16MultiArray>(
+      getPath(),
+      PUBLISH_QUEUE_SIZE
+    );
 }
 
 void arduinoMicro::publish()

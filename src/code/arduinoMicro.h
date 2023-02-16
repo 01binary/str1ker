@@ -42,6 +42,9 @@ public:
     // USB serial baud rate
     static const int BAUD_RATE = 9600;
 
+    // Message publishing queue size
+    const int PUBLISH_QUEUE_SIZE = 16;
+
     // Controller type
     static const char TYPE[];
 

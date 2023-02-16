@@ -36,8 +36,8 @@ using namespace str1ker;
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "robot");
-    ros::NodeHandle node;
 
+    ros::NodeHandle node;
     robot robot;
 
     if (!robot
@@ -50,16 +50,15 @@ int main(int argc, char** argv)
 
     ros::Rate rate(1);
 
-    arm* arm1 = robot.getController<arm>("arm1");
+    //arm* arm1 = robot.getController<arm>("arm1");
 
     while(node.ok())
     {
         robot.publish();
 
-        if (arm1) arm1->rotate(-0.25);
+        //if (arm1) arm1->rotate(-0.25);
 
         ros::spinOnce();
-
         rate.sleep();
     }
 

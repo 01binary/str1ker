@@ -10,7 +10,7 @@
       adc:
         controller: 'arduinoMicro'
         enable: true
-        dev: '/dev/ttyAMA0'
+        dev: '/dev/ttyACM0'
       arm1:
         controller: 'arm'
         enable: true
