@@ -27,7 +27,7 @@ git clone https://github.com/01binary/drummingrobot.git
 
 git sparse-checkout init --cone
 
-git sparse-checkout set src/code
+git sparse-checkout set src/code launch
 ```
 
 ## Build
