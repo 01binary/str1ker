@@ -118,8 +118,6 @@ void potentiometer::publish()
     tf2::Stamped<tf2::Quaternion> payload(q, ros::Time::now(), "world");
     geometry_msgs::QuaternionStamped msg = tf2::toMsg(payload);
 
-    ROS_INFO("publishing %g quaternion [%g %g %g %g]", m_rotation, msg.quaternion.x, msg.quaternion.y, msg.quaternion.z, msg.quaternion.w);
-
     m_pub.publish(msg);
 }
 

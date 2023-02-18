@@ -20,6 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
+#include <sensor_msgs/JointState.h>
 #include "robot.h"
 #include "controllerFactory.h"
 #include "arm.h"
@@ -36,6 +37,7 @@ using namespace std;
 \*----------------------------------------------------------*/
 
 const char arm::TYPE[] = "arm";
+const char* arm::JOINT_NAMES[] = { "shoulder", "upperarm", "forearm" };
 
 /*----------------------------------------------------------*\
 | arm implementation
@@ -127,6 +129,11 @@ void arm::deserialize(ros::NodeHandle node)
     m_upperarm = controllerFactory::deserialize<linear>(m_robot, m_path.c_str(), "upperarm", node);
     m_forearm = controllerFactory::deserialize<linear>(m_robot, m_path.c_str(), "forearm", node);
     m_trigger = controllerFactory::deserialize<solenoid>(m_robot, m_path.c_str(), "trigger", node);
+
+    m_pub = node.advertise<sensor_msgs::JointState>(
+        getPath(),
+        PUBLISH_QUEUE_SIZE
+    );
 }
 
 bool arm::init()
@@ -145,6 +152,25 @@ void arm::publish()
     if (m_upperarm) m_upperarm->publish();
     if (m_forearm) m_forearm->publish();
     if (m_trigger) m_trigger->publish();
+
+    string jointPrefix = getPath();
+    int numJoints = sizeof(JOINT_NAMES) / sizeof(char*);
+    double jointPositions[] = {
+        m_shoulder ? m_shoulder->getPos() : 0.0,
+        m_upperarm ? m_upperarm->getPos() : 0.0,
+        m_forearm ? m_forearm->getPos() : 0.0,
+    };
+
+    sensor_msgs::JointState jointState;
+    jointState.name.resize(numJoints);
+    jointState.position.resize(numJoints);
+
+    for (int joint = 0; joint < numJoints; joint++) {
+        jointState.name[joint] = jointPrefix + "/" + JOINT_NAMES[joint];
+        jointState.position[joint] = jointPositions[joint];
+    }
+
+    m_pub.publish(jointState);
 }
 
 controller* arm::create(robot& robot, const char* path)

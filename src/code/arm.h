@@ -43,6 +43,12 @@ public:
     static const char TYPE[];
 
 private:
+    // Message publishing queue size
+    const int PUBLISH_QUEUE_SIZE = 16;
+
+    // Names of joints to publish
+    static const char* JOINT_NAMES[];
+
     // Rotation servo
     servo* m_shoulder;
 
@@ -54,6 +60,12 @@ private:
 
     // Trigger solenoid
     solenoid* m_trigger;
+
+    // Joint paths
+    std::vector<std::string> m_jointPaths;
+
+    // Joint states publisher
+    ros::Publisher m_pub;
 
 public:
     arm(class robot& robot, const char* path);
