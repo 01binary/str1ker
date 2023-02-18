@@ -79,7 +79,10 @@ void controller::setLastError(const char* error)
 void controller::deserialize(ros::NodeHandle node)
 {
     string indent;
-    indent.resize((max(count(m_path.begin(), m_path.end(), '/') - 2, 1)) * 2, ' ');
+    indent.resize(
+        (max(count(m_path.begin(), m_path.end(), '/') - 2, 1L)) * 2,
+        ' '
+    );
 
     ROS_INFO("%sloading %s %s", indent.c_str(), getName(), getType());
 
