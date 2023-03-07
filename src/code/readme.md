@@ -18,16 +18,20 @@ This directory includes ROS source code for the drumming robot that should be cl
 
 ## Clone
 
-If you are cloning on raspberri pi, it's recommended to limit changes being tracked to this directory (`src/code`). To do that, use `sparse-checkout` command available if you build the latest `git` from source on Raspberry Pi. At the time of writing, there is no git package available for Raspbian that supports sparse-checkout, which is why it needs to be built.
-
 ```
 cd ~/catkin_was/src
 
 git clone https://github.com/01binary/drummingrobot.git
 
 git sparse-checkout init --cone
-
 git sparse-checkout set src/code launch
+```
+
+## Install
+
+```
+cd ~/catkin_ws/src
+rosdep install -y --from-paths . --ignore-src --rosdistro noetic
 ```
 
 ## Build
