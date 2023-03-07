@@ -34,7 +34,7 @@ const int PINS[] =
   struct SAMPLE
   {
     unsigned char signature[4];
-    short readings[CHANNELS];
+    unsigned short readings[CHANNELS];
   };
 
   struct SAMPLE sample;
@@ -65,7 +65,7 @@ void loop()
     sprintf(buffer, "channel %d = %d (%d%%)", channel, value, int(double(value) / 1023.0 * 100.0));
     Serial.println(buffer);
 #else
-    sample.readings[channel] = short(value);
+    sample.readings[channel] = (unsigned short)value;
 #endif
   }
 
