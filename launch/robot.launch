@@ -15,10 +15,12 @@
         controller: 'arm'
         enable: true
         shoulder:
-          controller: 'servo'
+          controller: 'pwmServo'
           enable: true
           gpioLPWM: 22
           gpioRPWM: 23
+          minSpeed: 0.4
+          maxSpeed: 1.0
           encoder:
             controller: 'encoder'
             enable: true

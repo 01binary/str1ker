@@ -94,6 +94,9 @@ public:
     // Get absolute angle
     double getAngle();
 
+    // Map normalized position from angle
+    double getPos(double angle);
+
     // Deserialize from settings
     virtual void deserialize(ros::NodeHandle node);
 

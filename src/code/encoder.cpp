@@ -89,6 +89,14 @@ double encoder::getAngle()
     return m_angle;
 }
 
+double encoder::getPos(double angle)
+{
+    if (angle < m_minAngle) angle = m_minAngle;
+    if (angle > m_maxAngle) angle = m_maxAngle;
+
+    return (angle - m_minAngle) / (m_maxAngle - m_minAngle);
+}
+
 void encoder::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);

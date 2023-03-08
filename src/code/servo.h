@@ -52,8 +52,14 @@ public:
     // Get absolute servo position
     virtual double getPos() = 0;
 
+    // Get absolute servo angle in radians
+    virtual double getAngle() = 0;
+
     // Set absolute servo position
     virtual void setPos(double pos) = 0;
+
+    // Set absolute servo angle in radians
+    virtual void setAngle(double angle) = 0;
 
     // Rotate servo
     virtual void deltaPos(double delta) = 0;
