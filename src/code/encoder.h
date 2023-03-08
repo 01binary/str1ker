@@ -60,6 +60,9 @@ private:
     // Max reading
     int m_maxReading;
 
+    // Invert readings (min > max) if installed backwards
+    bool m_invert;
+
     // Normalized reading (between min and max)
     double m_pos;
 
@@ -102,8 +105,11 @@ public:
     static controller* create(class robot& robot, const char* path);
 
 private:
-    static double fromScale(int value, int min, int max);
-    static double toScale(double value, double min, double max);
+    // Normalize reading
+    static double normalize(int value, int min, int max, bool invert);
+
+    // Scale reading
+    static double scale(double value, double min, double max);
 };
 
 } // namespace str1ker

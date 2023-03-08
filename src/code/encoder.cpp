@@ -54,6 +54,7 @@ encoder::encoder(class robot& robot, const char* path) :
     m_adc(NULL),
     m_channel(0),
     m_reading(0),
+    m_invert(false),
     m_minReading(0),
     m_maxReading(0),
     m_pos(0.0),
@@ -97,6 +98,14 @@ void encoder::deserialize(ros::NodeHandle node)
     ros::param::get(getControllerPath("min"), m_minReading);
     ros::param::get(getControllerPath("max"), m_maxReading);
 
+    if (m_minReading > m_maxReading) {
+        // Support inverting value during normalization
+        m_invert = true;
+        int swap = m_maxReading;
+        m_maxReading = m_minReading;
+        m_minReading = swap;
+    }
+
     ros::param::get(getControllerPath("minAngle"), m_minAngle);
     m_minAngle = angles::from_degrees(m_minAngle);
 
@@ -109,7 +118,7 @@ void encoder::deserialize(ros::NodeHandle node)
 
     if (m_adc) {
         m_reading = m_adc->getMaxValue();
-        m_pos = toScale(m_reading, m_minReading, m_maxReading);
+        m_pos = scale(m_reading, m_minReading, m_maxReading);
         m_angle = m_maxAngle;
     }
 
@@ -127,10 +136,10 @@ void encoder::publish()
     m_reading = m_adc->getValue();
 
     // Calculate normalized position
-    m_pos = fromScale(m_reading, m_minReading, m_maxReading);
+    m_pos = normalize(m_reading, m_minReading, m_maxReading, m_invert);
 
     // Map angle from normalized position
-    m_angle = toScale(m_pos, m_minAngle, m_maxAngle);
+    m_angle = scale(m_pos, m_minAngle, m_maxAngle);
 
     // Publish angle
     tf2::Stamped<tf2::Quaternion> q;
@@ -148,15 +157,18 @@ controller* encoder::create(robot& robot, const char* path)
     return new encoder(robot, path);
 }
 
-double encoder::fromScale(int value, int min, int max)
+double encoder::normalize(int value, int min, int max, bool invert)
 {
     if (value < min) return 0.0;
     if (value > max) return 1.0;
 
-    return double(value - min) / double(max - min);
+    double norm = double(value - min) / double(max - min);
+
+    if (invert) return 1.0 - norm;
+    return norm;
 }
 
-double encoder::toScale(double value, double min, double max)
+double encoder::scale(double value, double min, double max)
 {
     return value * (max - min) + min;
 }
