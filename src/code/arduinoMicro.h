@@ -39,6 +39,9 @@ public:
     // Arduino Micro analog channels A0 - A11
     static const int CHANNELS = 12;
 
+    // Arduino Micro analog max
+    static const int SAMPLE_MAX = 1023;
+
     // USB serial baud rate
     static const int BAUD_RATE = 9600;
 

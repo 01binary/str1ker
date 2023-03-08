@@ -98,12 +98,12 @@ bool arduinoMicro::init()
 int arduinoMicro::getValue(int channel)
 {
     if (!m_enable) return 0;
-    return m_lastSample[channel];
+    return (int)m_lastSample[channel];
 }
 
 int arduinoMicro::getMaxValue()
 {
-    return numeric_limits<uint16_t>::max();
+    return SAMPLE_MAX;
 }
 
 int arduinoMicro::getChannels()
@@ -164,6 +164,8 @@ void arduinoMicro::publish()
     }
 
     m_pub.publish(msg);
+
+    ROS_INFO("micro %d %d %d", m_lastSample[0], m_lastSample[1], m_lastSample[2]);
 
     setLastError(NULL);
 }
