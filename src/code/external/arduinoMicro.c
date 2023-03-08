@@ -3,6 +3,9 @@
 // Send channels in plain text if defined
 //#define DEBUG
 
+// How often to send
+const int WAIT = 250;
+
 // Arduino Micro analog channels
 const int CHANNELS = 12;
 
@@ -45,7 +48,7 @@ const int PINS[] =
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(4800);
 
   for (int channel = 0; channel < CHANNELS; channel++)
     pinMode(PINS[channel], INPUT_PULLUP);
@@ -76,5 +79,5 @@ void loop()
 #endif
 
   // This can be as fast as the Arduino
-  delay(500);
+  delay(WAIT);
 }
