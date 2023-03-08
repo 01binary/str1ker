@@ -6,9 +6,9 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- potentiometer.cpp
+ encoder.cpp
 
- Potentiometer Controller Implementation
+ encoder Controller Implementation
  Created 1/27/2021
 
  Copyright (C) 2021 Valeriy Novytskyy
@@ -26,7 +26,7 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <tf2/convert.h>
 #include <angles/angles.h>
-#include "potentiometer.h"
+#include "encoder.h"
 #include "adc.h"
 #include "controllerFactory.h"
 
@@ -41,30 +41,34 @@ using namespace str1ker;
 | Constants
 \*----------------------------------------------------------*/
 
-const char potentiometer::TYPE[] = "potentiometer";
+const char encoder::TYPE[] = "encoder";
 
 /*----------------------------------------------------------*\
-| potentiometer implementation
+| encoder implementation
 \*----------------------------------------------------------*/
 
-REGISTER_CONTROLLER(potentiometer)
+REGISTER_CONTROLLER(encoder)
 
-potentiometer::potentiometer(class robot& robot, const char* path) :
+encoder::encoder(class robot& robot, const char* path) :
     controller(robot, path),
     m_adc(NULL),
     m_channel(0),
-    m_rotation(0.0),
-    m_offset(0.0),
-    m_range(360.0)
+    m_reading(0),
+    m_minReading(0),
+    m_maxReading(0),
+    m_pos(0.0),
+    m_angle(0.0),
+    m_minAngle(0.0),
+    m_maxAngle(0.0)
 {
 }
 
-const char* potentiometer::getType()
+const char* encoder::getType()
 {
-    return potentiometer::TYPE;
+    return encoder::TYPE;
 }
 
-bool potentiometer::init()
+bool encoder::init()
 {
     if (!m_enable) return true;
 
@@ -74,26 +78,40 @@ bool potentiometer::init()
     return true;
 }
 
-double potentiometer::getPos()
+double encoder::getPos()
 {
-    return m_rotation;
+    return m_pos;
 }
 
-void potentiometer::deserialize(ros::NodeHandle node)
+double encoder::getAngle()
+{
+    return m_angle;
+}
+
+void encoder::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
 
     ros::param::get(getControllerPath("channel"), m_channel);
 
-    ros::param::get(getControllerPath("offset"), m_offset);
-    m_offset = angles::to_degrees(m_offset);
+    ros::param::get(getControllerPath("min"), m_minReading);
+    ros::param::get(getControllerPath("max"), m_maxReading);
 
-    ros::param::get(getControllerPath("range"), m_range);
-    m_range = angles::to_degrees(m_range);
+    ros::param::get(getControllerPath("minAngle"), m_minAngle);
+    m_minAngle = angles::from_degrees(m_minAngle);
+
+    ros::param::get(getControllerPath("maxAngle"), m_maxAngle);
+    m_maxAngle = angles::from_degrees(m_maxAngle);
 
     string adcName;
     ros::param::get(getControllerPath("adc"), adcName);
     m_adc = controllerFactory::deserialize<adc>(adcName.c_str());
+
+    if (m_adc) {
+        m_reading = m_adc->getMaxValue();
+        m_pos = toScale(m_reading, m_minReading, m_maxReading);
+        m_angle = m_maxAngle;
+    }
 
     m_pub = node.advertise<geometry_msgs::QuaternionStamped>(
         getPath(),
@@ -101,18 +119,22 @@ void potentiometer::deserialize(ros::NodeHandle node)
     );
 }
 
-void potentiometer::publish()
+void encoder::publish()
 {
     if (!m_enable || !m_adc || !m_pub) return;
 
-    m_rotation =
-        m_offset +
-        double(m_adc->getValue(m_channel)) /
-        double(m_adc->getMaxValue()) *
-        m_range;
+    // Get the raw reading
+    m_reading = m_adc->getValue();
 
+    // Calculate normalized position
+    m_pos = fromScale(m_reading, m_minReading, m_maxReading);
+
+    // Map angle from normalized position
+    m_angle = toScale(m_pos, m_minAngle, m_maxAngle);
+
+    // Publish angle
     tf2::Stamped<tf2::Quaternion> q;
-    q.setRPY(m_rotation, 0, 0);
+    q.setRPY(m_angle, 0.0, 0.0);
     q.normalize();
 
     tf2::Stamped<tf2::Quaternion> payload(q, ros::Time::now(), "world");
@@ -121,7 +143,20 @@ void potentiometer::publish()
     m_pub.publish(msg);
 }
 
-controller* potentiometer::create(robot& robot, const char* path)
+controller* encoder::create(robot& robot, const char* path)
 {
-    return new potentiometer(robot, path);
+    return new encoder(robot, path);
+}
+
+double encoder::fromScale(int value, int min, int max)
+{
+    if (value < min) return 0.0;
+    if (value > max) return 1.0;
+
+    return double(value - min) / double(max - min);
+}
+
+double encoder::toScale(double value, double min, double max)
+{
+    return value * (max - min) + min;
 }

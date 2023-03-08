@@ -6,9 +6,9 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- potentiometer.h
+ encoder.h
 
- Potentiometer Controller
+ Rotary Encoder Controller
  Created 1/27/2021
 
  Copyright (C) 2021 Valeriy Novytskyy
@@ -32,10 +32,10 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| potentiometer class
+| encoder class
 \*----------------------------------------------------------*/
 
-class potentiometer : public controller
+class encoder : public controller
 {
 public:
     // Controller type
@@ -51,30 +51,45 @@ private:
     // Channel index to use when reading from ADC
     int m_channel;
 
+    // Last reading
+    int m_reading;
+
+    // Min reading
+    int m_minReading;
+
+    // Max reading
+    int m_maxReading;
+
+    // Normalized reading (between min and max)
+    double m_pos;
+
     // Last reading as rotation angle in radians
-    double m_rotation;
+    double m_angle;
 
-    // Offset angle for advertised rotation in degrees
-    double m_offset;
+    // Min rotation angle
+    double m_minAngle;
 
-    // Range for advertised rotation in degrees
-    double m_range;
+    // Max rotation angle
+    double m_maxAngle;
 
     // Rotation angle publisher
     ros::Publisher m_pub;
 
 public:
-    potentiometer(class robot& robot, const char* path);
+    encoder(class robot& robot, const char* path);
 
 public:
     // Get display type
     virtual const char* getType();
 
-    // Initialize potentiometer controller
+    // Initialize encoder controller
     virtual bool init();
 
     // Get absolute position
-    virtual double getPos();
+    double getPos();
+
+    // Get absolute angle
+    double getAngle();
 
     // Deserialize from settings
     virtual void deserialize(ros::NodeHandle node);
@@ -85,6 +100,10 @@ public:
 public:
     // Create instance
     static controller* create(class robot& robot, const char* path);
+
+private:
+    static double fromScale(int value, int min, int max);
+    static double toScale(double value, double min, double max);
 };
 
 } // namespace str1ker

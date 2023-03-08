@@ -22,7 +22,7 @@
 \*----------------------------------------------------------*/
 
 #include "servo.h"
-#include "potentiometer.h"
+#include "encoder.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -51,8 +51,8 @@ private:
     // Right PWM pin
     int m_gpioRPWM;
 
-    // Potentiometer measuring absolute position
-    potentiometer* m_encoder;
+    // Absolute encoder
+    encoder* m_encoder;
 
 public:
     pwmServo(class robot& robot, const char* path);
@@ -64,10 +64,10 @@ public:
     // Initialize
     virtual bool init();
 
-    // Get absolute position using related potentiometer
+    // Get absolute position from encoder
     virtual double getPos();
 
-    // Move to absolute position by tracking potentiometer
+    // Move to absolute position by tracking encoder
     virtual void setPos(double pos);
 
     // Move by delta

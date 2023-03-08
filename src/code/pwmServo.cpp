@@ -189,7 +189,7 @@ void pwmServo::deserialize(ros::NodeHandle node)
     ros::param::get(getControllerPath("gpioLPWM"), m_gpioLPWM);
     ros::param::get(getControllerPath("gpioRPWM"), m_gpioRPWM);
 
-    m_encoder = controllerFactory::deserialize<potentiometer>(m_robot, getPath(), "encoder", node);
+    m_encoder = controllerFactory::deserialize<encoder>(m_robot, getPath(), "encoder", node);
 
     if (!m_encoder)
     {
