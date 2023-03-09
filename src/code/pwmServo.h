@@ -22,7 +22,7 @@
 \*----------------------------------------------------------*/
 
 #include "servo.h"
-#include "encoder.h"
+#include "potentiometer.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -57,8 +57,8 @@ private:
     // Ramp max (defaults to 1.0)
     double m_maxSpeed;
 
-    // Absolute encoder
-    encoder* m_encoder;
+    // Potentiometer as absolute encoder
+    potentiometer* m_encoder;
 
 public:
     pwmServo(class robot& robot, const char* path);

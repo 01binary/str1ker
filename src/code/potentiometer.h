@@ -6,9 +6,9 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- encoder.h
+ potentiometer.h
 
- Rotary Encoder Controller
+ Potentiometer Controller
  Created 1/27/2021
 
  Copyright (C) 2021 Valeriy Novytskyy
@@ -32,10 +32,10 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| encoder class
+| potentiometer class
 \*----------------------------------------------------------*/
 
-class encoder : public controller
+class potentiometer : public controller
 {
 public:
     // Controller type
@@ -79,13 +79,13 @@ private:
     ros::Publisher m_pub;
 
 public:
-    encoder(class robot& robot, const char* path);
+    potentiometer(class robot& robot, const char* path);
 
 public:
     // Get display type
     virtual const char* getType();
 
-    // Initialize encoder controller
+    // Initialize potentiometer controller
     virtual bool init();
 
     // Get absolute position

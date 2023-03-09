@@ -225,7 +225,7 @@ void pwmServo::deserialize(ros::NodeHandle node)
     if (!ros::param::get(getControllerPath("maxSpeed"), m_maxSpeed))
         m_maxSpeed = 1.0;
 
-    m_encoder = controllerFactory::deserialize<encoder>(m_robot, getPath(), "encoder", node);
+    m_encoder = controllerFactory::deserialize<potentiometer>(m_robot, getPath(), "encoder", node);
 
     if (!m_encoder)
     {

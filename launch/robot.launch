@@ -22,7 +22,7 @@
           minSpeed: 0.4
           maxSpeed: 1.0
           encoder:
-            controller: 'encoder'
+            controller: 'potentiometer'
             enable: true
             adc: 'arduinoMicro'
             min: 180
@@ -36,7 +36,7 @@
           gpioRPWM: 5
           time: 5
           encoder:
-            controller: 'encoder'
+            controller: 'potentiometer'
             enable: true
             adc: 'arduinoMicro'
             channel: 1
@@ -51,7 +51,7 @@
           gpioRPWM: 24
           time: 4
           encoder:
-            controller: 'encoder'
+            controller: 'potentiometer'
             enable: true
             adc: 'arduinoMicro'
             channel: 2

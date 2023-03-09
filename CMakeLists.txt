@@ -66,7 +66,7 @@ add_executable(
   src/code/dynamixelPro.cpp
   src/code/linear.cpp
   src/code/solenoid.cpp
-  src/code/encoder.cpp
+  src/code/potentiometer.cpp
   src/code/mcp3008.cpp
   src/code/ads1115.cpp
   src/code/pi16adc.cpp

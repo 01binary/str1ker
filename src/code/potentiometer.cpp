@@ -6,9 +6,9 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- encoder.cpp
+ potentiometer.cpp
 
- encoder Controller Implementation
+ Potentiometer Controller Implementation
  Created 1/27/2021
 
  Copyright (C) 2021 Valeriy Novytskyy
@@ -26,7 +26,7 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <tf2/convert.h>
 #include <angles/angles.h>
-#include "encoder.h"
+#include "potentiometer.h"
 #include "adc.h"
 #include "controllerFactory.h"
 
@@ -41,15 +41,15 @@ using namespace str1ker;
 | Constants
 \*----------------------------------------------------------*/
 
-const char encoder::TYPE[] = "encoder";
+const char potentiometer::TYPE[] = "potentiometer";
 
 /*----------------------------------------------------------*\
-| encoder implementation
+| potentiometer implementation
 \*----------------------------------------------------------*/
 
-REGISTER_CONTROLLER(encoder)
+REGISTER_CONTROLLER(potentiometer)
 
-encoder::encoder(class robot& robot, const char* path) :
+potentiometer::potentiometer(class robot& robot, const char* path) :
     controller(robot, path),
     m_adc(NULL),
     m_channel(0),
@@ -64,12 +64,12 @@ encoder::encoder(class robot& robot, const char* path) :
 {
 }
 
-const char* encoder::getType()
+const char* potentiometer::getType()
 {
-    return encoder::TYPE;
+    return potentiometer::TYPE;
 }
 
-bool encoder::init()
+bool potentiometer::init()
 {
     if (!m_enable) return true;
 
@@ -79,17 +79,17 @@ bool encoder::init()
     return true;
 }
 
-double encoder::getPos()
+double potentiometer::getPos()
 {
     return m_pos;
 }
 
-double encoder::getAngle()
+double potentiometer::getAngle()
 {
     return m_angle;
 }
 
-double encoder::getPos(double angle)
+double potentiometer::getPos(double angle)
 {
     if (angle < m_minAngle) angle = m_minAngle;
     if (angle > m_maxAngle) angle = m_maxAngle;
@@ -97,7 +97,7 @@ double encoder::getPos(double angle)
     return (angle - m_minAngle) / (m_maxAngle - m_minAngle);
 }
 
-void encoder::deserialize(ros::NodeHandle node)
+void potentiometer::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
 
@@ -136,7 +136,7 @@ void encoder::deserialize(ros::NodeHandle node)
     );
 }
 
-void encoder::publish()
+void potentiometer::publish()
 {
     if (!m_enable || !m_adc || !m_pub) return;
 
@@ -160,12 +160,12 @@ void encoder::publish()
     m_pub.publish(msg);
 }
 
-controller* encoder::create(robot& robot, const char* path)
+controller* potentiometer::create(robot& robot, const char* path)
 {
-    return new encoder(robot, path);
+    return new potentiometer(robot, path);
 }
 
-double encoder::normalize(int value, int min, int max, bool invert)
+double potentiometer::normalize(int value, int min, int max, bool invert)
 {
     if (value < min) return 0.0;
     if (value > max) return 1.0;
@@ -176,7 +176,7 @@ double encoder::normalize(int value, int min, int max, bool invert)
     return norm;
 }
 
-double encoder::scale(double value, double min, double max)
+double potentiometer::scale(double value, double min, double max)
 {
     return value * (max - min) + min;
 }
