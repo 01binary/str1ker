@@ -128,23 +128,27 @@ void arduinoMicro::publish()
 
     SAMPLE sample;
     uint16_t buffer[CHANNELS] = {0};
-    int samples = 1;
+    int samples = 0;
 
     while (sampleReady())
     {
-      if (!readSample(sample)) return;
+      if (!readSample(sample)) break;
+
+      samples++;
 
       if (samples > 1) {
         // Average readings
         for (int n = 0; n < CHANNELS; n++)
+        {
           buffer[n] = (buffer[n] + sample.readings[n]) / 2;
+        }
       } else {
         // Copy readings
         memcpy(buffer, sample.readings, sizeof(buffer));
       }
-
-      samples++;
     }
+
+    if (!samples) return;
 
     std_msgs::MultiArrayDimension dim;
     std_msgs::UInt16MultiArray msg;
