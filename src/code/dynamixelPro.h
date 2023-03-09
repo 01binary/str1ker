@@ -71,10 +71,16 @@ public:
     virtual double getPos();
 
     // Set servo position
-    virtual void setPos(double pos);
+    virtual void setPos(double target);
 
     // Rotate servo given delta in radians
     virtual void deltaPos(double delta);
+
+    // Get absolute angle from encoder in radians
+    virtual double getAngle();
+
+    // Move to absolute angle in radians
+    virtual void setAngle(double angle);
 
     // Load from settings
     virtual void deserialize(ros::NodeHandle node);

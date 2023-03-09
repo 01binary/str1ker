@@ -44,7 +44,7 @@ const unsigned char SIGNATURE[] = { 'a', 'd', 'c', 'd' };
 | Types
 \*----------------------------------------------------------*/
 
-struct SAMPLE
+struct str1ker::SAMPLE
 {
   unsigned char signature[sizeof(SIGNATURE)];
   uint16_t readings[arduinoMicro::CHANNELS];

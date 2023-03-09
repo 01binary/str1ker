@@ -30,6 +30,12 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
+| Declarations
+\*----------------------------------------------------------*/
+
+struct SAMPLE;
+
+/*----------------------------------------------------------*\
 | ads1115 class
 \*----------------------------------------------------------*/
 
@@ -94,7 +100,7 @@ public:
 
 private:
     bool sampleReady();
-    bool readSample(SAMPLE& sample);
+    bool readSample(struct SAMPLE& sample);
 };
 
 } // namespace str1ker
