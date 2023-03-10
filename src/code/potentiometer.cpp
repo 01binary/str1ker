@@ -136,7 +136,7 @@ void potentiometer::deserialize(ros::NodeHandle node)
     );
 }
 
-void potentiometer::publish()
+void potentiometer::update()
 {
     if (!m_enable || !m_adc || !m_pub) return;
 

@@ -99,8 +99,8 @@ public:
     // Initialize arm controllers
     virtual bool init();
 
-    // Publish topic
-    virtual void publish();
+    // Update joints
+    virtual void update();
 
 public:
     // Create instance

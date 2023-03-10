@@ -88,13 +88,13 @@ bool robot::init()
     return true;
 }
 
-void robot::publish()
+void robot::update()
 {
     for(controllerMap::iterator pos = m_controllers.begin();
         pos != m_controllers.end();
         ++pos)
     {
-        if (pos->second) pos->second->publish();
+        if (pos->second) pos->second->update();
     }
 }
 

@@ -146,12 +146,12 @@ bool arm::init()
     return true;
 }
 
-void arm::publish()
+void arm::update()
 {
-    if (m_shoulder) m_shoulder->publish();
-    if (m_upperarm) m_upperarm->publish();
-    if (m_forearm) m_forearm->publish();
-    if (m_trigger) m_trigger->publish();
+    if (m_shoulder) m_shoulder->update();
+    if (m_upperarm) m_upperarm->update();
+    if (m_forearm) m_forearm->update();
+    if (m_trigger) m_trigger->update();
 
     string jointPrefix = getPath();
     int numJoints = sizeof(JOINT_NAMES) / sizeof(char*);

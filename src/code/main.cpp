@@ -50,13 +50,9 @@ int main(int argc, char** argv)
 
     ros::Rate rate(9600);
 
-    //arm* arm1 = robot.getController<arm>("arm1");
-
     while(node.ok())
     {
-        robot.publish();
-
-        //if (arm1) arm1->rotate(-0.25);
+        robot.update();
 
         ros::spinOnce();
         rate.sleep();

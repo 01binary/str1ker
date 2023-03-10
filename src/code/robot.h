@@ -65,8 +65,8 @@ public:
     // Initialize controllers
     bool init();
 
-    // Publish controller topics
-    void publish();
+    // Update controllers
+    void update();
 
     // Print logo
     robot& logo();

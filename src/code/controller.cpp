@@ -93,7 +93,7 @@ bool controller::init()
     return true;
 }
 
-void controller::publish()
+void controller::update()
 {
 }
 

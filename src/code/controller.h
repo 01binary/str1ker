@@ -85,8 +85,8 @@ public:
     // Initialize controller
     virtual bool init();
 
-    // Publish self or children
-    virtual void publish();
+    // Update self and/or children
+    virtual void update();
 
 protected:
     // Get child controller path

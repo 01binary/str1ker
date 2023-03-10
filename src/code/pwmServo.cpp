@@ -233,9 +233,9 @@ void pwmServo::deserialize(ros::NodeHandle node)
     }
 }
 
-void pwmServo::publish()
+void pwmServo::update()
 {
-    if (m_encoder) m_encoder->publish();
+    if (m_encoder) m_encoder->update();
 }
 
 controller* pwmServo::create(robot& robot, const char* path)

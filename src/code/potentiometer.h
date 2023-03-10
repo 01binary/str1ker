@@ -100,8 +100,8 @@ public:
     // Deserialize from settings
     virtual void deserialize(ros::NodeHandle node);
 
-    // Publish current position
-    virtual void publish();
+    // Publish current position from ADC
+    virtual void update();
 
 public:
     // Create instance
