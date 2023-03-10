@@ -30,6 +30,12 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
+| Declarations
+\*----------------------------------------------------------*/
+
+struct SAMPLE;
+
+/*----------------------------------------------------------*\
 | ads1115 class
 \*----------------------------------------------------------*/
 
@@ -39,8 +45,11 @@ public:
     // Arduino Micro analog channels A0 - A11
     static const int CHANNELS = 12;
 
+    // Arduino Micro analog max
+    static const int SAMPLE_MAX = 1023;
+
     // USB serial baud rate
-    static const int BAUD_RATE = 9600;
+    static const int BAUD_RATE = 4800;
 
     // Message publishing queue size
     const int PUBLISH_QUEUE_SIZE = 16;
@@ -88,6 +97,10 @@ public:
 
     // Load controller settings
     virtual void deserialize(ros::NodeHandle node);
+
+private:
+    bool sampleReady();
+    bool readSample(struct SAMPLE& sample);
 };
 
 } // namespace str1ker

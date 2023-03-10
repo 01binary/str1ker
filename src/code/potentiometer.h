@@ -51,14 +51,29 @@ private:
     // Channel index to use when reading from ADC
     int m_channel;
 
+    // Last reading
+    int m_reading;
+
+    // Min reading
+    int m_minReading;
+
+    // Max reading
+    int m_maxReading;
+
+    // Invert readings (min > max) if installed backwards
+    bool m_invert;
+
+    // Normalized reading (between min and max)
+    double m_pos;
+
     // Last reading as rotation angle in radians
-    double m_rotation;
+    double m_angle;
 
-    // Offset angle for advertised rotation in degrees
-    double m_offset;
+    // Min rotation angle
+    double m_minAngle;
 
-    // Range for advertised rotation in degrees
-    double m_range;
+    // Max rotation angle
+    double m_maxAngle;
 
     // Rotation angle publisher
     ros::Publisher m_pub;
@@ -74,7 +89,13 @@ public:
     virtual bool init();
 
     // Get absolute position
-    virtual double getPos();
+    double getPos();
+
+    // Get absolute angle
+    double getAngle();
+
+    // Map normalized position from angle
+    double getPos(double angle);
 
     // Deserialize from settings
     virtual void deserialize(ros::NodeHandle node);
@@ -85,6 +106,13 @@ public:
 public:
     // Create instance
     static controller* create(class robot& robot, const char* path);
+
+private:
+    // Normalize reading
+    static double normalize(int value, int min, int max, bool invert);
+
+    // Scale reading
+    static double scale(double value, double min, double max);
 };
 
 } // namespace str1ker

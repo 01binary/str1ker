@@ -53,9 +53,14 @@ potentiometer::potentiometer(class robot& robot, const char* path) :
     controller(robot, path),
     m_adc(NULL),
     m_channel(0),
-    m_rotation(0.0),
-    m_offset(0.0),
-    m_range(360.0)
+    m_reading(0),
+    m_invert(false),
+    m_minReading(0),
+    m_maxReading(0),
+    m_pos(0.0),
+    m_angle(0.0),
+    m_minAngle(0.0),
+    m_maxAngle(0.0)
 {
 }
 
@@ -76,7 +81,20 @@ bool potentiometer::init()
 
 double potentiometer::getPos()
 {
-    return m_rotation;
+    return m_pos;
+}
+
+double potentiometer::getAngle()
+{
+    return m_angle;
+}
+
+double potentiometer::getPos(double angle)
+{
+    if (angle < m_minAngle) angle = m_minAngle;
+    if (angle > m_maxAngle) angle = m_maxAngle;
+
+    return (angle - m_minAngle) / (m_maxAngle - m_minAngle);
 }
 
 void potentiometer::deserialize(ros::NodeHandle node)
@@ -85,15 +103,32 @@ void potentiometer::deserialize(ros::NodeHandle node)
 
     ros::param::get(getControllerPath("channel"), m_channel);
 
-    ros::param::get(getControllerPath("offset"), m_offset);
-    m_offset = angles::to_degrees(m_offset);
+    ros::param::get(getControllerPath("min"), m_minReading);
+    ros::param::get(getControllerPath("max"), m_maxReading);
 
-    ros::param::get(getControllerPath("range"), m_range);
-    m_range = angles::to_degrees(m_range);
+    if (m_minReading > m_maxReading) {
+        // Support inverting value during normalization
+        m_invert = true;
+        int swap = m_maxReading;
+        m_maxReading = m_minReading;
+        m_minReading = swap;
+    }
+
+    ros::param::get(getControllerPath("minAngle"), m_minAngle);
+    m_minAngle = angles::from_degrees(m_minAngle);
+
+    ros::param::get(getControllerPath("maxAngle"), m_maxAngle);
+    m_maxAngle = angles::from_degrees(m_maxAngle);
 
     string adcName;
     ros::param::get(getControllerPath("adc"), adcName);
     m_adc = controllerFactory::deserialize<adc>(adcName.c_str());
+
+    if (m_adc) {
+        m_reading = m_adc->getMaxValue();
+        m_pos = scale(m_reading, m_minReading, m_maxReading);
+        m_angle = m_maxAngle;
+    }
 
     m_pub = node.advertise<geometry_msgs::QuaternionStamped>(
         getPath(),
@@ -105,14 +140,18 @@ void potentiometer::publish()
 {
     if (!m_enable || !m_adc || !m_pub) return;
 
-    m_rotation =
-        m_offset +
-        double(m_adc->getValue(m_channel)) /
-        double(m_adc->getMaxValue()) *
-        m_range;
+    // Get the raw reading
+    m_reading = m_adc->getValue();
 
+    // Calculate normalized position
+    m_pos = normalize(m_reading, m_minReading, m_maxReading, m_invert);
+
+    // Map angle from normalized position
+    m_angle = scale(m_pos, m_minAngle, m_maxAngle);
+
+    // Publish angle
     tf2::Stamped<tf2::Quaternion> q;
-    q.setRPY(m_rotation, 0, 0);
+    q.setRPY(m_angle, 0.0, 0.0);
     q.normalize();
 
     tf2::Stamped<tf2::Quaternion> payload(q, ros::Time::now(), "world");
@@ -124,4 +163,20 @@ void potentiometer::publish()
 controller* potentiometer::create(robot& robot, const char* path)
 {
     return new potentiometer(robot, path);
+}
+
+double potentiometer::normalize(int value, int min, int max, bool invert)
+{
+    if (value < min) return 0.0;
+    if (value > max) return 1.0;
+
+    double norm = double(value - min) / double(max - min);
+
+    if (invert) return 1.0 - norm;
+    return norm;
+}
+
+double potentiometer::scale(double value, double min, double max)
+{
+    return value * (max - min) + min;
 }

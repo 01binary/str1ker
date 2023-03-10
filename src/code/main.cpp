@@ -48,7 +48,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    ros::Rate rate(1);
+    ros::Rate rate(9600);
 
     //arm* arm1 = robot.getController<arm>("arm1");
 

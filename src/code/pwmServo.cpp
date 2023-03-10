@@ -39,7 +39,7 @@ using namespace str1ker;
 | Constants
 \*----------------------------------------------------------*/
 
-const char pwmServo::TYPE[] = "servo";
+const char pwmServo::TYPE[] = "pwmServo";
 
 /*----------------------------------------------------------*\
 | pwmServo implementation
@@ -51,6 +51,8 @@ pwmServo::pwmServo(robot& robot, const char* path):
     servo(robot, path),
     m_gpioLPWM(0),
     m_gpioRPWM(0),
+    m_minSpeed(1.0),
+    m_maxSpeed(1.0),
     m_encoder(NULL)
 {
 }
@@ -73,86 +75,114 @@ bool pwmServo::init()
         return false;
     }
 
-    ROS_INFO("  initialized %s %s on GPIO %d RPWM and %d LPWM",
-        getPath(), getType(), m_gpioRPWM, m_gpioLPWM);
+    ROS_INFO("  initialized %s %s on GPIO %d RPWM and %d LPWM (%g to %g ramp)",
+        getPath(), getType(), m_gpioRPWM, m_gpioLPWM, m_minSpeed, m_maxSpeed);
 
     return true;
 }
 
 double pwmServo::getPos()
 {
-    if (m_encoder) return m_encoder->getPos();
-
-    return 0.0;
+    return m_encoder ? m_encoder->getPos() : 0.0;
 }
 
-void pwmServo::setPos(double pos)
+double pwmServo::getAngle()
 {
+    return m_encoder ? m_encoder->getAngle() : 0.0;
+}
+
+void pwmServo::setAngle(double angle)
+{
+    if (!m_enable || !m_encoder) return;
+
+    double pos = m_encoder->getPos(angle);
+    setPos(pos);
+}
+
+void pwmServo::setPos(double target)
+{
+    // TODO: need to advertise a service for this (what does MoveIt need?)
     if (!m_enable) return;
 
-    double cur = getPos();
-    bool forward = (pos - cur) >= 0;
-    double delta = 0.0;
-    int result = 0;
-    double lastCur = 0;
+    ros::Rate rate(4);
+    double pos = getPos();
+    double lastPos = pos;
+    double initialDistance = abs(target - pos);
+    double direction = (target - pos) >= 0 ? 1 : -1;
+    double distance = 0.0;
 
-    // Start RPWM
-    result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioRPWM, forward ? MAX_SPEED : 0);
+    // Start moving
+    if (!setSpeed(m_minSpeed * direction)) return;
 
-    if (result < 0) {
-        handlePWMError(result);
-        return;
-    }
-
-    // Start LPWM
-    result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioLPWM, forward ? 0 : MAX_SPEED);
-
-    if (result < 0) {
-        handlePWMError(result);
-        return;
-    }
-
-    // Wait until servo reaches position
     do
     {
-        usleep(10000);
+        // Wait until servo reaches position
+        rate.sleep();
+        pos = getPos();
+        lastPos = pos;
+        distance = direction > 0 ? target - pos : pos - target;
 
-        cur = getPos();
-        delta = cur - pos;
+        // Ramp speed
+        double ramp = max(distance, 0.0) / initialDistance;
+        double speed = rampSpeed(ramp);
+        setSpeed(speed * direction);
 
 #ifdef DEBUG
-        if (abs(lastCur - cur) > 0.02)
-            ROS_INFO("%g -> %g, delta %g", cur, pos, delta);
+    if (abs(lastPos - pos) > 0.02) ROS_INFO("%g -> %g, distance %g, speed %g, ramp %g", pos, target, distance, speed, ramp);
 #endif
 
-        lastCur = cur;
+    } while (distance > 0);
 
-    } while (forward ? delta < 0 : delta > 0);
-
-    // Stop RPWM
-    result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioRPWM, 0);
-
-    if (result < 0) {
-        handlePWMError(result);
-        return;
-    }
-
-    // Stop LPWM
-    result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioLPWM, 0);
-
-    if (result < 0) {
-        handlePWMError(result);
-        return;
-    }
-
-    // Movement completed
-    setLastError(NULL);
+    // Stop
+    setSpeed(0.0);
 
     // Allow time before next command
     sleep(1);
 }
 
-void pwmServo::handlePWMError(int error)
+double pwmServo::getMinSpeed()
+{
+    return m_minSpeed;
+}
+
+double pwmServo::getMaxSpeed()
+{
+    return m_maxSpeed;
+}
+
+double pwmServo::rampSpeed(double ramp)
+{
+    const double RAMP[] = { 0.0, 1.0, 0.0 };
+    int index = int(sizeof(RAMP) / sizeof(double) * ramp);
+    return m_minSpeed + RAMP[index] * (m_maxSpeed - m_minSpeed);
+}
+
+bool pwmServo::setSpeed(double speed)
+{
+    bool forward = speed >= 0;
+    unsigned int dutyCycle = abs(speed * DUTY_CYCLE);
+
+    // Set RPWM pulse width
+    int result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioRPWM, forward ? dutyCycle : 0);
+
+    if (result < 0) {
+        handlePwmError(result);
+        return false;
+    }
+
+    // Set LPWM pulse width
+    result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioLPWM, forward ? 0 : dutyCycle);
+
+    if (result < 0) {
+        handlePwmError(result);
+        return false;
+    }
+
+    setLastError(NULL);
+    return true;
+}
+
+void pwmServo::handlePwmError(int error)
 {
     switch (error) {
         case PI_BAD_USER_GPIO:
@@ -173,13 +203,13 @@ void pwmServo::handlePWMError(int error)
 void pwmServo::deltaPos(double delta)
 {
     double pos = getPos();
-    double norm = max(min(pos + delta, 1.0), 0.0);
+    double clamped = max(min(pos + delta, 1.0), 0.0);
 
 #ifdef DEBUG
-    ROS_INFO("setPos %g + %g = %g", pos, delta, norm);
+    ROS_INFO("setPos %g + %g = %g", pos, delta, clamped);
 #endif
 
-    setPos(norm);
+    setPos(clamped);
 }
 
 void pwmServo::deserialize(ros::NodeHandle node)
@@ -188,6 +218,12 @@ void pwmServo::deserialize(ros::NodeHandle node)
 
     ros::param::get(getControllerPath("gpioLPWM"), m_gpioLPWM);
     ros::param::get(getControllerPath("gpioRPWM"), m_gpioRPWM);
+
+    if (!ros::param::get(getControllerPath("minSpeed"), m_minSpeed))
+        m_minSpeed = 1.0;
+    
+    if (!ros::param::get(getControllerPath("maxSpeed"), m_maxSpeed))
+        m_maxSpeed = 1.0;
 
     m_encoder = controllerFactory::deserialize<potentiometer>(m_robot, getPath(), "encoder", node);
 

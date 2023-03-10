@@ -44,7 +44,7 @@ const unsigned char SIGNATURE[] = { 'a', 'd', 'c', 'd' };
 | Types
 \*----------------------------------------------------------*/
 
-struct SAMPLE
+struct str1ker::SAMPLE
 {
   unsigned char signature[sizeof(SIGNATURE)];
   uint16_t readings[arduinoMicro::CHANNELS];
@@ -98,12 +98,12 @@ bool arduinoMicro::init()
 int arduinoMicro::getValue(int channel)
 {
     if (!m_enable) return 0;
-    return m_lastSample[channel];
+    return (int)m_lastSample[channel];
 }
 
 int arduinoMicro::getMaxValue()
 {
-    return numeric_limits<uint16_t>::max();
+    return SAMPLE_MAX;
 }
 
 int arduinoMicro::getChannels()
@@ -127,26 +127,28 @@ void arduinoMicro::publish()
     if (!m_enable) return;
 
     SAMPLE sample;
+    uint16_t buffer[CHANNELS] = {0};
+    int samples = 0;
 
-    if (serial_data_available(m_robot.getGpio(), m_usbHandle) < sizeof(SAMPLE))
+    while (sampleReady())
     {
-      // Not enough data to read
-      return;
+      if (!readSample(sample)) break;
+
+      samples++;
+
+      if (samples > 1) {
+        // Average readings
+        for (int n = 0; n < CHANNELS; n++)
+        {
+          buffer[n] = (buffer[n] + sample.readings[n]) / 2;
+        }
+      } else {
+        // Copy readings
+        memcpy(buffer, sample.readings, sizeof(buffer));
+      }
     }
 
-    if (serial_read(m_robot.getGpio(), m_usbHandle, (char*)&sample, sizeof(SAMPLE)) != sizeof(SAMPLE))
-    {
-      // Failed to read
-      setLastError("failed to read from serial port");
-      return;
-    }
-
-    if (memcmp(sample.signature, SIGNATURE, sizeof(SIGNATURE)) != 0)
-    {
-      // Invalid or corrupted data
-      setLastError("corrupted payload read from serial port");
-      return;
-    }
+    if (!samples) return;
 
     std_msgs::MultiArrayDimension dim;
     std_msgs::UInt16MultiArray msg;
@@ -155,15 +157,35 @@ void arduinoMicro::publish()
     dim.stride = 1;
     dim.label = "channels";
     msg.layout.dim.push_back(dim);
-    msg.data.reserve(dim.size);
+    msg.data.resize(dim.size);
 
-    for (int n = 0; n < CHANNELS; n++)
-    {
-      m_lastSample[n] = sample.readings[n];
-      msg.data.push_back(sample.readings[n]);
-    }
-
+    memcpy(&msg.data[0], buffer, sizeof(buffer));
     m_pub.publish(msg);
 
+    memcpy(m_lastSample, buffer, sizeof(buffer));
     setLastError(NULL);
+}
+
+bool arduinoMicro::sampleReady()
+{
+  return serial_data_available(m_robot.getGpio(), m_usbHandle) >= sizeof(SAMPLE);
+}
+
+bool arduinoMicro::readSample(SAMPLE& sample)
+{
+  if (serial_read(m_robot.getGpio(), m_usbHandle, (char*)&sample, sizeof(SAMPLE)) != sizeof(SAMPLE))
+  {
+    // Failed to read
+    setLastError("failed to read from serial port");
+    return false;
+  }
+
+  if (memcmp(sample.signature, SIGNATURE, sizeof(SIGNATURE)) != 0)
+  {
+    // Invalid or corrupted data
+    setLastError("corrupted payload read from serial port");
+    return false;
+  }
+
+  return true;
 }

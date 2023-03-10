@@ -15,17 +15,20 @@
         controller: 'arm'
         enable: true
         shoulder:
-          controller: 'servo'
+          controller: 'pwmServo'
           enable: true
           gpioLPWM: 22
           gpioRPWM: 23
+          minSpeed: 0.4
+          maxSpeed: 1.0
           encoder:
             controller: 'potentiometer'
             enable: true
             adc: 'arduinoMicro'
-            channel: 0
-            offset: 0
-            range: 360
+            min: 180
+            max: 783
+            minAngle: 0
+            maxAngle: 180
         upperarm:
           controller: 'linear'
           enable: false
@@ -34,11 +37,13 @@
           time: 5
           encoder:
             controller: 'potentiometer'
-            enable: false
+            enable: true
             adc: 'arduinoMicro'
             channel: 1
-            offset: 0
-            range: 360
+            min: 175
+            max: 200
+            minAngle: 23.35
+            maxAngle: 44.26
         forearm:
           controller: 'linear'
           enable: false
@@ -47,11 +52,13 @@
           time: 4
           encoder:
             controller: 'potentiometer'
-            enable: false
+            enable: true
             adc: 'arduinoMicro'
             channel: 2
-            offset: 0
-            range: 360
+            min: 354
+            max: 194
+            minAngle: 69.75
+            maxAngle: 116.35
         trigger:
           controller: 'solenoid'
           enable: false

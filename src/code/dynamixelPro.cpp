@@ -136,12 +136,12 @@ double dynamixelPro::getPos()
     return s_wb->convertValue2Radian(id, value);
 }
 
-void dynamixelPro::setPos(double pos)
+void dynamixelPro::setPos(double target)
 {
     if (!m_enable) return;
 
     uint8_t id = m_id;
-    int32_t value = s_wb->convertRadian2Value(m_id, pos);
+    int32_t value = s_wb->convertRadian2Value(m_id, target);
 
     if (!s_wb->syncWrite(0, &id, 1, &value, 1))
     {
@@ -151,6 +151,16 @@ void dynamixelPro::setPos(double pos)
     }
 
     setLastError(NULL);
+}
+
+double dynamixelPro::getAngle()
+{
+    return getPos();
+}
+
+void dynamixelPro::setAngle(double angle)
+{
+    setPos(angle);
 }
 
 void dynamixelPro::deltaPos(double delta)
