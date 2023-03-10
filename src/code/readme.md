@@ -41,6 +41,24 @@ cd ~/catkin_ws
 catkin_make
 ```
 
+## Upload
+
+The analog-to-digital controller runs on Arduino Micro and communicates back through rosserial library.
+
+Generate message headers:
+
+```
+rosserial_arduino make_libraries.py .
+```
+
+Upload the `adc.ino` to Arduino Micro
+
+Run rosserial node to get ADC inputs published on `/robot/adc`:
+
+```
+rosrun rosserial_python serial_node.py /dev/ttyUSB0
+```
+
 ## Run this package
 
 ```

@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   angles
   genmsg
+  message_generation
   std_msgs
   tf2_geometry_msgs
   dynamixel_workbench_msgs
@@ -35,6 +36,14 @@ if(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
   add_definitions(-DHAVE_NEW_YAMLCPP)
 endif(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
 
+add_message_files(
+  DIRECTORY msg
+  FILES
+  Adc.msg
+)
+
+generate_messages(DEPENDENCIES std_msgs)
+
 catkin_package(
   CATKIN_DEPENDS
   roscpp
@@ -46,6 +55,7 @@ catkin_package(
   dynamixel_workbench_msgs
   dynamixel_workbench_toolbox
   cmake_modules
+  message_runtime
   DEPENDS EIGEN3
 )
 
