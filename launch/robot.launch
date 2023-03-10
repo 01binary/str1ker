@@ -1,5 +1,13 @@
 <launch>
   <node
+    name="adc"
+    pkg="rosserial_python"
+    type="serial_node.py"
+    args="/dev/ttyUSB0"
+    required="true"
+    output="screen"
+  />
+  <node
     name="robot"
     pkg="str1ker"
     type="robot"
