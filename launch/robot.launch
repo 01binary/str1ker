@@ -7,10 +7,6 @@
     output="screen"
   >
     <rosparam>
-      adc:
-        controller: 'arduinoMicro'
-        enable: true
-        dev: '/dev/ttyACM0'
       arm1:
         controller: 'arm'
         enable: true

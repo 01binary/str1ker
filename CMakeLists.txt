@@ -72,10 +72,6 @@ add_executable(
   src/code/linear.cpp
   src/code/solenoid.cpp
   src/code/potentiometer.cpp
-  src/code/mcp3008.cpp
-  src/code/ads1115.cpp
-  src/code/pi16adc.cpp
-  src/code/arduinoMicro.cpp
 )
 
 add_dependencies(
