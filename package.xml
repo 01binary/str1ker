@@ -15,8 +15,6 @@
   <depend>angles</depend>
   <depend>genmsg</depend>
   <depend>std_msgs</depend>
-  <depend>dynamixel_workbench_msgs</depend>
-  <depend>dynamixel_workbench_toolbox</depend>
   <depend>cmake_modules</depend>
   <depend>yaml-cpp</depend>
   <depend>eigen</depend>

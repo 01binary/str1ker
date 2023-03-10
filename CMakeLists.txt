@@ -13,8 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   std_msgs
   tf2_geometry_msgs
-  dynamixel_workbench_msgs
-  dynamixel_workbench_toolbox
   cmake_modules
 )
 
@@ -52,8 +50,6 @@ catkin_package(
   tf2_ros
   std_msgs
   genmsg
-  dynamixel_workbench_msgs
-  dynamixel_workbench_toolbox
   cmake_modules
   message_runtime
   DEPENDS EIGEN3
@@ -73,7 +69,6 @@ add_executable(
   src/code/controller.cpp
   src/code/arm.cpp
   src/code/pwmServo.cpp
-  src/code/dynamixelPro.cpp
   src/code/linear.cpp
   src/code/solenoid.cpp
   src/code/potentiometer.cpp

@@ -24,7 +24,6 @@
 #include "robot.h"
 #include "solenoid.h"
 #include "pwmServo.h"
-#include "dynamixelPro.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -80,7 +79,7 @@ void controller::deserialize(ros::NodeHandle node)
 {
     string indent;
     indent.resize(
-        (max(count(m_path.begin(), m_path.end(), '/') - 2, 1)) * 2,
+        (max((int)count(m_path.begin(), m_path.end(), '/') - 2, 1)) * 2,
         ' '
     );
 

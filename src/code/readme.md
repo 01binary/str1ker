@@ -2,20 +2,6 @@
 
 This directory includes ROS source code for the drumming robot that should be cloned into `~/catkin_ws/src` and built with `catkin_make` after installing/building dependencies.
 
-## Dependencies
-
-|Dependency|Install|
-|-|-|
-|roscpp|Included with ros|
-|sensor_msgs|Included with ros|
-|geometry_msgs|Included with ros|
-|trajectory_msgs|Included with ros|
-|dynamixel_workbench_msgs|Clone [Dynamixel SDK](https://github.com/ROBOTIS-GIT/DynamixelSDK) and build from source (not availble for Melodic at the time of writing)|
-|dynamixel_workbench_toolbox|Clone [Dynamixel SDK](https://github.com/ROBOTIS-GIT/DynamixelSDK) and build from source (not availble for Melodic at the time of writing)|
-|cmake_modules|Included with cmake|
-|yaml-cpp|Included with ros|
-|eigen|Included with dynamixel SDK|
-
 ## Clone
 
 ```
@@ -39,6 +25,15 @@ rosdep install -y --from-paths . --ignore-src --rosdistro noetic
 ```
 cd ~/catkin_ws
 catkin_make
+```
+
+## Setup
+
+One-time setup after the first build.
+
+```
+catkin_make install
+source ~/catkin_ws/devel/setup.bash
 ```
 
 ## Upload
