@@ -28,7 +28,8 @@
           encoder:
             controller: 'potentiometer'
             enable: true
-            adc: 'arduinoMicro'
+            adc: 'robot/adc'
+            channel: 0
             min: 180
             max: 783
             minAngle: 0
@@ -42,7 +43,7 @@
           encoder:
             controller: 'potentiometer'
             enable: true
-            adc: 'arduinoMicro'
+            adc: 'robot/adc'
             channel: 1
             min: 175
             max: 200
@@ -57,7 +58,7 @@
           encoder:
             controller: 'potentiometer'
             enable: true
-            adc: 'arduinoMicro'
+            adc: 'robot/adc'
             channel: 2
             min: 354
             max: 194
