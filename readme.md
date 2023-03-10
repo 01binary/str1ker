@@ -1,19 +1,67 @@
 # Drumming Robot
 
-Work-in-progress design for an aethetic live drum machine.
+Source code and parts for [Str1ker](https://www.01binary.us/projects/drumming-robot/) drumming robot. See [build log](https://hackaday.io/project/171607-drumming-robot) on Hackaday.io.
 
-* See [build log](https://hackaday.io/project/171607-drumming-robot) on Hackaday.io.
-* [Watch robot arm protype](https://www.youtube.com/watch?v=Abf0k5A4z88)
+![body](./doc/readme/body.png)
+![arms](./doc/readme/arms.png)
+![wiring](./doc/readme/wiring.jpeg)
 
-![readme1](doc/readme/readme1.png)
+## Clone
 
-![readme2](doc/readme/readme2.png)
+```
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws/src
 
-![readme3](doc/readme/readme3.png)
+git clone https://github.com/01binary/drummingrobot.git
 
+git sparse-checkout init --cone
+git sparse-checkout set src/code launch msg
+```
 
-![readme5](doc/readme/readme5.png)
+## Install
 
-![readme4](doc/readme/readme4.png)
+```
+cd ~/catkin_ws/src
+rosdep install -y --from-paths . --ignore-src --rosdistro noetic
+```
 
-![readme6](doc/readme/readme6.png)
+## Build
+
+```
+cd ~/catkin_ws
+catkin_make
+```
+
+## Setup
+
+One-time setup after the first build.
+
+```
+catkin_make install
+source ~/catkin_ws/devel/setup.bash
+```
+
+## Upload
+
+The analog-to-digital controller runs on Arduino Micro and communicates back through rosserial library.
+
+Generate message headers:
+
+```
+rosserial_arduino make_libraries.py .
+```
+
+Upload the `adc.ino` to Arduino Micro
+
+Run rosserial node to get ADC inputs published on `/robot/adc`:
+
+```
+rosrun rosserial_python serial_node.py /dev/ttyUSB0
+```
+
+## Run this package
+
+```
+source devel/setup.bash
+roslaunch str1ker robot.launch
+```
