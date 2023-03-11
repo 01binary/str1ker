@@ -60,7 +60,8 @@ controller* controllerFactory::deserialize(robot& robot, const char* parentPath,
         string controllerTypePath = componentPath + "/controller";
         string controllerType;
 
-        ros::param::get(controllerTypePath, controllerType);
+        if (!ros::param::get(controllerTypePath, controllerType))
+            return NULL;
 
         if (s_types.find(controllerType.c_str()) == s_types.end())
         {

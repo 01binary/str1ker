@@ -3,7 +3,7 @@
     name="adc"
     pkg="rosserial_python"
     type="serial_node.py"
-    args="/dev/ttyUSB0"
+    args="/dev/ttyACM0"
     required="true"
     output="screen"
   />
@@ -14,6 +14,7 @@
     required="true"
     output="screen"
   >
+    <param name="enableGpio" value="false" />
     <rosparam>
       arm1:
         controller: 'arm'

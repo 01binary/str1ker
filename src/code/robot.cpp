@@ -50,7 +50,7 @@ robot::robot()
 robot::~robot()
 {
     // Release GPIO pins
-    pigpio_stop(m_gpio);
+    if (m_enableGpio) pigpio_stop(m_gpio);
 }
 
 shared_ptr<controller> robot::getController(const char* name)
@@ -60,13 +60,18 @@ shared_ptr<controller> robot::getController(const char* name)
 
 bool robot::init()
 {
-    ROS_INFO("initializing controllers...");
-
-    if (m_gpio = pigpio_start(NULL, NULL) < 0)
+    if (m_enableGpio)
     {
-        ROS_ERROR("failed to initialize GPIO");
-        return false;
+        ROS_INFO("initializing GPIO");
+
+        if (m_gpio = pigpio_start(NULL, NULL) < 0)
+        {
+            ROS_ERROR("failed to initialize GPIO");
+            return false;
+        }
     }
+
+    ROS_INFO("initializing controllers...");
 
     for(controllerMap::iterator pos = m_controllers.begin();
         pos != m_controllers.end();
@@ -97,6 +102,8 @@ robot& robot::deserialize(ros::NodeHandle node)
     char path[255] = {0};
     vector<string> params;
     ros::param::getParamNames(params);
+
+    ros::param::get("/robot/enableGpio", m_enableGpio);
 
     for (vector<string>::iterator pos = params.begin();
         pos != params.end();

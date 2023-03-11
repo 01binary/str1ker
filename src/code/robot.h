@@ -53,6 +53,9 @@ private:
     // GPIO connection
     int m_gpio;
 
+    // Whether GPIO is enabled
+    bool m_enableGpio;
+
 public:
     robot();
     ~robot();
