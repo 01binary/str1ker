@@ -128,7 +128,8 @@ void pwmServo::setPos(double target)
         setSpeed(speed * direction);
 
 #ifdef DEBUG
-    if (abs(lastPos - pos) > 0.02) ROS_INFO("%g -> %g, distance %g, speed %g, ramp %g", pos, target, distance, speed, ramp);
+    if (abs(lastPos - pos) > 0.02)
+        ROS_INFO("%g -> %g, distance %g, speed %g, ramp %g", pos, target, distance, speed, ramp);
 #endif
 
     } while (distance > 0);

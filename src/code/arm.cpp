@@ -56,10 +56,6 @@ arm::arm(robot& robot, const char* path) :
 
 arm::~arm()
 {
-    delete m_shoulder;
-    delete m_upperarm;
-    delete m_forearm;
-    delete m_trigger;
 }
 
 const char* arm::getType()

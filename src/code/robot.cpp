@@ -51,14 +51,6 @@ robot::~robot()
 {
     // Release GPIO pins
     pigpio_stop(m_gpio);
-
-    // Release controllers
-    for(controllerMap::iterator pos = m_controllers.begin();
-        pos != m_controllers.end();
-        ++pos)
-    {
-        delete pos->second;
-    }
 }
 
 controller* robot::getController(const char* name)

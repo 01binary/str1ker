@@ -50,19 +50,16 @@ private:
     static const char* JOINT_NAMES[];
 
     // Rotation servo
-    servo* m_shoulder;
+    std::shared_ptr<servo> m_shoulder;
 
     // Lift servo
-    linear* m_upperarm;
+    std::shared_ptr<linear> m_upperarm;
 
     // Extend servo
-    linear* m_forearm;
+    std::shared_ptr<linear> m_forearm;
 
     // Trigger solenoid
-    solenoid* m_trigger;
-
-    // Joint paths
-    std::vector<std::string> m_jointPaths;
+    std::shared_ptr<solenoid> m_trigger;
 
     // Joint states publisher
     ros::Publisher m_pub;

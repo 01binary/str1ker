@@ -36,7 +36,7 @@ namespace str1ker {
 | Definitions
 \*----------------------------------------------------------*/
 
-typedef std::map<std::string, controller*> controllerMap;
+typedef std::map<std::string, std::shared_ptr<controller>> controllerMap;
 
 /*----------------------------------------------------------*\
 | robot class
