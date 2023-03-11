@@ -24,7 +24,6 @@
 #include <string>
 #include <map>
 #include "arm.h"
-#include "adc.h"
 
 /*----------------------------------------------------------*\
 | Namespace

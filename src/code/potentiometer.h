@@ -22,7 +22,7 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
-#include "adc.h"
+#include <str1ker/Adc.h>
 #include "controller.h"
 
 /*----------------------------------------------------------*\
@@ -86,7 +86,7 @@ public:
     virtual void deserialize(ros::NodeHandle node);
 
     // Subscribe callback for ADC readings
-    void readingCallback(const msgs::Adc::ConstPtr& msg);
+    void readingCallback(const Adc::ConstPtr& msg);
 
 public:
     // Create instance

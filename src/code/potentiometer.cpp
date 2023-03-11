@@ -27,7 +27,6 @@
 #include <tf2/convert.h>
 #include <angles/angles.h>
 #include "potentiometer.h"
-#include "adc.h"
 #include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
@@ -51,7 +50,6 @@ REGISTER_CONTROLLER(potentiometer)
 
 potentiometer::potentiometer(class robot& robot, const char* path) :
     controller(robot, path),
-    m_adc(NULL),
     m_channel(0),
     m_reading(0),
     m_invert(false),
@@ -99,7 +97,7 @@ void potentiometer::deserialize(ros::NodeHandle node)
     string adcTopicName;
     ros::param::get(getControllerPath("adc"), adcTopicName);
 
-    m_sub = node.subscribe<msgs::Adc>(
+    m_sub = node.subscribe<Adc>(
         adcTopicName,
         SUBSCRIBE_QUEUE_SIZE,
         readingCallback,
@@ -107,12 +105,12 @@ void potentiometer::deserialize(ros::NodeHandle node)
     );
 }
 
-void potentiometer::readingCallback(const msgs::Adc::ConstPtr& msg)
+void potentiometer::readingCallback(const Adc::ConstPtr& msg)
 {
     if (!m_enable) return;
 
     // Get the raw reading
-    m_reading = int(((const uint16_t*)&msg.adc0)[m_channel]);
+    m_reading = int(((const uint16_t*)&msg->adc0)[m_channel]);
 
     // Calculate normalized value
     double norm = normalize(m_reading, m_minReading, m_maxReading, m_invert);

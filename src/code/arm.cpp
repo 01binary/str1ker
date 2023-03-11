@@ -46,11 +46,7 @@ const char* arm::JOINT_NAMES[] = { "shoulder", "upperarm", "forearm" };
 REGISTER_CONTROLLER(arm)
 
 arm::arm(robot& robot, const char* path) :
-    controller(robot, path),
-    m_shoulder(NULL),
-    m_upperarm(NULL),
-    m_forearm(NULL),
-    m_trigger(NULL)
+    controller(robot, path)
 {
 }
 
@@ -72,10 +68,10 @@ void arm::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
 
-    m_shoulder = controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "shoulder", node);
-    m_upperarm = controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "upperarm", node);
-    m_forearm = controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "forearm", node);
-    m_trigger = controllerFactory::deserialize<solenoid>(m_robot, m_path.c_str(), "trigger", node);
+    m_shoulder = make_shared<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "shoulder", node));
+    m_upperarm = make_shared<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "upperarm", node));
+    m_forearm = make_shared<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "forearm", node));
+    m_trigger = make_shared<solenoid>(controllerFactory::deserialize<solenoid>(m_robot, m_path.c_str(), "trigger", node));
 
     m_pub = node.advertise<sensor_msgs::JointState>(
         getPath(),

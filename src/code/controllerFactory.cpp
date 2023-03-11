@@ -24,7 +24,6 @@
 #include "controllerFactory.h"
 #include "solenoid.h"
 #include "pwmServo.h"
-#include "linear.h"
 
 /*----------------------------------------------------------*\
 | Namespace

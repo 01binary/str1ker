@@ -108,7 +108,7 @@ robot& robot::deserialize(ros::NodeHandle node)
             const char* name = getControllerName(path);
             controller* instance = controllerFactory::deserialize(*this, PATH, name, node);
 
-            if (instance) m_controllers[path] = instance;
+            if (instance) m_controllers[path] = make_shared<controller>(instance);
         }
     }
 

@@ -52,8 +52,7 @@ pwmServo::pwmServo(robot& robot, const char* path):
     m_gpioLPWM(0),
     m_gpioRPWM(0),
     m_minSpeed(1.0),
-    m_maxSpeed(1.0),
-    m_encoder(NULL)
+    m_maxSpeed(1.0)
 {
 }
 
@@ -202,7 +201,8 @@ void pwmServo::deserialize(ros::NodeHandle node)
     if (!ros::param::get(getControllerPath("maxSpeed"), m_maxSpeed))
         m_maxSpeed = 1.0;
 
-    m_encoder = controllerFactory::deserialize<potentiometer>(m_robot, getPath(), "encoder", node);
+    m_encoder = make_shared<potentiometer>(controllerFactory::deserialize<potentiometer>(
+        m_robot, getPath(), "encoder", node));
 
     if (!m_encoder)
     {
