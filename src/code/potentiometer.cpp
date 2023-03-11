@@ -83,9 +83,7 @@ void potentiometer::deserialize(ros::NodeHandle node)
     if (m_minReading > m_maxReading) {
         // Support inverting value during normalization
         m_invert = true;
-        int swap = m_maxReading;
-        m_maxReading = m_minReading;
-        m_minReading = swap;
+        std::swap(m_minReading, m_maxReading);
     }
 
     if (ros::param::get(getControllerPath("minAngle"), m_min))
