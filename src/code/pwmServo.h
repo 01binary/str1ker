@@ -57,6 +57,9 @@ private:
     // Ramp max (defaults to 1.0)
     double m_maxSpeed;
 
+    // Current velocity
+    double m_velocity;
+
     // Potentiometer as absolute encoder
     std::shared_ptr<potentiometer> m_encoder;
 
@@ -76,8 +79,11 @@ public:
     // Move to absolute position
     virtual void setPos(double target);
 
+    // Get current velocity
+    virtual double getVelocity();
+
     // Set speed and direction directly (+/-)
-    bool setVelocity(double speed);
+    virtual bool setVelocity(double speed);
 
     // Get minimum speed for ramping up
     double getMinSpeed();

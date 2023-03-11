@@ -145,10 +145,15 @@ double pwmServo::rampSpeed(double ramp)
     return m_minSpeed + RAMP[index] * (m_maxSpeed - m_minSpeed);
 }
 
-bool pwmServo::setVelocity(double speed)
+double pwmServo::getVelocity()
 {
-    bool forward = speed >= 0;
-    unsigned int dutyCycle = abs(speed * DUTY_CYCLE);
+    return m_velocity;
+}
+
+bool pwmServo::setVelocity(double velocity)
+{
+    bool forward = velocity >= 0;
+    unsigned int dutyCycle = abs(velocity) * DUTY_CYCLE;
 
     // Set RPWM pulse width
     int result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioRPWM, forward ? dutyCycle : 0);
@@ -166,7 +171,9 @@ bool pwmServo::setVelocity(double speed)
         return false;
     }
 
+    m_velocity = velocity;
     setLastError(NULL);
+
     return true;
 }
 

@@ -54,6 +54,12 @@ public:
 
     // Set absolute servo position
     virtual void setPos(double pos) = 0;
+
+    // Get servo velocity
+    virtual double getVelocity() = 0;
+
+    // Set servo velocity
+    virtual bool setVelocity(double velocity) = 0;
 };
 
 } // namespace str1ker

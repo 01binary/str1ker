@@ -91,22 +91,42 @@ bool arm::init()
 
 void arm::update()
 {
-    string jointPrefix = getPath();
+    const char* path = getPath();
+
+    char jointPath[128] = {0};
+    strcpy(jointPath, path);
+    strcat(jointPath, "/");
+
+    char* jointName = jointPath + strlen(jointPath);
     int numJoints = sizeof(JOINT_NAMES) / sizeof(char*);
-    double jointPositions[] = {
+
+    double jointPositions[] =
+    {
         m_shoulder ? m_shoulder->getPos() : 0.0,
         m_upperarm ? m_upperarm->getPos() : 0.0,
         m_forearm ? m_forearm->getPos() : 0.0,
     };
 
+    double jointVelocities[] =
+    {
+        m_shoulder ? m_shoulder->getVelocity() : 0.0,
+        m_upperarm ? m_upperarm->getVelocity() : 0.0,
+        m_forearm ? m_forearm->getVelocity() : 0.0,
+    };
+
     sensor_msgs::JointState jointState;
+    jointState.header.stamp = ros::Time::now();
     jointState.name.resize(numJoints);
     jointState.position.resize(numJoints);
+    jointState.velocity.resize(numJoints);
 
     for (int joint = 0; joint < numJoints; joint++)
     {
-        jointState.name[joint] = jointPrefix + "/" + JOINT_NAMES[joint];
+        strcpy(jointName, JOINT_NAMES[joint]);
+
+        jointState.name[joint] = jointPath;
         jointState.position[joint] = jointPositions[joint];
+        jointState.velocity[joint] = jointVelocities[joint];
     }
 
     m_pub.publish(jointState);
