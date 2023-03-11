@@ -53,7 +53,7 @@ robot::~robot()
     pigpio_stop(m_gpio);
 }
 
-controller* robot::getController(const char* name)
+shared_ptr<controller> robot::getController(const char* name)
 {
     return m_controllers[name];
 }
@@ -108,7 +108,7 @@ robot& robot::deserialize(ros::NodeHandle node)
             const char* name = getControllerName(path);
             controller* instance = controllerFactory::deserialize(*this, PATH, name, node);
 
-            if (instance) m_controllers[path] = make_shared<controller>(instance);
+            if (instance) m_controllers[path] = shared_ptr<controller>(instance);
         }
     }
 

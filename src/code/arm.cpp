@@ -68,10 +68,10 @@ void arm::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
 
-    m_shoulder = make_shared<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "shoulder", node));
-    m_upperarm = make_shared<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "upperarm", node));
-    m_forearm = make_shared<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "forearm", node));
-    m_trigger = make_shared<solenoid>(controllerFactory::deserialize<solenoid>(m_robot, m_path.c_str(), "trigger", node));
+    m_shoulder = shared_ptr<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "shoulder", node));
+    m_upperarm = shared_ptr<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "upperarm", node));
+    m_forearm = shared_ptr<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "forearm", node));
+    m_trigger = shared_ptr<solenoid>(controllerFactory::deserialize<solenoid>(m_robot, m_path.c_str(), "trigger", node));
 
     m_pub = node.advertise<sensor_msgs::JointState>(
         getPath(),

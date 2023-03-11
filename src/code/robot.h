@@ -76,11 +76,11 @@ public:
     // Get controller of type by name
     template <class C> C* getController(const char* name)
     {
-        return dynamic_cast<C*>(getController(name));
+        return dynamic_cast<C*>(getController(name).get());
     }
 
     // Get any controller by name
-    controller* getController(const char* name);
+    std::shared_ptr<controller> getController(const char* name);
 
 public:
     // Get component name

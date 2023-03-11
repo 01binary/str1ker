@@ -100,7 +100,7 @@ void potentiometer::deserialize(ros::NodeHandle node)
     m_sub = node.subscribe<Adc>(
         adcTopicName,
         SUBSCRIBE_QUEUE_SIZE,
-        readingCallback,
+        &str1ker::potentiometer::readingCallback,
         this
     );
 }
