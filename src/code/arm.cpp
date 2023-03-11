@@ -54,10 +54,6 @@ arm::arm(robot& robot, const char* path) :
 {
 }
 
-arm::~arm()
-{
-}
-
 const char* arm::getType()
 {
     return arm::TYPE;
@@ -99,11 +95,6 @@ bool arm::init()
 
 void arm::update()
 {
-    if (m_shoulder) m_shoulder->update();
-    if (m_upperarm) m_upperarm->update();
-    if (m_forearm) m_forearm->update();
-    if (m_trigger) m_trigger->update();
-
     string jointPrefix = getPath();
     int numJoints = sizeof(JOINT_NAMES) / sizeof(char*);
     double jointPositions[] = {

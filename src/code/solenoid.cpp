@@ -101,7 +101,7 @@ void solenoid::deserialize(ros::NodeHandle node)
 
     ros::param::get(getControllerPath("gpio"), m_gpio);
 
-    // TODO: advertise service
+    // TODO: advertise action
 }
 
 controller* solenoid::create(robot& robot, const char* path)

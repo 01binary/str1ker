@@ -65,7 +65,6 @@ private:
 
 public:
     arm(class robot& robot, const char* path);
-    ~arm();
 
 public:
     // Get display type
