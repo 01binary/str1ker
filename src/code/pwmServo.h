@@ -58,7 +58,7 @@ private:
     double m_maxSpeed;
 
     // Potentiometer as absolute encoder
-    potentiometer* m_encoder;
+    std::shared_ptr<potentiometer> m_encoder;
 
 public:
     pwmServo(class robot& robot, const char* path);
@@ -82,11 +82,8 @@ public:
     // Move to absolute angle in radians
     virtual void setAngle(double angle);
 
-    // Move by delta
-    virtual void deltaPos(double delta);
-
     // Set speed and direction directly (+/-)
-    bool setSpeed(double speed);
+    bool setVelocity(double speed);
 
     // Get minimum speed for ramping up
     double getMinSpeed();
@@ -99,9 +96,6 @@ public:
 
     // Deserialize from settings
     virtual void deserialize(ros::NodeHandle node);
-
-    // Update current position
-    virtual void update();
 
 public:
     // Create instance

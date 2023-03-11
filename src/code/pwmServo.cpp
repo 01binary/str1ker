@@ -108,11 +108,11 @@ void pwmServo::setPos(double target)
     double pos = getPos();
     double lastPos = pos;
     double initialDistance = abs(target - pos);
-    double direction = (target - pos) >= 0 ? 1 : -1;
+    double direction = (target - pos) >= 0.0 ? 1.0 : -1.0;
     double distance = 0.0;
 
     // Start moving
-    if (!setSpeed(m_minSpeed * direction)) return;
+    if (!setVelocity(m_minSpeed * direction)) return;
 
     do
     {
@@ -125,7 +125,7 @@ void pwmServo::setPos(double target)
         // Ramp speed
         double ramp = max(distance, 0.0) / initialDistance;
         double speed = rampSpeed(ramp);
-        setSpeed(speed * direction);
+        setVelocity(speed * direction);
 
 #ifdef DEBUG
     if (abs(lastPos - pos) > 0.02)
@@ -135,7 +135,7 @@ void pwmServo::setPos(double target)
     } while (distance > 0);
 
     // Stop
-    setSpeed(0.0);
+    setVelocity(0.0);
 
     // Allow time before next command
     sleep(1);
@@ -158,7 +158,7 @@ double pwmServo::rampSpeed(double ramp)
     return m_minSpeed + RAMP[index] * (m_maxSpeed - m_minSpeed);
 }
 
-bool pwmServo::setSpeed(double speed)
+bool pwmServo::setVelocity(double speed)
 {
     bool forward = speed >= 0;
     unsigned int dutyCycle = abs(speed * DUTY_CYCLE);
@@ -201,18 +201,6 @@ void pwmServo::handlePwmError(int error)
     }
 }
 
-void pwmServo::deltaPos(double delta)
-{
-    double pos = getPos();
-    double clamped = max(min(pos + delta, 1.0), 0.0);
-
-#ifdef DEBUG
-    ROS_INFO("setPos %g + %g = %g", pos, delta, clamped);
-#endif
-
-    setPos(clamped);
-}
-
 void pwmServo::deserialize(ros::NodeHandle node)
 {
     servo::deserialize(node);
@@ -232,11 +220,6 @@ void pwmServo::deserialize(ros::NodeHandle node)
     {
         ROS_WARN("%s failed to load encoder", getPath());
     }
-}
-
-void pwmServo::update()
-{
-    if (m_encoder) m_encoder->update();
 }
 
 controller* pwmServo::create(robot& robot, const char* path)

@@ -114,21 +114,24 @@ void potentiometer::deserialize(ros::NodeHandle node)
         m_minReading = swap;
     }
 
-    ros::param::get(getControllerPath("minAngle"), m_minAngle);
-    m_minAngle = angles::from_degrees(m_minAngle);
+    if (ros::param::get(getControllerPath("minAngle"), m_minAngle))
+        m_minAngle = angles::from_degrees(m_minAngle);
 
-    ros::param::get(getControllerPath("maxAngle"), m_maxAngle);
-    m_maxAngle = angles::from_degrees(m_maxAngle);
+    if (ros::param::get(getControllerPath("maxAngle"), m_maxAngle))
+        m_maxAngle = angles::from_degrees(m_maxAngle);
 
-    string adcName;
-    ros::param::get(getControllerPath("adc"), adcName);
-    m_adc = controllerFactory::deserialize<adc>(adcName.c_str());
+    if (!ros::param::get(getControllerPath("frame"), m_frame))
+        m_frame = "world";
 
-    if (m_adc) {
-        m_reading = m_adc->getMaxValue();
-        m_pos = scale(m_reading, m_minReading, m_maxReading);
-        m_angle = m_maxAngle;
-    }
+    string adcTopicName;
+    ros::param::get(getControllerPath("adc"), adcTopicName);
+
+    m_sub = node.subscribe<msgs::Adc>(
+        adcTopicName,
+        SUBSCRIBE_QUEUE_SIZE,
+        readingCallback,
+        this
+    );
 
     m_pub = node.advertise<geometry_msgs::QuaternionStamped>(
         getPath(),
@@ -136,12 +139,12 @@ void potentiometer::deserialize(ros::NodeHandle node)
     );
 }
 
-void potentiometer::update()
+void potentiometer::readingCallback(const msgs::Adc::ConstPtr& msg)
 {
-    if (!m_enable || !m_adc || !m_pub) return;
+    if (!m_enable) return;
 
     // Get the raw reading
-    m_reading = m_adc->getValue();
+    m_reading = int(((const uint16_t*)&msg.adc0)[m_channel]);
 
     // Calculate normalized position
     m_pos = normalize(m_reading, m_minReading, m_maxReading, m_invert);

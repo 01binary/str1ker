@@ -45,8 +45,11 @@ private:
     // Message publishing queue size
     const int PUBLISH_QUEUE_SIZE = 16;
 
-    // Analog to digital converter (ADC) for reading measurements
-    adc* m_adc;
+    // Message subscription queue size
+    const int SUBSCRIBE_QUEUE_SIZE = 8;
+
+    // Parent frame
+    std::string m_frame;
 
     // Channel index to use when reading from ADC
     int m_channel;
@@ -78,6 +81,9 @@ private:
     // Rotation angle publisher
     ros::Publisher m_pub;
 
+    // Analog reading subscriber
+    ros::Subscriber m_sub;
+
 public:
     potentiometer(class robot& robot, const char* path);
 
@@ -100,8 +106,8 @@ public:
     // Deserialize from settings
     virtual void deserialize(ros::NodeHandle node);
 
-    // Publish current position from ADC
-    virtual void update();
+    // Subscribe callback for ADC readings
+    void readingCallback(const msgs::Adc::ConstPtr& msg);
 
 public:
     // Create instance
