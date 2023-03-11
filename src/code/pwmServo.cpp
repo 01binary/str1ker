@@ -86,25 +86,13 @@ double pwmServo::getPos()
     return m_encoder ? m_encoder->getPos() : 0.0;
 }
 
-double pwmServo::getAngle()
-{
-    return m_encoder ? m_encoder->getAngle() : 0.0;
-}
-
-void pwmServo::setAngle(double angle)
-{
-    if (!m_enable || !m_encoder) return;
-
-    double pos = m_encoder->getPos(angle);
-    setPos(pos);
-}
-
 void pwmServo::setPos(double target)
 {
     // TODO: need to advertise a service for this (what does MoveIt need?)
     if (!m_enable) return;
 
     ros::Rate rate(4);
+
     double pos = getPos();
     double lastPos = pos;
     double initialDistance = abs(target - pos);

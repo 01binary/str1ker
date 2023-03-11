@@ -63,51 +63,6 @@ const char* arm::getType()
     return arm::TYPE;
 }
 
-void arm::rotate(double delta)
-{
-    if (!m_shoulder) return;
-
-    ROS_INFO("rotate %s by %g", m_shoulder->getPath(), delta);
-
-    return m_shoulder->deltaPos(delta);
-}
-
-void arm::raise(double amount)
-{
-    if (!m_upperarm) return;
-
-    ROS_INFO("raise %s by %g", m_upperarm->getPath(), amount);
-
-    return m_upperarm->extend(amount);
-}
-
-void arm::lower(double amount)
-{
-    if (!m_upperarm) return;
-
-    ROS_INFO("lower %s by %g", m_upperarm->getPath(), amount);
-
-    return m_upperarm->contract(amount);
-}
-
-void arm::extend(double amount)
-{
-    if (!m_forearm) return;
-
-    ROS_INFO("extend %s by %g", m_forearm->getPath(), amount);
-
-    return m_forearm->extend(amount);
-}
-
-void arm::contract(double amount)
-{
-    if (!m_forearm) return;
-
-    ROS_INFO("contract %s by %g", m_forearm->getPath(), amount);
-
-    return m_forearm->contract(amount);
-}
-
 void arm::trigger(double durationSeconds)
 {
     if (!m_trigger) return;
@@ -122,8 +77,8 @@ void arm::deserialize(ros::NodeHandle node)
     controller::deserialize(node);
 
     m_shoulder = controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "shoulder", node);
-    m_upperarm = controllerFactory::deserialize<linear>(m_robot, m_path.c_str(), "upperarm", node);
-    m_forearm = controllerFactory::deserialize<linear>(m_robot, m_path.c_str(), "forearm", node);
+    m_upperarm = controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "upperarm", node);
+    m_forearm = controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "forearm", node);
     m_trigger = controllerFactory::deserialize<solenoid>(m_robot, m_path.c_str(), "trigger", node);
 
     m_pub = node.advertise<sensor_msgs::JointState>(
@@ -161,7 +116,8 @@ void arm::update()
     jointState.name.resize(numJoints);
     jointState.position.resize(numJoints);
 
-    for (int joint = 0; joint < numJoints; joint++) {
+    for (int joint = 0; joint < numJoints; joint++)
+    {
         jointState.name[joint] = jointPrefix + "/" + JOINT_NAMES[joint];
         jointState.position[joint] = jointPositions[joint];
     }

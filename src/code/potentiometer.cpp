@@ -58,9 +58,8 @@ potentiometer::potentiometer(class robot& robot, const char* path) :
     m_minReading(0),
     m_maxReading(0),
     m_pos(0.0),
-    m_angle(0.0),
-    m_minAngle(0.0),
-    m_maxAngle(0.0)
+    m_min(0.0),
+    m_max(0.0)
 {
 }
 
@@ -69,32 +68,9 @@ const char* potentiometer::getType()
     return potentiometer::TYPE;
 }
 
-bool potentiometer::init()
-{
-    if (!m_enable) return true;
-
-    if (!m_adc)
-        ROS_WARN("  %s does not have assigned adc to read from", getPath());
-
-    return true;
-}
-
 double potentiometer::getPos()
 {
     return m_pos;
-}
-
-double potentiometer::getAngle()
-{
-    return m_angle;
-}
-
-double potentiometer::getPos(double angle)
-{
-    if (angle < m_minAngle) angle = m_minAngle;
-    if (angle > m_maxAngle) angle = m_maxAngle;
-
-    return (angle - m_minAngle) / (m_maxAngle - m_minAngle);
 }
 
 void potentiometer::deserialize(ros::NodeHandle node)
@@ -114,14 +90,11 @@ void potentiometer::deserialize(ros::NodeHandle node)
         m_minReading = swap;
     }
 
-    if (ros::param::get(getControllerPath("minAngle"), m_minAngle))
-        m_minAngle = angles::from_degrees(m_minAngle);
+    if (ros::param::get(getControllerPath("minAngle"), m_min))
+        m_min = angles::from_degrees(m_min);
 
-    if (ros::param::get(getControllerPath("maxAngle"), m_maxAngle))
-        m_maxAngle = angles::from_degrees(m_maxAngle);
-
-    if (!ros::param::get(getControllerPath("frame"), m_frame))
-        m_frame = "world";
+    if (ros::param::get(getControllerPath("maxAngle"), m_max))
+        m_max = angles::from_degrees(m_max);
 
     string adcTopicName;
     ros::param::get(getControllerPath("adc"), adcTopicName);
@@ -132,11 +105,6 @@ void potentiometer::deserialize(ros::NodeHandle node)
         readingCallback,
         this
     );
-
-    m_pub = node.advertise<geometry_msgs::QuaternionStamped>(
-        getPath(),
-        PUBLISH_QUEUE_SIZE
-    );
 }
 
 void potentiometer::readingCallback(const msgs::Adc::ConstPtr& msg)
@@ -146,21 +114,11 @@ void potentiometer::readingCallback(const msgs::Adc::ConstPtr& msg)
     // Get the raw reading
     m_reading = int(((const uint16_t*)&msg.adc0)[m_channel]);
 
-    // Calculate normalized position
-    m_pos = normalize(m_reading, m_minReading, m_maxReading, m_invert);
+    // Calculate normalized value
+    double norm = normalize(m_reading, m_minReading, m_maxReading, m_invert);
 
-    // Map angle from normalized position
-    m_angle = scale(m_pos, m_minAngle, m_maxAngle);
-
-    // Publish angle
-    tf2::Stamped<tf2::Quaternion> q;
-    q.setRPY(m_angle, 0.0, 0.0);
-    q.normalize();
-
-    tf2::Stamped<tf2::Quaternion> payload(q, ros::Time::now(), "world");
-    geometry_msgs::QuaternionStamped msg = tf2::toMsg(payload);
-
-    m_pub.publish(msg);
+    // Map output position from normalized value
+    m_pos = scale(norm, m_min, m_max);
 }
 
 controller* potentiometer::create(robot& robot, const char* path)

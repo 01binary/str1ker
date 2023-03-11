@@ -23,7 +23,6 @@
 
 #include "controller.h"
 #include "servo.h"
-#include "linear.h"
 #include "solenoid.h"
 
 /*----------------------------------------------------------*\
@@ -53,10 +52,10 @@ private:
     std::shared_ptr<servo> m_shoulder;
 
     // Lift servo
-    std::shared_ptr<linear> m_upperarm;
+    std::shared_ptr<servo> m_upperarm;
 
     // Extend servo
-    std::shared_ptr<linear> m_forearm;
+    std::shared_ptr<servo> m_forearm;
 
     // Trigger solenoid
     std::shared_ptr<solenoid> m_trigger;
@@ -71,21 +70,6 @@ public:
 public:
     // Get display type
     virtual const char* getType();
-
-    // Rotate arm by delta in possible range
-    void rotate(double delta);
-
-    // Raise arm all the way
-    void raise(double amount = 1.0);
-
-    // Lower arm all the way
-    void lower(double amount = 1.0);
-
-    // Extend arm all the way
-    void extend(double amount = 1.0);
-
-    // Contract arm all the way
-    void contract(double amount = 1.0);
 
     // Trigger arm
     void trigger(double durationSeconds = 0.023);

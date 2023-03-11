@@ -69,7 +69,6 @@ add_executable(
   src/code/controller.cpp
   src/code/arm.cpp
   src/code/pwmServo.cpp
-  src/code/linear.cpp
   src/code/solenoid.cpp
   src/code/potentiometer.cpp
 )

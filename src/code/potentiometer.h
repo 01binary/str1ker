@@ -42,14 +42,8 @@ public:
     static const char TYPE[];
 
 private:
-    // Message publishing queue size
-    const int PUBLISH_QUEUE_SIZE = 16;
-
     // Message subscription queue size
     const int SUBSCRIBE_QUEUE_SIZE = 8;
-
-    // Parent frame
-    std::string m_frame;
 
     // Channel index to use when reading from ADC
     int m_channel;
@@ -66,20 +60,14 @@ private:
     // Invert readings (min > max) if installed backwards
     bool m_invert;
 
-    // Normalized reading (between min and max)
+    // Last position
     double m_pos;
 
-    // Last reading as rotation angle in radians
-    double m_angle;
+    // Min position
+    double m_min;
 
-    // Min rotation angle
-    double m_minAngle;
-
-    // Max rotation angle
-    double m_maxAngle;
-
-    // Rotation angle publisher
-    ros::Publisher m_pub;
+    // Max position
+    double m_max;
 
     // Analog reading subscriber
     ros::Subscriber m_sub;
@@ -91,17 +79,8 @@ public:
     // Get display type
     virtual const char* getType();
 
-    // Initialize potentiometer controller
-    virtual bool init();
-
     // Get absolute position
     double getPos();
-
-    // Get absolute angle
-    double getAngle();
-
-    // Map normalized position from angle
-    double getPos(double angle);
 
     // Deserialize from settings
     virtual void deserialize(ros::NodeHandle node);

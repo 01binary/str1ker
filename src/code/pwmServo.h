@@ -70,17 +70,11 @@ public:
     // Initialize
     virtual bool init();
 
-    // Get normalized absolute position from encoder
+    // Get position from encoder
     virtual double getPos();
 
-    // Move to absolute position by tracking encoder
+    // Move to absolute position
     virtual void setPos(double target);
-
-    // Get absolute angle from encoder in radians
-    virtual double getAngle();
-
-    // Move to absolute angle in radians
-    virtual void setAngle(double angle);
 
     // Set speed and direction directly (+/-)
     bool setVelocity(double speed);

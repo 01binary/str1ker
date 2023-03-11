@@ -29,14 +29,13 @@
             controller: 'potentiometer'
             enable: true
             adc: 'robot/adc'
-            frame: 'world'
             channel: 0
             min: 180
             max: 783
             minAngle: 0
             maxAngle: 180
         upperarm:
-          controller: 'linear'
+          controller: 'pwmServo'
           enable: false
           gpioLPWM: 6
           gpioRPWM: 5
@@ -46,13 +45,12 @@
             enable: true
             adc: 'robot/adc'
             channel: 1
-            frame: 'shoulder1'
             min: 175
             max: 200
             minAngle: 23.35
             maxAngle: 44.26
         forearm:
-          controller: 'linear'
+          controller: 'pwmServo'
           enable: false
           gpioLPWM: 25
           gpioRPWM: 24
@@ -62,7 +60,6 @@
             enable: true
             adc: 'robot/adc'
             channel: 2
-            frame: 'upperarm1'
             min: 354
             max: 194
             minAngle: 69.75
