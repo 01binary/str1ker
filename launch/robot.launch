@@ -29,6 +29,7 @@
             controller: 'potentiometer'
             enable: true
             adc: 'robot/adc'
+            frame: 'world'
             channel: 0
             min: 180
             max: 783
@@ -45,6 +46,7 @@
             enable: true
             adc: 'robot/adc'
             channel: 1
+            frame: 'shoulder1'
             min: 175
             max: 200
             minAngle: 23.35
@@ -60,6 +62,7 @@
             enable: true
             adc: 'robot/adc'
             channel: 2
+            frame: 'upperarm1'
             min: 354
             max: 194
             minAngle: 69.75
