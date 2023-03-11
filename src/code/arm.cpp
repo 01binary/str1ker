@@ -72,34 +72,40 @@ void arm::deserialize(ros::NodeHandle node)
     m_upperarm = shared_ptr<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "upperarm", node));
     m_forearm = shared_ptr<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "forearm", node));
     m_trigger = shared_ptr<solenoid>(controllerFactory::deserialize<solenoid>(m_robot, m_path.c_str(), "trigger", node));
-
-    m_pub = node.advertise<sensor_msgs::JointState>(
-        getPath(),
-        PUBLISH_QUEUE_SIZE
-    );
 }
 
-bool arm::init()
-{
-    if (m_shoulder && !m_shoulder->init()) return false;
-    if (m_upperarm && !m_upperarm->init()) return false;
-    if (m_forearm && !m_forearm->init()) return false;
-    if (m_trigger && !m_trigger->init()) return false;
-
-    return true;
-}
-
-void arm::update()
+bool arm::init(ros::NodeHandle node)
 {
     const char* path = getPath();
-
     char jointPath[128] = {0};
     strcpy(jointPath, path);
     strcat(jointPath, "/");
 
     char* jointName = jointPath + strlen(jointPath);
     int numJoints = sizeof(JOINT_NAMES) / sizeof(char*);
+    m_jointPaths.resize(numJoints);
 
+    for (int joint = 0; joint < numJoints; joint++)
+    {
+        strcpy(jointName, JOINT_NAMES[joint]);
+        m_jointPaths[joint] = jointPath;
+    }
+
+    m_pub = node.advertise<sensor_msgs::JointState>(
+        getPath(),
+        PUBLISH_QUEUE_SIZE
+    );
+
+    if (m_shoulder && !m_shoulder->init(node)) return false;
+    if (m_upperarm && !m_upperarm->init(node)) return false;
+    if (m_forearm && !m_forearm->init(node)) return false;
+    if (m_trigger && !m_trigger->init(node)) return false;
+
+    return true;
+}
+
+void arm::update()
+{
     double jointPositions[] =
     {
         m_shoulder ? m_shoulder->getPos() : 0.0,
@@ -116,15 +122,15 @@ void arm::update()
 
     sensor_msgs::JointState jointState;
     jointState.header.stamp = ros::Time::now();
+    int numJoints = m_jointPaths.size();
+
     jointState.name.resize(numJoints);
     jointState.position.resize(numJoints);
     jointState.velocity.resize(numJoints);
 
     for (int joint = 0; joint < numJoints; joint++)
     {
-        strcpy(jointName, JOINT_NAMES[joint]);
-
-        jointState.name[joint] = jointPath;
+        jointState.name[joint] = m_jointPaths[joint];
         jointState.position[joint] = jointPositions[joint];
         jointState.velocity[joint] = jointVelocities[joint];
     }

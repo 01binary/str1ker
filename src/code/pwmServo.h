@@ -71,7 +71,7 @@ public:
     virtual const char* getType();
 
     // Initialize
-    virtual bool init();
+    virtual bool init(ros::NodeHandle node);
 
     // Get position from encoder
     virtual double getPos();

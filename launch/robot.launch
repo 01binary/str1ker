@@ -14,6 +14,7 @@
     required="true"
     output="screen"
   >
+    <param name="rate" value="4" />
     <param name="enableGpio" value="false" />
     <rosparam>
       arm1:

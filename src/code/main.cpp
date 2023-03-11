@@ -38,25 +38,17 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "robot");
 
     ros::NodeHandle node;
-    robot robot;
+    robot robot(node);
 
     if (!robot
         .logo()
-        .deserialize(node)
+        .deserialize()
         .init())
     {
         return 1;
     }
 
-    ros::Rate rate(9600);
-
-    while(node.ok())
-    {
-        robot.update();
-
-        ros::spinOnce();
-        rate.sleep();
-    }
+    robot.run();
 
     return 0;
 }

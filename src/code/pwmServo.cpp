@@ -61,14 +61,14 @@ const char* pwmServo::getType()
     return pwmServo::TYPE;
 }
 
-bool pwmServo::init()
+bool pwmServo::init(ros::NodeHandle node)
 {
     if (!m_enable) return true;
 
     set_mode(m_robot.getGpio(), m_gpioLPWM, PI_OUTPUT);
     set_mode(m_robot.getGpio(), m_gpioRPWM, PI_OUTPUT);
 
-    if (m_encoder && !m_encoder->init())
+    if (m_encoder && !m_encoder->init(node))
     {
         ROS_ERROR("  failed to initialize %s encoder", getPath());
         return false;

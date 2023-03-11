@@ -61,7 +61,7 @@ const char* solenoid::getType()
     return solenoid::TYPE;
 }
 
-bool solenoid::init()
+bool solenoid::init(ros::NodeHandle node)
 {
     if (!m_enable) return true;
     

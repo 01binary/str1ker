@@ -43,7 +43,9 @@ const char robot::PATH[] = "/robot";
 | robot implementation
 \*----------------------------------------------------------*/
 
-robot::robot()
+robot::robot(ros::NodeHandle node):
+    m_node(node),
+    m_rate(1.0)
 {
 }
 
@@ -51,6 +53,11 @@ robot::~robot()
 {
     // Release GPIO pins
     if (m_enableGpio) pigpio_stop(m_gpio);
+}
+
+ros::NodeHandle robot::getNode()
+{
+    return m_node;
 }
 
 shared_ptr<controller> robot::getController(const char* name)
@@ -77,7 +84,7 @@ bool robot::init()
         pos != m_controllers.end();
         ++pos)
     {
-        if (!pos->second->init()) return false;
+        if (!pos->second->init(m_node)) return false;
     }
 
     ROS_INFO("initialization completed");
@@ -95,15 +102,32 @@ void robot::update()
     }
 }
 
-robot& robot::deserialize(ros::NodeHandle node)
+robot& robot::run()
 {
+    ros::Rate rate(m_rate);
+
+    while(m_node.ok())
+    {
+        update();
+        ros::spinOnce();
+        rate.sleep();
+    }
+
+    return *this;
+}
+
+robot& robot::deserialize()
+{
+    ROS_INFO("loading robot...");
+
+    ros::param::get("/robot/rate", m_rate);
+    ros::param::get("/robot/enableGpio", m_enableGpio);
+
     ROS_INFO("loading controllers...");
 
     char path[255] = {0};
     vector<string> params;
     ros::param::getParamNames(params);
-
-    ros::param::get("/robot/enableGpio", m_enableGpio);
 
     for (vector<string>::iterator pos = params.begin();
         pos != params.end();
@@ -113,7 +137,7 @@ robot& robot::deserialize(ros::NodeHandle node)
             m_controllers.find(path) == m_controllers.end())
         {
             const char* name = getControllerName(path);
-            controller* instance = controllerFactory::deserialize(*this, PATH, name, node);
+            controller* instance = controllerFactory::deserialize(*this, PATH, name, m_node);
 
             if (instance) m_controllers[path] = shared_ptr<controller>(instance);
         }
@@ -127,13 +151,13 @@ robot& robot::deserialize(ros::NodeHandle node)
 const char* robot::getControllerName(const char* path)
 {
     const char* lastSep = strrchr(path, '/');
-
     if (lastSep == NULL) return path;
 
     return lastSep + 1;
 }
 
-const char* robot::getControllerPath(const char* path, const char* componentType, char* componentPath)
+const char* robot::getControllerPath(
+    const char* path, const char* componentType, char* componentPath)
 {
     char componentTypePath[64] = {0};
     sprintf(componentTypePath, "/%s/", componentType);

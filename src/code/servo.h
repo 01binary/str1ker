@@ -47,7 +47,7 @@ public:
 
 public:
     // Initialize servo controller
-    virtual bool init() = 0;
+    virtual bool init(ros::NodeHandle node) = 0;
 
     // Get absolute servo position
     virtual double getPos() = 0;

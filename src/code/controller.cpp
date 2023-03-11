@@ -88,7 +88,7 @@ void controller::deserialize(ros::NodeHandle node)
     ros::param::get(getControllerPath("enable"), m_enable);
 }
 
-bool controller::init()
+bool controller::init(ros::NodeHandle node)
 {
     return true;
 }

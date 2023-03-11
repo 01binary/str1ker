@@ -53,7 +53,7 @@ public:
     virtual const char* getType();
 
     // Initialize
-    bool init();
+    bool init(ros::NodeHandle node);
 
     // Momentary trigger
     void trigger(double durationSeconds);

@@ -21,6 +21,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#include <ros/ros.h>
 #include <string>
 #include <map>
 #include "arm.h"
@@ -47,6 +48,9 @@ private:
     static const char PATH[];
 
 private:
+    // Current node
+    ros::NodeHandle m_node;
+
     // Loaded controllers
     controllerMap m_controllers;
 
@@ -56,13 +60,16 @@ private:
     // Whether GPIO is enabled
     bool m_enableGpio;
 
+    // Spin rate
+    double m_rate;
+
 public:
-    robot();
+    robot(ros::NodeHandle node);
     ~robot();
 
 public:
     // Load controller settings
-    robot& deserialize(ros::NodeHandle node);
+    robot& deserialize();
 
     // Initialize controllers
     bool init();
@@ -70,8 +77,14 @@ public:
     // Update controllers
     void update();
 
+    // Run ROS loop
+    robot& run();
+
     // Print logo
     robot& logo();
+
+    // Get current node
+    ros::NodeHandle getNode();
 
     // Get GPIO daemon handle
     int getGpio();

@@ -83,7 +83,7 @@ public:
     virtual void deserialize(ros::NodeHandle node);
 
     // Initialize controller
-    virtual bool init();
+    virtual bool init(ros::NodeHandle node);
 
     // Update self and/or children
     virtual void update();

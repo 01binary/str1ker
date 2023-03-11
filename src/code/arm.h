@@ -41,12 +41,15 @@ public:
     // Controller type
     static const char TYPE[];
 
-private:
     // Message publishing queue size
     const int PUBLISH_QUEUE_SIZE = 16;
 
     // Names of joints to publish
     static const char* JOINT_NAMES[];
+
+private:
+    // Paths of joints to publish
+    std::vector<std::string> m_jointPaths;
 
     // Rotation servo
     std::shared_ptr<servo> m_shoulder;
@@ -77,7 +80,7 @@ public:
     virtual void deserialize(ros::NodeHandle node);
 
     // Initialize arm controllers
-    virtual bool init();
+    virtual bool init(ros::NodeHandle node);
 
     // Update joints
     virtual void update();
