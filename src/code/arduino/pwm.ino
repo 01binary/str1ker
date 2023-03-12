@@ -27,7 +27,7 @@
 | Declarations
 \*----------------------------------------------------------*/
 
-void pwmCallback(const str1ker::Pwm::ConstPtr& msg);
+void pwmCallback(const str1ker::Pwm& msg);
 
 /*----------------------------------------------------------*\
 | Constants
@@ -39,11 +39,11 @@ const int ADDRESS = 0;
 const int CHANNELS = 2;
 const int LPWM = 0;
 const int RPWM = 1;
-const int PINS[][] =
+const int PINS[][2] =
 {
   // LPWM, RPWM
-  [ D3, D9 ],
-  [ D10, D11 ]
+  { 3, 9 },
+  { 10, 11 }
 };
 
 /*----------------------------------------------------------*\
@@ -72,7 +72,7 @@ void loop()
   delay(10);
 }
 
-void pwmCallback(const str1ker::Pwm::ConstPtr& msg)
+void pwmCallback(const str1ker::Pwm& msg)
 {
   int channel = msg.channel - ADDRESS;
   if (channel < 0 || channel > CHANNELS) return;
