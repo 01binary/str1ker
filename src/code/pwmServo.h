@@ -33,6 +33,12 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
+| Definitions
+\*----------------------------------------------------------*/
+
+typedef actionlib::SimpleActionClient<PwmAction> PwmActionClient;
+
+/*----------------------------------------------------------*\
 | pwmServo class
 \*----------------------------------------------------------*/
 
@@ -66,7 +72,7 @@ private:
     std::shared_ptr<potentiometer> m_encoder;
 
     // Action client for PWM
-    actionlib::SimpleActionClient<str1ker::PwmAction> m_pwm("robot/pwm");
+    std::shared_ptr<PwmActionClient> m_pwm;
 
 public:
     pwmServo(class robot& robot, const char* path);
