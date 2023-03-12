@@ -1,8 +1,0 @@
-# Request
-uint8 channel
-uint8 dutyCycle
----
-# Result
-bool success
----
-# No Feedback

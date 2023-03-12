@@ -21,22 +21,15 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#include <str1ker/Pwm.h>
 #include "servo.h"
 #include "potentiometer.h"
-#include <actionlib/client/simple_action_client.h>
-#include <str1ker/PwmAction.h>
 
 /*----------------------------------------------------------*\
 | Namespace
 \*----------------------------------------------------------*/
 
 namespace str1ker {
-
-/*----------------------------------------------------------*\
-| Definitions
-\*----------------------------------------------------------*/
-
-typedef actionlib::SimpleActionClient<PwmAction> PwmActionClient;
 
 /*----------------------------------------------------------*\
 | pwmServo class
@@ -49,11 +42,14 @@ public:
     static const char TYPE[];
 
 private:
+    // PWM publishing queue size
+    const int QUEUE_SIZE = 4;
+
     // Max PWM duty cycle
     const uint8_t DUTY_CYCLE = 0xFF;
 
 private:
-    // PWM action topic
+    // PWM topic
     std::string m_topic;
 
     // PWM channel
@@ -71,8 +67,8 @@ private:
     // Potentiometer as absolute encoder
     std::shared_ptr<potentiometer> m_encoder;
 
-    // Action client for PWM
-    std::shared_ptr<PwmActionClient> m_pwm;
+    // PWM publisher
+    ros::Publisher m_pub;
 
 public:
     pwmServo(class robot& robot, const char* path);

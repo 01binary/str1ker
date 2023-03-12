@@ -34,16 +34,11 @@ if(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
   add_definitions(-DHAVE_NEW_YAMLCPP)
 endif(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
 
-add_action_files(
-  DIRECTORY action
-  FILES
-  Pwm.action
-)
-
 add_message_files(
   DIRECTORY msg
   FILES
   Adc.msg
+  Pwm.msg
 )
 
 generate_messages(DEPENDENCIES std_msgs actionlib_msgs)

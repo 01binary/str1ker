@@ -64,13 +64,7 @@ bool pwmServo::init(ros::NodeHandle node)
 {
     if (!m_enable) return true;
 
-    if (m_topic.length())
-    {
-        m_pwm = make_shared<PwmActionClient>(m_topic.c_str());
-
-        if (!m_pwm->waitForServer(ros::Duration(1)))
-            ROS_WARN("  failed to connect to pwm action server");
-    }
+    m_pub = node.advertise<Pwm>(getPath(), QUEUE_SIZE);
 
     if (m_encoder && !m_encoder->init(node))
     {
@@ -156,15 +150,11 @@ double pwmServo::getVelocity()
 
 bool pwmServo::setVelocity(double velocity)
 {
-    bool forward = velocity >= 0;
-
-    PwmGoal goal;
-    goal.channel = m_channel;
-    goal.dutyCycle = uint8_t(abs(velocity) * DUTY_CYCLE);
-    m_pwm->sendGoal(goal);
-
-    if (!m_pwm->waitForResult(ros::Duration(1, 0)))
-        return false;
+    Pwm msg;
+    msg.channel = m_channel;
+    msg.dutyCycle = uint8_t(abs(velocity) * DUTY_CYCLE);
+    msg.direction = velocity >= 0;
+    m_pub.publish(msg);
 
     m_velocity = velocity;
     setLastError(NULL);
