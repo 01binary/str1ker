@@ -3,6 +3,14 @@
     name="adc"
     pkg="rosserial_python"
     type="serial_node.py"
+    args="/dev/ttyACM1"
+    required="true"
+    output="screen"
+  />
+  <node
+    name="pwm"
+    pkg="rosserial_python"
+    type="serial_node.py"
     args="/dev/ttyACM0"
     required="true"
     output="screen"

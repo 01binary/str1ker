@@ -19,6 +19,8 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#define USE_USBCON
+
 #include <Arduino.h>
 #include <ros.h>
 #include <str1ker/Pwm.h>
@@ -36,14 +38,13 @@ void pwmCallback(const str1ker::Pwm& msg);
 const char TOPIC[] = "robot/pwm";
 const int QUEUE_SIZE = 16;
 const int ADDRESS = 0;
-const int CHANNELS = 2;
-const int LPWM = 0;
-const int RPWM = 1;
-const int PINS[][2] =
+const int CHANNELS = 4;
+const int PINS[] =
 {
-  // LPWM, RPWM
-  { 3, 9 },
-  { 10, 11 }
+  3,
+  9,
+  10,
+  11
 };
 
 /*----------------------------------------------------------*\
@@ -58,8 +59,7 @@ void setup()
 {
   for (int channel = 0; channel < CHANNELS; channel++)
   {
-    pinMode(PINS[channel][LPWM], OUTPUT);
-    pinMode(PINS[channel][RPWM], OUTPUT);
+    pinMode(PINS[channel], OUTPUT);
   }
   
   node.initNode();
@@ -76,7 +76,5 @@ void pwmCallback(const str1ker::Pwm& msg)
 {
   int channel = msg.channel - ADDRESS;
   if (channel < 0 || channel > CHANNELS) return;
-
-  analogWrite(PINS[channel][RPWM], msg.direction ? msg.dutyCycle : 0);
-  analogWrite(PINS[channel][LPWM], msg.direction ? 0 : msg.dutyCycle);
+  analogWrite(PINS[channel], msg.dutyCycle);
 }
