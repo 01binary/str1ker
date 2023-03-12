@@ -22,7 +22,6 @@
 \*----------------------------------------------------------*/
 
 #include <math.h>
-#include <pigpiod_if2.h>
 #include <ros/ros.h>
 #include "robot.h"
 #include "pwmServo.h"
@@ -49,10 +48,10 @@ REGISTER_CONTROLLER(pwmServo)
 
 pwmServo::pwmServo(robot& robot, const char* path):
     servo(robot, path),
-    m_gpioLPWM(0),
-    m_gpioRPWM(0),
-    m_minSpeed(1.0),
-    m_maxSpeed(1.0)
+    m_topic("/robot/pwm"),
+    m_channel(0),
+    m_min(1.0),
+    m_max(1.0)
 {
 }
 
@@ -65,8 +64,10 @@ bool pwmServo::init(ros::NodeHandle node)
 {
     if (!m_enable) return true;
 
-    set_mode(m_robot.getGpio(), m_gpioLPWM, PI_OUTPUT);
-    set_mode(m_robot.getGpio(), m_gpioRPWM, PI_OUTPUT);
+    if (m_topic.length())
+    {
+        // TODO: init topic
+    }
 
     if (m_encoder && !m_encoder->init(node))
     {
@@ -74,8 +75,8 @@ bool pwmServo::init(ros::NodeHandle node)
         return false;
     }
 
-    ROS_INFO("  initialized %s %s on GPIO %d RPWM and %d LPWM (%g to %g ramp)",
-        getPath(), getType(), m_gpioRPWM, m_gpioLPWM, m_minSpeed, m_maxSpeed);
+    ROS_INFO("  initialized %s %s on %s channel %d",
+        getPath(), getType(), m_topic.c_str(), m_channel);
 
     return true;
 }
@@ -99,7 +100,7 @@ void pwmServo::setPos(double target)
     double distance = 0.0;
 
     // Start moving
-    if (!setVelocity(m_minSpeed * direction)) return;
+    if (!setVelocity(m_min * direction)) return;
 
     do
     {
@@ -130,19 +131,19 @@ void pwmServo::setPos(double target)
 
 double pwmServo::getMinSpeed()
 {
-    return m_minSpeed;
+    return m_min;
 }
 
 double pwmServo::getMaxSpeed()
 {
-    return m_maxSpeed;
+    return m_max;
 }
 
 double pwmServo::rampSpeed(double ramp)
 {
     const double RAMP[] = { 0.0, 1.0, 0.0 };
     int index = int(sizeof(RAMP) / sizeof(double) * ramp);
-    return m_minSpeed + RAMP[index] * (m_maxSpeed - m_minSpeed);
+    return m_min + RAMP[index] * (m_max - m_min);
 }
 
 double pwmServo::getVelocity()
@@ -153,23 +154,9 @@ double pwmServo::getVelocity()
 bool pwmServo::setVelocity(double velocity)
 {
     bool forward = velocity >= 0;
-    unsigned int dutyCycle = abs(velocity) * DUTY_CYCLE;
+    uint8_t dutyCycle = uint8_t(abs(velocity) * DUTY_CYCLE);
 
-    // Set RPWM pulse width
-    int result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioRPWM, forward ? dutyCycle : 0);
-
-    if (result < 0) {
-        handlePwmError(result);
-        return false;
-    }
-
-    // Set LPWM pulse width
-    result = set_PWM_dutycycle(m_robot.getGpio(), m_gpioLPWM, forward ? 0 : dutyCycle);
-
-    if (result < 0) {
-        handlePwmError(result);
-        return false;
-    }
+    // TODO: use the action
 
     m_velocity = velocity;
     setLastError(NULL);
@@ -177,44 +164,24 @@ bool pwmServo::setVelocity(double velocity)
     return true;
 }
 
-void pwmServo::handlePwmError(int error)
-{
-    switch (error) {
-        case PI_BAD_USER_GPIO:
-            setLastError("invalid GPIO handle");
-            break;
-        case PI_NOT_PERMITTED:
-            setLastError("access to GPIO pins denied");
-            break;
-        case PI_BAD_DUTYCYCLE:
-            setLastError("invalid duty cycle");
-            break;
-        case PI_BAD_MODE:
-            setLastError("invalid mode");
-            break;
-    }
-}
-
 void pwmServo::deserialize(ros::NodeHandle node)
 {
     servo::deserialize(node);
 
-    ros::param::get(getControllerPath("gpioLPWM"), m_gpioLPWM);
-    ros::param::get(getControllerPath("gpioRPWM"), m_gpioRPWM);
+    if (!ros::param::get(getControllerPath("topic"), m_topic))
+        ROS_WARN("%s no PWM topic specified, default /robot/pwm", getPath());
 
-    if (!ros::param::get(getControllerPath("minSpeed"), m_minSpeed))
-        m_minSpeed = 1.0;
-    
-    if (!ros::param::get(getControllerPath("maxSpeed"), m_maxSpeed))
-        m_maxSpeed = 1.0;
+    if (!ros::param::get(getControllerPath("channel"), m_channel))
+        ROS_WARN("%s no PWM channel specified, default 0", getPath());
+
+    ros::param::get(getControllerPath("minSpeed"), m_min);
+    ros::param::get(getControllerPath("maxSpeed"), m_max);
 
     m_encoder = shared_ptr<potentiometer>(controllerFactory::deserialize<potentiometer>(
         m_robot, getPath(), "encoder", node));
 
     if (!m_encoder)
-    {
         ROS_WARN("%s failed to load encoder", getPath());
-    }
 }
 
 controller* pwmServo::create(robot& robot, const char* path)

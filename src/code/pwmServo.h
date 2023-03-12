@@ -23,6 +23,8 @@
 
 #include "servo.h"
 #include "potentiometer.h"
+#include <actionlib/client/simple_action_client.h>
+#include <str1ker/PwmAction.h>
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -42,26 +44,29 @@ public:
 
 private:
     // Max PWM duty cycle
-    const int DUTY_CYCLE = 0xFF;
+    const uint8_t DUTY_CYCLE = 0xFF;
 
 private:
-    // Left PWM pin
-    int m_gpioLPWM;
+    // PWM action topic
+    std::string m_topic;
 
-    // Right PWM pin
-    int m_gpioRPWM;
+    // PWM channel
+    int m_channel;
 
-    // Ramp min (defaults to 1.0)
-    double m_minSpeed;
+    // Minimum speed
+    double m_min;
 
-    // Ramp max (defaults to 1.0)
-    double m_maxSpeed;
+    // Maximum speed
+    double m_max;
 
     // Current velocity
     double m_velocity;
 
     // Potentiometer as absolute encoder
     std::shared_ptr<potentiometer> m_encoder;
+
+    // Action client for PWM
+    actionlib::SimpleActionClient<str1ker::PwmAction> m_pwm("robot/pwm");
 
 public:
     pwmServo(class robot& robot, const char* path);
@@ -100,9 +105,6 @@ public:
 public:
     // Create instance
     static controller* create(class robot& robot, const char* path);
-
-protected:
-    void handlePwmError(int error);
 };
 
 } // namespace str1ker

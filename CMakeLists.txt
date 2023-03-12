@@ -34,13 +34,19 @@ if(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
   add_definitions(-DHAVE_NEW_YAMLCPP)
 endif(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
 
+add_action_files(
+  DIRECTORY action
+  FILES
+  Pwm.action
+)
+
 add_message_files(
   DIRECTORY msg
   FILES
   Adc.msg
 )
 
-generate_messages(DEPENDENCIES std_msgs)
+generate_messages(DEPENDENCIES std_msgs actionlib_msgs)
 
 catkin_package(
   CATKIN_DEPENDS
@@ -52,6 +58,7 @@ catkin_package(
   genmsg
   cmake_modules
   message_runtime
+  actionlib
   DEPENDS EIGEN3
 )
 
