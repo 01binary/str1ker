@@ -52,8 +52,11 @@ private:
     // PWM topic
     std::string m_topic;
 
-    // PWM channel
-    int m_channel;
+    // LPWM channel
+    int m_lpwm;
+
+    // RPWM channel
+    int m_rpwm;
 
     // Minimum speed
     double m_min;
@@ -90,7 +93,7 @@ public:
     virtual double getVelocity();
 
     // Set speed and direction directly (+/-)
-    virtual bool setVelocity(double speed);
+    virtual bool setVelocity(double velocity);
 
     // Get minimum speed for ramping up
     double getMinSpeed();

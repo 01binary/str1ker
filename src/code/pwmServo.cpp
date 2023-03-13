@@ -49,7 +49,8 @@ REGISTER_CONTROLLER(pwmServo)
 pwmServo::pwmServo(robot& robot, const char* path):
     servo(robot, path),
     m_topic("/robot/pwm"),
-    m_channel(0),
+    m_lpwm(0),
+    m_rpwm(1),
     m_min(1.0),
     m_max(1.0)
 {
@@ -72,8 +73,8 @@ bool pwmServo::init(ros::NodeHandle node)
         return false;
     }
 
-    ROS_INFO("  initialized %s %s on %s channel %d",
-        getPath(), getType(), m_topic.c_str(), m_channel);
+    ROS_INFO("  initialized %s %s on %s %d LPWM %d RPWM",
+        getPath(), getType(), m_topic.c_str(), m_lpwm, m_rpwm);
 
     return true;
 }
@@ -150,10 +151,18 @@ double pwmServo::getVelocity()
 
 bool pwmServo::setVelocity(double velocity)
 {
+    uint8_t dutyCycle = uint8_t(abs(velocity) * double(DUTY_CYCLE));
+
     Pwm msg;
-    msg.channel = m_channel;
-    msg.dutyCycle = uint8_t(abs(velocity) * DUTY_CYCLE);
-    msg.direction = velocity >= 0;
+
+    // Request RPWM
+    msg.channel1 = m_rpwm;
+    msg.dutyCycle1 = velocity >= 0 ? dutyCycle : 0;
+
+    // Request LPWM
+    msg.channel2 = m_lpwm;
+    msg.dutyCycle2 = velocity >= 0 ? 0 : dutyCycle;
+
     m_pub.publish(msg);
 
     m_velocity = velocity;
@@ -168,8 +177,11 @@ void pwmServo::deserialize(ros::NodeHandle node)
     if (!ros::param::get(getControllerPath("topic"), m_topic))
         ROS_WARN("%s no PWM topic specified, default /robot/pwm", getPath());
 
-    if (!ros::param::get(getControllerPath("channel"), m_channel))
-        ROS_WARN("%s no PWM channel specified, default 0", getPath());
+    if (!ros::param::get(getControllerPath("lpwm"), m_lpwm))
+        ROS_WARN("%s no LPWM channel specified, default 0", getPath());
+
+    if (!ros::param::get(getControllerPath("rpwm"), m_lpwm))
+        ROS_WARN("%s no RPWM channel specified, default 1", getPath());
 
     ros::param::get(getControllerPath("minSpeed"), m_min);
     ros::param::get(getControllerPath("maxSpeed"), m_max);
