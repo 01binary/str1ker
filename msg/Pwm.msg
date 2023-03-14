@@ -1,3 +1,4 @@
-uint8 channel
-uint8 dutyCycle
-uint8 direction
+uint8 channel1
+uint8 dutyCycle1
+uint8 channel2
+uint8 dutyCycle2
