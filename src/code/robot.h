@@ -59,7 +59,6 @@ private:
 
 public:
     robot(ros::NodeHandle node);
-    ~robot();
 
 public:
     // Load controller settings

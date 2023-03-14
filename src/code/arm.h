@@ -22,11 +22,11 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
+#include <controller_manager/controller_manager.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/robot_hw.h>
 #include <joint_limits_interface.h>
-#include <controller_manager/controller_manager.h>
 
 #include "controller.h"
 #include "servo.h"
