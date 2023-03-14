@@ -38,13 +38,16 @@ void pwmCallback(const str1ker::Pwm& msg);
 const char TOPIC[] = "robot/pwm";
 const int QUEUE_SIZE = 16;
 const int ADDRESS = 0;
-const int CHANNELS = 4;
+const int CHANNELS = 6;
+const uint8_t INVALID = 0xFF;
 const int PINS[] =
 {
-  3,
-  9,
-  10,
-  11
+  9,  // Channel 0 - Digital 9
+  10, // Channel 1 - Digital 10
+  11, // Channel 2 - Digital 11
+  A0, // Channel 3 - Analog 0
+  A1, // Channel 4 - Analog 1
+  A2  // Channel 5 - Analog 2
 };
 
 /*----------------------------------------------------------*\
@@ -60,6 +63,7 @@ void setup()
   for (int channel = 0; channel < CHANNELS; channel++)
   {
     pinMode(PINS[channel], OUTPUT);
+    analogWrite(PINS[channel], 0);
   }
   
   node.initNode();
@@ -72,9 +76,16 @@ void loop()
   delay(10);
 }
 
+void setChannel(int channel, uint8_t dutyCycle)
+{
+  channel -= ADDRESS;
+  
+  if (channel >= 0 && channel < CHANNELS)
+    analogWrite(PINS[channel], dutyCycle);
+}
+
 void pwmCallback(const str1ker::Pwm& msg)
 {
-  int channel = msg.channel - ADDRESS;
-  if (channel < 0 || channel > CHANNELS) return;
-  analogWrite(PINS[channel], msg.dutyCycle);
+  if (msg.channel1 != INVALID) setChannel(msg.channel1, msg.dutyCycle1);
+  if (msg.channel2 != INVALID) setChannel(msg.channel2, msg.dutyCycle2);
 }
