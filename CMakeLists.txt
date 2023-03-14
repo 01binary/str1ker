@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   std_msgs
   tf2_geometry_msgs
+  controller_manager
   cmake_modules
 )
 
@@ -54,7 +55,9 @@ catkin_package(
   cmake_modules
   message_runtime
   actionlib
-  DEPENDS EIGEN3
+  controller_manager
+  DEPENDS
+  EIGEN3
 )
 
 include_directories(

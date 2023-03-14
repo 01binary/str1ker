@@ -1,5 +1,13 @@
 <launch>
   <node
+    name="controller_spawner"
+    pkg="controller_manager"
+    type="spawner"
+    respawn="false"
+    output="screen"
+    args="/single_joint_actuator/joints_update"
+  />
+  <node
     name="adc"
     pkg="rosserial_python"
     type="serial_node.py"

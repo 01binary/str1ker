@@ -19,8 +19,6 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <ros/ros.h>
-#include <sensor_msgs/JointState.h>
 #include "robot.h"
 #include "controllerFactory.h"
 #include "arm.h"
@@ -37,7 +35,7 @@ using namespace std;
 \*----------------------------------------------------------*/
 
 const char arm::TYPE[] = "arm";
-const char* arm::JOINT_NAMES[] = { "shoulder", "upperarm", "forearm" };
+const char* arm::JOINTS[] = { "shoulder", "upperarm", "forearm" };
 
 /*----------------------------------------------------------*\
 | arm implementation
@@ -46,7 +44,9 @@ const char* arm::JOINT_NAMES[] = { "shoulder", "upperarm", "forearm" };
 REGISTER_CONTROLLER(arm)
 
 arm::arm(robot& robot, const char* path) :
-    controller(robot, path)
+    controller(robot, path),
+    m_hw(this, robot.getNode()),
+    m_lastUpdate(0)
 {
 }
 
@@ -68,10 +68,19 @@ void arm::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
 
-    m_shoulder = shared_ptr<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "shoulder", node));
-    m_upperarm = shared_ptr<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "upperarm", node));
-    m_forearm = shared_ptr<servo>(controllerFactory::deserialize<servo>(m_robot, m_path.c_str(), "forearm", node));
-    m_trigger = shared_ptr<solenoid>(controllerFactory::deserialize<solenoid>(m_robot, m_path.c_str(), "trigger", node));
+    int numJoints = sizeof(JOINTS) / sizeof(char*);
+
+    m_jointPositions.resize(numJoints);
+    m_jointVelocities.resize(numJoints);
+    m_jointEfforts.resize(numJoints);
+    m_jointPosCommands.resize(numJoints);
+    m_jointVelCommands.resize(numJoints);
+
+    for (int joint = 0; joint < numJoints; joint++)
+    {
+        m_joints.push_back(shared_ptr<servo>(controllerFactory::deserialize<servo>(
+            m_robot, m_path.c_str(), JOINTS[joint], node)));
+    }
 }
 
 bool arm::init(ros::NodeHandle node)
@@ -82,60 +91,76 @@ bool arm::init(ros::NodeHandle node)
     strcat(jointPath, "/");
 
     char* jointName = jointPath + strlen(jointPath);
-    int numJoints = sizeof(JOINT_NAMES) / sizeof(char*);
-    m_jointPaths.resize(numJoints);
+    m_jointPaths.resize(m_joints.size());
 
-    for (int joint = 0; joint < numJoints; joint++)
+    for (int joint = 0; joint < m_joints.size(); joint++)
     {
-        strcpy(jointName, JOINT_NAMES[joint]);
+        // Build joint path
+        strcpy(jointName, JOINTS[joint]);
         m_jointPaths[joint] = jointPath;
+
+        // Initialize joint actuator
+        if (!m_joints[joint]->init(node))
+            return false;
+
+        // Register joint state interface
+        hardware_interface::JointStateHandle stateHandle(
+            jointPath,
+            &m_jointPositions[joint],
+            &m_jointVelocities[joint],
+            NULL
+        );
+
+        m_states.registerHandle(stateHandle);
+
+        // Register joint position interface
+        hardware_interface::JointHandle posHandle(stateHandle, &m_jointPosCommand[joint]);
+        m_position.registerHandle(posHandle);
+
+        // Register joint velocity interface
+        hardware_interface::JointHandle velHandle(state, &m_jointVelCommand[joint]);
+        m_velocity.registerHandle(velHandle);
+
+        // Register joint limits interface
+        joint_limits_interface::JointLimits lim;
+        joint_limits_interface::getJointLimits(jointPath, node, lim);
+        joint_limits_interface::VelocityJointSaturationHandle limHandle(velHandle, lim);
+        m_limits.registerHandle(limHandle);
     }
 
-    m_pub = node.advertise<sensor_msgs::JointState>(
-        getPath(),
-        PUBLISH_QUEUE_SIZE
-    );
-
-    if (m_shoulder && !m_shoulder->init(node)) return false;
-    if (m_upperarm && !m_upperarm->init(node)) return false;
-    if (m_forearm && !m_forearm->init(node)) return false;
-    if (m_trigger && !m_trigger->init(node)) return false;
+    // Register interfaces for all joints
+    registerInterface(&m_state);
+    registerInterface(&m_position);
+    registerInterface(&m_velocity);
+    registerInterface(&m_limits);
 
     return true;
 }
 
 void arm::update()
 {
-    double jointPositions[] =
+    ros::Time time = ros::Time::now();
+    ros::Duration period = time - m_lastUpdate;
+
+    for (int joint = 0; joint < m_joints.size(); joint++)
     {
-        m_shoulder ? m_shoulder->getPos() : 0.0,
-        m_upperarm ? m_upperarm->getPos() : 0.0,
-        m_forearm ? m_forearm->getPos() : 0.0,
-    };
-
-    double jointVelocities[] =
-    {
-        m_shoulder ? m_shoulder->getVelocity() : 0.0,
-        m_upperarm ? m_upperarm->getVelocity() : 0.0,
-        m_forearm ? m_forearm->getVelocity() : 0.0,
-    };
-
-    sensor_msgs::JointState jointState;
-    jointState.header.stamp = ros::Time::now();
-    int numJoints = m_jointPaths.size();
-
-    jointState.name.resize(numJoints);
-    jointState.position.resize(numJoints);
-    jointState.velocity.resize(numJoints);
-
-    for (int joint = 0; joint < numJoints; joint++)
-    {
-        jointState.name[joint] = m_jointPaths[joint];
-        jointState.position[joint] = jointPositions[joint];
-        jointState.velocity[joint] = jointVelocities[joint];
+        m_jointPositions[joint] = m_joint[joint]->getPos();
+        m_jointVelocities[joint] = m_joint[joint]->getVelocity();
     }
 
-    m_pub.publish(jointState);
+    m_hw->update(time, period);
+
+    for (int joint = 0; joint < m_joints.size(); joint++)
+    {
+        if (m_jointVelCommands[joint]) {
+            m_joints[joint]->setVelocity(m_jointVelCommands[joint]);
+        } else {
+            // TODO: this should have its own loop
+            m_joints[joint]->setPos(m_jointPosCommands[joint]);
+        }
+    }
+
+    m_lastUpdate = time;
 }
 
 controller* arm::create(robot& robot, const char* path)
