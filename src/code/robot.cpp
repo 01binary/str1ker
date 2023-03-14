@@ -167,3 +167,27 @@ robot& robot::logo()
 
     return *this;
 }
+
+/*----------------------------------------------------------*\
+| Module entry point
+\*----------------------------------------------------------*/
+
+int main(int argc, char** argv)
+{
+    ros::init(argc, argv, "robot");
+
+    ros::NodeHandle node;
+    robot robot(node);
+
+    if (!robot
+        .logo()
+        .deserialize()
+        .init())
+    {
+        return 1;
+    }
+
+    robot.run();
+
+    return 0;
+}

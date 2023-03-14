@@ -123,31 +123,11 @@ bool arm::init(ros::NodeHandle node)
         );
 
         m_velInterface.registerHandle(actuatorVel);
-
-        // Register limits interface
-        joint_limits_interface::JointLimits limits;
-        limits.has_velocity_limits = true;
-        limits.max_velocity = 2.0;
-
-        joint_limits_interface::SoftJointLimits softLimits;
-        softLimits.k_position = 1.0;
-        softLimits.k_velocity = 1.0;
-        softLimits.max_position = m_actuators[actuator]->getMaxPos();
-        softLimits.min_position = m_actuators[actuator]->getMinPos();
-
-        joint_limits_interface::VelocityJointSoftLimitsHandle allLimits(
-            actuatorVel,
-            limits,
-            softLimits
-        );
-
-        m_limInterface.registerHandle(allLimits);
     }
 
     // Register interfaces for all joints
     registerInterface(&m_stateInterface);
     registerInterface(&m_velInterface);
-    registerInterface(&m_limInterface);
 
     return true;
 }
@@ -159,13 +139,13 @@ void arm::update()
 
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
-        m_actuatorPos[actuator] = m_joint[actuator]->getPos();
-        m_actuatorVel[actuator] = m_joint[actuator]->getVelocity();
+        m_actuatorPos[actuator] = m_actuators[actuator]->getPos();
+        m_actuatorVel[actuator] = m_actuators[actuator]->getVelocity();
     }
 
-    m_hw->update(time, period);
+    m_controllers.update(time, period);
 
-    m_limits.enforceLimits(period);
+    // TODO enforce limits? maybe inside setVelocity
 
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {

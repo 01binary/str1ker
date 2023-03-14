@@ -25,8 +25,6 @@
 #include <controller_manager/controller_manager.h>
 #include <hardware_interface/actuator_state_interface.h>
 #include <hardware_interface/actuator_command_interface.h>
-#include <actuator_limits_interface/actuator_limits_interface.h>
-#include <actuator_limits_interface/actuator_limits.h>
 #include <hardware_interface/robot_hw.h>
 
 #include "controller.h"
@@ -78,7 +76,6 @@ private:
     controller_manager::ControllerManager m_controllers;
     hardware_interface::ActuatorStateInterface m_stateInterface;
     hardware_interface::VelocityActuatorInterface m_velInterface;
-    actuator_limits_interface::VelocityJointSoftLimitsInterface m_limInterface;
 
     // Last update time
     ros::Time m_lastUpdate;
