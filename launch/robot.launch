@@ -37,12 +37,11 @@
         controller: 'arm'
         enable: true
         shoulder:
-          controller: 'pwmServo'
+          controller: 'motor'
           enable: true
-          gpioLPWM: 22
-          gpioRPWM: 23
-          minSpeed: 0.4
-          maxSpeed: 1.0
+          topic: 'robot/pwm'
+          LPWM: 0
+          RPWM: 1
           encoder:
             controller: 'potentiometer'
             enable: true
@@ -53,11 +52,11 @@
             minAngle: 0
             maxAngle: 180
         upperarm:
-          controller: 'pwmServo'
+          controller: 'motor'
           enable: false
-          gpioLPWM: 6
-          gpioRPWM: 5
-          time: 5
+          topic: 'robot/pwm'
+          LPWM: 2
+          RPWM: 3
           encoder:
             controller: 'potentiometer'
             enable: true
@@ -68,11 +67,11 @@
             minAngle: 23.35
             maxAngle: 44.26
         forearm:
-          controller: 'pwmServo'
+          controller: 'motor'
           enable: false
-          gpioLPWM: 25
-          gpioRPWM: 24
-          time: 4
+          topic: 'robot/pwm'
+          LPWM: 4
+          RPWM: 5
           encoder:
             controller: 'potentiometer'
             enable: true

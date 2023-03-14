@@ -54,12 +54,6 @@ private:
     // Loaded controllers
     controllerMap m_controllers;
 
-    // GPIO connection
-    int m_gpio;
-
-    // Whether GPIO is enabled
-    bool m_enableGpio;
-
     // Spin rate
     double m_rate;
 
@@ -85,9 +79,6 @@ public:
 
     // Get current node
     ros::NodeHandle getNode();
-
-    // Get GPIO daemon handle
-    int getGpio();
 
     // Get controller of type by name
     template <class C> C* getController(const char* name)

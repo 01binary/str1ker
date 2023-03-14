@@ -73,7 +73,7 @@ add_executable(
   src/code/controllerFactory.cpp
   src/code/controller.cpp
   src/code/arm.cpp
-  src/code/pwmServo.cpp
+  src/code/motor.cpp
   src/code/solenoid.cpp
   src/code/potentiometer.cpp
 )
@@ -88,7 +88,6 @@ target_link_libraries(
   ${catkin_LIBRARIES}
   ${Eigen3_LIBRARIES}
   ${YAML_CPP_LIBRARIES}
-  -lpigpiod_if2
   -lrt
 )
 

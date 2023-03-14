@@ -6,9 +6,9 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- servo.h
+ motor.h
 
- Servo Controller Base Class
+ PWM Motor Controller
  Created 1/19/2021
 
  Copyright (C) 2021 Valeriy Novytskyy
@@ -21,8 +21,8 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <string>
-#include "controller.h"
+#include <str1ker/Pwm.h>
+#include "potentiometer.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -31,35 +31,66 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| Forward declarations
+| motor class
 \*----------------------------------------------------------*/
 
-class robot;
-
-/*----------------------------------------------------------*\
-| servo class
-\*----------------------------------------------------------*/
-
-class servo : public controller
+class motor
 {
 public:
-    servo(robot& robot, const char* path) : controller(robot, path) {}
+    // Controller type
+    static const char TYPE[];
+
+private:
+    // PWM publishing queue size
+    const int QUEUE_SIZE = 4;
+
+    // Max PWM duty cycle
+    const uint8_t DUTY_CYCLE = 0xFF;
+
+private:
+    // PWM topic
+    std::string m_topic;
+
+    // LPWM channel
+    int m_lpwm;
+
+    // RPWM channel
+    int m_rpwm;
+
+    // Current velocity
+    double m_velocity;
+
+    // Potentiometer as absolute encoder
+    std::shared_ptr<potentiometer> m_encoder;
+
+    // PWM publisher
+    ros::Publisher m_pub;
 
 public:
-    // Initialize servo controller
-    virtual bool init(ros::NodeHandle node) = 0;
+    motor(class robot& robot, const char* path);
 
-    // Get absolute servo position
-    virtual double getPos() = 0;
+public:
+    // Get display type
+    virtual const char* getType();
 
-    // Set absolute servo position
-    virtual void setPos(double pos) = 0;
+    // Initialize
+    virtual bool init(ros::NodeHandle node);
 
-    // Get servo velocity
-    virtual double getVelocity() = 0;
+    // Get position from encoder
+    double getPos();
 
-    // Set servo velocity
-    virtual bool setVelocity(double velocity) = 0;
+    // Get current velocity
+    double getVelocity();
+
+    // Set speed and direction directly (+/-)
+    bool setVelocity(double velocity);
+
+    // Deserialize from settings
+    virtual void deserialize(ros::NodeHandle node);
+
+public:
+    // Create instance
+    static controller* create(class robot& robot, const char* path);
 };
 
 } // namespace str1ker

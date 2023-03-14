@@ -21,7 +21,6 @@
 
 #include <vector>
 #include <set>
-#include <pigpiod_if2.h>
 #include <ros/ros.h>
 #include "robot.h"
 #include "controllerFactory.h"
@@ -49,12 +48,6 @@ robot::robot(ros::NodeHandle node):
 {
 }
 
-robot::~robot()
-{
-    // Release GPIO pins
-    if (m_enableGpio) pigpio_stop(m_gpio);
-}
-
 ros::NodeHandle robot::getNode()
 {
     return m_node;
@@ -67,17 +60,6 @@ shared_ptr<controller> robot::getController(const char* name)
 
 bool robot::init()
 {
-    if (m_enableGpio)
-    {
-        ROS_INFO("initializing GPIO");
-
-        if (m_gpio = pigpio_start(NULL, NULL) < 0)
-        {
-            ROS_ERROR("failed to initialize GPIO");
-            return false;
-        }
-    }
-
     ROS_INFO("initializing controllers...");
 
     for(controllerMap::iterator pos = m_controllers.begin();
@@ -121,7 +103,6 @@ robot& robot::deserialize()
     ROS_INFO("loading robot...");
 
     ros::param::get("/robot/rate", m_rate);
-    ros::param::get("/robot/enableGpio", m_enableGpio);
 
     ROS_INFO("loading controllers...");
 
@@ -172,10 +153,6 @@ const char* robot::getControllerPath(
 
     strncpy(componentPath, path, nextNode - path);
     return componentPath;
-}
-
-int robot::getGpio() {
-    return m_gpio;
 }
 
 robot& robot::logo()

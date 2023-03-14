@@ -35,7 +35,7 @@ using namespace std;
 \*----------------------------------------------------------*/
 
 const char arm::TYPE[] = "arm";
-const char* arm::JOINTS[] = { "shoulder", "upperarm", "forearm" };
+const char* arm::ACTUATORS[] = { "shoulder", "upperarm", "forearm" };
 
 /*----------------------------------------------------------*\
 | arm implementation
@@ -45,7 +45,7 @@ REGISTER_CONTROLLER(arm)
 
 arm::arm(robot& robot, const char* path) :
     controller(robot, path),
-    m_hw(this, robot.getNode()),
+    m_controllers(this, robot.getNode()),
     m_lastUpdate(0)
 {
 }
@@ -68,71 +68,85 @@ void arm::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
 
-    int numJoints = sizeof(JOINTS) / sizeof(char*);
+    int numActuators = sizeof(ACTUATORS) / sizeof(char*);
 
-    m_jointPositions.resize(numJoints);
-    m_jointVelocities.resize(numJoints);
-    m_jointEfforts.resize(numJoints);
-    m_jointPosCommands.resize(numJoints);
-    m_jointVelCommands.resize(numJoints);
+    m_actuatorPos.resize(numActuators);
+    m_actuatorVel.resize(numActuators);
+    m_actuatorEfforts.resize(numActuators);
+    m_actuatorPosCommands.resize(numActuators);
+    m_actuatorVelCommands.resize(numActuators);
 
-    for (int joint = 0; joint < numJoints; joint++)
+    for (int actuator = 0; actuator < numActuators; actuator++)
     {
-        m_joints.push_back(shared_ptr<servo>(controllerFactory::deserialize<servo>(
-            m_robot, m_path.c_str(), JOINTS[joint], node)));
+        m_actuators.push_back(shared_ptr<servo>(controllerFactory::deserialize<servo>(
+            m_robot,
+            m_path.c_str(),
+            ACTUATORS[actuator],
+            node
+        )));
     }
 }
 
 bool arm::init(ros::NodeHandle node)
 {
     const char* path = getPath();
-    char jointPath[128] = {0};
-    strcpy(jointPath, path);
-    strcat(jointPath, "/");
+    char actuatorPath[128] = {0};
+    strcpy(actuatorPath, path);
+    strcat(actuatorPath, "/");
 
-    char* jointName = jointPath + strlen(jointPath);
-    m_jointPaths.resize(m_joints.size());
+    char* actuatorName = actuatorPath + strlen(actuatorPath);
+    m_actuatorPaths.resize(m_actuators.size());
 
-    for (int joint = 0; joint < m_joints.size(); joint++)
+    for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
-        // Build joint path
-        strcpy(jointName, JOINTS[joint]);
-        m_jointPaths[joint] = jointPath;
+        // Build actuator path
+        strcpy(actuatorName, ACTUATORS[actuator]);
+        m_actuatorPaths[actuator] = actuatorPath;
 
-        // Initialize joint actuator
-        if (!m_joints[joint]->init(node))
+        // Initialize actuator
+        if (!m_actuators[actuator]->init(node))
             return false;
 
-        // Register joint state interface
-        hardware_interface::JointStateHandle stateHandle(
-            jointPath,
-            &m_jointPositions[joint],
-            &m_jointVelocities[joint],
-            NULL
+        // Register state interface
+        hardware_interface::ActuatorStateHandle actuatorState(
+            actuatorPath,
+            &m_actuatorPos[actuator],
+            &m_actuatorVel[actuator],
+            &m_actuatorEfforts[actuator]
         );
 
-        m_states.registerHandle(stateHandle);
+        m_states.registerHandle(actuatorState);
 
-        // Register joint position interface
-        hardware_interface::JointHandle posHandle(stateHandle, &m_jointPosCommand[joint]);
-        m_position.registerHandle(posHandle);
+        // Register velocity interface
+        hardware_interface::ActuatorHandle actuator(
+            actuatorState,
+            &m_actuatorVelCommands[actuator]
+        );
 
-        // Register joint velocity interface
-        hardware_interface::JointHandle velHandle(state, &m_jointVelCommand[joint]);
-        m_velocity.registerHandle(velHandle);
+        m_actuators.registerHandle(actuator);
 
-        // Register joint limits interface
-        joint_limits_interface::JointLimits lim;
-        joint_limits_interface::getJointLimits(jointPath, node, lim);
-        joint_limits_interface::VelocityJointSaturationHandle limHandle(velHandle, lim);
-        m_limits.registerHandle(limHandle);
+        // Register limits interface
+        joint_limits_interface::JointLimits limits;
+        limits.has_velocity_limits = true;
+        limits.max_velocity = 2.0;
+
+        joint_limits_interface::SoftJointLimits softLimits;
+        softLimits.has_velocity_limits = true;
+        softLimits.max_velocity = 2.0;
+
+        joint_limits_interface::VelocityJointSoftLimitsHandle allLimits(
+            jointHandle,
+            limits,
+            softLimits
+        );
+
+        m_limits.registerHandle(allLimits);
     }
 
     // Register interfaces for all joints
-    registerInterface(&m_state);
-    registerInterface(&m_position);
-    registerInterface(&m_velocity);
-    registerInterface(&m_limits);
+    registerInterface(&m_stateInterface);
+    registerInterface(&m_velInterface);
+    registerInterface(&m_limInterface);
 
     return true;
 }
@@ -142,22 +156,19 @@ void arm::update()
     ros::Time time = ros::Time::now();
     ros::Duration period = time - m_lastUpdate;
 
-    for (int joint = 0; joint < m_joints.size(); joint++)
+    for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
-        m_jointPositions[joint] = m_joint[joint]->getPos();
-        m_jointVelocities[joint] = m_joint[joint]->getVelocity();
+        m_actuatorPos[actuator] = m_joint[actuator]->getPos();
+        m_actuatorVel[actuator] = m_joint[actuator]->getVelocity();
     }
 
     m_hw->update(time, period);
 
-    for (int joint = 0; joint < m_joints.size(); joint++)
+    m_limits.enforceLimits(period);
+
+    for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
-        if (m_jointVelCommands[joint]) {
-            m_joints[joint]->setVelocity(m_jointVelCommands[joint]);
-        } else {
-            // TODO: this should have its own loop
-            m_joints[joint]->setPos(m_jointPosCommands[joint]);
-        }
+        m_actuators[actuator]->setVelocity(m_actuatorVelCommands[actuator]);
     }
 
     m_lastUpdate = time;

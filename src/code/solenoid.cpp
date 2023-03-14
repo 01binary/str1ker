@@ -20,7 +20,6 @@
 \*----------------------------------------------------------*/
 
 #include <unistd.h>
-#include <pigpiod_if2.h>
 #include <ros/ros.h>
 #include "robot.h"
 #include "solenoid.h"
@@ -46,13 +45,7 @@ REGISTER_CONTROLLER(solenoid)
 
 solenoid::solenoid(robot& robot, const char* path) :
     controller(robot, path),
-    m_gpio(0)
-{
-}
-
-solenoid::solenoid(robot& robot, const char* path, int gpio) :
-    controller(robot, path),
-    m_gpio(gpio)
+    m_channel(0)
 {
 }
 
@@ -64,10 +57,8 @@ const char* solenoid::getType()
 bool solenoid::init(ros::NodeHandle node)
 {
     if (!m_enable) return true;
-    
-    set_mode(m_robot.getGpio(), m_gpio, PI_OUTPUT);
 
-    ROS_INFO("  initialized %s %s on GPIO %d", getPath(), getType(), m_gpio);
+    ROS_INFO("  initialized %s %s on %s %d", getPath(), getType(), m_topic.c_str(), m_channel);
 
     return true;
 }
@@ -78,17 +69,14 @@ void solenoid::trigger(double durationSeconds)
 
     useconds_t durationMicroseconds = durationSeconds / 1000000.0;
 
-    if (gpio_write(m_robot.getGpio(), m_gpio, 1) < 0) {
-        setLastError("failed to write gpio high");
-        return;
-    }
+    // TODO: publish to channel?
+    // what if that's not fast enough?
+
+    // TODO set high
 
     usleep(durationMicroseconds);
 
-    if (gpio_write(m_robot.getGpio(), m_gpio, 0) < 0) {
-        setLastError("failed to write gpio low");
-        return;
-    }
+    // TODO set low
 
     usleep(durationMicroseconds);
 
@@ -99,9 +87,11 @@ void solenoid::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);
 
-    ros::param::get(getControllerPath("gpio"), m_gpio);
+    if (!ros::param::get(getControllerPath("topic"), m_topic))
+        ROS_WARN("%s did not specify topic", getPath());
 
-    // TODO: advertise action
+    if (!ros::param::get(getControllerPath("channel"), m_channel))
+        ROS_WARN("%s did not specify channel", getPath());
 }
 
 controller* solenoid::create(robot& robot, const char* path)

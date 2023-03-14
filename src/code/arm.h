@@ -25,10 +25,7 @@
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/robot_hw.h>
-#include <joint_limits_interface/joint_limits.h>
-#include <joint_limits_interface/joint_limits_interface.h>
-#include <joint_limits_interface/joint_limits_rosparam.h>
-#include <joint_limits_interface/joint_limits_urdf.h>
+#include <joint_limits_interface.h>
 #include <controller_manager/controller_manager.h>
 
 #include "controller.h"
@@ -51,40 +48,36 @@ public:
     // Controller type
     static const char TYPE[];
 
-    // Names of joints to publish
-    static const char* JOINTS[];
+    // Names of actuators to publish
+    static const char* ACTUATORS[];
 
 private:
-    // Paths of joints to publish
-    std::vector<std::string> m_jointPaths;
+    // Paths of actuators to publish
+    std::vector<std::string> m_actuatorPaths;
 
-    // Joints
-    std::vector<std::shared_ptr<servo>> m_joints;
+    // Actuator controllers
+    std::vector<std::shared_ptr<servo>> m_actuators;
 
     // Trigger solenoid
     std::shared_ptr<solenoid> m_trigger;
 
-    // Joint positions
-    std::vector<double> m_jointPositions;
+    // Actuator positions
+    std::vector<double> m_actuatorPos;
 
-    // Joint velocities
-    std::vector<double> m_jointVelocities;
+    // Actuator velocities
+    std::vector<double> m_actuatorVel;
 
-    // Joint efforts (not used)
-    std::vector<double> m_jointEfforts;
+    // Actuator efforts (not used)
+    std::vector<double> m_actuatorEfforts;
 
-    // Last joint position command
-    std::vector<double> m_jointPosCommands;
-
-    // Last joint velocity command
-    std::vector<double> m_jointVelCommands;
+    // Actuator velocity commands
+    std::vector<double> m_actuatorVelCommands;
 
     // Joint hardware interfaces
-    controller_manager::ControllerManager m_hw;
-    hardware_interface::JointStateInterface m_state;
-    hardware_interface::PositionJointInterface m_position;
-    hardware_interface::VelocityJointInterface m_velocity;
-    joint_limits_interface::VelocityJointSaturationInterface m_limits;
+    controller_manager::ControllerManager m_controllers;
+    hardware_interface::ActuatorStateInterface m_stateInterface;
+    hardware_interface::VelocityActuatorInterface m_velInterface;
+    joint_limits_interface::VelocityJointSoftLimitsInterface m_limInterface;
 
     // Last update time
     ros::Time m_lastUpdate;

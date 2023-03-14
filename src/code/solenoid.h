@@ -41,12 +41,14 @@ public:
     static const char TYPE[];
 
 private:
-    // Output pin
-    int m_gpio;
+    // Output topic
+    std::string m_topic;
+
+    // Output channel
+    int m_channel;
 
 public:
     solenoid(class robot& robot, const char* path);
-    solenoid(class robot& robot, const char* path, int gpio);
 
 public:
     // Get display type
