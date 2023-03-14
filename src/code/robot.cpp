@@ -118,8 +118,7 @@ robot& robot::configure()
             m_controllers.find(path) == m_controllers.end())
         {
             const char* name = getControllerName(path);
-            controller* instance = controllerFactory::configure(*this, PATH, name, m_node);
-
+            controller* instance = controllerFactory::deserialize(*this, PATH, name, m_node);
             if (instance) m_controllers[path] = shared_ptr<controller>(instance);
         }
     }

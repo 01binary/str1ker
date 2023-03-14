@@ -44,7 +44,7 @@ controllerFactory::controllerFactory()
     s_initialized = true;
 }
 
-controller* controllerFactory::configure(robot& robot, const char* parentPath, const char* controllerName, ros::NodeHandle node)
+controller* controllerFactory::deserialize(robot& robot, const char* parentPath, const char* controllerName, ros::NodeHandle node)
 {
     try
     {
@@ -97,7 +97,7 @@ controller* controllerFactory::configure(robot& robot, const char* parentPath, c
     }
 }
 
-controller* controllerFactory::configure(const char* type)
+controller* controllerFactory::deserialize(const char* type)
 {
     try
     {

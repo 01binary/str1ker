@@ -94,13 +94,13 @@ bool motor::setVelocity(double velocity)
 
     // RPWM
     msg.channels[0].channel = m_rpwm;
-    msg.channels[0].mode = MODE_ANALOG;
+    msg.channels[0].mode = PwmChannel::MODE_ANALOG;
     msg.channels[0].value = velocity >= 0 ? dutyCycle : 0;
     msg.channels[0].duration = 0;
 
     // LPWM
     msg.channels[1].channel = m_lpwm;
-    msg.channels[1].mode = MODE_ANALOG;
+    msg.channels[1].mode = PwmChannel::MODE_ANALOG;
     msg.channels[1].value = velocity >= 0 ? 0 : dutyCycle;
     msg.channels[1].duration = 0;
 

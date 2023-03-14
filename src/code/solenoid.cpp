@@ -69,8 +69,9 @@ void solenoid::trigger(double durationSec)
 {
     if (!m_enable) return;
 
+    Pwm msg;
     msg.channels[0].channel = m_channel;
-    msg.channels[0].mode = MODE_DIGITAL;
+    msg.channels[0].mode = PwmChannel::MODE_DIGITAL;
     msg.channels[0].value = 1;
     msg.channels[0].duration = uint8_t(durationSec / 1000000.0);
 

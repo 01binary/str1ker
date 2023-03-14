@@ -81,23 +81,23 @@ public:
 
 public:
     // Deserialize controller with type cast
-    template<class T> static T* configure(
+    template<class T> static T* deserialize(
         class robot& robot,
         const char* parentPath,
         const char* controllerName,
         ros::NodeHandle node)
     {
-        return dynamic_cast<T*>(configure(robot, parentPath, controllerName, node));
+        return dynamic_cast<T*>(deserialize(robot, parentPath, controllerName, node));
     }
 
     // Deserialize controller by type with type cast
-    template<class T> static T* configure(const char* type)
+    template<class T> static T* deserialize(const char* type)
     {
-        return dynamic_cast<T*>(configure(type));
+        return dynamic_cast<T*>(deserialize(type));
     }
 
     // Deserialize controller by path
-    static controller* configure(
+    static controller* deserialize(
         class robot& robot,
         const char* parentPath,
         const char* controllerName,
@@ -105,7 +105,7 @@ public:
     );
 
     // Deserialize controller by type
-    static controller* configure(const char* type);
+    static controller* deserialize(const char* type);
 
     // Register controller type
     static void registerType(const char* type, createController create, bool shared);
