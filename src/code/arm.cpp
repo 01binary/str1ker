@@ -64,9 +64,9 @@ void arm::trigger(double durationSeconds)
     return m_trigger->trigger(durationSeconds);
 }
 
-void arm::deserialize(ros::NodeHandle node)
+void arm::configure(ros::NodeHandle node)
 {
-    controller::deserialize(node);
+    controller::configure(node);
 
     int numActuators = sizeof(ACTUATORS) / sizeof(char*);
 

@@ -22,6 +22,7 @@
 \*----------------------------------------------------------*/
 
 #include <str1ker/Pwm.h>
+#include <str1ker/PwmChannel.h>
 #include "potentiometer.h"
 
 /*----------------------------------------------------------*\
@@ -63,7 +64,7 @@ private:
     // Potentiometer as absolute encoder
     std::shared_ptr<potentiometer> m_encoder;
 
-    // PWM publisher
+    // Publisher to PWM node that runs motors
     ros::Publisher m_pub;
 
 public:
@@ -79,10 +80,6 @@ public:
     // Get position from encoder
     double getPos();
 
-    double getMinPos();
-
-    double getMaxPos();
-
     // Get current velocity
     double getVelocity();
 
@@ -90,7 +87,7 @@ public:
     bool setVelocity(double velocity);
 
     // Deserialize from settings
-    virtual void deserialize(ros::NodeHandle node);
+    virtual void configure(ros::NodeHandle node);
 
 public:
     // Create instance

@@ -44,7 +44,7 @@ controllerFactory::controllerFactory()
     s_initialized = true;
 }
 
-controller* controllerFactory::deserialize(robot& robot, const char* parentPath, const char* controllerName, ros::NodeHandle node)
+controller* controllerFactory::configure(robot& robot, const char* parentPath, const char* controllerName, ros::NodeHandle node)
 {
     try
     {
@@ -77,7 +77,7 @@ controller* controllerFactory::deserialize(robot& robot, const char* parentPath,
             if (NULL == reg.instance)
             {
                 reg.instance = reg.create(robot, componentPath.c_str());
-                reg.instance->deserialize(node);
+                reg.instance->configure(node);
             }
 
             instance = reg.instance;
@@ -85,7 +85,7 @@ controller* controllerFactory::deserialize(robot& robot, const char* parentPath,
         else
         {
             instance = reg.create(robot, componentPath.c_str());
-            instance->deserialize(node);
+            instance->configure(node);
         }
 
         return instance;
@@ -97,7 +97,7 @@ controller* controllerFactory::deserialize(robot& robot, const char* parentPath,
     }
 }
 
-controller* controllerFactory::deserialize(const char* type)
+controller* controllerFactory::configure(const char* type)
 {
     try
     {

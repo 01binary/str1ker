@@ -82,12 +82,14 @@ public:
     // Get absolute position
     double getPos();
 
+    // Get minimum position
     double getMinPos();
 
+    // Get maximum position
     double getMaxPos();
 
     // Deserialize from settings
-    virtual void deserialize(ros::NodeHandle node);
+    virtual void configure(ros::NodeHandle node);
 
     // Subscribe callback for ADC readings
     void readingCallback(const Adc::ConstPtr& msg);

@@ -62,7 +62,7 @@ public:
 
 public:
     // Load controller settings
-    robot& deserialize();
+    robot& configure();
 
     // Initialize controllers
     bool init();

@@ -15,11 +15,19 @@
  This software is licensed under GNU GPLv3
 */
 
+/*----------------------------------------------------------*\
+| Includes
+\*----------------------------------------------------------*/
+
 #define USE_USBCON
 
 #include <Arduino.h>
 #include <ros.h>
 #include <str1ker/Adc.h>
+
+/*----------------------------------------------------------*\
+| Constants
+\*----------------------------------------------------------*/
 
 const int CHANNELS = 12;
 
@@ -33,21 +41,27 @@ const int PINS[] =
   A4,   // Analog 4
   A5,   // Analog 5
 
-
   A6,   // Digital 4
   A7,   // Digital 6
   A8,   // Digital 8
-
 
   A9,   // Digital 9
   A10,  // Digital 10
   A11,  // Digital 12
 };
 
+/*----------------------------------------------------------*\
+| Variables
+\*----------------------------------------------------------*/
+
 ros::NodeHandle node;
 str1ker::Adc msg;
 uint16_t* adc = &msg.adc0;
 ros::Publisher pub("robot/adc", &msg);
+
+/*----------------------------------------------------------*\
+| Initialize node
+\*----------------------------------------------------------*/
 
 void setup()
 { 
@@ -57,6 +71,10 @@ void setup()
   node.initNode();
   node.advertise(pub);
 }
+
+/*----------------------------------------------------------*\
+| Run node
+\*----------------------------------------------------------*/
 
 void loop()
 {

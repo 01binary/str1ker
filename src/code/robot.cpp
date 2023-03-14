@@ -98,7 +98,7 @@ robot& robot::run()
     return *this;
 }
 
-robot& robot::deserialize()
+robot& robot::configure()
 {
     ROS_INFO("loading robot...");
 
@@ -118,7 +118,7 @@ robot& robot::deserialize()
             m_controllers.find(path) == m_controllers.end())
         {
             const char* name = getControllerName(path);
-            controller* instance = controllerFactory::deserialize(*this, PATH, name, m_node);
+            controller* instance = controllerFactory::configure(*this, PATH, name, m_node);
 
             if (instance) m_controllers[path] = shared_ptr<controller>(instance);
         }
@@ -181,7 +181,7 @@ int main(int argc, char** argv)
 
     if (!robot
         .logo()
-        .deserialize()
+        .configure()
         .init())
     {
         return 1;

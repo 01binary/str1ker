@@ -61,15 +61,15 @@ bool motor::init(ros::NodeHandle node)
 {
     if (!m_enable) return true;
 
-    m_pub = node.advertise<Pwm>(getPath(), QUEUE_SIZE);
-
     if (m_encoder && !m_encoder->init(node))
     {
         ROS_ERROR("  failed to initialize %s encoder", getPath());
         return false;
     }
 
-    ROS_INFO("  initialized %s %s on %s %d LPWM %d RPWM",
+    m_pub = node.advertise<Pwm>(getPath(), QUEUE_SIZE);
+
+    ROS_INFO("  initialized %s %s on %s channels %d LPWM %d RPWM",
         getPath(), getType(), m_topic.c_str(), m_lpwm, m_rpwm);
 
     return true;
@@ -78,16 +78,6 @@ bool motor::init(ros::NodeHandle node)
 double motor::getPos()
 {
     return m_encoder ? m_encoder->getPos() : 0.0;
-}
-
-double motor::getMinPos()
-{
-    return m_encoder ? m_encoder->getMinPos() : 0.0;
-}
-
-double motor::getMaxPos()
-{
-    return m_encoder ? m_encoder->getMaxPos() : 1.0;
 }
 
 double motor::getVelocity()
@@ -100,14 +90,19 @@ bool motor::setVelocity(double velocity)
     uint8_t dutyCycle = uint8_t(abs(velocity) * double(DUTY_CYCLE));
 
     Pwm msg;
+    msg.channels.resize(2);
 
     // RPWM
-    msg.channel1 = m_rpwm;
-    msg.dutyCycle1 = velocity >= 0 ? dutyCycle : 0;
+    msg.channels[0].channel = m_rpwm;
+    msg.channels[0].mode = MODE_ANALOG;
+    msg.channels[0].value = velocity >= 0 ? dutyCycle : 0;
+    msg.channels[0].duration = 0;
 
     // LPWM
-    msg.channel2 = m_lpwm;
-    msg.dutyCycle2 = velocity >= 0 ? 0 : dutyCycle;
+    msg.channels[1].channel = m_lpwm;
+    msg.channels[1].mode = MODE_ANALOG;
+    msg.channels[1].value = velocity >= 0 ? 0 : dutyCycle;
+    msg.channels[1].duration = 0;
 
     m_pub.publish(msg);
 
@@ -116,9 +111,9 @@ bool motor::setVelocity(double velocity)
     return true;
 }
 
-void motor::deserialize(ros::NodeHandle node)
+void motor::configure(ros::NodeHandle node)
 {
-    controller::deserialize(node);
+    controller::configure(node);
 
     if (!ros::param::get(getControllerPath("topic"), m_topic))
         ROS_WARN("%s no PWM topic specified, default /robot/pwm", getPath());

@@ -81,9 +81,9 @@ double potentiometer::getMaxPos()
     return m_max;
 }
 
-void potentiometer::deserialize(ros::NodeHandle node)
+void potentiometer::configure(ros::NodeHandle node)
 {
-    controller::deserialize(node);
+    controller::configure(node);
 
     ros::param::get(getControllerPath("channel"), m_channel);
 
@@ -118,7 +118,7 @@ void potentiometer::readingCallback(const Adc::ConstPtr& msg)
     if (!m_enable) return;
 
     // Get the raw reading
-    m_reading = int(((const uint16_t*)&msg->adc0)[m_channel]);
+    m_reading = msg.adc[m_channel];
 
     // Calculate normalized value
     double norm = normalize(m_reading, m_minReading, m_maxReading, m_invert);

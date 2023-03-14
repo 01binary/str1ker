@@ -91,7 +91,7 @@ public:
     void trigger(double durationSeconds = 0.023);
 
     // Load arm controller settings
-    virtual void deserialize(ros::NodeHandle node);
+    virtual void configure(ros::NodeHandle node);
 
     // Initialize arm controllers
     virtual bool init(ros::NodeHandle node);

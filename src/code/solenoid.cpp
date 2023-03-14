@@ -58,40 +58,36 @@ bool solenoid::init(ros::NodeHandle node)
 {
     if (!m_enable) return true;
 
-    ROS_INFO("  initialized %s %s on %s %d", getPath(), getType(), m_topic.c_str(), m_channel);
+    m_pub = node.advertise<Pwm>(m_topic.c_str(), QUEUE_SIZE);
+
+    ROS_INFO("  initialized %s %s on %s channel %d", getPath(), getType(), m_topic.c_str(), m_channel);
 
     return true;
 }
 
-void solenoid::trigger(double durationSeconds)
+void solenoid::trigger(double durationSec)
 {
     if (!m_enable) return;
 
-    useconds_t durationMicroseconds = durationSeconds / 1000000.0;
+    msg.channels[0].channel = m_channel;
+    msg.channels[0].mode = MODE_DIGITAL;
+    msg.channels[0].value = 1;
+    msg.channels[0].duration = uint8_t(durationSec / 1000000.0);
 
-    // TODO: publish to channel?
-    // what if that's not fast enough?
-
-    // TODO set high
-
-    usleep(durationMicroseconds);
-
-    // TODO set low
-
-    usleep(durationMicroseconds);
+    m_pub.publish(msg);
 
     setLastError(NULL);
 }
 
-void solenoid::deserialize(ros::NodeHandle node)
+void solenoid::configure(ros::NodeHandle node)
 {
-    controller::deserialize(node);
+    controller::configure(node);
 
     if (!ros::param::get(getControllerPath("topic"), m_topic))
-        ROS_WARN("%s did not specify topic", getPath());
+        ROS_WARN("%s did not specify PWM topic", getPath());
 
     if (!ros::param::get(getControllerPath("channel"), m_channel))
-        ROS_WARN("%s did not specify channel", getPath());
+        ROS_WARN("%s did not specify PWM channel", getPath());
 }
 
 controller* solenoid::create(robot& robot, const char* path)

@@ -22,6 +22,8 @@
 \*----------------------------------------------------------*/
 
 #include <string>
+#include <str1ker/Pwm.h>
+#include <str1ker/PwmChannel.h>
 #include "controller.h"
 
 /*----------------------------------------------------------*\
@@ -41,11 +43,17 @@ public:
     static const char TYPE[];
 
 private:
-    // Output topic
+    // Publishing queue size
+    const int QUEUE_SIZE = 4;
+
+    // Publish topic
     std::string m_topic;
 
-    // Output channel
+    // Publisher channel
     int m_channel;
+
+    // Publisher to node that runs solenoids
+    ros::Publisher m_pub;
 
 public:
     solenoid(class robot& robot, const char* path);
@@ -58,10 +66,10 @@ public:
     bool init(ros::NodeHandle node);
 
     // Momentary trigger
-    void trigger(double durationSeconds);
+    void trigger(double durationSec);
 
     // Deserialize from settings
-    void deserialize(ros::NodeHandle node);
+    void configure(ros::NodeHandle node);
 
 public:
     // Create instance

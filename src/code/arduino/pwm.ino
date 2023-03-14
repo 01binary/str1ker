@@ -8,7 +8,7 @@
                                                                                      ███████                  
  pwm.ino
 
- PWM Arduino Subscriber
+ Arduino PWM Node
  Created 3/12/2023
 
  Copyright (C) 2023 Valeriy Novytskyy
@@ -24,6 +24,7 @@
 #include <Arduino.h>
 #include <ros.h>
 #include <str1ker/Pwm.h>
+#include <str1ker/PwmChannel.h>
 
 /*----------------------------------------------------------*\
 | Declarations
@@ -38,8 +39,6 @@ void pwmCallback(const str1ker::Pwm& msg);
 const char TOPIC[] = "robot/pwm";
 const int QUEUE_SIZE = 16;
 const int ADDRESS = 0;
-const int CHANNELS = 6;
-const uint8_t INVALID = 0xFF;
 const int PINS[] =
 {
   9,  // Channel 0 - Digital 9
@@ -54,21 +53,27 @@ const int PINS[] =
 | Variables
 \*----------------------------------------------------------*/
 
-ros::NodeHandle  node;
+ros::NodeHandle node;
 ros::Subscriber<str1ker::Pwm> sub("robot/pwm", pwmCallback);
 
+/*----------------------------------------------------------*\
+| Initialize Node
+\*----------------------------------------------------------*/
 
 void setup()
 {
-  for (int channel = 0; channel < CHANNELS; channel++)
+  for (int n = 0; n < sizeof(PINS) / sizeof(int); n++)
   {
-    pinMode(PINS[channel], OUTPUT);
-    analogWrite(PINS[channel], 0);
+    pinMode(PINS[n], OUTPUT);
   }
   
   node.initNode();
   node.subscribe(sub);
 }
+
+/*----------------------------------------------------------*\
+| Run Node
+\*----------------------------------------------------------*/
 
 void loop()
 {
@@ -76,16 +81,26 @@ void loop()
   delay(10);
 }
 
-void setChannel(int channel, uint8_t dutyCycle)
-{
-  channel -= ADDRESS;
-  
-  if (channel >= 0 && channel < CHANNELS)
-    analogWrite(PINS[channel], dutyCycle);
-}
+/*----------------------------------------------------------*\
+| Handle PWM requests
+\*----------------------------------------------------------*/
 
 void pwmCallback(const str1ker::Pwm& msg)
 {
-  if (msg.channel1 != INVALID) setChannel(msg.channel1, msg.dutyCycle1);
-  if (msg.channel2 != INVALID) setChannel(msg.channel2, msg.dutyCycle2);
+  for (std::size_type n = 0; n < msg.channels.size(); n++)
+  {
+    str1ker::PwmChannel& channel = msg.channels[n];
+    int pinIndex = msg.channel - ADDRESS;
+
+    if (pinIndex < 0 || pinIndex > sizeof(PINS) / sizeof(int)) continue;
+
+    if (channel.mode === MODE_ANALOG)
+    {
+      analogWrite(PINS[pinIndex], channel.value);
+    }
+    else if (channel.mode === MODE_DIGITAL)
+    {
+      digitalWrite(PINS[pinIndex], channel.value);
+    }
+  }
 }

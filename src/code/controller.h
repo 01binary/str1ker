@@ -80,7 +80,7 @@ public:
     virtual const char* getType() = 0;
 
     // Load controller settings
-    virtual void deserialize(ros::NodeHandle node);
+    virtual void configure(ros::NodeHandle node);
 
     // Initialize controller
     virtual bool init(ros::NodeHandle node);

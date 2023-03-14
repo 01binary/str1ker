@@ -73,7 +73,7 @@ void controller::setLastError(const char* error)
     m_error = error;
 }
 
-void controller::deserialize(ros::NodeHandle node)
+void controller::configure(ros::NodeHandle node)
 {
     string indent;
     indent.resize(
