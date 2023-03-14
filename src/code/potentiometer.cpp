@@ -71,6 +71,16 @@ double potentiometer::getPos()
     return m_pos;
 }
 
+double potentiometer::getMinPos()
+{
+    return m_min;
+}
+
+double potentiometer::getMaxPos()
+{
+    return m_max;
+}
+
 void potentiometer::deserialize(ros::NodeHandle node)
 {
     controller::deserialize(node);

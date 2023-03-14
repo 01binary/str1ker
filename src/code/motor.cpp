@@ -80,6 +80,16 @@ double motor::getPos()
     return m_encoder ? m_encoder->getPos() : 0.0;
 }
 
+double motor::getMinPos()
+{
+    return m_encoder ? m_encoder->getMinPos() : 0.0;
+}
+
+double motor::getMaxPos()
+{
+    return m_encoder ? m_encoder->getMaxPos() : 1.0;
+}
+
 double motor::getVelocity()
 {
     return m_velocity;

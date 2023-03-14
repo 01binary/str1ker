@@ -16,6 +16,7 @@
   <depend>genmsg</depend>
   <depend>std_msgs</depend>
   <depend>cmake_modules</depend>
+  <depend>controller_manager</depend>
   <depend>yaml-cpp</depend>
   <depend>eigen</depend>
   <build_depend>actionlib</build_depend>

@@ -73,12 +73,11 @@ void arm::deserialize(ros::NodeHandle node)
     m_actuatorPos.resize(numActuators);
     m_actuatorVel.resize(numActuators);
     m_actuatorEfforts.resize(numActuators);
-    m_actuatorPosCommands.resize(numActuators);
     m_actuatorVelCommands.resize(numActuators);
 
     for (int actuator = 0; actuator < numActuators; actuator++)
     {
-        m_actuators.push_back(shared_ptr<servo>(controllerFactory::deserialize<servo>(
+        m_actuators.push_back(shared_ptr<motor>(controllerFactory::deserialize<motor>(
             m_robot,
             m_path.c_str(),
             ACTUATORS[actuator],
@@ -115,15 +114,15 @@ bool arm::init(ros::NodeHandle node)
             &m_actuatorEfforts[actuator]
         );
 
-        m_states.registerHandle(actuatorState);
+        m_stateInterface.registerHandle(actuatorState);
 
         // Register velocity interface
-        hardware_interface::ActuatorHandle actuator(
+        hardware_interface::ActuatorHandle actuatorVel(
             actuatorState,
             &m_actuatorVelCommands[actuator]
         );
 
-        m_actuators.registerHandle(actuator);
+        m_velInterface.registerHandle(actuatorVel);
 
         // Register limits interface
         joint_limits_interface::JointLimits limits;
@@ -131,16 +130,18 @@ bool arm::init(ros::NodeHandle node)
         limits.max_velocity = 2.0;
 
         joint_limits_interface::SoftJointLimits softLimits;
-        softLimits.has_velocity_limits = true;
-        softLimits.max_velocity = 2.0;
+        softLimits.k_position = 1.0;
+        softLimits.k_velocity = 1.0;
+        softLimits.max_position = m_actuators[actuator]->getMaxPos();
+        softLimits.min_position = m_actuators[actuator]->getMinPos();
 
         joint_limits_interface::VelocityJointSoftLimitsHandle allLimits(
-            jointHandle,
+            actuatorVel,
             limits,
             softLimits
         );
 
-        m_limits.registerHandle(allLimits);
+        m_limInterface.registerHandle(allLimits);
     }
 
     // Register interfaces for all joints

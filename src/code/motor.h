@@ -34,7 +34,7 @@ namespace str1ker {
 | motor class
 \*----------------------------------------------------------*/
 
-class motor
+class motor: public controller
 {
 public:
     // Controller type
@@ -78,6 +78,10 @@ public:
 
     // Get position from encoder
     double getPos();
+
+    double getMinPos();
+
+    double getMaxPos();
 
     // Get current velocity
     double getVelocity();

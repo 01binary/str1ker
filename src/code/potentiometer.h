@@ -82,6 +82,10 @@ public:
     // Get absolute position
     double getPos();
 
+    double getMinPos();
+
+    double getMaxPos();
+
     // Deserialize from settings
     virtual void deserialize(ros::NodeHandle node);
 
