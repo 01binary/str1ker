@@ -23,7 +23,6 @@
 
 #include <string>
 #include <str1ker/Pwm.h>
-#include <str1ker/PwmChannel.h>
 #include "controller.h"
 
 /*----------------------------------------------------------*\

@@ -118,7 +118,7 @@ void potentiometer::readingCallback(const Adc::ConstPtr& msg)
     if (!m_enable) return;
 
     // Get the raw reading
-    m_reading = msg.adc[m_channel];
+    m_reading = msg->adc[m_channel];
 
     // Calculate normalized value
     double norm = normalize(m_reading, m_minReading, m_maxReading, m_invert);

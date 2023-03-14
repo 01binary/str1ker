@@ -40,6 +40,7 @@ add_message_files(
   FILES
   Adc.msg
   Pwm.msg
+  PwmChannel.msg
 )
 
 generate_messages(DEPENDENCIES std_msgs actionlib_msgs)
