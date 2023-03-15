@@ -56,7 +56,7 @@ const int PINS[] =
 
 ros::NodeHandle node;
 str1ker::Adc msg;
-uint16_t* adc = &msg.adc0;
+uint16_t adc[CHANNELS] = {0};
 ros::Publisher pub("robot/adc", &msg);
 
 /*----------------------------------------------------------*\
@@ -66,7 +66,9 @@ ros::Publisher pub("robot/adc", &msg);
 void setup()
 { 
   for (int channel = 0; channel < CHANNELS; channel++)
+  {
     pinMode(PINS[channel], INPUT_PULLUP);
+  }
     
   node.initNode();
   node.advertise(pub);
@@ -82,6 +84,9 @@ void loop()
   {
     adc[channel] = (uint16_t)analogRead(PINS[channel]);
   }
+
+  msg.adc_length = CHANNELS;
+  msg.adc = adc;
     
   pub.publish(&msg);
   node.spinOnce();
