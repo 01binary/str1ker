@@ -87,20 +87,20 @@ void loop()
 
 void pwmCallback(const str1ker::Pwm& msg)
 {
-  for (std::size_type n = 0; n < msg.channels.size(); n++)
+  for (uint32_t n = 0; n < msg.channels_length; n++)
   {
-    str1ker::PwmChannel& channel = msg.channels[n];
-    int pinIndex = msg.channel - ADDRESS;
+    str1ker::PwmChannel& request = msg.channels[n];
+    int pinIndex = request.channel - ADDRESS;
 
     if (pinIndex < 0 || pinIndex > sizeof(PINS) / sizeof(int)) continue;
 
-    if (channel.mode === MODE_ANALOG)
+    if (request.mode == str1ker::PwmChannel::MODE_ANALOG)
     {
-      analogWrite(PINS[pinIndex], channel.value);
+      analogWrite(PINS[pinIndex], request.value);
     }
-    else if (channel.mode === MODE_DIGITAL)
+    else if (request.mode == str1ker::PwmChannel::MODE_DIGITAL)
     {
-      digitalWrite(PINS[pinIndex], channel.value);
+      digitalWrite(PINS[pinIndex], request.value);
     }
   }
 }
