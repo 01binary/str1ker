@@ -44,5 +44,9 @@
         "typeinfo": "cpp",
         "map": "cpp",
         "set": "cpp"
-    }
+    },
+    "python.autoComplete.extraPaths": [
+        "/home/val/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ]
 }
