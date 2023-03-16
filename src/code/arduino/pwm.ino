@@ -25,6 +25,9 @@
 #include <ros.h>
 #include <str1ker/Pwm.h>
 #include <str1ker/PwmChannel.h>
+#include <stdio.h>
+
+#define ADDRESS 0
 
 /*----------------------------------------------------------*\
 | Declarations
@@ -36,17 +39,23 @@ void pwmCallback(const str1ker::Pwm& msg);
 | Constants
 \*----------------------------------------------------------*/
 
-const char TOPIC[] = "robot/pwm";
+const char TOPIC[] = "robot/pwm%d";
 const int QUEUE_SIZE = 16;
-const int ADDRESS = 0;
 const int PINS[] =
 {
+  // Waveform channels
+
   9,  // Channel 0 - Digital 9
   10, // Channel 1 - Digital 10
   11, // Channel 2 - Digital 11
-  A0, // Channel 3 - Analog 0
-  A1, // Channel 4 - Analog 1
-  A2  // Channel 5 - Analog 2
+  3,  // Channel 3 - SCL (also Digital)
+
+  // Binary channels
+
+  A0, // Channel 4 - Analog 0
+  A1, // Channel 5 - Analog 1
+  A2, // Channel 6 - Analog 2
+  2,  // Channel 7 - SDA
 };
 
 /*----------------------------------------------------------*\
@@ -54,7 +63,7 @@ const int PINS[] =
 \*----------------------------------------------------------*/
 
 ros::NodeHandle node;
-ros::Subscriber<str1ker::Pwm> sub("robot/pwm", pwmCallback);
+ros::Subscriber<str1ker::Pwm>* pSub;
 
 /*----------------------------------------------------------*\
 | Initialize Node
@@ -66,9 +75,15 @@ void setup()
   {
     pinMode(PINS[n], OUTPUT);
   }
+
+  char topic[32] = {0};
+  sprintf(topic, TOPIC, ADDRESS);
+  if (!ADDRESS) topic[strlen(topic) - 1] = 0;
+  
+  pSub = new ros::Subscriber<str1ker::Pwm>(topic, pwmCallback);
   
   node.initNode();
-  node.subscribe(sub);
+  node.subscribe(*pSub);
 }
 
 /*----------------------------------------------------------*\
@@ -90,17 +105,32 @@ void pwmCallback(const str1ker::Pwm& msg)
   for (uint32_t n = 0; n < msg.channels_length; n++)
   {
     str1ker::PwmChannel& request = msg.channels[n];
-    int pinIndex = request.channel - ADDRESS;
 
-    if (pinIndex < 0 || pinIndex > sizeof(PINS) / sizeof(int)) continue;
+    if (request.channel >= sizeof(PINS) / sizeof(int)) continue;
 
     if (request.mode == str1ker::PwmChannel::MODE_ANALOG)
     {
-      analogWrite(PINS[pinIndex], request.value);
+      analogWrite(PINS[request.channel], request.value);
     }
     else if (request.mode == str1ker::PwmChannel::MODE_DIGITAL)
     {
-      digitalWrite(PINS[pinIndex], request.value);
+      digitalWrite(PINS[request.channel], request.value);
+    }
+
+    if (request.duration > 0)
+    {
+      int inverse = request.value ? 0 : 255;
+
+      delay(request.duration);
+
+      if (request.mode == str1ker::PwmChannel::MODE_ANALOG)
+      {
+        analogWrite(PINS[request.channel], inverse);
+      }
+      else if (request.mode == str1ker::PwmChannel::MODE_DIGITAL)
+      {
+        digitalWrite(PINS[request.channel], inverse);
+      }
     }
   }
 }
