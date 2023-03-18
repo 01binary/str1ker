@@ -1,0 +1,8 @@
+UpperArm
+length from hole to hole = 417.312mm along Y axis
+bounding box exported with same origin
+
+Forearm
+length from hole to hole = 18.9210209in along Y axis
+that's distance to the fulcrum point of the drum stick
+bounding box exported with same origin
