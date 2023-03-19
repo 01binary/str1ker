@@ -1,0 +1,18 @@
+UpperArm
+length from hole to hole = 417.312mm along Y axis
+bounding box exported with same origin
+
+Forearm
+length from hole to hole = 18.9210209in along Y axis
+that's distance to the fulcrum point of the drum stick
+bounding box exported with same origin
+
+Shoulder
+from center to upper arm mount hole: 0.5in back on Y axis and 4.285 up on Z
+from center to upper arm actuator hole: 2.238 down on Z and 3.978 forward on Y
+
+Base
+Origin is at connection point on shoulder
+
+Drumstick
+Origin is at connection point on forearm
