@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<robot name="str1ker">
+    <link name="base_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmBase.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba=".2 .2 .2 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmBaseBoundingBox.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.000000 0.000000 0.000000"/>
+            <mass value="35.336455"/>
+            <inertia ixx="1.849155" ixy="-0.000354" ixz="-0.154188" iyy="1.662671" iyz="0.003292" izz="0.802239"/>
+        </inertial>
+    </link>
+
+    <link name="shoulder_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/Shoulder.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba=".2 .2 .2 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ShoulderBoundingBox.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.000000 0.000000 0.000000"/>
+            <mass value="35.336455"/>
+            <inertia ixx="1.849155" ixy="-0.000354" ixz="-0.154188" iyy="1.662671" iyz="0.003292" izz="0.802239"/>
+        </inertial>
+    </link>
+
+    <link name="upperarm_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 -0.0127 0.108839" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/UpperArm.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba=".2 .2 .2 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 -0.0127 0.108839" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/UpperArmBoundingBox.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 -0.012700 0.108839" />
+            <mass value="35.336455"/>
+            <inertia ixx="1.849155" ixy="-0.000354" ixz="-0.154188" iyy="1.662671" iyz="0.003292" izz="0.802239"/>
+        </inertial>
+    </link>
+
+    <link name="forearm_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0.4173 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/Forearm.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba=".2 .2 .2 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0.4173 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmBoundingBox.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.000000 0.417300 0.000000"/>
+            <mass value="35.336455"/>
+            <inertia ixx="1.849155" ixy="-0.000354" ixz="-0.154188" iyy="1.662671" iyz="0.003292" izz="0.802239"/>
+        </inertial>
+    </link>
+
+    <link name="drumstick_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0.4173 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/Drumstick.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba=".2 .2 .2 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0.4173 0" />
+            <geometry>
+                <cylinder length="0.16" radius="0.0075"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0.417300 0" />
+            <mass value="0.336455"/>
+            <inertia ixx="1.849155" ixy="-0.000354" ixz="-0.154188" iyy="1.662671" iyz="0.003292" izz="0.802239"/>
+        </inertial>
+    </link>
+
+    <joint name="arm_mount" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <parent link="base_link"/>
+        <child link="shoulder_link"/>
+    </joint>
+
+    <joint name="shoulder" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0.0127 0.108839"/>
+        <axis xyz="1 0 0"/>
+        <parent link="shoulder_link"/>
+        <child link="upperarm_link"/>
+        <limit effort="24" velocity="1.0" lower="-2.2" upper="0.7" />
+        <dynamics damping="0.7" friction="0.0"/>
+    </joint>
+
+    <joint name="elbow" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0.4173 0"/>
+        <axis xyz="1 0 0"/>
+        <parent link="upperarm_link"/>
+        <child link="forearm_link"/>
+        <limit effort="155.68776" velocity="1.0" lower="-2.2" upper="0.7" />
+        <dynamics damping="0.7" friction="0.0"/>
+    </joint>
+
+    <joint name="wrist" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0.4173 0"/>
+        <axis xyz="1 0 0"/>
+        <parent link="forearm_link"/>
+        <child link="drumstick_link"/>
+        <limit effort="88.96443" velocity="1.0" lower="-2.2" upper="0.7" />
+        <dynamics damping="0.7" friction="0.0"/>
+    </joint>
+</robot>
