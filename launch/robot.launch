@@ -81,7 +81,7 @@
             max: 194
             minAngle: 69.75
             maxAngle: 116.35
-        trigger:
+        wrist:
           controller: 'solenoid'
           enable: false
           gpio: 16

@@ -58,7 +58,7 @@ private:
     std::vector<std::shared_ptr<motor>> m_actuators;
 
     // Trigger solenoid
-    std::shared_ptr<solenoid> m_trigger;
+    std::shared_ptr<solenoid> m_wrist;
 
     // Actuator positions
     std::vector<double> m_actuatorPos;

@@ -57,11 +57,11 @@ const char* arm::getType()
 
 void arm::trigger(double durationSeconds)
 {
-    if (!m_trigger) return;
+    if (!m_wrist) return;
 
-    ROS_INFO("trigger %s for %g", m_trigger->getPath(), durationSeconds);
+    ROS_INFO("trigger %s for %g", m_wrist->getPath(), durationSeconds);
 
-    return m_trigger->trigger(durationSeconds);
+    return m_wrist->trigger(durationSeconds);
 }
 
 void arm::configure(ros::NodeHandle node)
