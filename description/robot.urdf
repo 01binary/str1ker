@@ -50,7 +50,7 @@
 
     <link name="upperarm_link">
         <visual>
-            <origin rpy="0 0 0" xyz="0 -0.0127 0.108839" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
                 <mesh filename="package://str1ker/description/models/UpperArm.stl" />
             </geometry>
@@ -59,7 +59,7 @@
             </material>
         </visual>
         <collision>
-            <origin rpy="0 0 0" xyz="0 -0.0127 0.108839" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
                 <mesh filename="package://str1ker/description/models/UpperArmBoundingBox.stl"/>
             </geometry>
@@ -73,7 +73,7 @@
 
     <link name="forearm_link">
         <visual>
-            <origin rpy="0 0 0" xyz="0 0.4173 0" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
                 <mesh filename="package://str1ker/description/models/Forearm.stl" />
             </geometry>
@@ -82,7 +82,7 @@
             </material>
         </visual>
         <collision>
-            <origin rpy="0 0 0" xyz="0 0.4173 0" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
                 <mesh filename="package://str1ker/description/models/ForearmBoundingBox.stl"/>
             </geometry>
@@ -96,7 +96,7 @@
 
     <link name="drumstick_link">
         <visual>
-            <origin rpy="0 0 0" xyz="0 0.4173 0" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
                 <mesh filename="package://str1ker/description/models/Drumstick.stl" />
             </geometry>
@@ -105,7 +105,7 @@
             </material>
         </visual>
         <collision>
-            <origin rpy="0 0 0" xyz="0 0.4173 0" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
                 <cylinder length="0.16" radius="0.0075"/>
             </geometry>
