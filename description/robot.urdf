@@ -107,7 +107,7 @@
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <cylinder length="0.16" radius="0.0075"/>
+                <mesh filename="package://str1ker/description/models/DrumstickBoundingBox.stl" />
             </geometry>
         </collision>
         <inertial>
