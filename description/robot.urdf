@@ -9,7 +9,7 @@
                 <mesh filename="package://str1ker/description/models/ArmBase.stl" />
             </geometry>
             <material name="aluminum">
-                <color rgba=".2 .2 .2 1"/>
+                <color rgba="1 1 1 1"/>
             </material>
         </visual>
         <collision>
@@ -32,7 +32,7 @@
                 <mesh filename="package://str1ker/description/models/Shoulder.stl" />
             </geometry>
             <material name="aluminum">
-                <color rgba=".2 .2 .2 1"/>
+                <color rgba="1 1 1 1"/>
             </material>
         </visual>
         <collision>
@@ -55,7 +55,7 @@
                 <mesh filename="package://str1ker/description/models/UpperArm.stl" />
             </geometry>
             <material name="aluminum">
-                <color rgba=".2 .2 .2 1"/>
+                <color rgba="1 1 1 1"/>
             </material>
         </visual>
         <collision>
@@ -78,7 +78,7 @@
                 <mesh filename="package://str1ker/description/models/Forearm.stl" />
             </geometry>
             <material name="aluminum">
-                <color rgba=".2 .2 .2 1"/>
+                <color rgba="1 1 1 1"/>
             </material>
         </visual>
         <collision>
@@ -101,7 +101,7 @@
                 <mesh filename="package://str1ker/description/models/Drumstick.stl" />
             </geometry>
             <material name="aluminum">
-                <color rgba=".2 .2 .2 1"/>
+                <color rgba="1 1 1 1"/>
             </material>
         </visual>
         <collision>
@@ -130,11 +130,11 @@
     </joint>
 
     <joint name="shoulder" type="revolute">
-        <origin rpy="0 0 0" xyz="0 0.0127 0.108839"/>
+        <origin rpy="0 0 0" xyz="0 -0.0127 0.108839"/>
         <axis xyz="1 0 0"/>
         <parent link="shoulder_link"/>
         <child link="upperarm_link"/>
-        <limit effort="24" velocity="1.0" lower="-2.2" upper="0.7" />
+        <limit effort="24" velocity="1.0" lower="0" upper="0.785398" />
         <dynamics damping="0.7" friction="0.0"/>
     </joint>
 
@@ -143,16 +143,16 @@
         <axis xyz="1 0 0"/>
         <parent link="upperarm_link"/>
         <child link="forearm_link"/>
-        <limit effort="155.68776" velocity="1.0" lower="-2.2" upper="0.7" />
+        <limit effort="155.68776" velocity="1.0" lower="-1.8" upper="-0.9" />
         <dynamics damping="0.7" friction="0.0"/>
     </joint>
 
     <joint name="wrist" type="revolute">
-        <origin rpy="0 0 0" xyz="0 0.4173 0"/>
+        <origin rpy="0 0 0" xyz="0 0.48059393086 0"/>
         <axis xyz="1 0 0"/>
         <parent link="forearm_link"/>
         <child link="drumstick_link"/>
-        <limit effort="88.96443" velocity="1.0" lower="-2.2" upper="0.7" />
+        <limit effort="88.96443" velocity="1.0" lower="1.2" upper="1.3" />
         <dynamics damping="0.7" friction="0.0"/>
     </joint>
 </robot>
