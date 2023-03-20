@@ -33,3 +33,56 @@ Drumstick
 	iyy	0.000 kg m^2
 	iyz	-0.000 kg m^2
 	izz	0.001 kg m^2
+
+Upper arm actuator body
+    center point at lower mount
+    from center to shaft mount
+        +0.184 Z
+        +0.002 Y
+        
+    mass    0.796 kg
+    ixx     0.007 kg m^2
+    ixy     0.000 kg m^2
+    ixz     0.000 kg m^2
+    iyy     0.007 kg m^2
+    iyz     -0.001 kg m^2
+    izz     0.001 kg m^2
+
+Upper arm actuator shaft
+    center point at lower mount
+    from center to upper arm mount
+        +0.092 Z
+    
+    mass    0.070 kg
+    ixx     0
+    ixy     0
+    ixz     0
+    iyy     0
+    iyz     0
+    izz     0
+
+Forearm actuator body
+    center point at lower mount
+    from center to shaft mount
+        +0.135 Y
+
+    mass    0.199 kg
+    ixx     0.001 kg m^2
+    ixy     0
+    ixz     0
+    iyy     0
+    iyz     0
+    izz     0.001 kg m^2
+
+Forearm actuator shaft
+    center point at shaft mount
+    from center to forearm mount
+        +0.137 Y
+
+    mass    0.113 kg
+    ixx     0.001 kg m^2
+    ixy     0.000 kg m^2
+    ixz     -0.000 kg m^2
+    iyy     0.000 kg m^2
+    iyz     -0.000 kg m^2
+    izz     0.001 kg m^2
