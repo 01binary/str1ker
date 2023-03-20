@@ -18,11 +18,6 @@
                 <mesh filename="package://str1ker/description/models/ArmBaseBoundingBox.stl"/>
             </geometry>
         </collision>
-        <inertial>
-            <origin rpy="0 0 0" xyz="0.000000 0.000000 0.000000"/>
-            <mass value="35.336455"/>
-            <inertia ixx="1.849155" ixy="-0.000354" ixz="-0.154188" iyy="1.662671" iyz="0.003292" izz="0.802239"/>
-        </inertial>
     </link>
 
     <link name="shoulder_link">
@@ -42,9 +37,9 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0.000000 0.000000 0.000000"/>
-            <mass value="35.336455"/>
-            <inertia ixx="1.849155" ixy="-0.000354" ixz="-0.154188" iyy="1.662671" iyz="0.003292" izz="0.802239"/>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <mass value="0.36378108"/>
+            <inertia ixx="0.002" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
         </inertial>
     </link>
 
@@ -65,9 +60,9 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 -0.012700 0.108839" />
-            <mass value="35.336455"/>
-            <inertia ixx="1.849155" ixy="-0.000354" ixz="-0.154188" iyy="1.662671" iyz="0.003292" izz="0.802239"/>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <mass value="1.139"/>
+            <inertia ixx="0.061" ixy="0" ixz="0" iyy="0.001" iyz="0.001" izz="0.060"/>
         </inertial>
     </link>
 
@@ -88,9 +83,9 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0.000000 0.417300 0.000000"/>
-            <mass value="35.336455"/>
-            <inertia ixx="1.849155" ixy="-0.000354" ixz="-0.154188" iyy="1.662671" iyz="0.003292" izz="0.802239"/>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <mass value="0.703"/>
+            <inertia ixx="0.047" ixy="0" ixz="0" iyy="0" iyz="0.001" izz="0.047"/>
         </inertial>
     </link>
 
@@ -111,9 +106,9 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0.417300 0" />
-            <mass value="0.336455"/>
-            <inertia ixx="1.849155" ixy="-0.000354" ixz="-0.154188" iyy="1.662671" iyz="0.003292" izz="0.802239"/>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <mass value="0.091"/>
+            <inertia ixx="0.001" ixy="0" ixz="0" iyy="0" iyz="0" izz="0.001"/>
         </inertial>
     </link>
 
@@ -134,8 +129,8 @@
         <axis xyz="1 0 0"/>
         <parent link="shoulder_link"/>
         <child link="upperarm_link"/>
-        <limit effort="24" velocity="1.0" lower="0" upper="0.785398" />
-        <dynamics damping="0.7" friction="0.0"/>
+        <limit effort="100" velocity="1.0" lower="0" upper="0.785398" />
+        <dynamics damping="0.7" friction="1.4"/>
     </joint>
 
     <joint name="elbow" type="revolute">
@@ -143,8 +138,8 @@
         <axis xyz="1 0 0"/>
         <parent link="upperarm_link"/>
         <child link="forearm_link"/>
-        <limit effort="155.68776" velocity="1.0" lower="-1.8" upper="-0.9" />
-        <dynamics damping="0.7" friction="0.0"/>
+        <limit effort="100" velocity="1.0" lower="-1.8" upper="-0.9" />
+        <dynamics damping="0.7" friction="1.4"/>
     </joint>
 
     <joint name="wrist" type="revolute">
@@ -152,7 +147,7 @@
         <axis xyz="1 0 0"/>
         <parent link="forearm_link"/>
         <child link="drumstick_link"/>
-        <limit effort="88.96443" velocity="1.0" lower="1.2" upper="1.3" />
-        <dynamics damping="0.7" friction="0.0"/>
+        <limit effort="100" velocity="1.0" lower="1.2" upper="1.3" />
+        <dynamics damping="0.7" friction="1.4"/>
     </joint>
 </robot>
