@@ -69,13 +69,13 @@ include_directories(
 
 add_executable(
   robot
-  src/code/robot.cpp
-  src/code/controllerFactory.cpp
-  src/code/controller.cpp
-  src/code/arm.cpp
-  src/code/motor.cpp
-  src/code/solenoid.cpp
-  src/code/potentiometer.cpp
+  src/robot.cpp
+  src/controllerFactory.cpp
+  src/controller.cpp
+  src/arm.cpp
+  src/motor.cpp
+  src/solenoid.cpp
+  src/potentiometer.cpp
 )
 
 add_dependencies(
