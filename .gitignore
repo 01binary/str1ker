@@ -1,4 +1,4 @@
-src/**/OldVersions/**/*
+src/**/OldVersions
 design/**/OldVersions/**/*
 src/external/OldVersions/**/*
 src/Head/OldVersions/**/*
