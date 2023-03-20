@@ -1,6 +1,2 @@
-src/**/OldVersions/**/*
-design/**/OldVersions/**/*
-src/external/OldVersions/**/*
-src/Head/OldVersions/**/*
+**/OldVersions/**/*
 *.lck
-./post_build.sh.in
