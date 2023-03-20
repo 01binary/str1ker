@@ -115,11 +115,13 @@
         <parent link="world" />
         <child link="base_link" />
     </joint>
-    <joint name="arm_mount" type="fixed">
+    <joint name="mount" type="revolute">
         <origin rpy="0 0 0" xyz="0 0 0" />
-        <axis xyz="1 0 0" />
+        <axis xyz="0 0 1" />
         <parent link="base_link" />
         <child link="shoulder_link" />
+        <limit effort="100" velocity="1.0" lower="-1.4929" upper="1.4929" />
+        <dynamics damping="0.7" friction="1.4" />
     </joint>
     <joint name="shoulder" type="revolute">
         <origin rpy="0 0 0" xyz="0 -0.0127 0.108839" />
@@ -145,6 +147,16 @@
         <limit effort="100" velocity="1.0" lower="1.2" upper="1.3" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
+    <transmission name="trans_mount">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="mount">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="mount_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
     <transmission name="trans_shoulder">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="shoulder">
