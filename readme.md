@@ -6,17 +6,37 @@ Source code and parts for [Str1ker](https://www.01binary.us/projects/drumming-ro
 ![arms](./doc/readme/arms.png)
 ![wiring](./doc/readme/wiring.jpeg)
 
+## Git
+
+First-time git setup for a new machine:
+
+```
+git config --global user.name <your username>
+git config --global user.email <your email>
+git config --global credential.helper store
+```
+
 ## Clone
 
 ```
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
 
-git clone https://github.com/01binary/drummingrobot.git
+git clone https://github.com/01binary/str1ker.git
+git clone https://github.com/01binary/str1ker_moveit_config.git
 
+cd ./str1ker
 git sparse-checkout init --cone
-git sparse-checkout set src/code launch msg
+git sparse-checkout set src launch description msg
 ```
+
+## ROS
+
+To setup ROS Noetic on a new Ubuntu Focal 20.04.x system, follow these instructions:
+
+http://wiki.ros.org/noetic/Installation/Ubuntu
+
+> ROS Noetic can only be installed on this distribution and version of Ubuntu, otherwise it has to be built from source (such as when installing on a Raspberry Pi or another dist)
 
 ## Install
 
@@ -38,33 +58,49 @@ One-time setup after the first build.
 
 ```
 catkin_make install
-source ~/catkin_ws/devel/setup.bash
+source /opt/ros/noetic/setup.bash
+
+echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ## Upload
 
-The analog-to-digital controller runs on Arduino Micro and communicates back through rosserial library.
+The analog read and write duties are handled by an Arduino ROS node found in `/src/arduino`
 
-Generate message headers:
+To build it, first generate ROS message headers for Arduino:
 
 ```
 sudo apt-get install ros-${ROS_DISTRO}-rosserial-arduino
 sudo apt-get install ros-${ROS_DISTRO}-rosserial
 
-rosrun rosserial_arduino make_libraries.py .
+rosrun rosserial_arduino make_libraries.py <Arduino libraries path>
 ```
 
-Upload the `adc.ino` to Arduino Micro
+Compile and upload `/src/arduino/adc.ino`.
 
-Run rosserial node to get ADC inputs published on `/robot/adc`:
+The `robot.launch` file includes instructions to launch the Arduino node at robot startup. To launch manually for testing in isolation:
+
+Run `roscore` if not already running:
+
+```
+roscore
+```
+
+Run the rosserial node (substitute `/dev/ttyACM0` for the port the Arduino is on):
 
 ```
 rosrun rosserial_python serial_node.py /dev/ttyACM0
 ```
 
-## Run this package
+## Launch
 
 ```
-source devel/setup.bash
 roslaunch str1ker robot.launch
+```
+
+## Launch in RViz
+
+```
+roslaunch str1ker_moveit_config demo.launch
 ```
