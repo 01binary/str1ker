@@ -77,7 +77,7 @@ sudo apt-get install ros-${ROS_DISTRO}-rosserial
 rosrun rosserial_arduino make_libraries.py <Arduino libraries path>
 ```
 
-Compile and upload `/src/arduino/adc.ino`.
+Compile and upload `/src/analog.ino`.
 
 The `robot.launch` file includes instructions to launch the Arduino node at robot startup. To launch manually for testing in isolation:
 
