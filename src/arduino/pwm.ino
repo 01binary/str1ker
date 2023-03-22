@@ -20,6 +20,7 @@
 \*----------------------------------------------------------*/
 
 #define USE_USBCON
+
 #include <Wire.h>
 #include <Arduino.h>
 #include <ros.h>
@@ -48,8 +49,8 @@ const int QUEUE_SIZE = 32;
 \*----------------------------------------------------------*/
 
 ros::NodeHandle node;
-ros::Subscriber<str1ker::Pwm> sub(TOPIC, pwmCallback)
-Adafruit_PWMServoDriver pwm();
+ros::Subscriber<str1ker::Pwm> sub(TOPIC, pwmCallback);
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 /*----------------------------------------------------------*\
 | Initialize Node

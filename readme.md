@@ -48,6 +48,9 @@ The analog-to-digital controller runs on Arduino Micro and communicates back thr
 Generate message headers:
 
 ```
+sudo apt-get install ros-${ROS_DISTRO}-rosserial-arduino
+sudo apt-get install ros-${ROS_DISTRO}-rosserial
+
 rosrun rosserial_arduino make_libraries.py .
 ```
 
