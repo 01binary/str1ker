@@ -76,13 +76,13 @@ public:
     // Initialize
     virtual bool init(ros::NodeHandle node);
 
-    // Get position from encoder
+    // Get position from associated encoder
     double getPos();
 
-    // Get current velocity
+    // Get velocity
     double getVelocity();
 
-    // Set speed and direction directly (+/-)
+    // Set velocity
     bool setVelocity(double velocity);
 
     // Deserialize from settings

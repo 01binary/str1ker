@@ -20,14 +20,12 @@
 \*----------------------------------------------------------*/
 
 #define USE_USBCON
-
+#include <Wire.h>
 #include <Arduino.h>
 #include <ros.h>
+#include <Adafruit_PWMServoDriver.h>
 #include <str1ker/Pwm.h>
 #include <str1ker/PwmChannel.h>
-#include <stdio.h>
-
-#define ADDRESS 0
 
 /*----------------------------------------------------------*\
 | Declarations
@@ -39,31 +37,19 @@ void pwmCallback(const str1ker::Pwm& msg);
 | Constants
 \*----------------------------------------------------------*/
 
-const char TOPIC[] = "robot/pwm%d";
-const int QUEUE_SIZE = 16;
-const int PINS[] =
-{
-  // Waveform channels
-
-  9,  // Channel 0 - Digital 9
-  10, // Channel 1 - Digital 10
-  11, // Channel 2 - Digital 11
-  3,  // Channel 3 - SCL (also Digital)
-
-  // Binary channels
-
-  A0, // Channel 4 - Analog 0
-  A1, // Channel 5 - Analog 1
-  A2, // Channel 6 - Analog 2
-  2,  // Channel 7 - SDA
-};
+const char TOPIC[] = "robot/pwm";
+const double PWM_MAX = 4096.0;
+const double CHANNEL_MAX = 255.0;
+const int CHANNELS = 16;
+const int QUEUE_SIZE = 32;
 
 /*----------------------------------------------------------*\
 | Variables
 \*----------------------------------------------------------*/
 
 ros::NodeHandle node;
-ros::Subscriber<str1ker::Pwm>* pSub;
+ros::Subscriber<str1ker::Pwm> sub(TOPIC, pwmCallback)
+Adafruit_PWMServoDriver pwm();
 
 /*----------------------------------------------------------*\
 | Initialize Node
@@ -71,19 +57,11 @@ ros::Subscriber<str1ker::Pwm>* pSub;
 
 void setup()
 {
-  for (int n = 0; n < sizeof(PINS) / sizeof(int); n++)
-  {
-    pinMode(PINS[n], OUTPUT);
-  }
-
-  char topic[32] = {0};
-  sprintf(topic, TOPIC, ADDRESS);
-  if (!ADDRESS) topic[strlen(topic) - 1] = 0;
-  
-  pSub = new ros::Subscriber<str1ker::Pwm>(topic, pwmCallback);
+  pwm.setPWMFreq(700);
+  pwm.begin();
   
   node.initNode();
-  node.subscribe(*pSub);
+  node.subscribe(sub);
 }
 
 /*----------------------------------------------------------*\
@@ -97,6 +75,27 @@ void loop()
 }
 
 /*----------------------------------------------------------*\
+| Analog output
+\*----------------------------------------------------------*/
+
+void analog(int channel, double value)
+{
+  pwm.setPWM(channel, int((1.0 - value) * PWM_MAX), int(value * PWM_MAX));
+}
+
+/*----------------------------------------------------------*\
+| Digital output
+\*----------------------------------------------------------*/
+
+void digital(int channel, bool value)
+{
+  if (value)
+    pwm.setPWM(channel, int(PWM_MAX), 0);
+  else
+    pwm.setPWM(channel, 0, int(PWM_MAX));
+}
+
+/*----------------------------------------------------------*\
 | Handle PWM requests
 \*----------------------------------------------------------*/
 
@@ -105,32 +104,21 @@ void pwmCallback(const str1ker::Pwm& msg)
   for (uint32_t n = 0; n < msg.channels_length; n++)
   {
     str1ker::PwmChannel& request = msg.channels[n];
-
-    if (request.channel >= sizeof(PINS) / sizeof(int)) continue;
+    if (request.channel >= CHANNELS) continue;
 
     if (request.mode == str1ker::PwmChannel::MODE_ANALOG)
     {
-      analogWrite(PINS[request.channel], request.value);
+      analog(request.channel, request.value / CHANNEL_MAX);
     }
-    else if (request.mode == str1ker::PwmChannel::MODE_DIGITAL)
+    else
     {
-      digitalWrite(PINS[request.channel], request.value);
+      digital(request.channel, bool(request.value));
     }
 
     if (request.duration > 0)
     {
-      int inverse = request.value ? 0 : 255;
-
       delay(request.duration);
-
-      if (request.mode == str1ker::PwmChannel::MODE_ANALOG)
-      {
-        analogWrite(PINS[request.channel], inverse);
-      }
-      else if (request.mode == str1ker::PwmChannel::MODE_DIGITAL)
-      {
-        digitalWrite(PINS[request.channel], inverse);
-      }
+      digital(request.channel, request.value ? false : true);
     }
   }
 }
