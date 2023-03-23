@@ -40,7 +40,8 @@ void writePwm(const str1ker::Pwm& msg);
 \*----------------------------------------------------------*/
 
 const char TOPIC[] = "robot/analog";
-const int PWM_CHANELS = 16;
+const int PWM_CHANNELS = 16;
+const int PWM_FREQ_HZ = 700;
 const double PWM_OUTPUT_MAX = 4096.0;
 const double PWM_INPUT_MAX = 255.0;
 const int ANALOG_CHANNELS = 12;
@@ -95,7 +96,7 @@ void initAdc()
 
 void initPwm()
 {
-  pwm.setPWMRATE_HZ(700);
+  pwm.setPWMFreq(PWM_FREQ_HZ);
   pwm.begin();
 
   node.subscribe(sub);
@@ -155,7 +156,7 @@ void writePwm(const str1ker::Pwm& msg)
   for (uint32_t n = 0; n < msg.channels_length; n++)
   {
     str1ker::PwmChannel& request = msg.channels[n];
-    if (request.channel >= PWM_CHANELS) continue;
+    if (request.channel >= PWM_CHANNELS) continue;
 
     if (request.mode == str1ker::PwmChannel::MODE_ANALOG)
     {
