@@ -167,6 +167,15 @@
         </inertial>
     </link>
 
+    <link name="upperarm_actuator_target_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <sphere radius="0.005" />
+            </geometry>
+        </visual>
+    </link>
+
     <link name="forearm_actuator_body_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -213,6 +222,15 @@
         </inertial>
     </link>
 
+    <link name="forearm_actuator_target_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <sphere radius="0.005" />
+            </geometry>
+        </visual>
+    </link>
+
     <!-- Arm joints -->
 
     <joint name="fixed" type="fixed">
@@ -229,12 +247,47 @@
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
+    <joint name="upperarm_actuator_base" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0.101 -0.057" />
+        <axis xyz="1 0 0" />
+        <parent link="shoulder_link" />
+        <child link="upperarm_actuator_body_link" />
+        <limit effort="100" velocity="1.0" lower="-1" upper="0" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+
+    <joint name="upperarm_actuator_shaft" type="prismatic">
+        <origin rpy="0 0 0" xyz="0 0.002 0.184" />
+        <axis xyz="0 0 1" />
+        <parent link="upperarm_actuator_body_link" />
+        <child link="upperarm_actuator_shaft_link" />
+        <limit effort="100" velocity="1.0" lower="-2" upper="0" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+
+    <joint name="upperarm_actuator_shaft_end" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0 0.083" />
+        <axis xyz="1 0 0" />
+        <parent link="upperarm_actuator_shaft_link" />
+        <child link="upperarm_actuator_target_link" />
+        <limit effort="100" velocity="1.0" lower="-2" upper="2" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+
+    <joint name="upperarm_actuator_target" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0.11 -0.054" />
+        <axis xyz="1 0 0" />
+        <parent link="upperarm_link" />
+        <child link="upperarm_actuator_target_link" />
+        <limit effort="100" velocity="1.0" lower="-2" upper="2" />
+    </joint>
+
     <joint name="shoulder" type="revolute">
         <origin rpy="0 0 0" xyz="0 -0.0127 0.108839" />
         <axis xyz="1 0 0" />
         <parent link="shoulder_link" />
         <child link="upperarm_link" />
-        <limit effort="100" velocity="1.0" lower="0" upper="0.785398" />
+        <limit effort="100" velocity="1.0" lower="0.75" upper="1.0" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
@@ -256,62 +309,39 @@
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
-    <!-- Arm actuator joints -->
-
-    <joint name="shoulder_actuator_base" type="revolute ">
-        <origin rpy="0 0 0" xyz="0 0.101 -0.057" />
-        <axis xyz="1 0 0" />
-        <parent link="shoulder_link" />
-        <child link="upperarm_actuator_body_link" />
-        <limit effort="100" velocity="1.0" lower="0" upper="2" />
-        <dynamics damping="0.7" friction="1.4" />
-    </joint>
-
-    <joint name="shoulder_actuator_shaft" type="prismatic">
-        <origin rpy="0 0 0" xyz="0 -0.002 0.184" />
-        <axis xyz="0 0 1" />
-        <parent link="upperarm_actuator_body_link" />
-        <child link="upperarm_actuator_shaft_link" />
-        <limit effort="100" velocity="1.0" lower="0" upper="2" />
-        <dynamics damping="0.7" friction="1.4" />
-    </joint>
-
-    <joint name="shoulder_actuator_shaft_end" type="revolute ">
-        <origin rpy="0 0 0" xyz="0 0 0.083" />
-        <axis xyz="1 0 0" />
-        <parent link="upperarm_actuator_shaft_link" />
-        <child link="upperarm_link" />
-        <limit effort="100" velocity="1.0" lower="0" upper="2" />
-        <dynamics damping="0.7" friction="1.4" />
-        <!-- connects to upperarm at +0.11 Y and -0.054 Z-->
-    </joint>
-
-    <joint name="forearm_actuator_base" type="revolute ">
+    <joint name="forearm_actuator_base" type="revolute">
         <origin rpy="0 0 0" xyz="0 0.130 -0.034" />
         <axis xyz="1 0 0" />
         <parent link="upperarm_link" />
         <child link="forearm_actuator_body_link" />
-        <limit effort="100" velocity="1.0" lower="0" upper="2" />
+        <limit effort="100" velocity="1.0" lower="-1" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
     <joint name="forearm_actuator_shaft" type="prismatic">
-        <origin rpy="0 0 0" xyz="0 0 0.135" />
-        <axis xyz="0 0 1" />
+        <origin rpy="0 0 0" xyz="0 0.135 0" />
+        <axis xyz="0 1 0" />
         <parent link="forearm_actuator_body_link" />
         <child link="forearm_actuator_shaft_link" />
+        <limit effort="100" velocity="1.0" lower="-1" upper="0" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+
+    <joint name="forearm_actuator_shaft_end" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0 0.137" />
+        <axis xyz="1 0 0" />
+        <parent link="forearm_actuator_shaft_link" />
+        <child link="forearm_actuator_target_link" />
         <limit effort="100" velocity="1.0" lower="0" upper="2" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
-    <joint name="forearm_actuator_shaft_end" type="revolute ">
-        <origin rpy="0 0 0" xyz="0 0 0.137" />
+    <joint name="forearm_actuator_target" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0.069 -0.06" />
         <axis xyz="1 0 0" />
-        <parent link="forearm_actuator_shaft_link" />
-        <child link="forearm_link" />
-        <limit effort="100" velocity="1.0" lower="0" upper="2" />
-        <dynamics damping="0.7" friction="1.4" />
-        <!-- Connects to forearm at +0.069 Y, -0.044 Z -->
+        <parent link="forearm_link" />
+        <child link="forearm_actuator_target_link" />
+        <limit effort="100" velocity="1.0" lower="-2" upper="2" />
     </joint>
 
     <!-- Arm transmissions -->
@@ -322,39 +352,6 @@
             <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
         <actuator name="mount_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-    </transmission>
-
-    <transmission name="trans_shoulder">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="shoulder">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="shoulder_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-    </transmission>
-
-    <transmission name="trans_elbow">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="elbow">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="elbow_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-    </transmission>
-
-    <transmission name="trans_wrist">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="wrist">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="wrist_motor">
             <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
