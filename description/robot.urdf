@@ -270,7 +270,7 @@
         <axis xyz="1 0 0" />
         <parent link="forearm_link" />
         <child link="drumstick_link" />
-        <limit effort="100" velocity="1.0" lower="1" upper="1.05" />
+        <limit effort="100" velocity="1.0" lower="2.55" upper="2.6" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
