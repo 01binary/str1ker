@@ -1,5 +1,3 @@
-Is upper arm actuator 4 inch instead of 2 inch? >> updating
 Collision geometry should not self collide
-Export collision geometry for actuators
 actoror_base links should be setup to automatically rotate based on shaft extension
 elbow and shoulder should be setup to automatically rotate based on shaft extension
