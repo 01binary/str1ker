@@ -134,7 +134,7 @@
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="package://str1ker/description/models/TODO.stl" />
+                <mesh filename="package://str1ker/description/models/UpperArmActuatorBodyBoundingBox.stl" />
             </geometry>
         </collision>
         <inertial>
@@ -157,7 +157,7 @@
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="package://str1ker/description/models/TODO.stl" />
+                <mesh filename="package://str1ker/description/models/UpperArmActuatorShaftBoundingBox.stl" />
             </geometry>
         </collision>
         <inertial>
@@ -180,7 +180,7 @@
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="package://str1ker/description/models/TODO.stl" />
+                <mesh filename="package://str1ker/description/models/ForearmActuatorBodyBoundingBox.stl" />
             </geometry>
         </collision>
         <inertial>
@@ -203,7 +203,7 @@
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="package://str1ker/description/models/TODO.stl" />
+                <mesh filename="package://str1ker/description/models/ForearmActuatorShaftBoundingBox.stl" />
             </geometry>
         </collision>
         <inertial>
@@ -284,7 +284,7 @@
     </joint>
 
     <joint name="forearm_actuator" type="prismatic">
-        <origin rpy="0 0 0" xyz="0 0.135 0" />
+        <origin rpy="0 0 0" xyz="0 0.210 0" />
         <axis xyz="0 1 0" />
         <parent link="forearm_actuator_body_link" />
         <child link="forearm_actuator_shaft_link" />
