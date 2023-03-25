@@ -1,21 +1,3 @@
-UpperArm
-length from hole to hole = 417.312mm (0.417312m) along Y axis
+Upperarm actuator body to shaft on Z axis = 0.159, -0.002 on Y axis
 
-
-Forearm offset 0.4046 m + 0.0127 m on Y axis (including shoulder) = 0.4173 m
-Forearm offset 0.109369 m on Z axis
-bounding box exported with same origin
-
-Forearm
-length from hole to hole = 0.48059393086 meters along Y axis
-that's distance to the fulcrum point of the drum stick
-bounding box exported with same origin
-
-Shoulder
-from center to upper arm mount hole:
-    0.0127 meters back on Y axis
-    0.108839 meters up on Z axis
-
-from center to upper arm actuator hole:
-    0.0568452 meters down on Z
-    0.1010412 meters forward on Y
+Forearm actuator body to shaft on Y axis = 0.210
