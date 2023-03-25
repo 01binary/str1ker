@@ -144,7 +144,7 @@
         </inertial>
     </link>
 
-    <link name="upperarm_actuator_link">
+    <link name="upperarm_actuator_shaft_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -190,7 +190,7 @@
         </inertial>
     </link>
 
-    <link name="forearm_actuator_link">
+    <link name="forearm_actuator_shaft_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -221,7 +221,7 @@
     </joint>
 
     <joint name="mount" type="revolute">
-        <origin rpy="0 0 0" xyz="0 0 0.0055" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
         <axis xyz="0 0 1" />
         <parent link="base_link" />
         <child link="shoulder_link" />
@@ -234,15 +234,15 @@
         <axis xyz="1 0 0" />
         <parent link="shoulder_link" />
         <child link="upperarm_actuator_body_link" />
-        <limit effort="100" velocity="1.0" lower="-0.2" upper="-0.0500" />
+        <limit effort="100" velocity="1.0" lower="-0.2" upper="0.1" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
     <joint name="upperarm_actuator" type="prismatic">
-        <origin rpy="0 0 0" xyz="0 0.002 0.184" />
+        <origin rpy="0 0 0" xyz="0 -0.002 0.159" />
         <axis xyz="0 0 1" />
         <parent link="upperarm_actuator_body_link" />
-        <child link="upperarm_actuator_link" />
+        <child link="upperarm_actuator_shaft_link" />
         <limit effort="100" velocity="1.0" lower="-0.0508" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
@@ -252,7 +252,7 @@
         <axis xyz="1 0 0" />
         <parent link="shoulder_link" />
         <child link="upperarm_link" />
-        <limit effort="100" velocity="1.0" lower="0.43" upper="0.6361" />
+        <limit effort="100" velocity="1.0" lower="0.4853" upper="0.6361" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
@@ -270,7 +270,7 @@
         <axis xyz="1 0 0" />
         <parent link="forearm_link" />
         <child link="drumstick_link" />
-        <limit effort="100" velocity="1.0" lower="1" upper="1.05" />
+        <limit effort="100" velocity="1.0" lower="2.55" upper="2.6" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
@@ -279,7 +279,7 @@
         <axis xyz="1 0 0" />
         <parent link="upperarm_link" />
         <child link="forearm_actuator_body_link" />
-        <limit effort="100" velocity="1.0" lower="-0.1" upper="0.1" />
+        <limit effort="100" velocity="1.0" lower="-0.15" upper="0.0277" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
@@ -287,7 +287,7 @@
         <origin rpy="0 0 0" xyz="0 0.135 0" />
         <axis xyz="0 1 0" />
         <parent link="forearm_actuator_body_link" />
-        <child link="forearm_actuator_link" />
+        <child link="forearm_actuator_shaft_link" />
         <limit effort="100" velocity="1.0" lower="-0.0508" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
