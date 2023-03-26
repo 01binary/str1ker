@@ -244,7 +244,7 @@
         <axis xyz="0 0 1" />
         <parent link="upperarm_actuator_body_link" />
         <child link="upperarm_actuator_shaft_link" />
-        <limit effort="100" velocity="1.0" lower="-0.0474" upper="0" />
+        <limit effort="100" velocity="1.0" lower="-0.0508" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
@@ -253,7 +253,8 @@
         <axis xyz="1 0 0" />
         <parent link="shoulder_link" />
         <child link="upperarm_link" />
-        <limit effort="100" velocity="1.0" lower="0.4853" upper="0.6361" />
+        <mimic joint="upperarm_actuator" multiplier="7.214944882" offset="0.6544985" />
+        <limit effort="100" velocity="1.0" lower="0.2879793" upper="0.6544985" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
@@ -262,8 +263,9 @@
         <axis xyz="1 0 0" />
         <parent link="upperarm_link" />
         <child link="forearm_link" />
-        <limit effort="100" velocity="1.0" lower="-1.9" upper="-0.9243" />
+        <limit effort="100" velocity="1.0" lower="-1.8762289" upper="-0.89528" />
         <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="forearm_actuator" multiplier="19.311023622" offset="-0.8952" />
     </joint>
 
     <joint name="wrist" type="revolute">
@@ -282,6 +284,7 @@
         <child link="forearm_actuator_body_link" />
         <limit effort="100" velocity="1.0" lower="-0.15" upper="0.0277" />
         <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="forearm_actuator" multiplier="-2.179133858" offset="-0.15" />
     </joint>
 
     <joint name="forearm_actuator" type="prismatic">
