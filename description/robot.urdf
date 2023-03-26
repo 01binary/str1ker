@@ -236,7 +236,7 @@
         <child link="upperarm_actuator_body_link" />
         <limit effort="100" velocity="1.0" lower="-0.1" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
-        <mimic joint="upperarm_actuator" multiplier="0.618425197" offset="-0.05" />
+        <mimic joint="upperarm_actuator" multiplier="0.7" offset="-0.04" />
     </joint>
 
     <joint name="upperarm_actuator" type="prismatic">
@@ -244,7 +244,7 @@
         <axis xyz="0 0 1" />
         <parent link="upperarm_actuator_body_link" />
         <child link="upperarm_actuator_shaft_link" />
-        <limit effort="100" velocity="1.0" lower="-0.0508" upper="0" />
+        <limit effort="100" velocity="1.0" lower="-0.0508" upper="-0.0005" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
