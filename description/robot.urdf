@@ -234,7 +234,8 @@
         <axis xyz="1 0 0" />
         <parent link="shoulder_link" />
         <child link="upperarm_actuator_body_link" />
-        <limit effort="100" velocity="1.0" lower="-0.2" upper="0.1" />
+        <mimic joint="upperarm_actuator" multiplier="0.25" offset="-0.05" />
+        <limit effort="100" velocity="1.0" lower="-0.1" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
