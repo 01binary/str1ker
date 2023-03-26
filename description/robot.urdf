@@ -234,9 +234,9 @@
         <axis xyz="1 0 0" />
         <parent link="shoulder_link" />
         <child link="upperarm_actuator_body_link" />
-        <mimic joint="upperarm_actuator" multiplier="0.25" offset="-0.05" />
         <limit effort="100" velocity="1.0" lower="-0.1" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="upperarm_actuator" multiplier="0.618425197" offset="-0.05" />
     </joint>
 
     <joint name="upperarm_actuator" type="prismatic">
@@ -253,9 +253,9 @@
         <axis xyz="1 0 0" />
         <parent link="shoulder_link" />
         <child link="upperarm_link" />
-        <mimic joint="upperarm_actuator" multiplier="7.214944882" offset="0.6544985" />
-        <limit effort="100" velocity="1.0" lower="0.2879793" upper="0.6544985" />
+        <limit effort="100" velocity="1.0" lower="0.303687" upper="0.691150" />
         <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="upperarm_actuator" multiplier="7.627224409" offset="0.69115" />
     </joint>
 
     <joint name="elbow" type="revolute">
@@ -263,9 +263,9 @@
         <axis xyz="1 0 0" />
         <parent link="upperarm_link" />
         <child link="forearm_link" />
-        <limit effort="100" velocity="1.0" lower="-1.8762289" upper="-0.89528" />
+        <limit effort="100" velocity="1.0" lower="-1.590787" upper="-0.829031" />
         <dynamics damping="0.7" friction="1.4" />
-        <mimic joint="forearm_actuator" multiplier="19.311023622" offset="-0.8952" />
+        <mimic joint="forearm_actuator" multiplier="14.99519685" offset="-0.829031" />
     </joint>
 
     <joint name="wrist" type="revolute">
@@ -282,9 +282,9 @@
         <axis xyz="1 0 0" />
         <parent link="upperarm_link" />
         <child link="forearm_actuator_body_link" />
-        <limit effort="100" velocity="1.0" lower="-0.15" upper="0.0277" />
+        <limit effort="100" velocity="1.0" lower="-0.146607" upper="-0.118682" />
         <dynamics damping="0.7" friction="1.4" />
-        <mimic joint="forearm_actuator" multiplier="-2.179133858" offset="-0.15" />
+        <mimic joint="forearm_actuator" multiplier="-0.549606299" offset="-0.146602" />
     </joint>
 
     <joint name="forearm_actuator" type="prismatic">
