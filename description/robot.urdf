@@ -243,7 +243,7 @@
         <axis xyz="0 0 1" />
         <parent link="upperarm_actuator_body_link" />
         <child link="upperarm_actuator_shaft_link" />
-        <limit effort="100" velocity="1.0" lower="-0.0508" upper="0" />
+        <limit effort="100" velocity="1.0" lower="-0.0474" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
