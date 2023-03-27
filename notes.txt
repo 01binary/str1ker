@@ -1,6 +1,20 @@
 Update upper arm to shoulder mimic
 
+shoulderMin     0.303687
+shoulderMax     0.691150
+
+actuatorMin     -0.054
+actuatorMax     -0.0005
+
+mul = 7.242299065
+off = 0.69477115
+---
+
 Update mount angles based on photograph
+
+Double check shoulder and elbow position
+
+---
 
 Collision geometry should not self collide
 
