@@ -245,9 +245,9 @@
         <axis xyz="0 0 1" />
         <parent link="upperarm_actuator_body_link" />
         <child link="upperarm_actuator_shaft_link" />
-        <limit effort="100" velocity="0.0508" lower="-0.0508" upper="-0.0005" />
+        <limit effort="100" velocity="0.0508" lower="-0.054" upper="-0.0005" />
         <dynamics damping="0.7" friction="1.4" />
-        <!-- 2.1 lbs, gear ratio 5:1 -->
+        <!-- 2.1 lbs, gear ratio 5:1, need to recalc shoulder based on new limit -->
     </joint>
 
     <joint name="shoulder" type="revolute">
