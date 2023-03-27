@@ -227,6 +227,7 @@
         <child link="shoulder_link" />
         <limit effort="100" velocity="1.0" lower="-1.4929" upper="1.4929" />
         <dynamics damping="0.7" friction="1.4" />
+        <!-- 188:1, 30 RPM -->
     </joint>
 
     <joint name="upperarm_actuator_mount" type="revolute">
@@ -244,8 +245,9 @@
         <axis xyz="0 0 1" />
         <parent link="upperarm_actuator_body_link" />
         <child link="upperarm_actuator_shaft_link" />
-        <limit effort="100" velocity="1.0" lower="-0.0508" upper="-0.0005" />
+        <limit effort="100" velocity="0.0508" lower="-0.0508" upper="-0.0005" />
         <dynamics damping="0.7" friction="1.4" />
+        <!-- 2.1 lbs, gear ratio 5:1 -->
     </joint>
 
     <joint name="shoulder" type="revolute">
@@ -292,8 +294,10 @@
         <axis xyz="0 1 0" />
         <parent link="forearm_actuator_body_link" />
         <child link="forearm_actuator_shaft_link" />
-        <limit effort="100" velocity="1.0" lower="-0.0508" upper="0" />
+        <limit effort="100" velocity="0.0109982" lower="-0.0508" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
+        <!-- gear ratio 49 -->
+        <!-- full length hole to hole extended 0.2208022 -->
     </joint>
 
     <!-- Arm transmissions -->
