@@ -1,3 +1,8 @@
-upper arm actuator body appears to be longer by lip*2 - TODO fix model, bb, and offset
-forearm actuator body appers to be shorted by abount the head size - TODO fix model and bb
+Upper arm: 0.1417m body, 0 contracted, +0.054m extended
+
+0.14172m measured, 0.147015m model
+must reduce by 0.005295 meters
+
+Forearm 0.20819m body, +0.01051m offset to rod end and +0.04813m extended
+
 Collision geometry should not self collide
