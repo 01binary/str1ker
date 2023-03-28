@@ -223,6 +223,12 @@
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
+         <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorConnectorBoundingBox.stl" />
+            </geometry>
+        </collision>
         <inertial>
             <mass value="0.013" />
             <origin rpy="0 0 0" xyz="0 0 0" />
