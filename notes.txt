@@ -1,32 +1,4 @@
-Update upper arm to shoulder mimic
-
-shoulder min    0.2391101
-shoulder max    0.6230825
-
-actuatorMin     -0.054
-actuatorMax     -0.0005
-
-mul = 2.611299773
-off = 0.380120288
-
----
-
-Update forearm to elbow mimic
-
-forearm min     -1.93302196
-forearm max     -1.123992
-
-actuatorMin     -0.0508
-actuatorMax     0
-
-mul = 15.925786614
-off = −1.123992
-
----
-
-Update mount angles based on photograph
-
-Double check shoulder and elbow position
+Is there something wrong with shoulder bracket? Is it not the thing I have?
 
 ---
 

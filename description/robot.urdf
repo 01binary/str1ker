@@ -257,7 +257,7 @@
         <child link="upperarm_link" />
         <limit effort="100" velocity="1.0" lower="0.2391101" upper="0.6230825" />
         <dynamics damping="0.7" friction="1.4" />
-        <mimic joint="upperarm_actuator" multiplier="2.611299773" offset="0.380120288" />
+        <mimic joint="upperarm_actuator" multiplier="7.177054206" offset="0.626671027" />
     </joint>
 
     <joint name="elbow" type="revolute">
@@ -286,7 +286,7 @@
         <child link="forearm_actuator_body_link" />
         <limit effort="100" velocity="1.0" lower="-0.146607" upper="-0.118682" />
         <dynamics damping="0.7" friction="1.4" />
-        <mimic joint="forearm_actuator" multiplier="-0.549606299" offset="-0.146602" />
+        <mimic joint="forearm_actuator" multiplier="-2.5" offset="-0.146602" />
     </joint>
 
     <joint name="forearm_actuator" type="prismatic">
