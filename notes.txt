@@ -4,6 +4,10 @@ Is there something wrong with shoulder bracket? Is it not the thing I have?
 
 Collision geometry should not self collide
 
+---
+
 Python script to automate calc would be nice
+
+---
 
 Robot startup sequence should untuck arms, and shutdown should tuck
