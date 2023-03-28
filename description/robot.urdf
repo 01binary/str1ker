@@ -213,6 +213,23 @@
         </inertial>
     </link>
 
+    <link name="forearm_actuator_connector_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorConnector.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <inertial>
+            <mass value="0.013" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+
     <!-- Arm joints -->
 
     <joint name="fixed" type="fixed">
