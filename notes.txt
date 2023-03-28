@@ -1,6 +1,3 @@
-Re-export upper arm actuator body collision - make it lower by half a lip
-
-Re-export shoulder collision - overlaps mount but shouldnt
 
 Export forearm actuator connector collision - make it a little box in the middle?
 
