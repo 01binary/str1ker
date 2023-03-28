@@ -255,7 +255,7 @@
         <axis xyz="1 0 0" />
         <parent link="shoulder_link" />
         <child link="upperarm_link" />
-        <limit effort="100" velocity="1.0" lower="0.303687" upper="0.691150" />
+        <limit effort="100" velocity="1.0" lower="0.2391101" upper="0.6230825" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="upperarm_actuator" multiplier="7.242299065" offset="0.69477115" />
     </joint>
@@ -265,7 +265,7 @@
         <axis xyz="1 0 0" />
         <parent link="upperarm_link" />
         <child link="forearm_link" />
-        <limit effort="100" velocity="1.0" lower="-1.590787" upper="-0.829031" />
+        <limit effort="100" velocity="1.0" lower="-1.93302196" upper="-1.123992" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="forearm_actuator" multiplier="14.99519685" offset="-0.829031" />
     </joint>
