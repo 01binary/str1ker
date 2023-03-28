@@ -1,7 +1,3 @@
-Is there something wrong with shoulder bracket? Is it not the thing I have?
-
----
-
 Collision geometry should not self collide
 
 ---
