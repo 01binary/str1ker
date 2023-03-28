@@ -1,6 +1,3 @@
-
-Export forearm actuator connector collision - make it a little box in the middle?
-
 ---
 
 Make wrist a passive joint
