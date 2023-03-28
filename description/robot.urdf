@@ -313,6 +313,14 @@
         <dynamics damping="0.7" friction="1.4" />
     </joint>
 
+    <joint name="forearm_actuator_connector" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0.0605718 0.004" />
+        <axis xyz="1 0 0" />
+        <parent link="forearm_link" />
+        <limit effort="100" velocity="1.0" lower="-1" upper="1" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+
     <!-- Arm transmissions -->
 
     <transmission name="trans_mount">
