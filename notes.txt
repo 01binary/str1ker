@@ -1,8 +1,10 @@
-Collision geometry should not self collide
+Re-export shoulder collision - overlaps mount but shouldnt
+Re-export upper arm actuator body collision - make it lower by half a lip
+Export forearm actuator connector collision - make it a little box in the middle?
 
 ---
 
-Python script to automate calc would be nice
+Make wrist a passive joint
 
 ---
 
