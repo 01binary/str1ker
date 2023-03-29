@@ -1,0 +1,6 @@
+0.012 m expand
+
+Solenoid is on Z axis
+
+Shaft attaches to body on Zaxis, -0.013 back on Y and .095 down Z
+0.017 on -X
