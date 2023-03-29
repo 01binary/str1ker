@@ -1,7 +1,0 @@
----
-
-Make wrist a passive joint
-
----
-
-Robot startup sequence should untuck arms, and shutdown should tuck
