@@ -322,6 +322,7 @@
         <child link="drumstick_link" />
         <limit effort="100" velocity="1.0" lower="1.0" upper="1.02" />
         <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="solenoid" multiplier="-6.8966" offset="1.0069" />
     </joint>
 
     <joint name="forearm_actuator_mount" type="revolute">
