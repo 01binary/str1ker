@@ -106,6 +106,12 @@
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoidBoundingBox.stl" />
+            </geometry>
+        </collision>
     </link>
 
     <link name="solenoid_shaft_link">
@@ -118,6 +124,12 @@
                 <color rgba="1 1 1 1" />
             </material>
         </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoidShaftBoundingBox.stl" />
+            </geometry>
+        </collision>
     </link>
 
     <link name="drumstick_link">
