@@ -1,3 +1,0 @@
-Upperarm actuator body to shaft on Z axis = 0.159, -0.002 on Y axis
-
-Forearm actuator body to shaft on Y axis = 0.210

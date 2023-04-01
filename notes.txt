@@ -1,3 +1,0 @@
-upper arm actuator body appears to be longer by lip*2 - TODO fix model, bb, and offset
-forearm actuator body appers to be shorted by abount the head size - TODO fix model and bb
-Collision geometry should not self collide
