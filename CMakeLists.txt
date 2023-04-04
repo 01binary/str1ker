@@ -131,7 +131,7 @@ install(
 
 install(
   FILES
-    include/ik.h
+    src/include/ik.h
   DESTINATION
     include
   RENAME
