@@ -41,6 +41,8 @@ add_message_files(
   Adc.msg
   Pwm.msg
   PwmChannel.msg
+  Servo.msg
+  ServoChannel.msg
 )
 
 generate_messages(DEPENDENCIES std_msgs actionlib_msgs)

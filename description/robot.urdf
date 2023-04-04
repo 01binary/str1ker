@@ -304,7 +304,7 @@
         <child link="upperarm_link" />
         <limit effort="100" velocity="1.0" lower="0.404676" upper="0.813453" />
         <dynamics damping="0.7" friction="1.4" />
-        <mimic joint="upperarm_actuator" multiplier="7.640691589" offset="0.817273346" />
+        <!-- TODO inverse <mimic joint="upperarm_actuator" multiplier="7.640691589" offset="0.817273346" /> -->
     </joint>
     <joint name="elbow" type="revolute">
         <origin rpy="0 0 0" xyz="0 0.4173 0" />
@@ -313,7 +313,7 @@
         <child link="forearm_link" />
         <limit effort="100" velocity="1.0" lower="-1.93302196" upper="-1.123992" />
         <dynamics damping="0.7" friction="1.4" />
-        <mimic joint="forearm_actuator" multiplier="15.925786614" offset="-1.123992" />
+        <!-- TODO inverse <mimic joint="forearm_actuator" multiplier="15.925786614" offset="-1.123992" />-->
     </joint>
     <joint name="wrist" type="revolute">
         <origin rpy="0 0 0" xyz="-0.009 0.48059393086 0" />
@@ -322,7 +322,7 @@
         <child link="drumstick_link" />
         <limit effort="100" velocity="1.0" lower="1.0" upper="1.02" />
         <dynamics damping="0.7" friction="1.4" />
-        <mimic joint="solenoid" multiplier="-6.8966" offset="1.0069" />
+        <!-- TODO inverse <mimic joint="solenoid" multiplier="-6.8966" offset="1.0069" /> -->
     </joint>
     <joint name="forearm_actuator_mount" type="revolute">
         <origin rpy="0 0 0" xyz="0 0.130 -0.034" />
