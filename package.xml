@@ -7,7 +7,9 @@
   <license>GNU GPLv3</license>
   <url type="website">https://www.01binary.us/projects/drumming-robot/</url>
   <author email="valeriy.novytskyy@outlook.com">Valeriy Novytskyy</author>
+
   <buildtool_depend>catkin</buildtool_depend>
+
   <depend>roscpp</depend>
   <depend>rospy</depend>
   <depend>tf2</depend>
@@ -19,10 +21,27 @@
   <depend>controller_manager</depend>
   <depend>yaml-cpp</depend>
   <depend>eigen</depend>
+
+  <build_depend>pluginlib</build_depend>
   <build_depend>actionlib</build_depend>
   <build_depend>actionlib_msgs</build_depend>
   <build_depend>message_generation</build_depend>
+  <build_depend>moveit_ros_robot_interaction</build_depend>
+  <build_depend>moveit_core</build_depend>
+  <build_depend>moveit_ros_planning</build_depend>
+  <build_depend>moveit_visual_tools</build_depend>
+
   <build_export_depend>message_runtime</build_export_depend>
+
   <exec_depend>message_runtime</exec_depend>
   <exec_depend>actionlib</exec_depend>
+  <exec_depend>moveit_core</exec_depend>
+  <exec_depend>moveit_ros_planning</exec_depend>
+  <exec_depend>pluginlib</exec_depend>
+  <exec_depend>moveit_visual_tools</exec_depend>
+  <exec_depend>moveit_ros_robot_interaction</exec_depend>
+
+  <export>
+    <moveit_core plugin="${prefix}/description/ik-plugin.xml"/>
+  </export>
 </package>
