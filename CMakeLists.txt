@@ -53,6 +53,7 @@ add_message_files(
 generate_messages(DEPENDENCIES std_msgs actionlib_msgs)
 
 catkin_package(
+  LIBRARIES
   CATKIN_DEPENDS
     roscpp
     rospy
@@ -116,7 +117,7 @@ install(
   DESTINATION
     ${CATKIN_PACKAGE_SHARE_DESTINATION}
   RENAME
-    str1ker-ik-plugin.xml
+    IKPlugin.xml
 )
 
 install(
@@ -126,7 +127,7 @@ install(
   DESTINATION
     ${CATKIN_PACKAGE_LIB_DESTINATION}
   RENAME
-    str1ker-ik-plugin
+    IKPlugin
 )
 
 install(
