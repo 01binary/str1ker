@@ -135,7 +135,7 @@ install(
   DESTINATION
     include
   RENAME
-    str1ker-ik.h
+    str1ker-ik-plugin.h
 )
 
 install(

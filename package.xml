@@ -42,6 +42,6 @@
   <exec_depend>moveit_ros_robot_interaction</exec_depend>
 
   <export>
-    <moveit_core plugin="${prefix}/description/ik-plugin.xml"/>
+    <moveit_core plugin="${prefix}/description/ik.xml"/>
   </export>
 </package>
