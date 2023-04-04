@@ -43,9 +43,39 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "map": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "condition_variable": "cpp",
+        "future": "cpp",
+        "csignal": "cpp",
+        "cstring": "cpp",
+        "ctime": "cpp",
+        "strstream": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "complex": "cpp",
+        "list": "cpp",
+        "unordered_set": "cpp",
+        "ratio": "cpp",
+        "regex": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "slist": "cpp",
+        "iomanip": "cpp",
+        "iostream": "cpp",
+        "mutex": "cpp",
+        "shared_mutex": "cpp",
+        "thread": "cpp",
+        "cfenv": "cpp",
+        "cinttypes": "cpp",
+        "typeindex": "cpp",
+        "variant": "cpp",
+        "bit": "cpp"
     },
     "python.autoComplete.extraPaths": [
+        "/home/val/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
         "/home/val/catkin_ws/devel/lib/python3/dist-packages",
         "/opt/ros/noetic/lib/python3/dist-packages"
     ]
