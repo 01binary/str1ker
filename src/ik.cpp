@@ -352,3 +352,8 @@ bool IKPlugin::searchPositionIK(
     error_code.val = error_code.NO_IK_SOLUTION;
     return false;
 }
+
+PLUGINLIB_EXPORT_CLASS(
+    str1ker::IKPlugin,
+    kinematics::KinematicsBase
+);

@@ -102,11 +102,11 @@ target_link_libraries(robot
   -lrt
 )
 
-add_library(ik-plugin
+add_library(str1ker-ik
   src/ik.cpp
 )
 
-target_link_libraries(ik-plugin
+target_link_libraries(str1ker-ik
   ${catkin_LIBRARIES}
   ${Eigen3_LIBRARIES}
 )
@@ -117,17 +117,15 @@ install(
   DESTINATION
     ${CATKIN_PACKAGE_SHARE_DESTINATION}
   RENAME
-    IKPlugin.xml
+    str1ker-ik.xml
 )
 
 install(
   TARGETS
-    ik-plugin
+    str1ker-ik
   LIBRARY
   DESTINATION
     ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RENAME
-    IKPlugin
 )
 
 install(
@@ -136,7 +134,7 @@ install(
   DESTINATION
     include
   RENAME
-    str1ker-ik-plugin.h
+    str1ker-ik.h
 )
 
 install(
