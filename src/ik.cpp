@@ -29,6 +29,12 @@ using namespace std;
 using namespace str1ker;
 
 /*----------------------------------------------------------*\
+| Variables
+\*----------------------------------------------------------*/
+
+static IKPluginRegistrar g_registerIkPlugin;
+
+/*----------------------------------------------------------*\
 | IKPlugin implementation
 \*----------------------------------------------------------*/
 
@@ -37,54 +43,23 @@ IKPlugin::IKPlugin(): m_node("~")
 }
 
 bool IKPlugin::initialize(
-    const string &robot_description,
-    const string &group_name,
-    const string &base_name,
-    const string &tip_frame,
-    double search_discretization)
-{
-    vector<string> tip_frames;
-    tip_frames.push_back(tip_frame);
-
-    return initialize(
-        robot_description,
-        group_name,
-        base_name,
-        tip_frames,
-        search_discretization);
-}
-
-bool IKPlugin::initialize(
-    const string &robot_description,
-    const string &group_name,
-    const string &base_name,
-    const vector<string>& tip_frames,
+    const moveit::core::RobotModel& robot_model,
+    const std::string& group_name,
+    const std::string& base_frame,
+    const std::vector<std::string>& tip_frames,
     double search_discretization)
 {
     // Load configuration
     KinematicsBase::setValues(
         robot_description,
         group_name,
-        base_name,
+        base_frame,
         tip_frames,
         search_discretization
     );
 
-    // Load model
-    rdf_loader::RDFLoader rdfLoader(robot_description);
-    const std::shared_ptr<srdf::Model> &srdf = rdfLoader.getSRDF();
-    const std::shared_ptr<urdf::ModelInterface>& urdfModel = rdfLoader.getURDF();
-
-    if (!urdfModel || !srdf)
-    {
-        ROS_ERROR_NAMED("str1ker::ik","failed to load URDF and SDF");
-        return false;
-    }
-
-    m_pModel.reset(new robot_model::RobotModel(urdfModel, srdf));
-
     // Retrieve joints
-    m_pModelGroup = m_pModel->getJointModelGroup(group_name);
+    m_pModelGroup = robot_model.getJointModelGroup(group_name);
 
     if (!m_pModelGroup)
     {
@@ -147,8 +122,14 @@ bool IKPlugin::initialize(
     // Initialize RViz
     m_pVisualTools.reset(new moveit_visual_tools::MoveItVisualTools(
         "/odom","/hrp2_visual_markers", m_pModel));
-    m_pVisualTools->loadRobotStatePub("/moveit_whole_body_ik");
+    m_pVisualTools->loadRobotStatePub("/move_group/monitored_planning_scene");
 
+    return true;
+}
+
+bool IKPlugin::supportsGroup(
+    const moveit::core::JointModelGroup *jmg, std::string *error_text_out) const
+{
     return true;
 }
 
@@ -353,7 +334,9 @@ bool IKPlugin::searchPositionIK(
     return false;
 }
 
-PLUGINLIB_EXPORT_CLASS(
-    str1ker::IKPlugin,
-    kinematics::KinematicsBase
-);
+IKPluginRegistrar::IKPluginRegistrar()
+{
+    // PLUGINLIB_EXPORT_CLASS macro does not compile on Noetic
+    class_loader::impl::registerPlugin<str1ker::IKPlugin, kinematics::KinematicsBase>(
+        "str1ker::IKPlugin", "kinematics::KinematicsBase");
+}

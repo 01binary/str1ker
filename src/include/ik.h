@@ -53,7 +53,6 @@ private:
 
 private:
     ros::NodeHandle m_node;
-    robot_model::RobotModelPtr m_pModel;
     robot_state::RobotStatePtr m_pState;
     moveit_visual_tools::MoveItVisualToolsPtr m_pVisualTools;
     moveit_msgs::KinematicSolverInfo m_groupInfo;
@@ -68,23 +67,17 @@ public:
     //
 
     virtual bool initialize(
-        const std::string &robot_description,
-        const std::string &group_name,
-        const std::string &base_name,
-        const std::string &tip_frame,
-        double search_discretization);
-
-    virtual bool initialize(
-        const std::string &robot_description,
-        const std::string &group_name,
-        const std::string &base_name,
+        const moveit::core::RobotModel& robot_model,
+        const std::string& group_name,
+        const std::string& base_frame,
         const std::vector<std::string>& tip_frames,
-        double search_discretization);
+        double search_discretization) override;
 
     //
-    // Joints and Links
+    // Joints, Links, and MoveGroups
     //
 
+    virtual bool supportsGroup(const moveit::core::JointModelGroup *jmg, std::string *error_text_out=NULL) const;
     virtual const std::vector<std::string>& getJointNames() const;
     virtual const std::vector<std::string>& getLinkNames() const;
 
@@ -154,6 +147,16 @@ public:
         moveit_msgs::MoveItErrorCodes &error_code,
         const kinematics::KinematicsQueryOptions &options = kinematics::KinematicsQueryOptions(),
         const moveit::core::RobotState* context_state = NULL) const;
+};
+
+/*----------------------------------------------------------*\
+| IKPluginRegistrar class
+\*----------------------------------------------------------*/
+
+class IKPluginRegistrar
+{
+public:
+    IKPluginRegistrar();
 };
 
 } // namespace str1ker

@@ -1,7 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="str1ker">
     <!-- Arm links -->
-    <link name="world" />
     <link name="base_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -268,10 +267,6 @@
         </inertial>
     </link>
     <!-- Arm joints -->
-    <joint name="fixed" type="fixed">
-        <parent link="world" />
-        <child link="base_link" />
-    </joint>
     <joint name="mount" type="revolute">
         <origin rpy="0 0 0" xyz="0 0 0" />
         <axis xyz="0 0 1" />

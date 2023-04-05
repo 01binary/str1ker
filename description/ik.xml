@@ -1,4 +1,4 @@
-<library path="str1ker-ik">
+<library path="lib/libstr1ker-ik">
   <class name="str1ker/IKPlugin" type="str1ker::IKPlugin" base_class_type="kinematics::KinematicsBase">
     <description>
       Str1ker IK solver for MoveIt!
