@@ -337,7 +337,6 @@ bool IKPlugin::searchPositionIK(
     {
     }*/
 
-    error_code.val = error_code.NO_IK_SOLUTION;
     return true;
 }
 
