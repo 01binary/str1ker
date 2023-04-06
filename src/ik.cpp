@@ -326,7 +326,12 @@ bool IKPlugin::searchPositionIK(
     }
 
     ros::WallTime startTime = ros::WallTime::now();
-    solution.resize(m_pModelGroup->getActiveJointModels().size());
+    solution.resize(ik_seed_state.size());
+
+    for (size_t jointIndex = 0; jointIndex < ik_seed_state.size(); jointIndex++)
+    {
+        solution[jointIndex] = ik_seed_state[jointIndex];
+    }
 
     /*while ((ros::WallTime::now() - startTime).toSec() < timeout)
     {
