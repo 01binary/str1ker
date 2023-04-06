@@ -108,7 +108,7 @@ bool IKPlugin::initialize(
          limitIndex++)
     {
         ROS_INFO_NAMED(
-            PLUGIN_NAME
+            PLUGIN_NAME,
             "joint limit %s min %g max %g vel %g",
             jointNames[limitIndex].c_str(),
             m_groupInfo.limits[limitIndex].min_position,
@@ -270,14 +270,16 @@ bool IKPlugin::searchPositionIK(
     const kinematics::KinematicsQueryOptions &options,
     const moveit::core::RobotState* context_state) const
 {
-    ROS_INFO_NAMED("")
     // Validate initial state
-    if (ik_seed_state.size() != m_pModelGroup->getActiveJointModels().size())
+    if (ik_seed_state.size() >
+        m_pModelGroup->getActiveJointModels().size() +
+        m_pModelGroup->getMimicJointModels().size())
     {
         ROS_ERROR_NAMED(
-            "str1ker::ik",
-            "Expected initial state for %ld active joints, received state for %ld",
+            PLUGIN_NAME,
+            "Expected state for %ld active joints (and possibly %ld mimic joints), received state for %ld",
             m_pModelGroup->getActiveJointModels().size(),
+            m_pModelGroup->getMimicJointModels().size(),
             ik_seed_state.size());
 
         error_code.val = error_code.NO_IK_SOLUTION;
@@ -289,7 +291,7 @@ bool IKPlugin::searchPositionIK(
         consistency_limits.size() != m_pModelGroup->getActiveJointModels().size())
     {
         ROS_ERROR_NAMED(
-            "str1ker::ik",
+            PLUGIN_NAME,
             "Consistency limits must be empty or have limit for each of %ld active joints",
             m_pModelGroup->getActiveJointModels().size());
 
@@ -300,14 +302,14 @@ bool IKPlugin::searchPositionIK(
     // Validate poses
     if (tip_frames_.size() != ik_poses.size())
     {
-        error_code.val = error_code.NO_IK_SOLUTION;
         ROS_ERROR_NAMED(
-            "str1ker::ik",
+            PLUGIN_NAME,
             "IK validation failed: found %ld tips and %ld poses (expected %ld poses)",
             tip_frames_.size(),
             ik_poses.size(),
             tip_frames_.size());
 
+        error_code.val = error_code.NO_IK_SOLUTION;
         return false;
     }
 
@@ -316,7 +318,7 @@ bool IKPlugin::searchPositionIK(
         pos++)
     {
         ROS_INFO_NAMED(
-            "str1ker::ik",
+            PLUGIN_NAME,
             "IK target %g %g %g",
             pos->position.x,
             pos->position.y,
