@@ -54,8 +54,6 @@ private:
 private:
     ros::NodeHandle m_node;
     robot_state::RobotStatePtr m_pState;
-    moveit_visual_tools::MoveItVisualToolsPtr m_pVisualTools;
-    moveit_msgs::KinematicSolverInfo m_groupInfo;
     const robot_model::JointModelGroup* m_pModelGroup;
 
 public:

@@ -64,64 +64,53 @@ bool IKPlugin::initialize(
 
     if (!m_pModelGroup)
     {
-        ROS_ERROR_NAMED(PLUGIN_NAME, "failed to retrieve joint model group");
+        ROS_ERROR_NAMED(PLUGIN_NAME, "Failed to retrieve joint model group");
         return false;
     }
-
-    ROS_INFO_NAMED(
-        PLUGIN_NAME,
-        "found %ld active joints and %ld mimic joints",
-        m_pModelGroup->getActiveJointModels().size(),
-        m_pModelGroup->getMimicJointModels().size()
-    );
 
     for (vector<string>::const_iterator pos = tip_frames.begin();
          pos != tip_frames.end();
          pos++)
     {
-        ROS_INFO_NAMED(PLUGIN_NAME, "found tip %s", pos->c_str());
+        ROS_INFO_NAMED(PLUGIN_NAME, "Tip Frame %s", pos->c_str());
     }
 
-    const vector<const moveit::core::JointModel*>& jointModels =
+    const vector<const moveit::core::JointModel*>& joints =
         m_pModelGroup->getJointModels();
     const vector<string>& jointNames =
         m_pModelGroup->getJointModelNames();
 
     for (size_t jointIndex = 0;
-        jointIndex < jointModels.size();
+        jointIndex < joints.size();
         jointIndex++)
     {
-        const moveit::core::JointModel* pJointModel = jointModels[jointIndex];
+        const moveit::core::JointModel* pJoint = joints[jointIndex];
+        bool isRevolute = pJoint->getType() == moveit::core::JointModel::REVOLUTE;
+        bool isPrismatic = pJoint->getType() == moveit::core::JointModel::PRISMATIC;
+        bool isPassive = pJoint->isPassive();
+        bool isMimic = pJoint->getMimic() != NULL;
 
-        if (pJointModel->getType() == moveit::core::JointModel::REVOLUTE ||
-            pJointModel->getType() == moveit::core::JointModel::PRISMATIC)
+        if (isRevolute || isPrismatic)
         {
-            m_groupInfo.joint_names.push_back(jointNames[jointIndex]);
+            const moveit_msgs::JointLimits& limitsFirstDof =
+                pJoint->getVariableBoundsMsg()[0];
 
-            const vector<moveit_msgs::JointLimits>& jointLimits = pJointModel->getVariableBoundsMsg();
-            m_groupInfo.limits.insert(m_groupInfo.limits.end(), jointLimits.begin(), jointLimits.end());
+            ROS_INFO_NAMED(
+                PLUGIN_NAME,
+                "Joint %s %s %s %smin %g max %g vel %g",
+                jointNames[jointIndex].c_str(),
+                isRevolute ? "revolute" : "prismatic",
+                isPassive ? "passive" : "active",
+                isMimic ? "mimic " : "",
+                limitsFirstDof.min_position,
+                limitsFirstDof.max_position,
+                limitsFirstDof.max_velocity);
         }
-    }
-
-    for (size_t limitIndex = 0;
-         limitIndex < m_groupInfo.limits.size();
-         limitIndex++)
-    {
-        ROS_INFO_NAMED(
-            PLUGIN_NAME,
-            "joint limit %s min %g max %g vel %g",
-            jointNames[limitIndex].c_str(),
-            m_groupInfo.limits[limitIndex].min_position,
-            m_groupInfo.limits[limitIndex].max_position,
-            m_groupInfo.limits[limitIndex].max_velocity);
     }
 
     // Initialize joint states
     m_pState.reset(new robot_state::RobotState(robot_model_));
     m_pState->setToDefaultValues();
-
-    // Initialize RViz
-    // m_pVisualTools.reset(new moveit_visual_tools::MoveItVisualTools());
 
     return true;
 }
@@ -134,12 +123,12 @@ bool IKPlugin::supportsGroup(
 
 const vector<string>& IKPlugin::getJointNames() const
 {
-    return m_groupInfo.joint_names;
+    return m_pModelGroup->getJointModelNames();
 }
 
 const vector<string>& IKPlugin::getLinkNames() const
 {
-    return m_groupInfo.link_names;
+    return m_pModelGroup->getLinkModelNames();
 }
 
 bool IKPlugin::getPositionFK(
