@@ -59,7 +59,7 @@ bool IKPlugin::initialize(
         search_discretization
     );
 
-    // Retrieve joints
+    // Examine joints
     m_pModelGroup = robot_model.getJointModelGroup(group_name);
 
     if (!m_pModelGroup)
@@ -106,6 +106,35 @@ bool IKPlugin::initialize(
                 limitsFirstDof.max_position,
                 limitsFirstDof.max_velocity);
         }
+    }
+
+    const vector<const moveit::core::LinkModel*>& links =
+        m_pModelGroup->getLinkModels();
+    const vector<string>& linkNames =
+        m_pModelGroup->getLinkModelNames();
+
+    for (size_t linkIndex = 0;
+         linkIndex < links.size();
+         linkIndex++)
+    {
+        const double* origin =
+            links[linkIndex]->getJointOriginTransform().data()
+
+        ROS_INFO_NAMED(
+            PLUGIN_NAME,
+            "Link %s %s origin [ %g %g %g | %g %g %g | %g %g %g ]",
+            linkNames[linkIndex].c_str(),
+            links[linkIndex]->getVisualMeshFilename().c_str(),
+            origin[0],
+            origin[1],
+            origin[2],
+            origin[3],
+            origin[4],
+            origin[5],
+            origin[6],
+            origin[7],
+            origin[8],
+        );
     }
 
     // Initialize joint states
@@ -275,25 +304,12 @@ bool IKPlugin::searchPositionIK(
         return false;
     }
 
-    // Validate consistency limits
-    if (!consistency_limits.empty() &&
-        consistency_limits.size() != m_pModelGroup->getActiveJointModels().size())
-    {
-        ROS_ERROR_NAMED(
-            PLUGIN_NAME,
-            "Consistency limits must be empty or have limit for each of %ld active joints",
-            m_pModelGroup->getActiveJointModels().size());
-
-        error_code.val = error_code.NO_IK_SOLUTION;
-        return false;
-    }
-
     // Validate poses
     if (tip_frames_.size() != ik_poses.size())
     {
         ROS_ERROR_NAMED(
             PLUGIN_NAME,
-            "IK validation failed: found %ld tips and %ld poses (expected %ld poses)",
+            "Found %ld tips and %ld poses (expected %ld poses, one for each tip)",
             tip_frames_.size(),
             ik_poses.size(),
             tip_frames_.size());
@@ -320,11 +336,9 @@ bool IKPlugin::searchPositionIK(
     for (size_t jointIndex = 0; jointIndex < ik_seed_state.size(); jointIndex++)
     {
         solution[jointIndex] = ik_seed_state[jointIndex];
-    }
 
-    /*while ((ros::WallTime::now() - startTime).toSec() < timeout)
-    {
-    }*/
+        if ((ros::WallTime::now() - startTime).toSec() < timeout) break;
+    }
 
     return true;
 }
