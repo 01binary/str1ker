@@ -32,7 +32,8 @@ using namespace str1ker;
 | Variables
 \*----------------------------------------------------------*/
 
-static IKPluginRegistrar g_registerIkPlugin;
+const char PLUGIN_NAME[] = "str1ker::ik";
+IKPluginRegistrar g_registerIkPlugin;
 
 /*----------------------------------------------------------*\
 | IKPlugin implementation
@@ -50,8 +51,8 @@ bool IKPlugin::initialize(
     double search_discretization)
 {
     // Load configuration
-    KinematicsBase::setValues(
-        robot_description,
+    KinematicsBase::storeValues(
+        robot_model,
         group_name,
         base_frame,
         tip_frames,
@@ -63,12 +64,12 @@ bool IKPlugin::initialize(
 
     if (!m_pModelGroup)
     {
-        ROS_ERROR_NAMED("str1ker::ik", "failed to retrieve joint model group");
+        ROS_ERROR_NAMED(PLUGIN_NAME, "failed to retrieve joint model group");
         return false;
     }
 
     ROS_INFO_NAMED(
-        "str1ker::ik",
+        PLUGIN_NAME,
         "found %ld active joints and %ld mimic joints",
         m_pModelGroup->getActiveJointModels().size(),
         m_pModelGroup->getMimicJointModels().size()
@@ -78,7 +79,7 @@ bool IKPlugin::initialize(
          pos != tip_frames.end();
          pos++)
     {
-        ROS_INFO_NAMED("str1ker::ik", "found tip %s", pos->c_str());
+        ROS_INFO_NAMED(PLUGIN_NAME, "found tip %s", pos->c_str());
     }
 
     const vector<const moveit::core::JointModel*>& jointModels =
@@ -107,7 +108,7 @@ bool IKPlugin::initialize(
          limitIndex++)
     {
         ROS_INFO_NAMED(
-            "str1ker::ik"
+            PLUGIN_NAME
             "joint limit %s min %g max %g vel %g",
             jointNames[limitIndex].c_str(),
             m_groupInfo.limits[limitIndex].min_position,
@@ -116,13 +117,11 @@ bool IKPlugin::initialize(
     }
 
     // Initialize joint states
-    m_pState.reset(new robot_state::RobotState(m_pModel));
+    m_pState.reset(new robot_state::RobotState(robot_model_));
     m_pState->setToDefaultValues();
 
     // Initialize RViz
-    m_pVisualTools.reset(new moveit_visual_tools::MoveItVisualTools(
-        "/odom","/hrp2_visual_markers", m_pModel));
-    m_pVisualTools->loadRobotStatePub("/move_group/monitored_planning_scene");
+    // m_pVisualTools.reset(new moveit_visual_tools::MoveItVisualTools());
 
     return true;
 }
@@ -271,6 +270,7 @@ bool IKPlugin::searchPositionIK(
     const kinematics::KinematicsQueryOptions &options,
     const moveit::core::RobotState* context_state) const
 {
+    ROS_INFO_NAMED("")
     // Validate initial state
     if (ik_seed_state.size() != m_pModelGroup->getActiveJointModels().size())
     {
@@ -331,7 +331,7 @@ bool IKPlugin::searchPositionIK(
     }*/
 
     error_code.val = error_code.NO_IK_SOLUTION;
-    return false;
+    return true;
 }
 
 IKPluginRegistrar::IKPluginRegistrar()

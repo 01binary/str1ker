@@ -56,7 +56,7 @@ private:
     robot_state::RobotStatePtr m_pState;
     moveit_visual_tools::MoveItVisualToolsPtr m_pVisualTools;
     moveit_msgs::KinematicSolverInfo m_groupInfo;
-    robot_model::JointModelGroup* m_pModelGroup;
+    const robot_model::JointModelGroup* m_pModelGroup;
 
 public:
     IKPlugin();
