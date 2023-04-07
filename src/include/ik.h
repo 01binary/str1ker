@@ -52,7 +52,6 @@ private:
     const double DEFAULT_TIMEOUT = 250.0;
 
 private:
-    ros::NodeHandle m_node;
     robot_state::RobotStatePtr m_pState;
     const robot_model::JointModelGroup* m_pModelGroup;
 

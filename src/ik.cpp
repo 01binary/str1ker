@@ -26,7 +26,17 @@
 \*----------------------------------------------------------*/
 
 using namespace std;
+using namespace kinematics;
+using namespace moveit::core;
+using namespace moveit_msgs;
 using namespace str1ker;
+
+/*----------------------------------------------------------*\
+| Definitions
+\*----------------------------------------------------------*/
+
+typedef const JointModel* JointModelConstPtr;
+typedef const LinkModel* LinkModelConstPtr;
 
 /*----------------------------------------------------------*\
 | Variables
@@ -39,15 +49,15 @@ IKPluginRegistrar g_registerIkPlugin;
 | IKPlugin implementation
 \*----------------------------------------------------------*/
 
-IKPlugin::IKPlugin(): m_node("~")
+IKPlugin::IKPlugin()
 {
 }
 
 bool IKPlugin::initialize(
-    const moveit::core::RobotModel& robot_model,
-    const std::string& group_name,
-    const std::string& base_frame,
-    const std::vector<std::string>& tip_frames,
+    const RobotModel& robot_model,
+    const string& group_name,
+    const string& base_frame,
+    const vector<string>& tip_frames,
     double search_discretization)
 {
     // Load configuration
@@ -68,12 +78,6 @@ bool IKPlugin::initialize(
         return false;
     }
 
-    if (!m_pModelGroup->isSingleDOFJoints())
-    {
-        ROS_ERROR_NAMED(PLUGIN_NAME, "This solver supports only single DOF joints");
-        return false;
-    }
-
     for (vector<string>::const_iterator pos = tip_frames.begin();
          pos != tip_frames.end();
          pos++)
@@ -81,26 +85,43 @@ bool IKPlugin::initialize(
         ROS_INFO_NAMED(PLUGIN_NAME, "Tip Frame %s", pos->c_str());
     }
 
-    const vector<const moveit::core::JointModel*>& joints =
-        m_pModelGroup->getJointModels();
-    const vector<string>& jointNames =
-        m_pModelGroup->getJointModelNames();
+    vector<LinkModelConstPtr> tips;
+    m_pModelGroup->getEndEffectorTips(tips);
+
+    for (vector<LinkModelConstPtr>::const_iterator posTip = tips.begin();
+        posTip != tips.end();
+        posTip++)
+    {
+        ROS_INFO_NAMED(PLUGIN_NAME, "Tip %s", (*posTip)->getName().c_str());
+    }
+
+    const vector<pair<string, string>>& chains = m_pModelGroup->getConfig().chains_;
+
+    for (auto posChain = chains.begin();
+        posChain != chains.end();
+        posChain++)
+    {
+        ROS_INFO_NAMED(PLUGIN_NAME, "Chain: %s -> %s", posChain->first, posChain->second);
+    }
+
+    const vector<JointModelConstPtr>& joints = m_pModelGroup->getJointModels();
+    const vector<string>& jointNames = m_pModelGroup->getJointModelNames();
 
     for (size_t jointIndex = 0;
         jointIndex < joints.size();
         jointIndex++)
     {
-        const moveit::core::JointModel* pJoint = joints[jointIndex];
-        const moveit_msgs::JointLimits& limits = pJoint->getVariableBoundsMsg()[0];
-        bool isRevolute = pJoint->getType() == moveit::core::JointModel::REVOLUTE;
-        bool isPrismatic = pJoint->getType() == moveit::core::JointModel::PRISMATIC;
+        JointModelConstPtr pJoint = joints[jointIndex];
+        const JointLimits& limits = pJoint->getVariableBoundsMsg()[0];
+        bool isRevolute = pJoint->getType() == JointModel::REVOLUTE;
+        bool isPrismatic = pJoint->getType() == JointModel::PRISMATIC;
         bool isPassive = pJoint->isPassive();
         bool isMimic = pJoint->getMimic() != NULL;
 
         if (isRevolute)
         {
             const Eigen::Vector3d& axis =
-                dynamic_cast<const moveit::core::RevoluteJointModel*>(pJoint)->getAxis();
+                dynamic_cast<const RevoluteJointModel*>(pJoint)->getAxis();
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
@@ -119,7 +140,7 @@ bool IKPlugin::initialize(
         else if (isPrismatic)
         {
             const Eigen::Vector3d& axis =
-                dynamic_cast<const moveit::core::PrismaticJointModel*>(pJoint)->getAxis();
+                dynamic_cast<const PrismaticJointModel*>(pJoint)->getAxis();
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
@@ -137,31 +158,32 @@ bool IKPlugin::initialize(
         }
     }
 
-    const vector<const moveit::core::LinkModel*>& links =
-        m_pModelGroup->getLinkModels();
-    const vector<string>& linkNames =
-        m_pModelGroup->getLinkModelNames();
+    const vector<LinkModelConstPtr>& links = m_pModelGroup->getLinkModels();
+    const vector<string>& linkNames = m_pModelGroup->getLinkModelNames();
 
     for (size_t linkIndex = 0;
          linkIndex < links.size();
          linkIndex++)
     {
-        ROS_INFO_NAMED(
-            PLUGIN_NAME,
-            "Link %s",
-            linkNames[linkIndex].c_str());
+        ROS_INFO_NAMED(PLUGIN_NAME, "Link %s", linkNames[linkIndex].c_str());
     }
 
     // Initialize joint states
-    m_pState.reset(new robot_state::RobotState(robot_model_));
+    m_pState.reset(new RobotState(robot_model));
     m_pState->setToDefaultValues();
 
     return true;
 }
 
 bool IKPlugin::supportsGroup(
-    const moveit::core::JointModelGroup *jmg, std::string *error_text_out) const
+    const JointModelGroup *jmg, string *error_text_out) const
 {
+    if (!jmg->isSingleDOFJoints())
+    {
+        *error_text_out = "IK solver supports only single DOF joints";
+        return false;
+    }
+
     return true;
 }
 
@@ -181,6 +203,13 @@ bool IKPlugin::getPositionFK(
     vector<geometry_msgs::Pose> &poses) const
 {
     // TODO: first task after getting this compiled
+    /* useful for fk and ik
+    virtual void 	computeTransform (const double *joint_values, Eigen::Affine3d &transf) const =0
+ 	Given the joint values for a joint, compute the corresponding transform.
+    virtual void 	computeVariablePositions (const Eigen::Affine3d &transform, double *joint_values) const =0
+ 	Given the transform generated by joint, compute the corresponding joint values.
+    */
+
     return false;
 }
 
@@ -188,8 +217,8 @@ bool IKPlugin::getPositionIK(
     const geometry_msgs::Pose &ik_pose,
     const vector<double> &ik_seed_state,
     vector<double> &solution,
-    moveit_msgs::MoveItErrorCodes &error_code,
-    const kinematics::KinematicsQueryOptions &options) const
+    MoveItErrorCodes &error_code,
+    const KinematicsQueryOptions &options) const
 {
     return searchPositionIK(
         ik_pose,
@@ -205,8 +234,8 @@ bool IKPlugin::searchPositionIK(
     const vector<double> &ik_seed_state,
     double timeout,
     vector<double> &solution,
-    moveit_msgs::MoveItErrorCodes &error_code,
-    const kinematics::KinematicsQueryOptions &options) const
+    MoveItErrorCodes &error_code,
+    const KinematicsQueryOptions &options) const
 {
     const IKCallbackFn solution_callback = NULL;
     vector<double> consistency_limits;
@@ -230,8 +259,8 @@ bool IKPlugin::searchPositionIK(
     double timeout,
     const vector<double> &consistency_limits,
     vector<double> &solution,
-    moveit_msgs::MoveItErrorCodes &error_code,
-    const kinematics::KinematicsQueryOptions &options) const
+    MoveItErrorCodes &error_code,
+    const KinematicsQueryOptions &options) const
 {
     const IKCallbackFn solution_callback = NULL;
 
@@ -252,8 +281,8 @@ bool IKPlugin::searchPositionIK(
     double timeout,
     vector<double> &solution,
     const IKCallbackFn &solution_callback,
-    moveit_msgs::MoveItErrorCodes &error_code,
-    const kinematics::KinematicsQueryOptions &options) const
+    MoveItErrorCodes &error_code,
+    const KinematicsQueryOptions &options) const
 {
     vector<double> consistency_limits;
 
@@ -275,8 +304,8 @@ bool IKPlugin::searchPositionIK(
     const vector<double> &consistency_limits,
     vector<double> &solution,
     const IKCallbackFn &solution_callback,
-    moveit_msgs::MoveItErrorCodes &error_code,
-    const kinematics::KinematicsQueryOptions &options) const
+    MoveItErrorCodes &error_code,
+    const KinematicsQueryOptions &options) const
 {
     vector<geometry_msgs::Pose> poses;
     poses.push_back(ik_pose);
@@ -299,9 +328,9 @@ bool IKPlugin::searchPositionIK(
     const vector<double> &consistency_limits,
     vector<double> &solution,
     const IKCallbackFn &solution_callback,
-    moveit_msgs::MoveItErrorCodes &error_code,
-    const kinematics::KinematicsQueryOptions &options,
-    const moveit::core::RobotState* context_state) const
+    MoveItErrorCodes &error_code,
+    const KinematicsQueryOptions &options,
+    const RobotState* context_state) const
 {
     // Validate initial state
     if (ik_seed_state.size() >
@@ -354,6 +383,21 @@ bool IKPlugin::searchPositionIK(
 
         if ((ros::WallTime::now() - startTime).toSec() < timeout) break;
     }
+
+    // Apply positions
+    //m_pState->setJointGroupPositions(m_pJointModelGroup, solution);
+    // Enforce joint limits
+    //m_pState->enforceBounds();
+    // Get effector state
+    //const Eigen::Isometry3d& effectorState = m_pState->getGlobalLinkTransform(m_tipFrames[0].c_str());
+    // m_pJoint->getMimicRequests: the joint models whose values would be modified if the value of this joint changed.
+
+    /* useful for fk and ik
+    virtual void 	computeTransform (const double *joint_values, Eigen::Affine3d &transf) const =0
+ 	Given the joint values for a joint, compute the corresponding transform.
+virtual void 	computeVariablePositions (const Eigen::Affine3d &transform, double *joint_values) const =0
+ 	Given the transform generated by joint, compute the corresponding joint values.
+    */
 
     return true;
 }
