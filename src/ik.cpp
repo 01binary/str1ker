@@ -59,12 +59,18 @@ bool IKPlugin::initialize(
         search_discretization
     );
 
-    // Examine joints
+    // Validate links and joints
     m_pModelGroup = robot_model.getJointModelGroup(group_name);
 
     if (!m_pModelGroup)
     {
         ROS_ERROR_NAMED(PLUGIN_NAME, "Failed to retrieve joint model group");
+        return false;
+    }
+
+    if (!m_pModelGroup->isSingleDOFJoints())
+    {
+        ROS_ERROR_NAMED(PLUGIN_NAME, "This solver supports only single DOF joints");
         return false;
     }
 
@@ -85,26 +91,49 @@ bool IKPlugin::initialize(
         jointIndex++)
     {
         const moveit::core::JointModel* pJoint = joints[jointIndex];
+        const moveit_msgs::JointLimits& limits = pJoint->getVariableBoundsMsg()[0];
         bool isRevolute = pJoint->getType() == moveit::core::JointModel::REVOLUTE;
         bool isPrismatic = pJoint->getType() == moveit::core::JointModel::PRISMATIC;
         bool isPassive = pJoint->isPassive();
         bool isMimic = pJoint->getMimic() != NULL;
 
-        if (isRevolute || isPrismatic)
+        if (isRevolute)
         {
-            const moveit_msgs::JointLimits& limitsFirstDof =
-                pJoint->getVariableBoundsMsg()[0];
+            const Eigen::Vector3d& axis =
+                dynamic_cast<const moveit::core::RevoluteJointModel*>(pJoint)->getAxis();
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
-                "Joint %s %s %s %smin %g max %g vel %g",
+                "Joint %s %s %s %saxis %g %g %g, min %g max %g vel %g",
                 jointNames[jointIndex].c_str(),
-                isRevolute ? "revolute" : "prismatic",
+                "revolute",
                 isPassive ? "passive" : "active",
                 isMimic ? "mimic " : "",
-                limitsFirstDof.min_position,
-                limitsFirstDof.max_position,
-                limitsFirstDof.max_velocity);
+                axis.x(),
+                axis.y(),
+                axis.z(),
+                limits.min_position,
+                limits.max_position,
+                limits.max_velocity);
+        }
+        else if (isPrismatic)
+        {
+            const Eigen::Vector3d& axis =
+                dynamic_cast<const moveit::core::PrismaticJointModel*>(pJoint)->getAxis();
+
+            ROS_INFO_NAMED(
+                PLUGIN_NAME,
+                "Joint %s %s %s %saxis %g %g %g, min %g max %g vel %g",
+                jointNames[jointIndex].c_str(),
+                "prismatic",
+                isPassive ? "passive" : "active",
+                isMimic ? "mimic " : "",
+                axis.x(),
+                axis.y(),
+                axis.z(),
+                limits.min_position,
+                limits.max_position,
+                limits.max_velocity);
         }
     }
 
@@ -117,24 +146,10 @@ bool IKPlugin::initialize(
          linkIndex < links.size();
          linkIndex++)
     {
-        const double* origin =
-            links[linkIndex]->getJointOriginTransform().data()
-
         ROS_INFO_NAMED(
             PLUGIN_NAME,
-            "Link %s %s origin [ %g %g %g | %g %g %g | %g %g %g ]",
-            linkNames[linkIndex].c_str(),
-            links[linkIndex]->getVisualMeshFilename().c_str(),
-            origin[0],
-            origin[1],
-            origin[2],
-            origin[3],
-            origin[4],
-            origin[5],
-            origin[6],
-            origin[7],
-            origin[8],
-        );
+            "Link %s",
+            linkNames[linkIndex].c_str());
     }
 
     // Initialize joint states
