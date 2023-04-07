@@ -28,7 +28,9 @@
 using namespace std;
 using namespace kinematics;
 using namespace moveit::core;
+using namespace robot_state;
 using namespace moveit_msgs;
+using namespace Eigen;
 using namespace str1ker;
 
 /*----------------------------------------------------------*\
@@ -60,16 +62,9 @@ bool IKPlugin::initialize(
     const vector<string>& tip_frames,
     double search_discretization)
 {
-    // Load configuration
-    KinematicsBase::storeValues(
-        robot_model,
-        group_name,
-        base_frame,
-        tip_frames,
-        search_discretization
-    );
+    ROS_INFO_NAMED(PLUGIN_NAME, "Str1ker IK Plugin Initializing");
 
-    // Validate links and joints
+    // Validate group
     m_pModelGroup = robot_model.getJointModelGroup(group_name);
 
     if (!m_pModelGroup)
@@ -78,49 +73,104 @@ bool IKPlugin::initialize(
         return false;
     }
 
-    for (vector<string>::const_iterator pos = tip_frames.begin();
-         pos != tip_frames.end();
-         pos++)
+    // Validate tips
+    vector<LinkModelConstPtr> effectorTips;
+    m_pModelGroup->getEndEffectorTips(effectorTips);
+
+    if (effectorTips.size() != 1 || tip_frames.size() != 1)
     {
-        ROS_INFO_NAMED(PLUGIN_NAME, "Tip Frame %s", pos->c_str());
+        ROS_ERROR_NAMED(
+            PLUGIN_NAME,
+            "A single tip is required, found %ld effector tips and %ld tip frames",
+            effectorTips.size(),
+            tip_frames.size()
+        );
+
+        return false;
     }
 
-    vector<LinkModelConstPtr> tips;
-    m_pModelGroup->getEndEffectorTips(tips);
+    auto effectorTip = effectorTips[0]->getName();
+    auto tipFrame = tip_frames[0];
 
-    for (vector<LinkModelConstPtr>::const_iterator posTip = tips.begin();
-        posTip != tips.end();
-        posTip++)
+    if (tipFrame.c_str() != effectorTip.c_str())
     {
-        ROS_INFO_NAMED(PLUGIN_NAME, "Tip %s", (*posTip)->getName().c_str());
+        ROS_WARN_NAMED(
+            PLUGIN_NAME,
+            "Tip frame %s does not match group tip %s, using group tip",
+            tipFrame.c_str(),
+            effectorTip.c_str()
+        );
     }
 
-    const vector<pair<string, string>>& chains = m_pModelGroup->getConfig().chains_;
+    // Validate chains
+    auto chains = m_pModelGroup->getConfig().chains_;
 
-    for (auto posChain = chains.begin();
-        posChain != chains.end();
-        posChain++)
+    if (chains.size() > 1)
     {
-        ROS_INFO_NAMED(PLUGIN_NAME, "Chain: %s -> %s", posChain->first, posChain->second);
+        ROS_ERROR_NAMED(
+            PLUGIN_NAME,
+            "Only one chain supported in a group, found %ld",
+            chains.size()
+        );
+
+        return false;
+    }
+    else if (chains.size() == 0)
+    {
+        ROS_ERROR_NAMED(
+            PLUGIN_NAME,
+            "At least one chain is required in a group"
+        );
+
+        return false;
     }
 
-    const vector<JointModelConstPtr>& joints = m_pModelGroup->getJointModels();
-    const vector<string>& jointNames = m_pModelGroup->getJointModelNames();
+    auto chain = chains[0];
+    auto chainBase = chain.first;
+    auto chainTip = chain.second;
+
+    ROS_INFO_NAMED(
+        PLUGIN_NAME,
+        "Chain: %s -> %s",
+        chainBase.c_str(),
+        chainTip.c_str()
+    );
+
+    if (base_frame != chainBase)
+    {
+        ROS_WARN_NAMED(
+            PLUGIN_NAME,
+            "Base frame %s does not match chain base %s, using chain base",
+            base_frame.c_str(),
+            chainBase.c_str()
+        );
+    }
+
+    if (tipFrame != chainTip)
+    {
+        ROS_WARN_NAMED(
+            PLUGIN_NAME,
+            "Tip frame %s does not match chain tip %s, using effector tip %s",
+            tipFrame.c_str(),
+            chainTip.c_str(),
+            effectorTip.c_str()
+        );
+    }
+
+    // Validate joints
+    auto joints = m_pModelGroup->getJointModels();
+    auto jointNames = m_pModelGroup->getJointModelNames();
 
     for (size_t jointIndex = 0;
         jointIndex < joints.size();
         jointIndex++)
     {
         JointModelConstPtr pJoint = joints[jointIndex];
-        const JointLimits& limits = pJoint->getVariableBoundsMsg()[0];
-        bool isRevolute = pJoint->getType() == JointModel::REVOLUTE;
-        bool isPrismatic = pJoint->getType() == JointModel::PRISMATIC;
-        bool isPassive = pJoint->isPassive();
-        bool isMimic = pJoint->getMimic() != NULL;
+        auto limits = pJoint->getVariableBoundsMsg()[0];
 
-        if (isRevolute)
+        if (pJoint->getType() == JointModel::REVOLUTE)
         {
-            const Eigen::Vector3d& axis =
+            const Vector3d& axis =
                 dynamic_cast<const RevoluteJointModel*>(pJoint)->getAxis();
 
             ROS_INFO_NAMED(
@@ -128,18 +178,19 @@ bool IKPlugin::initialize(
                 "Joint %s %s %s %saxis %g %g %g, min %g max %g vel %g",
                 jointNames[jointIndex].c_str(),
                 "revolute",
-                isPassive ? "passive" : "active",
-                isMimic ? "mimic " : "",
+                pJoint->isPassive() ? "passive" : "active",
+                pJoint->getMimic() != NULL ? "mimic " : "",
                 axis.x(),
                 axis.y(),
                 axis.z(),
                 limits.min_position,
                 limits.max_position,
-                limits.max_velocity);
+                limits.max_velocity
+            );
         }
-        else if (isPrismatic)
+        else if (pJoint->getType() == JointModel::PRISMATIC)
         {
-            const Eigen::Vector3d& axis =
+            const Vector3d& axis =
                 dynamic_cast<const PrismaticJointModel*>(pJoint)->getAxis();
 
             ROS_INFO_NAMED(
@@ -147,29 +198,52 @@ bool IKPlugin::initialize(
                 "Joint %s %s %s %saxis %g %g %g, min %g max %g vel %g",
                 jointNames[jointIndex].c_str(),
                 "prismatic",
-                isPassive ? "passive" : "active",
-                isMimic ? "mimic " : "",
+                pJoint->isPassive() ? "passive" : "active",
+                pJoint->getMimic() != NULL ? "mimic " : "",
                 axis.x(),
                 axis.y(),
                 axis.z(),
                 limits.min_position,
                 limits.max_position,
-                limits.max_velocity);
+                limits.max_velocity
+            );
+        }
+        else if (pJoint->getType() != JointModel::FIXED)
+        {
+            ROS_WARN_NAMED(
+                PLUGIN_NAME,
+                "Joint %s not supported",
+                jointNames[jointIndex].c_str()
+            );
         }
     }
 
-    const vector<LinkModelConstPtr>& links = m_pModelGroup->getLinkModels();
-    const vector<string>& linkNames = m_pModelGroup->getLinkModelNames();
+    // Validate links
+    auto linkNames = m_pModelGroup->getLinkModelNames();
 
     for (size_t linkIndex = 0;
-         linkIndex < links.size();
+         linkIndex < linkNames.size();
          linkIndex++)
     {
         ROS_INFO_NAMED(PLUGIN_NAME, "Link %s", linkNames[linkIndex].c_str());
     }
 
-    // Initialize joint states
-    m_pState.reset(new RobotState(robot_model));
+    // Load configuration
+    vector<string> tipNames;
+    tipNames.push_back(effectorTip);
+
+    KinematicsBase::storeValues(
+        robot_model,
+        group_name,
+        // Use validated base name
+        chainBase,
+        // Use validated tip names
+        tipNames,
+        search_discretization
+    );
+
+    // Initialize state
+    m_pState.reset(new robot_state::RobotState(robot_model_));
     m_pState->setToDefaultValues();
 
     return true;
@@ -226,7 +300,8 @@ bool IKPlugin::getPositionIK(
         DEFAULT_TIMEOUT,
         solution,
         error_code,
-        options);
+        options
+    );
 }
 
 bool IKPlugin::searchPositionIK(
@@ -250,7 +325,8 @@ bool IKPlugin::searchPositionIK(
         solution,
         solution_callback,
         error_code,
-        options);
+        options
+    );
 }
 
 bool IKPlugin::searchPositionIK(
@@ -272,7 +348,8 @@ bool IKPlugin::searchPositionIK(
         solution,
         solution_callback,
         error_code,
-        options);
+        options
+    );
 }
 
 bool IKPlugin::searchPositionIK(
@@ -294,7 +371,8 @@ bool IKPlugin::searchPositionIK(
         solution,
         solution_callback,
         error_code,
-        options);
+        options
+    );
 }
 
 bool IKPlugin::searchPositionIK(
@@ -318,7 +396,8 @@ bool IKPlugin::searchPositionIK(
         solution,
         solution_callback,
         error_code,
-        options);
+        options
+    );
 }
 
 bool IKPlugin::searchPositionIK(
@@ -330,7 +409,7 @@ bool IKPlugin::searchPositionIK(
     const IKCallbackFn &solution_callback,
     MoveItErrorCodes &error_code,
     const KinematicsQueryOptions &options,
-    const RobotState* context_state) const
+    const robot_state::RobotState* context_state) const
 {
     // Validate initial state
     if (ik_seed_state.size() >
@@ -342,7 +421,8 @@ bool IKPlugin::searchPositionIK(
             "Expected state for %ld active joints (and possibly %ld mimic joints), received state for %ld",
             m_pModelGroup->getActiveJointModels().size(),
             m_pModelGroup->getMimicJointModels().size(),
-            ik_seed_state.size());
+            ik_seed_state.size()
+        );
 
         error_code.val = error_code.NO_IK_SOLUTION;
         return false;
@@ -356,7 +436,8 @@ bool IKPlugin::searchPositionIK(
             "Found %ld tips and %ld poses (expected %ld poses, one for each tip)",
             tip_frames_.size(),
             ik_poses.size(),
-            tip_frames_.size());
+            tip_frames_.size()
+        );
 
         error_code.val = error_code.NO_IK_SOLUTION;
         return false;
@@ -371,7 +452,8 @@ bool IKPlugin::searchPositionIK(
             "IK target %g %g %g",
             pos->position.x,
             pos->position.y,
-            pos->position.z);
+            pos->position.z
+        );
     }
 
     ros::WallTime startTime = ros::WallTime::now();
