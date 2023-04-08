@@ -34,13 +34,6 @@ using namespace Eigen;
 using namespace str1ker;
 
 /*----------------------------------------------------------*\
-| Definitions
-\*----------------------------------------------------------*/
-
-typedef const JointModel* JointModelConstPtr;
-typedef const LinkModel* LinkModelConstPtr;
-
-/*----------------------------------------------------------*\
 | Variables
 \*----------------------------------------------------------*/
 
@@ -165,7 +158,7 @@ bool IKPlugin::initialize(
         jointIndex < joints.size();
         jointIndex++)
     {
-        JointModelConstPtr pJoint = joints[jointIndex];
+        auto pJoint = joints[jointIndex];
         auto limits = pJoint->getVariableBoundsMsg()[0];
 
         if (pJoint->getType() == JointModel::REVOLUTE)
