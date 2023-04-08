@@ -366,9 +366,7 @@ bool IKPlugin::searchPositionIK(
     const robot_state::RobotState* context_state) const
 {
     // Validate initial state
-    if (ik_seed_state.size() >
-        m_pPlanningGroup->getActiveJointModels().size() +
-        m_pPlanningGroup->getMimicJointModels().size())
+    if (ik_seed_state.size() > m_pPlanningGroup->getJointModels().size())
     {
         ROS_ERROR_NAMED(
             PLUGIN_NAME,
@@ -397,21 +395,25 @@ bool IKPlugin::searchPositionIK(
     }
 
     auto pose = ik_poses[0];
+    auto startTime = ros::WallTime::now();
+    auto joints = m_pPlanningGroup->getJointModels();
 
-    ROS_INFO_NAMED(
-        PLUGIN_NAME,
-        "IK target %g %g %g",
-        pose.position.x,
-        pose.position.y,
-        pose.position.z
-    );
-
-    ros::WallTime startTime = ros::WallTime::now();
     solution.resize(ik_seed_state.size());
 
     for (size_t jointIndex = 0; jointIndex < ik_seed_state.size(); jointIndex++)
     {
-        solution[jointIndex] = ik_seed_state[jointIndex];
+        auto joint = *joints[jointIndex];
+
+        if (joint.getType() == JointModel::REVOLUTE)
+        {
+            // Get joint in world frame
+
+            // Get angle between joint and pose
+        }
+        else
+        {
+            solution[jointIndex] = ik_seed_state[jointIndex];
+        }
 
         if ((ros::WallTime::now() - startTime).toSec() >= timeout) break;
     }
