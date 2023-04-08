@@ -53,7 +53,7 @@ private:
 
 private:
     robot_state::RobotStatePtr m_pState;
-    const robot_model::JointModelGroup* m_pModelGroup;
+    const robot_model::JointModelGroup* m_pPlanningGroup;
 
 public:
     IKPlugin();
