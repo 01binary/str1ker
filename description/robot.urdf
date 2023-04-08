@@ -151,14 +151,6 @@
         </inertial>
     </link>
     <link name="effector_link">
-        <visual>
-            <geometry>
-                <sphere radius="0.02" />
-            </geometry>
-            <material name="effector">
-                <color rgba="0 1 0 0.2" />
-            </material>
-        </visual>
         <collision>
             <geometry>
                 <sphere radius="0.02" />
