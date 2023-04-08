@@ -177,23 +177,22 @@ bool IKPlugin::initialize(
     }
 
     // Load configuration
-    // What if I attach a fixed link to forearm and make that the end effector?
-    vector<string> actualTipFrames;
-    auto tipFrame = planningChains[0].second;
-    actualTipFrames.push_back(tipFrame);
+    vector<string> chainTips;
+    auto chainTip = planningChains[0].second;
+    chainTips.push_back(chainTip);
 
     ROS_INFO_NAMED(
         PLUGIN_NAME,
         "Initializing with base %s and tip %s",
         base_frame.c_str(),
-        tipFrame.c_str()
+        chainTip.c_str()
     );
 
     KinematicsBase::storeValues(
         robot_model,
         group_name,
         base_frame,
-        actualTipFrames,
+        chainTips,
         search_discretization
     );
 
@@ -384,32 +383,28 @@ bool IKPlugin::searchPositionIK(
     }
 
     // Validate poses
-    if (tip_frames_.size() != ik_poses.size())
+    if (ik_poses.size() != 1 || tip_frames_.size() != ik_poses.size())
     {
         ROS_ERROR_NAMED(
             PLUGIN_NAME,
-            "Found %ld tips and %ld poses (expected %ld poses, one for each tip)",
+            "Found %ld tips and %ld poses (expected one pose and one tip)",
             tip_frames_.size(),
-            ik_poses.size(),
-            tip_frames_.size()
+            ik_poses.size()
         );
 
         error_code.val = error_code.NO_IK_SOLUTION;
         return false;
     }
 
-    for (vector<geometry_msgs::Pose>::const_iterator pos = ik_poses.begin();
-        pos != ik_poses.end();
-        pos++)
-    {
-        ROS_INFO_NAMED(
-            PLUGIN_NAME,
-            "IK target %g %g %g",
-            pos->position.x,
-            pos->position.y,
-            pos->position.z
-        );
-    }
+    auto pose = ik_poses[0];
+
+    ROS_INFO_NAMED(
+        PLUGIN_NAME,
+        "IK target %g %g %g",
+        pose.position.x,
+        pose.position.y,
+        pose.position.z
+    );
 
     ros::WallTime startTime = ros::WallTime::now();
     solution.resize(ik_seed_state.size());
@@ -418,7 +413,7 @@ bool IKPlugin::searchPositionIK(
     {
         solution[jointIndex] = ik_seed_state[jointIndex];
 
-        if ((ros::WallTime::now() - startTime).toSec() < timeout) break;
+        if ((ros::WallTime::now() - startTime).toSec() >= timeout) break;
     }
 
     // Apply positions
