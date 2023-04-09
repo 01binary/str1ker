@@ -70,7 +70,9 @@
         "typeindex": "cpp",
         "variant": "cpp",
         "bit": "cpp",
-        "geometry": "cpp"
+        "geometry": "cpp",
+        "forward_list": "cpp",
+        "valarray": "cpp"
     },
     "python.autoComplete.extraPaths": [
         "/home/val/catkin_ws/devel/lib/python3/dist-packages",

@@ -46,9 +46,17 @@ IKPluginRegistrar g_registerIkPlugin;
 | IKPlugin implementation
 \*----------------------------------------------------------*/
 
+//
+// Constructor
+//
+
 IKPlugin::IKPlugin() : m_pPlanningGroup(NULL)
 {
 }
+
+//
+// Public methods
+//
 
 bool IKPlugin::initialize(
     const RobotModel &robot_model,
@@ -69,26 +77,23 @@ bool IKPlugin::initialize(
     }
 
     // Validate chains
-    auto planningChains = m_pPlanningGroup->getConfig().chains_;
+    auto chains = m_pPlanningGroup->getConfig().chains_;
 
-    if (planningChains.size() != 1)
+    if (chains.size() != 1)
     {
         ROS_ERROR_NAMED(
             PLUGIN_NAME,
             "Only one chain supported in planning group, found %ld",
-            planningChains.size());
+            chains.size());
 
         return false;
     }
-    else
-    {
-        auto chain = planningChains[0];
-        ROS_INFO_NAMED(
-            PLUGIN_NAME,
-            "Planning Chain: %s -> %s",
-            chain.first.c_str(),
-            chain.second.c_str());
-    }
+    
+    ROS_INFO_NAMED(
+        PLUGIN_NAME,
+        "Chain: %s -> %s",
+        chains[0].first.c_str(),
+        chains[0].second.c_str());
 
     // Validate tips
     if (tip_frames.size() != 1)
@@ -118,11 +123,11 @@ bool IKPlugin::initialize(
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
-                "Joint %s %s %s %saxis %g %g %g, min %g max %g vel %g",
+                "Joint\n\t%s: %s %s %s\n\taxis %g %g %g\n\tlimits min %g max %g vel %g",
                 jointNames[jointIndex].c_str(),
                 "revolute",
                 pJoint->isPassive() ? "passive" : "active",
-                pJoint->getMimic() != NULL ? "mimic " : "",
+                pJoint->getMimic() != NULL ? "mimic" : "",
                 axis.x(),
                 axis.y(),
                 axis.z(),
@@ -139,11 +144,11 @@ bool IKPlugin::initialize(
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
-                "Joint %s %s %s %saxis %g %g %g, min %g max %g vel %g",
+                "Joint\n\t%s: %s %s %s\n\taxis %g %g %g\n\tlimits min %g max %g vel %g",
                 jointNames[jointIndex].c_str(),
                 "prismatic",
                 pJoint->isPassive() ? "passive" : "active",
-                pJoint->getMimic() != NULL ? "mimic " : "",
+                pJoint->getMimic() != NULL ? "mimic" : "",
                 axis.x(),
                 axis.y(),
                 axis.z(),
@@ -153,6 +158,9 @@ bool IKPlugin::initialize(
 
             m_joints.push_back(pJoint);
         }
+
+        if (pJoint->getMimic())
+            m_mimics.push_back(pJoint);
     }
 
     // Validate links
@@ -167,7 +175,7 @@ bool IKPlugin::initialize(
 
     // Load configuration
     vector<string> chainTips;
-    auto chainTip = planningChains[0].second;
+    auto chainTip = chains.front().second;
     chainTips.push_back(chainTip);
 
     ROS_INFO_NAMED(
@@ -339,41 +347,65 @@ bool IKPlugin::searchPositionIK(
     const KinematicsQueryOptions &options,
     const robot_state::RobotState *context_state) const
 {
-    // Validate initial state
-    if (ik_seed_state.size() != m_joints.size())
+    if (!validateSeedState(ik_seed_state) || !validateTarget(ik_poses))
     {
-        ROS_ERROR_NAMED(
-            PLUGIN_NAME,
-            "Expected state for %ld supported joints, received state for %ld",
-            m_joints.size(),
-            ik_seed_state.size());
-
         error_code.val = error_code.NO_IK_SOLUTION;
         return false;
     }
-    else
-    {
-        ROS_INFO_NAMED(
-            PLUGIN_NAME,
-            "Received seed state for %ld joints",
-            ik_seed_state.size()
-        );
 
-        for (size_t jointIndex = 0;
-            jointIndex < ik_seed_state.size();
-            jointIndex++)
+    solution = ik_seed_state;
+
+    const LinkModel* pTipLink = getTipLink();
+    const JointModel* pMountJoint = getJoint(JointModel::REVOLUTE);
+    const JointModel* pShoulderJoint = getJoint(JointModel::REVOLUTE, pMountJoint);
+    const JointModel* pElbowJoint = getJoint(JointModel::REVOLUTE, pShoulderJoint);
+    const Isometry3d& world = m_pState->getGlobalLinkTransform(pMountJoint->getChildLinkModel());
+
+    Isometry3d target = getTarget(ik_poses);
+    Vector3d axis = getChainAxis(pMountJoint->getChildLinkModel(), pTipLink);
+    Vector3d offset = target.translation() - world.translation();
+
+    double mountAngle = getAnglesBetweenTwoVectors(axis, offset).z();
+    setJointState(pMountJoint, mountAngle, solution);
+
+    error_code.val = error_code.SUCCESS;
+
+    if(!solution_callback.empty())
+        solution_callback(ik_poses.front(), solution, error_code);
+
+    return true;
+}
+
+//
+// Private methods
+//
+
+const JointModel* IKPlugin::getJoint(JointModel::JointType type, const JointModel* parent) const
+{
+    for (auto joint : m_joints)
+    {
+        if (parent)
         {
-            ROS_INFO_NAMED(
-                PLUGIN_NAME,
-                "  %s (%s): %g",
-                m_joints[jointIndex]->getName().c_str(),
-                m_joints[jointIndex]->getMimic() ? "mimic" : "active",
-                ik_seed_state[jointIndex]
-            );
+            if (joint->getType() == type && joint->getParentLinkModel() == parent->getChildLinkModel())
+                return joint;
+        }
+        else
+        {
+            if (joint->getType() == type)
+                return joint;
         }
     }
 
-    // Validate poses
+    return nullptr;
+}
+
+const LinkModel* IKPlugin::getTipLink() const
+{
+    return m_pPlanningGroup->getLinkModel(tip_frames_.front());
+}
+
+bool IKPlugin::validateTarget(const vector<geometry_msgs::Pose>& ik_poses) const
+{
     if (ik_poses.size() != 1 || tip_frames_.size() != ik_poses.size())
     {
         ROS_ERROR_NAMED(
@@ -382,107 +414,108 @@ bool IKPlugin::searchPositionIK(
             tip_frames_.size(),
             ik_poses.size());
 
-        error_code.val = error_code.NO_IK_SOLUTION;
         return false;
     }
 
+    return true;
+}
+
+Isometry3d IKPlugin::getTarget(const vector<geometry_msgs::Pose>& ik_poses) const
+{
     Isometry3d target;
-    tf2::fromMsg(ik_poses.front(), target);
+    auto targetPose = ik_poses.back();
+    tf2::fromMsg(targetPose, target);
 
-    auto startTime = ros::WallTime::now();
-    auto activeJoints = m_pPlanningGroup->getActiveJointModels();
+    ROS_INFO_NAMED(
+        PLUGIN_NAME,
+        "IK target %s: %g, %g, %g",
+        tip_frames_.front().c_str(),
+        targetPose.position.x,
+        targetPose.position.y,
+        targetPose.position.z
+    );
 
-    solution.resize(m_joints.size());
+    return target;
+}
 
-    for (size_t jointIndex = 0;
-         jointIndex < m_joints.size();
-         jointIndex++)
+bool IKPlugin::validateSeedState(const vector<double>& ik_seed_state) const
+{
+    if (ik_seed_state.size() != m_joints.size())
     {
-        solution[jointIndex] = ik_seed_state[jointIndex];
+        ROS_ERROR_NAMED(
+            PLUGIN_NAME,
+            "Expected seed state for %ld supported joints, received state for %ld",
+            m_joints.size(),
+            ik_seed_state.size());
 
-        const JointModel& joint = *m_joints[jointIndex];
-        const LinkModel& link = *joint.getChildLinkModel();
-
-        if (joint.getMimicRequests().size() || joint.getType() != JointModel::REVOLUTE)
-            continue;
-
-        double jointState = ik_seed_state[jointIndex];
-        const Vector3d& axis = getJointAxis(&joint);
-        const Isometry3d& world = m_pState->getGlobalLinkTransform(&link);
-        const Isometry3d& local = m_pState->getFrameTransform(link.getName());
-        const JointLimits& limits = joint.getVariableBoundsMsg().front();
-
-        if (joint.getType() == JointModel::REVOLUTE)
-        {
-            // Get vector from joint origin to target
-            auto delta = target.translation() - world.translation();
-
-            // Get rotation between joint axis and the target
-            Matrix3d rotation = Quaterniond::FromTwoVectors(axis, delta)
-                .normalized()
-                .toRotationMatrix();
-
-            // Compute joint state
-            Vector3d angles = rotation
-                .eulerAngles(0, 1, 2)
-                .cwiseProduct(axis);
-
-            double angle =
-                axis.x() > 0.0 ?
-                    angles.x() :
-                axis.y() > 0.0 ?
-                    angles.y() :
-                angles.z();
-
-            AngleAxisd axisAngle(M_PI - angle, axis);
-            joint.computeVariablePositions(
-                Isometry3d(axisAngle),
-                &jointState
-            );
-
-            ROS_INFO_NAMED(
-                PLUGIN_NAME,
-                "Calculating IK for Joint\n\t%s:\n\tlocal [%g, %g, %g]\n\tworld [%g %g %g]\n\ttarget [%g %g %g]\n\tangles %g %g %g\n\tseed state %g\n\tjoint state %g\n\tlimits %g -> %g",
-                joint.getName().c_str(),
-
-                local.translation().x(),
-                local.translation().y(),
-                local.translation().z(),
-
-                world.translation().x(),
-                world.translation().y(),
-                world.translation().z(),
-
-                target.translation().x(),
-                target.translation().y(),
-                target.translation().z(),
-
-                angles.x(),
-                angles.y(),
-                angles.z(),
-
-                ik_seed_state[jointIndex],
-                jointState,
-
-                limits.min_position,
-                limits.max_position
-            );
-        }
-
-        solution[jointIndex] = clamp(
-            jointState, limits.min_position, limits.max_position);
-
-        if ((ros::WallTime::now() - startTime).toSec() >= timeout)
-            break;
+        return false;
     }
 
-    // Return solution
-    error_code.val = error_code.SUCCESS;
+    ROS_INFO_NAMED(
+        PLUGIN_NAME,
+        "Received seed state for %ld joints",
+        ik_seed_state.size()
+    );
 
-    if(!solution_callback.empty())
-        solution_callback(ik_poses.front(), solution, error_code);
+    for (size_t jointIndex = 0;
+        jointIndex < ik_seed_state.size();
+        jointIndex++)
+    {
+        ROS_INFO_NAMED(
+            PLUGIN_NAME,
+            "\t%s (%s): %g",
+            m_joints[jointIndex]->getName().c_str(),
+            m_joints[jointIndex]->getMimic() ? "mimic" : "active",
+            ik_seed_state[jointIndex]
+        );
+    }
 
     return true;
+}
+
+Vector3d IKPlugin::getChainAxis(const LinkModel* pBaseLink, const LinkModel* pTipLink) const
+{
+    const Isometry3d& baseLinkPos = m_pState->getGlobalLinkTransform(pBaseLink);
+    const Isometry3d& tipLinkPos = m_pState->getGlobalLinkTransform(pTipLink);
+
+    return (tipLinkPos.translation() - baseLinkPos.translation()).normalized();
+}
+
+//
+// Static methods
+//
+
+void IKPlugin::setJointState(const JointModel* pJoint, double angle, std::vector<double>& states) const
+{
+    const Vector3d& axis = getJointAxis(pJoint);
+    const JointLimits& limits = pJoint->getVariableBoundsMsg().front();
+    Isometry3d transform = Isometry3d(AngleAxisd(angle, axis));
+
+    double state;
+    pJoint->computeVariablePositions(transform, &state);
+
+    size_t index = find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
+    states[index] = clamp(state, limits.min_position, limits.max_position);
+
+    ROS_INFO_NAMED(
+        PLUGIN_NAME,
+        "IK solution %s: angle %g on [%g %g %g], state %g, clamped %g",
+        pJoint->getName().c_str(),
+        angle,
+        axis.x(),
+        axis.y(),
+        axis.z(),
+        state,
+        states[index]
+    );
+}
+
+Vector3d IKPlugin::getAnglesBetweenTwoVectors(const Vector3d& v1, const Vector3d& v2)
+{
+    return Quaterniond::FromTwoVectors(v1, v2)
+        .normalized()
+        .toRotationMatrix()
+        .eulerAngles(0, 1, 2);
 }
 
 const Vector3d& IKPlugin::getJointAxis(const JointModel* pJoint)
@@ -492,6 +525,15 @@ const Vector3d& IKPlugin::getJointAxis(const JointModel* pJoint)
     else
         return dynamic_cast<const PrismaticJointModel*>(pJoint)->getAxis();
 }
+
+double IKPlugin::lawOfCosines(double a, double b, double c)
+{
+    return acos((a * a + b * b - c * c) / (2 * a * b));
+}
+
+/*----------------------------------------------------------*\
+| IKPluginRegistrar implementation
+\*----------------------------------------------------------*/
 
 IKPluginRegistrar::IKPluginRegistrar()
 {

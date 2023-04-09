@@ -55,6 +55,7 @@ private:
     robot_state::RobotStatePtr m_pState;
     const robot_model::JointModelGroup* m_pPlanningGroup;
     std::vector<const robot_model::JointModel*> m_joints;
+    std::vector<const robot_model::JointModel*> m_mimics;
 
 public:
     IKPlugin();
@@ -72,7 +73,7 @@ public:
         double search_discretization) override;
 
     //
-    // Joints, Links, and MoveGroups
+    // Joints, Links, and Groups
     //
 
     virtual bool supportsGroup(const moveit::core::JointModelGroup *jmg, std::string *error_text_out=NULL) const;
@@ -147,7 +148,29 @@ public:
         const moveit::core::RobotState* context_state = NULL) const;
 
 private:
+    Eigen::Isometry3d getTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
+
+    Eigen::Vector3d getChainAxis(
+        const robot_model::LinkModel* pBaseLink,
+        const robot_model::LinkModel* pTipLink) const;
+
+    const robot_model::JointModel* getJoint(
+        robot_model::JointModel::JointType type,
+        const robot_model::JointModel* parent = nullptr) const;
+
+    const robot_model::LinkModel* getTipLink() const;
+
+    bool validateSeedState(const std::vector<double>& ik_seed_state) const;
+    bool validateTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
+    void setJointState(const robot_model::JointModel* pJoint, double value, std::vector<double>& states) const;
+
+private:
+    static Eigen::Vector3d getAnglesBetweenTwoVectors(
+        const Eigen::Vector3d& v1,
+        const Eigen::Vector3d& v2);
+
     static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
+    static double lawOfCosines(double a, double b, double c);
 };
 
 /*----------------------------------------------------------*\
