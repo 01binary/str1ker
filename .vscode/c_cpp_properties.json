@@ -4,19 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "~/catkin_ws/src/"
-            ],
-            "defines": [],
-            "compilerPath": "/usr/bin/gcc",
-            "cStandard": "gnu17",
-            "cppStandard": "gnu++14",
-            "intelliSenseMode": "gcc-arm"
-        },
-        {
-            "name": "raspi",
-            "includePath": [
-                "${workspaceFolder}/**",
-                "~/catkin_ws/src/"
+                "~/catkin_ws/**",
+                "/opt/ros/noetic/**",
+                "/usr/include/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
