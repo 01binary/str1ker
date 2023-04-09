@@ -150,7 +150,7 @@ public:
 private:
     Eigen::Isometry3d getTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
 
-    Eigen::Vector3d getChainAxis(
+    Eigen::Vector3d getLinkOffset(
         const robot_model::LinkModel* pBaseLink,
         const robot_model::LinkModel* pTipLink) const;
 
@@ -165,10 +165,7 @@ private:
     void setJointState(const robot_model::JointModel* pJoint, double value, std::vector<double>& states) const;
 
 private:
-    static Eigen::Vector3d getAnglesBetweenTwoVectors(
-        const Eigen::Vector3d& v1,
-        const Eigen::Vector3d& v2);
-
+    static double getAngle(double x, double y);
     static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
     static double lawOfCosines(double a, double b, double c);
 };

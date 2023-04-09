@@ -361,12 +361,50 @@ bool IKPlugin::searchPositionIK(
     const JointModel* pElbowJoint = getJoint(JointModel::REVOLUTE, pShoulderJoint);
     const Isometry3d& world = m_pState->getGlobalLinkTransform(pMountJoint->getChildLinkModel());
 
+    // Calculate mount joint angle
     Isometry3d target = getTarget(ik_poses);
-    Vector3d axis = getChainAxis(pMountJoint->getChildLinkModel(), pTipLink);
     Vector3d offset = target.translation() - world.translation();
 
-    double mountAngle = getAnglesBetweenTwoVectors(axis, offset).z();
-    setJointState(pMountJoint, mountAngle, solution);
+    Vector3d upperArm = getLinkOffset(
+        pShoulderJoint->getChildLinkModel(),
+        pElbowJoint->getChildLinkModel());
+
+    Vector3d forearm = getLinkOffset(
+        pElbowJoint->getChildLinkModel(),
+        pElbowJoint->getDescendantJointModels().front()->getChildLinkModel());
+
+    Vector3d effector = getLinkOffset(
+        pMountJoint->getChildLinkModel(),
+        pTipLink);
+
+    double mountAngle = getAngle(offset.x(), offset.y());
+    double mountReference = getAngle(upperArm.x(), upperArm.y());
+    double effectorOffset = getAngle(effector.x(), effector.y()) - mountReference;
+    double mount = mountAngle - mountReference - effectorOffset;
+
+    setJointState(pMountJoint, mount, solution);
+
+    // Calculate shoulder joint angle
+    double shoulderReference = getAngle(1.0, 0.0);
+    double shoulderAngle = lawOfCosines(upperArm.norm(), forearm.norm(), offset.norm());
+    double shoulder = shoulderAngle - shoulderReference;
+
+    ROS_INFO("shoulder angle ref: %g", shoulderReference * 180.0 / M_PI);
+    ROS_INFO("shoulder angle: %g", shoulderAngle * 180.0 / M_PI);
+    ROS_INFO("shoulder joint: %g", shoulder * 180.0 / M_PI);
+
+    setJointState(pShoulderJoint, shoulder, solution);
+
+    // Calculate elbow joint angle
+    double elbowReference = shoulder;
+    double elbowAngle = lawOfCosines(forearm.norm(), offset.norm(), upperArm.norm());
+    double elbow = elbowAngle - elbowReference;
+
+    ROS_INFO("elbow angle ref: %g", elbowReference * 180.0 / M_PI);
+    ROS_INFO("elbow angle: %g", elbowAngle * 180.0 / M_PI);
+    ROS_INFO("elbow joint: %g", elbow * 180.0 / M_PI);
+
+    setJointState(pElbowJoint, elbow, solution);
 
     error_code.val = error_code.SUCCESS;
 
@@ -451,7 +489,7 @@ bool IKPlugin::validateSeedState(const vector<double>& ik_seed_state) const
         return false;
     }
 
-    ROS_INFO_NAMED(
+    ROS_DEBUG_NAMED(
         PLUGIN_NAME,
         "Received seed state for %ld joints",
         ik_seed_state.size()
@@ -461,7 +499,7 @@ bool IKPlugin::validateSeedState(const vector<double>& ik_seed_state) const
         jointIndex < ik_seed_state.size();
         jointIndex++)
     {
-        ROS_INFO_NAMED(
+        ROS_DEBUG_NAMED(
             PLUGIN_NAME,
             "\t%s (%s): %g",
             m_joints[jointIndex]->getName().c_str(),
@@ -473,23 +511,30 @@ bool IKPlugin::validateSeedState(const vector<double>& ik_seed_state) const
     return true;
 }
 
-Vector3d IKPlugin::getChainAxis(const LinkModel* pBaseLink, const LinkModel* pTipLink) const
+Vector3d IKPlugin::getLinkOffset(const LinkModel* pBaseLink, const LinkModel* pTipLink) const
 {
     const Isometry3d& baseLinkPos = m_pState->getGlobalLinkTransform(pBaseLink);
     const Isometry3d& tipLinkPos = m_pState->getGlobalLinkTransform(pTipLink);
 
-    return (tipLinkPos.translation() - baseLinkPos.translation()).normalized();
+    return (tipLinkPos.translation() - baseLinkPos.translation());
 }
 
 //
 // Static methods
 //
 
+double IKPlugin::getAngle(double x, double y)
+{
+    return atan2(y, x);
+}
+
 void IKPlugin::setJointState(const JointModel* pJoint, double angle, std::vector<double>& states) const
 {
     const Vector3d& axis = getJointAxis(pJoint);
     const JointLimits& limits = pJoint->getVariableBoundsMsg().front();
     Isometry3d transform = Isometry3d(AngleAxisd(angle, axis));
+
+    if (isnan(angle)) return;
 
     double state;
     pJoint->computeVariablePositions(transform, &state);
@@ -508,14 +553,18 @@ void IKPlugin::setJointState(const JointModel* pJoint, double angle, std::vector
         state,
         states[index]
     );
-}
 
-Vector3d IKPlugin::getAnglesBetweenTwoVectors(const Vector3d& v1, const Vector3d& v2)
-{
-    return Quaterniond::FromTwoVectors(v1, v2)
-        .normalized()
-        .toRotationMatrix()
-        .eulerAngles(0, 1, 2);
+    if (pJoint->getMimic())
+    {
+        const JointModel* pMimicJoint = pJoint->getMimic();
+        const JointLimits& mimicLimits = pMimicJoint->getVariableBoundsMsg().front();
+        double mimicState = (state - pJoint->getMimicOffset()) / pJoint->getMimicFactor();
+
+        size_t mimicIndex = find(m_joints.begin(), m_joints.end(), pMimicJoint) - m_joints.begin();
+        states[mimicIndex] = clamp(mimicState, mimicLimits.min_position, mimicLimits.max_position);
+
+        ROS_INFO_NAMED(PLUGIN_NAME, "Updating mimic %s: %g from %g", pMimicJoint->getName().c_str(), mimicState, state);
+    }
 }
 
 const Vector3d& IKPlugin::getJointAxis(const JointModel* pJoint)
