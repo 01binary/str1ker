@@ -129,6 +129,8 @@ bool IKPlugin::initialize(
                 limits.min_position,
                 limits.max_position,
                 limits.max_velocity);
+
+            m_joints.push_back(pJoint);
         }
         else if (pJoint->getType() == JointModel::PRISMATIC)
         {
@@ -148,13 +150,8 @@ bool IKPlugin::initialize(
                 limits.min_position,
                 limits.max_position,
                 limits.max_velocity);
-        }
-        else if (pJoint->getType() != JointModel::FIXED)
-        {
-            ROS_WARN_NAMED(
-                PLUGIN_NAME,
-                "Joint %s not supported",
-                jointNames[jointIndex].c_str());
+
+            m_joints.push_back(pJoint);
         }
     }
 
@@ -343,13 +340,12 @@ bool IKPlugin::searchPositionIK(
     const robot_state::RobotState *context_state) const
 {
     // Validate initial state
-    if (ik_seed_state.size() > m_pPlanningGroup->getJointModels().size())
+    if (ik_seed_state.size() != m_joints.size())
     {
         ROS_ERROR_NAMED(
             PLUGIN_NAME,
-            "Expected state for %ld active joints (and possibly %ld mimic joints), received state for %ld",
-            m_pPlanningGroup->getActiveJointModels().size(),
-            m_pPlanningGroup->getMimicJointModels().size(),
+            "Expected state for %ld supported joints, received state for %ld",
+            m_joints.size(),
             ik_seed_state.size());
 
         error_code.val = error_code.NO_IK_SOLUTION;
@@ -362,6 +358,19 @@ bool IKPlugin::searchPositionIK(
             "Received seed state for %ld joints",
             ik_seed_state.size()
         );
+
+        for (size_t jointIndex = 0;
+            jointIndex < ik_seed_state.size();
+            jointIndex++)
+        {
+            ROS_INFO_NAMED(
+                PLUGIN_NAME,
+                "  %s (%s): %g",
+                m_joints[jointIndex]->getName().c_str(),
+                m_joints[jointIndex]->getMimic() ? "mimic" : "active",
+                ik_seed_state[jointIndex]
+            );
+        }
     }
 
     // Validate poses
@@ -381,22 +390,20 @@ bool IKPlugin::searchPositionIK(
     tf2::fromMsg(ik_poses.front(), target);
 
     auto startTime = ros::WallTime::now();
-    auto joints = m_pPlanningGroup->getJointModels();
+    auto activeJoints = m_pPlanningGroup->getActiveJointModels();
 
-    solution.resize(ik_seed_state.size());
+    solution.resize(m_joints.size());
 
     for (size_t jointIndex = 0;
-         jointIndex < ik_seed_state.size();
+         jointIndex < m_joints.size();
          jointIndex++)
     {
-        const JointModel& joint = *joints[jointIndex];
+        solution[jointIndex] = ik_seed_state[jointIndex];
+
+        const JointModel& joint = *m_joints[jointIndex];
         const LinkModel& link = *joint.getChildLinkModel();
 
-        if (joint.isPassive() || joint.getMimic())
-            continue;
-
-        if (joint.getType() != JointModel::REVOLUTE &&
-            joint.getType() != JointModel::PRISMATIC)
+        if (joint.getMimic() || joint.getType() != JointModel::REVOLUTE)
             continue;
 
         double jointState = ik_seed_state[jointIndex];
@@ -420,15 +427,14 @@ bool IKPlugin::searchPositionIK(
                 .eulerAngles(0, 1, 2)
                 .cwiseProduct(axis);
 
-            AngleAxisd axisAngle(
+            double angle =
                 axis.x() > 0.0 ?
                     angles.x() :
                 axis.y() > 0.0 ?
                     angles.y() :
-                angles.z(),
-                axis
-            );
+                angles.z();
 
+            AngleAxisd axisAngle(M_PI - angle, axis);
             joint.computeVariablePositions(
                 Isometry3d(axisAngle),
                 &jointState
@@ -436,7 +442,7 @@ bool IKPlugin::searchPositionIK(
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
-                "Calculationg IK\n\t%s:\n\tlocal [%g, %g, %g]\n\tworld [%g %g %g]\n\ttarget [%g %g %g]\n\tangles %g %g %g\n\tjoint state %g\n\tlimits %g -> %g",
+                "Calculating IK for Joint\n\t%s:\n\tlocal [%g, %g, %g]\n\tworld [%g %g %g]\n\ttarget [%g %g %g]\n\tangles %g %g %g\n\tseed state %g\n\tjoint state %g\n\tlimits %g -> %g",
                 joint.getName().c_str(),
 
                 local.translation().x(),
@@ -455,6 +461,7 @@ bool IKPlugin::searchPositionIK(
                 angles.y(),
                 angles.z(),
 
+                ik_seed_state[jointIndex],
                 jointState,
 
                 limits.min_position,
@@ -462,25 +469,18 @@ bool IKPlugin::searchPositionIK(
             );
         }
 
-        solution[jointIndex] = jointState;
-        m_pState->setJointPositions(joint.getName(), &jointState);
+        solution[jointIndex] = clamp(
+            jointState, limits.min_position, limits.max_position);
 
         if ((ros::WallTime::now() - startTime).toSec() >= timeout)
             break;
     }
 
-    // Apply limits
-    m_pState->enforceBounds();
-
     // Return solution
+    error_code.val = error_code.SUCCESS;
+
     if(!solution_callback.empty())
-    {
-      solution_callback(ik_poses.front(), solution, error_code.SUCCESS);
-    }
-    else
-    {
-      error_code.val = error_code.SUCCESS;
-    }
+        solution_callback(ik_poses.front(), solution, error_code);
 
     return true;
 }

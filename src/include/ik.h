@@ -54,6 +54,7 @@ private:
 private:
     robot_state::RobotStatePtr m_pState;
     const robot_model::JointModelGroup* m_pPlanningGroup;
+    std::vector<const robot_model::JointModel*> m_joints;
 
 public:
     IKPlugin();
