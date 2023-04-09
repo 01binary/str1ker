@@ -403,7 +403,7 @@ bool IKPlugin::searchPositionIK(
         const JointModel& joint = *m_joints[jointIndex];
         const LinkModel& link = *joint.getChildLinkModel();
 
-        if (joint.getMimic() || joint.getType() != JointModel::REVOLUTE)
+        if (joint.getMimicRequests().size() || joint.getType() != JointModel::REVOLUTE)
             continue;
 
         double jointState = ik_seed_state[jointIndex];
