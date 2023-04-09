@@ -144,6 +144,9 @@ public:
         moveit_msgs::MoveItErrorCodes &error_code,
         const kinematics::KinematicsQueryOptions &options = kinematics::KinematicsQueryOptions(),
         const moveit::core::RobotState* context_state = NULL) const;
+
+private:
+    static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
 };
 
 /*----------------------------------------------------------*\
