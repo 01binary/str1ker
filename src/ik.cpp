@@ -20,7 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include <Eigen/Geometry>
-#include <eigen_conversions/eigen_msg.h>
+#include <tf2_eigen/tf2_eigen.h>
 #include "include/ik.h"
 
 /*----------------------------------------------------------*\
@@ -355,6 +355,14 @@ bool IKPlugin::searchPositionIK(
         error_code.val = error_code.NO_IK_SOLUTION;
         return false;
     }
+    else
+    {
+        ROS_INFO_NAMED(
+            PLUGIN_NAME,
+            "Received seed state for %ld joints",
+            ik_seed_state.size()
+        );
+    }
 
     // Validate poses
     if (ik_poses.size() != 1 || tip_frames_.size() != ik_poses.size())
@@ -370,7 +378,7 @@ bool IKPlugin::searchPositionIK(
     }
 
     Isometry3d target;
-    tf::poseMsgToEigen(ik_poses.front(), target);
+    tf2::fromMsg(ik_poses.front(), target);
 
     auto startTime = ros::WallTime::now();
     auto joints = m_pPlanningGroup->getJointModels();
@@ -391,41 +399,71 @@ bool IKPlugin::searchPositionIK(
             joint.getType() != JointModel::PRISMATIC)
             continue;
 
+        double jointState = ik_seed_state[jointIndex];
         const Vector3d& axis = getJointAxis(&joint);
-        const Isometry3d& transform = m_pState->getGlobalLinkTransform(&link);
+        const Isometry3d& world = m_pState->getGlobalLinkTransform(&link);
+        const Isometry3d& local = m_pState->getFrameTransform(link.getName());
+        const JointLimits& limits = joint.getVariableBoundsMsg().front();
 
         if (joint.getType() == JointModel::REVOLUTE)
         {
             // Get vector from joint origin to target
-            auto delta = target.translation() - transform.translation();
+            auto delta = target.translation() - world.translation();
 
-            // Get angle between joint axis and the target
-            auto angleToTarget = Quaternion::FromTwoVectors(axis, delta);
+            // Get rotation between joint axis and the target
+            Matrix3d rotation = Quaterniond::FromTwoVectors(axis, delta)
+                .normalized()
+                .toRotationMatrix();
 
-            // Map angle to joint position
-            joint.computeVariablePositions(scaled, &solution[jointIndex]);
+            // Compute joint state
+            Vector3d angles = rotation
+                .eulerAngles(0, 1, 2)
+                .cwiseProduct(axis);
 
-            // Debug
-            auto angles = angleToTarget.rotation();
+            AngleAxisd axisAngle(
+                axis.x() > 0.0 ?
+                    angles.x() :
+                axis.y() > 0.0 ?
+                    angles.y() :
+                angles.z(),
+                axis
+            );
+
+            joint.computeVariablePositions(
+                Isometry3d(axisAngle),
+                &jointState
+            );
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
-                "Calculationg IK for %s: from [%g %g %g] to [%g %g %g], angles %g %g %g",
-                joint.getName(),
-                transform.translation().x(),
-                transform.translation().y(),
-                transform.translation().z(),
-                target.x(),
-                target.y(),
-                target.z(),
+                "Calculationg IK\n\t%s:\n\tlocal [%g, %g, %g]\n\tworld [%g %g %g]\n\ttarget [%g %g %g]\n\tangles %g %g %g\n\tjoint state %g\n\tlimits %g -> %g",
+                joint.getName().c_str(),
+
+                local.translation().x(),
+                local.translation().y(),
+                local.translation().z(),
+
+                world.translation().x(),
+                world.translation().y(),
+                world.translation().z(),
+
+                target.translation().x(),
+                target.translation().y(),
+                target.translation().z(),
+
                 angles.x(),
                 angles.y(),
-                angles.z());
+                angles.z(),
+
+                jointState,
+
+                limits.min_position,
+                limits.max_position
+            );
         }
-        else
-        {
-            solution[jointIndex] = ik_seed_state[jointIndex];
-        }
+
+        solution[jointIndex] = jointState;
+        m_pState->setJointPositions(joint.getName(), &jointState);
 
         if ((ros::WallTime::now() - startTime).toSec() >= timeout)
             break;
@@ -433,6 +471,16 @@ bool IKPlugin::searchPositionIK(
 
     // Apply limits
     m_pState->enforceBounds();
+
+    // Return solution
+    if(!solution_callback.empty())
+    {
+      solution_callback(ik_poses.front(), solution, error_code.SUCCESS);
+    }
+    else
+    {
+      error_code.val = error_code.SUCCESS;
+    }
 
     return true;
 }

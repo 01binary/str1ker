@@ -8,11 +8,11 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   tf2
   tf2_ros
+  tf2_geometry_msgs
   angles
   genmsg
   message_generation
   std_msgs
-  tf2_geometry_msgs
   controller_manager
   moveit_ros_robot_interaction
   moveit_visual_tools
