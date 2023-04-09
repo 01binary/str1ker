@@ -69,7 +69,8 @@
         "cinttypes": "cpp",
         "typeindex": "cpp",
         "variant": "cpp",
-        "bit": "cpp"
+        "bit": "cpp",
+        "geometry": "cpp"
     },
     "python.autoComplete.extraPaths": [
         "/home/val/catkin_ws/devel/lib/python3/dist-packages",
