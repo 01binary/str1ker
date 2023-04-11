@@ -162,7 +162,10 @@ private:
 
     bool validateSeedState(const std::vector<double>& ik_seed_state) const;
     bool validateTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
-    void setJointState(const robot_model::JointModel* pJoint, double value, std::vector<double>& states) const;
+    Eigen::Isometry3d setJointState(
+        const robot_model::JointModel* pJoint,
+        double value,
+        std::vector<double>& states) const;
 
 private:
     static double getAngle(double x, double y);

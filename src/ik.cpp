@@ -353,59 +353,58 @@ bool IKPlugin::searchPositionIK(
         return false;
     }
 
-    solution = ik_seed_state;
-
     const LinkModel* pTipLink = getTipLink();
     const JointModel* pMountJoint = getJoint(JointModel::REVOLUTE);
     const JointModel* pShoulderJoint = getJoint(JointModel::REVOLUTE, pMountJoint);
     const JointModel* pElbowJoint = getJoint(JointModel::REVOLUTE, pShoulderJoint);
-    const Isometry3d& world = m_pState->getGlobalLinkTransform(pMountJoint->getChildLinkModel());
+    const Isometry3d& world = m_pState->getGlobalLinkTransform(
+        pMountJoint->getChildLinkModel());
 
-    // Calculate mount joint angle
     Isometry3d target = getTarget(ik_poses);
     Vector3d offset = target.translation() - world.translation();
-
+    Vector3d shoulder = m_pState->getGlobalLinkTransform(
+        pShoulderJoint->getChildLinkModel());
     Vector3d upperArm = getLinkOffset(
         pShoulderJoint->getChildLinkModel(),
         pElbowJoint->getChildLinkModel());
-
     Vector3d forearm = getLinkOffset(
         pElbowJoint->getChildLinkModel(),
         pElbowJoint->getDescendantJointModels().front()->getChildLinkModel());
-
     Vector3d effector = getLinkOffset(
         pMountJoint->getChildLinkModel(),
         pTipLink);
 
+    solution = ik_seed_state;
+
+    // Calculate mount joint angle
     double mountAngle = getAngle(offset.x(), offset.y());
     double mountReference = getAngle(upperArm.x(), upperArm.y());
     double effectorOffset = getAngle(effector.x(), effector.y()) - mountReference;
     double mount = mountAngle - mountReference - effectorOffset;
-
-    setJointState(pMountJoint, mount, solution);
+    Isometry3d mountRotation = setJointState(pMountJoint, mount, solution);
 
     // Calculate shoulder joint angle
-    double shoulderReference = getAngle(1.0, 0.0);
-    double shoulderAngle = lawOfCosines(upperArm.norm(), forearm.norm(), offset.norm());
-    double shoulder = shoulderAngle - shoulderReference;
+    Isometry3d localToWorld = mountRotation * Translation3d(shoulder.x(), shoulder.y(), shoulder.z());
+    Vector3d targetLocal = (target.translation() * localToWorld.inverse()).translation();
 
-    ROS_INFO("shoulder angle ref: %g", shoulderReference * 180.0 / M_PI);
+    double shoulderAngle = lawOfCosines(upperArm.norm(), forearm.norm(), targetLocal.norm());
+    double shoulder = shoulderAngle;// - M_PI / 2;
+
     ROS_INFO("shoulder angle: %g", shoulderAngle * 180.0 / M_PI);
     ROS_INFO("shoulder joint: %g", shoulder * 180.0 / M_PI);
 
     setJointState(pShoulderJoint, shoulder, solution);
 
     // Calculate elbow joint angle
-    double elbowReference = shoulder;
-    double elbowAngle = lawOfCosines(forearm.norm(), offset.norm(), upperArm.norm());
-    double elbow = elbowAngle - elbowReference;
+    double elbowAngle = lawOfCosines(forearm.norm(), upperArm.norm(), targetLocal.norm());
+    double elbow = elbowAngle;
 
-    ROS_INFO("elbow angle ref: %g", elbowReference * 180.0 / M_PI);
     ROS_INFO("elbow angle: %g", elbowAngle * 180.0 / M_PI);
     ROS_INFO("elbow joint: %g", elbow * 180.0 / M_PI);
 
     setJointState(pElbowJoint, elbow, solution);
 
+    // Return solution
     error_code.val = error_code.SUCCESS;
 
     if(!solution_callback.empty())
@@ -528,13 +527,16 @@ double IKPlugin::getAngle(double x, double y)
     return atan2(y, x);
 }
 
-void IKPlugin::setJointState(const JointModel* pJoint, double angle, std::vector<double>& states) const
+Isometry3d IKPlugin::setJointState(
+    const JointModel* pJoint,
+    double angle,
+    std::vector<double>& states) const
 {
     const Vector3d& axis = getJointAxis(pJoint);
     const JointLimits& limits = pJoint->getVariableBoundsMsg().front();
     Isometry3d transform = Isometry3d(AngleAxisd(angle, axis));
 
-    if (isnan(angle)) return;
+    if (isnan(angle)) return transform;
 
     double state;
     pJoint->computeVariablePositions(transform, &state);
@@ -565,6 +567,8 @@ void IKPlugin::setJointState(const JointModel* pJoint, double angle, std::vector
 
         ROS_INFO_NAMED(PLUGIN_NAME, "Updating mimic %s: %g from %g", pMimicJoint->getName().c_str(), mimicState, state);
     }
+
+    return transform;
 }
 
 const Vector3d& IKPlugin::getJointAxis(const JointModel* pJoint)
