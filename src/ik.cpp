@@ -363,7 +363,7 @@ bool IKPlugin::searchPositionIK(
     Isometry3d target = getTarget(ik_poses);
     Vector3d offset = target.translation() - world.translation();
     Vector3d shoulder = m_pState->getGlobalLinkTransform(
-        pShoulderJoint->getChildLinkModel());
+        pShoulderJoint->getChildLinkModel()).translation();
     Vector3d upperArm = getLinkOffset(
         pShoulderJoint->getChildLinkModel(),
         pElbowJoint->getChildLinkModel());
@@ -385,24 +385,55 @@ bool IKPlugin::searchPositionIK(
 
     // Calculate shoulder joint angle
     Isometry3d localToWorld = mountRotation * Translation3d(shoulder.x(), shoulder.y(), shoulder.z());
-    Vector3d targetLocal = (target.translation() * localToWorld.inverse()).translation();
+    Vector3d targetLocal = (target * localToWorld.inverse()).translation();
 
-    double shoulderAngle = lawOfCosines(upperArm.norm(), forearm.norm(), targetLocal.norm());
-    double shoulder = shoulderAngle;// - M_PI / 2;
+    const double MIN_TARGET_Z = -0.410627;
+    const double MAX_TARGET_Z = 0.339602;
 
-    ROS_INFO("shoulder angle: %g", shoulderAngle * 180.0 / M_PI);
-    ROS_INFO("shoulder joint: %g", shoulder * 180.0 / M_PI);
+    if (targetLocal.z() < MIN_TARGET_Z)
+    {
+        size_t index = find(m_joints.begin(), m_joints.end(), pShoulderJoint) - m_joints.begin();
+        solution[index] = pShoulderJoint->getVariableBoundsMsg().front().min_position;
+    }
+    else if (targetLocal.z() > MAX_TARGET_Z)
+    {
+        size_t index = find(m_joints.begin(), m_joints.end(), pShoulderJoint) - m_joints.begin();
+        solution[index] = pShoulderJoint->getVariableBoundsMsg().front().min_position;
+    }
+    else
+    {
+        double shoulderOffset = asin(targetLocal.z() / targetLocal.norm());
+        double shoulderAngle = shoulderOffset +
+            lawOfCosines(upperArm.norm(), forearm.norm(), targetLocal.norm());
 
-    setJointState(pShoulderJoint, shoulder, solution);
+        ROS_INFO("target in local %g, %g, %g", targetLocal.x(), targetLocal.y(), targetLocal.z());
+        ROS_INFO("target angle: %g", shoulderOffset * 180.0 / M_PI);
+        ROS_INFO("shoulder angle: %g", shoulderAngle * 180.0 / M_PI);
 
-    // Calculate elbow joint angle
-    double elbowAngle = lawOfCosines(forearm.norm(), upperArm.norm(), targetLocal.norm());
-    double elbow = elbowAngle;
+        setJointState(pShoulderJoint, shoulderAngle, solution);
+    }
 
-    ROS_INFO("elbow angle: %g", elbowAngle * 180.0 / M_PI);
-    ROS_INFO("elbow joint: %g", elbow * 180.0 / M_PI);
+    const double MIN_TARGET_OFFSET = 0.792935;
+    const double MAX_TARGET_OFFSET = 0.991507;
 
-    setJointState(pElbowJoint, elbow, solution);
+    if (targetLocal.y() < MIN_TARGET_OFFSET)
+    {
+        size_t index = find(m_joints.begin(), m_joints.end(), pElbowJoint) - m_joints.begin();
+        solution[index] = pElbowJoint->getVariableBoundsMsg().front().min_position;
+    }
+    else if (targetLocal.y() > MAX_TARGET_OFFSET)
+    {
+        size_t index = find(m_joints.begin(), m_joints.end(), pElbowJoint) - m_joints.begin();
+        solution[index] = pElbowJoint->getVariableBoundsMsg().front().max_position;
+    }
+    else
+    {
+        // Calculate elbow joint angle
+        double elbowAngle = lawOfCosines(forearm.norm(), upperArm.norm(), targetLocal.norm()) - M_PI;
+        ROS_INFO("elbow angle: %g", -elbowAngle * 180.0 / M_PI);
+
+        setJointState(pElbowJoint, elbowAngle, solution);
+    }
 
     // Return solution
     error_code.val = error_code.SUCCESS;
@@ -546,14 +577,16 @@ Isometry3d IKPlugin::setJointState(
 
     ROS_INFO_NAMED(
         PLUGIN_NAME,
-        "IK solution %s: angle %g on [%g %g %g], state %g, clamped %g",
+        "IK solution %s:\n\tangle %g\n\taxis [%g %g %g]\n\tstate %g, clamped %g [%g -> %g]",
         pJoint->getName().c_str(),
         angle,
         axis.x(),
         axis.y(),
         axis.z(),
         state,
-        states[index]
+        states[index],
+        limits.min_position,
+        limits.max_position
     );
 
     if (pJoint->getMimic())
