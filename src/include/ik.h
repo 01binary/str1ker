@@ -181,6 +181,34 @@ private:
         const robot_model::JointModel* pJoint,
         std::vector<double>& states) const;
 
+    void publishLineMarker(
+        int id,
+        std::vector<Eigen::Vector3d> points,
+        Eigen::Vector3d color) const;
+
+    void publishLineMarker(
+        int id,
+        const Eigen::Vector3d& start,
+        const Eigen::Vector3d& middle,
+        const Eigen::Vector3d& end,
+        double r,
+        double g,
+        double b) const
+    {
+        publishLineMarker(id, {start, middle, end}, {r, g, b});
+    }
+
+    void publishLineMarker(
+        int id,
+        const Eigen::Vector3d& start,
+        const Eigen::Vector3d& end,
+        double r,
+        double g,
+        double b) const
+    {
+        publishLineMarker(id, {start, end}, {r, g, b});
+    }
+
 private:
     static double getAngle(double x, double y);
     static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);

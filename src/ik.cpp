@@ -32,6 +32,7 @@ using namespace kinematics;
 using namespace moveit::core;
 using namespace robot_state;
 using namespace moveit_msgs;
+using namespace visualization_msgs;
 using namespace Eigen;
 using namespace str1ker;
 
@@ -386,105 +387,18 @@ bool IKPlugin::searchPositionIK(
     double mountOffset = getAngle(shoulderToEffector.x(), shoulderToEffector.y()) - mountReference;
     Isometry3d armRotation = setJointState(pMountJoint, mountAngle - mountReference - mountOffset, solution);
 
-    // Calculate shoulder joint angle
-    Vector3d targetToEffectorReference = targetReference.translation() - elbowToEffector;
-    Isometry3d localToWorld = armRotation * shoulderReference;
-    Vector3d targetLocal = localToWorld.inverse() * targetToEffectorReference;
-    Isometry3d shoulderTransform, elbowTransform;
-
-    double shoulderOffset = asin(targetLocal.z() / targetLocal.norm());
-    double shoulderRaw = lawOfCosines(upperArm.norm(), forearm.norm(), targetLocal.norm());
-
-    if (targetLocal.z() < MIN_TARGET_HEIGHT)
-    {
-        shoulderTransform = setJointMinState(pShoulderJoint, solution);
-    }
-    else if (targetLocal.z() > MAX_TARGET_HEIGHT)
-    {
-        shoulderTransform = setJointMaxState(pShoulderJoint, solution);
-    }
-    else
-    {
-        double effectorOffset = getAngle(elbowToEffector.y(), elbowToEffector.z());
-        double shoulderAngle = shoulderOffset - effectorOffset + shoulderRaw;
-
-        ROS_INFO("target in local %g, %g, %g", targetLocal.x(), targetLocal.y(), targetLocal.z());
-        ROS_INFO("target angle: %g", shoulderOffset * 180.0 / M_PI);
-        ROS_INFO("shoulder angle: %g", shoulderAngle * 180.0 / M_PI);
-
-        shoulderTransform = setJointState(pShoulderJoint, shoulderAngle, solution);
-    }
-
-    if (targetLocal.y() < MIN_TARGET_OFFSET)
-    {
-        elbowTransform = setJointMinState(pElbowJoint, solution);
-    }
-    else if (targetLocal.y() > MAX_TARGET_OFFSET)
-    {
-        elbowTransform = setJointMaxState(pElbowJoint, solution);
-    }
-    else
-    {
-        // Calculate elbow joint angle
-        double elbowAngle = lawOfCosines(forearm.norm(), upperArm.norm(), targetLocal.norm()) - M_PI;
-        ROS_INFO("elbow angle: %g", -elbowAngle * 180.0 / M_PI);
-
-        elbowTransform = setJointState(pElbowJoint, elbowAngle, solution);
-    }
+    double shoulderAngle = lawOfCosines(
+        upperArm.norm(),
+        forearm.norm(),
+        shoulderToEffector.norm());
+    
+    double elbowAngle = lawOfCosines(
+        upperArm.norm(),
+        shoulderToEffector.norm(),
+        forearm.norm());
 
     // Debug markers
-    visualization_msgs::Marker mountMarker, armMarker;
-
-    mountMarker.header.frame_id = armMarker.header.frame_id = "world";
-    mountMarker.header.stamp = armMarker.header.stamp = ros::Time::now();
-    mountMarker.pose.orientation.x = armMarker.pose.orientation.x = 0.0;
-    mountMarker.pose.orientation.y = armMarker.pose.orientation.y = 0.0;
-    mountMarker.pose.orientation.z = armMarker.pose.orientation.z = 0.0;
-    mountMarker.pose.orientation.w = armMarker.pose.orientation.w = 1.0;
-    mountMarker.ns = armMarker.ns = "str1ker/ik";
-    mountMarker.type = armMarker.type = visualization_msgs::Marker::LINE_STRIP;
-    mountMarker.scale.x = armMarker.scale.x = 0.01;
-    mountMarker.scale.y = armMarker.scale.y = 0.01;
-    mountMarker.scale.z = armMarker.scale.y = 0.01;
-
-    mountMarker.id = 0;
-    mountMarker.color.r = 1.0;
-    mountMarker.color.g = 0.0;
-    mountMarker.color.b = 1.0;
-    mountMarker.color.a = 1.0;
-    geometry_msgs::Point mountPointStart;
-    mountPointStart.x = shoulderReference.translation().x();
-    mountPointStart.y = shoulderReference.translation().y();
-    mountPointStart.z = shoulderReference.translation().z();
-    geometry_msgs::Point mountPointEnd;
-    mountPointEnd.x = targetReference.translation().x();
-    mountPointEnd.y = targetReference.translation().y();
-    mountPointEnd.z = targetReference.translation().z();
-    mountMarker.points.push_back(mountPointStart);
-    mountMarker.points.push_back(mountPointEnd);
-
-    armMarker.id = 1;
-    armMarker.color.r = 0.0;
-    armMarker.color.g = 1.0;
-    armMarker.color.b = 1.0;
-    armMarker.color.a = 1.0;
-    geometry_msgs::Point elbowPoint;
-    double shoulderAngle = getAngle(targetOffset.y(), targetOffset.z());
-    double elbowHeight = sin(shoulderAngle) * upperArm.norm();
-    double elbowOffset = cos(shoulderAngle) * upperArm.norm();
-    elbowPoint.x = 0;
-    elbowPoint.y = elbowOffset;
-    elbowPoint.z = elbowHeight;
-    geometry_msgs::Point effectorPoint;
-    effectorPoint.x = targetOffset.x();
-    effectorPoint.y = targetOffset.y();
-    effectorPoint.z = targetOffset.z();
-    armMarker.points.push_back(mountPointStart);
-    armMarker.points.push_back(elbowPoint);
-    armMarker.points.push_back(effectorPoint);
-
-    m_markerPub.publish(mountMarker);
-    m_markerPub.publish(armMarker);
+    // TODO
 
     // Return solution
     error_code.val = error_code.SUCCESS;
@@ -598,6 +512,35 @@ Vector3d IKPlugin::getLinkLength(const LinkModel* pBaseLink, const LinkModel* pT
     const Isometry3d& tipLinkPos = m_pState->getGlobalLinkTransform(pTipLink);
 
     return (tipLinkPos.translation() - baseLinkPos.translation());
+}
+
+void IKPlugin::publishLineMarker(int id, vector<Vector3d> points, Vector3d color) const
+{
+    Marker marker;
+    marker.id = id;
+    marker.type = Marker::LINE_STRIP;
+    marker.header.frame_id = "world";
+    marker.header.stamp = ros::Time::now();
+    marker.pose.orientation.x = 0.0;
+    marker.pose.orientation.y = 0.0;
+    marker.pose.orientation.z = 0.0;
+    marker.pose.orientation.w = 1.0;
+    marker.scale.x = 0.01;
+    marker.color.r = color.x();
+    marker.color.g = color.y();
+    marker.color.b = color.z();
+    marker.color.a = 1.0;
+
+    for (Vector3d& point : points)
+    {
+        geometry_msgs::Point msgPoint;
+        msgPoint.x = point.x();
+        msgPoint.y = point.y();
+        msgPoint.z = point.z();
+        marker.points.push_back(msgPoint);
+    }
+
+    m_markerPub.publish(marker);
 }
 
 //
