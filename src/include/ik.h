@@ -186,33 +186,22 @@ private:
         std::vector<Eigen::Vector3d> points,
         Eigen::Vector3d color) const;
 
-    void publishLineMarker(
-        int id,
-        const Eigen::Vector3d& start,
-        const Eigen::Vector3d& middle,
-        const Eigen::Vector3d& end,
-        double r,
-        double g,
-        double b) const
-    {
-        publishLineMarker(id, {start, middle, end}, {r, g, b});
-    }
-
-    void publishLineMarker(
-        int id,
-        const Eigen::Vector3d& start,
-        const Eigen::Vector3d& end,
-        double r,
-        double g,
-        double b) const
-    {
-        publishLineMarker(id, {start, end}, {r, g, b});
-    }
-
 private:
     static double getAngle(double x, double y);
     static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
     static double lawOfCosines(double a, double b, double c);
+
+    static inline double clamp(double value, double low, double high)
+    {
+        assert(low <= high);
+
+        if (value < low)
+            value = low;
+        else if (value > high)
+            value = high;
+
+        return value;
+    }
 };
 
 /*----------------------------------------------------------*\

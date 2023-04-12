@@ -386,6 +386,7 @@ bool IKPlugin::searchPositionIK(
     double mountReference = getAngle(upperArm.x(), upperArm.y());
     double mountOffset = getAngle(shoulderToEffector.x(), shoulderToEffector.y()) - mountReference;
     Isometry3d armRotation = setJointState(pMountJoint, mountAngle - mountReference - mountOffset, solution);
+    publishLineMarker(0, { shoulderReference.translation(), targetReference.translation() }, { 1.0, 0.0, 1.0 });
 
     double shoulderAngle = lawOfCosines(
         upperArm.norm(),
@@ -397,8 +398,21 @@ bool IKPlugin::searchPositionIK(
         shoulderToEffector.norm(),
         forearm.norm());
 
-    // Debug markers
-    // TODO
+    // Visualize elbow location
+    // 0. Get target position in local space
+    // 1. Add Z angle to target as offset to the shoulderAngle
+    // 2. Scale by upper arm norm
+    // 3. Rotate by mount rotation
+
+    Vector3d targetLocal = armRotation * targetOffset;
+    double angleToTarget = getAngle(targetLocal.y(), targetLocal.z());
+    double totalShoulderAngle = M_PI - angleToTarget + shoulderAngle;
+    double elbowY = cos(totalShoulderAngle) * upperArm.norm();
+    double elbowZ = sin(totalShoulderAngle) * upperArm.norm();
+    Vector3d elbowLocal = {0.0, elbowY, elbowZ};
+    Vector3d elbowWorld = shoulderReference * armRotation * elbowLocal;
+
+    publishLineMarker(1, { shoulderReference.translation(), elbowWorld, targetReference.translation() }, { 0.0, 1.0, 1.0 });
 
     // Return solution
     error_code.val = error_code.SUCCESS;
