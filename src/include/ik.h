@@ -49,13 +49,18 @@ namespace str1ker {
 class IKPlugin : public kinematics::KinematicsBase
 {
 private:
+    const double MIN_TARGET_HEIGHT = -0.410627;
+    const double MAX_TARGET_HEIGHT = 0.339602;
+    const double MIN_TARGET_OFFSET = 0.792935;
+    const double MAX_TARGET_OFFSET = 0.991507;
     const double DEFAULT_TIMEOUT = 250.0;
 
 private:
     robot_state::RobotStatePtr m_pState;
     const robot_model::JointModelGroup* m_pPlanningGroup;
     std::vector<const robot_model::JointModel*> m_joints;
-    std::vector<const robot_model::JointModel*> m_mimics;
+    ros::Publisher m_markerPub;
+    ros::NodeHandle m_node;
 
 public:
     IKPlugin();
@@ -150,7 +155,7 @@ public:
 private:
     Eigen::Isometry3d getTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
 
-    Eigen::Vector3d getLinkOffset(
+    Eigen::Vector3d getLinkLength(
         const robot_model::LinkModel* pBaseLink,
         const robot_model::LinkModel* pTipLink) const;
 
@@ -162,9 +167,18 @@ private:
 
     bool validateSeedState(const std::vector<double>& ik_seed_state) const;
     bool validateTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
+
     Eigen::Isometry3d setJointState(
         const robot_model::JointModel* pJoint,
         double value,
+        std::vector<double>& states) const;
+        
+    Eigen::Isometry3d setJointMinState(
+        const robot_model::JointModel* pJoint,
+        std::vector<double>& states) const;
+
+    Eigen::Isometry3d setJointMaxState(
+        const robot_model::JointModel* pJoint,
         std::vector<double>& states) const;
 
 private:
