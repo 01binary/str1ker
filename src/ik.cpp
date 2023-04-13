@@ -598,11 +598,11 @@ Isometry3d IKPlugin::setJointState(
     double angle,
     std::vector<double>& states) const
 {
+    if (isnan(angle)) return Isometry3d::Identity();
+
     const Vector3d& axis = getJointAxis(pJoint);
     const JointLimits& limits = pJoint->getVariableBoundsMsg().front();
     Isometry3d transform = Isometry3d(AngleAxisd(angle, axis));
-
-    if (isnan(angle)) return transform;
 
     double state;
     pJoint->computeVariablePositions(transform, &state);
@@ -612,12 +612,8 @@ Isometry3d IKPlugin::setJointState(
 
     ROS_INFO_NAMED(
         PLUGIN_NAME,
-        "IK solution %s:\n\tangle %g\n\taxis [%g %g %g]\n\tstate %g, clamped %g [%g -> %g]",
+        "IK solution %s: %g [%g] min %g max %g",
         pJoint->getName().c_str(),
-        angle,
-        axis.x(),
-        axis.y(),
-        axis.z(),
         state,
         states[index],
         limits.min_position,
@@ -626,14 +622,25 @@ Isometry3d IKPlugin::setJointState(
 
     if (pJoint->getMimic())
     {
-        const JointModel* pMimicJoint = pJoint->getMimic();
-        const JointLimits& mimicLimits = pMimicJoint->getVariableBoundsMsg().front();
-        double mimicState = (state - pJoint->getMimicOffset()) / pJoint->getMimicFactor();
+        for (auto pMimic : pJoint->getMimic()->getMimicRequests())
+        {
+            auto mimicIterator = find(m_joints.begin(), m_joints.end(), pMimic);
+            if (mimicIterator == m_joints.end()) continue;
 
-        size_t mimicIndex = find(m_joints.begin(), m_joints.end(), pMimicJoint) - m_joints.begin();
-        states[mimicIndex] = clamp(mimicState, mimicLimits.min_position, mimicLimits.max_position);
+            const JointLimits& mimicLimits = pMimic->getVariableBoundsMsg().front();
+            double mimicState = (state - pMimic->getMimicOffset()) / pMimic->getMimicFactor();
 
-        ROS_INFO_NAMED(PLUGIN_NAME, "Updating mimic %s: %g from %g", pMimicJoint->getName().c_str(), mimicState, state);
+            size_t mimicIndex = mimicIterator - m_joints.begin();
+            states[mimicIndex] = clamp(mimicState, mimicLimits.min_position, mimicLimits.max_position);
+
+            ROS_INFO_NAMED(
+                PLUGIN_NAME,
+                "Updating mimic %s: %g from %g",
+                pMimic->getName().c_str(),
+                mimicState,
+                state
+            );
+        }
     }
 
     return transform;
