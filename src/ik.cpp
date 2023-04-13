@@ -423,15 +423,17 @@ bool IKPlugin::searchPositionIK(
         double upperArmNorm = m_upperArm.norm();
         double forearmNorm = m_forearm.norm();
         double reachableNorm = clamp(targetNorm, reachableMinNorm, reachableMaxNorm);
-        double shoulderAngle = lawOfCosines(upperArmNorm, forearmNorm, reachableNorm);
+        double targetAngle = getAngle(targetLocal.y(), targetLocal.z());
+        double shoulderAngle = lawOfCosines(upperArmNorm, forearmNorm, reachableNorm) - M_PI / 2.0;
         double elbowAngle = lawOfCosines(upperArmNorm, reachableNorm, forearmNorm);
 
         auto shoulderRotation = AngleAxisd(shoulderAngle, Vector3d::UnitX());
         Vector3d elbowAxis = shoulderRotation * Vector3d::UnitY();
         Vector3d elbowLocal = elbowAxis * upperArmNorm;
         Vector3d elbowWorld = shoulderWorld + armRotation * elbowLocal;
-
         publishLineMarker(2, { shoulderWorld, elbowWorld }, { 1.0, 0.0, 0.0 });
+
+        setJointState(m_pShoulderJoint, shoulderAngle, solution);
     }
 
     // Return solution
