@@ -51,7 +51,14 @@ IKPluginRegistrar g_registerIkPlugin;
 // Constructor
 //
 
-IKPlugin::IKPlugin() : m_pPlanningGroup(NULL), m_node("~")
+IKPlugin::IKPlugin() :
+    m_pPlanningGroup(NULL),
+    m_node("~"),
+    m_pTipLink(NULL),
+    m_pMountJoint(NULL),
+    m_pShoulderJoint(NULL),
+    m_pElbowJoint(NULL),
+    m_pWristJoint(NULL)
 {
 }
 
@@ -124,17 +131,15 @@ bool IKPlugin::initialize(
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
-                "Joint\n\t%s: %s %s %s\n\taxis %g %g %g\n\tlimits min %g max %g vel %g",
+                "Joint %s: %s %son %g %g %g from %g to %g",
                 jointNames[jointIndex].c_str(),
                 "revolute",
-                pJoint->isPassive() ? "passive" : "active",
-                pJoint->getMimic() != NULL ? "mimic" : "",
+                pJoint->getMimic() != NULL ? "mimic " : "",
                 axis.x(),
                 axis.y(),
                 axis.z(),
                 limits.min_position,
-                limits.max_position,
-                limits.max_velocity);
+                limits.max_position);
 
             m_joints.push_back(pJoint);
         }
@@ -145,17 +150,15 @@ bool IKPlugin::initialize(
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
-                "Joint\n\t%s: %s %s %s\n\taxis %g %g %g\n\tlimits min %g max %g vel %g",
+                "Joint %s: %s %son %g %g %g from %g to %g",
                 jointNames[jointIndex].c_str(),
                 "prismatic",
-                pJoint->isPassive() ? "passive" : "active",
-                pJoint->getMimic() != NULL ? "mimic" : "",
+                pJoint->getMimic() != NULL ? "mimic " : "",
                 axis.x(),
                 axis.y(),
                 axis.z(),
                 limits.min_position,
-                limits.max_position,
-                limits.max_velocity);
+                limits.max_position);
 
             m_joints.push_back(pJoint);
         }
@@ -192,6 +195,19 @@ bool IKPlugin::initialize(
     // Initialize state
     m_pState.reset(new robot_state::RobotState(robot_model_));
     m_pState->setToDefaultValues();
+
+    m_pTipLink = getTipLink();
+    m_pMountJoint = getJoint(JointModel::REVOLUTE);
+    m_pShoulderJoint = getJoint(JointModel::REVOLUTE, m_pMountJoint);
+    m_pElbowJoint = getJoint(JointModel::REVOLUTE, m_pShoulderJoint);
+    m_pWristJoint = getJoint(JointModel::REVOLUTE, m_pElbowJoint);
+
+    m_upperArm = getLinkLength(
+        m_pShoulderJoint->getChildLinkModel(),
+        m_pElbowJoint->getChildLinkModel());
+    m_forearm = getLinkLength(
+        m_pElbowJoint->getChildLinkModel(),
+        m_pWristJoint->getChildLinkModel());
 
     // Advertise marker publisher
     m_markerPub = m_node.advertise<visualization_msgs::Marker>(
@@ -358,61 +374,65 @@ bool IKPlugin::searchPositionIK(
 
     solution = ik_seed_state;
 
-    const LinkModel* pTipLink = getTipLink();
-    const JointModel* pMountJoint = getJoint(JointModel::REVOLUTE);
-    const JointModel* pShoulderJoint = getJoint(JointModel::REVOLUTE, pMountJoint);
-    const JointModel* pElbowJoint = getJoint(JointModel::REVOLUTE, pShoulderJoint);
-
-    Isometry3d targetReference = getTarget(ik_poses);
-    Isometry3d shoulderReference = m_pState->getGlobalLinkTransform(
-        pShoulderJoint->getChildLinkModel());
-
-    Vector3d upperArm = getLinkLength(
-        pShoulderJoint->getChildLinkModel(),
-        pElbowJoint->getChildLinkModel());
-    Vector3d forearm = getLinkLength(
-        pElbowJoint->getChildLinkModel(),
-        pElbowJoint->getDescendantJointModels().front()->getChildLinkModel());
+    Isometry3d targetWorld = getTarget(ik_poses);
+    Isometry3d shoulderWorld = m_pState->getGlobalLinkTransform(
+        m_pShoulderJoint->getChildLinkModel());
+    Vector3d targetLocal = targetWorld.translation() -
+        shoulderWorld.translation();
     Vector3d shoulderToEffector = getLinkLength(
-        pShoulderJoint->getChildLinkModel(),
-        pTipLink);
-    Vector3d elbowToEffector = getLinkLength(
-        pElbowJoint->getChildLinkModel(),
-        pTipLink);
+        m_pShoulderJoint->getChildLinkModel(),
+        m_pTipLink);
+    Vector3d wristToEffector = getLinkLength(
+        m_pWristJoint->getChildLinkModel(),
+        m_pTipLink);
 
     // Calculate mount joint angle
-    Vector3d targetOffset = targetReference.translation() - shoulderReference.translation();
-    double mountAngle = getAngle(targetOffset.x(), targetOffset.y());
-    double mountReference = getAngle(upperArm.x(), upperArm.y());
-    double mountOffset = getAngle(shoulderToEffector.x(), shoulderToEffector.y()) - mountReference;
-    Isometry3d armRotation = setJointState(pMountJoint, mountAngle - mountReference - mountOffset, solution);
-    publishLineMarker(0, { shoulderReference.translation(), targetReference.translation() }, { 1.0, 0.0, 1.0 });
-
-    double shoulderAngle = lawOfCosines(
-        upperArm.norm(),
-        forearm.norm(),
-        shoulderToEffector.norm());
+    double mountAngle = getAngle(targetLocal.x(), targetLocal.y());
+    double mountOffset = getAngle(shoulderToEffector.x(), shoulderToEffector.y());
+    Isometry3d armRotation = setJointState(
+        m_pMountJoint, mountAngle - mountOffset, solution);
     
-    double elbowAngle = lawOfCosines(
-        upperArm.norm(),
-        shoulderToEffector.norm(),
-        forearm.norm());
+    publishLineMarker(0,
+        { shoulderWorld.translation(), targetWorld.translation() },
+        { 1.0, 0.0, 1.0 });
 
-    // Visualize elbow location
-    // 0. Get target position in local space
-    // 1. Add Z angle to target as offset to the shoulderAngle
-    // 2. Scale by upper arm norm
-    // 3. Rotate by mount rotation
+    double targetNorm = targetLocal.norm();
+    double wristNorm = wristToEffector.norm();
+    double minNorm = MIN.norm();
+    double maxNorm = MAX.norm();
 
-    Vector3d targetLocal = armRotation * targetOffset;
-    double angleToTarget = getAngle(targetLocal.y(), targetLocal.z());
-    double totalShoulderAngle = M_PI - angleToTarget + shoulderAngle;
-    double elbowY = cos(totalShoulderAngle) * upperArm.norm();
-    double elbowZ = sin(totalShoulderAngle) * upperArm.norm();
-    Vector3d elbowLocal = {0.0, elbowY, elbowZ};
-    Vector3d elbowWorld = shoulderReference * armRotation * elbowLocal;
+    Vector3d reachableWorld =
+        (
+            armRotation *
+            (Vector3d::UnitY() * (clamp(targetNorm, minNorm, maxNorm) - wristNorm))
+        ) + shoulderWorld.translation();
 
-    publishLineMarker(1, { shoulderReference.translation(), elbowWorld, targetReference.translation() }, { 0.0, 1.0, 1.0 });
+    publishLineMarker(1,
+        {
+            shoulderWorld.translation(),
+            reachableWorld
+        },
+        { 0.0, 1.0, 1.0 });
+
+    if (targetNorm > maxNorm)
+    {
+        setJointMaxState(m_pShoulderJoint, solution);
+        setJointMaxState(m_pElbowJoint, solution);
+    }
+    else if (targetNorm < minNorm)
+    {
+        setJointMinState(m_pShoulderJoint, solution);
+        setJointMinState(m_pElbowJoint, solution);
+    }
+    else
+    {
+        double upperArmNorm = m_upperArm.norm();
+        double forearmNorm = m_forearm.norm();
+        
+        
+        double shoulderAngle = lawOfCosines(upperArmNorm, forearmNorm, wristNorm);
+        double elbowAngle = lawOfCosines(upperArmNorm, wristNorm, forearmNorm);
+    }
 
     // Return solution
     error_code.val = error_code.SUCCESS;
@@ -532,7 +552,7 @@ void IKPlugin::publishLineMarker(int id, vector<Vector3d> points, Vector3d color
 {
     Marker marker;
     marker.id = id;
-    marker.type = Marker::LINE_STRIP;
+    marker.type = Marker::LINE_LIST;
     marker.header.frame_id = "world";
     marker.header.stamp = ros::Time::now();
     marker.pose.orientation.x = 0.0;

@@ -49,18 +49,26 @@ namespace str1ker {
 class IKPlugin : public kinematics::KinematicsBase
 {
 private:
-    const double MIN_TARGET_HEIGHT = -0.410627;
-    const double MAX_TARGET_HEIGHT = 0.339602;
-    const double MIN_TARGET_OFFSET = 0.792935;
-    const double MAX_TARGET_OFFSET = 0.991507;
+    const Eigen::Vector3d MIN = Eigen::Vector3d(0.0, 0.792935, -0.410627);
+    const Eigen::Vector3d MAX = Eigen::Vector3d(0.0, 0.991507, 0.339602);
     const double DEFAULT_TIMEOUT = 250.0;
 
 private:
     robot_state::RobotStatePtr m_pState;
     const robot_model::JointModelGroup* m_pPlanningGroup;
-    std::vector<const robot_model::JointModel*> m_joints;
     ros::Publisher m_markerPub;
     ros::NodeHandle m_node;
+
+    std::vector<const robot_model::JointModel*> m_joints;
+
+    const robot_model::LinkModel* m_pTipLink;
+    const robot_model::JointModel* m_pMountJoint;
+    const robot_model::JointModel* m_pShoulderJoint;
+    const robot_model::JointModel* m_pElbowJoint;
+    const robot_model::JointModel* m_pWristJoint;
+
+    Eigen::Vector3d m_upperArm;
+    Eigen::Vector3d m_forearm;
 
 public:
     IKPlugin();
