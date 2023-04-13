@@ -49,13 +49,26 @@ namespace str1ker {
 class IKPlugin : public kinematics::KinematicsBase
 {
 private:
+    const Eigen::Vector3d MIN = Eigen::Vector3d(0.0, 0.792935, -0.410627);
+    const Eigen::Vector3d MAX = Eigen::Vector3d(0.0, 0.991507, 0.339602);
     const double DEFAULT_TIMEOUT = 250.0;
 
 private:
     robot_state::RobotStatePtr m_pState;
     const robot_model::JointModelGroup* m_pPlanningGroup;
+    ros::Publisher m_markerPub;
+    ros::NodeHandle m_node;
+
     std::vector<const robot_model::JointModel*> m_joints;
-    std::vector<const robot_model::JointModel*> m_mimics;
+
+    const robot_model::LinkModel* m_pTipLink;
+    const robot_model::JointModel* m_pMountJoint;
+    const robot_model::JointModel* m_pShoulderJoint;
+    const robot_model::JointModel* m_pElbowJoint;
+    const robot_model::JointModel* m_pWristJoint;
+
+    Eigen::Vector3d m_upperArm;
+    Eigen::Vector3d m_forearm;
 
 public:
     IKPlugin();
@@ -150,7 +163,7 @@ public:
 private:
     Eigen::Isometry3d getTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
 
-    Eigen::Vector3d getLinkOffset(
+    Eigen::Vector3d getLinkLength(
         const robot_model::LinkModel* pBaseLink,
         const robot_model::LinkModel* pTipLink) const;
 
@@ -162,15 +175,41 @@ private:
 
     bool validateSeedState(const std::vector<double>& ik_seed_state) const;
     bool validateTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
+
     Eigen::Isometry3d setJointState(
         const robot_model::JointModel* pJoint,
         double value,
         std::vector<double>& states) const;
+        
+    Eigen::Isometry3d setJointMinState(
+        const robot_model::JointModel* pJoint,
+        std::vector<double>& states) const;
+
+    Eigen::Isometry3d setJointMaxState(
+        const robot_model::JointModel* pJoint,
+        std::vector<double>& states) const;
+
+    void publishLineMarker(
+        int id,
+        std::vector<Eigen::Vector3d> points,
+        Eigen::Vector3d color) const;
 
 private:
     static double getAngle(double x, double y);
     static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
     static double lawOfCosines(double a, double b, double c);
+
+    static inline double clamp(double value, double low, double high)
+    {
+        assert(low <= high);
+
+        if (value < low)
+            value = low;
+        else if (value > high)
+            value = high;
+
+        return value;
+    }
 };
 
 /*----------------------------------------------------------*\
