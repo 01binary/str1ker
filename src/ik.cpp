@@ -374,11 +374,10 @@ bool IKPlugin::searchPositionIK(
 
     solution = ik_seed_state;
 
-    Isometry3d targetWorld = getTarget(ik_poses);
-    Isometry3d shoulderWorld = m_pState->getGlobalLinkTransform(
-        m_pShoulderJoint->getChildLinkModel());
-    Vector3d targetLocal = targetWorld.translation() -
-        shoulderWorld.translation();
+    Vector3d targetWorld = getTarget(ik_poses).translation();
+    Vector3d shoulderWorld = m_pState->getGlobalLinkTransform(
+        m_pShoulderJoint->getChildLinkModel()).translation();
+    Vector3d targetLocal = targetWorld - shoulderWorld;
     Vector3d shoulderToEffector = getLinkLength(
         m_pShoulderJoint->getChildLinkModel(),
         m_pTipLink);
@@ -392,34 +391,29 @@ bool IKPlugin::searchPositionIK(
     Isometry3d armRotation = setJointState(
         m_pMountJoint, mountAngle - mountOffset, solution);
     
-    publishLineMarker(0,
-        { shoulderWorld.translation(), targetWorld.translation() },
-        { 1.0, 0.0, 1.0 });
+    publishLineMarker(0, { shoulderWorld, targetWorld }, { 1.0, 0.0, 1.0 });
 
     double targetNorm = targetLocal.norm();
     double wristNorm = wristToEffector.norm();
     double minNorm = MIN.norm();
     double maxNorm = MAX.norm();
+    double reachableMaxNorm = maxNorm - wristNorm;
+    double reachableMinNorm = minNorm - wristNorm;
 
-    Vector3d reachableWorld =
-        (
-            armRotation *
-            (Vector3d::UnitY() * (clamp(targetNorm, minNorm, maxNorm) - wristNorm))
-        ) + shoulderWorld.translation();
+    Vector3d reachableMinLocal = targetLocal.normalized() * reachableMinNorm;
+    Vector3d reachableMinWorld = shoulderWorld + reachableMinLocal;
 
-    publishLineMarker(1,
-        {
-            shoulderWorld.translation(),
-            reachableWorld
-        },
-        { 0.0, 1.0, 1.0 });
+    Vector3d reachableMaxLocal = targetLocal.normalized() * reachableMaxNorm;
+    Vector3d reachableMaxWorld = shoulderWorld + reachableMaxLocal;
 
-    if (targetNorm > maxNorm)
+    publishLineMarker(1, { reachableMinWorld, reachableMaxWorld }, { 0.0, 1.0, 1.0 });
+
+    if (targetNorm > reachableMaxNorm)
     {
         setJointMaxState(m_pShoulderJoint, solution);
         setJointMaxState(m_pElbowJoint, solution);
     }
-    else if (targetNorm < minNorm)
+    else if (targetNorm < reachableMinNorm)
     {
         setJointMinState(m_pShoulderJoint, solution);
         setJointMinState(m_pElbowJoint, solution);
@@ -428,10 +422,16 @@ bool IKPlugin::searchPositionIK(
     {
         double upperArmNorm = m_upperArm.norm();
         double forearmNorm = m_forearm.norm();
-        
-        
-        double shoulderAngle = lawOfCosines(upperArmNorm, forearmNorm, wristNorm);
-        double elbowAngle = lawOfCosines(upperArmNorm, wristNorm, forearmNorm);
+        double reachableNorm = clamp(targetNorm, reachableMinNorm, reachableMaxNorm);
+        double shoulderAngle = lawOfCosines(upperArmNorm, forearmNorm, reachableNorm);
+        double elbowAngle = lawOfCosines(upperArmNorm, reachableNorm, forearmNorm);
+
+        auto shoulderRotation = AngleAxisd(shoulderAngle, Vector3d::UnitX());
+        Vector3d elbowAxis = shoulderRotation * Vector3d::UnitY();
+        Vector3d elbowLocal = elbowAxis * upperArmNorm;
+        Vector3d elbowWorld = shoulderWorld + armRotation * elbowLocal;
+
+        publishLineMarker(2, { shoulderWorld, elbowWorld }, { 1.0, 0.0, 0.0 });
     }
 
     // Return solution
