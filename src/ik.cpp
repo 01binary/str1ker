@@ -604,17 +604,17 @@ Isometry3d IKPlugin::setJointState(
     const JointLimits& limits = pJoint->getVariableBoundsMsg().front();
     Isometry3d transform = Isometry3d(AngleAxisd(angle, axis));
 
-    double state;
-    pJoint->computeVariablePositions(transform, &state);
+    double jointState;
+    pJoint->computeVariablePositions(transform, &jointState);
 
     size_t index = find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
-    states[index] = clamp(state, limits.min_position, limits.max_position);
+    states[index] = clamp(jointState, limits.min_position, limits.max_position);
 
     ROS_INFO_NAMED(
         PLUGIN_NAME,
         "IK solution %s: %g [%g] min %g max %g",
         pJoint->getName().c_str(),
-        state,
+        jointState,
         states[index],
         limits.min_position,
         limits.max_position
@@ -622,23 +622,41 @@ Isometry3d IKPlugin::setJointState(
 
     if (pJoint->getMimic())
     {
-        for (auto pMimic : pJoint->getMimic()->getMimicRequests())
+        // Update the master joint
+        const JointModel* pMasterJoint = pJoint->getMimic();
+        const JointLimits& masterLimits = pMasterJoint->getVariableBoundsMsg().front();
+        double masterStateRaw = (jointState - pJoint->getMimicOffset()) / pJoint->getMimicFactor();
+        double masterState = clamp(masterStateRaw, masterLimits.min_position, masterLimits.max_position);
+        size_t masterIndex = find(m_joints.begin(), m_joints.end(), pMasterJoint) - m_joints.begin();
+        states[masterIndex] = masterStateRaw; // temp
+
+        ROS_INFO_NAMED(
+            PLUGIN_NAME,
+            "Updating mimic master %s: %g from %g",
+            pMasterJoint->getName().c_str(),
+            masterState,
+            jointState
+        );
+
+        // Update other mimics
+        for (auto pMimicJoint : pMasterJoint->getMimicRequests())
         {
-            auto mimicIterator = find(m_joints.begin(), m_joints.end(), pMimic);
+            if (pMimicJoint == pJoint) continue;
+
+            auto mimicIterator = find(m_joints.begin(), m_joints.end(), pMimicJoint);
             if (mimicIterator == m_joints.end()) continue;
 
-            const JointLimits& mimicLimits = pMimic->getVariableBoundsMsg().front();
-            double mimicState = (state - pMimic->getMimicOffset()) / pMimic->getMimicFactor();
-
+            const JointLimits& mimicLimits = pMimicJoint->getVariableBoundsMsg().front();
             size_t mimicIndex = mimicIterator - m_joints.begin();
+            double mimicState = masterState * pMimicJoint->getMimicFactor() + pMimicJoint->getMimicOffset();
             states[mimicIndex] = clamp(mimicState, mimicLimits.min_position, mimicLimits.max_position);
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
                 "Updating mimic %s: %g from %g",
-                pMimic->getName().c_str(),
-                mimicState,
-                state
+                pMimicJoint->getName().c_str(),
+                states[mimicIndex],
+                masterState
             );
         }
     }
