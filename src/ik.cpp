@@ -423,17 +423,18 @@ bool IKPlugin::searchPositionIK(
         double upperArmNorm = m_upperArm.norm();
         double forearmNorm = m_forearm.norm();
         double reachableNorm = clamp(targetNorm, reachableMinNorm, reachableMaxNorm);
-        double targetAngle = getAngle(targetLocal.y(), targetLocal.z());
-        double shoulderAngle = lawOfCosines(upperArmNorm, forearmNorm, reachableNorm) - M_PI / 2.0;
+        double targetAngle = asin(targetLocal.z() / targetNorm);
+        double shoulderAngle = lawOfCosines(upperArmNorm, forearmNorm, reachableNorm) + targetAngle - M_PI / 2.0;
         double elbowAngle = lawOfCosines(upperArmNorm, reachableNorm, forearmNorm);
 
         auto shoulderRotation = AngleAxisd(shoulderAngle, Vector3d::UnitX());
         Vector3d elbowAxis = shoulderRotation * Vector3d::UnitY();
         Vector3d elbowLocal = elbowAxis * upperArmNorm;
         Vector3d elbowWorld = shoulderWorld + armRotation * elbowLocal;
-        publishLineMarker(2, { shoulderWorld, elbowWorld }, { 1.0, 0.0, 0.0 });
+        publishLineMarker(2, { shoulderWorld, elbowWorld, elbowWorld, targetWorld }, { 1.0, 0.0, 0.0 });
 
         setJointState(m_pShoulderJoint, shoulderAngle, solution);
+        setJointState(m_pElbowJoint, elbowAngle, solution);
     }
 
     // Return solution
@@ -628,7 +629,7 @@ Isometry3d IKPlugin::setJointState(
         double masterStateRaw = (jointState - pJoint->getMimicOffset()) / pJoint->getMimicFactor();
         double masterState = clamp(masterStateRaw, masterLimits.min_position, masterLimits.max_position);
         size_t masterIndex = find(m_joints.begin(), m_joints.end(), pMasterJoint) - m_joints.begin();
-        states[masterIndex] = masterStateRaw; // temp
+        states[masterIndex] = masterState;
 
         ROS_INFO_NAMED(
             PLUGIN_NAME,
