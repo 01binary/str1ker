@@ -202,6 +202,31 @@ bool IKPlugin::initialize(
     m_pElbowJoint = getJoint(JointModel::REVOLUTE, m_pShoulderJoint);
     m_pWristJoint = getJoint(JointModel::REVOLUTE, m_pElbowJoint);
 
+    ROS_INFO_NAMED(
+        PLUGIN_NAME,
+        "Captured tip %s", m_pTipLink ? m_pTipLink->getName().c_str() : "unknown"
+    );
+
+    ROS_INFO_NAMED(
+        PLUGIN_NAME,
+        "Captured mount %s", m_pMountJoint ? m_pMountJoint->getName().c_str() : "unknown"
+    );
+
+    ROS_INFO_NAMED(
+        PLUGIN_NAME,
+        "Captured shoulder %s", m_pShoulderJoint ? m_pShoulderJoint->getName().c_str() : "unknown"
+    );
+
+    ROS_INFO_NAMED(
+        PLUGIN_NAME,
+        "Captured elbow %s", m_pElbowJoint ? m_pElbowJoint->getName().c_str() : "unknown"
+    );
+
+    ROS_INFO_NAMED(
+        PLUGIN_NAME,
+        "Captured wrist %s", m_pWristJoint ? m_pWristJoint->getName().c_str() : "unknown"
+    );
+
     m_upperArm = getLinkLength(
         m_pShoulderJoint->getChildLinkModel(),
         m_pElbowJoint->getChildLinkModel());
@@ -424,17 +449,18 @@ bool IKPlugin::searchPositionIK(
         double forearmNorm = m_forearm.norm();
         double reachableNorm = clamp(targetNorm, reachableMinNorm, reachableMaxNorm);
         double targetAngle = asin(targetLocal.z() / targetNorm);
-        double shoulderAngle = lawOfCosines(upperArmNorm, forearmNorm, reachableNorm) + targetAngle - M_PI / 2.0;
-        double elbowAngle = lawOfCosines(upperArmNorm, reachableNorm, forearmNorm);
+        double shoulderAngle = M_PI / 2 - lawOfCosines(upperArmNorm, forearmNorm, reachableNorm - wristNorm) + targetAngle;
+        double elbowAngle = M_PI / 2 - lawOfCosines(upperArmNorm, reachableNorm - wristNorm, forearmNorm);
+
+        setJointState(m_pShoulderJoint, shoulderAngle, solution);
+        setJointState(m_pElbowJoint, elbowAngle, solution);
 
         auto shoulderRotation = AngleAxisd(shoulderAngle, Vector3d::UnitX());
         Vector3d elbowAxis = shoulderRotation * Vector3d::UnitY();
         Vector3d elbowLocal = elbowAxis * upperArmNorm;
         Vector3d elbowWorld = shoulderWorld + armRotation * elbowLocal;
-        publishLineMarker(2, { shoulderWorld, elbowWorld, elbowWorld, targetWorld }, { 1.0, 0.0, 0.0 });
 
-        setJointState(m_pShoulderJoint, shoulderAngle, solution);
-        setJointState(m_pElbowJoint, elbowAngle, solution);
+        publishLineMarker(2, { shoulderWorld, elbowWorld, elbowWorld, targetWorld }, { 1.0, 0.0, 0.0 });
     }
 
     // Return solution
