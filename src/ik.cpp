@@ -457,7 +457,8 @@ bool IKPlugin::searchPositionIK(
         Vector3d elbowWorld = shoulderWorld + armRotation * elbowLocal;
         // seems like elbow angle is incorrect
         // why don't we get it through offset???
-        double elbowAngle = getAngle(elbowLocal.y(), elbowLocal.z());
+        Vector3d elbowToTarget = targetLocal - elbowLocal;
+        double elbowAngle = getAngle(elbowToTarget.y(), elbowToTarget.z()) - M_PI / 2;
 
         setJointState(m_pShoulderJoint, shoulderAngle, solution);
         setJointState(m_pElbowJoint, elbowAngle, solution);
