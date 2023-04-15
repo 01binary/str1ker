@@ -450,17 +450,22 @@ bool IKPlugin::searchPositionIK(
         double reachableNorm = clamp(targetNorm, reachableMinNorm, reachableMaxNorm);
         double targetAngle = asin(targetLocal.z() / targetNorm);
         double shoulderAngle = M_PI / 2 - lawOfCosines(upperArmNorm, forearmNorm, reachableNorm - wristNorm) + targetAngle;
-        double elbowAngle = M_PI / 2 - lawOfCosines(upperArmNorm, reachableNorm - wristNorm, forearmNorm);
-
-        setJointState(m_pShoulderJoint, shoulderAngle, solution);
-        setJointState(m_pElbowJoint, elbowAngle, solution);
 
         auto shoulderRotation = AngleAxisd(shoulderAngle, Vector3d::UnitX());
         Vector3d elbowAxis = shoulderRotation * Vector3d::UnitY();
         Vector3d elbowLocal = elbowAxis * upperArmNorm;
         Vector3d elbowWorld = shoulderWorld + armRotation * elbowLocal;
+        // seems like elbow angle is incorrect
+        // why don't we get it through offset???
+        double elbowAngle = getAngle(elbowLocal.y(), elbowLocal.z());
 
-        publishLineMarker(2, { shoulderWorld, elbowWorld, elbowWorld, targetWorld }, { 1.0, 0.0, 0.0 });
+        setJointState(m_pShoulderJoint, shoulderAngle, solution);
+        setJointState(m_pElbowJoint, elbowAngle, solution);
+
+        publishLineMarker(2,
+            { shoulderWorld, elbowWorld, elbowWorld, targetWorld },
+            { 1.0, 0.0, 0.0 }
+        );
     }
 
     // Return solution
