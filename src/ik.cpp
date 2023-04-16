@@ -402,7 +402,7 @@ bool IKPlugin::searchPositionIK(
     double shoulderWristAngle = getAngle(m_shoulderToWrist.y(), m_shoulderToWrist.z());
     double shoulderAngle =
         lawOfCosines(upperArmNorm, shoulderToEffectorNorm, reachableNorm)
-        + targetAngle + shoulderWristAngle;
+        + targetAngle + shoulderWristAngle + 0.01;
 
     Vector3d reachableWorld = shoulderWorld + targetLocal.normalized() * reachableNorm;
     publishLineMarker(0, { shoulderWorld, reachableWorld }, { 1.0, 0.0, 1.0 });
