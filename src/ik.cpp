@@ -214,6 +214,9 @@ bool IKPlugin::initialize(
     m_shoulderToEffector = getLinkLength(
         m_pShoulderJoint->getChildLinkModel(),
         m_pTipLink);
+    m_shoulderToWrist = getLinkLength(
+        m_pShoulderJoint->getChildLinkModel(),
+        m_pWristJoint->getChildLinkModel());
 
     // Advertise marker publisher
     m_markerPub = m_node.advertise<visualization_msgs::Marker>(
@@ -385,11 +388,6 @@ bool IKPlugin::searchPositionIK(
         m_pShoulderJoint->getChildLinkModel()).translation();
     Vector3d targetLocal = targetWorld - shoulderWorld;
 
-    Vector3d shoulderToWrist = getLinkLength(
-        m_pShoulderJoint->getChildLinkModel(),
-        m_pWristJoint->getChildLinkModel());
-    double shoulderWristAngle = getAngle(shoulderToWrist.y(), shoulderToWrist.z());
-
     // Calculate mount joint angle
     double mountAngle = getAngle(targetLocal.x(), targetLocal.y());
     double mountOffset = getAngle(m_shoulderToEffector.x(), m_shoulderToEffector.y());
@@ -401,6 +399,7 @@ bool IKPlugin::searchPositionIK(
     double forearmNorm = m_forearm.norm();
     double targetAngle = asin(targetLocal.z() / targetNorm);
     double reachableNorm = clamp(targetNorm, MIN.norm(), MAX.norm());
+    double shoulderWristAngle = getAngle(m_shoulderToWrist.y(), m_shoulderToWrist.z());
     double shoulderAngle =
         lawOfCosines(upperArmNorm, shoulderToEffectorNorm, reachableNorm)
         + targetAngle + shoulderWristAngle;

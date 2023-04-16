@@ -69,6 +69,7 @@ private:
 
     Eigen::Vector3d m_upperArm;
     Eigen::Vector3d m_forearm;
+    Eigen::Vector3d m_shoulderToWrist;
     Eigen::Vector3d m_shoulderToEffector;
     Eigen::Vector3d m_elbowToEffector;
 
