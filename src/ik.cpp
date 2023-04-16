@@ -416,7 +416,13 @@ bool IKPlugin::searchPositionIK(
     Vector3d wristWorld = elbowWorld + armRotation * wristLocal;
 
     setJointState(m_pShoulderJoint, shoulderAngle, solution);
-    setJointState(m_pElbowJoint, elbowAngle + elbowEffectorOffset + elbowWristOffset, solution);
+
+    ROS_INFO("elbow angle %g", elbowAngle + elbowEffectorOffset + elbowWristOffset);
+
+    /*if (elbowAngle >= 0)
+        setJointMinState(m_pElbowJoint, solution);
+    else*/
+        setJointState(m_pElbowJoint, elbowAngle + elbowEffectorOffset + elbowWristOffset, solution);
 
     publishLineMarker(2,
         { elbowWorld, shoulderWorld },
@@ -595,24 +601,23 @@ Isometry3d IKPlugin::setJointState(
     double angle,
     std::vector<double>& states) const
 {
-    if (isnan(angle)) return Isometry3d::Identity();
-
     const Vector3d& axis = getJointAxis(pJoint);
     const JointLimits& limits = pJoint->getVariableBoundsMsg().front();
-    Isometry3d transform = Isometry3d(AngleAxisd(angle, axis));
+    double jointState = isnan(angle)
+        ? limits.min_position
+        : clamp(angle, limits.min_position, limits.max_position);
 
-    double jointState;
-    pJoint->computeVariablePositions(transform, &jointState);
+    Isometry3d transform = Isometry3d(AngleAxisd(jointState, axis));
 
     size_t index = find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
-    states[index] = clamp(jointState, limits.min_position, limits.max_position);
+    states[index] = jointState;
 
     ROS_INFO_NAMED(
         PLUGIN_NAME,
         "IK solution %s: %g [%g] min %g max %g",
         pJoint->getName().c_str(),
+        angle,
         jointState,
-        states[index],
         limits.min_position,
         limits.max_position
     );
