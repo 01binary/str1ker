@@ -650,30 +650,6 @@ Isometry3d IKPlugin::setJointState(
     return transform;
 }
 
-Isometry3d IKPlugin::setJointMinState(const JointModel* pJoint, vector<double>& states) const
-{
-    double jointState = pJoint->getVariableBoundsMsg().front().min_position;
-    size_t jointIndex = find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
-    states[jointIndex] = jointState;
-
-    Isometry3d transform;
-    pJoint->computeTransform(&jointState, transform);
-
-    return transform;
-}
-
-Isometry3d IKPlugin::setJointMaxState(const JointModel* pJoint, vector<double>& states) const
-{
-    double jointState = pJoint->getVariableBoundsMsg().front().max_position;
-    size_t jointIndex = find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
-    states[jointIndex] = jointState;
-
-    Isometry3d transform;
-    pJoint->computeTransform(&jointState, transform);
-
-    return transform;
-}
-
 const Vector3d& IKPlugin::getJointAxis(const JointModel* pJoint)
 {
     if (pJoint->getType() == JointModel::REVOLUTE)

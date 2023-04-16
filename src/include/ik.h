@@ -183,14 +183,6 @@ private:
         const robot_model::JointModel* pJoint,
         double value,
         std::vector<double>& states) const;
-        
-    Eigen::Isometry3d setJointMinState(
-        const robot_model::JointModel* pJoint,
-        std::vector<double>& states) const;
-
-    Eigen::Isometry3d setJointMaxState(
-        const robot_model::JointModel* pJoint,
-        std::vector<double>& states) const;
 
     void publishLineMarker(
         int id,
