@@ -202,37 +202,18 @@ bool IKPlugin::initialize(
     m_pElbowJoint = getJoint(JointModel::REVOLUTE, m_pShoulderJoint);
     m_pWristJoint = getJoint(JointModel::REVOLUTE, m_pElbowJoint);
 
-    ROS_INFO_NAMED(
-        PLUGIN_NAME,
-        "Captured tip %s", m_pTipLink ? m_pTipLink->getName().c_str() : "unknown"
-    );
-
-    ROS_INFO_NAMED(
-        PLUGIN_NAME,
-        "Captured mount %s", m_pMountJoint ? m_pMountJoint->getName().c_str() : "unknown"
-    );
-
-    ROS_INFO_NAMED(
-        PLUGIN_NAME,
-        "Captured shoulder %s", m_pShoulderJoint ? m_pShoulderJoint->getName().c_str() : "unknown"
-    );
-
-    ROS_INFO_NAMED(
-        PLUGIN_NAME,
-        "Captured elbow %s", m_pElbowJoint ? m_pElbowJoint->getName().c_str() : "unknown"
-    );
-
-    ROS_INFO_NAMED(
-        PLUGIN_NAME,
-        "Captured wrist %s", m_pWristJoint ? m_pWristJoint->getName().c_str() : "unknown"
-    );
-
     m_upperArm = getLinkLength(
         m_pShoulderJoint->getChildLinkModel(),
         m_pElbowJoint->getChildLinkModel());
     m_forearm = getLinkLength(
         m_pElbowJoint->getChildLinkModel(),
         m_pWristJoint->getChildLinkModel());
+    m_elbowToEffector = getLinkLength(
+        m_pElbowJoint->getChildLinkModel(),
+        m_pTipLink);
+    m_shoulderToEffector = getLinkLength(
+        m_pShoulderJoint->getChildLinkModel(),
+        m_pTipLink);
 
     // Advertise marker publisher
     m_markerPub = m_node.advertise<visualization_msgs::Marker>(
@@ -403,58 +384,42 @@ bool IKPlugin::searchPositionIK(
     Vector3d shoulderWorld = m_pState->getGlobalLinkTransform(
         m_pShoulderJoint->getChildLinkModel()).translation();
     Vector3d targetLocal = targetWorld - shoulderWorld;
-    Vector3d shoulderToEffector = getLinkLength(
-        m_pShoulderJoint->getChildLinkModel(),
-        m_pTipLink);
-    Vector3d wristToEffector = getLinkLength(
-        m_pWristJoint->getChildLinkModel(),
-        m_pTipLink);
 
     // Calculate mount joint angle
     double mountAngle = getAngle(targetLocal.x(), targetLocal.y());
-    double mountOffset = getAngle(shoulderToEffector.x(), shoulderToEffector.y());
-    Isometry3d armRotation = setJointState(
-        m_pMountJoint, mountAngle - mountOffset, solution);
-    
-    publishLineMarker(0, { shoulderWorld, targetWorld }, { 1.0, 0.0, 1.0 });
+    double mountOffset = getAngle(m_shoulderToEffector.x(), m_shoulderToEffector.y());
+    Isometry3d armRotation = setJointState(m_pMountJoint, mountAngle - mountOffset, solution);
 
     double targetNorm = targetLocal.norm();
-    double wristNorm = wristToEffector.norm();
-    double minNorm = MIN.norm();
-    double maxNorm = MAX.norm();
-    double reachableMaxNorm = maxNorm - wristNorm;
-    double reachableMinNorm = minNorm - wristNorm;
-
-    Vector3d reachableMinLocal = targetLocal.normalized() * reachableMinNorm;
-    Vector3d reachableMinWorld = shoulderWorld + reachableMinLocal;
-
-    Vector3d reachableMaxLocal = targetLocal.normalized() * reachableMaxNorm;
-    Vector3d reachableMaxWorld = shoulderWorld + reachableMaxLocal;
-
-    publishLineMarker(1, { reachableMinWorld, reachableMaxWorld }, { 0.0, 1.0, 1.0 });
-
+    double shoulderToEffectorNorm = m_shoulderToEffector.norm();
     double upperArmNorm = m_upperArm.norm();
     double forearmNorm = m_forearm.norm();
-    double reachableNorm = clamp(targetNorm, reachableMinNorm, reachableMaxNorm);
     double targetAngle = asin(targetLocal.z() / targetNorm);
-    double shoulderAngle = M_PI / 2 - lawOfCosines(upperArmNorm, forearmNorm, reachableNorm - wristNorm) + targetAngle;
+    double reachableNorm = clamp(targetNorm, MIN.norm(), MAX.norm());
+    double shoulderAngle = lawOfCosines(upperArmNorm, shoulderToEffectorNorm, reachableNorm) + targetAngle;
+
+    Vector3d reachableWorld = shoulderWorld + targetLocal.normalized() * reachableNorm;
+    publishLineMarker(0, { shoulderWorld, reachableWorld }, { 1.0, 0.0, 1.0 });
 
     auto shoulderRotation = AngleAxisd(shoulderAngle, Vector3d::UnitX());
     Vector3d elbowAxis = shoulderRotation * Vector3d::UnitY();
     Vector3d elbowLocal = elbowAxis * upperArmNorm;
     Vector3d elbowWorld = shoulderWorld + armRotation * elbowLocal;
     Vector3d elbowToTarget = targetLocal - elbowLocal;
-    double elbowAngle = getAngle(elbowToTarget.y(), elbowToTarget.z());
+
+    double elbowEffectorOffset = getAngle(m_elbowToEffector.y(), m_elbowToEffector.z());
+    double elbowWristOffset = getAngle(m_forearm.y(), m_forearm.z());
+    double elbowAngle = getAngle(elbowToTarget.y(), elbowToTarget.z()) + elbowWristOffset;
     auto elbowRotation = AngleAxisd(elbowAngle, Vector3d::UnitX());
     Vector3d wristAxis = elbowRotation * Vector3d::UnitY();
     Vector3d wristLocal = wristAxis * forearmNorm;
     Vector3d wristWorld = elbowWorld + armRotation * wristLocal;
 
     setJointState(m_pShoulderJoint, shoulderAngle, solution);
-    setJointState(m_pElbowJoint, elbowAngle - 0.3, solution);
+    setJointState(m_pElbowJoint, elbowAngle + elbowEffectorOffset + elbowWristOffset, solution);
 
     publishLineMarker(2,
-        { shoulderWorld, elbowWorld },
+        { elbowWorld, shoulderWorld },
         { 1.0, 0.0, 0.0 }
     );
 
@@ -662,14 +627,6 @@ Isometry3d IKPlugin::setJointState(
         size_t masterIndex = find(m_joints.begin(), m_joints.end(), pMasterJoint) - m_joints.begin();
         states[masterIndex] = masterState;
 
-        ROS_INFO_NAMED(
-            PLUGIN_NAME,
-            "Updating mimic master %s: %g from %g",
-            pMasterJoint->getName().c_str(),
-            masterState,
-            jointState
-        );
-
         // Update other mimics
         for (auto pMimicJoint : pMasterJoint->getMimicRequests())
         {
@@ -682,14 +639,6 @@ Isometry3d IKPlugin::setJointState(
             size_t mimicIndex = mimicIterator - m_joints.begin();
             double mimicState = masterState * pMimicJoint->getMimicFactor() + pMimicJoint->getMimicOffset();
             states[mimicIndex] = clamp(mimicState, mimicLimits.min_position, mimicLimits.max_position);
-
-            ROS_INFO_NAMED(
-                PLUGIN_NAME,
-                "Updating mimic %s: %g from %g",
-                pMimicJoint->getName().c_str(),
-                states[mimicIndex],
-                masterState
-            );
         }
     }
 
