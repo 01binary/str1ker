@@ -433,7 +433,9 @@ bool IKPlugin::searchPositionIK(
 
     publishLineMarker(1, { reachableMinWorld, reachableMaxWorld }, { 0.0, 1.0, 1.0 });
 
-    if (targetNorm > reachableMaxNorm)
+    return false;
+
+    /*if (targetNorm > reachableMaxNorm)
     {
         setJointMaxState(m_pShoulderJoint, solution);
         setJointMaxState(m_pElbowJoint, solution);
@@ -443,7 +445,7 @@ bool IKPlugin::searchPositionIK(
         setJointMinState(m_pShoulderJoint, solution);
         setJointMinState(m_pElbowJoint, solution);
     }
-    else
+    else*/
     {
         double upperArmNorm = m_upperArm.norm();
         double forearmNorm = m_forearm.norm();
@@ -455,17 +457,25 @@ bool IKPlugin::searchPositionIK(
         Vector3d elbowAxis = shoulderRotation * Vector3d::UnitY();
         Vector3d elbowLocal = elbowAxis * upperArmNorm;
         Vector3d elbowWorld = shoulderWorld + armRotation * elbowLocal;
-        // seems like elbow angle is incorrect
-        // why don't we get it through offset???
         Vector3d elbowToTarget = targetLocal - elbowLocal;
-        double elbowAngle = getAngle(elbowToTarget.y(), elbowToTarget.z()) - M_PI / 2;
+        double elbowAngle = getAngle(elbowToTarget.y(), elbowToTarget.z()) - M_PI / 8;
+
+        auto elbowRotation = AngleAxisd(elbowAngle, Vector3d::UnitX());
+        Vector3d wristAxis = elbowRotation * Vector3d::UnitY();
+        Vector3d wristLocal = wristAxis * forearmNorm;
+        Vector3d wristWorld = elbowWorld + armRotation * wristLocal;
 
         setJointState(m_pShoulderJoint, shoulderAngle, solution);
         setJointState(m_pElbowJoint, elbowAngle, solution);
 
         publishLineMarker(2,
-            { shoulderWorld, elbowWorld, elbowWorld, targetWorld },
+            { shoulderWorld, elbowWorld },
             { 1.0, 0.0, 0.0 }
+        );
+
+        publishLineMarker(3,
+            { elbowWorld, wristWorld },
+            { 0.0, 1.0, 1.0 }
         );
     }
 
