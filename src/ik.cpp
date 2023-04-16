@@ -385,6 +385,11 @@ bool IKPlugin::searchPositionIK(
         m_pShoulderJoint->getChildLinkModel()).translation();
     Vector3d targetLocal = targetWorld - shoulderWorld;
 
+    Vector3d shoulderToWrist = getLinkLength(
+        m_pShoulderJoint->getChildLinkModel(),
+        m_pWristJoint->getChildLinkModel());
+    double shoulderWristAngle = getAngle(shoulderToWrist.y(), shoulderToWrist.z());
+
     // Calculate mount joint angle
     double mountAngle = getAngle(targetLocal.x(), targetLocal.y());
     double mountOffset = getAngle(m_shoulderToEffector.x(), m_shoulderToEffector.y());
@@ -396,7 +401,9 @@ bool IKPlugin::searchPositionIK(
     double forearmNorm = m_forearm.norm();
     double targetAngle = asin(targetLocal.z() / targetNorm);
     double reachableNorm = clamp(targetNorm, MIN.norm(), MAX.norm());
-    double shoulderAngle = lawOfCosines(upperArmNorm, shoulderToEffectorNorm, reachableNorm) + targetAngle;
+    double shoulderAngle =
+        lawOfCosines(upperArmNorm, shoulderToEffectorNorm, reachableNorm)
+        + targetAngle + shoulderWristAngle;
 
     Vector3d reachableWorld = shoulderWorld + targetLocal.normalized() * reachableNorm;
     publishLineMarker(0, { shoulderWorld, reachableWorld }, { 1.0, 0.0, 1.0 });
@@ -416,13 +423,7 @@ bool IKPlugin::searchPositionIK(
     Vector3d wristWorld = elbowWorld + armRotation * wristLocal;
 
     setJointState(m_pShoulderJoint, shoulderAngle, solution);
-
-    ROS_INFO("elbow angle %g", elbowAngle + elbowEffectorOffset + elbowWristOffset);
-
-    /*if (elbowAngle >= 0)
-        setJointMinState(m_pElbowJoint, solution);
-    else*/
-        setJointState(m_pElbowJoint, elbowAngle + elbowEffectorOffset + elbowWristOffset, solution);
+    setJointState(m_pElbowJoint, elbowAngle + elbowEffectorOffset + elbowWristOffset, solution);
 
     publishLineMarker(2,
         { elbowWorld, shoulderWorld },
