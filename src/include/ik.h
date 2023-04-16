@@ -195,6 +195,7 @@ private:
         Eigen::Vector3d color) const;
 
 private:
+    static double toDegrees(double radians);
     static double getAngle(double x, double y);
     static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
     static double lawOfCosines(double a, double b, double c);
