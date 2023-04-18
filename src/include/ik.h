@@ -190,11 +190,6 @@ private:
         Eigen::Vector3d color) const;
 
 private:
-    static bool checkConsistency(
-        const std::vector<double>& seed_state,
-        const std::vector<double>& consistency_limits,
-        const std::vector<double>& solution) const;
-
     static double toDegrees(double radians);
     static double getAngle(double x, double y);
     static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
