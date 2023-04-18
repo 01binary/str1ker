@@ -613,7 +613,7 @@ Isometry3d IKPlugin::setJointState(
     size_t index = find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
     states[index] = jointState;
 
-    ROS_INFO_NAMED(
+    ROS_DEBUG_NAMED(
         PLUGIN_NAME,
         "IK solution %s: %g [%g] min %g max %g",
         pJoint->getName().c_str(),
