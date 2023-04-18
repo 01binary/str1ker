@@ -434,11 +434,18 @@ bool IKPlugin::searchPositionIK(
         { 0.0, 1.0, 1.0 }
     );
 
-    // Return solution
+    if (!checkConsistency(ik_seed_state, consistency_limits, solution))
+    {
+        error_code.val = error_code.NO_IK_SOLUTION;
+        return false;
+    }
+
     error_code.val = error_code.SUCCESS;
 
-    if(!solution_callback.empty())
+    if (!solution_callback.empty())
+    {
         solution_callback(ik_poses.front(), solution, error_code);
+    }
 
     return true;
 }
@@ -580,6 +587,22 @@ void IKPlugin::publishLineMarker(int id, vector<Vector3d> points, Vector3d color
 //
 // Static methods
 //
+
+bool IKPlugin::checkConsistency(
+    const vector<double>& seed_state,
+    const vector<double>& consistency_limits,
+    const vector<double>& solution) const
+{
+    for (size_t jointIndex = 0; jointIndex < seed_state.size(); jointIndex++)
+    {
+        if (abs(seed_state[jointIndex] - solution[jointIndex]) > consistency_limits[jointIndex])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 double IKPlugin::toDegrees(double radians)
 {
