@@ -127,17 +127,13 @@ bool IKPlugin::initialize(
         if (pJoint->getType() == JointModel::REVOLUTE)
         {
             auto limits = pJoint->getVariableBoundsMsg().front();
-            auto axis = getJointAxis(pJoint);
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
-                "Joint %s: %s %son %g %g %g from %g to %g",
+                "Joint %s: %s %sfrom %g to %g",
                 jointNames[jointIndex].c_str(),
                 "revolute",
                 pJoint->getMimic() != NULL ? "mimic " : "",
-                axis.x(),
-                axis.y(),
-                axis.z(),
                 limits.min_position,
                 limits.max_position);
 
@@ -145,18 +141,14 @@ bool IKPlugin::initialize(
         }
         else if (pJoint->getType() == JointModel::PRISMATIC)
         {
-            auto limits = pJoint->getVariableBoundsMsg()[0];
-            auto axis = getJointAxis(pJoint);
+            auto limits = pJoint->getVariableBoundsMsg().front();
 
             ROS_INFO_NAMED(
                 PLUGIN_NAME,
-                "Joint %s: %s %son %g %g %g from %g to %g",
+                "Joint %s: %s %sfrom %g to %g",
                 jointNames[jointIndex].c_str(),
                 "prismatic",
                 pJoint->getMimic() != NULL ? "mimic " : "",
-                axis.x(),
-                axis.y(),
-                axis.z(),
                 limits.min_position,
                 limits.max_position);
 
@@ -494,7 +486,7 @@ Isometry3d IKPlugin::getTarget(const vector<geometry_msgs::Pose>& ik_poses) cons
     auto targetPose = ik_poses.back();
     tf2::fromMsg(targetPose, target);
 
-    ROS_INFO_NAMED(
+    ROS_DEBUG_NAMED(
         PLUGIN_NAME,
         "IK target %s: %g, %g, %g",
         tip_frames_.front().c_str(),
@@ -599,64 +591,34 @@ double IKPlugin::lawOfCosines(double a, double b, double c)
 
 Isometry3d IKPlugin::setJointState(
     const JointModel* pJoint,
-    double angle,
+    double jointState,
     std::vector<double>& states) const
 {
-    const Vector3d& axis = getJointAxis(pJoint);
-    const JointLimits& limits = pJoint->getVariableBoundsMsg().front();
-    double jointState = isnan(angle)
-        ? limits.min_position
-        : clamp(angle, limits.min_position, limits.max_position);
-
-    Isometry3d transform = Isometry3d(AngleAxisd(jointState, axis));
-
-    size_t index = find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
-    states[index] = jointState;
-
-    ROS_DEBUG_NAMED(
-        PLUGIN_NAME,
-        "IK solution %s: %g [%g] min %g max %g",
-        pJoint->getName().c_str(),
-        angle,
-        jointState,
-        limits.min_position,
-        limits.max_position
-    );
+    pJoint->enforcePositionBounds(&jointState);
 
     if (pJoint->getMimic())
     {
-        // Update the master joint
         const JointModel* pMasterJoint = pJoint->getMimic();
-        const JointLimits& masterLimits = pMasterJoint->getVariableBoundsMsg().front();
-        double masterStateRaw = (jointState - pJoint->getMimicOffset()) / pJoint->getMimicFactor();
-        double masterState = clamp(masterStateRaw, masterLimits.min_position, masterLimits.max_position);
-        size_t masterIndex = find(m_joints.begin(), m_joints.end(), pMasterJoint) - m_joints.begin();
-        states[masterIndex] = masterState;
+        double masterState = (jointState - pJoint->getMimicOffset()) / pJoint->getMimicFactor();
+        pMasterJoint->enforcePositionBounds(&masterState);
 
-        // Update other mimics
-        for (auto pMimicJoint : pMasterJoint->getMimicRequests())
-        {
-            if (pMimicJoint == pJoint) continue;
-
-            auto mimicIterator = find(m_joints.begin(), m_joints.end(), pMimicJoint);
-            if (mimicIterator == m_joints.end()) continue;
-
-            const JointLimits& mimicLimits = pMimicJoint->getVariableBoundsMsg().front();
-            size_t mimicIndex = mimicIterator - m_joints.begin();
-            double mimicState = masterState * pMimicJoint->getMimicFactor() + pMimicJoint->getMimicOffset();
-            states[mimicIndex] = clamp(mimicState, mimicLimits.min_position, mimicLimits.max_position);
-        }
+        m_pState->setJointPositions(pMasterJoint, &masterState);
+        m_pState->enforceBounds();
+    }
+    else
+    {
+        m_pState->setJointPositions(pJoint, &jointState);
+        m_pState->enforceBounds();
     }
 
-    return transform;
-}
+    m_pState->update();
 
-const Vector3d& IKPlugin::getJointAxis(const JointModel* pJoint)
-{
-    if (pJoint->getType() == JointModel::REVOLUTE)
-        return dynamic_cast<const RevoluteJointModel*>(pJoint)->getAxis();
-    else
-        return dynamic_cast<const PrismaticJointModel*>(pJoint)->getAxis();
+    for (size_t jointIndex = 0; jointIndex < m_joints.size(); jointIndex++)
+    {
+        states[jointIndex] = *m_pState->getJointPositions(m_joints[jointIndex]);
+    }
+
+    return m_pState->getJointTransform(pJoint);
 }
 
 /*----------------------------------------------------------*\
