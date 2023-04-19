@@ -381,9 +381,15 @@ bool IKPlugin::searchPositionIK(
     Vector3d targetLocal = targetWorld - shoulderWorld;
 
     // Calculate mount joint angle
-    double mountAngle = getAngle(targetLocal.x(), targetLocal.y());
+    double mountAngleRelative = getAngle(targetLocal.x(), targetLocal.y());
     double mountOffset = getAngle(m_shoulderToEffector.x(), m_shoulderToEffector.y());
-    Isometry3d armRotation = setJointState(m_pMountJoint, mountAngle - mountOffset, solution);
+    double mountAngle = mountAngleRelative - mountOffset;
+    Isometry3d armRotation = setJointState(
+        m_pMountJoint,
+        mountAngle < -M_PI
+            ? m_pMountJoint->getVariableBounds().front().max_position_
+            : mountAngle,
+        solution);
 
     double targetNorm = targetLocal.norm();
     double shoulderToEffectorNorm = m_shoulderToEffector.norm();
@@ -594,10 +600,10 @@ Isometry3d IKPlugin::setJointState(
     double jointState,
     std::vector<double>& states) const
 {
-    pJoint->enforcePositionBounds(&jointState);
-
     if (pJoint->getMimic())
     {
+        pJoint->enforcePositionBounds(&jointState);
+
         const JointModel* pMasterJoint = pJoint->getMimic();
         double masterState = (jointState - pJoint->getMimicOffset()) / pJoint->getMimicFactor();
         pMasterJoint->enforcePositionBounds(&masterState);
