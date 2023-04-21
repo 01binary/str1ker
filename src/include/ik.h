@@ -72,6 +72,7 @@ private:
     Eigen::Vector3d m_shoulderToWrist;
     Eigen::Vector3d m_shoulderToEffector;
     Eigen::Vector3d m_elbowToEffector;
+    Eigen::Vector3d m_wristToEffector;
 
 public:
     IKPlugin();

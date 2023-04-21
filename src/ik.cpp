@@ -209,6 +209,9 @@ bool IKPlugin::initialize(
     m_shoulderToWrist = getLinkLength(
         m_pShoulderJoint->getChildLinkModel(),
         m_pWristJoint->getChildLinkModel());
+    m_wristToEffector = getLinkLength(
+        m_pWristJoint->getChildLinkModel(),
+        m_pTipLink);
 
     // Advertise marker publisher
     m_markerPub = m_node.advertise<visualization_msgs::Marker>(
@@ -379,6 +382,12 @@ bool IKPlugin::searchPositionIK(
     Vector3d shoulderWorld = m_pState->getGlobalLinkTransform(
         m_pShoulderJoint->getChildLinkModel()).translation();
     Vector3d targetLocal = targetWorld - shoulderWorld;
+    Vector3d targetNormalForward = targetLocal.normalized();
+    Vector3d targetNormalUp = AngleAxisd(-M_PI / 2, Vector3d::UnitZ()) * targetNormalForward;
+
+    targetLocal -= targetNormalForward * m_wristToEffector.y();
+    targetLocal -= targetNormalUp * m_wristToEffector.z();
+
     double targetNorm = targetLocal.norm();
     double reachableNorm = clamp(targetNorm, MIN.norm(), MAX.norm());
     Vector3d reachableWorld = shoulderWorld + targetLocal.normalized() * reachableNorm;
