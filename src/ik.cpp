@@ -385,9 +385,6 @@ bool IKPlugin::searchPositionIK(
     Vector3d targetNormalForward = targetLocal.normalized();
     Vector3d targetNormalUp = AngleAxisd(-M_PI / 2, Vector3d::UnitZ()) * targetNormalForward;
 
-    targetLocal -= targetNormalForward * m_wristToEffector.y();
-    targetLocal -= targetNormalUp * m_wristToEffector.z();
-
     double targetNorm = targetLocal.norm();
     double reachableNorm = clamp(targetNorm, MIN.norm(), MAX.norm());
     Vector3d reachableWorld = shoulderWorld + targetLocal.normalized() * reachableNorm;
@@ -404,6 +401,11 @@ bool IKPlugin::searchPositionIK(
             ? m_pMountJoint->getVariableBounds().front().max_position_
             : mountAngle,
         solution);
+
+    targetLocal = armRotation.inverse() * targetLocal;
+    Vector3d wristToEffector = m_wristToEffector;
+    wristToEffector.x() = 0.0;
+    targetLocal = targetLocal - wristToEffector;
 
     double shoulderToEffectorNorm = m_shoulderToEffector.norm();
     double upperArmNorm = m_upperArm.norm();
