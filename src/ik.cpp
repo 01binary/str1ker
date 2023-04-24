@@ -382,9 +382,6 @@ bool IKPlugin::searchPositionIK(
     Vector3d shoulderWorld = m_pState->getGlobalLinkTransform(
         m_pShoulderJoint->getChildLinkModel()).translation();
     Vector3d targetLocal = targetWorld - shoulderWorld;
-    Vector3d targetNormalForward = targetLocal.normalized();
-    Vector3d targetNormalUp = AngleAxisd(-M_PI / 2, Vector3d::UnitZ()) * targetNormalForward;
-
     double targetNorm = targetLocal.norm();
     double reachableNorm = clamp(targetNorm, MIN.norm(), MAX.norm());
     Vector3d reachableWorld = shoulderWorld + targetLocal.normalized() * reachableNorm;
@@ -402,34 +399,34 @@ bool IKPlugin::searchPositionIK(
             : mountAngle,
         solution);
 
-    targetLocal = armRotation.inverse() * targetLocal;
-    Vector3d wristToEffector = m_wristToEffector;
-    wristToEffector.x() = 0.0;
-    targetLocal = targetLocal - wristToEffector;
+    double targetAngle = asin(targetLocal.z() / targetNorm);
+    AngleAxisd targetPitch = AngleAxisd(targetAngle, Vector3d::UnitX());
+    Vector3d targetWrist = armRotation.inverse() * targetLocal - targetPitch * m_wristToEffector;
+    Vector3d targetWristWorld = armRotation * targetWrist + shoulderWorld;
+    publishLineMarker(1,
+        { targetWorld, targetWristWorld },
+        { 0.0, 1.0, 1.0 }
+    );
 
     double shoulderToEffectorNorm = m_shoulderToEffector.norm();
     double upperArmNorm = m_upperArm.norm();
     double forearmNorm = m_forearm.norm();
-    double targetAngle = asin(targetLocal.z() / targetNorm);
-    double shoulderWristAngle = getAngle(m_shoulderToWrist.y(), m_shoulderToWrist.z());
-    double shoulderAngle =
-        lawOfCosines(upperArmNorm, shoulderToEffectorNorm, reachableNorm)
-        + targetAngle
-        + shoulderWristAngle;
+    double shoulderEffectorAngle = getAngle(m_shoulderToEffector.y(), m_shoulderToEffector.z());
+    double shoulderAngle = lawOfCosines(upperArmNorm, targetWrist.norm(), targetWrist.norm());
     m_pShoulderJoint->enforcePositionBounds(&shoulderAngle);
 
-    auto shoulderRotation = AngleAxisd(shoulderAngle, Vector3d::UnitX());
-    Vector3d elbowAxis = shoulderRotation * Vector3d::UnitY();
+    AngleAxisd shoulderPitch = AngleAxisd(shoulderAngle, Vector3d::UnitX());
+    Vector3d elbowAxis = shoulderPitch * Vector3d::UnitY();
     Vector3d elbowLocal = elbowAxis * upperArmNorm;
     Vector3d elbowWorld = shoulderWorld + armRotation * elbowLocal;
-    Vector3d elbowToTarget = targetLocal - elbowLocal;
+    Vector3d elbowToTargetWrist = targetWrist - elbowLocal;
 
     double elbowEffectorOffset = getAngle(m_elbowToEffector.y(), m_elbowToEffector.z());
+    double wristEffectorOffset = getAngle(m_wristToEffector.y(), m_wristToEffector.z());
     double elbowWristOffset = getAngle(m_forearm.y(), m_forearm.z());
-    double localElbowAngle = getAngle(elbowToTarget.y(), elbowToTarget.z());
-    double elbowAngle = localElbowAngle + elbowWristOffset + elbowEffectorOffset - 0.1;
+    double elbowAngle = getAngle(elbowToTargetWrist.y(), elbowToTargetWrist.z());
 
-    auto elbowRotation = AngleAxisd(localElbowAngle, Vector3d::UnitX());
+    AngleAxisd elbowRotation = AngleAxisd(elbowAngle, Vector3d::UnitX());
     Vector3d wristAxis = elbowRotation * Vector3d::UnitY();
     Vector3d wristLocal = wristAxis * forearmNorm;
     Vector3d wristWorld = elbowWorld + armRotation * wristLocal;
@@ -602,12 +599,14 @@ double IKPlugin::toDegrees(double radians)
 
 double IKPlugin::getAngle(double x, double y)
 {
-    return atan2(y, x);
+    double angle = atan2(y, x);
+    return isnan(angle) ? 0.0 : angle;
 }
 
 double IKPlugin::lawOfCosines(double a, double b, double c)
 {
-    return acos((a * a + b * b - c * c) / (2 * a * b));
+    double angle = acos((a * a + b * b - c * c) / (2 * a * b));
+    return isnan(angle) ? 0.0 : angle;
 }
 
 Isometry3d IKPlugin::setJointState(
