@@ -412,7 +412,7 @@ bool IKPlugin::searchPositionIK(
     double upperArmNorm = m_upperArm.norm();
     double forearmNorm = m_forearm.norm();
     double shoulderEffectorAngle = getAngle(m_shoulderToEffector.y(), m_shoulderToEffector.z());
-    double shoulderAngle = lawOfCosines(upperArmNorm, targetWrist.norm(), targetWrist.norm());
+    double shoulderAngle = lawOfCosines(upperArmNorm, targetWrist.norm(), forearmNorm);
     m_pShoulderJoint->enforcePositionBounds(&shoulderAngle);
 
     AngleAxisd shoulderPitch = AngleAxisd(shoulderAngle, Vector3d::UnitX());
@@ -432,7 +432,7 @@ bool IKPlugin::searchPositionIK(
     Vector3d wristWorld = elbowWorld + armRotation * wristLocal;
 
     setJointState(m_pShoulderJoint, shoulderAngle, solution);
-    setJointState(m_pElbowJoint, elbowAngle, solution);
+    setJointState(m_pElbowJoint, elbowAngle - M_PI / 4, solution);
 
     publishLineMarker(2,
         { elbowWorld, shoulderWorld },
