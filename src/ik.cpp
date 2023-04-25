@@ -383,10 +383,6 @@ bool IKPlugin::searchPositionIK(
         m_pShoulderJoint->getChildLinkModel()).translation();
     Vector3d targetLocal = targetWorld - shoulderWorld;
     double targetNorm = targetLocal.norm();
-    double reachableNorm = clamp(targetNorm, MIN.norm(), MAX.norm());
-    Vector3d reachableWorld = shoulderWorld + targetLocal.normalized() * reachableNorm;
-
-    publishLineMarker(0, { shoulderWorld, reachableWorld }, { 1.0, 0.0, 1.0 });
 
     double mountAngleRelative = getAngle(targetLocal.x(), targetLocal.y());
     double mountOffset = getAngle(m_shoulderToEffector.x(), m_shoulderToEffector.y());
@@ -403,9 +399,11 @@ bool IKPlugin::searchPositionIK(
     AngleAxisd targetPitch = AngleAxisd(targetAngle, Vector3d::UnitX());
     Vector3d targetWrist = armRotation.inverse() * targetLocal - targetPitch * m_wristToEffector;
     Vector3d targetWristWorld = armRotation * targetWrist + shoulderWorld;
-    publishLineMarker(1,
+
+    publishLineMarker(0, { shoulderWorld, targetWristWorld }, { 1.0, 0.0, 1.0 });
+    publishLineMarker(2,
         { targetWorld, targetWristWorld },
-        { 0.0, 1.0, 1.0 }
+        { 0.0, 1.0, 0.0 }
     );
 
     double shoulderToEffectorNorm = m_shoulderToEffector.norm();
@@ -434,12 +432,12 @@ bool IKPlugin::searchPositionIK(
     setJointState(m_pShoulderJoint, shoulderAngle, solution);
     setJointState(m_pElbowJoint, elbowAngle - M_PI / 4, solution);
 
-    publishLineMarker(2,
+    publishLineMarker(3,
         { elbowWorld, shoulderWorld },
         { 1.0, 0.0, 0.0 }
     );
 
-    publishLineMarker(3,
+    publishLineMarker(4,
         { elbowWorld, wristWorld },
         { 0.0, 1.0, 1.0 }
     );
