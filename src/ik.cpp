@@ -397,8 +397,8 @@ bool IKPlugin::searchPositionIK(
 
     double targetAngle = asin(targetLocal.z() / targetNorm);
     AngleAxisd targetPitch = AngleAxisd(targetAngle, Vector3d::UnitX());
-    Vector3d targetWrist = armRotation.inverse() * targetLocal - targetPitch * m_wristToEffector;
-    Vector3d targetWristWorld = armRotation * targetWrist + shoulderWorld;
+    Vector3d targetWristLocal = armRotation.inverse() * targetLocal + targetPitch * -m_wristToEffector;
+    Vector3d targetWristWorld = armRotation * targetWristLocal + shoulderWorld;
 
     publishLineMarker(0, { shoulderWorld, targetWristWorld }, { 1.0, 0.0, 1.0 });
     publishLineMarker(2,
@@ -410,27 +410,28 @@ bool IKPlugin::searchPositionIK(
     double upperArmNorm = m_upperArm.norm();
     double forearmNorm = m_forearm.norm();
     double shoulderEffectorAngle = getAngle(m_shoulderToEffector.y(), m_shoulderToEffector.z());
-    double shoulderAngle = lawOfCosines(upperArmNorm, targetWrist.norm(), forearmNorm);
+    double effectorOffset = getAngle(m_elbowToEffector.y(), m_elbowToEffector.z());
+    double wristEffectorNorm = m_wristToEffector.norm();
+    double targetWristNorm = clamp(targetWristLocal.norm(), MIN.norm() - wristEffectorNorm, MAX.norm() - wristEffectorNorm);
+    double shoulderAngle = lawOfCosines(upperArmNorm, targetWristNorm, forearmNorm) - shoulderEffectorAngle - effectorOffset;
     m_pShoulderJoint->enforcePositionBounds(&shoulderAngle);
 
     AngleAxisd shoulderPitch = AngleAxisd(shoulderAngle, Vector3d::UnitX());
     Vector3d elbowAxis = shoulderPitch * Vector3d::UnitY();
     Vector3d elbowLocal = elbowAxis * upperArmNorm;
     Vector3d elbowWorld = shoulderWorld + armRotation * elbowLocal;
-    Vector3d elbowToTargetWrist = targetWrist - elbowLocal;
+    Vector3d elbowToTargetWrist = armRotation.inverse() * (targetWristWorld - elbowWorld);
 
-    double elbowEffectorOffset = getAngle(m_elbowToEffector.y(), m_elbowToEffector.z());
-    double wristEffectorOffset = getAngle(m_wristToEffector.y(), m_wristToEffector.z());
-    double elbowWristOffset = getAngle(m_forearm.y(), m_forearm.z());
+    double elbowOffset = getAngle(m_forearm.y(), m_forearm.z());
+    
     double elbowAngle = getAngle(elbowToTargetWrist.y(), elbowToTargetWrist.z());
-
     AngleAxisd elbowRotation = AngleAxisd(elbowAngle, Vector3d::UnitX());
     Vector3d wristAxis = elbowRotation * Vector3d::UnitY();
     Vector3d wristLocal = wristAxis * forearmNorm;
     Vector3d wristWorld = elbowWorld + armRotation * wristLocal;
 
     setJointState(m_pShoulderJoint, shoulderAngle, solution);
-    setJointState(m_pElbowJoint, elbowAngle - M_PI / 4, solution);
+    setJointState(m_pElbowJoint, elbowAngle + elbowOffset + effectorOffset, solution);
 
     publishLineMarker(3,
         { elbowWorld, shoulderWorld },
