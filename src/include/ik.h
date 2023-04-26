@@ -58,6 +58,7 @@ private:
     const robot_model::JointModelGroup* m_pPlanningGroup;
     ros::Publisher m_markerPub;
     ros::NodeHandle m_node;
+    bool m_bVisualize;
 
     std::vector<const robot_model::JointModel*> m_joints;
 
