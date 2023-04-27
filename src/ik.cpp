@@ -442,14 +442,16 @@ bool IKPlugin::searchPositionIK(
 
     double elbowOffset = getAngle(m_forearm.y(), m_forearm.z());
     double elbowEffectorOffset = getAngle(m_elbowToEffector.y(), m_elbowToEffector.z());
-    double elbowAngle = getAngle(elbowToTargetWrist.y(), elbowToTargetWrist.z());
-    AngleAxisd elbowRotation = AngleAxisd(elbowAngle, Vector3d::UnitX());
+    double elbowAngleRelative = getAngle(elbowToTargetWrist.y(), elbowToTargetWrist.z());
+    double elbowAngle = elbowAngleRelative + elbowOffset + elbowEffectorOffset;
+
+    AngleAxisd elbowRotation = AngleAxisd(elbowAngleRelative, Vector3d::UnitX());
     Vector3d wristAxis = elbowRotation * Vector3d::UnitY();
     Vector3d wristLocal = wristAxis * forearmNorm;
     Vector3d wristWorld = elbowWorld + armRotation * wristLocal;
 
     setJointState(m_pShoulderJoint, shoulderAngle, solution);
-    setJointState(m_pElbowJoint, elbowAngle + elbowOffset + elbowEffectorOffset, solution);
+    setJointState(m_pElbowJoint, elbowAngle, solution);
 
     if (m_bVisualize)
     {
