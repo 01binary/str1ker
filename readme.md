@@ -55,9 +55,28 @@ rosdep install -y --from-paths . --ignore-src --rosdistro noetic
 
 ## Build
 
+To invoke the build command while in `~/catkin_ws` use `catkin_make` with no parameters. Otherwise use `-C` to specify the workspace directory:
+
 ```
-cd ~/catkin_ws
-catkin_make
+catkin_make -C ~/catkin_ws
+```
+
+To build only this package and its dependencies:
+
+```
+catkin_make --only-pkg-with-deps str1ker
+```
+
+To build only this package:
+
+```
+catkin_make --pkg str1ker
+```
+
+To clear the build filter:
+
+```
+catkin_make -DCATKIN_WHITELIST_PACKAGES=""
 ```
 
 ## Export
