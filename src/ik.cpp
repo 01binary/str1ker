@@ -463,6 +463,20 @@ bool IKPlugin::searchPositionIK(
             { 0.0, 1.0, 1.0 });
     }
 
+    // Verify solution
+    double* next = &solution[0];
+
+    for (const JointModel* joint: m_joints)
+    {
+        auto limits = joint->getVariableBoundsMsg().front();
+        double jointPos = *next++;
+
+        if (jointPos < limits.min_position)
+            ROS_WARN("IK constraint %s: %g less than %g", joint->getName().c_str(), jointPos, limits.min_position);
+        else if (jointPos > limits.max_position)
+            ROS_WARN("IK constraint %s: %g less than %g", joint->getName().c_str(), jointPos, limits.max_position);
+    }
+
     error_code.val = error_code.SUCCESS;
 
     if (!solution_callback.empty())
