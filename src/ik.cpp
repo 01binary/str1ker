@@ -651,11 +651,7 @@ Isometry3d IKPlugin::setJointState(
 {
     const Vector3d& axis      = getJointAxis(pJoint);
     const JointLimits& limits = pJoint->getVariableBoundsMsg().front();
-    double jointState =
-        isnan(angle) ? limits.min_position
-                     : clamp(angle, limits.min_position, limits.max_position);
-
-    Isometry3d transform = Isometry3d(AngleAxisd(jointState, axis));
+    double jointState = clamp(angle, limits.min_position, limits.max_position);
 
     size_t index =
         find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
@@ -679,6 +675,8 @@ Isometry3d IKPlugin::setJointState(
             find(m_joints.begin(), m_joints.end(), pMasterJoint)
             - m_joints.begin();
         states[masterIndex] = masterState;
+
+        m_pState->setJointPositions(pMasterJoint, &masterState);
 
         // Update other mimics
         for (auto pMimicJoint : pMasterJoint->getMimicRequests())
@@ -704,8 +702,12 @@ Isometry3d IKPlugin::setJointState(
                 mimicState, mimicLimits.min_position, mimicLimits.max_position);
         }
     }
+    else
+    {
+        m_pState->setJointPositions(pJoint, &jointState);
+    }
 
-    return transform;
+    return m_pState->getJointTransform(pJoint);
 }
 
 const Vector3d& IKPlugin::getJointAxis(const JointModel* pJoint)
