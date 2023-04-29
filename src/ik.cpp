@@ -463,19 +463,7 @@ bool IKPlugin::searchPositionIK(
             { 0.0, 1.0, 1.0 });
     }
 
-    // Verify solution
-    double* next = &solution[0];
-
-    for (const JointModel* joint: m_joints)
-    {
-        auto limits = joint->getVariableBoundsMsg().front();
-        double jointPos = *next++;
-
-        if (jointPos < limits.min_position)
-            ROS_WARN("IK constraint %s: %g less than %g", joint->getName().c_str(), jointPos, limits.min_position);
-        else if (jointPos > limits.max_position)
-            ROS_WARN("IK constraint %s: %g less than %g", joint->getName().c_str(), jointPos, limits.max_position);
-    }
+    validateSolution(solution);
 
     error_code.val = error_code.SUCCESS;
 
@@ -582,6 +570,22 @@ bool IKPlugin::validateSeedState(const vector<double>& ik_seed_state) const
     }
 
     return true;
+}
+
+void IKPlugin::validateSolution(const std::vector<double>& solution) const
+{
+    const double* next = &solution[0];
+
+    for (const JointModel* joint: m_joints)
+    {
+        auto limits = joint->getVariableBoundsMsg().front();
+        double jointPos = *next++;
+
+        if (jointPos < limits.min_position)
+            ROS_WARN("IK constraint %s: %g less than %g", joint->getName().c_str(), jointPos, limits.min_position);
+        else if (jointPos > limits.max_position)
+            ROS_WARN("IK constraint %s: %g less than %g", joint->getName().c_str(), jointPos, limits.max_position);
+    }
 }
 
 Vector3d IKPlugin::getLinkLength(const LinkModel* pBaseLink, const LinkModel* pTipLink) const

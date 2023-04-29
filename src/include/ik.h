@@ -180,6 +180,7 @@ private:
 
     bool validateSeedState(const std::vector<double>& ik_seed_state) const;
     bool validateTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
+    void validateSolution(const std::vector<double>& solution) const;
 
     Eigen::Isometry3d setJointState(
         const robot_model::JointModel* pJoint,
