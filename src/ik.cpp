@@ -574,17 +574,19 @@ bool IKPlugin::validateSeedState(const vector<double>& ik_seed_state) const
 
 void IKPlugin::validateSolution(const std::vector<double>& solution) const
 {
-    const double* next = &solution[0];
+    const double* nextSolution = &solution[0];
 
     for (const JointModel* joint: m_joints)
     {
         auto limits = joint->getVariableBoundsMsg().front();
-        double jointPos = *next++;
+        double jointPos = *nextSolution++;
 
         if (jointPos < limits.min_position)
             ROS_WARN("IK constraint %s: %g less than %g", joint->getName().c_str(), jointPos, limits.min_position);
         else if (jointPos > limits.max_position)
             ROS_WARN("IK constraint %s: %g less than %g", joint->getName().c_str(), jointPos, limits.max_position);
+        else
+            ROS_INFO("IK constraint %s: %g satisfied %g to %g", joint->getName().c_str(), jointPos, limits.min_position, limits.max_position);
     }
 }
 
@@ -647,14 +649,15 @@ double IKPlugin::lawOfCosines(double a, double b, double c)
 }
 
 Isometry3d IKPlugin::setJointState(
-    const JointModel* pJoint, double angle, std::vector<double>& states) const
+    const JointModel* pJoint,
+    double angle,
+    std::vector<double>& states) const
 {
-    const Vector3d& axis      = getJointAxis(pJoint);
+    const Vector3d& axis = getJointAxis(pJoint);
     const JointLimits& limits = pJoint->getVariableBoundsMsg().front();
     double jointState = clamp(angle, limits.min_position, limits.max_position);
 
-    size_t index =
-        find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
+    size_t index = find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
     states[index] = jointState;
 
     ROS_DEBUG_NAMED(PLUGIN_NAME, "IK solution %s: %g [%g] min %g max %g",
@@ -674,8 +677,8 @@ Isometry3d IKPlugin::setJointState(
         size_t masterIndex =
             find(m_joints.begin(), m_joints.end(), pMasterJoint)
             - m_joints.begin();
-        states[masterIndex] = masterState;
 
+        states[masterIndex] = masterState;
         m_pState->setJointPositions(pMasterJoint, &masterState);
 
         // Update other mimics
@@ -686,18 +689,21 @@ Isometry3d IKPlugin::setJointState(
                 continue;
             }
 
-            auto mimicIterator =
-                find(m_joints.begin(), m_joints.end(), pMimicJoint);
-            if (mimicIterator == m_joints.end())
+            auto mimicPos = find(m_joints.begin(), m_joints.end(), pMimicJoint);
+
+            if (mimicPos == m_joints.end())
             {
                 continue;
             }
 
+            size_t mimicIndex = mimicPos - m_joints.begin();
             const JointLimits& mimicLimits =
                 pMimicJoint->getVariableBoundsMsg().front();
-            size_t mimicIndex = mimicIterator - m_joints.begin();
-            double mimicState = masterState * pMimicJoint->getMimicFactor()
-                              + pMimicJoint->getMimicOffset();
+
+            double mimicState = masterState
+                * pMimicJoint->getMimicFactor()
+                + pMimicJoint->getMimicOffset();
+
             states[mimicIndex] = clamp(
                 mimicState, mimicLimits.min_position, mimicLimits.max_position);
         }
