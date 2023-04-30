@@ -713,6 +713,8 @@ Isometry3d IKPlugin::setJointState(
         m_pState->setJointPositions(pJoint, &jointState);
     }
 
+    m_pState->enforcePositionBounds();
+
     return m_pState->getJointTransform(pJoint);
 }
 
