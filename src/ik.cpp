@@ -670,50 +670,48 @@ Isometry3d IKPlugin::setJointState(
         const JointModel* pMasterJoint = pJoint->getMimic();
         const JointLimits& masterLimits =
             pMasterJoint->getVariableBoundsMsg().front();
-        double masterStateRaw =
-            (jointState - pJoint->getMimicOffset()) / pJoint->getMimicFactor();
-        double masterState = clamp(masterStateRaw, masterLimits.min_position,
+        double masterState = clamp(
+            (jointState - pJoint->getMimicOffset()) / pJoint->getMimicFactor(),
+            masterLimits.min_position,
             masterLimits.max_position);
         size_t masterIndex =
             find(m_joints.begin(), m_joints.end(), pMasterJoint)
             - m_joints.begin();
 
         states[masterIndex] = masterState;
-        m_pState->setJointPositions(pMasterJoint, &masterState);
 
-        // Update other mimics
+        m_pState->setJointPositions(pMasterJoint, &masterState);
+        m_pState->enforceBounds(pMasterJoint);
+
         for (auto pMimicJoint : pMasterJoint->getMimicRequests())
         {
-            if (pMimicJoint == pJoint)
-            {
-                continue;
-            }
+            if (pMimicJoint == pJoint) continue;
 
             auto mimicPos = find(m_joints.begin(), m_joints.end(), pMimicJoint);
-
-            if (mimicPos == m_joints.end())
-            {
-                continue;
-            }
+            if (mimicPos == m_joints.end()) continue;
 
             size_t mimicIndex = mimicPos - m_joints.begin();
             const JointLimits& mimicLimits =
                 pMimicJoint->getVariableBoundsMsg().front();
 
-            double mimicState = masterState
+            double mimicState = clamp(
+                masterState
                 * pMimicJoint->getMimicFactor()
-                + pMimicJoint->getMimicOffset();
+                + pMimicJoint->getMimicOffset(),
+                mimicLimits.min_position,
+                mimicLimits.max_position);
 
-            states[mimicIndex] = clamp(
-                mimicState, mimicLimits.min_position, mimicLimits.max_position);
+            states[mimicIndex] = mimicState;
+
+            m_pState->setJointPositions(pMimicJoint, &mimicState);
+            m_pState->enforceBounds(pMimicJoint);
         }
     }
     else
     {
         m_pState->setJointPositions(pJoint, &jointState);
+        m_pState->enforceBounds(pJoint);
     }
-
-    m_pState->enforcePositionBounds();
 
     return m_pState->getJointTransform(pJoint);
 }
