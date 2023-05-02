@@ -15,7 +15,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   controller_manager
   moveit_ros_robot_interaction
-  moveit_visual_tools
   moveit_core
   moveit_ros_planning
   pluginlib
@@ -70,7 +69,6 @@ catkin_package(
     actionlib
     controller_manager
     moveit_ros_robot_interaction
-    moveit_visual_tools
     pluginlib
     moveit_core
     moveit_ros_planning
@@ -123,6 +121,15 @@ add_library(str1ker-planner
 target_link_libraries(str1ker-planner
   ${catkin_LIBRARIES}
   ${Eigen3_LIBRARIES}
+)
+
+install(
+  FILES
+    description/planner.xml
+  DESTINATION
+    ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  RENAME
+    str1ker-planner.xml
 )
 
 install(

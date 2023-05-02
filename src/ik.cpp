@@ -19,9 +19,10 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <Eigen/Geometry>
-#include <tf2_eigen/tf2_eigen.h>
 #include "include/ik.h"
+#include <Eigen/Geometry>
+#include <pluginlib/class_list_macros.h>
+#include <tf2_eigen/tf2_eigen.h>
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -41,7 +42,6 @@ using namespace str1ker;
 \*----------------------------------------------------------*/
 
 const char PLUGIN_NAME[] = "str1ker::ik";
-IKPluginRegistrar g_registerIkPlugin;
 
 /*----------------------------------------------------------*\
 | IKPlugin implementation
@@ -731,13 +731,4 @@ const Vector3d& IKPlugin::getJointAxis(const JointModel* pJoint)
     }
 }
 
-/*----------------------------------------------------------*\
-| IKPluginRegistrar implementation
-\*----------------------------------------------------------*/
-
-IKPluginRegistrar::IKPluginRegistrar()
-{
-    // PLUGINLIB_EXPORT_CLASS macro does not compile on Noetic
-    class_loader::impl::registerPlugin<str1ker::IKPlugin, kinematics::KinematicsBase>(
-        "str1ker::IKPlugin", "kinematics::KinematicsBase");
-}
+PLUGINLIB_EXPORT_CLASS(IKPlugin, KinematicsBase);

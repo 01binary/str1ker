@@ -22,6 +22,7 @@
 #include "include/planner.h"
 #include "include/context.h"
 #include <moveit/planning_interface/planning_interface.h>
+#include <pluginlib/class_list_macros.h>
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -80,3 +81,5 @@ PlanningContextPtr PlannerPlugin::getPlanningContext(
     pContext->setMotionPlanRequest(req);
     return pContext;
 }
+
+PLUGINLIB_EXPORT_CLASS(PlannerPlugin, PlannerManager);

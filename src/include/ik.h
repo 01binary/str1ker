@@ -23,16 +23,13 @@
 
 #include <string>
 #include <memory>
-
 #include <ros/ros.h>
 #include <geometry_msgs/PoseStamped.h>
-
 #include <moveit_msgs/GetPositionFK.h>
 #include <moveit_msgs/GetPositionIK.h>
 #include <moveit_msgs/KinematicSolverInfo.h>
 #include <moveit_msgs/MoveItErrorCodes.h>
 #include <moveit/kinematics_base/kinematics_base.h>
-#include <moveit_visual_tools/moveit_visual_tools.h>
 #include <moveit/robot_model/robot_model.h>
 #include <moveit/robot_state/robot_state.h>
 
@@ -211,16 +208,6 @@ private:
 
         return value;
     }
-};
-
-/*----------------------------------------------------------*\
-| IKPluginRegistrar class
-\*----------------------------------------------------------*/
-
-class IKPluginRegistrar
-{
-public:
-    IKPluginRegistrar();
 };
 
 } // namespace str1ker

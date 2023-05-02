@@ -1,0 +1,7 @@
+<library path="lib/libstr1ker-planner">
+  <class name="str1ker/PlannerPlugin" type="str1ker::PlannerPlugin" base_class_type="planning_interface::PlannerManager">
+    <description>
+    Str1ker motion planner for MoveIt!
+    </description>
+  </class>
+</library>
