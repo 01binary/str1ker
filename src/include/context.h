@@ -22,7 +22,6 @@
 \*----------------------------------------------------------*/
 
 #include <string>
-#include <moveit/planning_scene/planning_scene.h>
 #include <moveit/planning_interface/planning_interface.h>
 
 /*----------------------------------------------------------*\
@@ -52,7 +51,7 @@ public:
 
 private:
     bool validateRequest();
-    Eigen::Isometry3d extractGoalPose()
+    Eigen::Isometry3d extractGoalPose();
 };
 
 }  // namespace str1ker

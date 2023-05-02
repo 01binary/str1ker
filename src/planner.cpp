@@ -75,7 +75,7 @@ PlanningContextPtr PlannerPlugin::getPlanningContext(
     const MotionPlanRequest& req,
     moveit_msgs::MoveItErrorCodes& error_code) const
 {
-    PluginContextPtr pContext = new PluginContext(req.group_name);
+    PlanningContextPtr pContext(new PluginContext(req.group_name));
     pContext->setPlanningScene(planning_scene);
     pContext->setMotionPlanRequest(req);
     return pContext;

@@ -15,8 +15,6 @@
  This software is licensed under GNU GPLv3
 */
 
-#pragma once
-
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
@@ -24,6 +22,7 @@
 #include "include/context.h"
 #include <trajectory_msgs/JointTrajectory.h>
 #include <moveit/robot_trajectory/robot_trajectory.h>
+#include <moveit/planning_scene/planning_scene.h>
 #include <moveit/robot_state/robot_state.h>
 
 /*----------------------------------------------------------*\
@@ -31,14 +30,13 @@
 \*----------------------------------------------------------*/
 
 using namespace std;
+using namespace Eigen;
 using namespace moveit::core;
-using namespace moveit_msgs;
 using namespace planning_scene;
 using namespace planning_interface;
 using namespace robot_trajectory;
 using namespace trajectory_msgs;
 using namespace robot_state;
-using namespace Eigen;
 using namespace str1ker;
 
 /*----------------------------------------------------------*\
@@ -51,8 +49,8 @@ const char* PluginContext::PLUGIN_NAME = "str1ker::PluginContext";
 | PluginContext implementation
 \*----------------------------------------------------------*/
 
-PluginContext::PluginContext(const std::string& group)
-    : PlanningContext(PLUGIN_NAME, group)
+PluginContext::PluginContext(const string& group)
+    : PlanningContext(string(PLUGIN_NAME), group)
 {
 }
 
@@ -65,13 +63,13 @@ bool PluginContext::solve(MotionPlanResponse& res)
     MotionPlanDetailedResponse detailed;
     bool success = solve(detailed);
 
-    res.error_code_ = detailed.error_code_;
-
     if (success)
     {
         res.trajectory_ = detailed.trajectory_.front();
         res.planning_time_ = detailed.processing_time_.front();
     }
+
+    res.error_code_ = detailed.error_code_;
 
     return success;
 }
@@ -80,29 +78,19 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
 {
     if (!validateRequest()) return false;
 
-    const RobotModelConstPtr& model = planning_scene_->getRobotModel();
-    const JointModelGroup* pGroup = model->getJointModelGroup(group_);
+    const RobotModelConstPtr& pModel = planning_scene_->getRobotModel();
+    const JointModelGroup* pGroup = pModel->getJointModelGroup(group_);
 
-    const vector<const JointModel*> joints = pGroup->getJointModels();
-    size_t numSupportedJoints = count_if(joints.begin(), joints.end(),
-        [](const JointModel* pJoint)
-        {
-            return pJoint->getType() == JointModel::REVOLUTE ||
-                   pJoint->getType() == JointModel::PRISMATIC;
-        });
+    Isometry3d goalPose = extractGoalPose();
+    double timeout = request_.allowed_planning_time;
+    RobotStatePtr pGoalState(new robot_state::RobotState(pModel));
+    pGoalState->setFromIK(pGroup, goalPose, timeout);
 
-    vector<double> solution;
-    solution.resize(numSupportedJoints);
+    RobotStatePtr pStartState(new robot_state::RobotState(pModel));
+    pStartState->setJointGroupPositions(pGroup, request_.start_state.joint_state.position);
 
-    RobotStatePtr pGoalState(new robot_state::RobotState(robot_model_));
-    pGoalState->setFromIK(
-        pGroup,
-        extractGoalPose(),
-        request_.allowed_planning_time,
-        solution);
-
-    RobotTrajectoryPtr trajectory(new RobotTrajectory(model, pGroup));
-    trajectory->addPrefixWayPoint(request_.start_state, 0.0);
+    RobotTrajectoryPtr trajectory(new RobotTrajectory(pModel, pGroup));
+    trajectory->addPrefixWayPoint(pStartState, 0.0);
     trajectory->addSuffixWayPoint(pGoalState, 1.0);
 
     res.start_state_ = request_.start_state;
@@ -116,7 +104,7 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
 
 Isometry3d PluginContext::extractGoalPose()
 {
-    const Vector3d& position = request_
+    auto position = request_
         .goal_constraints
         .front()
         .position_constraints
@@ -126,10 +114,14 @@ Isometry3d PluginContext::extractGoalPose()
         .front()
         .position;
 
-    return Eigen::Translation3d(
-        position.x(),
-        position.y(),
-        position.z());
+    Translation3d translation = Translation3d(
+        position.x,
+        position.y,
+        position.z);
+
+    Quaterniond rotation = Quaterniond::Identity();
+
+    return translation * rotation;
 }
 
 bool PluginContext::validateRequest()
@@ -141,7 +133,7 @@ bool PluginContext::validateRequest()
         return false;
     }
 
-    const Constraints& constraints = request_.goal_constraints.front();
+    auto constraints = request_.goal_constraints.front();
 
     if (constraints.position_constraints.size() != 1)
     {
@@ -150,7 +142,7 @@ bool PluginContext::validateRequest()
         return false;
     }
 
-    const PositionConstraint& positionConstraint = constraints
+    auto positionConstraint = constraints
         .position_constraints
         .front();
 
