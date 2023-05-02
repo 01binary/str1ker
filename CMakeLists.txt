@@ -50,7 +50,11 @@ add_message_files(
   PwmChannel.msg
 )
 
-generate_messages(DEPENDENCIES std_msgs actionlib_msgs)
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  actionlib_msgs
+)
 
 catkin_package(
   LIBRARIES
@@ -111,6 +115,16 @@ target_link_libraries(str1ker-ik
   ${Eigen3_LIBRARIES}
 )
 
+add_library(str1ker-planner
+  src/planner.cpp
+  src/context.cpp
+)
+
+target_link_libraries(str1ker-planner
+  ${catkin_LIBRARIES}
+  ${Eigen3_LIBRARIES}
+)
+
 install(
   FILES
     description/ik.xml
@@ -129,12 +143,38 @@ install(
 )
 
 install(
+  TARGETS
+    str1ker-planner
+  LIBRARY
+  DESTINATION
+    ${CATKIN_PACKAGE_LIB_DESTINATION}
+)
+
+install(
   FILES
     src/include/ik.h
   DESTINATION
     include
   RENAME
     str1ker-ik.h
+)
+
+install(
+  FILES
+    src/include/planner.h
+  DESTINATION
+    include
+  RENAME
+    str1ker-planner.h
+)
+
+install(
+  FILES
+    src/include/context.h
+  DESTINATION
+    include
+  RENAME
+    str1ker-context.h
 )
 
 install(

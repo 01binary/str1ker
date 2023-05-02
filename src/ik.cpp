@@ -378,6 +378,7 @@ bool IKPlugin::searchPositionIK(
     }
 
     solution = ik_seed_state;
+    *m_pState = *context_state;
 
     Vector3d targetWorld = getTarget(ik_poses).translation();
     Vector3d shoulderWorld = m_pState->getGlobalLinkTransform(
@@ -462,6 +463,8 @@ bool IKPlugin::searchPositionIK(
             { elbowWorld, wristWorld },
             { 0.0, 1.0, 1.0 });
     }
+
+    m_pState->update();
 
     validateSolution(solution);
 
@@ -582,11 +585,11 @@ void IKPlugin::validateSolution(const std::vector<double>& solution) const
         double jointPos = *nextSolution++;
 
         if (jointPos < limits.min_position)
-            ROS_WARN("IK constraint %s: %g less than %g", joint->getName().c_str(), jointPos, limits.min_position);
+            ROS_DEBUG("IK violated %s: %g < %g", joint->getName().c_str(), jointPos, limits.min_position);
         else if (jointPos > limits.max_position)
-            ROS_WARN("IK constraint %s: %g less than %g", joint->getName().c_str(), jointPos, limits.max_position);
+            ROS_DEBUG("IK violated %s: %g > %g", joint->getName().c_str(), jointPos, limits.max_position);
         else
-            ROS_INFO("IK constraint %s: %g satisfied %g to %g", joint->getName().c_str(), jointPos, limits.min_position, limits.max_position);
+            ROS_DEBUG("IK satisfied %s: %g within %g to %g", joint->getName().c_str(), jointPos, limits.min_position, limits.max_position);
     }
 }
 
