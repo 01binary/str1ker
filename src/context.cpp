@@ -21,9 +21,11 @@
 
 #include "include/context.h"
 #include <trajectory_msgs/JointTrajectory.h>
+#include <moveit_msgs/MotionPlanRequest.h>
 #include <moveit/robot_trajectory/robot_trajectory.h>
 #include <moveit/planning_scene/planning_scene.h>
 #include <moveit/robot_state/robot_state.h>
+#include <moveit/robot_state/conversions.h>
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -83,15 +85,18 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
         return false;
     }
 
-    const RobotModelConstPtr& pModel = planning_scene_->getRobotModel();
-    const JointModelGroup* pGroup = pModel->getJointModelGroup(group_);
+    auto pModel = planning_scene_->getRobotModel();
+    auto pGroup = pModel->getJointModelGroup(group_);
 
-    RobotStatePtr pStartState(new robot_state::RobotState(pModel));
-    pStartState->setJointGroupPositions(pGroup, request_.start_state.joint_state.position);
+    RobotStatePtr pStartState(new robot_state::RobotState(planning_scene_->getCurrentState()));
+    robotStateMsgToRobotState(
+        planning_scene_->getTransforms(),
+        request_.start_state,
+        *pStartState);
 
-    double timeout = request_.allowed_planning_time;
     RobotStatePtr pGoalState(new robot_state::RobotState(pModel));
     auto constraints = request_.goal_constraints.front().joint_constraints;
+    double timeout = request_.allowed_planning_time;
 
     for (auto constraint: constraints)
     {
@@ -108,10 +113,10 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
     trajectory->addSuffixWayPoint(pGoalState, 1.0);
 
     res.start_state_ = request_.start_state;
-    res.error_code_.val = moveit_msgs::MoveItErrorCodes::SUCCESS;
-    res.description_.push_back("PlannerPlugin");
+    res.description_.push_back("Str1ker Plan");
     res.processing_time_.push_back(0.0);
     res.trajectory_.push_back(trajectory);
+    res.error_code_.val = moveit_msgs::MoveItErrorCodes::SUCCESS;
 
     return true;
 }
