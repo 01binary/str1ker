@@ -41,8 +41,7 @@ using namespace str1ker;
 | PlannerPlugin implementation
 \*----------------------------------------------------------*/
 
-PlannerPlugin::PlannerPlugin()
-    : planning_interface::PlannerManager()
+PlannerPlugin::PlannerPlugin() : PlannerManager()
 {
 }
 
@@ -82,4 +81,4 @@ PlanningContextPtr PlannerPlugin::getPlanningContext(
     return pContext;
 }
 
-PLUGINLIB_EXPORT_CLASS(PlannerPlugin, PlannerManager);
+PLUGINLIB_EXPORT_CLASS(str1ker::PlannerPlugin, planning_interface::PlannerManager);

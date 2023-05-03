@@ -731,4 +731,4 @@ const Vector3d& IKPlugin::getJointAxis(const JointModel* pJoint)
     }
 }
 
-PLUGINLIB_EXPORT_CLASS(IKPlugin, KinematicsBase);
+PLUGINLIB_EXPORT_CLASS(str1ker::IKPlugin, kinematics::KinematicsBase);
