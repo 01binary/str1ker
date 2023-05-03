@@ -61,13 +61,13 @@ bool PlannerPlugin::canServiceRequest(const MotionPlanRequest& req) const
 
 string PlannerPlugin::getDescription() const
 {
-    return "Str1ker";
+    return "Str1ker Planner";
 }
 
 void PlannerPlugin::getPlanningAlgorithms(vector<string>& algs) const
 {
     algs.clear();
-    algs.push_back("Str1ker");
+    algs.push_back("Trigonometric");
 }
 
 PlanningContextPtr PlannerPlugin::getPlanningContext(
