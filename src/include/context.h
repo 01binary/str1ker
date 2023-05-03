@@ -48,10 +48,6 @@ public:
     bool solve(planning_interface::MotionPlanDetailedResponse& res) override;
     bool terminate() override;
     void clear() override;
-
-private:
-    bool validateRequest();
-    Eigen::Isometry3d extractGoalPose();
 };
 
 }  // namespace str1ker

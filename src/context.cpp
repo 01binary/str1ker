@@ -76,18 +76,32 @@ bool PluginContext::solve(MotionPlanResponse& res)
 
 bool PluginContext::solve(MotionPlanDetailedResponse& res)
 {
-    if (!validateRequest()) return false;
+    if (!request_.goal_constraints.size())
+    {
+        ROS_ERROR_NAMED(PLUGIN_NAME, "No goal constraints specified");
+        res.error_code_.val = moveit_msgs::MoveItErrorCodes::INVALID_GOAL_CONSTRAINTS;
+        return false;
+    }
 
     const RobotModelConstPtr& pModel = planning_scene_->getRobotModel();
     const JointModelGroup* pGroup = pModel->getJointModelGroup(group_);
 
-    Isometry3d goalPose = extractGoalPose();
-    double timeout = request_.allowed_planning_time;
-    RobotStatePtr pGoalState(new robot_state::RobotState(pModel));
-    pGoalState->setFromIK(pGroup, goalPose, timeout);
-
     RobotStatePtr pStartState(new robot_state::RobotState(pModel));
     pStartState->setJointGroupPositions(pGroup, request_.start_state.joint_state.position);
+
+    double timeout = request_.allowed_planning_time;
+    RobotStatePtr pGoalState(new robot_state::RobotState(pModel));
+    auto constraints = request_.goal_constraints.front().joint_constraints;
+
+    for (auto constraint: constraints)
+    {
+        pGoalState->setJointPositions(
+            constraint.joint_name,
+            &constraint.position);
+    }
+
+    pGoalState->enforceBounds(pGroup);
+    pGoalState->update();
 
     RobotTrajectoryPtr trajectory(new RobotTrajectory(pModel, pGroup));
     trajectory->addPrefixWayPoint(pStartState, 0.0);
@@ -98,60 +112,6 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
     res.description_.push_back("PlannerPlugin");
     res.processing_time_.push_back(0.0);
     res.trajectory_.push_back(trajectory);
-
-    return true;
-}
-
-Isometry3d PluginContext::extractGoalPose()
-{
-    auto position = request_
-        .goal_constraints
-        .front()
-        .position_constraints
-        .front()
-        .constraint_region
-        .primitive_poses
-        .front()
-        .position;
-
-    Translation3d translation = Translation3d(
-        position.x,
-        position.y,
-        position.z);
-
-    Quaterniond rotation = Quaterniond::Identity();
-
-    return translation * rotation;
-}
-
-bool PluginContext::validateRequest()
-{
-    if (request_.goal_constraints.size() != 1)
-    {
-        ROS_ERROR_NAMED(PLUGIN_NAME,
-            "Goal constraints do not specify a goal");
-        return false;
-    }
-
-    auto constraints = request_.goal_constraints.front();
-
-    if (constraints.position_constraints.size() != 1)
-    {
-        ROS_ERROR_NAMED(PLUGIN_NAME,
-            "Goal constraints do not specify a pose constraint");
-        return false;
-    }
-
-    auto positionConstraint = constraints
-        .position_constraints
-        .front();
-
-    if (positionConstraint.constraint_region.primitives.size() != 1)
-    {
-        ROS_ERROR_NAMED(PLUGIN_NAME,
-            "Goal constraints do not specify a primitive pose constraint");
-        return false;
-    }
 
     return true;
 }
