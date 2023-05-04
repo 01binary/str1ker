@@ -48,8 +48,11 @@ public:
     bool solve(planning_interface::MotionPlanResponse& res) override;
     bool solve(planning_interface::MotionPlanDetailedResponse& res) override;
 
-    std::vector<std::vector<double>> interpolateQuintic(
-        const std::vector<moveit_msgs::JointConstraint>& constraints,
+    robot_state::RobotStatePtr getStartState() const;
+    robot_state::RobotStatePtr getGoalState() const;
+
+    std::vector<robot_state::RobotStatePtr> interpolateQuintic(
+        const std::vector<moveit_msgs::JointConstraint>& jointConstraints,
         const robot_state::RobotStatePtr pStartState,
         const robot_state::RobotStatePtr pEndState,
         double discretization,

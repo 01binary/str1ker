@@ -102,31 +102,29 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
 
     auto pModel = planning_scene_->getRobotModel();
     auto pGroup = pModel->getJointModelGroup(group_);
-
-    RobotStatePtr pStartState(
-        new robot_state::RobotState(planning_scene_->getCurrentState()));
-    robotStateMsgToRobotState(
-        planning_scene_->getTransforms(),
-        request_.start_state,
-        *pStartState);
-
-    RobotStatePtr pGoalState(new robot_state::RobotState(pModel));
+    auto pStartState = getStartState();
+    auto pGoalState = getGoalState();
     auto constraints = request_.goal_constraints.front().joint_constraints;
     double timeout = request_.allowed_planning_time;
-
-    for (auto constraint: constraints)
-    {
-        pGoalState->setJointPositions(
-            constraint.joint_name,
-            &constraint.position);
-    }
-
-    pGoalState->enforceBounds(pGroup);
-    pGoalState->update();
+    double stepDuration = 1.0;
+    int steps = 10;
 
     RobotTrajectoryPtr trajectory(new RobotTrajectory(pModel, pGroup));
     trajectory->addPrefixWayPoint(pStartState, 0.0);
-    trajectory->addSuffixWayPoint(pGoalState, 1.0);
+
+    vector<RobotStatePtr> jointTrajectories = interpolateQuintic(
+        constraints,
+        pStartState,
+        pGoalState,
+        stepDuration,
+        steps);
+
+    for (const RobotStatePtr& state: jointTrajectories)
+    {
+        trajectory->addSuffixWayPoint(state, stepDuration);
+    }
+
+    trajectory->addSuffixWayPoint(pGoalState, stepDuration);
 
     res.start_state_ = request_.start_state;
     res.description_.push_back("Str1ker Plan");
@@ -137,7 +135,36 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
     return true;
 }
 
-vector<vector<double>> PluginContext::interpolateQuintic(
+RobotStatePtr PluginContext::getStartState() const
+{
+    const RobotState& currentState = planning_scene_->getCurrentState();
+    RobotStatePtr pStartState(new robot_state::RobotState(currentState));
+
+    robotStateMsgToRobotState(
+        planning_scene_->getTransforms(),
+        request_.start_state,
+        *pStartState);
+
+    return pStartState;
+}
+
+RobotStatePtr PluginContext::getGoalState() const
+{
+    auto pModel = planning_scene_->getRobotModel();
+    auto pGroup = pModel->getJointModelGroup(group_);
+    RobotStatePtr pGoalState(new robot_state::RobotState(pModel));
+    auto constraints = request_.goal_constraints.front().joint_constraints;
+
+    for (auto constraint: constraints)
+    {
+        pGoalState->setJointPositions(constraint.joint_name, &constraint.position);
+    }
+
+    pGoalState->enforceBounds(pGroup);
+    pGoalState->update();
+}
+
+vector<RobotStatePtr> PluginContext::interpolateQuintic(
     const vector<moveit_msgs::JointConstraint>& constraints,
     const RobotStatePtr pStartState,
     const RobotStatePtr pEndState,
@@ -175,7 +202,8 @@ vector<vector<double>> PluginContext::interpolateQuintic(
     // Fill in joint positions at each time step
     for (size_t step = 0; step < steps; step++)
     {
-        trajectory[step].resize(joints);
+        RobotStatePtr pState(new RobotState(pStartState->getRobotModel()));
+        const string& jointName = constraints[jointIndex].joint_name;
 
         for (size_t jointIndex = 0; jointIndex < joints; jointIndex++)
         {
