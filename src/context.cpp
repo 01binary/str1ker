@@ -45,7 +45,22 @@ using namespace str1ker;
 | Constants
 \*----------------------------------------------------------*/
 
+const size_t PluginContext::QUINTIC_COEFFICIENTS = 6;
 const char* PluginContext::PLUGIN_NAME = "str1ker::PluginContext";
+
+/*----------------------------------------------------------*\
+| Types
+\*----------------------------------------------------------*/
+
+union QuinticSplineCoefficients
+{
+    struct
+    {
+        double a, b, c, d, e, g;
+    };
+
+    double all[6];
+};
 
 /*----------------------------------------------------------*\
 | PluginContext implementation
@@ -88,7 +103,8 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
     auto pModel = planning_scene_->getRobotModel();
     auto pGroup = pModel->getJointModelGroup(group_);
 
-    RobotStatePtr pStartState(new robot_state::RobotState(planning_scene_->getCurrentState()));
+    RobotStatePtr pStartState(
+        new robot_state::RobotState(planning_scene_->getCurrentState()));
     robotStateMsgToRobotState(
         planning_scene_->getTransforms(),
         request_.start_state,
@@ -119,6 +135,67 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
     res.error_code_.val = moveit_msgs::MoveItErrorCodes::SUCCESS;
 
     return true;
+}
+
+vector<vector<double>> PluginContext::interpolateQuintic(
+    const vector<moveit_msgs::JointConstraint>& constraints,
+    const RobotStatePtr pStartState,
+    const RobotStatePtr pEndState,
+    double discretization,
+    int steps)
+{
+    size_t joints = constraints.size();
+    vector<vector<double>> trajectory(steps);
+    vector<double> powers(QUINTIC_COEFFICIENTS);
+
+    // Calculate powers of discretization
+    powers[0] = 1.0;
+    powers[1] = steps * discretization;
+
+    for (size_t index = 2; index < QUINTIC_COEFFICIENTS; index++)
+        powers[index] = powers[index - 1] * powers[1];
+
+    // Calculate quintic spline coefficients for each joint
+    vector<QuinticSplineCoefficients> coefficients(joints);
+
+    for (size_t jointIndex = 0; jointIndex < joints; jointIndex++)
+    {
+        const string& jointName = constraints[jointIndex].joint_name;
+        double startCoefficient = *pStartState->getJointPositions(jointName);
+        double endCoefficient = *pEndState->getJointPositions(jointName);
+
+        coefficients[jointIndex].a = startCoefficient;
+        coefficients[jointIndex].b = 0;
+        coefficients[jointIndex].c = 0;
+        coefficients[jointIndex].d = (-20 * startCoefficient + 20 * endCoefficient) / (2 * powers[3]);
+        coefficients[jointIndex].e = (30 * startCoefficient - 30 * endCoefficient) / (2 * powers[4]);
+        coefficients[jointIndex].g = (-12 * startCoefficient + 12 * endCoefficient) / (2 * powers[5]);
+    }
+
+    // Fill in joint positions at each time step
+    for (size_t step = 0; step < steps; step++)
+    {
+        trajectory[step].resize(joints);
+
+        for (size_t jointIndex = 0; jointIndex < joints; jointIndex++)
+        {
+            double jointState = 0.0;
+
+            for (
+                unsigned int coefficientIndex = 0;
+                coefficientIndex < QUINTIC_COEFFICIENTS;
+                coefficientIndex++)
+            {
+                jointState
+                += powers[coefficientIndex]
+                * coefficients[jointIndex].all[coefficientIndex];
+            }
+
+            trajectory[step][jointIndex] = jointState;
+        }
+    }
+
+    return trajectory;
 }
 
 bool PluginContext::terminate()

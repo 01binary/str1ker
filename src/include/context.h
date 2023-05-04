@@ -37,6 +37,7 @@ namespace str1ker {
 class PluginContext: public planning_interface::PlanningContext
 {
 private:
+    static const size_t QUINTIC_COEFFICIENTS;
     static const char* PLUGIN_NAME;
 
 public:
@@ -46,6 +47,14 @@ public:
 public:
     bool solve(planning_interface::MotionPlanResponse& res) override;
     bool solve(planning_interface::MotionPlanDetailedResponse& res) override;
+
+    std::vector<std::vector<double>> interpolateQuintic(
+        const std::vector<moveit_msgs::JointConstraint>& constraints,
+        const robot_state::RobotStatePtr pStartState,
+        const robot_state::RobotStatePtr pEndState,
+        double discretization,
+        int steps);
+
     bool terminate() override;
     void clear() override;
 };
