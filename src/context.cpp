@@ -119,9 +119,9 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
         stepDuration,
         steps);
 
-    for (const RobotStatePtr& state: jointTrajectories)
+    for (const RobotStatePtr& pState: jointTrajectories)
     {
-        trajectory->addSuffixWayPoint(state, stepDuration);
+        trajectory->addSuffixWayPoint(pState, stepDuration);
     }
 
     trajectory->addSuffixWayPoint(pGoalState, stepDuration);
@@ -162,6 +162,8 @@ RobotStatePtr PluginContext::getGoalState() const
 
     pGoalState->enforceBounds(pGroup);
     pGoalState->update();
+
+    return pGoalState;
 }
 
 vector<RobotStatePtr> PluginContext::interpolateQuintic(
@@ -172,7 +174,7 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
     int steps)
 {
     size_t joints = constraints.size();
-    vector<vector<double>> trajectory(steps);
+    vector<RobotStatePtr> trajectory(steps);
     vector<double> powers(QUINTIC_COEFFICIENTS);
 
     // Calculate powers of discretization
@@ -203,10 +205,10 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
     for (size_t step = 0; step < steps; step++)
     {
         RobotStatePtr pState(new RobotState(pStartState->getRobotModel()));
-        const string& jointName = constraints[jointIndex].joint_name;
 
         for (size_t jointIndex = 0; jointIndex < joints; jointIndex++)
         {
+            const string& jointName = constraints[jointIndex].joint_name;
             double jointState = 0.0;
 
             for (
@@ -219,8 +221,10 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
                 * coefficients[jointIndex].all[coefficientIndex];
             }
 
-            trajectory[step][jointIndex] = jointState;
+            pState->setJointPositions(jointName, &jointState);
         }
+
+        trajectory[step] = pState;
     }
 
     return trajectory;
