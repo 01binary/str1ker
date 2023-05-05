@@ -47,6 +47,7 @@ using namespace str1ker;
 
 const int PluginContext::STEPS = 16;
 const double PluginContext::STEP_DURATION = 0.0;
+const double PluginContext::DISCRETIZATION = 0.1;
 const size_t PluginContext::QUINTIC_COEFFICIENTS = 6;
 const char* PluginContext::PLUGIN_NAME = "str1ker::PluginContext";
 
@@ -111,8 +112,9 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
 
     RobotTrajectoryPtr trajectory(new RobotTrajectory(pModel, pGroup));
     vector<RobotStatePtr> jointTrajectories =
-        interpolateQuintic(constraints, pStartState, pGoalState, STEP_DURATION, STEPS);
+        interpolateQuintic(constraints, pStartState, pGoalState, DISCRETIZATION, STEPS);
 
+    trajectory->clear();
     trajectory->addPrefixWayPoint(pStartState, 0.0);
 
     for (const RobotStatePtr& pState: jointTrajectories)
