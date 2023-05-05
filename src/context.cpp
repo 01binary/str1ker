@@ -45,6 +45,8 @@ using namespace str1ker;
 | Constants
 \*----------------------------------------------------------*/
 
+const int PluginContext::STEPS = 16;
+const double PluginContext::STEP_DURATION = 0.0;
 const size_t PluginContext::QUINTIC_COEFFICIENTS = 6;
 const char* PluginContext::PLUGIN_NAME = "str1ker::PluginContext";
 
@@ -106,28 +108,22 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
     auto pGoalState = getGoalState();
     auto constraints = request_.goal_constraints.front().joint_constraints;
     double timeout = request_.allowed_planning_time;
-    double stepDuration = 1.0;
-    int steps = 10;
 
     RobotTrajectoryPtr trajectory(new RobotTrajectory(pModel, pGroup));
-    trajectory->addPrefixWayPoint(pStartState, 0.0);
+    vector<RobotStatePtr> jointTrajectories =
+        interpolateQuintic(constraints, pStartState, pGoalState, STEP_DURATION, STEPS);
 
-    vector<RobotStatePtr> jointTrajectories = interpolateQuintic(
-        constraints,
-        pStartState,
-        pGoalState,
-        stepDuration,
-        steps);
+    trajectory->addPrefixWayPoint(pStartState, 0.0);
 
     for (const RobotStatePtr& pState: jointTrajectories)
     {
-        trajectory->addSuffixWayPoint(pState, stepDuration);
+        trajectory->addSuffixWayPoint(pState, STEP_DURATION);
     }
 
-    trajectory->addSuffixWayPoint(pGoalState, stepDuration);
+    trajectory->addSuffixWayPoint(pGoalState, STEP_DURATION);
 
     res.start_state_ = request_.start_state;
-    res.description_.push_back("Str1ker Plan");
+    res.description_.push_back("plan");
     res.processing_time_.push_back(0.0);
     res.trajectory_.push_back(trajectory);
     res.error_code_.val = moveit_msgs::MoveItErrorCodes::SUCCESS;
@@ -140,10 +136,10 @@ RobotStatePtr PluginContext::getStartState() const
     const RobotState& currentState = planning_scene_->getCurrentState();
     RobotStatePtr pStartState(new robot_state::RobotState(currentState));
 
-    robotStateMsgToRobotState(
+    /*robotStateMsgToRobotState(
         planning_scene_->getTransforms(),
         request_.start_state,
-        *pStartState);
+        *pStartState);*/
 
     return pStartState;
 }

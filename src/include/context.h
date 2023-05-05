@@ -37,6 +37,8 @@ namespace str1ker {
 class PluginContext: public planning_interface::PlanningContext
 {
 private:
+    static const int STEPS;
+    static const double STEP_DURATION;
     static const size_t QUINTIC_COEFFICIENTS;
     static const char* PLUGIN_NAME;
 
