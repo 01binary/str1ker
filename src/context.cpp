@@ -47,7 +47,6 @@ using namespace str1ker;
 
 const int PluginContext::STEPS = 16;
 const double PluginContext::STEP_DURATION = 0.0;
-const double PluginContext::DISCRETIZATION = 0.1;
 const size_t PluginContext::QUINTIC_COEFFICIENTS = 6;
 const char* PluginContext::PLUGIN_NAME = "str1ker::PluginContext";
 
@@ -70,7 +69,8 @@ union QuinticSplineCoefficients
 \*----------------------------------------------------------*/
 
 PluginContext::PluginContext(const string& group)
-    : PlanningContext(string(PLUGIN_NAME), group)
+    : PlanningContext(string(PLUGIN_NAME), group),
+      m_useQuinticInterpolation(false)
 {
 }
 
@@ -111,8 +111,16 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
     double timeout = request_.allowed_planning_time;
 
     RobotTrajectoryPtr trajectory(new RobotTrajectory(pModel, pGroup));
-    vector<RobotStatePtr> jointTrajectories =
-        interpolateQuintic(constraints, pStartState, pGoalState, DISCRETIZATION, STEPS);
+    vector<RobotStatePtr> jointTrajectories;
+    
+    if (m_useQuinticInterpolation)
+    {
+        jointTrajectories = interpolateQuintic(constraints, pStartState, pGoalState, STEPS);
+    }
+    else
+    {
+        jointTrajectories = interpolateLinear(constraints, pStartState, pGoalState, STEPS);
+    }
 
     trajectory->clear();
     trajectory->addPrefixWayPoint(pStartState, 0.0);
@@ -137,12 +145,6 @@ RobotStatePtr PluginContext::getStartState() const
 {
     const RobotState& currentState = planning_scene_->getCurrentState();
     RobotStatePtr pStartState(new robot_state::RobotState(currentState));
-
-    /*robotStateMsgToRobotState(
-        planning_scene_->getTransforms(),
-        request_.start_state,
-        *pStartState);*/
-
     return pStartState;
 }
 
@@ -168,16 +170,15 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
     const vector<moveit_msgs::JointConstraint>& constraints,
     const RobotStatePtr pStartState,
     const RobotStatePtr pEndState,
-    double discretization,
     int steps)
 {
     size_t joints = constraints.size();
     vector<RobotStatePtr> trajectory(steps);
     vector<double> powers(QUINTIC_COEFFICIENTS);
 
-    // Calculate powers of discretization
+    // Calculate time powers
     powers[0] = 1.0;
-    powers[1] = steps * discretization;
+    powers[1] = double(steps);
 
     for (size_t index = 2; index < QUINTIC_COEFFICIENTS; index++)
         powers[index] = powers[index - 1] * powers[1];
@@ -209,19 +210,36 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
             const string& jointName = constraints[jointIndex].joint_name;
             double jointState = 0.0;
 
-            for (
-                unsigned int coefficientIndex = 0;
-                coefficientIndex < QUINTIC_COEFFICIENTS;
-                coefficientIndex++)
+            for (size_t coeffIndex = 0;
+                coeffIndex < QUINTIC_COEFFICIENTS;
+                coeffIndex++)
             {
                 jointState
-                += powers[coefficientIndex]
-                * coefficients[jointIndex].all[coefficientIndex];
+                    += powers[coeffIndex]
+                    * coefficients[jointIndex].all[coeffIndex];
             }
 
             pState->setJointPositions(jointName, &jointState);
         }
 
+        trajectory[step] = pState;
+    }
+
+    return trajectory;
+}
+
+vector<RobotStatePtr> PluginContext::interpolateLinear(
+    const vector<moveit_msgs::JointConstraint>& constraints,
+    const RobotStatePtr pStartState,
+    const RobotStatePtr pEndState,
+    int steps)
+{
+    vector<RobotStatePtr> trajectory(steps);
+
+    for (size_t step = 0; step < steps; step++)
+    {
+        RobotStatePtr pState(new RobotState(pStartState->getRobotModel()));
+        pStartState->interpolate(*pEndState, double(step) / double(steps), *pState);
         trajectory[step] = pState;
     }
 

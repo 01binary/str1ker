@@ -39,9 +39,11 @@ class PluginContext: public planning_interface::PlanningContext
 private:
     static const int STEPS;
     static const double STEP_DURATION;
-    static const double DISCRETIZATION;
     static const size_t QUINTIC_COEFFICIENTS;
     static const char* PLUGIN_NAME;
+
+private:
+    bool m_useQuinticInterpolation;
 
 public:
     PluginContext(const std::string& group);
@@ -58,7 +60,12 @@ public:
         const std::vector<moveit_msgs::JointConstraint>& jointConstraints,
         const robot_state::RobotStatePtr pStartState,
         const robot_state::RobotStatePtr pEndState,
-        double discretization,
+        int steps);
+
+    std::vector<robot_state::RobotStatePtr> interpolateLinear(
+        const std::vector<moveit_msgs::JointConstraint>& jointConstraints,
+        const robot_state::RobotStatePtr pStartState,
+        const robot_state::RobotStatePtr pEndState,
         int steps);
 
     bool terminate() override;
