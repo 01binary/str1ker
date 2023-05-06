@@ -52,24 +52,27 @@ public:
 public:
     bool solve(planning_interface::MotionPlanResponse& res) override;
     bool solve(planning_interface::MotionPlanDetailedResponse& res) override;
+    bool terminate() override;
+    void clear() override;
 
+private:
     robot_state::RobotStatePtr getStartState() const;
     robot_state::RobotStatePtr getGoalState() const;
 
-    std::vector<robot_state::RobotStatePtr> interpolateQuintic(
+private:
+    static std::vector<double> calculateQuinticPowers(double step);
+
+    static std::vector<robot_state::RobotStatePtr> interpolateQuintic(
         const std::vector<moveit_msgs::JointConstraint>& jointConstraints,
         const robot_state::RobotStatePtr pStartState,
         const robot_state::RobotStatePtr pEndState,
         int steps);
 
-    std::vector<robot_state::RobotStatePtr> interpolateLinear(
+    static std::vector<robot_state::RobotStatePtr> interpolateLinear(
         const std::vector<moveit_msgs::JointConstraint>& jointConstraints,
         const robot_state::RobotStatePtr pStartState,
         const robot_state::RobotStatePtr pEndState,
         int steps);
-
-    bool terminate() override;
-    void clear() override;
 };
 
 }  // namespace str1ker

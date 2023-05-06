@@ -70,7 +70,7 @@ union QuinticSplineCoefficients
 
 PluginContext::PluginContext(const string& group)
     : PlanningContext(string(PLUGIN_NAME), group),
-      m_useQuinticInterpolation(false)
+      m_useQuinticInterpolation(true)
 {
 }
 
@@ -166,6 +166,19 @@ RobotStatePtr PluginContext::getGoalState() const
     return pGoalState;
 }
 
+vector<double> PluginContext::calculateQuinticPowers(double step)
+{
+    vector<double> powers(QUINTIC_COEFFICIENTS);
+
+    powers[0] = 1.0;
+    powers[1] = step;
+
+    for (size_t index = 2; index < QUINTIC_COEFFICIENTS; index++)
+        powers[index] = powers[index - 1] * powers[1];
+
+    return powers;
+}
+
 vector<RobotStatePtr> PluginContext::interpolateQuintic(
     const vector<moveit_msgs::JointConstraint>& constraints,
     const RobotStatePtr pStartState,
@@ -174,14 +187,7 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
 {
     size_t joints = constraints.size();
     vector<RobotStatePtr> trajectory(steps);
-    vector<double> powers(QUINTIC_COEFFICIENTS);
-
-    // Calculate time powers
-    powers[0] = 1.0;
-    powers[1] = double(steps);
-
-    for (size_t index = 2; index < QUINTIC_COEFFICIENTS; index++)
-        powers[index] = powers[index - 1] * powers[1];
+    vector<double> powers = calculateQuinticPowers(steps);
 
     // Calculate quintic spline coefficients for each joint
     vector<QuinticSplineCoefficients> coefficients(joints);
@@ -204,6 +210,7 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
     for (size_t step = 0; step < steps; step++)
     {
         RobotStatePtr pState(new RobotState(pStartState->getRobotModel()));
+        vector<double> stepPowers = calculateQuinticPowers(step);
 
         for (size_t jointIndex = 0; jointIndex < joints; jointIndex++)
         {
@@ -215,7 +222,7 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
                 coeffIndex++)
             {
                 jointState
-                    += powers[coeffIndex]
+                    += stepPowers[coeffIndex]
                     * coefficients[jointIndex].all[coeffIndex];
             }
 
