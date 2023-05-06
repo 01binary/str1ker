@@ -45,7 +45,7 @@ using namespace str1ker;
 | Constants
 \*----------------------------------------------------------*/
 
-const int PluginContext::STEPS = 16;
+const int PluginContext::STEPS = 48;
 const double PluginContext::STEP_DURATION = 0.0;
 const size_t PluginContext::QUINTIC_COEFFICIENTS = 6;
 const char* PluginContext::PLUGIN_NAME = "str1ker::PluginContext";
@@ -123,14 +123,11 @@ bool PluginContext::solve(MotionPlanDetailedResponse& res)
     }
 
     trajectory->clear();
-    trajectory->addPrefixWayPoint(pStartState, 0.0);
 
     for (const RobotStatePtr& pState: jointTrajectories)
     {
         trajectory->addSuffixWayPoint(pState, STEP_DURATION);
     }
-
-    trajectory->addSuffixWayPoint(pGoalState, STEP_DURATION);
 
     res.start_state_ = request_.start_state;
     res.description_.push_back("plan");
