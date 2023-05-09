@@ -20,6 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include "include/ik.h"
+#include <cmath>
 #include <Eigen/Geometry>
 #include <pluginlib/class_list_macros.h>
 #include <tf2_eigen/tf2_eigen.h>
@@ -360,6 +361,71 @@ bool IKPlugin::searchPositionIK(
         options);
 }
 
+/*
+* Calculate distance between joint0 and target
+* Calculate prior joint theta as the difference between target and origin
+	Given components depending on alpha
+
+* Calculate DH matrix prior joint to next joint
+	Given prior theta, length of link between them, and the prior alpha/prior offset
+
+* Calculate next joint theta using inverse kinematic
+	Given DH matrix, and another DH matrix with d as target offset, 0 alpha, link 2 length, 0 rad
+
+--- repeat
+
+* Calculate DH matrix (T12) next joint to after joint
+	Given alha 0, prev theta, link 3 length, and 0 rad
+
+* Calculate after joint theta
+	Given T01 * T12 (the prior two DH transforms combined)
+	Given frame of That joint to target
+		target z as distance, 0 as theta, 0 as alpha, -PI/2 as r (what?)
+	
+
+* * *
+
+So these Ts are really just reference frame transformations
+From frame 1 to frame 2, whatever that might be
+Each time we build a DH matrix for the current joint frame,
+Then DH matrix that transforms target into next joint frame,
+Then extract the theta from that
+
+"From this joint's frame to the target within the frame of next joint"
+*/
+
+/*
+// specify the length of each link in the robot arm
+double l1 = 2.0;
+double l2 = 3.0;
+double l3 = 1.5;
+
+// specify the position of the first joint (joint 0)
+Eigen::Vector3d p0(0.0, 0.0, 0.0);
+
+// specify the position of the target
+Eigen::Vector3d pt(2.5, 3.0, 1.0);
+
+// calculate the distance between joint 0 and the target
+double d = (pt - p0).norm();
+
+// calculate the inverse kinematic theta for the first joint (joint 1)
+double theta1 = atan2(pt.y() - p0.y(), pt.x() - p0.x());
+Eigen::Matrix4d T01 = computeDHMatrix(0.0, theta1, l1, M_PI / 2.0);
+
+// calculate the inverse kinematic theta for the second joint (joint 2)
+double theta2 = computeInverseKinematicTheta(T01, computeDHMatrix(d, 0.0, l2, 0.0));
+Eigen::Matrix4d T12 = computeDHMatrix(0.0, theta2, l3, 0.0);
+
+// calculate the inverse kinematic theta for the third joint (joint 3)
+double theta3 = computeInverseKinematicTheta(T01 * T12, computeDHMatrix(pt.z(), 0.0, 0.0, -M_PI / 2.0));
+
+// output the calculated joint angles
+std::cout << "theta1: " << theta1 << std::endl;
+std::cout << "theta2: " << theta2 << std::endl;
+std::cout << "theta3: " << theta3 << std::endl;
+*/
+
 bool IKPlugin::searchPositionIK(
     const vector<geometry_msgs::Pose> &ik_poses,
     const vector<double> &ik_seed_state,
@@ -482,7 +548,8 @@ bool IKPlugin::searchPositionIK(
 // Private methods
 //
 
-const JointModel* IKPlugin::getJoint(JointModel::JointType type, const JointModel* parent) const
+const JointModel* IKPlugin::getJoint(
+    JointModel::JointType type, const JointModel* parent) const
 {
     for (auto joint : m_joints)
     {
@@ -651,6 +718,64 @@ double IKPlugin::lawOfCosines(double a, double b, double c)
     return isnan(angle) ? 0.0 : angle;
 }
 
+Matrix4d IKPlugin::getJointFrame(
+    double jointOffset, double jointAngle, double jointTwist, double linkNorm)
+{
+    double epsilon = numeric_limits<double>::min();
+    double ca = cos(jointTwist);
+    double sa = sin(jointTwist);
+    double sj = sin(jointAngle);
+    double cj = cos(jointAngle);
+
+    Matrix4d jointFrame;
+
+    if (abs(jointTwist) < epsilon)
+    {
+        // No twist, use a simplified Denavit-Hartenberg matrix
+        jointFrame <<
+            cj, -sj, 0, linkNorm,
+            sj, cj, 0, 0,
+            0, 0, 1, jointOffset,
+            0, 0, 0, 1;
+    }
+    else if (abs(jointTwist - M_PI / 2) < epsilon)
+    {
+        // 90 degree twist, use a simplified Denavit-Hartenberg matrix
+        jointFrame <<
+            cj, -sj, 0, linkNorm,
+            sj * ca, cj * ca, -sa, -sa * jointOffset,
+            sj * sa, cj * sa, ca, ca * jointOffset,
+            0, 0, 0, 1;
+    }
+    else
+    {
+        // Standard Denavit-Hartenberg matrix
+        jointFrame <<
+            cj, -sj * ca, sj * sa, linkNorm * cj,
+            sj, cj * ca, -cj * sa, linkNorm * sj,
+            0, sa, ca, jointOffset,
+            0, 0, 0, 1;
+    }
+
+    return jointFrame;
+}
+
+double IKPlugin::getJointAngle(Matrix4d frame1, Matrix4d frame2)
+{
+    // Extract the necessary parameters from Denavit-Hartenberg matrices
+    double d1 = frame1(2, 3);
+    double d2 = frame2(2, 3);
+    double a1 = frame1(0, 2);
+    double a2 = frame2(0, 2);
+    double b1 = frame1(1, 2);
+    double b2 = frame2(1, 2);
+
+    // Calculate joint angle with inverse kinematics
+    double sinTheta = (b2 * d1 - b1 * d2) / (a1 * b2 - a2 * b1);
+    double cosTheta = (-a2 * d1 + a1 * d2) / (a1 * b2 - a2 * b1);
+    return atan2(sinTheta, cosTheta);
+}
+
 Isometry3d IKPlugin::setJointState(
     const JointModel* pJoint,
     double angle,
@@ -658,7 +783,9 @@ Isometry3d IKPlugin::setJointState(
 {
     const Vector3d& axis = getJointAxis(pJoint);
     const JointLimits& limits = pJoint->getVariableBoundsMsg().front();
-    double jointState = clamp(angle, limits.min_position, limits.max_position);
+    double jointState = isnan(angle)
+        ? limits.max_position
+        : clamp(angle, limits.min_position, limits.max_position);
 
     size_t index = find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
     states[index] = jointState;

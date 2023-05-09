@@ -197,6 +197,11 @@ private:
     static const Eigen::Vector3d& getJointAxis(
         const robot_model::JointModel* pJoint);
 
+    static Eigen::Matrix4d getJointFrame(
+        double offset, double jointAngle, double twistAngle, double linkNorm)
+
+    static double getJointAngle(Eigen::Matrix4d frame1, Eigen::Matrix4d frame2);
+
     static inline double clamp(double value, double low, double high)
     {
         assert(low <= high);
