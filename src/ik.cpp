@@ -380,14 +380,19 @@ bool IKPlugin::searchPositionIK(
     // Get target position
     Vector3d goal = getGoal(ik_poses);
 
-    vector<double> jointStates = calculateInverseKinematics({}, origin, goal);
+    vector<double> jointStates = calculateInverseKinematics(
+    {
+        // Swivel
+        { 0, 0, 0, 0 },
+        // Shoulder
+        { m_shoulder.z(), 0, 0, m_upperArm.norm() },
+        // Elbow
+        { 0, 0, 0, m_forearm.norm() }
+    }, origin, goal);
 
     setJointState(m_pMountJoint, jointStates[0], solution);
     setJointState(m_pShoulderJoint, jointStates[1], solution);
     setJointState(m_pElbowJoint, jointStates[2], solution);
-
-    // TODO: account for wrist to effector which is fixed
-    // TODO: account for wrist to effector twist not just offset
 
     validateSolution(solution);
 
@@ -640,6 +645,8 @@ vector<double> IKPlugin::calculateInverseKinematics(
 
         output[i] = theta;
     }
+
+    return output;
 }
 
 Isometry3d IKPlugin::setJointState(
