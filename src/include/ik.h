@@ -40,6 +40,38 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
+| JointFrame struct
+\*----------------------------------------------------------*/
+
+union JointFrame
+{
+    // Parameter meanings
+    struct
+    {
+        // Joint offset from last joint along z axis
+        double offset;
+
+        // Joint angle from last joint around z axis
+        double angle;
+
+        // Joint twist from last joint around x axis
+        double twist;
+
+        // Link length from last joint along x axis
+        double norm;
+    };
+
+    // Denavit-Hartengerg parameters
+    struct
+    {
+        double d;
+        double theta;
+        double alpha;
+        double a;
+    };
+};
+
+/*----------------------------------------------------------*\
 | IKPlugin class
 \*----------------------------------------------------------*/
 
@@ -65,12 +97,10 @@ private:
     const robot_model::JointModel* m_pElbowJoint;
     const robot_model::JointModel* m_pWristJoint;
 
+    Eigen::Vector3d m_shoulder;
     Eigen::Vector3d m_upperArm;
     Eigen::Vector3d m_forearm;
-    Eigen::Vector3d m_shoulderToWrist;
-    Eigen::Vector3d m_shoulderToEffector;
-    Eigen::Vector3d m_elbowToEffector;
-    Eigen::Vector3d m_wristToEffector;
+    Eigen::Vector3d m_effector;
 
 public:
     IKPlugin();
@@ -91,7 +121,9 @@ public:
     // Joints, Links, and Groups
     //
 
-    virtual bool supportsGroup(const moveit::core::JointModelGroup *jmg, std::string *error_text_out=NULL) const;
+    virtual bool supportsGroup(
+        const moveit::core::JointModelGroup *jmg, std::string *error_text_out = NULL) const;
+
     virtual const std::vector<std::string>& getJointNames() const;
     virtual const std::vector<std::string>& getLinkNames() const;
 
@@ -163,7 +195,8 @@ public:
         const moveit::core::RobotState* context_state = NULL) const;
 
 private:
-    Eigen::Isometry3d getTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
+    Eigen::Vector3d getGoal(const std::vector<geometry_msgs::Pose>& ik_poses) const;
+    Eigen::Vector3d getOrigin() const;
 
     Eigen::Vector3d getLinkLength(
         const robot_model::LinkModel* pBaseLink,
@@ -190,17 +223,25 @@ private:
         Eigen::Vector3d color) const;
 
 private:
-    static double toDegrees(double radians);
-    static double getAngle(double x, double y);
-    static double lawOfCosines(double a, double b, double c);
-
     static const Eigen::Vector3d& getJointAxis(
         const robot_model::JointModel* pJoint);
 
-    static Eigen::Matrix4d getJointFrame(
-        double offset, double jointAngle, double twistAngle, double linkNorm)
+    static Eigen::Matrix4d calculateJointTransform(const JointFrame& frame);
 
-    static double getJointAngle(Eigen::Matrix4d frame1, Eigen::Matrix4d frame2);
+    static std::vector<double> calculateInverseKinematics(
+        const std::vector<JointFrame>& frames,
+        const Eigen::Vector3d& origin,
+        const Eigen::Vector3d& goal);
+
+    static double toDegrees(double radians)
+    {
+        return radians * 180 / M_PI;
+    }
+
+    static double toRadians(double degrees)
+    {
+        return degrees * M_PI / 180;
+    }
 
     static inline double clamp(double value, double low, double high)
     {

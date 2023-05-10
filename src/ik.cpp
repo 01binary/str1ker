@@ -196,22 +196,16 @@ bool IKPlugin::initialize(
     m_pElbowJoint = getJoint(JointModel::REVOLUTE, m_pShoulderJoint);
     m_pWristJoint = getJoint(JointModel::REVOLUTE, m_pElbowJoint);
 
+    m_shoulder = getLinkLength(
+        m_pMountJoint->getChildLinkModel(),
+        m_pShoulderJoint->getChildLinkModel());
     m_upperArm = getLinkLength(
         m_pShoulderJoint->getChildLinkModel(),
         m_pElbowJoint->getChildLinkModel());
     m_forearm = getLinkLength(
         m_pElbowJoint->getChildLinkModel(),
         m_pWristJoint->getChildLinkModel());
-    m_elbowToEffector = getLinkLength(
-        m_pElbowJoint->getChildLinkModel(),
-        m_pTipLink);
-    m_shoulderToEffector = getLinkLength(
-        m_pShoulderJoint->getChildLinkModel(),
-        m_pTipLink);
-    m_shoulderToWrist = getLinkLength(
-        m_pShoulderJoint->getChildLinkModel(),
-        m_pWristJoint->getChildLinkModel());
-    m_wristToEffector = getLinkLength(
+    m_effector = getLinkLength(
         m_pWristJoint->getChildLinkModel(),
         m_pTipLink);
 
@@ -361,71 +355,6 @@ bool IKPlugin::searchPositionIK(
         options);
 }
 
-/*
-* Calculate distance between joint0 and target
-* Calculate prior joint theta as the difference between target and origin
-	Given components depending on alpha
-
-* Calculate DH matrix prior joint to next joint
-	Given prior theta, length of link between them, and the prior alpha/prior offset
-
-* Calculate next joint theta using inverse kinematic
-	Given DH matrix, and another DH matrix with d as target offset, 0 alpha, link 2 length, 0 rad
-
---- repeat
-
-* Calculate DH matrix (T12) next joint to after joint
-	Given alha 0, prev theta, link 3 length, and 0 rad
-
-* Calculate after joint theta
-	Given T01 * T12 (the prior two DH transforms combined)
-	Given frame of That joint to target
-		target z as distance, 0 as theta, 0 as alpha, -PI/2 as r (what?)
-	
-
-* * *
-
-So these Ts are really just reference frame transformations
-From frame 1 to frame 2, whatever that might be
-Each time we build a DH matrix for the current joint frame,
-Then DH matrix that transforms target into next joint frame,
-Then extract the theta from that
-
-"From this joint's frame to the target within the frame of next joint"
-*/
-
-/*
-// specify the length of each link in the robot arm
-double l1 = 2.0;
-double l2 = 3.0;
-double l3 = 1.5;
-
-// specify the position of the first joint (joint 0)
-Eigen::Vector3d p0(0.0, 0.0, 0.0);
-
-// specify the position of the target
-Eigen::Vector3d pt(2.5, 3.0, 1.0);
-
-// calculate the distance between joint 0 and the target
-double d = (pt - p0).norm();
-
-// calculate the inverse kinematic theta for the first joint (joint 1)
-double theta1 = atan2(pt.y() - p0.y(), pt.x() - p0.x());
-Eigen::Matrix4d T01 = computeDHMatrix(0.0, theta1, l1, M_PI / 2.0);
-
-// calculate the inverse kinematic theta for the second joint (joint 2)
-double theta2 = computeInverseKinematicTheta(T01, computeDHMatrix(d, 0.0, l2, 0.0));
-Eigen::Matrix4d T12 = computeDHMatrix(0.0, theta2, l3, 0.0);
-
-// calculate the inverse kinematic theta for the third joint (joint 3)
-double theta3 = computeInverseKinematicTheta(T01 * T12, computeDHMatrix(pt.z(), 0.0, 0.0, -M_PI / 2.0));
-
-// output the calculated joint angles
-std::cout << "theta1: " << theta1 << std::endl;
-std::cout << "theta2: " << theta2 << std::endl;
-std::cout << "theta3: " << theta3 << std::endl;
-*/
-
 bool IKPlugin::searchPositionIK(
     const vector<geometry_msgs::Pose> &ik_poses,
     const vector<double> &ik_seed_state,
@@ -443,94 +372,22 @@ bool IKPlugin::searchPositionIK(
         return false;
     }
 
-    solution = ik_seed_state;
-    *m_pState = *context_state;
+    solution.resize(m_joints.size());
 
-    Vector3d targetWorld = getTarget(ik_poses).translation();
-    Vector3d shoulderWorld = m_pState->getGlobalLinkTransform(
-        m_pShoulderJoint->getChildLinkModel()).translation();
-    Vector3d targetLocal = targetWorld - shoulderWorld;
-    double targetNorm = targetLocal.norm();
+    // Get origin position
+    Vector3d origin = getOrigin();
 
-    double mountAngleRelative = getAngle(targetLocal.x(), targetLocal.y()) - M_PI / 2;
-    double mountOffset = getAngle(m_shoulderToEffector.x(), m_shoulderToEffector.y()) - M_PI / 2;
-    double mountAngle = mountAngleRelative - mountOffset * 1.5;
-    m_pMountJoint->enforcePositionBounds(&mountAngle);
+    // Get target position
+    Vector3d goal = getGoal(ik_poses);
 
-    Isometry3d armRotation = setJointState(
-        m_pMountJoint,
-        mountAngle < -M_PI
-            ? m_pMountJoint->getVariableBounds().front().max_position_
-            : mountAngle,
-        solution);
+    vector<double> jointStates = calculateInverseKinematics({}, origin, goal);
 
-    double targetAngle = asin(targetLocal.z() / targetNorm);
-    AngleAxisd targetPitch = AngleAxisd(targetAngle, Vector3d::UnitX());
-    Vector3d targetWristLocal = armRotation.inverse()
-        * targetLocal
-        + (targetPitch * -m_wristToEffector);
-    Vector3d targetWristWorld = armRotation
-        * targetWristLocal
-        + shoulderWorld;
+    setJointState(m_pMountJoint, jointStates[0], solution);
+    setJointState(m_pShoulderJoint, jointStates[1], solution);
+    setJointState(m_pElbowJoint, jointStates[2], solution);
 
-    if (m_bVisualize)
-    {
-        publishLineMarker(0,
-            { shoulderWorld, targetWristWorld },
-            { 1.0, 0.0, 1.0 });
-        publishLineMarker(2,
-            { targetWorld, targetWristWorld },
-            { 0.0, 1.0, 0.0 });
-    }
-
-    double upperArmNorm = m_upperArm.norm();
-    double forearmNorm = m_forearm.norm();
-    double shoulderEffectorOffset = getAngle(
-        m_shoulderToEffector.y(),
-        m_shoulderToEffector.z());
-    double wristEffectorNorm = m_wristToEffector.norm();
-    double targetWristNorm = clamp(
-        targetWristLocal.norm(),
-        MIN.norm() - wristEffectorNorm,
-        MAX.norm() - wristEffectorNorm);
-    double shoulderAngle =
-        lawOfCosines(upperArmNorm, targetWristNorm, forearmNorm)
-        + targetAngle * 1.1
-        + shoulderEffectorOffset;
-
-    AngleAxisd shoulderPitch = AngleAxisd(shoulderAngle, Vector3d::UnitX());
-    Vector3d elbowAxis = shoulderPitch * Vector3d::UnitY();
-    Vector3d elbowLocal = elbowAxis * upperArmNorm;
-    Vector3d elbowWorld = shoulderWorld + armRotation * elbowLocal;
-    Vector3d elbowToTargetWrist =
-        armRotation.inverse() * (targetWristWorld - elbowWorld);
-
-    m_pShoulderJoint->enforcePositionBounds(&shoulderAngle);
-
-    double elbowOffset = getAngle(m_forearm.y(), m_forearm.z());
-    double elbowEffectorOffset = getAngle(m_elbowToEffector.y(), m_elbowToEffector.z());
-    double elbowAngleRelative = getAngle(elbowToTargetWrist.y(), elbowToTargetWrist.z());
-    double elbowAngle = elbowAngleRelative + elbowOffset + elbowEffectorOffset;
-
-    AngleAxisd elbowRotation = AngleAxisd(elbowAngleRelative, Vector3d::UnitX());
-    Vector3d wristAxis = elbowRotation * Vector3d::UnitY();
-    Vector3d wristLocal = wristAxis * forearmNorm;
-    Vector3d wristWorld = elbowWorld + armRotation * wristLocal;
-
-    setJointState(m_pShoulderJoint, shoulderAngle, solution);
-    setJointState(m_pElbowJoint, elbowAngle, solution);
-
-    if (m_bVisualize)
-    {
-        publishLineMarker(3,
-            { elbowWorld, shoulderWorld },
-            { 1.0, 0.0, 0.0 });
-        publishLineMarker(4,
-            { elbowWorld, wristWorld },
-            { 0.0, 1.0, 1.0 });
-    }
-
-    m_pState->update();
+    // TODO: account for wrist to effector which is fixed
+    // TODO: account for wrist to effector twist not just offset
 
     validateSolution(solution);
 
@@ -589,7 +446,7 @@ bool IKPlugin::validateTarget(const vector<geometry_msgs::Pose>& ik_poses) const
     return true;
 }
 
-Isometry3d IKPlugin::getTarget(const vector<geometry_msgs::Pose>& ik_poses) const
+Vector3d IKPlugin::getGoal(const vector<geometry_msgs::Pose>& ik_poses) const
 {
     Isometry3d target;
     auto targetPose = ik_poses.back();
@@ -604,7 +461,13 @@ Isometry3d IKPlugin::getTarget(const vector<geometry_msgs::Pose>& ik_poses) cons
         targetPose.position.z
     );
 
-    return target;
+    return target.translation();
+}
+
+Vector3d IKPlugin::getOrigin() const
+{
+    return m_pState->getGlobalLinkTransform(m_pMountJoint->getChildLinkModel())
+        .translation();
 }
 
 bool IKPlugin::validateSeedState(const vector<double>& ik_seed_state) const
@@ -644,6 +507,8 @@ bool IKPlugin::validateSeedState(const vector<double>& ik_seed_state) const
 
 void IKPlugin::validateSolution(const std::vector<double>& solution) const
 {
+    m_pState->update();
+
     const double* nextSolution = &solution[0];
 
     for (const JointModel* joint: m_joints)
@@ -701,79 +566,80 @@ void IKPlugin::publishLineMarker(int id, vector<Vector3d> points, Vector3d color
 // Static methods
 //
 
-double IKPlugin::toDegrees(double radians)
+Matrix4d IKPlugin::calculateJointTransform(const JointFrame& frame)
 {
-    return radians * 180 / M_PI;
+    double sinTheta = sin(frame.theta);
+    double cosTheta = cos(frame.theta);
+    double cosAlpha = cos(frame.alpha);
+    double sinAlpha = sin(frame.alpha);
+
+    Matrix4d transform;
+    transform <<
+        cosTheta, -cosAlpha * sinTheta, sinAlpha * sinTheta, frame.a * cosTheta,
+        sinTheta, cosAlpha * cosTheta, -sinAlpha * cosTheta, frame.a * sinTheta,
+        0,        sinAlpha,             cosAlpha,            frame.d,
+        0,        0,                    0,                   1;
+
+    return transform;
 }
 
-double IKPlugin::getAngle(double x, double y)
+vector<double> IKPlugin::calculateInverseKinematics(
+    const vector<JointFrame>& frames, const Vector3d& origin, const Vector3d& goal)
 {
-    double angle = atan2(y, x);
-    return isnan(angle) ? 0.0 : angle;
-}
+    Vector3d target = goal - origin;
+    double x = target.x();
+    double y = target.y();
+    double z = target.z();
 
-double IKPlugin::lawOfCosines(double a, double b, double c)
-{
-    double angle = acos((a * a + b * b - c * c) / (2 * a * b));
-    return isnan(angle) ? 0.0 : angle;
-}
+    vector<Matrix4d> transforms(frames.size());
 
-Matrix4d IKPlugin::getJointFrame(
-    double jointOffset, double jointAngle, double jointTwist, double linkNorm)
-{
-    double epsilon = numeric_limits<double>::min();
-    double ca = cos(jointTwist);
-    double sa = sin(jointTwist);
-    double sj = sin(jointAngle);
-    double cj = cos(jointAngle);
-
-    Matrix4d jointFrame;
-
-    if (abs(jointTwist) < epsilon)
+    for (size_t i = 0; i < frames.size(); i++)
     {
-        // No twist, use a simplified Denavit-Hartenberg matrix
-        jointFrame <<
-            cj, -sj, 0, linkNorm,
-            sj, cj, 0, 0,
-            0, 0, 1, jointOffset,
-            0, 0, 0, 1;
-    }
-    else if (abs(jointTwist - M_PI / 2) < epsilon)
-    {
-        // 90 degree twist, use a simplified Denavit-Hartenberg matrix
-        jointFrame <<
-            cj, -sj, 0, linkNorm,
-            sj * ca, cj * ca, -sa, -sa * jointOffset,
-            sj * sa, cj * sa, ca, ca * jointOffset,
-            0, 0, 0, 1;
-    }
-    else
-    {
-        // Standard Denavit-Hartenberg matrix
-        jointFrame <<
-            cj, -sj * ca, sj * sa, linkNorm * cj,
-            sj, cj * ca, -cj * sa, linkNorm * sj,
-            0, sa, ca, jointOffset,
-            0, 0, 0, 1;
+        transforms[i] = calculateJointTransform(frames[i]);
     }
 
-    return jointFrame;
-}
+    vector<double> output(frames.size());
+    size_t last = frames.size() - 1;
+    double theta;
 
-double IKPlugin::getJointAngle(Matrix4d frame1, Matrix4d frame2)
-{
-    // Extract the necessary parameters from Denavit-Hartenberg matrices
-    double d1 = frame1(2, 3);
-    double d2 = frame2(2, 3);
-    double a1 = frame1(0, 2);
-    double a2 = frame2(0, 2);
-    double b1 = frame1(1, 2);
-    double b2 = frame2(1, 2);
+    for (size_t i = 0; i < frames.size(); i++)
+    {
+        if (frames[i].twist <= numeric_limits<double>::epsilon())
+        {
+            theta = atan2(y, x);
+        }
+        else
+        {
+            double d = transforms[i](2, 3);
+            double a = transforms[i](0, 3);
+            double alpha = transforms[i](0, 1);
 
-    // Calculate joint angle with inverse kinematics
-    double sinTheta = (b2 * d1 - b1 * d2) / (a1 * b2 - a2 * b1);
-    double cosTheta = (-a2 * d1 + a1 * d2) / (a1 * b2 - a2 * b1);
-    return atan2(sinTheta, cosTheta);
+            double r = sqrt(
+                x * x + y * y
+                + (z - transforms[0](2, 3)) * (z - transforms[0](2, 3))
+            );
+
+            double s3 = (
+                (r * r - a * a - transforms[last](2, 3) * transforms[last](2, 3))
+                / (2 * a * transforms[last](2, 3))
+            );
+
+            double c3 = sqrt(1 - s3 * s3);
+
+            theta = (
+                atan2(
+                    z - transforms[0](2, 3),
+                    sqrt(x * x + y * y)
+                )
+                - atan2(
+                    transforms[last](2, 3) * sin(theta),
+                    a + transforms[last](2, 3) * cos(theta)
+                )
+            );
+        }
+
+        output[i] = theta;
+    }
 }
 
 Isometry3d IKPlugin::setJointState(
@@ -790,7 +656,7 @@ Isometry3d IKPlugin::setJointState(
     size_t index = find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
     states[index] = jointState;
 
-    ROS_DEBUG_NAMED(PLUGIN_NAME, "IK solution %s: %g [%g] min %g max %g",
+    ROS_INFO_NAMED(PLUGIN_NAME, "IK solution %s: %g [%g] min %g max %g",
         pJoint->getName().c_str(), angle, jointState, limits.min_position,
         limits.max_position);
 
