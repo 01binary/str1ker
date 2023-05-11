@@ -56,7 +56,7 @@ IKPlugin::IKPlugin() :
     m_pPlanningGroup(NULL),
     m_node("~"),
     m_pTipLink(NULL),
-    m_pMountJoint(NULL),
+    m_pSwivelJoint(NULL),
     m_pShoulderJoint(NULL),
     m_pElbowJoint(NULL),
     m_pWristJoint(NULL),
@@ -191,13 +191,13 @@ bool IKPlugin::initialize(
     m_pState->setToDefaultValues();
 
     m_pTipLink = getTipLink();
-    m_pMountJoint = getJoint(JointModel::REVOLUTE);
-    m_pShoulderJoint = getJoint(JointModel::REVOLUTE, m_pMountJoint);
+    m_pSwivelJoint = getJoint(JointModel::REVOLUTE);
+    m_pShoulderJoint = getJoint(JointModel::REVOLUTE, m_pSwivelJoint);
     m_pElbowJoint = getJoint(JointModel::REVOLUTE, m_pShoulderJoint);
     m_pWristJoint = getJoint(JointModel::REVOLUTE, m_pElbowJoint);
 
     m_shoulder = getLinkLength(
-        m_pMountJoint->getChildLinkModel(),
+        m_pSwivelJoint->getChildLinkModel(),
         m_pShoulderJoint->getChildLinkModel());
     m_upperArm = getLinkLength(
         m_pShoulderJoint->getChildLinkModel(),
@@ -377,23 +377,34 @@ bool IKPlugin::searchPositionIK(
     // Get origin position
     Vector3d origin = getOrigin();
 
-    // Get target position
+    // Get goal position
     Vector3d goal = getGoal(ik_poses);
 
-    vector<double> jointStates = calculateInverseKinematics(
-    {
-        // Swivel
-        { 0, 0, 0, 0 },
-        // Shoulder
-        { m_shoulder.z(), 0, 0, m_upperArm.norm() },
-        // Elbow
-        { 0, 0, 0, m_forearm.norm() }
-    }, origin, goal);
+    // Get distance to goal
+    double distance = (goal - origin).norm();
 
-    setJointState(m_pMountJoint, jointStates[0], solution);
-    setJointState(m_pShoulderJoint, jointStates[1], solution);
-    setJointState(m_pElbowJoint, jointStates[2], solution);
+    // Calculate link lengths
+    double upperArmNorm = m_upperArm.norm();
+    double forearmNorm = m_forearm.norm();
 
+    // Calculate swivel angle
+    double swivelAngle = atan2(goal.y(), goal.x());
+
+    // Calculate elbow angle
+    double cosElbowAngle =
+        (distance * distance - upperArmNorm * upperArmNorm - forearmNorm * forearmNorm)
+        / (2.0 * upperArmNorm * forearmNorm);
+    double sinElbowAngle = sqrt(1.0 - cosElbowAngle * cosElbowAngle);
+    double elbowAngle = atan2(sinElbowAngle, cosElbowAngle);
+
+    // Calculate shoulder angle
+    double sinShoulderAngle = (forearmNorm * sinElbowAngle) / distance;
+    double cosShoulderAngle = (upperArmNorm + forearmNorm * cosElbowAngle) / distance;
+    double shoulderAngle = atan2(sinShoulderAngle, cosShoulderAngle);
+
+    setJointState(m_pSwivelJoint, swivelAngle - M_PI / 2.0, solution);
+    setJointState(m_pShoulderJoint, shoulderAngle, solution);
+    setJointState(m_pElbowJoint, elbowAngle, solution);
     validateSolution(solution);
 
     error_code.val = error_code.SUCCESS;
@@ -471,7 +482,7 @@ Vector3d IKPlugin::getGoal(const vector<geometry_msgs::Pose>& ik_poses) const
 
 Vector3d IKPlugin::getOrigin() const
 {
-    return m_pState->getGlobalLinkTransform(m_pMountJoint->getChildLinkModel())
+    return m_pState->getGlobalLinkTransform(m_pSwivelJoint->getChildLinkModel())
         .translation();
 }
 
@@ -570,84 +581,6 @@ void IKPlugin::publishLineMarker(int id, vector<Vector3d> points, Vector3d color
 //
 // Static methods
 //
-
-Matrix4d IKPlugin::calculateJointTransform(const JointFrame& frame)
-{
-    double sinTheta = sin(frame.theta);
-    double cosTheta = cos(frame.theta);
-    double cosAlpha = cos(frame.alpha);
-    double sinAlpha = sin(frame.alpha);
-
-    Matrix4d transform;
-    transform <<
-        cosTheta, -cosAlpha * sinTheta, sinAlpha * sinTheta, frame.a * cosTheta,
-        sinTheta, cosAlpha * cosTheta, -sinAlpha * cosTheta, frame.a * sinTheta,
-        0,        sinAlpha,             cosAlpha,            frame.d,
-        0,        0,                    0,                   1;
-
-    return transform;
-}
-
-vector<double> IKPlugin::calculateInverseKinematics(
-    const vector<JointFrame>& frames, const Vector3d& origin, const Vector3d& goal)
-{
-    Vector3d target = goal - origin;
-    double x = target.x();
-    double y = target.y();
-    double z = target.z();
-
-    vector<Matrix4d> transforms(frames.size());
-
-    for (size_t i = 0; i < frames.size(); i++)
-    {
-        transforms[i] = calculateJointTransform(frames[i]);
-    }
-
-    vector<double> output(frames.size());
-    size_t last = frames.size() - 1;
-    double theta;
-
-    for (size_t i = 0; i < frames.size(); i++)
-    {
-        if (frames[i].twist <= numeric_limits<double>::epsilon())
-        {
-            theta = atan2(y, x);
-        }
-        else
-        {
-            double d = transforms[i](2, 3);
-            double a = transforms[i](0, 3);
-            double alpha = transforms[i](0, 1);
-
-            double r = sqrt(
-                x * x + y * y
-                + (z - transforms[0](2, 3)) * (z - transforms[0](2, 3))
-            );
-
-            double s3 = (
-                (r * r - a * a - transforms[last](2, 3) * transforms[last](2, 3))
-                / (2 * a * transforms[last](2, 3))
-            );
-
-            double c3 = sqrt(1 - s3 * s3);
-
-            theta = (
-                atan2(
-                    z - transforms[0](2, 3),
-                    sqrt(x * x + y * y)
-                )
-                - atan2(
-                    transforms[last](2, 3) * sin(theta),
-                    a + transforms[last](2, 3) * cos(theta)
-                )
-            );
-        }
-
-        output[i] = theta;
-    }
-
-    return output;
-}
 
 Isometry3d IKPlugin::setJointState(
     const JointModel* pJoint,

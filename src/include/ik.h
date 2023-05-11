@@ -40,38 +40,6 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| JointFrame struct
-\*----------------------------------------------------------*/
-
-union JointFrame
-{
-    // Parameter meanings
-    struct
-    {
-        // Joint offset from last joint along z axis
-        double offset;
-
-        // Joint angle from last joint around z axis
-        double angle;
-
-        // Joint twist from last joint around x axis
-        double twist;
-
-        // Link length from last joint along x axis
-        double norm;
-    };
-
-    // Denavit-Hartengerg parameters
-    struct
-    {
-        double d;
-        double theta;
-        double alpha;
-        double a;
-    };
-};
-
-/*----------------------------------------------------------*\
 | IKPlugin class
 \*----------------------------------------------------------*/
 
@@ -92,7 +60,7 @@ private:
     std::vector<const robot_model::JointModel*> m_joints;
 
     const robot_model::LinkModel* m_pTipLink;
-    const robot_model::JointModel* m_pMountJoint;
+    const robot_model::JointModel* m_pSwivelJoint;
     const robot_model::JointModel* m_pShoulderJoint;
     const robot_model::JointModel* m_pElbowJoint;
     const robot_model::JointModel* m_pWristJoint;
@@ -223,15 +191,7 @@ private:
         Eigen::Vector3d color) const;
 
 private:
-    static const Eigen::Vector3d& getJointAxis(
-        const robot_model::JointModel* pJoint);
-
-    static Eigen::Matrix4d calculateJointTransform(const JointFrame& frame);
-
-    static std::vector<double> calculateInverseKinematics(
-        const std::vector<JointFrame>& frames,
-        const Eigen::Vector3d& origin,
-        const Eigen::Vector3d& goal);
+    static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
 
     static double toDegrees(double radians)
     {
