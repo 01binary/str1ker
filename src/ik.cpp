@@ -381,7 +381,8 @@ bool IKPlugin::searchPositionIK(
     Vector3d goal = getGoal(ik_poses);
 
     // Get distance to goal
-    double distance = (goal - origin).norm();
+    Vector3d target = goal - origin;
+    double distance = target.norm();
 
     // Calculate link lengths
     double upperArmNorm = m_upperArm.norm();
@@ -390,24 +391,31 @@ bool IKPlugin::searchPositionIK(
     // Calculate swivel angle
     double swivelAngle = atan2(goal.y(), goal.x());
 
-    // Calculate elbow angle
-    double cosElbowAngle =
-        (distance * distance - upperArmNorm * upperArmNorm - forearmNorm * forearmNorm)
-        / (2.0 * upperArmNorm * forearmNorm);
-    // TODO: taking square root of a negative number
-    double sinElbowAngle = sqrt(1.0 - cosElbowAngle * cosElbowAngle);
-    double elbowAngle = atan2(sinElbowAngle, cosElbowAngle);
+    // Whitepaper implementation
+    
+    // Get vector aligned with shoulder, pointing toward target
+    Vector3d rt = Vector3d(
+        cos(swivelAngle),
+        sin(swivelAngle),
+        m_shoulder.z());
 
-    // Calculate shoulder angle
-    double sinShoulderAngle = (forearmNorm * sinElbowAngle) / distance;
-    double cosShoulderAngle = (upperArmNorm + forearmNorm * cosElbowAngle) / distance;
-    double shoulderAngle = atan2(sinShoulderAngle, cosShoulderAngle);
+    // Get distance from shoulder to target
+    double l1 = sqrt(
+        pow(rt.norm(), 2) + pow(goal.z() - m_shoulder.z(), 2));
 
-    ROS_INFO(
+    double s1 = atan(
+        m_shoulder.z() / rt.norm()
+    );
+
+    double l = sqrt(
+        l1 * l1 + upperArmNorm
+    );
+
+    /*ROS_INFO(
         "swivel %g shoulder %g elbow %g",
         toDegrees(swivelAngle - M_PI / 2.0),
         toDegrees(shoulderAngle - M_PI / 2.0),
-        toDegrees(M_PI - elbowAngle));
+        toDegrees(M_PI - elbowAngle));*/
 
     if (isnan(swivelAngle) || isnan(shoulderAngle) || isnan(elbowAngle))
     {
