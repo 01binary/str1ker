@@ -402,9 +402,15 @@ bool IKPlugin::searchPositionIK(
     double cosShoulderAngle = (upperArmNorm + forearmNorm * cosElbowAngle) / distance;
     double shoulderAngle = atan2(sinShoulderAngle, cosShoulderAngle);
 
+    ROS_INFO(
+        "swivel %g shoulder %g elbow %g",
+        toDegrees(swivelAngle - M_PI / 2.0),
+        toDegrees(shoulderAngle - M_PI / 2.0),
+        toDegrees(M_PI - elbowAngle));
+
     setJointState(m_pSwivelJoint, swivelAngle - M_PI / 2.0, solution);
-    setJointState(m_pShoulderJoint, shoulderAngle, solution);
-    setJointState(m_pElbowJoint, elbowAngle, solution);
+    setJointState(m_pShoulderJoint, shoulderAngle - M_PI / 2.0, solution);
+    setJointState(m_pElbowJoint, M_PI - elbowAngle, solution);
     validateSolution(solution);
 
     error_code.val = error_code.SUCCESS;
