@@ -394,6 +394,7 @@ bool IKPlugin::searchPositionIK(
     double cosElbowAngle =
         (distance * distance - upperArmNorm * upperArmNorm - forearmNorm * forearmNorm)
         / (2.0 * upperArmNorm * forearmNorm);
+    // TODO: taking square root of a negative number
     double sinElbowAngle = sqrt(1.0 - cosElbowAngle * cosElbowAngle);
     double elbowAngle = atan2(sinElbowAngle, cosElbowAngle);
 
