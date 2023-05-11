@@ -409,6 +409,16 @@ bool IKPlugin::searchPositionIK(
         toDegrees(shoulderAngle - M_PI / 2.0),
         toDegrees(M_PI - elbowAngle));
 
+    if (isnan(swivelAngle) || isnan(shoulderAngle) || isnan(elbowAngle))
+    {
+        error_code.val = error_code.NO_IK_SOLUTION;
+
+        if (!solution_callback.empty())
+            solution_callback(ik_poses.front(), solution, error_code);
+
+        return false;
+    }
+
     setJointState(m_pSwivelJoint, swivelAngle - M_PI / 2.0, solution);
     setJointState(m_pShoulderJoint, shoulderAngle - M_PI / 2.0, solution);
     setJointState(m_pElbowJoint, M_PI - elbowAngle, solution);
@@ -417,9 +427,7 @@ bool IKPlugin::searchPositionIK(
     error_code.val = error_code.SUCCESS;
 
     if (!solution_callback.empty())
-    {
         solution_callback(ik_poses.front(), solution, error_code);
-    }
 
     return true;
 }
