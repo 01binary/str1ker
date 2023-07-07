@@ -46,29 +46,19 @@ namespace str1ker {
 class IKPlugin : public kinematics::KinematicsBase
 {
 private:
-    const Eigen::Vector3d MIN = Eigen::Vector3d(0.0, 0.792935, -0.410627);
-    const Eigen::Vector3d MAX = Eigen::Vector3d(0.0, 0.991507, 0.339602);
     const double DEFAULT_TIMEOUT = 250.0;
+    const bool DEBUG = false;
 
 private:
+    ros::NodeHandle m_node;
+    ros::Publisher m_markerPub;
     robot_state::RobotStatePtr m_pState;
     const robot_model::JointModelGroup* m_pPlanningGroup;
-    ros::Publisher m_markerPub;
-    ros::NodeHandle m_node;
-    bool m_bVisualize;
-
     std::vector<const robot_model::JointModel*> m_joints;
-
-    const robot_model::LinkModel* m_pTipLink;
-    const robot_model::JointModel* m_pSwivelJoint;
+    const robot_model::JointModel* m_pBaseJoint;
     const robot_model::JointModel* m_pShoulderJoint;
     const robot_model::JointModel* m_pElbowJoint;
     const robot_model::JointModel* m_pWristJoint;
-
-    Eigen::Vector3d m_shoulder;
-    Eigen::Vector3d m_upperArm;
-    Eigen::Vector3d m_forearm;
-    Eigen::Vector3d m_effector;
 
 public:
     IKPlugin();
@@ -90,7 +80,8 @@ public:
     //
 
     virtual bool supportsGroup(
-        const moveit::core::JointModelGroup *jmg, std::string *error_text_out = NULL) const;
+        const moveit::core::JointModelGroup *jmg,
+        std::string *error_text_out = NULL) const;
 
     virtual const std::vector<std::string>& getJointNames() const;
     virtual const std::vector<std::string>& getLinkNames() const;
@@ -163,45 +154,36 @@ public:
         const moveit::core::RobotState* context_state = NULL) const;
 
 private:
+    //
+    // Input utilities
+    //
+
     Eigen::Vector3d getGoal(const std::vector<geometry_msgs::Pose>& ik_poses) const;
     Eigen::Vector3d getOrigin() const;
-
-    Eigen::Vector3d getLinkLength(
-        const robot_model::LinkModel* pBaseLink,
-        const robot_model::LinkModel* pTipLink) const;
 
     const robot_model::JointModel* getJoint(
         robot_model::JointModel::JointType type,
         const robot_model::JointModel* parent = nullptr) const;
 
-    const robot_model::LinkModel* getTipLink() const;
+    static int getIKJointIndex(std::string jointName);
+    static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
+
+    //
+    // Validation utilities
+    //
 
     bool validateSeedState(const std::vector<double>& ik_seed_state) const;
     bool validateTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
     void validateSolution(const std::vector<double>& solution) const;
 
+    //
+    // Output utilities
+    //
+
     Eigen::Isometry3d setJointState(
         const robot_model::JointModel* pJoint,
         double value,
         std::vector<double>& states) const;
-
-    void publishLineMarker(
-        int id,
-        std::vector<Eigen::Vector3d> points,
-        Eigen::Vector3d color) const;
-
-private:
-    static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
-
-    static double toDegrees(double radians)
-    {
-        return radians * 180 / M_PI;
-    }
-
-    static double toRadians(double degrees)
-    {
-        return degrees * M_PI / 180;
-    }
 
     static inline double clamp(double value, double low, double high)
     {
@@ -214,6 +196,12 @@ private:
 
         return value;
     }
+
+    void publishLineMarker(
+        int id,
+        std::vector<Eigen::Vector3d> points,
+        Eigen::Vector3d color) const;
+
 };
 
 } // namespace str1ker
