@@ -320,7 +320,7 @@
         <child link="tip_link" />
     </joint>
     <joint name="upperarm_actuator_mount" type="revolute">
-        <origin rpy="0 0 0" xyz="0 0.101045 -0.0504975" />
+        <origin rpy="0 0 0" xyz="0.101045 -0.0504975 0" />
         <axis xyz="0 0 1" />
         <parent link="shoulder_link" />
         <child link="upperarm_actuator_body_link" />
@@ -329,7 +329,7 @@
         <mimic joint="upperarm_actuator" multiplier="0.9" offset="-0.01" />
     </joint>
     <joint name="upperarm_actuator" type="prismatic">
-        <origin rpy="0 0 0" xyz="0 -0.002 0.153" />
+        <origin rpy="0 0 0" xyz="0.153 -0.002 0" />
         <axis xyz="0 0 1" />
         <parent link="upperarm_actuator_body_link" />
         <child link="upperarm_actuator_shaft_link" />
@@ -337,7 +337,7 @@
         <dynamics damping="0.7" friction="1.4" />
     </joint>
     <joint name="forearm_actuator_mount" type="revolute">
-        <origin rpy="0 0 0" xyz="0 0.130 -0.034" />
+        <origin rpy="0 0 0" xyz="0.130 -0.034 0" />
         <axis xyz="0 0 1" />
         <parent link="upperarm_link" />
         <child link="forearm_actuator_body_link" />
@@ -346,7 +346,7 @@
         <mimic joint="forearm_actuator" multiplier="-2.5" offset="-0.146602" />
     </joint>
     <joint name="forearm_actuator" type="prismatic">
-        <origin rpy="0 0 0" xyz="0 0.210 0" />
+        <origin rpy="0 0 0" xyz="0.210 0 0" />
         <axis xyz="0 0 1" />
         <parent link="forearm_actuator_body_link" />
         <child link="forearm_actuator_shaft_link" />
@@ -354,7 +354,7 @@
         <dynamics damping="0.7" friction="1.4" />
     </joint>
     <joint name="forearm_actuator_connector" type="revolute">
-        <origin rpy="0 0 0" xyz="0 0.0605718 0.004" />
+        <origin rpy="0 0 0" xyz="0.0605718 0.004 0" />
         <axis xyz="0 0 1" />
         <parent link="forearm_link" />
         <child link="forearm_actuator_connector_link" />
@@ -363,7 +363,7 @@
         <mimic joint="forearm_actuator" multiplier="0.604330709" offset="1.5444" />
     </joint>
     <joint name="solenoid_mount" type="revolute">
-        <origin rpy="0 0 0" xyz="0.013 0.355 -0.031" />
+        <origin rpy="0 0 0" xyz="0.355 -0.031 0.013" />
         <axis xyz="0 0 1" />
         <parent link="forearm_link" />
         <child link="solenoid_mount_link" />
@@ -381,7 +381,7 @@
     <!-- Arm transmissions -->
     <transmission name="trans_mount">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="mount">
+        <joint name="base">
             <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
         <actuator name="mount_motor">
