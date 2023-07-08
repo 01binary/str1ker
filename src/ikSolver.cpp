@@ -52,7 +52,8 @@ Isometry3d getJointMatrix(int joint, double jointVariable)
       return (
         Translation3d(0.0, 0.0, 0.0) *
         AngleAxisd(jointVariable, Vector3d::UnitZ()) *
-        // After rotating by 90 degrees on X axis, the Y axis becomes Z axis
+        // Rotate 90 deg on X axis so that all joint variables are rotations on Z axis
+        // (makes the geometry compatible with Denavit-Hartenberg representation)
         AngleAxisd(M_PI / 2.0, Vector3d::UnitX())
       );
     case SHOULDER:
