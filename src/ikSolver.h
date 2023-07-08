@@ -45,7 +45,7 @@ enum JOINTS
 | Functions
 \*----------------------------------------------------------*/
 
-Eigen::Matrix4d forwardKinematics(Eigen::MatrixXd angles);
+Eigen::Isometry3d forwardKinematics(Eigen::MatrixXd angles);
 Eigen::MatrixXd inverseKinematics(Eigen::Vector3d position);
 Eigen::MatrixXd inverseKinematics(Eigen::Matrix4d positionAndOrientation);
 

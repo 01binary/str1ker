@@ -150,17 +150,6 @@
             <inertia ixx="0.001" ixy="0" ixz="0" iyy="0" iyz="0" izz="0.001" />
         </inertial>
     </link>
-    <link name="effector_link">
-        <collision>
-            <geometry>
-                <sphere radius="0.02" />
-            </geometry>
-        </collision>
-        <inertial>
-            <mass value="0.001" />
-            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
-        </inertial>
-    </link>
     <!-- Arm actuator links -->
     <link name="upperarm_actuator_body_link">
         <visual>
@@ -273,7 +262,7 @@
         </inertial>
     </link>
     <!-- Arm joints -->
-    <joint name="mount" type="revolute">
+    <joint name="base" type="revolute">
         <origin rpy="0 0 0" xyz="0 0 0" />
         <axis xyz="0 0 1" />
         <parent link="base_link" />
@@ -298,11 +287,6 @@
         <limit effort="100" velocity="1.0" lower="-1.93302196" upper="-1.123992" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="forearm_actuator" multiplier="15.925786614" offset="-1.123992" />
-    </joint>
-    <joint name="effector" type="fixed">
-        <origin rpy="0 0 0" xyz="-0.02 0.66 0.25" />
-        <parent link="forearm_link" />
-        <child link="effector_link" />
     </joint>
     <joint name="wrist" type="revolute">
         <origin rpy="0 0 0" xyz="-0.009 0.48059393086 0" />

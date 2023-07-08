@@ -44,7 +44,7 @@ const double WRIST_ANGLE = 0.959931;
 | Functions
 \*----------------------------------------------------------*/
 
-Matrix4d getJointMatrix(int joint, double jointVariable)
+Isometry3d getJointMatrix(int joint, double jointVariable)
 {
   switch (joint)
   {
@@ -54,25 +54,25 @@ Matrix4d getJointMatrix(int joint, double jointVariable)
         AngleAxisd(jointVariable, Vector3d::UnitZ()) *
         // After rotating by 90 degrees on X axis, the Y axis becomes Z axis
         AngleAxisd(M_PI / 2.0, Vector3d::UnitX())
-      ).matrix();
+      );
     case SHOULDER:
       return (
         Translation3d(SHOULDER_OFFSET_X, SHOULDER_OFFSET_Z, 0.0) *
         AngleAxisd(jointVariable, Vector3d::UnitZ())
-      ).matrix();
+      );
     case ELBOW:
       return (
         Translation3d(UPPERARM_LENGTH, 0.0, 0.0) *
         AngleAxisd(jointVariable, Vector3d::UnitZ())
-      ).matrix();
+      );
     case WRIST:
       return (
         Translation3d(FOREARM_LENGTH, 0.0, DRUMSTICK_OFFSET) *
         AngleAxisd(jointVariable, Vector3d::UnitZ()) *
         Translation3d(DRUMSTICK_LENGTH, 0.0, 0.0)
-      ).matrix();
+      );
     default:
-      return Matrix4d::Identity();
+      return Isometry3d::Identity();
   }
 }
 
@@ -81,9 +81,9 @@ inline double pow2(double x)
   return x * x;
 }
 
-Matrix4d forwardKinematics(MatrixXd angles)
+Isometry3d forwardKinematics(MatrixXd angles)
 {
-  Matrix4d endEffector = Matrix4d::Identity();
+  Isometry3d endEffector = Isometry3d::Identity();
 
   for (int n = 0; n < angles.rows(); n++)
   {
@@ -96,24 +96,24 @@ Matrix4d forwardKinematics(MatrixXd angles)
 MatrixXd inverseKinematics(Matrix4d positionAndOrientation)
 {
   // Normal
-  double nx = positionAndOrientation[0][0];
-  double ny = positionAndOrientation[1][0];
-  double nz = positionAndOrientation[2][0];
+  double nx = positionAndOrientation(0, 0);
+  double ny = positionAndOrientation(1, 0);
+  double nz = positionAndOrientation(2, 0);
 
   // Orientation
-  double ox = positionAndOrientation[0][1];
-  double oy = positionAndOrientation[1][1];
-  double oz = positionAndOrientation[2][1];
+  double ox = positionAndOrientation(0, 1);
+  double oy = positionAndOrientation(1, 1);
+  double oz = positionAndOrientation(2, 1);
 
   // Approach
-  double ax = positionAndOrientation[0][2];
-  double ay = positionAndOrientation[1][2];
-  double az = positionAndOrientation[2][2];
+  double ax = positionAndOrientation(0, 2);
+  double ay = positionAndOrientation(1, 2);
+  double az = positionAndOrientation(2, 2);
 
   // Position
-  double px = positionAndOrientation[0][3];
-  double py = positionAndOrientation[1][3];
-  double pz = positionAndOrientation[2][3];
+  double px = positionAndOrientation(0, 3);
+  double py = positionAndOrientation(1, 3);
+  double pz = positionAndOrientation(2, 3);
 
   // Base angle
   double baseSin = ax;
@@ -223,11 +223,12 @@ MatrixXd inverseKinematics(Vector3d position)
     /
     (-2.0 * elbowToGoalDistance * UPPERARM_LENGTH)
   );
+
   double innerElbowAngle = outerElbowAngle - elbowToGoalAngle;
   double elbowAngle = -(M_PI - innerElbowAngle);
 
   MatrixXd angles(3, 1);
-  angles << baseAngle, shoulderAngle, elbowAngle;
+  angles << baseAngle, shoulderAngle, elbowAngle, WRIST_ANGLE;
 
   return angles;
 }

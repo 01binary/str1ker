@@ -69,8 +69,7 @@ IKPlugin::IKPlugin() :
     m_pBaseJoint(NULL),
     m_pShoulderJoint(NULL),
     m_pElbowJoint(NULL),
-    m_pWristJoint(NULL),
-    m_bVisualize(true)
+    m_pWristJoint(NULL)
 {
 }
 
@@ -247,10 +246,10 @@ bool IKPlugin::getPositionFK(
 
     for (int n = 0; n < link_names.size(); n++)
     {
-        angles(jointIndex(link_names[n]), 0) = joint_angles[n];
+        angles(getIKJointIndex(link_names[n]), 0) = joint_angles[n];
     }
 
-    Matrix4d pose = forwardKinematics(angles);
+    Isometry3d pose = forwardKinematics(angles);
 
     geometry_msgs::Pose poseMsg;
     tf::poseEigenToMsg(pose, poseMsg);
@@ -388,13 +387,14 @@ bool IKPlugin::searchPositionIK(
     Vector3d origin = getOrigin();
 
     // Get goal
-    Vector3d goal = getGoal(ik_poses);
+    Vector3d goal = getGoal(ik_poses) - origin;
 
     // Solve inverse kinematics
-    MatrixXd angles = inverseKinematics(goal - origin);
+    MatrixXd angles = inverseKinematics(goal);
     double base = angles(0, 0);
     double shoulder = angles(1, 0);
     double elbow = angles(2, 0);
+    double wrist = angles(3, 0);
 
     if (isnan(base) || isnan(shoulder) || isnan(elbow))
     {
@@ -413,7 +413,7 @@ bool IKPlugin::searchPositionIK(
     setJointState(m_pBaseJoint, base, solution);
     setJointState(m_pShoulderJoint, shoulder, solution);
     setJointState(m_pElbowJoint, elbow, solution);
-    setJointState(m_pWristJoint, WRIST_ANGLE, solution);
+    setJointState(m_pWristJoint, wrist, solution);
     validateSolution(solution);
 
     error_code.val = error_code.SUCCESS;
