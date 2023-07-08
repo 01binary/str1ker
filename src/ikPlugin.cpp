@@ -6,7 +6,7 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
- ik.cpp
+ ikPlugin.cpp
 
  Inverse Kinematics Plugin
  Created 04/03/2023
@@ -19,11 +19,22 @@
 | Includes
 \*----------------------------------------------------------*/
 
+//
+// Public Includes
+//
+
 #include "include/ik.h"
+
+//
+// Private Includes
+//
+
 #include <cmath>
 #include <Eigen/Geometry>
 #include <pluginlib/class_list_macros.h>
+#include <eigen_conversions/eigen_msg.h>
 #include <tf2_eigen/tf2_eigen.h>
+#include "ikSolver.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -55,12 +66,10 @@ const char PLUGIN_NAME[] = "str1ker::ik";
 IKPlugin::IKPlugin() :
     m_pPlanningGroup(NULL),
     m_node("~"),
-    m_pTipLink(NULL),
-    m_pSwivelJoint(NULL),
+    m_pBaseJoint(NULL),
     m_pShoulderJoint(NULL),
     m_pElbowJoint(NULL),
-    m_pWristJoint(NULL),
-    m_bVisualize(true)
+    m_pWristJoint(NULL)
 {
 }
 
@@ -186,33 +195,22 @@ bool IKPlugin::initialize(
         chainTips,
         search_discretization);
 
+    m_pBaseJoint = getJoint(JointModel::REVOLUTE);
+    m_pShoulderJoint = getJoint(JointModel::REVOLUTE, m_pBaseJoint);
+    m_pElbowJoint = getJoint(JointModel::REVOLUTE, m_pShoulderJoint);
+    m_pWristJoint = getJoint(JointModel::REVOLUTE, m_pElbowJoint);
+
     // Initialize state
     m_pState.reset(new robot_state::RobotState(robot_model_));
     m_pState->setToDefaultValues();
 
-    m_pTipLink = getTipLink();
-    m_pSwivelJoint = getJoint(JointModel::REVOLUTE);
-    m_pShoulderJoint = getJoint(JointModel::REVOLUTE, m_pSwivelJoint);
-    m_pElbowJoint = getJoint(JointModel::REVOLUTE, m_pShoulderJoint);
-    m_pWristJoint = getJoint(JointModel::REVOLUTE, m_pElbowJoint);
-
-    m_shoulder = getLinkLength(
-        m_pSwivelJoint->getChildLinkModel(),
-        m_pShoulderJoint->getChildLinkModel());
-    m_upperArm = getLinkLength(
-        m_pShoulderJoint->getChildLinkModel(),
-        m_pElbowJoint->getChildLinkModel());
-    m_forearm = getLinkLength(
-        m_pElbowJoint->getChildLinkModel(),
-        m_pWristJoint->getChildLinkModel());
-    m_effector = getLinkLength(
-        m_pWristJoint->getChildLinkModel(),
-        m_pTipLink);
-
     // Advertise marker publisher
-    m_markerPub = m_node.advertise<visualization_msgs::Marker>(
-        "visualization_marker",
-        10);
+    if (DEBUG)
+    {
+        m_markerPub = m_node.advertise<visualization_msgs::Marker>(
+            "visualization_marker",
+            10);
+    }
 
     return true;
 }
@@ -244,7 +242,20 @@ bool IKPlugin::getPositionFK(
     const vector<double> &joint_angles,
     vector<geometry_msgs::Pose> &poses) const
 {
-    return false;
+    MatrixXd angles(3, 1);
+
+    for (int n = 0; n < link_names.size(); n++)
+    {
+        angles(getIKJointIndex(link_names[n]), 0) = joint_angles[n];
+    }
+
+    Isometry3d pose = forwardKinematics(angles);
+
+    geometry_msgs::Pose poseMsg;
+    tf::poseEigenToMsg(pose, poseMsg);
+    poses.push_back(poseMsg);
+
+    return true;
 }
 
 bool IKPlugin::getPositionIK(
@@ -372,70 +383,45 @@ bool IKPlugin::searchPositionIK(
         return false;
     }
 
-    solution.resize(m_joints.size());
-
-    // Get origin position
+    // Get origin
     Vector3d origin = getOrigin();
 
-    // Get goal position
-    Vector3d goal = getGoal(ik_poses);
+    // Get goal
+    Vector3d goal = getGoal(ik_poses) - origin;
 
-    // Get distance to goal
-    Vector3d target = goal - origin;
-    double distance = target.norm();
+    // Solve inverse kinematics
+    MatrixXd angles = inverseKinematics(goal);
+    double base = angles(0, 0);
+    double shoulder = angles(1, 0);
+    double elbow = angles(2, 0);
+    double wrist = angles(3, 0);
 
-    // Calculate link lengths
-    double upperArmNorm = m_upperArm.norm();
-    double forearmNorm = m_forearm.norm();
-
-    // Calculate swivel angle
-    double swivelAngle = atan2(goal.y(), goal.x());
-
-    // Whitepaper implementation
-    
-    // Get vector aligned with shoulder, pointing toward target
-    Vector3d rt = Vector3d(
-        cos(swivelAngle),
-        sin(swivelAngle),
-        m_shoulder.z());
-
-    // Get distance from shoulder to target
-    double l1 = sqrt(
-        pow(rt.norm(), 2) + pow(goal.z() - m_shoulder.z(), 2));
-
-    double s1 = atan(
-        m_shoulder.z() / rt.norm()
-    );
-
-    double l = sqrt(
-        l1 * l1 + upperArmNorm
-    );
-
-    /*ROS_INFO(
-        "swivel %g shoulder %g elbow %g",
-        toDegrees(swivelAngle - M_PI / 2.0),
-        toDegrees(shoulderAngle - M_PI / 2.0),
-        toDegrees(M_PI - elbowAngle));*/
-
-    if (isnan(swivelAngle) || isnan(shoulderAngle) || isnan(elbowAngle))
+    if (isnan(base) || isnan(shoulder) || isnan(elbow))
     {
         error_code.val = error_code.NO_IK_SOLUTION;
 
         if (!solution_callback.empty())
+        {
             solution_callback(ik_poses.front(), solution, error_code);
+        }
 
         return false;
     }
 
-    setJointState(m_pSwivelJoint, swivelAngle - M_PI / 2.0, solution);
-    setJointState(m_pShoulderJoint, shoulderAngle - M_PI / 2.0, solution);
-    setJointState(m_pElbowJoint, M_PI - elbowAngle, solution);
+    // Return solution
+    solution.resize(m_joints.size());
+    setJointState(m_pBaseJoint, base, solution);
+    setJointState(m_pShoulderJoint, shoulder, solution);
+    setJointState(m_pElbowJoint, elbow, solution);
+    setJointState(m_pWristJoint, wrist, solution);
     validateSolution(solution);
 
     error_code.val = error_code.SUCCESS;
 
     if (!solution_callback.empty())
+    {
         solution_callback(ik_poses.front(), solution, error_code);
+    }
 
     return true;
 }
@@ -462,11 +448,6 @@ const JointModel* IKPlugin::getJoint(
     }
 
     return nullptr;
-}
-
-const LinkModel* IKPlugin::getTipLink() const
-{
-    return m_pPlanningGroup->getLinkModel(tip_frames_.front());
 }
 
 bool IKPlugin::validateTarget(const vector<geometry_msgs::Pose>& ik_poses) const
@@ -505,7 +486,7 @@ Vector3d IKPlugin::getGoal(const vector<geometry_msgs::Pose>& ik_poses) const
 
 Vector3d IKPlugin::getOrigin() const
 {
-    return m_pState->getGlobalLinkTransform(m_pSwivelJoint->getChildLinkModel())
+    return m_pState->getGlobalLinkTransform(m_pBaseJoint->getChildLinkModel())
         .translation();
 }
 
@@ -562,14 +543,6 @@ void IKPlugin::validateSolution(const std::vector<double>& solution) const
         else
             ROS_DEBUG("IK satisfied %s: %g within %g to %g", joint->getName().c_str(), jointPos, limits.min_position, limits.max_position);
     }
-}
-
-Vector3d IKPlugin::getLinkLength(const LinkModel* pBaseLink, const LinkModel* pTipLink) const
-{
-    const Isometry3d& baseLinkPos = m_pState->getGlobalLinkTransform(pBaseLink);
-    const Isometry3d& tipLinkPos = m_pState->getGlobalLinkTransform(pTipLink);
-
-    return (tipLinkPos.translation() - baseLinkPos.translation());
 }
 
 void IKPlugin::publishLineMarker(int id, vector<Vector3d> points, Vector3d color) const
@@ -673,6 +646,26 @@ Isometry3d IKPlugin::setJointState(
     }
 
     return m_pState->getJointTransform(pJoint);
+}
+
+int IKPlugin::getIKJointIndex(string jointName)
+{
+  if (jointName == "base")
+  {
+    return BASE;
+  }
+  else if (jointName == "shoulder")
+  {
+    return SHOULDER;
+  }
+  else if (jointName == "elbow")
+  {
+    return ELBOW;
+  }
+  else
+  {
+    return -1;
+  }
 }
 
 const Vector3d& IKPlugin::getJointAxis(const JointModel* pJoint)

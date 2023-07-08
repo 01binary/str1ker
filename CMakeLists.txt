@@ -105,7 +105,8 @@ target_link_libraries(robot
 )
 
 add_library(str1ker-ik
-  src/ik.cpp
+  src/ikPlugin.cpp
+  src/ikSolver.cpp
 )
 
 target_link_libraries(str1ker-ik
