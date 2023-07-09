@@ -82,7 +82,7 @@ inline double pow2(double x)
   return x * x;
 }
 
-Isometry3d forwardKinematics(MatrixXd angles)
+Isometry3d str1ker::forwardKinematics(MatrixXd angles)
 {
   Isometry3d endEffector = Isometry3d::Identity();
 
@@ -94,7 +94,7 @@ Isometry3d forwardKinematics(MatrixXd angles)
   return endEffector;
 }
 
-MatrixXd inverseKinematics(Matrix4d positionAndOrientation)
+MatrixXd str1ker::inverseKinematics(Matrix4d positionAndOrientation)
 {
   // Normal
   double nx = positionAndOrientation(0, 0);
@@ -170,7 +170,7 @@ MatrixXd inverseKinematics(Matrix4d positionAndOrientation)
   return angles;
 }
 
-MatrixXd inverseKinematics(Vector3d position)
+MatrixXd str1ker::inverseKinematics(Vector3d position)
 {
   const double ORIGIN_X = 0.0;
   const double ORIGIN_Y = 0.0;
@@ -228,7 +228,7 @@ MatrixXd inverseKinematics(Vector3d position)
   double innerElbowAngle = outerElbowAngle - elbowToGoalAngle;
   double elbowAngle = -(M_PI - innerElbowAngle);
 
-  MatrixXd angles(3, 1);
+  MatrixXd angles((int)COUNT, 1);
   angles << baseAngle, shoulderAngle, elbowAngle, WRIST_ANGLE;
 
   return angles;
