@@ -379,12 +379,12 @@
         <dynamics damping="0.7" friction="1.4" />
     </joint>
     <!-- Arm transmissions -->
-    <transmission name="trans_mount">
+    <transmission name="trans_base">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="base">
             <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
-        <actuator name="mount_motor">
+        <actuator name="base_motor">
             <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
             <mechanicalReduction>188</mechanicalReduction>
         </actuator>
