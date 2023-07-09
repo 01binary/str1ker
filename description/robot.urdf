@@ -310,7 +310,7 @@
         <axis xyz="0 0 1" />
         <parent link="forearm_link" />
         <child link="drumstick_link" />
-        <limit effort="100" velocity="1.0" lower="1.0" upper="1.02" />
+        <limit effort="100" velocity="1.0" lower="0.959931" upper="0.959931" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="solenoid" multiplier="-6.8966" offset="1.0069" />
     </joint>
@@ -324,9 +324,9 @@
         <axis xyz="0 0 1" />
         <parent link="shoulder_link" />
         <child link="upperarm_actuator_body_link" />
-        <limit effort="100" velocity="1.0" lower="-0.1" upper="0.1" />
+        <limit effort="100" velocity="1.0" lower="-1" upper="1" />
         <dynamics damping="0.7" friction="1.4" />
-        <mimic joint="upperarm_actuator" multiplier="0.9" offset="-0.01" />
+        <mimic joint="upperarm_actuator" multiplier="0.9" offset="1.560796327" />
     </joint>
     <joint name="upperarm_actuator" type="prismatic">
         <origin rpy="0 0 0" xyz="0.153 -0.002 0" />
@@ -367,7 +367,7 @@
         <axis xyz="0 0 1" />
         <parent link="forearm_link" />
         <child link="solenoid_mount_link" />
-        <limit effort="100" velocity="1.0" lower="1.25" upper="1.9" />
+        <limit effort="100" velocity="1.0" lower="-0.09" upper="-0.09" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
     <joint name="solenoid" type="prismatic">
