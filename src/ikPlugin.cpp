@@ -392,6 +392,10 @@ bool IKPlugin::searchPositionIK(
     const KinematicsQueryOptions &options,
     const robot_state::RobotState *context_state) const
 {
+    // Initialize solution
+    solution.resize(m_joints.size());
+
+    // Validate request
     if (!validateSeedState(ik_seed_state) || !validateTarget(ik_poses))
     {
         error_code.val = error_code.NO_IK_SOLUTION;
@@ -402,29 +406,16 @@ bool IKPlugin::searchPositionIK(
     Vector3d origin = getOrigin();
 
     // Get goal
-    Vector3d goal = getGoal(ik_poses) - origin;
+    Vector3d goal = getGoalPosition(ik_poses) - origin;
 
     // Solve inverse kinematics
     MatrixXd angles = inverseKinematics(goal);
-    double base = angles(0, 0);
-    double shoulder = angles(1, 0);
-    double elbow = angles(2, 0);
-    double wrist = angles(3, 0);
-
-    if (isnan(base) || isnan(shoulder) || isnan(elbow))
-    {
-        error_code.val = error_code.NO_IK_SOLUTION;
-
-        if (!solution_callback.empty())
-        {
-            solution_callback(ik_poses.front(), solution, error_code);
-        }
-
-        return false;
-    }
+    double base = angles(BASE, 0);
+    double shoulder = angles(SHOULDER, 0);
+    double elbow = angles(ELBOW, 0);
+    double wrist = angles(WRIST, 0);
 
     // Return solution
-    solution.resize(m_joints.size());
     setJointState(m_pBaseJoint, base, solution);
     setJointState(m_pShoulderJoint, shoulder, solution);
     setJointState(m_pElbowJoint, elbow, solution);
@@ -481,7 +472,7 @@ bool IKPlugin::validateTarget(const vector<geometry_msgs::Pose>& ik_poses) const
     return true;
 }
 
-Vector3d IKPlugin::getGoal(const vector<geometry_msgs::Pose>& ik_poses) const
+Vector3d IKPlugin::getGoalPosition(const vector<geometry_msgs::Pose>& ik_poses) const
 {
     Isometry3d target;
     auto targetPose = ik_poses.back();

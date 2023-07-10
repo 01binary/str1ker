@@ -158,7 +158,7 @@ private:
     // Input utilities
     //
 
-    Eigen::Vector3d getGoal(const std::vector<geometry_msgs::Pose>& ik_poses) const;
+    Eigen::Vector3d getGoalPosition(const std::vector<geometry_msgs::Pose>& ik_poses) const;
     Eigen::Vector3d getOrigin() const;
 
     const robot_model::JointModel* getJoint(
