@@ -242,11 +242,26 @@ bool IKPlugin::getPositionFK(
     const vector<double> &joint_angles,
     vector<geometry_msgs::Pose> &poses) const
 {
-    MatrixXd angles(3, 1);
+    MatrixXd angles((int)COUNT, 1);
 
     for (int n = 0; n < link_names.size(); n++)
     {
-        angles(getIKJointIndex(link_names[n]), 0) = joint_angles[n];
+        if (link_names[n] == "base")
+        {
+            angles(BASE, 0) = joint_angles[n];
+        }
+        else if (link_names[n] == "shoulder")
+        {
+            angles(SHOULDER, 0) = joint_angles[n];
+        }
+        else if (link_names[n] == "elbow")
+        {
+            angles(ELBOW, 0) = joint_angles[n];
+        }
+        else if (link_names[n] == "wrist")
+        {
+            angles(WRIST, 0) = joint_angles[n];
+        }
     }
 
     Isometry3d pose = forwardKinematics(angles);
@@ -646,26 +661,6 @@ Isometry3d IKPlugin::setJointState(
     }
 
     return m_pState->getJointTransform(pJoint);
-}
-
-int IKPlugin::getIKJointIndex(string jointName)
-{
-  if (jointName == "base")
-  {
-    return BASE;
-  }
-  else if (jointName == "shoulder")
-  {
-    return SHOULDER;
-  }
-  else if (jointName == "elbow")
-  {
-    return ELBOW;
-  }
-  else
-  {
-    return -1;
-  }
 }
 
 const Vector3d& IKPlugin::getJointAxis(const JointModel* pJoint)

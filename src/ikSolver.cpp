@@ -164,7 +164,7 @@ MatrixXd str1ker::inverseKinematics(Matrix4d positionAndOrientation)
     )
   );
 
-  MatrixXd angles(4, 1);
+  MatrixXd angles((int)COUNT, 1);
   angles << base, shoulder, elbow, WRIST_ANGLE;
 
   return angles;

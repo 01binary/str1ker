@@ -165,7 +165,6 @@ private:
         robot_model::JointModel::JointType type,
         const robot_model::JointModel* parent = nullptr) const;
 
-    static int getIKJointIndex(std::string jointName);
     static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
 
     //
