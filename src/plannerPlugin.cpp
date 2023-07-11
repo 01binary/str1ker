@@ -6,7 +6,7 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- planner.cpp
+ plannerPlugin.cpp
 
  Motion Planning Plugin
  Created 05/01/2023

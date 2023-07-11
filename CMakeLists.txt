@@ -115,8 +115,8 @@ target_link_libraries(str1ker-ik
 )
 
 add_library(str1ker-planner
-  src/planner.cpp
-  src/context.cpp
+  src/plannerPlugin.cpp
+  src/plannerContext.cpp
 )
 
 target_link_libraries(str1ker-planner
