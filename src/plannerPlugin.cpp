@@ -67,7 +67,7 @@ string PlannerPlugin::getDescription() const
 void PlannerPlugin::getPlanningAlgorithms(vector<string>& algs) const
 {
     algs.clear();
-    algs.push_back("Trigonometric");
+    algs.push_back("Quintic Splines");
 }
 
 PlanningContextPtr PlannerPlugin::getPlanningContext(

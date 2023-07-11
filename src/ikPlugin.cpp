@@ -402,37 +402,32 @@ bool IKPlugin::searchPositionIK(
         return false;
     }
 
-    // Get origin
-    Vector3d origin = getOrigin();
-
     // Solve inverse kinematics
+    Vector3d origin = getOrigin();
     MatrixXd angles;
 
     if (POSITION_ONLY)
     {
-        Vector3d goal = getGoalPosition(ik_poses) - origin;
+        Vector3d goal = getGoalPosition(ik_poses, origin);
         angles = inverseKinematics(goal);
     }
     else
     {
-        Matrix4d goal = getGoal(ik_poses);
-        goal(0, 3) = goal(0, 3) - origin.x();
-        goal(1, 3) = goal(1, 3) - origin.y();
-        goal(2, 3) = goal(2, 3) - origin.z();
-
+        Matrix4d goal = getGoal(ik_poses, origin);
         angles = inverseKinematics(goal);
     }
 
+    // Return solution
     double base = angles(BASE, 0);
     double shoulder = angles(SHOULDER, 0);
     double elbow = angles(ELBOW, 0);
     double wrist = angles(WRIST, 0);
 
-    // Return solution
     setJointState(m_pBaseJoint, base, solution);
     setJointState(m_pShoulderJoint, shoulder, solution);
     setJointState(m_pElbowJoint, elbow, solution);
     setJointState(m_pWristJoint, wrist, solution);
+
     validateSolution(solution);
 
     error_code.val = error_code.SUCCESS;
@@ -485,55 +480,63 @@ bool IKPlugin::validateTarget(const vector<geometry_msgs::Pose>& ik_poses) const
     return true;
 }
 
-Matrix4d IKPlugin::getGoal(const std::vector<geometry_msgs::Pose>& ik_poses) const
+Matrix4d IKPlugin::getGoal(const std::vector<geometry_msgs::Pose>& ik_poses, const Eigen::Vector3d& origin) const
 {
-    Isometry3d target;
-    auto targetPose = ik_poses.back();
-    tf2::fromMsg(targetPose, target);
+    Isometry3d goal;
+    auto goalPose = ik_poses.back();
+    tf2::fromMsg(goalPose, goal);
 
-    Matrix4d matrix = target.matrix();
+    Matrix4d goalMatrix = goal.matrix();
+    goalMatrix(0, 3) = goalMatrix(0, 3) - origin.x();
+    goalMatrix(1, 3) = goalMatrix(1, 3) - origin.y();
+    goalMatrix(2, 3) = goalMatrix(2, 3) - origin.z();
 
     ROS_DEBUG_NAMED(
         PLUGIN_NAME,
-        "IK target %s [\n\t%g, %g, %g, %g;\n\t%g, %g, %g, %g;\n\t%g, %g, %g, %g;\n\t%g, %g, %g, %g\n]",
+        "IK goal %s [\n\t%g, %g, %g, %g;\n\t%g, %g, %g, %g;\n\t%g, %g, %g, %g;\n\t%g, %g, %g, %g\n]",
         tip_frames_.front().c_str(),
-        matrix(0, 0),
-        matrix(0, 1),
-        matrix(0, 2),
-        matrix(0, 3),
-        matrix(1, 0),
-        matrix(1, 1),
-        matrix(1, 2),
-        matrix(1, 3),
-        matrix(2, 0),
-        matrix(2, 1),
-        matrix(2, 2),
-        matrix(2, 3),
-        matrix(3, 0),
-        matrix(3, 1),
-        matrix(3, 2),
-        matrix(3, 3)
+        goalMatrix(0, 0),
+        goalMatrix(0, 1),
+        goalMatrix(0, 2),
+        goalMatrix(0, 3),
+        goalMatrix(1, 0),
+        goalMatrix(1, 1),
+        goalMatrix(1, 2),
+        goalMatrix(1, 3),
+        goalMatrix(2, 0),
+        goalMatrix(2, 1),
+        goalMatrix(2, 2),
+        goalMatrix(2, 3),
+        goalMatrix(3, 0),
+        goalMatrix(3, 1),
+        goalMatrix(3, 2),
+        goalMatrix(3, 3)
     );
 
-    return matrix;
+    return goalMatrix;
 }
 
-Vector3d IKPlugin::getGoalPosition(const vector<geometry_msgs::Pose>& ik_poses) const
+Vector3d IKPlugin::getGoalPosition(const vector<geometry_msgs::Pose>& ik_poses, const Eigen::Vector3d& origin) const
 {
-    Isometry3d target;
-    auto targetPose = ik_poses.back();
-    tf2::fromMsg(targetPose, target);
+    Isometry3d goal;
+    auto goalPose = ik_poses.back();
+    tf2::fromMsg(goalPose, goal);
+
+    Vector3d pos = goal.translation();
+    pos.x() = pos.x() - origin.x();
+    pos.y() = pos.y() - origin.y();
+    pos.z() = pos.z() - origin.z();
 
     ROS_DEBUG_NAMED(
         PLUGIN_NAME,
-        "IK target %s: %g, %g, %g",
+        "IK goal %s: %g, %g, %g",
         tip_frames_.front().c_str(),
-        targetPose.position.x,
-        targetPose.position.y,
-        targetPose.position.z
+        pos.x(),
+        pos.y(),
+        pos.z()
     );
 
-    return target.translation();
+    return pos;
 }
 
 Vector3d IKPlugin::getOrigin() const
