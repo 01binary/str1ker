@@ -405,11 +405,24 @@ bool IKPlugin::searchPositionIK(
     // Get origin
     Vector3d origin = getOrigin();
 
-    // Get goal
-    Vector3d goal = getGoalPosition(ik_poses) - origin;
-
     // Solve inverse kinematics
-    MatrixXd angles = inverseKinematics(goal);
+    MatrixXd angles;
+
+    if (POSITION_ONLY)
+    {
+        Vector3d goal = getGoalPosition(ik_poses) - origin;
+        angles = inverseKinematics(goal);
+    }
+    else
+    {
+        Matrix4d goal = getGoal(ik_poses);
+        goal(0, 3) = goal(0, 3) - origin.x();
+        goal(1, 3) = goal(1, 3) - origin.y();
+        goal(2, 3) = goal(2, 3) - origin.z();
+
+        angles = inverseKinematics(goal);
+    }
+
     double base = angles(BASE, 0);
     double shoulder = angles(SHOULDER, 0);
     double elbow = angles(ELBOW, 0);
@@ -470,6 +483,39 @@ bool IKPlugin::validateTarget(const vector<geometry_msgs::Pose>& ik_poses) const
     }
 
     return true;
+}
+
+Matrix4d IKPlugin::getGoal(const std::vector<geometry_msgs::Pose>& ik_poses) const
+{
+    Isometry3d target;
+    auto targetPose = ik_poses.back();
+    tf2::fromMsg(targetPose, target);
+
+    Matrix4d matrix = target.matrix();
+
+    ROS_DEBUG_NAMED(
+        PLUGIN_NAME,
+        "IK target %s [\n\t%g, %g, %g, %g;\n\t%g, %g, %g, %g;\n\t%g, %g, %g, %g;\n\t%g, %g, %g, %g\n]",
+        tip_frames_.front().c_str(),
+        matrix(0, 0),
+        matrix(0, 1),
+        matrix(0, 2),
+        matrix(0, 3),
+        matrix(1, 0),
+        matrix(1, 1),
+        matrix(1, 2),
+        matrix(1, 3),
+        matrix(2, 0),
+        matrix(2, 1),
+        matrix(2, 2),
+        matrix(2, 3),
+        matrix(3, 0),
+        matrix(3, 1),
+        matrix(3, 2),
+        matrix(3, 3)
+    );
+
+    return matrix;
 }
 
 Vector3d IKPlugin::getGoalPosition(const vector<geometry_msgs::Pose>& ik_poses) const

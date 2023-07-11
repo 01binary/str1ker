@@ -47,6 +47,7 @@ class IKPlugin : public kinematics::KinematicsBase
 {
 private:
     const double DEFAULT_TIMEOUT = 250.0;
+    const bool POSITION_ONLY = true;
     const bool DEBUG = false;
 
 private:
@@ -158,6 +159,7 @@ private:
     // Input utilities
     //
 
+    Eigen::Matrix4d getGoal(const std::vector<geometry_msgs::Pose>& ik_poses) const;
     Eigen::Vector3d getGoalPosition(const std::vector<geometry_msgs::Pose>& ik_poses) const;
     Eigen::Vector3d getOrigin() const;
 
