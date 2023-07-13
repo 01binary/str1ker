@@ -36,8 +36,8 @@ const double DRUMSTICK_OFFSET = -0.023;
 const double DRUMSTICK_LENGTH = 0.305;
 const double FOREARM_LENGTH = 0.48059;
 const double UPPERARM_LENGTH = 0.4173;
-const double SHOULDER_OFFSET_X = -0.013;
-const double SHOULDER_OFFSET_Z = 0.11518;
+const double SHOULDER_OFFSET_FORWARD = -0.013;
+const double SHOULDER_OFFSET_UP = 0.11518;
 const double WRIST_ANGLE = 0.959931;
 
 /*----------------------------------------------------------*\
@@ -58,7 +58,7 @@ Isometry3d getJointMatrix(int joint, double jointVariable)
       );
     case SHOULDER:
       return (
-        Translation3d(SHOULDER_OFFSET_X, SHOULDER_OFFSET_Z, 0.0) *
+        Translation3d(SHOULDER_OFFSET_FORWARD, SHOULDER_OFFSET_UP, 0.0) *
         AngleAxisd(jointVariable, Vector3d::UnitZ())
       );
     case ELBOW:
@@ -84,9 +84,9 @@ inline double pow2(double x)
 
 Isometry3d str1ker::forwardKinematics(MatrixXd angles)
 {
-  Isometry3d endEffector = Isometry3d::Identity();
+  Isometry3d endEffector = getJointMatrix(0, angles(0, 0));
 
-  for (int n = 0; n < angles.rows(); n++)
+  for (int n = 1; n < angles.rows(); n++)
   {
     endEffector = endEffector * getJointMatrix(n, angles(n, 0));
   }
@@ -183,14 +183,14 @@ MatrixXd str1ker::inverseKinematics(Vector3d position)
 
   // Base
   double angleToGoal = atan2(goalY - ORIGIN_Y, goalX - ORIGIN_X);
-  double distanceToGoalXY = sqrt(pow(goalX - ORIGIN_X, 2) + pow(goalY - ORIGIN_Y, 2));
+  double distanceToGoalXY = sqrt(pow2(goalX - ORIGIN_X) + pow2(goalY - ORIGIN_Y));
   double angleWristOffset = abs(asin(DRUMSTICK_OFFSET / distanceToGoalXY));
   double baseAngle = angleToGoal - angleWristOffset;
 
   // Shoulder
-  double shoulderX = SHOULDER_OFFSET_X;
-  double shoulderZ = SHOULDER_OFFSET_Z;
-  double shoulderToGoalDistance = sqrt(pow(distanceToGoalXY - shoulderX, 2) + pow(goalZ - shoulderZ, 2));
+  double shoulderX = SHOULDER_OFFSET_FORWARD;
+  double shoulderZ = SHOULDER_OFFSET_UP;
+  double shoulderToGoalDistance = sqrt(pow2(distanceToGoalXY - shoulderX) + pow2(goalZ - shoulderZ));
   double drumstickOffsetZ = sin(WRIST_ANGLE) * DRUMSTICK_LENGTH;
   double drumstickOffsetX = cos(WRIST_ANGLE) * DRUMSTICK_LENGTH;
   double elbowToGoalAngle = atan2(drumstickOffsetZ, FOREARM_LENGTH + drumstickOffsetX);

@@ -443,6 +443,20 @@ bool IKPlugin::searchPositionIK(
     double elbow = angles(ELBOW, 0);
     double wrist = angles(WRIST, 0);
 
+    if (m_debug)
+    {
+        auto shoulderPose = forwardKinematics(angles.block(0, 0, 2, 1)).translation();
+        auto elbowPose = forwardKinematics(angles.block(0, 0, 3, 1)).translation();
+        //auto wristPose = forwardKinematics(angles.block(3, 0, 1, 1)).translation();
+        //auto endPose = forwardKinematics(angles.block(4, 0, 1, 1)).translation();
+
+        cout << "shoulder pose" << shoulderPose << endl << "elbow pos" << elbowPose << endl;
+
+        //publishLineMarker(SHOULDER, { shoulderPose, elbowPose }, Vector3d(1.0, 0.0, 1.0));
+        //publishLineMarker(ELBOW, { elbowPose, wristPose }, Vector3d(0.0, 1.0, 1.0));
+        //publishLineMarker(WRIST, { wristPose, endPose }, Vector3d(0.0, 0.0, 1.0));
+    }
+
     setJointState(m_pBaseJoint, base, solution);
     setJointState(m_pShoulderJoint, shoulder, solution);
     setJointState(m_pElbowJoint, elbow, solution);
