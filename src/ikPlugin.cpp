@@ -69,7 +69,9 @@ IKPlugin::IKPlugin() :
     m_pBaseJoint(NULL),
     m_pShoulderJoint(NULL),
     m_pElbowJoint(NULL),
-    m_pWristJoint(NULL)
+    m_pWristJoint(NULL),
+    m_positionOnly(true),
+    m_debug(false)
 {
 }
 
@@ -93,6 +95,24 @@ bool IKPlugin::initialize(
     {
         ROS_ERROR_NAMED(PLUGIN_NAME, "Failed to retrieve joint model group");
         return false;
+    }
+
+    // Load settings
+    if (!m_node.getParam(
+        string("/robot_description_kinematics/") + group_name + "/positionOnly",
+        m_positionOnly))
+    {
+        ROS_INFO_NAMED(PLUGIN_NAME, "Defaulting to position-only IK");
+    }
+    else
+    {
+        ROS_INFO_NAMED(PLUGIN_NAME, "Using position-only IK: %s", m_positionOnly ? "true" : "false");
+    }
+
+    if (m_node.getParam(string("/robot_description_kinematics/") + group_name + "/debug",
+        m_debug))
+    {
+        ROS_INFO_NAMED(PLUGIN_NAME, "Debugging enabled");
     }
 
     // Validate chains
@@ -205,7 +225,7 @@ bool IKPlugin::initialize(
     m_pState->setToDefaultValues();
 
     // Advertise marker publisher
-    if (DEBUG)
+    if (m_debug)
     {
         m_markerPub = m_node.advertise<visualization_msgs::Marker>(
             "visualization_marker",
@@ -406,7 +426,7 @@ bool IKPlugin::searchPositionIK(
     Vector3d origin = getOrigin();
     MatrixXd angles;
 
-    if (POSITION_ONLY)
+    if (m_positionOnly)
     {
         Vector3d goal = getGoalPosition(ik_poses, origin);
         angles = inverseKinematics(goal);
@@ -647,7 +667,7 @@ Isometry3d IKPlugin::setJointState(
     size_t index = find(m_joints.begin(), m_joints.end(), pJoint) - m_joints.begin();
     states[index] = jointState;
 
-    ROS_INFO_NAMED(PLUGIN_NAME, "IK solution %s: %g [%g] min %g max %g",
+    ROS_DEBUG_NAMED(PLUGIN_NAME, "IK solution %s: %g [%g] min %g max %g",
         pJoint->getName().c_str(), angle, jointState, limits.min_position,
         limits.max_position);
 

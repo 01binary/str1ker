@@ -47,8 +47,6 @@ class IKPlugin : public kinematics::KinematicsBase
 {
 private:
     const double DEFAULT_TIMEOUT = 250.0;
-    const bool POSITION_ONLY = true;
-    const bool DEBUG = false;
 
 private:
     ros::NodeHandle m_node;
@@ -60,6 +58,8 @@ private:
     const robot_model::JointModel* m_pShoulderJoint;
     const robot_model::JointModel* m_pElbowJoint;
     const robot_model::JointModel* m_pWristJoint;
+    bool m_positionOnly;
+    bool m_debug;
 
 public:
     IKPlugin();
