@@ -437,32 +437,14 @@ bool IKPlugin::searchPositionIK(
         angles = inverseKinematics(goal);
     }
 
+    // Visualize solution
+    if (m_debug) visualizeSolution(angles);
+
     // Return solution
-    double base = angles(BASE, 0);
-    double shoulder = angles(SHOULDER, 0);
-    double elbow = angles(ELBOW, 0);
-    double wrist = angles(WRIST, 0);
-
-    if (m_debug)
-    {
-        auto shoulderPose = forwardKinematics(angles.block(0, 0, 2, 1)).translation();
-        auto elbowPose = forwardKinematics(angles.block(0, 0, 3, 1)).translation();
-        //auto wristPose = forwardKinematics(angles.block(3, 0, 1, 1)).translation();
-        //auto endPose = forwardKinematics(angles.block(4, 0, 1, 1)).translation();
-
-        cout << "shoulder pose" << shoulderPose << endl << "elbow pos" << elbowPose << endl;
-
-        //publishLineMarker(SHOULDER, { shoulderPose, elbowPose }, Vector3d(1.0, 0.0, 1.0));
-        //publishLineMarker(ELBOW, { elbowPose, wristPose }, Vector3d(0.0, 1.0, 1.0));
-        //publishLineMarker(WRIST, { wristPose, endPose }, Vector3d(0.0, 0.0, 1.0));
-    }
-
-    setJointState(m_pBaseJoint, base, solution);
-    setJointState(m_pShoulderJoint, shoulder, solution);
-    setJointState(m_pElbowJoint, elbow, solution);
-    setJointState(m_pWristJoint, wrist, solution);
-
-    validateSolution(solution);
+    setJointState(m_pBaseJoint, angles(BASE, 0), solution);
+    setJointState(m_pShoulderJoint, angles(SHOULDER, 0), solution);
+    setJointState(m_pElbowJoint, angles(ELBOW, 0), solution);
+    setJointState(m_pWristJoint, angles(WRIST, 0), solution);
 
     error_code.val = error_code.SUCCESS;
 
@@ -614,44 +596,20 @@ bool IKPlugin::validateSeedState(const vector<double>& ik_seed_state) const
     return true;
 }
 
-void IKPlugin::validateSolution(const std::vector<double>& solution) const
-{
-    m_pState->update();
-
-    const double* nextSolution = &solution[0];
-
-    for (const JointModel* joint: m_joints)
-    {
-        auto limits = joint->getVariableBoundsMsg().front();
-        double jointPos = *nextSolution++;
-
-        if (jointPos < limits.min_position)
-            ROS_DEBUG("IK violated %s: %g < %g", joint->getName().c_str(), jointPos, limits.min_position);
-        else if (jointPos > limits.max_position)
-            ROS_DEBUG("IK violated %s: %g > %g", joint->getName().c_str(), jointPos, limits.max_position);
-        else
-            ROS_DEBUG("IK satisfied %s: %g within %g to %g", joint->getName().c_str(), jointPos, limits.min_position, limits.max_position);
-    }
-}
-
-void IKPlugin::publishLineMarker(int id, vector<Vector3d> points, Vector3d color) const
+void IKPlugin::publishArrowMarker(int id, vector<Vector3d> points, Vector3d color) const
 {
     Marker marker;
     marker.id = id;
-    marker.type = Marker::LINE_LIST;
+    marker.type = Marker::ARROW;
     marker.header.frame_id = "world";
-    marker.header.stamp = ros::Time::now();
-    marker.pose.orientation.x = 0.0;
-    marker.pose.orientation.y = 0.0;
-    marker.pose.orientation.z = 0.0;
-    marker.pose.orientation.w = 1.0;
     marker.scale.x = 0.01;
+    marker.scale.y = 0.05;
     marker.color.r = color.x();
     marker.color.g = color.y();
     marker.color.b = color.z();
     marker.color.a = 1.0;
 
-    for (Vector3d& point : points)
+    for (const Vector3d& point : points)
     {
         geometry_msgs::Point msgPoint;
         msgPoint.x = point.x();
@@ -661,6 +619,24 @@ void IKPlugin::publishLineMarker(int id, vector<Vector3d> points, Vector3d color
     }
 
     m_markerPub.publish(marker);
+}
+
+void IKPlugin::visualizeSolution(const MatrixXd& angles) const
+{
+    Vector3d shoulderPose = forwardKinematics(angles.block(0, 0, 2, 1))
+        .matrix()
+        .block(0, 3, 3, 1);
+    Vector3d elbowPose = forwardKinematics(angles.block(0, 0, 3, 1))
+        .matrix()
+        .block(0, 3, 3, 1);
+    Vector3d wristPose = forwardKinematics(angles.block(0, 0, 4, 1))
+        .matrix()
+        .block(0, 3, 3, 1);
+
+    publishArrowMarker(
+        SHOULDER, { shoulderPose, elbowPose }, Vector3d(1.0, 0.0, 1.0));
+    publishArrowMarker(
+        ELBOW, { elbowPose, wristPose }, Vector3d(0.0, 1.0, 1.0));
 }
 
 //
@@ -689,12 +665,13 @@ Isometry3d IKPlugin::setJointState(
     {
         // Update the master joint
         const JointModel* pMasterJoint = pJoint->getMimic();
-        const JointLimits& masterLimits =
-            pMasterJoint->getVariableBoundsMsg().front();
+        const JointLimits& masterLimits = pMasterJoint->getVariableBoundsMsg().front();
+
         double masterState = clamp(
             (jointState - pJoint->getMimicOffset()) / pJoint->getMimicFactor(),
             masterLimits.min_position,
             masterLimits.max_position);
+
         size_t masterIndex =
             find(m_joints.begin(), m_joints.end(), pMasterJoint)
             - m_joints.begin();
