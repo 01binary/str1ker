@@ -112,7 +112,7 @@ bool IKPlugin::initialize(
     if (m_node.getParam(string("/robot_description_kinematics/") + group_name + "/debug",
         m_debug))
     {
-        ROS_INFO_NAMED(PLUGIN_NAME, "Debugging enabled");
+        ROS_INFO_NAMED(PLUGIN_NAME, m_debug ? "Debugging enabled" : "Debugging disabled");
     }
 
     // Validate chains
