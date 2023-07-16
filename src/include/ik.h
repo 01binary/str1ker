@@ -182,7 +182,7 @@ private:
     // Debugging utilities
     //
 
-    void visualizeSolution(const Eigen::MatrixXd& angles) const;
+    void visualizeSolution(const Eigen::Vector3d& origin, const Eigen::MatrixXd& angles) const;
 
     //
     // Output utilities

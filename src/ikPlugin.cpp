@@ -438,7 +438,7 @@ bool IKPlugin::searchPositionIK(
     }
 
     // Visualize solution
-    if (m_debug) visualizeSolution(angles);
+    if (m_debug) visualizeSolution(origin, angles);
 
     // Return solution
     setJointState(m_pBaseJoint, angles(BASE, 0), solution);
@@ -621,15 +621,15 @@ void IKPlugin::publishArrowMarker(int id, vector<Vector3d> points, Vector3d colo
     m_markerPub.publish(marker);
 }
 
-void IKPlugin::visualizeSolution(const MatrixXd& angles) const
+void IKPlugin::visualizeSolution(const Vector3d& origin, const MatrixXd& angles) const
 {
-    Vector3d shoulderPose = forwardKinematics(angles.block(0, 0, 2, 1))
+    Vector3d shoulderPose = origin + forwardKinematics(angles.block(0, 0, 2, 1))
         .matrix()
         .block(0, 3, 3, 1);
-    Vector3d elbowPose = forwardKinematics(angles.block(0, 0, 3, 1))
+    Vector3d elbowPose = origin + forwardKinematics(angles.block(0, 0, 3, 1))
         .matrix()
         .block(0, 3, 3, 1);
-    Vector3d wristPose = forwardKinematics(angles.block(0, 0, 4, 1))
+    Vector3d wristPose = origin + forwardKinematics(angles.block(0, 0, 4, 1))
         .matrix()
         .block(0, 3, 3, 1);
 
