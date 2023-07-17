@@ -1,0 +1,21 @@
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+arm_velocity_controller:
+  type: velocity_controllers/JointTrajectoryController
+  joints:
+    - base
+  gains:
+    base:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+
+/gazebo_ros_control:
+  pid_gains:
+    base:
+      p: 100.0
+      i: 0.01
+      d: 10.0
