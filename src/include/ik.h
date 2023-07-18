@@ -47,7 +47,6 @@ class IKPlugin : public kinematics::KinematicsBase
 {
 private:
     const double DEFAULT_TIMEOUT = 250.0;
-    const bool DEBUG = false;
 
 private:
     ros::NodeHandle m_node;
@@ -59,6 +58,8 @@ private:
     const robot_model::JointModel* m_pShoulderJoint;
     const robot_model::JointModel* m_pElbowJoint;
     const robot_model::JointModel* m_pWristJoint;
+    bool m_positionOnly;
+    bool m_debug;
 
 public:
     IKPlugin();
@@ -158,14 +159,16 @@ private:
     // Input utilities
     //
 
-    Eigen::Vector3d getGoal(const std::vector<geometry_msgs::Pose>& ik_poses) const;
+    Eigen::Matrix4d getGoal(
+        const std::vector<geometry_msgs::Pose>& ik_poses, const Eigen::Vector3d& origin) const;
+    Eigen::Vector3d getGoalPosition(
+        const std::vector<geometry_msgs::Pose>& ik_poses, const Eigen::Vector3d& origin) const;
     Eigen::Vector3d getOrigin() const;
 
     const robot_model::JointModel* getJoint(
         robot_model::JointModel::JointType type,
         const robot_model::JointModel* parent = nullptr) const;
 
-    static int getIKJointIndex(std::string jointName);
     static const Eigen::Vector3d& getJointAxis(const robot_model::JointModel* pJoint);
 
     //
@@ -174,7 +177,12 @@ private:
 
     bool validateSeedState(const std::vector<double>& ik_seed_state) const;
     bool validateTarget(const std::vector<geometry_msgs::Pose>& ik_poses) const;
-    void validateSolution(const std::vector<double>& solution) const;
+
+    //
+    // Debugging utilities
+    //
+
+    void visualizeSolution(const Eigen::Vector3d& origin, const Eigen::MatrixXd& angles) const;
 
     //
     // Output utilities
@@ -197,7 +205,7 @@ private:
         return value;
     }
 
-    void publishLineMarker(
+    void publishArrowMarker(
         int id,
         std::vector<Eigen::Vector3d> points,
         Eigen::Vector3d color) const;
