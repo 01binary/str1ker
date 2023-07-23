@@ -99,6 +99,13 @@ public:
     // Update joints
     virtual void update();
 
+private:
+    // Read hardware state
+    void readHardware();
+
+    // Send queued commands to hardware
+    void writeHardware();
+
 public:
     // Create instance
     static controller* create(class robot& robot, const char* path);

@@ -88,18 +88,14 @@ void arm::configure(ros::NodeHandle node)
 
 bool arm::init(ros::NodeHandle node)
 {
-    const char* path = getPath();
-    char actuatorPath[128] = {0};
-    strcpy(actuatorPath, path);
-    strcat(actuatorPath, "/");
+    string basePath = getPath() + "/";
 
-    char* actuatorName = actuatorPath + strlen(actuatorPath);
     m_actuatorPaths.resize(m_actuators.size());
 
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
         // Build actuator path
-        strcpy(actuatorName, ACTUATORS[actuator]);
+        string path = basePath + ACTUATORS[actuator];
         m_actuatorPaths[actuator] = actuatorPath;
 
         // Initialize actuator
@@ -137,22 +133,30 @@ void arm::update()
     ros::Time time = ros::Time::now();
     ros::Duration period = time - m_lastUpdate;
 
+    readHardware();
+
+    m_controllers.update(time, period);
+
+    writeHardware();
+
+    m_lastUpdate = time;
+}
+
+void arm::readHardware()
+{
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
         m_actuatorPos[actuator] = m_actuators[actuator]->getPos();
         m_actuatorVel[actuator] = m_actuators[actuator]->getVelocity();
     }
+}
 
-    m_controllers.update(time, period);
-
-    // TODO enforce limits? maybe inside setVelocity
-
+void arm::writeHardware()
+{
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
         m_actuators[actuator]->setVelocity(m_actuatorVelCommands[actuator]);
     }
-
-    m_lastUpdate = time;
 }
 
 controller* arm::create(robot& robot, const char* path)
