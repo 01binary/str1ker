@@ -143,3 +143,17 @@ Follow [MoveIt installation instructions](https://ros-planning.github.io/moveit_
 ```
 roslaunch moveit_setup_assistant setup_assistant.launch
 ```
+
+## Launch Gazebo
+
+```
+roslaunch str1ker gazebo.launch
+```
+
+## Velocity Control
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['base'], points: [{velocities: [-1.0], positions: [-1.4929], time_from_start: {secs: 1}}]}' -1
+```
