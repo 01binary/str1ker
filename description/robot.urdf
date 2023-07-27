@@ -129,9 +129,132 @@
             </geometry>
         </collision>
     </link>
+    <!-- Arm actuator links -->
+    <link name="upperarm_actuator_body_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/UpperArmActuatorBody.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/UpperArmActuatorBodyBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <mass value="0.952544" />
+            <inertia ixx="0.0084" ixy="0.001" ixz="0.001" iyy="0.0084" iyz="-0.0012" izz="0.0012" />
+        </inertial>
+    </link>
+
+    <gazebo reference="upperarm_actuator_body_link">
+        <turnGravityOff>true</turnGravityOff>
+        <selfCollide>false</selfCollide>
+    </gazebo>
+   
+    <link name="upperarm_actuator_shaft_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/UpperArmActuatorShaft.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/UpperArmActuatorShaftBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.070" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <inertia ixx="0.0001" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+        </inertial>
+    </link>
+    <!--<link name="forearm_actuator_body_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorBody.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorBodyBoundingBox.stl" />
+            </geometry>
+            <surface>
+                <collide_without_contact>false</collide_without_contact>
+            </surface>
+        </collision>
+        <inertial>
+            <mass value="0.199" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <inertia ixx="0.001" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+        </inertial>
+    </link>-->
+    <gazebo reference="forearm_actuator_body_link">
+        <selfCollide>0</selfCollide>
+    </gazebo>
+    <!--<link name="forearm_actuator_shaft_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorShaft.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorShaftBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.113" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <inertia ixx="0.001" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+        </inertial>
+    </link>
+    <link name="forearm_actuator_connector_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorConnector.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorConnectorBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.013" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <inertia ixx="0.001" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+        </inertial>
+    </link>-->
     <!-- Arm joints -->
     <joint name="fixed" type="fixed">
-        <origin rpy="0 0 0" xyz="0 0 0.06" />
+        <origin rpy="0 0 0" xyz="0 0 0.1" />
         <parent link="world" />
         <child link="base_link" />
     </joint>
@@ -174,6 +297,50 @@
         <parent link="drumstick_link" />
         <child link="tip_link" />
     </joint>
+    <!-- Actuator joints -->
+    <joint name="upperarm_actuator_mount" type="revolute">
+        <origin rpy="0 0 0" xyz="0.101045 -0.0504975 0" />
+        <axis xyz="0 0 1" />
+        <parent link="shoulder_link" />
+        <child link="upperarm_actuator_body_link" />
+        <limit effort="100" velocity="1.0" lower="1.93" upper="2.293" />
+        <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="upperarm_actuator" multiplier="0.9" offset="1.560796327" />
+    </joint>
+    <joint name="upperarm_actuator" type="prismatic">
+        <origin rpy="0 0 0" xyz="0.153 -0.002 0" />
+        <axis xyz="1 0 0" />
+        <parent link="upperarm_actuator_body_link" />
+        <child link="upperarm_actuator_shaft_link" />
+        <limit effort="100" velocity="0.0508" lower="-0.054" upper="-0.0005" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+    <!--<joint name="forearm_actuator_mount" type="revolute">
+        <origin rpy="0 0 0" xyz="0.130 -0.034 0" />
+        <axis xyz="0 0 1" />
+        <parent link="upperarm_link" />
+        <child link="forearm_actuator_body_link" />
+        <limit effort="100" velocity="1.0" lower="-0.06" upper="0" />
+        <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="forearm_actuator" multiplier="-2.5" offset="-0.146602" />
+    </joint>-->
+    <!--<joint name="forearm_actuator" type="prismatic">
+        <origin rpy="0 0 0" xyz="0.210 0 0" />
+        <axis xyz="1 0 0" />
+        <parent link="forearm_actuator_body_link" />
+        <child link="forearm_actuator_shaft_link" />
+        <limit effort="100" velocity="0.0109982" lower="-0.0508" upper="0" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+    <joint name="forearm_actuator_connector" type="revolute">
+        <origin rpy="0 0 0" xyz="0.0605718 0.004 0" />
+        <axis xyz="0 0 1" />
+        <parent link="forearm_link" />
+        <child link="forearm_actuator_connector_link" />
+        <limit effort="100" velocity="1.0" lower="1.5137" upper="1.5444" />
+        <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="forearm_actuator" multiplier="0.604330709" offset="1.5444" />
+    </joint>-->
     <!-- Arm transmissions -->
     <transmission name="trans_base">
         <type>transmission_interface/SimpleTransmission</type>
@@ -184,10 +351,19 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
+    <!--<transmission name="trans_shoulder">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="base">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="base_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>-->
     <!-- Arm controllers-->
-    <gazebo>
+    <!--<gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
             <robotNamespace>/</robotNamespace>
         </plugin>
-    </gazebo>
+    </gazebo>-->
 </robot>
