@@ -6,7 +6,8 @@
     <link name="world" />
     <link name="base_link">
         <visual>
-            <origin rpy="0 0 0" xyz="0 0 0" />
+            <!-- TODO: re-export the visual modal with offset -->
+            <origin rpy="0 0 0" xyz="0 0 0.069" />
             <geometry>
                 <mesh filename="package://str1ker/description/models/ArmBase.stl" />
             </geometry>
@@ -242,9 +243,6 @@
             <geometry>
                 <mesh filename="package://str1ker/description/models/ForearmActuatorBodyBoundingBox.stl" />
             </geometry>
-            <surface>
-                <collide_without_contact>true</collide_without_contact>
-            </surface>
         </collision>
         <inertial>
             <mass value="0.76281631" />
@@ -326,7 +324,7 @@
         <child link="base_link" />
     </joint>
     <joint name="base" type="revolute">
-        <origin rpy="1.5708 0 0" xyz="0 0 0" />
+        <origin rpy="1.5708 0 0" xyz="0 0 0.069" />
         <axis xyz="0 1 0" />
         <parent link="base_link" />
         <child link="shoulder_link" />
