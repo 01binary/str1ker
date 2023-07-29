@@ -20,8 +20,15 @@
         </collision>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="0.528" />
-            <inertia ixx="0.001" ixy="1e-10" ixz="-0.001" iyy="0.005" iyz="1e-10" izz="0.004" />
+            <mass value="0.71525618" />
+            <inertia
+                ixx="0.00115158"
+                ixy="0.00000929"
+                ixz="-0.00163472"
+                iyy="0.00652271"
+                iyz="0.00000168"
+                izz="0.00573693"
+            />
         </inertial>
     </link>
     <link name="shoulder_link">
@@ -42,8 +49,15 @@
         </collision>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="0.36378108" />
-            <inertia ixx="0.002" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+            <mass value="0.38358403" />
+            <inertia
+                ixx="0.00136596"
+                ixy="0.00026225"
+                ixz="-0.000000001"
+                iyy="0.00094058"
+                iyz="-0.00000002"
+                izz="0.00163922"
+            />
         </inertial>
     </link>
     <link name="upperarm_link">
@@ -64,8 +78,15 @@
         </collision>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="1.139" />
-            <inertia ixx="0.061" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.060" />
+            <mass value="1.13853115" />
+            <inertia
+                ixx="0.00094834"
+                ixy="0.00065020"
+                ixz="-0.00004546"
+                iyy="0.06046339"
+                iyz="-0.00000007"
+                izz="0.06100310"
+            />
         </inertial>
     </link>
     <link name="forearm_link">
@@ -86,8 +107,15 @@
         </collision>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="0.703" />
-            <inertia ixx="0.047" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.047" />
+            <mass value="0.63998399" />
+            <inertia
+                ixx="0.00026470"
+                ixy="0.00089331"
+                ixz="-0.000000001"
+                iyy="0.03834140"
+                iyz="0.000000001"
+                izz="0.03857339"
+            />
         </inertial>
     </link>
     <link name="drumstick_link">
@@ -108,8 +136,15 @@
         </collision>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="0.091" />
-            <inertia ixx="0.001" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+            <mass value="0.07166651" />
+            <inertia
+                ixx="0.00000539"
+                ixy="-0.000000001"
+                ixz="-0.000000001"
+                iyy="0.000674381"
+                iyz="0.00000005"
+                izz="0.00067461"
+            />
         </inertial>
     </link>
     <link name="tip_link">
@@ -129,7 +164,9 @@
             </geometry>
         </collision>
     </link>
+
     <!-- Arm actuator links -->
+
     <link name="upperarm_actuator_body_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -148,8 +185,15 @@
         </collision>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="0.952544" />
-            <inertia ixx="0.0084" ixy="0.001" ixz="0.001" iyy="0.0084" iyz="-0.0012" izz="0.0012" />
+            <mass value="0.70647685" />
+            <inertia
+                ixx="0.00056505"
+                ixy="0.00068593"
+                ixz="0.000000001"
+                iyy="0.00438236"
+                iyz="-0.000000001"
+                izz="0.00483168"
+            />
         </inertial>
     </link>
 
@@ -175,12 +219,25 @@
             </geometry>
         </collision>
         <inertial>
-            <mass value="0.070" />
+            <mass value="0.04967122" />
             <origin rpy="0 0 0" xyz="0 0 0" />
-            <inertia ixx="0.0001" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+            <inertia
+                ixx="0.00000227"
+                ixy="-0.000000001"
+                ixz="-0.000000001"
+                iyy="0.00007177"
+                iyz="-0.000000001"
+                izz="0.00007181"
+            />
         </inertial>
     </link>
-    <!--<link name="forearm_actuator_body_link">
+
+    <gazebo reference="upperarm_actuator_shaft_link">
+        <turnGravityOff>true</turnGravityOff>
+        <selfCollide>false</selfCollide>
+    </gazebo>
+
+    <link name="forearm_actuator_body_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -200,14 +257,24 @@
             </surface>
         </collision>
         <inertial>
-            <mass value="0.199" />
+            <mass value="0.76281631" />
             <origin rpy="0 0 0" xyz="0 0 0" />
-            <inertia ixx="0.001" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+            <inertia
+                ixx="0.00005723"
+                ixy="-0.00000008"
+                ixz="0.000000001"
+                iyy="0.00898024"
+                iyz="-0.000000001"
+                izz="0.00898043"
+            />
         </inertial>
-    </link>-->
+    </link>
+
     <gazebo reference="forearm_actuator_body_link">
-        <selfCollide>0</selfCollide>
+        <turnGravityOff>true</turnGravityOff>
+        <selfCollide>false</selfCollide>
     </gazebo>
+
     <!--<link name="forearm_actuator_shaft_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -225,9 +292,16 @@
             </geometry>
         </collision>
         <inertial>
-            <mass value="0.113" />
+            <mass value="0.08789688" />
             <origin rpy="0 0 0" xyz="0 0 0" />
-            <inertia ixx="0.001" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+            <inertia
+                ixx="0.00000242"
+                ixy="-0.000000001"
+                ixz="-0.000000001"
+                iyy="0.00012182"
+                iyz="-0.000000001"
+                izz="0.00012193"
+            />
         </inertial>
     </link>
     <link name="forearm_actuator_connector_link">
@@ -247,9 +321,16 @@
             </geometry>
         </collision>
         <inertial>
-            <mass value="0.013" />
+            <mass value="0.01257956" />
             <origin rpy="0 0 0" xyz="0 0 0" />
-            <inertia ixx="0.001" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+            <inertia
+                ixx="0.00000051"
+                ixy="0.000000001"
+                ixz="0.000000001"
+                iyy="0.000011171"
+                iyz="0.000000001"
+                izz="0.00001101"
+            />
         </inertial>
     </link>-->
     <!-- Arm joints -->
