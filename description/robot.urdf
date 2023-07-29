@@ -237,7 +237,7 @@
         <selfCollide>false</selfCollide>
     </gazebo>
 
-    <link name="forearm_actuator_body_link">
+   <!--<link name="forearm_actuator_body_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -273,7 +273,7 @@
     <gazebo reference="forearm_actuator_body_link">
         <turnGravityOff>true</turnGravityOff>
         <selfCollide>false</selfCollide>
-    </gazebo>
+    </gazebo>-->
 
     <!--<link name="forearm_actuator_shaft_link">
         <visual>
@@ -340,7 +340,7 @@
         <child link="base_link" />
     </joint>
     <joint name="base" type="revolute">
-        <origin rpy="1.5708 0 0" xyz="0 0 0.069" />
+        <origin rpy="1.5708 0 0" xyz="0 0 0" />
         <axis xyz="0 1 0" />
         <parent link="base_link" />
         <child link="shoulder_link" />
