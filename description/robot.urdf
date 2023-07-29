@@ -1,7 +1,9 @@
 <?xml version="1.0" ?>
 <robot name="str1ker">
+
+    <!-- Links -->
+
     <link name="world" />
-    <!-- Arm links -->
     <link name="base_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -165,7 +167,7 @@
         </collision>
     </link>
 
-    <!-- Arm actuator links -->
+    <!-- Actuator links -->
 
     <link name="upperarm_actuator_body_link">
         <visual>
@@ -196,12 +198,6 @@
             />
         </inertial>
     </link>
-
-    <gazebo reference="upperarm_actuator_body_link">
-        <turnGravityOff>true</turnGravityOff>
-        <selfCollide>false</selfCollide>
-    </gazebo>
-   
     <link name="upperarm_actuator_shaft_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -231,13 +227,7 @@
             />
         </inertial>
     </link>
-
-    <gazebo reference="upperarm_actuator_shaft_link">
-        <turnGravityOff>true</turnGravityOff>
-        <selfCollide>false</selfCollide>
-    </gazebo>
-
-   <!--<link name="forearm_actuator_body_link">
+   <link name="forearm_actuator_body_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -253,7 +243,7 @@
                 <mesh filename="package://str1ker/description/models/ForearmActuatorBodyBoundingBox.stl" />
             </geometry>
             <surface>
-                <collide_without_contact>false</collide_without_contact>
+                <collide_without_contact>true</collide_without_contact>
             </surface>
         </collision>
         <inertial>
@@ -269,13 +259,7 @@
             />
         </inertial>
     </link>
-
-    <gazebo reference="forearm_actuator_body_link">
-        <turnGravityOff>true</turnGravityOff>
-        <selfCollide>false</selfCollide>
-    </gazebo>-->
-
-    <!--<link name="forearm_actuator_shaft_link">
+    <link name="forearm_actuator_shaft_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -332,8 +316,10 @@
                 izz="0.00001101"
             />
         </inertial>
-    </link>-->
-    <!-- Arm joints -->
+    </link>
+
+    <!-- Joints -->
+
     <joint name="fixed" type="fixed">
         <origin rpy="0 0 0" xyz="0 0 0.1" />
         <parent link="world" />
@@ -378,7 +364,9 @@
         <parent link="drumstick_link" />
         <child link="tip_link" />
     </joint>
+
     <!-- Actuator joints -->
+
     <joint name="upperarm_actuator_mount" type="revolute">
         <origin rpy="0 0 0" xyz="0.101045 -0.0504975 0" />
         <axis xyz="0 0 1" />
@@ -396,7 +384,7 @@
         <limit effort="100" velocity="0.0508" lower="-0.054" upper="-0.0005" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
-    <!--<joint name="forearm_actuator_mount" type="revolute">
+    <joint name="forearm_actuator_mount" type="revolute">
         <origin rpy="0 0 0" xyz="0.130 -0.034 0" />
         <axis xyz="0 0 1" />
         <parent link="upperarm_link" />
@@ -404,8 +392,8 @@
         <limit effort="100" velocity="1.0" lower="-0.06" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="forearm_actuator" multiplier="-2.5" offset="-0.146602" />
-    </joint>-->
-    <!--<joint name="forearm_actuator" type="prismatic">
+    </joint>
+    <joint name="forearm_actuator" type="prismatic">
         <origin rpy="0 0 0" xyz="0.210 0 0" />
         <axis xyz="1 0 0" />
         <parent link="forearm_actuator_body_link" />
@@ -421,8 +409,10 @@
         <limit effort="100" velocity="1.0" lower="1.5137" upper="1.5444" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="forearm_actuator" multiplier="0.604330709" offset="1.5444" />
-    </joint>-->
-    <!-- Arm transmissions -->
+    </joint>
+    
+    <!-- Transmissions -->
+
     <transmission name="trans_base">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="base">
@@ -441,10 +431,12 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>-->
+
     <!-- Arm controllers-->
-    <!--<gazebo>
+
+    <gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
             <robotNamespace>/</robotNamespace>
         </plugin>
-    </gazebo>-->
+    </gazebo>
 </robot>
