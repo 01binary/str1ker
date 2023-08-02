@@ -6,8 +6,7 @@
     <link name="world" />
     <link name="base_link">
         <visual>
-            <!-- TODO: re-export the visual modal with offset -->
-            <origin rpy="0 0 0" xyz="0 0 0.069" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
                 <mesh filename="package://str1ker/description/models/ArmBase.stl" />
             </geometry>
