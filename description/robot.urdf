@@ -111,16 +111,16 @@
             </material>
         </visual>
         <collision>
-            <origin
-                rpy="0 0 0"
-                xyz="0.20328210 -0.00230698 -0.00000001"
-            />
+            <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
                 <mesh filename="package://str1ker/description/models/ForearmBoundingBox.stl" />
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.20328210 -0.00230698 -0.00000001"
+            />
             <mass value="0.63998399" />
             <inertia
                 ixx="0.00026130"
