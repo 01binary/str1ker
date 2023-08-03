@@ -348,7 +348,7 @@
     <!-- Joints -->
 
     <joint name="fixed" type="fixed">
-        <origin rpy="0 0 0" xyz="0 0 0.15" />
+        <origin rpy="0 0 0" xyz="0 0 1" />
         <parent link="world" />
         <child link="base_link" />
     </joint>
