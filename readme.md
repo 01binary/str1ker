@@ -152,7 +152,7 @@ roslaunch str1ker gazebo.launch
 
 ## Velocity Control
 
-Rotate Right
+Rotate Left
 
 ```
 rostopic pub arm_velocity_controller/command \
@@ -160,10 +160,10 @@ trajectory_msgs/JointTrajectory \
 '{ joint_names: ['base'], points: [{velocities: [1.0], positions: [1.4929], time_from_start: {secs: 1}}]}' -1
 ```
 
-Rotate Left
+Rotate Right
 
 ```
 rostopic pub arm_velocity_controller/command \
 trajectory_msgs/JointTrajectory \
-'{ joint_names: ['base'], points: [{velocities: [-1.0], positions: [-1.4929], time_from_start: {secs: 1}}]}' -1
+'{ joint_names: ['base'], points: [{velocities: [1.0], positions: [-1.4929], time_from_start: {secs: 1}}]}' -1
 ```
