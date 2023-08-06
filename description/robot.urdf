@@ -248,7 +248,7 @@
             />
         </inertial>
     </link>
-   <!--<link name="forearm_actuator_body_link">
+    <link name="forearm_actuator_body_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -312,7 +312,7 @@
             />
         </inertial>
     </link>
-    <link name="forearm_actuator_connector_link">
+    <!--<link name="forearm_actuator_connector_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -411,7 +411,7 @@
         <limit effort="100" velocity="0.0508" lower="-0.054" upper="-0.0005" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
-    <!--<joint name="forearm_actuator_mount" type="revolute">
+    <joint name="forearm_actuator_mount" type="revolute">
         <origin rpy="0 0 0" xyz="0.130 -0.034 0" />
         <axis xyz="0 0 1" />
         <parent link="upperarm_link" />
@@ -428,7 +428,7 @@
         <limit effort="100" velocity="0.0109982" lower="-0.0508" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
-    <joint name="forearm_actuator_connector" type="revolute">
+    <!--<joint name="forearm_actuator_connector" type="revolute">
         <origin rpy="0 0 0" xyz="0.0605718 0.004 0" />
         <axis xyz="0 0 1" />
         <parent link="forearm_link" />
@@ -455,6 +455,15 @@
             <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
         <actuator name="shoulder_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_elbow">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="forearm_actuator">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="elbow_motor">
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>

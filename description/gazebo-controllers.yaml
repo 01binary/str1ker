@@ -9,6 +9,7 @@ arm_velocity_controller:
   joints:
     - base
     - upperarm_actuator
+    - forearm_actuator
   constraints:
     goal_time: 0.5
     stopped_velocity_tolerance: 0.05
@@ -16,6 +17,7 @@ arm_velocity_controller:
       goal: 0.05
   velocity_ff:
     upperarm_actuator: 1.0
+    forearm_actuator: 1.0
   gains:
     base:
       p: 10
@@ -23,6 +25,11 @@ arm_velocity_controller:
       i: 1
       i_clamp: 1
     upperarm_actuator:
+      p: 0.5
+      d: 1
+      i: 1
+      i_clamp: 1
+    forearm_actuator:
       p: 0.5
       d: 1
       i: 1

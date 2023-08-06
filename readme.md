@@ -184,12 +184,24 @@ trajectory_msgs/JointTrajectory \
 '{ joint_names: ['upperarm_actuator'], points: [{velocities: [-0.0508], positions: [-0.054], time_from_start: {secs: 1}}]}' -1
 ```
 
-## Tuning PID gains
+### Extend
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['forearm_actuator'], points: [{velocities: [0.0109982], positions: [0], time_from_start: {secs: 1}}]}' -1
+```
+
+### Contract
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['forearm_actuator'], points: [{velocities: [0.0109982], positions: [-0.0508], time_from_start: {secs: 1}}]}' -1
+```
+
+### Tune PID gains
 
 ```
 rosrun rqt_reconfigure rqt_reconfigure
 ```
-
-## Logging Level
-
-rosservice call /my_node/set_logger_level "{logger: 'rosout', level: 'debug'}" 
