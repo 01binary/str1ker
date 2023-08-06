@@ -312,7 +312,7 @@
             />
         </inertial>
     </link>
-    <!--<link name="forearm_actuator_connector_link">
+    <link name="forearm_actuator_connector_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -343,7 +343,7 @@
                 izz="0.00000372"
             />
         </inertial>
-    </link>-->
+    </link>
 
     <!-- Joints -->
 
@@ -428,7 +428,7 @@
         <limit effort="100" velocity="0.0109982" lower="-0.0508" upper="0" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
-    <!--<joint name="forearm_actuator_connector" type="revolute">
+    <joint name="forearm_actuator_connector" type="revolute">
         <origin rpy="0 0 0" xyz="0.0605718 0.004 0" />
         <axis xyz="0 0 1" />
         <parent link="forearm_link" />
@@ -436,7 +436,7 @@
         <limit effort="100" velocity="1.0" lower="1.5137" upper="1.5444" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="forearm_actuator" multiplier="0.604330709" offset="1.5444" />
-    </joint>-->
+    </joint>
     
     <!-- Transmissions -->
 
