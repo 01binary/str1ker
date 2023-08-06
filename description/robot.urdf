@@ -248,7 +248,7 @@
             />
         </inertial>
     </link>
-   <link name="forearm_actuator_body_link">
+   <!--<link name="forearm_actuator_body_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -343,12 +343,12 @@
                 izz="0.00000372"
             />
         </inertial>
-    </link>
+    </link>-->
 
     <!-- Joints -->
 
     <joint name="fixed" type="fixed">
-        <origin rpy="0 0 0" xyz="0 0 1" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
         <parent link="world" />
         <child link="base_link" />
     </joint>
@@ -367,7 +367,7 @@
         <child link="upperarm_link" />
         <limit effort="100" velocity="1.0" lower="0.404676" upper="0.813453" />
         <dynamics damping="0.7" friction="1.4" />
-        <mimic joint="upperarm_actuator" multiplier="7.640691589" offset="0.817273346" />
+        <!--<mimic joint="upperarm_actuator" multiplier="7.640691589" offset="0.817273346" />-->
     </joint>
     <joint name="elbow" type="revolute">
         <origin rpy="0 0 0" xyz="0.4173 0 0" />
@@ -411,7 +411,7 @@
         <limit effort="100" velocity="0.0508" lower="-0.054" upper="-0.0005" />
         <dynamics damping="0.7" friction="1.4" />
     </joint>
-    <joint name="forearm_actuator_mount" type="revolute">
+    <!--<joint name="forearm_actuator_mount" type="revolute">
         <origin rpy="0 0 0" xyz="0.130 -0.034 0" />
         <axis xyz="0 0 1" />
         <parent link="upperarm_link" />
@@ -436,7 +436,7 @@
         <limit effort="100" velocity="1.0" lower="1.5137" upper="1.5444" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="forearm_actuator" multiplier="0.604330709" offset="1.5444" />
-    </joint>
+    </joint>-->
     
     <!-- Transmissions -->
 
@@ -449,15 +449,15 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
-    <!--<transmission name="trans_shoulder">
+    <transmission name="trans_shoulder">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="base">
+        <joint name="upperarm_actuator">
             <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
-        <actuator name="base_motor">
+        <actuator name="shoulder_motor">
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
-    </transmission>-->
+    </transmission>
 
     <!-- Arm controllers-->
 

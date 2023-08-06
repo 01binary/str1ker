@@ -152,7 +152,7 @@ roslaunch str1ker gazebo.launch
 
 ## Velocity Control
 
-Rotate Left
+### Rotate Left
 
 ```
 rostopic pub arm_velocity_controller/command \
@@ -160,10 +160,36 @@ trajectory_msgs/JointTrajectory \
 '{ joint_names: ['base'], points: [{velocities: [1.0], positions: [1.4929], time_from_start: {secs: 1}}]}' -1
 ```
 
-Rotate Right
+### Rotate Right
 
 ```
 rostopic pub arm_velocity_controller/command \
 trajectory_msgs/JointTrajectory \
 '{ joint_names: ['base'], points: [{velocities: [1.0], positions: [-1.4929], time_from_start: {secs: 1}}]}' -1
 ```
+
+### Lift
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['upperarm_actuator'], points: [{velocities: [0.0508], positions: [-0.0005], time_from_start: {secs: 1}}]}' -1
+```
+
+### Lower
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['upperarm_actuator'], points: [{velocities: [-0.0508], positions: [-0.054], time_from_start: {secs: 1}}]}' -1
+```
+
+## Tuning PID gains
+
+```
+rosrun rqt_reconfigure rqt_reconfigure
+```
+
+## Logging Level
+
+rosservice call /my_node/set_logger_level "{logger: 'rosout', level: 'debug'}" 
