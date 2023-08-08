@@ -416,7 +416,7 @@
         <axis xyz="0 0 1" />
         <parent link="upperarm_link" />
         <child link="forearm_actuator_body_link" />
-        <limit effort="100" velocity="1.0" lower="-0.06" upper="0" />
+        <limit effort="100" velocity="1.0" lower="-6" upper="6" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="forearm_actuator" multiplier="-2.5" offset="-0.146602" />
     </joint>
@@ -498,6 +498,24 @@
             <mimicJoint>upperarm_actuator_mount</mimicJoint>
             <multiplier>1.0</multiplier>
             <offset>1.57</offset>
+        </plugin>
+        <plugin
+            name="elbow_mimic_joint_plugin"
+            filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"
+        >
+            <joint>forearm_actuator</joint>
+            <mimicJoint>elbow</mimicJoint>
+            <multiplier>15.925786614</multiplier>
+            <offset>-1.123992</offset>
+        </plugin>
+        <plugin
+            name="forearm_actuator_mount_mimic_joint_plugin"
+            filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"
+        >
+            <joint>forearm_actuator</joint>
+            <mimicJoint>forearm_actuator_mount</mimicJoint>
+            <multiplier>1.0</multiplier>
+            <offset>0.0</offset>
         </plugin>
     </gazebo>
 </robot>

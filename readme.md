@@ -168,7 +168,7 @@ trajectory_msgs/JointTrajectory \
 '{ joint_names: ['base'], points: [{velocities: [1.0], positions: [-1.4929], time_from_start: {secs: 1}}]}' -1
 ```
 
-### Lift
+### Raise
 
 ```
 rostopic pub arm_velocity_controller/command \
