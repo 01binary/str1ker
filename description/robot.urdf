@@ -399,7 +399,7 @@
         <axis xyz="0 0 1" />
         <parent link="shoulder_link" />
         <child link="upperarm_actuator_body_link" />
-        <limit effort="100" velocity="1.0" lower="1.93" upper="2.293" />
+        <limit effort="100" velocity="1.0" lower="-6" upper="6" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="upperarm_actuator" multiplier="0.9" offset="1.560796327" />
     </joint>
@@ -470,6 +470,10 @@
 
     <!-- Arm controllers-->
 
+    <gazebo reference="upperarm_actuator_body">
+        <turnGravityOff>true</turnGravityOff>
+    </gazebo>
+
     <gazebo>
         <plugin
             name="gazebo_ros_control"
@@ -485,17 +489,15 @@
             <mimicJoint>shoulder</mimicJoint>
             <multiplier>7.640691589</multiplier>
             <offset>0.817273346</offset>
-            <sensitiveness>1.0</sensitiveness>
         </plugin>
         <plugin
             name="upperarm_mount_mimic_joint_plugin"
             filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"
         >
-            <joint>upperarm_actuator_mount</joint>
-            <mimicJoint>shoulder</mimicJoint>
-            <multiplier>7.640691589</multiplier>
-            <offset>0.817273346</offset>
-            <sensitiveness>1.0</sensitiveness>
+            <joint>upperarm_actuator</joint>
+            <mimicJoint>upperarm_actuator_mount</mimicJoint>
+            <multiplier>1.0</multiplier>
+            <offset>1.57</offset>
         </plugin>
     </gazebo>
 </robot>
