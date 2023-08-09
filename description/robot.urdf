@@ -351,6 +351,50 @@
             />
         </inertial>
     </link>
+    <link name="solenoid_mount_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoid.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoidBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+        </inertial>
+    </link>
+    <link name="solenoid_shaft_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoidShaft.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoidShaftBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+        </inertial>
+    </link>
 
     <!-- Joints -->
 
@@ -443,6 +487,22 @@
         <limit effort="100" velocity="1.0" lower="1.5137" upper="1.5444" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="forearm_actuator" multiplier="0.604330709" offset="1.5444" />
+    </joint>
+    <joint name="solenoid_mount" type="revolute">
+        <origin rpy="0 0 0" xyz="0.355 -0.031 0.013" />
+        <axis xyz="0 0 1" />
+        <parent link="forearm_link" />
+        <child link="solenoid_mount_link" />
+        <limit effort="100" velocity="1.0" lower="-0.09" upper="-0.09" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+    <joint name="solenoid" type="prismatic">
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="solenoid_mount_link" />
+        <child link="solenoid_shaft_link" />
+        <limit effort="100" velocity="1.0" lower="-0.0019" upper="0.001" />
+        <dynamics damping="0.7" friction="1.4" />
     </joint>
     
     <!-- Transmissions -->
