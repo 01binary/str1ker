@@ -20,12 +20,12 @@ arm_velocity_controller:
       i: 1
       i_clamp: 1
     upperarm_actuator:
-      p: 0.01
-      d: 1
-      i: 0.01
+      p: 0.05
+      d: 0
+      i: 80.0
       i_clamp: 1
     forearm_actuator:
-      p: 0.5
-      d: 1
-      i: 1
+      p: 0.05
+      d: 0
+      i: 80.0
       i_clamp: 1
