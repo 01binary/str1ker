@@ -144,7 +144,7 @@ Follow [MoveIt installation instructions](https://ros-planning.github.io/moveit_
 roslaunch moveit_setup_assistant setup_assistant.launch
 ```
 
-## Launch Gazebo
+## Launch in Gazebo
 
 ```
 roslaunch str1ker gazebo.launch
