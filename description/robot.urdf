@@ -171,7 +171,7 @@
                 <sphere radius="0.01" />
             </geometry>
             <material name="transparent">
-                <color rgba="1 1 1 0.1" />
+                <color rgba="1 1 1 0" />
             </material>
         </visual>
         <collision>
@@ -181,6 +181,13 @@
             </geometry>
         </collision>
     </link>
+    <gazebo reference="tip_link">
+        <visual>
+            <material>
+                <diffuse>0 0 0 0</diffuse>
+            </material>
+        </visual>
+    </gazebo>
 
     <!-- Actuator links -->
 
