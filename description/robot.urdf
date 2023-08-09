@@ -1,7 +1,9 @@
 <?xml version="1.0" ?>
 <robot name="str1ker">
+
+    <!-- Links -->
+
     <link name="world" />
-    <!-- Arm links -->
     <link name="base_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -19,9 +21,19 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="0.528" />
-            <inertia ixx="0.001" ixy="1e-10" ixz="-0.001" iyy="0.005" iyz="1e-10" izz="0.004" />
+            <origin
+                rpy="0 0 0"
+                xyz="-0.07311604 0.00008330 0.03705764"
+            />
+            <mass value="0.70818404" />
+            <inertia
+                ixx="0.00040220"
+                ixy="0.00000498"
+                ixz="0.00001924"
+                iyy="0.00198747"
+                iyz="0.00000020"
+                izz="0.00194948"
+            />
         </inertial>
     </link>
     <link name="shoulder_link">
@@ -41,9 +53,19 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="0.36378108" />
-            <inertia ixx="0.002" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.01708182 0.02587065 -0.00000217"
+            />
+            <mass value="0.38358403" />
+            <inertia
+                ixx="0.00110923"
+                ixy="0.00043176"
+                ixz="-0.00000002"
+                iyy="0.00082865"
+                iyz="-0.00000004"
+                izz="0.00127056"
+            />
         </inertial>
     </link>
     <link name="upperarm_link">
@@ -63,9 +85,19 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="1.139" />
-            <inertia ixx="0.061" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.060" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.19665771 -0.00446385 0.00009568"
+            />
+            <mass value="1.13853115" />
+            <inertia
+                ixx="0.00092564"
+                ixy="-0.00034926"
+                ixz="-0.00002404"
+                iyy="0.01643153"
+                iyz="-0.00000056"
+                izz="0.01694857"
+            />
         </inertial>
     </link>
     <link name="forearm_link">
@@ -85,9 +117,19 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="0.703" />
-            <inertia ixx="0.047" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.047" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.20328210 -0.00230698 -0.00000001"
+            />
+            <mass value="0.63998399" />
+            <inertia
+                ixx="0.00026130"
+                ixy="0.00059318"
+                ixz="-0.000000001"
+                iyy="0.01189494"
+                iyz="0.000000001"
+                izz="0.01212353"
+            />
         </inertial>
     </link>
     <link name="drumstick_link">
@@ -107,9 +149,19 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="0.091" />
-            <inertia ixx="0.001" ixy="0.001" ixz="0.001" iyy="0.001" iyz="0.001" izz="0.001" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.04484721 -0.00013749 -0.00008218"
+            />
+            <mass value="0.07166651" />
+            <inertia
+                ixx="0.00000539"
+                ixy="-0.00000044"
+                ixz="-0.00000027"
+                iyy="0.00053024"
+                iyz="0.00000005"
+                izz="0.00053047"
+            />
         </inertial>
     </link>
     <link name="tip_link">
@@ -119,7 +171,7 @@
                 <sphere radius="0.01" />
             </geometry>
             <material name="transparent">
-                <color rgba="1 1 1 0.1" />
+                <color rgba="1 1 1 0" />
             </material>
         </visual>
         <collision>
@@ -129,9 +181,225 @@
             </geometry>
         </collision>
     </link>
-    <!-- Arm joints -->
+    <gazebo reference="tip_link">
+        <visual>
+            <material>
+                <diffuse>0 0 0 0</diffuse>
+            </material>
+        </visual>
+    </gazebo>
+
+    <!-- Actuator links -->
+
+    <link name="upperarm_actuator_body_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/UpperArmActuatorBody.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/UpperArmActuatorBodyBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin
+                rpy="0 0 0"
+                xyz="0.06788886 -0.01642314 0"
+            />
+            <mass value="0.70647685" />
+            <inertia
+                ixx="0.00037450"
+                ixy="-0.00010175"
+                ixz="-0.000000001"
+                iyy="0.00112628"
+                iyz="-0.000000001"
+                izz="0.00138505"
+            />
+        </inertial>
+    </link>
+    <link name="upperarm_actuator_shaft_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/UpperArmActuatorShaft.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/UpperArmActuatorShaftBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.04967122" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.03254861 0.00000005 -0.00000010"
+            />
+            <inertia
+                ixx="0.00000227"
+                ixy="0.000000001"
+                ixz="0.000000001"
+                iyy="0.00001914"
+                iyz="-0.000000001"
+                izz="0.00001919"
+            />
+        </inertial>
+    </link>
+    <link name="forearm_actuator_body_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorBody.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorBodyBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.76281631" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.09092269 0.00010124 -0.00000002"
+            />
+            <inertia
+                ixx="0.00005722"
+                ixy="0.00000694"
+                ixz="-0.000000001"
+                iyy="0.00267408"
+                iyz="-0.000000001"
+                izz="0.00267427"
+            />
+        </inertial>
+    </link>
+    <link name="forearm_actuator_shaft_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorShaft.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorShaftBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.08789688" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.03195776 0.00000003 0"
+            />
+            <inertia
+                ixx="0.00000242"
+                ixy="-0.000000001"
+                ixz="-0.000000001"
+                iyy="0.00003205"
+                iyz="-0.000000001"
+                izz="0.00003216"
+            />
+        </inertial>
+    </link>
+    <link name="forearm_actuator_connector_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorConnector.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ForearmActuatorConnectorBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.01257956" />
+            <origin
+                rpy="0 0 0"
+                xyz="-0.02406711 0 0"
+            />
+            <inertia
+                ixx="0.00000051"
+                ixy="-0.000000001"
+                ixz="0.000000001"
+                iyy="0.00000389"
+                iyz="0.000000001"
+                izz="0.00000372"
+            />
+        </inertial>
+    </link>
+    <link name="solenoid_mount_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoid.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoidBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+        </inertial>
+    </link>
+    <link name="solenoid_shaft_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoidShaft.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoidShaftBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+        </inertial>
+    </link>
+
+    <!-- Joints -->
+
     <joint name="fixed" type="fixed">
-        <origin rpy="0 0 0" xyz="0 0 0.06" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
         <parent link="world" />
         <child link="base_link" />
     </joint>
@@ -174,7 +442,71 @@
         <parent link="drumstick_link" />
         <child link="tip_link" />
     </joint>
-    <!-- Arm transmissions -->
+
+    <!-- Actuator joints -->
+
+    <joint name="upperarm_actuator_mount" type="revolute">
+        <origin rpy="0 0 0" xyz="0.101045 -0.0504975 0" />
+        <axis xyz="0 0 1" />
+        <parent link="shoulder_link" />
+        <child link="upperarm_actuator_body_link" />
+        <limit effort="100" velocity="1.0" lower="-6" upper="6" />
+        <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="upperarm_actuator" multiplier="0.9" offset="1.560796327" />
+    </joint>
+    <joint name="upperarm_actuator" type="prismatic">
+        <origin rpy="0 0 0" xyz="0.153 -0.002 0" />
+        <axis xyz="1 0 0" />
+        <parent link="upperarm_actuator_body_link" />
+        <child link="upperarm_actuator_shaft_link" />
+        <limit effort="100" velocity="0.0508" lower="-0.054" upper="-0.0005" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+    <joint name="forearm_actuator_mount" type="revolute">
+        <origin rpy="0 0 0" xyz="0.130 -0.034 0" />
+        <axis xyz="0 0 1" />
+        <parent link="upperarm_link" />
+        <child link="forearm_actuator_body_link" />
+        <limit effort="100" velocity="1.0" lower="-6" upper="6" />
+        <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="forearm_actuator" multiplier="-2.5" offset="-0.146602" />
+    </joint>
+    <joint name="forearm_actuator" type="prismatic">
+        <origin rpy="0 0 0" xyz="0.210 0 0" />
+        <axis xyz="1 0 0" />
+        <parent link="forearm_actuator_body_link" />
+        <child link="forearm_actuator_shaft_link" />
+        <limit effort="100" velocity="0.0109982" lower="-0.0508" upper="0" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+    <joint name="forearm_actuator_connector" type="revolute">
+        <origin rpy="0 0 0" xyz="0.0605718 0.004 0" />
+        <axis xyz="0 0 1" />
+        <parent link="forearm_link" />
+        <child link="forearm_actuator_connector_link" />
+        <limit effort="100" velocity="1.0" lower="1.5137" upper="1.5444" />
+        <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="forearm_actuator" multiplier="0.604330709" offset="1.5444" />
+    </joint>
+    <joint name="solenoid_mount" type="revolute">
+        <origin rpy="0 0 0" xyz="0.355 -0.031 0.013" />
+        <axis xyz="0 0 1" />
+        <parent link="forearm_link" />
+        <child link="solenoid_mount_link" />
+        <limit effort="100" velocity="1.0" lower="-0.09" upper="-0.09" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+    <joint name="solenoid" type="prismatic">
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <axis xyz="0 0 1" />
+        <parent link="solenoid_mount_link" />
+        <child link="solenoid_shaft_link" />
+        <limit effort="100" velocity="1.0" lower="-0.0019" upper="0.001" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+    
+    <!-- Transmissions -->
+
     <transmission name="trans_base">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="base">
@@ -184,10 +516,73 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
+    <transmission name="trans_shoulder">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="upperarm_actuator">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="shoulder_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_elbow">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="forearm_actuator">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="elbow_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
     <!-- Arm controllers-->
+
+    <gazebo reference="upperarm_actuator_body">
+        <turnGravityOff>true</turnGravityOff>
+    </gazebo>
+
     <gazebo>
-        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <plugin
+            name="gazebo_ros_control"
+            filename="libgazebo_ros_control.so"
+        >
             <robotNamespace>/</robotNamespace>
+        </plugin>
+        <plugin
+            name="upperarm_mimic_joint_plugin"
+            filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"
+        >
+            <joint>upperarm_actuator</joint>
+            <mimicJoint>shoulder</mimicJoint>
+            <multiplier>7.640691589</multiplier>
+            <offset>0.817273346</offset>
+        </plugin>
+        <plugin
+            name="upperarm_mount_mimic_joint_plugin"
+            filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"
+        >
+            <joint>upperarm_actuator</joint>
+            <mimicJoint>upperarm_actuator_mount</mimicJoint>
+            <multiplier>1.0</multiplier>
+            <offset>1.57</offset>
+        </plugin>
+        <plugin
+            name="elbow_mimic_joint_plugin"
+            filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"
+        >
+            <joint>forearm_actuator</joint>
+            <mimicJoint>elbow</mimicJoint>
+            <multiplier>15.925786614</multiplier>
+            <offset>-1.123992</offset>
+        </plugin>
+        <plugin
+            name="forearm_actuator_mount_mimic_joint_plugin"
+            filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"
+        >
+            <joint>forearm_actuator</joint>
+            <mimicJoint>forearm_actuator_mount</mimicJoint>
+            <multiplier>-3.0</multiplier>
+            <offset>-0.15</offset>
         </plugin>
     </gazebo>
 </robot>

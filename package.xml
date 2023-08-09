@@ -38,6 +38,9 @@
   <exec_depend>moveit_ros_planning</exec_depend>
   <exec_depend>pluginlib</exec_depend>
   <exec_depend>moveit_ros_robot_interaction</exec_depend>
+  <exec_depend>joint_state_controller</exec_depend>
+  <exec_depend>velocity_controllers</exec_depend>
+  <exec_depend>joint_trajectory_controller</exec_depend>
 
   <export>
     <moveit_core plugin="${prefix}/description/ik.xml"/>

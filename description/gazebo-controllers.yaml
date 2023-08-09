@@ -4,18 +4,28 @@ joint_state_controller:
 
 arm_velocity_controller:
   type: velocity_controllers/JointTrajectoryController
+  publish_rate: 50
+  allow_partial_joints_goal: true
   joints:
     - base
+    - upperarm_actuator
+    - forearm_actuator
+  velocity_ff:
+    upperarm_actuator: 1.0
+    forearm_actuator: 1.0
   gains:
     base:
-      p: 100
+      p: 10
       d: 1
       i: 1
       i_clamp: 1
-
-/gazebo_ros_control:
-  pid_gains:
-    base:
-      p: 100.0
-      i: 0.01
-      d: 10.0
+    upperarm_actuator:
+      p: 0.05
+      d: 0
+      i: 80.0
+      i_clamp: 1
+    forearm_actuator:
+      p: 0.05
+      d: 0
+      i: 80.0
+      i_clamp: 1

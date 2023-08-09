@@ -143,3 +143,65 @@ Follow [MoveIt installation instructions](https://ros-planning.github.io/moveit_
 ```
 roslaunch moveit_setup_assistant setup_assistant.launch
 ```
+
+## Launch in Gazebo
+
+```
+roslaunch str1ker gazebo.launch
+```
+
+## Velocity Control
+
+### Rotate Left
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['base'], points: [{velocities: [1.0], positions: [1.4929], time_from_start: {secs: 1}}]}' -1
+```
+
+### Rotate Right
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['base'], points: [{velocities: [1.0], positions: [-1.4929], time_from_start: {secs: 1}}]}' -1
+```
+
+### Raise
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['upperarm_actuator'], points: [{velocities: [0.0508], positions: [-0.0005], time_from_start: {secs: 1}}]}' -1
+```
+
+### Lower
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['upperarm_actuator'], points: [{velocities: [-0.0508], positions: [-0.054], time_from_start: {secs: 1}}]}' -1
+```
+
+### Extend
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['forearm_actuator'], points: [{velocities: [0.0109982], positions: [0], time_from_start: {secs: 1}}]}' -1
+```
+
+### Contract
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['forearm_actuator'], points: [{velocities: [0.0109982], positions: [-0.0508], time_from_start: {secs: 1}}]}' -1
+```
+
+### Tune PID gains
+
+```
+rosrun rqt_reconfigure rqt_reconfigure
+```
