@@ -35,7 +35,8 @@ using namespace std;
 \*----------------------------------------------------------*/
 
 const char arm::TYPE[] = "arm";
-const char* arm::ACTUATORS[] = { "shoulder", "upperarm", "forearm" };
+// TODO: make these load dynamically
+const char* arm::ACTUATORS[] = { "base", "upperarm_actuator", "forearm_actuator" };
 
 /*----------------------------------------------------------*\
 | arm implementation
@@ -68,6 +69,7 @@ void arm::configure(ros::NodeHandle node)
 {
     controller::configure(node);
 
+    // Configure actuators
     int numActuators = sizeof(ACTUATORS) / sizeof(char*);
 
     m_actuatorPos.resize(numActuators);
@@ -77,19 +79,49 @@ void arm::configure(ros::NodeHandle node)
 
     for (int actuator = 0; actuator < numActuators; actuator++)
     {
-        m_actuators.push_back(shared_ptr<motor>(controllerFactory::deserialize<motor>(
+        auto pActuator = shared_ptr<motor>(controllerFactory::deserialize<motor>(
             m_robot,
             m_path.c_str(),
             ACTUATORS[actuator],
             node
-        )));
+        ));
+
+        m_actuators.push_back(pActuator);
+    }
+
+    // Configure limits
+    string description;
+
+    if (ros::param::get("robot_description", description))
+    {
+        if (model.initString(description))
+        {
+            for (int actuator = 0; actuator < numActuators; actuator++)
+            {
+                auto jointName = m_actuators[actuator]->getName();
+                auto joint = model->getJoint(jointName);
+
+                joint_limits_interface::JointLimits limits;
+
+                if (joint_limits_interface::getJointLimits(joint, limits))
+                    ROS_INFO("%s loaded limits", getPath());
+                else
+                    ROS_WARN("no limits for %s in robot_description", getPath());
+
+                m_actuatorLimits.push_back(limits);
+            }
+        }
+    }
+    else
+    {
+        ROS_WARN("no limits for %s, could not found robot_description", getPath());
     }
 }
 
 bool arm::init(ros::NodeHandle node)
 {
+    // Initialize actuators
     string basePath = getPath() + "/";
-
     m_actuatorPaths.resize(m_actuators.size());
 
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
@@ -113,17 +145,29 @@ bool arm::init(ros::NodeHandle node)
         m_stateInterface.registerHandle(actuatorState);
 
         // Register velocity interface
-        hardware_interface::ActuatorHandle actuatorVel(
+        hardware_interface::ActuatorHandle actuatorVelocity(
             actuatorState,
             &m_actuatorVelCommands[actuator]
         );
 
-        m_velInterface.registerHandle(actuatorVel);
+        m_velInterface.registerHandle(actuatorVelocity);
+
+        // Register limits interface
+        auto jointHandle = hardware_interface::JointHandle(
+            actuatorState,
+            &m_actuatorVelCommands[actuator]
+        );
+
+        const joint_limits_interface::VelocityJointSaturationHandle
+            actuatorLimits(jointHandle, m_actuatorLimits[actuator]);
+        
+        m_satInterface.registerHandle(actuatorLimits);
     }
 
     // Register interfaces for all joints
     registerInterface(&m_stateInterface);
     registerInterface(&m_velInterface);
+    registerInterface(&m_satInterface);
 
     return true;
 }
@@ -133,16 +177,17 @@ void arm::update()
     ros::Time time = ros::Time::now();
     ros::Duration period = time - m_lastUpdate;
 
-    readHardware();
+    read();
 
     m_controllers.update(time, period);
+    m_satInterface.enforceLimits(period);
 
-    writeHardware();
+    write();
 
     m_lastUpdate = time;
 }
 
-void arm::readHardware()
+void arm::read()
 {
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
@@ -151,7 +196,7 @@ void arm::readHardware()
     }
 }
 
-void arm::writeHardware()
+void arm::write()
 {
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {

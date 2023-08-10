@@ -26,6 +26,11 @@
 #include <hardware_interface/actuator_state_interface.h>
 #include <hardware_interface/actuator_command_interface.h>
 #include <hardware_interface/robot_hw.h>
+#include <joint_limits_interface/joint_limits.h>
+#include <joint_limits_interface/joint_limits_interface.h>
+#include <joint_limits_interface/joint_limits_rosparam.h>
+#include <joint_limits_interface/joint_limits_urdf.h>
+#include <urdf/model.h>
 
 #include "controller.h"
 #include "motor.h"
@@ -66,6 +71,9 @@ private:
     // Actuator velocities
     std::vector<double> m_actuatorVel;
 
+    // Actuator limits
+    std::vector<joint_limits_interface::JointLimits> m_actuatorLimits;
+
     // Actuator efforts (not used)
     std::vector<double> m_actuatorEfforts;
 
@@ -76,6 +84,7 @@ private:
     controller_manager::ControllerManager m_controllers;
     hardware_interface::ActuatorStateInterface m_stateInterface;
     hardware_interface::VelocityActuatorInterface m_velInterface;
+    joint_limits_interface::VelocityJointSaturationInterface m_satInterface;
 
     // Last update time
     ros::Time m_lastUpdate;
@@ -101,10 +110,10 @@ public:
 
 private:
     // Read hardware state
-    void readHardware();
+    void read();
 
     // Send queued commands to hardware
-    void writeHardware();
+    void write();
 
 public:
     // Create instance

@@ -19,7 +19,7 @@
       arm1:
         controller: 'arm'
         enable: true
-        shoulder:
+        base:
           controller: 'motor'
           enable: true
           topic: 'robot/analog'
@@ -34,7 +34,7 @@
             max: 783
             minAngle: 0
             maxAngle: 180
-        upperarm:
+        upperarm_actuator:
           controller: 'motor'
           enable: false
           topic: 'robot/analog'
@@ -49,7 +49,7 @@
             max: 200
             minAngle: 23.35
             maxAngle: 44.26
-        forearm:
+        forearm_actuator:
           controller: 'motor'
           enable: false
           topic: 'robot/analog'
