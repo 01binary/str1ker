@@ -94,12 +94,14 @@ void arm::configure(ros::NodeHandle node)
 
     if (ros::param::get("robot_description", description))
     {
+        urdf::Model model;
+
         if (model.initString(description))
         {
             for (int actuator = 0; actuator < numActuators; actuator++)
             {
                 auto jointName = m_actuators[actuator]->getName();
-                auto joint = model->getJoint(jointName);
+                auto joint = model.getJoint(jointName);
 
                 joint_limits_interface::JointLimits limits;
 
@@ -121,13 +123,13 @@ void arm::configure(ros::NodeHandle node)
 bool arm::init(ros::NodeHandle node)
 {
     // Initialize actuators
-    string basePath = getPath() + "/";
+    string basePath = m_path + "/";
     m_actuatorPaths.resize(m_actuators.size());
 
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
         // Build actuator path
-        string path = basePath + ACTUATORS[actuator];
+        string actuatorPath = basePath + ACTUATORS[actuator];
         m_actuatorPaths[actuator] = actuatorPath;
 
         // Initialize actuator
@@ -153,12 +155,19 @@ bool arm::init(ros::NodeHandle node)
         m_velInterface.registerHandle(actuatorVelocity);
 
         // Register limits interface
-        auto jointHandle = hardware_interface::JointHandle(
-            actuatorState,
-            &m_actuatorVelCommands[actuator]
+        hardware_interface::JointStateHandle jointState(
+            m_actuators[actuator]->getName(),
+            &m_actuatorPos[actuator],
+            &m_actuatorVel[actuator],
+            &m_actuatorEfforts[actuator]
         );
 
-        const joint_limits_interface::VelocityJointSaturationHandle
+        hardware_interface::JointHandle jointHandle(
+            jointState,
+            &m_actuatorVel[actuator]
+        );
+
+        joint_limits_interface::VelocityJointSaturationHandle
             actuatorLimits(jointHandle, m_actuatorLimits[actuator]);
         
         m_satInterface.registerHandle(actuatorLimits);
