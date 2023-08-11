@@ -149,22 +149,17 @@ void arm::configure(ros::NodeHandle node)
 bool arm::init(ros::NodeHandle node)
 {
     // Initialize actuators
-    string basePath = m_path + "/";
-    m_actuatorPaths.resize(m_actuators.size());
+    if (!m_solenoid->init(node))
+        return false;
 
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
-        // Build actuator path
-        string actuatorPath = basePath + m_actuators[actuator]->getName();
-        m_actuatorPaths[actuator] = actuatorPath;
-
-        // Initialize actuator
         if (!m_actuators[actuator]->init(node))
             return false;
 
         // Register state interface
         hardware_interface::ActuatorStateHandle actuatorState(
-            actuatorPath,
+            m_actuators[actuator]->getName(),
             &m_actuatorPos[actuator],
             &m_actuatorVel[actuator],
             &m_actuatorEfforts[actuator]
