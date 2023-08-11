@@ -45,7 +45,7 @@ REGISTER_CONTROLLER(solenoid)
 
 solenoid::solenoid(robot& robot, const char* path) :
     controller(robot, path),
-    m_channel(0)
+    m_trigger(0)
 {
 }
 
@@ -60,7 +60,7 @@ bool solenoid::init(ros::NodeHandle node)
 
     m_pub = node.advertise<Pwm>(m_topic.c_str(), QUEUE_SIZE);
 
-    ROS_INFO("  initialized %s %s on %s channel %d", getPath(), getType(), m_topic.c_str(), m_channel);
+    ROS_INFO("  initialized %s %s on %s channel %d", getPath(), getType(), m_topic.c_str(), m_trigger);
 
     return true;
 }
@@ -70,7 +70,7 @@ void solenoid::trigger(double durationSec)
     if (!m_enable) return;
 
     Pwm msg;
-    msg.channels[0].channel = m_channel;
+    msg.channels[0].channel = m_trigger;
     msg.channels[0].mode = PwmChannel::MODE_DIGITAL;
     msg.channels[0].value = 1;
     msg.channels[0].duration = uint8_t(durationSec / 1000000.0);
@@ -87,8 +87,8 @@ void solenoid::configure(ros::NodeHandle node)
     if (!ros::param::get(getControllerPath("topic"), m_topic))
         ROS_WARN("%s did not specify PWM topic", getPath());
 
-    if (!ros::param::get(getControllerPath("channel"), m_channel))
-        ROS_WARN("%s did not specify PWM channel", getPath());
+    if (!ros::param::get(getControllerPath("trigger"), m_trigger))
+        ROS_WARN("%s did not specify digital trigger channel", getPath());
 }
 
 controller* solenoid::create(robot& robot, const char* path)

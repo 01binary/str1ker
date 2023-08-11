@@ -19,6 +19,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#include <set>
 #include "robot.h"
 #include "controllerFactory.h"
 #include "arm.h"
@@ -35,8 +36,6 @@ using namespace std;
 \*----------------------------------------------------------*/
 
 const char arm::TYPE[] = "arm";
-// TODO: make these load dynamically
-const char* arm::ACTUATORS[] = { "base", "upperarm_actuator", "forearm_actuator" };
 
 /*----------------------------------------------------------*\
 | arm implementation
@@ -58,11 +57,11 @@ const char* arm::getType()
 
 void arm::trigger(double durationSeconds)
 {
-    if (!m_wrist) return;
+    if (!m_solenoid) return;
 
-    ROS_INFO("trigger %s for %g", m_wrist->getPath(), durationSeconds);
+    ROS_INFO("trigger %s for %g", m_solenoid->getPath(), durationSeconds);
 
-    return m_wrist->trigger(durationSeconds);
+    return m_solenoid->trigger(durationSeconds);
 }
 
 void arm::configure(ros::NodeHandle node)
@@ -70,9 +69,9 @@ void arm::configure(ros::NodeHandle node)
     controller::configure(node);
 
     // Configure actuators
-
-    // TODO: discover dynamically based on configuration
     vector<string> params;
+    set<string> actuatorNames;
+
     ros::param::getParamNames(params);
 
     for (int param = 0; param < params.size(); param++)
@@ -81,30 +80,40 @@ void arm::configure(ros::NodeHandle node)
 
         if (paramName.find(m_path) == 0)
         {
-            auto actuatorName = paramName.substr(m_path.length() + 1);
+            size_t paramNameStart = m_path.length() + 1;
+            size_t paramNameEnd = paramName.find('/', paramNameStart);
 
-            ROS_INFO("found actuator %s dynamically", actuatorName.c_str());
+            if (paramNameEnd == -1) continue;
+
+            string actuatorName = paramName.substr(paramNameStart, paramNameEnd - paramNameStart);
+            actuatorNames.insert(actuatorName);
         }
     }
 
-    int numActuators = sizeof(ACTUATORS) / sizeof(char*);
+    for (auto actuatorName: actuatorNames)
+    {
+        auto actuatorController = shared_ptr<controller>(controllerFactory::deserialize(
+            m_robot,
+            m_path.c_str(),
+            actuatorName.c_str(),
+            node
+        ));
 
+        if (strcmp(actuatorController->getType(), "SOLENOID") == 0)
+        {
+            m_solenoid = static_pointer_cast<solenoid>(actuatorController);
+        }
+        else
+        {
+            m_actuators.push_back(static_pointer_cast<motor>(actuatorController));
+        }
+    }
+
+    size_t numActuators = m_actuators.size();
     m_actuatorPos.resize(numActuators);
     m_actuatorVel.resize(numActuators);
     m_actuatorEfforts.resize(numActuators);
     m_actuatorVelCommands.resize(numActuators);
-
-    for (int actuator = 0; actuator < numActuators; actuator++)
-    {
-        auto pActuator = shared_ptr<motor>(controllerFactory::deserialize<motor>(
-            m_robot,
-            m_path.c_str(),
-            ACTUATORS[actuator],
-            node
-        ));
-
-        m_actuators.push_back(pActuator);
-    }
 
     // Configure limits
     string description;
@@ -146,7 +155,7 @@ bool arm::init(ros::NodeHandle node)
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
         // Build actuator path
-        string actuatorPath = basePath + ACTUATORS[actuator];
+        string actuatorPath = basePath + m_actuators[actuator]->getName();
         m_actuatorPaths[actuator] = actuatorPath;
 
         // Initialize actuator
@@ -172,22 +181,25 @@ bool arm::init(ros::NodeHandle node)
         m_velInterface.registerHandle(actuatorVelocity);
 
         // Register limits interface
-        hardware_interface::JointStateHandle jointState(
-            m_actuators[actuator]->getName(),
-            &m_actuatorPos[actuator],
-            &m_actuatorVel[actuator],
-            &m_actuatorEfforts[actuator]
-        );
+        if (m_actuatorLimits.size() > actuator)
+        {
+            hardware_interface::JointStateHandle jointState(
+                m_actuators[actuator]->getName(),
+                &m_actuatorPos[actuator],
+                &m_actuatorVel[actuator],
+                &m_actuatorEfforts[actuator]
+            );
 
-        hardware_interface::JointHandle jointHandle(
-            jointState,
-            &m_actuatorVel[actuator]
-        );
+            hardware_interface::JointHandle jointHandle(
+                jointState,
+                &m_actuatorVel[actuator]
+            );
 
-        joint_limits_interface::VelocityJointSaturationHandle
-            actuatorLimits(jointHandle, m_actuatorLimits[actuator]);
-        
-        m_satInterface.registerHandle(actuatorLimits);
+            joint_limits_interface::VelocityJointSaturationHandle
+                actuatorLimits(jointHandle, m_actuatorLimits[actuator]);
+            
+            m_satInterface.registerHandle(actuatorLimits);
+        }
     }
 
     // Register interfaces for all joints

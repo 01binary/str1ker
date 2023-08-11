@@ -53,18 +53,13 @@ public:
     // Controller type
     static const char TYPE[];
 
-    // Names of actuators to publish
-    static const char* ACTUATORS[];
-
 private:
     // Paths of actuators to publish
     std::vector<std::string> m_actuatorPaths;
 
     // Actuator controllers
     std::vector<std::shared_ptr<motor>> m_actuators;
-
-    // Trigger solenoid
-    std::shared_ptr<solenoid> m_wrist;
+    std::shared_ptr<solenoid> m_solenoid;
 
     // Actuator positions
     std::vector<double> m_actuatorPos;
