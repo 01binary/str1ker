@@ -70,6 +70,23 @@ void arm::configure(ros::NodeHandle node)
     controller::configure(node);
 
     // Configure actuators
+
+    // TODO: discover dynamically based on configuration
+    vector<string> params;
+    ros::param::getParamNames(params);
+
+    for (int param = 0; param < params.size(); param++)
+    {
+        auto paramName = params[param];
+
+        if (paramName.find(m_path) == 0)
+        {
+            auto actuatorName = paramName.substr(m_path.length() + 1);
+
+            ROS_INFO("found actuator %s dynamically", actuatorName.c_str());
+        }
+    }
+
     int numActuators = sizeof(ACTUATORS) / sizeof(char*);
 
     m_actuatorPos.resize(numActuators);
