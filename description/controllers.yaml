@@ -1,0 +1,53 @@
+rate: 6
+arm1:
+  controller: 'arm'
+  enable: true
+  base:
+    controller: 'motor'
+    enable: true
+    topic: 'robot/analog'
+    LPWM: 0
+    RPWM: 1
+    encoder:
+      controller: 'potentiometer'
+      enable: true
+      adc: 'robot/adc'
+      channel: 0
+      min: 180
+      max: 783
+      minAngle: 0
+      maxAngle: 180
+  upperarm_actuator:
+    controller: 'motor'
+    enable: false
+    topic: 'robot/analog'
+    LPWM: 2
+    RPWM: 3
+    encoder:
+      controller: 'potentiometer'
+      enable: true
+      adc: 'robot/analog'
+      channel: 1
+      min: 175
+      max: 200
+      minAngle: 23.35
+      maxAngle: 44.26
+  forearm_actuator:
+    controller: 'motor'
+    enable: false
+    topic: 'robot/analog'
+    LPWM: 4
+    RPWM: 5
+    encoder:
+      controller: 'potentiometer'
+      enable: true
+      adc: 'robot/adc'
+      channel: 2
+      min: 354
+      max: 194
+      minAngle: 69.75
+      maxAngle: 116.35
+  wrist:
+    controller: 'solenoid'
+    enable: false
+    gpio: 16
