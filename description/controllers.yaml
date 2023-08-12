@@ -20,7 +20,7 @@ robot:
         maxAngle: 180
     upperarm_actuator:
       controller: 'motor'
-      enable: false
+      enable: true
       topic: 'robot/analog'
       LPWM: 2
       RPWM: 3
@@ -35,7 +35,7 @@ robot:
         maxAngle: 44.26
     forearm_actuator:
       controller: 'motor'
-      enable: false
+      enable: true
       topic: 'robot/analog'
       LPWM: 4
       RPWM: 5

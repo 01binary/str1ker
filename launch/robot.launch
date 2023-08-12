@@ -1,4 +1,11 @@
 <launch>
+  <!-- Description-->
+  <param name="robot_description" textfile="$(find str1ker)/description/robot.urdf" />
+
+  <!-- Controller Configuration -->
+  <rosparam file="$(find str1ker)/description/controllers.yaml" />
+
+  <!-- Analog/Digital I/O -->
   <!--<node
     name="analog"
     pkg="rosserial_python"
@@ -7,6 +14,8 @@
     required="true"
     output="screen"
   />-->
+
+  <!-- Controllers -->
   <node
     name="robot"
     pkg="str1ker"
@@ -14,5 +23,4 @@
     required="true"
     output="screen"
   />
-  <rosparam file="$(find str1ker)/description/controllers.yaml" />
 </launch>

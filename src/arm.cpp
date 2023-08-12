@@ -99,13 +99,13 @@ void arm::configure(ros::NodeHandle node)
             node
         ));
 
-        if (strcmp(actuatorController->getType(), "SOLENOID") == 0)
+        if (strcmp(actuatorController->getType(), "solenoid") == 0)
         {
-            m_solenoid = static_pointer_cast<solenoid>(actuatorController);
+            m_solenoid = dynamic_pointer_cast<solenoid>(actuatorController);
         }
-        else
+        else if (strcmp(actuatorController->getType(), "motor") == 0)
         {
-            m_actuators.push_back(static_pointer_cast<motor>(actuatorController));
+            m_actuators.push_back(dynamic_pointer_cast<motor>(actuatorController));
         }
     }
 
@@ -131,10 +131,8 @@ void arm::configure(ros::NodeHandle node)
 
                 joint_limits_interface::JointLimits limits;
 
-                if (joint_limits_interface::getJointLimits(joint, limits))
-                    ROS_INFO("%s loaded limits", getPath());
-                else
-                    ROS_WARN("no limits for %s in robot_description", getPath());
+                if (!joint_limits_interface::getJointLimits(joint, limits))
+                    ROS_WARN("no limits for %s in robot_description", m_actuators[actuator]->getName());
 
                 m_actuatorLimits.push_back(limits);
             }
@@ -142,24 +140,28 @@ void arm::configure(ros::NodeHandle node)
     }
     else
     {
-        ROS_WARN("no limits for %s, could not found robot_description", getPath());
+        ROS_WARN("no limits loaded for %s, could not found robot_description", getPath());
     }
 }
 
 bool arm::init(ros::NodeHandle node)
 {
-    // Initialize actuators
+    // Initialize momentary actuators
     if (!m_solenoid->init(node))
         return false;
 
+    // Initialize velocity/position actuators
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
+        // Initialize actuator controller
+        auto name = m_actuators[actuator]->getName();
+
         if (!m_actuators[actuator]->init(node))
             return false;
 
         // Register state interface
         hardware_interface::ActuatorStateHandle actuatorState(
-            m_actuators[actuator]->getName(),
+            name,
             &m_actuatorPos[actuator],
             &m_actuatorVel[actuator],
             &m_actuatorEfforts[actuator]
@@ -179,7 +181,7 @@ bool arm::init(ros::NodeHandle node)
         if (m_actuatorLimits.size() > actuator)
         {
             hardware_interface::JointStateHandle jointState(
-                m_actuators[actuator]->getName(),
+                name,
                 &m_actuatorPos[actuator],
                 &m_actuatorVel[actuator],
                 &m_actuatorEfforts[actuator]
