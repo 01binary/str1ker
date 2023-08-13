@@ -111,6 +111,9 @@ private:
     // Send queued commands to hardware
     void write();
 
+    // Output velocity and state for each joint
+    void debug();
+
 public:
     // Create instance
     static controller* create(class robot& robot, const char* path);

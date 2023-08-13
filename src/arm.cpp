@@ -217,6 +217,8 @@ void arm::update()
     m_controllers.update(time, period);
     m_satInterface.enforceLimits(period);
 
+    debug();
+
     write();
 
     m_lastUpdate = time;
@@ -237,6 +239,58 @@ void arm::write()
     {
         m_actuators[actuator]->setVelocity(m_actuatorVelCommands[actuator]);
     }
+}
+
+void arm::debug()
+{
+    const double THRESHOLD = 0.01;
+
+    static bool s_initialized = false;
+    static double s_vel[3];
+    static double s_pos[3];
+
+    if (m_actuators.size() < 3) return;
+
+    if (!s_initialized)
+    {
+        s_vel[0] = 0.0;
+        s_vel[1] = 0.0;
+        s_vel[2] = 0.0;
+
+        s_pos[0] = 0.0;
+        s_pos[1] = 0.0;
+        s_pos[2] = 0.0;
+
+        s_initialized = true;
+    }
+
+    if (
+        abs(m_actuatorPos[0] - s_pos[0]) >= THRESHOLD ||
+        abs(m_actuatorPos[1] - s_pos[1]) >= THRESHOLD ||
+        abs(m_actuatorPos[2] - s_pos[2]) >= THRESHOLD ||
+        abs(m_actuatorVelCommands[0] - s_vel[0]) >= THRESHOLD ||
+        abs(m_actuatorVelCommands[1] - s_vel[1]) >= THRESHOLD ||
+        abs(m_actuatorVelCommands[2] - s_vel[2]) >= THRESHOLD
+    )
+    {
+        ROS_INFO(
+            "   base [%g >> %g] shoulder [%g >> %g] elbow [%g >> %g]",
+            m_actuatorPos[0],
+            m_actuatorVelCommands[0],
+            m_actuatorPos[1],
+            m_actuatorVelCommands[1],
+            m_actuatorPos[2],
+            m_actuatorVelCommands[2]
+        );
+    }
+
+    s_pos[0] = m_actuatorPos[0];
+    s_pos[1] = m_actuatorPos[1];
+    s_pos[2] = m_actuatorPos[2];
+
+    s_vel[0] = m_actuatorVelCommands[0];
+    s_vel[1] = m_actuatorVelCommands[1];
+    s_vel[2] = m_actuatorVelCommands[2];
 }
 
 controller* arm::create(robot& robot, const char* path)

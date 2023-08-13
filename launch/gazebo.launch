@@ -31,7 +31,7 @@
   />
 
   <!-- Load gazebo controller settings -->
-  <rosparam file="$(find str1ker)/description/gazebo-controllers.yaml" />
+  <rosparam file="$(find str1ker)/description/velocity-controllers.yaml" />
 
   <!-- Start gazebo controllers -->
   <node

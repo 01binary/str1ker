@@ -2,8 +2,11 @@
   <!-- Description-->
   <param name="robot_description" textfile="$(find str1ker)/description/robot.urdf" />
 
-  <!-- Controller Configuration -->
+  <!-- Controller configuration -->
   <rosparam file="$(find str1ker)/description/controllers.yaml" />
+
+  <!-- Velocity controller configuration -->
+  <rosparam file="$(find str1ker)/description/velocity-controllers.yaml" />
 
   <!-- Analog/Digital I/O -->
   <!--<node
@@ -15,12 +18,31 @@
     output="screen"
   />-->
 
-  <!-- Controllers -->
+  <!-- Hardware controllers -->
   <node
     name="robot"
     pkg="str1ker"
     type="robot"
     required="true"
+    output="screen"
+  />
+
+  <!-- Velocity controllers -->
+  <node
+    name="controller_spawner"
+    pkg="controller_manager"
+    type="spawner"
+    respawn="false"
+    output="screen"
+    args="joint_state_controller arm_velocity_controller"
+  />
+
+  <!-- Robot state publisher -->
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="robot_state_publisher"
+    respawn="false"
     output="screen"
   />
 </launch>
