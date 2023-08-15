@@ -23,8 +23,7 @@
 
 #include <ros/ros.h>
 #include <controller_manager/controller_manager.h>
-#include <hardware_interface/actuator_state_interface.h>
-#include <hardware_interface/actuator_command_interface.h>
+#include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/robot_hw.h>
 #include <joint_limits_interface/joint_limits.h>
@@ -78,8 +77,8 @@ private:
 
     // Joint hardware interfaces
     controller_manager::ControllerManager m_controllers;
-    hardware_interface::ActuatorStateInterface m_stateInterface;
-    hardware_interface::VelocityActuatorInterface m_velInterface;
+    hardware_interface::JointStateInterface m_stateInterface;
+    hardware_interface::VelocityJointInterface m_velInterface;
     joint_limits_interface::VelocityJointSaturationInterface m_satInterface;
 
     // Last update time

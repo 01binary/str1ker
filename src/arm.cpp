@@ -160,7 +160,7 @@ bool arm::init(ros::NodeHandle node)
             return false;
 
         // Register state interface
-        hardware_interface::ActuatorStateHandle actuatorState(
+        hardware_interface::JointStateHandle actuatorState(
             name,
             &m_actuatorPos[actuator],
             &m_actuatorVel[actuator],
@@ -170,7 +170,7 @@ bool arm::init(ros::NodeHandle node)
         m_stateInterface.registerHandle(actuatorState);
 
         // Register velocity interface
-        hardware_interface::ActuatorHandle actuatorVelocity(
+        hardware_interface::JointHandle actuatorVelocity(
             actuatorState,
             &m_actuatorVelCommands[actuator]
         );
