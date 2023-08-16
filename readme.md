@@ -5,6 +5,7 @@ Source code and parts for [Str1ker](https://www.01binary.us/projects/drumming-ro
 ![body](./doc/readme/body.png)
 ![arms](./doc/readme/arms.png)
 ![wiring](./doc/readme/wiring.jpeg)
+![rviz](./design/arm.png)
 
 ## System Requirements
 
@@ -44,6 +45,15 @@ git clone https://github.com/01binary/str1ker_moveit_config.git
 cd ./str1ker
 git sparse-checkout init --cone
 git sparse-checkout set src launch description msg
+```
+
+## Install Packages from Source
+
+One of the packages does not have a published binary and must be cloned into the workspace.
+
+```
+cd ~/catkin_ws/src
+git clone https://github.com/roboticsgroup/roboticsgroup_gazebo_plugins
 ```
 
 ## Install Packages
