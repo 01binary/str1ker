@@ -3,10 +3,10 @@
   <param name="robot_description" textfile="$(find str1ker)/description/robot.urdf" />
 
   <!-- Controller configuration -->
-  <rosparam file="$(find str1ker)/description/controllers.yaml" />
+  <rosparam file="$(find str1ker)/config/controllers.yaml" />
 
   <!-- Velocity controller configuration -->
-  <rosparam file="$(find str1ker)/description/velocity-controllers.yaml" />
+  <rosparam file="$(find str1ker_moveit_config)/config/ros-controllers.yaml" />
 
   <!-- Analog/Digital I/O -->
   <!--<node
@@ -27,7 +27,7 @@
     output="screen"
   />
 
-  <!-- Velocity controllers -->
+  <!-- ROS controllers -->
   <node
     name="controller_spawner"
     pkg="controller_manager"
@@ -37,7 +37,7 @@
     args="joint_state_controller arm_velocity_controller"
   />
 
-  <!-- Robot state publisher -->
+  <!-- ROS state publisher -->
   <node
     name="robot_state_publisher"
     pkg="robot_state_publisher"
