@@ -176,15 +176,6 @@ install(
 )
 
 install(
-  FILES
-    src/include/context.h
-  DESTINATION
-    include
-  RENAME
-    str1ker-context.h
-)
-
-install(
   TARGETS
     robot
   RUNTIME
