@@ -159,20 +159,20 @@ install(
 
 install(
   FILES
-    src/include/ik.h
+    src/include/ikPlugin.h
   DESTINATION
     include
   RENAME
-    str1ker-ik.h
+    str1ker-ikPlugin.h
 )
 
 install(
   FILES
-    src/include/planner.h
+    src/include/plannerPlugin.h
   DESTINATION
     include
   RENAME
-    str1ker-planner.h
+    str1ker-plannerPlugin.h
 )
 
 install(
