@@ -46,7 +46,7 @@ using namespace str1ker;
 \*----------------------------------------------------------*/
 
 const int PluginContext::STEPS = 48;
-const double PluginContext::STEP_DURATION = 0.0;
+const double PluginContext::STEP_DURATION = 0.1;
 const size_t PluginContext::QUINTIC_COEFFICIENTS = 6;
 const char* PluginContext::PLUGIN_NAME = "str1ker::PluginContext";
 
@@ -183,7 +183,7 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
     int steps)
 {
     size_t joints = constraints.size();
-    vector<RobotStatePtr> trajectory(steps);
+    vector<RobotStatePtr> trajectory(steps - 1);
     vector<double> powers = calculateQuinticPowers(steps);
 
     // Calculate quintic spline coefficients for each joint
@@ -203,8 +203,8 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
         coefficients[jointIndex].g = (-12 * startCoefficient + 12 * endCoefficient) / (2 * powers[5]);
     }
 
-    // Fill in joint positions at each time step
-    for (size_t step = 0; step < steps; step++)
+    // Fill in joint positions at each time step excluding first waypoint
+    for (size_t step = 1; step < steps; step++)
     {
         RobotStatePtr pState(new RobotState(pStartState->getRobotModel()));
         vector<double> stepPowers = calculateQuinticPowers(step);
@@ -226,7 +226,7 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
             pState->setJointPositions(jointName, &jointState);
         }
 
-        trajectory[step] = pState;
+        trajectory[step - 1] = pState;
     }
 
     return trajectory;
@@ -238,13 +238,13 @@ vector<RobotStatePtr> PluginContext::interpolateLinear(
     const RobotStatePtr pEndState,
     int steps)
 {
-    vector<RobotStatePtr> trajectory(steps);
+    vector<RobotStatePtr> trajectory(steps - 1);
 
-    for (size_t step = 0; step < steps; step++)
+    for (size_t step = 1; step < steps; step++)
     {
         RobotStatePtr pState(new RobotState(pStartState->getRobotModel()));
         pStartState->interpolate(*pEndState, double(step) / double(steps), *pState);
-        trajectory[step] = pState;
+        trajectory[step - 1] = pState;
     }
 
     return trajectory;
