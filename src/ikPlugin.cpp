@@ -23,7 +23,7 @@
 // Public Includes
 //
 
-#include "include/ik.h"
+#include "include/ikPlugin.h"
 
 //
 // Private Includes

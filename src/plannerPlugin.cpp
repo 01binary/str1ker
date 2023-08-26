@@ -19,8 +19,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include "include/planner.h"
-#include "include/context.h"
+#include "include/plannerPlugin.h"
 #include <moveit/planning_interface/planning_interface.h>
 #include <pluginlib/class_list_macros.h>
 #include <trajectory_msgs/JointTrajectory.h>
@@ -233,7 +232,7 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
     int steps)
 {
     size_t joints = constraints.size();
-    vector<RobotStatePtr> trajectory(steps - 1);
+    vector<RobotStatePtr> trajectory(steps);
     vector<double> powers = calculateQuinticPowers(steps);
 
     // Calculate quintic spline coefficients for each joint
@@ -254,7 +253,7 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
     }
 
     // Fill in joint positions at each time step excluding first waypoint
-    for (size_t step = 1; step < steps; step++)
+    for (size_t step = 0; step < steps; step++)
     {
         RobotStatePtr pState(new RobotState(pStartState->getRobotModel()));
         vector<double> stepPowers = calculateQuinticPowers(step);
@@ -276,7 +275,7 @@ vector<RobotStatePtr> PluginContext::interpolateQuintic(
             pState->setJointPositions(jointName, &jointState);
         }
 
-        trajectory[step - 1] = pState;
+        trajectory[step] = pState;
     }
 
     return trajectory;
@@ -288,13 +287,13 @@ vector<RobotStatePtr> PluginContext::interpolateLinear(
     const RobotStatePtr pEndState,
     int steps)
 {
-    vector<RobotStatePtr> trajectory(steps - 1);
+    vector<RobotStatePtr> trajectory(steps);
 
-    for (size_t step = 1; step < steps; step++)
+    for (size_t step = 0; step < steps; step++)
     {
         RobotStatePtr pState(new RobotState(pStartState->getRobotModel()));
         pStartState->interpolate(*pEndState, double(step) / double(steps), *pState);
-        trajectory[step - 1] = pState;
+        trajectory[step] = pState;
     }
 
     return trajectory;
