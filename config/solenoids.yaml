@@ -1,0 +1,9 @@
+solenoid_state_publisher:
+  rate: 1
+  publish: /joint_states
+  subscribe: /robot/analog
+  joints:
+    solenoid: 6
+  solenoid:
+    low: -0.0019
+    high: 0.001

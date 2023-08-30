@@ -488,7 +488,7 @@
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="forearm_actuator" multiplier="0.604330709" offset="1.5444" />
     </joint>
-    <joint name="solenoid_mount" type="revolute">
+    <joint name="solenoid_mount" type="fixed">
         <origin rpy="0 0 0" xyz="0.355 -0.031 0.013" />
         <axis xyz="0 0 1" />
         <parent link="forearm_link" />
