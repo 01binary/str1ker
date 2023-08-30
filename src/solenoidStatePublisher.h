@@ -23,7 +23,6 @@
 #include <map>
 #include <vector>
 #include <ros/ros.h>
-#include <str1ker/Pwm.h>
 #include "robot.h"
 
 /*----------------------------------------------------------*\

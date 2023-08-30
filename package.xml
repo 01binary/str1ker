@@ -17,6 +17,7 @@
   <depend>angles</depend>
   <depend>genmsg</depend>
   <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
   <depend>cmake_modules</depend>
   <depend>controller_manager</depend>
   <depend>yaml-cpp</depend>

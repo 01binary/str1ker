@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2
   tf2_ros
   tf2_geometry_msgs
+  sensor_msgs
   angles
   genmsg
   message_generation
@@ -63,6 +64,7 @@ catkin_package(
     tf2
     tf2_ros
     std_msgs
+    sensor_msgs
     genmsg
     cmake_modules
     message_runtime
@@ -113,7 +115,7 @@ add_dependencies(
   ${catkin_EXPORTED_TARGETS}
 )
 
-target_link_libraries(robot
+target_link_libraries(solenoid_state_publisher
   ${catkin_LIBRARIES}
 )
 

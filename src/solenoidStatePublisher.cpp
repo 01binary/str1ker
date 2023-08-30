@@ -19,6 +19,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#include <str1ker/Pwm.h>
 #include <sensor_msgs/JointState.h>
 #include "solenoidStatePublisher.h"
 
