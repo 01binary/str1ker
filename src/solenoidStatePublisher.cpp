@@ -48,8 +48,17 @@ solenoidStatePublisher::solenoidStatePublisher(ros::NodeHandle node):
 
 bool solenoidStatePublisher::configure()
 {
+    ROS_INFO_NAMED(PREFIX, "initializing solenoid state publisher");
+
     // Get spin rate
-    m_node.getParam(string(PREFIX) + "/rate", m_rate);
+    if (!m_node.getParam(string(PREFIX) + "/rate", m_rate))
+    {
+        ROS_INFO_NAMED(PREFIX, "  no rate specified, using 50 Hz");
+    }
+    else
+    {
+        ROS_INFO_NAMED(PREFIX, "  update rate %g", m_rate);
+    }
 
     // Get subscribe topic
     if (!m_node.getParam(string(PREFIX) + "/subscribe", m_subscribeTopic))
@@ -57,12 +66,20 @@ bool solenoidStatePublisher::configure()
         ROS_ERROR_NAMED(PREFIX, "Subscribe topic not specified");
         return false;
     }
+    else
+    {
+        ROS_INFO_NAMED(PREFIX, "  subscribe topic %s", m_subscribeTopic.c_str());
+    }
 
     // Get publish topic
     if (!m_node.getParam(string(PREFIX) + "/publish", m_publishTopic))
     {
         ROS_ERROR_NAMED(PREFIX, "Publish topic not specified");
         return false;
+    }
+    else
+    {
+        ROS_INFO_NAMED(PREFIX, "  publish topic %s", m_publishTopic.c_str());
     }
 
     // Get joint mapping
@@ -77,15 +94,42 @@ bool solenoidStatePublisher::configure()
         state.joint = mapping.first;
         state.trigger = false;
         state.reset = ros::Time::now();
+        state.low = 0.0;
+        state.high = 1.0;
+
+        ROS_INFO_NAMED(
+            PREFIX,
+            "  joint %s listening on %d of %s, publishing to %s",
+            state.joint.c_str(),
+            state.channel,
+            m_subscribeTopic.c_str(),
+            m_publishTopic.c_str()
+        );
 
         if (!m_node.getParam(string(PREFIX) + "/" + state.joint + "/low", state.low))
         {
-            ROS_WARN_NAMED(PREFIX, "Low state not specified for %s", state.joint.c_str());
+            ROS_WARN_NAMED(
+                PREFIX,
+                "  low state not specified for %s, using 0.0",
+                state.joint.c_str()
+            );
+        }
+        else
+        {
+            ROS_INFO_NAMED(PREFIX, "  low state for %s: %g", state.joint.c_str(), state.low);
         }
         
         if (!m_node.getParam(string(PREFIX) + "/" + state.joint + "/high", state.high))
         {
-            ROS_WARN_NAMED(PREFIX, "High state not specified for %s", state.joint.c_str());
+            ROS_WARN_NAMED(
+                PREFIX,
+                "  high state not specified for %s, using 1.0",
+                state.joint.c_str()
+            );
+        }
+        else
+        {
+            ROS_INFO_NAMED(PREFIX, "  high state for %s: %g", state.joint.c_str(), state.high);
         }
 
         m_states.push_back(state);
@@ -109,10 +153,13 @@ bool solenoidStatePublisher::init()
         &str1ker::solenoidStatePublisher::subscribeCallback,
         this
     );
+
+    return true;
 }
 
 void solenoidStatePublisher::update()
 {
+    return;
     // Publish joint states mapped from solenoid states
     ros::Time time = ros::Time::now();
 
@@ -140,6 +187,7 @@ void solenoidStatePublisher::update()
 
 void solenoidStatePublisher::subscribeCallback(const Pwm::ConstPtr& msg)
 {
+    return;
     auto now = ros::Time::now().toNSec();
 
     for (auto state: m_states)
@@ -174,6 +222,7 @@ int main(int argc, char** argv)
     
     if (!solenoidPublisher.configure() || !solenoidPublisher.init())
     {
+        ROS_FATAL("  Solenoid State Publisher failed to initialize");
         return 1;
     }
 

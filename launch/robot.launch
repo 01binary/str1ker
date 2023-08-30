@@ -6,7 +6,10 @@
   <rosparam file="$(find str1ker)/config/controllers.yaml" />
 
   <!-- Velocity controller configuration -->
-  <rosparam file="$(find str1ker_moveit_config)/config/ros-controllers.yaml" />
+  <rosparam file="$(find str1ker_moveit_config)/config/ros_controllers.yaml" />
+
+  <!-- Momentary controller configuration -->
+  <rosparam file="$(find str1ker)/config/solenoids.yaml" />
 
   <!-- Analog/Digital I/O -->
   <!--<node
@@ -27,6 +30,14 @@
     output="screen"
   />
 
+  <!-- Simulation controllers -->
+  <node
+    name="solenoid_state_publisher"
+    type="solenoid_state_publisher"
+    pkg="str1ker"
+    output="screen"
+  />
+
   <!-- ROS controllers -->
   <node
     name="controller_spawner"
@@ -34,7 +45,7 @@
     type="spawner"
     respawn="false"
     output="screen"
-    args="joint_state_controller arm_velocity_controller"
+    args="arm_velocity_controller"
   />
 
   <!-- ROS state publisher -->
