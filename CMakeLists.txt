@@ -104,6 +104,19 @@ target_link_libraries(robot
   -lrt
 )
 
+add_executable(solenoid_state_publisher
+  src/solenoidStatePublisher.cpp
+)
+
+add_dependencies(
+  solenoid_state_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+
+target_link_libraries(robot
+  ${catkin_LIBRARIES}
+)
+
 add_library(str1ker-ik
   src/ikPlugin.cpp
   src/ikSolver.cpp
@@ -178,6 +191,14 @@ install(
 install(
   TARGETS
     robot
+  RUNTIME
+  DESTINATION
+    ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(
+  TARGETS
+    solenoid_state_publisher
   RUNTIME
   DESTINATION
     ${CATKIN_PACKAGE_BIN_DESTINATION}

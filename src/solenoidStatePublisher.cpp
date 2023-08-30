@@ -79,12 +79,12 @@ bool solenoidStatePublisher::configure()
 
         if (!m_node.getParam(string(PREFIX) + "/" + state.joint + "/low", state.low))
         {
-            ROS_WARN_NAMED(PREFIX, "Low state not specified for %s", state.joint);
+            ROS_WARN_NAMED(PREFIX, "Low state not specified for %s", state.joint.c_str());
         }
         
         if (!m_node.getParam(string(PREFIX) + "/" + state.joint + "/high", state.high))
         {
-            ROS_WARN_NAMED(PREFIX, "High state not specified for %s", state.joint);
+            ROS_WARN_NAMED(PREFIX, "High state not specified for %s", state.joint.c_str());
         }
 
         m_states.push_back(state);
