@@ -99,7 +99,7 @@ bool solenoidStatePublisher::configure()
 
         ROS_INFO_NAMED(
             PREFIX,
-            "  joint %s listening on %d of %s, publishing to %s",
+            "  joint %s listening on channel %d of %s, publishing to %s",
             state.joint.c_str(),
             state.channel,
             m_subscribeTopic.c_str(),
@@ -159,11 +159,11 @@ bool solenoidStatePublisher::init()
 
 void solenoidStatePublisher::update()
 {
-    return;
     // Publish joint states mapped from solenoid states
     ros::Time time = ros::Time::now();
 
     sensor_msgs::JointState jointState;
+    jointState.header.stamp = time;
     jointState.name.resize(m_states.size());
     jointState.position.resize(m_states.size());
 
@@ -187,7 +187,6 @@ void solenoidStatePublisher::update()
 
 void solenoidStatePublisher::subscribeCallback(const Pwm::ConstPtr& msg)
 {
-    return;
     auto now = ros::Time::now().toNSec();
 
     for (auto state: m_states)
