@@ -63,7 +63,7 @@ bool solenoidStatePublisher::configure()
     // Get subscribe topic
     if (!m_node.getParam(string(PREFIX) + "/subscribe", m_subscribeTopic))
     {
-        ROS_ERROR_NAMED(PREFIX, "Subscribe topic not specified");
+        ROS_ERROR_NAMED(PREFIX, "  subscribe topic not specified");
         return false;
     }
     else
@@ -74,7 +74,7 @@ bool solenoidStatePublisher::configure()
     // Get publish topic
     if (!m_node.getParam(string(PREFIX) + "/publish", m_publishTopic))
     {
-        ROS_ERROR_NAMED(PREFIX, "Publish topic not specified");
+        ROS_ERROR_NAMED(PREFIX, "  publish topic not specified");
         return false;
     }
     else
@@ -159,7 +159,6 @@ bool solenoidStatePublisher::init()
 
 void solenoidStatePublisher::update()
 {
-    // Publish joint states mapped from solenoid states
     ros::Time time = ros::Time::now();
 
     sensor_msgs::JointState jointState;
@@ -171,15 +170,13 @@ void solenoidStatePublisher::update()
     {
         solenoidState& state = m_states[index];
 
+        jointState.name[index] = state.joint;
+        jointState.position[index] = state.trigger ? state.high : state.low;
+
         if (time > state.reset && state.trigger)
         {
             state.trigger = false;
         }
-
-        jointState.name[index] = state.joint;
-        jointState.position[index] = state.trigger
-            ? state.high
-            : state.low;
     }
 
     m_pub.publish(jointState);
@@ -189,18 +186,15 @@ void solenoidStatePublisher::subscribeCallback(const Pwm::ConstPtr& msg)
 {
     auto now = ros::Time::now().toNSec();
 
-    for (auto state: m_states)
+    for (auto state = m_states.begin(); state != m_states.end(); state++)
     {
-        if (msg->channels.size() > state.channel)
+        for (auto command: msg->channels)
         {
-            // Extract solenoid command
-            auto command = msg->channels[state.channel];
-            
-            // Update solenoid state
-            if (command.mode == command.MODE_DIGITAL)
+            if (command.channel == state->channel && command.mode == command.MODE_DIGITAL)
             {
-                state.reset.fromNSec(now + command.duration * 1000);
-                state.trigger = command.value != 0;
+                state->reset.fromNSec(now + command.duration * 1000);
+                state->trigger = command.value != 0;
+                break;
             }
         }
     }

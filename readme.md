@@ -215,3 +215,11 @@ trajectory_msgs/JointTrajectory \
 ```
 rosrun rqt_reconfigure rqt_reconfigure
 ```
+
+### Simulate Solenoids
+
+```
+rostopic pub robot/pwm \
+str1ker/Pwm \
+'{ channels: [{ channel: 6, mode: 1, value: 1, duration: 255 }]}' -1
+```

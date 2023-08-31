@@ -498,7 +498,7 @@
     </joint>
     <joint name="solenoid" type="prismatic">
         <origin rpy="0 0 0" xyz="0 0 0" />
-        <axis xyz="0 0 1" />
+        <axis xyz="1 0 0" />
         <parent link="solenoid_mount_link" />
         <child link="solenoid_shaft_link" />
         <limit effort="100" velocity="1.0" lower="-0.0019" upper="0.001" />
