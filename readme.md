@@ -216,7 +216,7 @@ trajectory_msgs/JointTrajectory \
 rosrun rqt_reconfigure rqt_reconfigure
 ```
 
-### Simulate Solenoids
+### Pulse Solenoid
 
 ```
 rostopic pub robot/pwm \

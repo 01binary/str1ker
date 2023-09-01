@@ -5,5 +5,5 @@ solenoid_state_publisher:
   joints:
     solenoid: 6
   solenoid:
-    low: -0.0019
-    high: 0.001
+    low: 0.001
+    high: -0.0019
