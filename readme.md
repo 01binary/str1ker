@@ -5,6 +5,7 @@ Source code and parts for [Str1ker](https://www.01binary.us/projects/drumming-ro
 ![body](./doc/readme/body.png)
 ![arms](./doc/readme/arms.png)
 ![wiring](./doc/readme/wiring.jpeg)
+![rviz](./design/arm.png)
 
 ## System Requirements
 
@@ -44,6 +45,15 @@ git clone https://github.com/01binary/str1ker_moveit_config.git
 cd ./str1ker
 git sparse-checkout init --cone
 git sparse-checkout set src launch description msg
+```
+
+## Install Packages from Source
+
+One of the packages does not have a published binary and must be cloned into the workspace.
+
+```
+cd ~/catkin_ws/src
+git clone https://github.com/roboticsgroup/roboticsgroup_gazebo_plugins
 ```
 
 ## Install Packages
@@ -144,7 +154,7 @@ Follow [MoveIt installation instructions](https://ros-planning.github.io/moveit_
 roslaunch moveit_setup_assistant setup_assistant.launch
 ```
 
-## Launch Gazebo
+## Launch in Gazebo
 
 ```
 roslaunch str1ker gazebo.launch
@@ -152,7 +162,7 @@ roslaunch str1ker gazebo.launch
 
 ## Velocity Control
 
-Rotate Right
+### Rotate Left
 
 ```
 rostopic pub arm_velocity_controller/command \
@@ -160,10 +170,56 @@ trajectory_msgs/JointTrajectory \
 '{ joint_names: ['base'], points: [{velocities: [1.0], positions: [1.4929], time_from_start: {secs: 1}}]}' -1
 ```
 
-Rotate Left
+### Rotate Right
 
 ```
 rostopic pub arm_velocity_controller/command \
 trajectory_msgs/JointTrajectory \
-'{ joint_names: ['base'], points: [{velocities: [-1.0], positions: [-1.4929], time_from_start: {secs: 1}}]}' -1
+'{ joint_names: ['base'], points: [{velocities: [1.0], positions: [-1.4929], time_from_start: {secs: 1}}]}' -1
+```
+
+### Raise
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['upperarm_actuator'], points: [{velocities: [0.0508], positions: [-0.0005], time_from_start: {secs: 1}}]}' -1
+```
+
+### Lower
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['upperarm_actuator'], points: [{velocities: [-0.0508], positions: [-0.054], time_from_start: {secs: 1}}]}' -1
+```
+
+### Extend
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['forearm_actuator'], points: [{velocities: [0.0109982], positions: [0], time_from_start: {secs: 1}}]}' -1
+```
+
+### Contract
+
+```
+rostopic pub arm_velocity_controller/command \
+trajectory_msgs/JointTrajectory \
+'{ joint_names: ['forearm_actuator'], points: [{velocities: [0.0109982], positions: [-0.0508], time_from_start: {secs: 1}}]}' -1
+```
+
+### Tune PID gains
+
+```
+rosrun rqt_reconfigure rqt_reconfigure
+```
+
+### Pulse Solenoid
+
+```
+rostopic pub robot/pwm \
+str1ker/Pwm \
+'{ channels: [{ channel: 6, mode: 1, value: 1, duration: 255 }]}' -1
 ```

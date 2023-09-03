@@ -21,24 +21,19 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
-            <mass value="0.71525618" />
-            <inertia
-                ixx="0.00137473"
-                ixy="0.00000929"
-                ixz="0.00193807"
-                iyy="0.00674592"
-                iyz="-0.00000239"
-                izz="0.00573541"
+            <origin
+                rpy="0 0 0"
+                xyz="-0.07311604 0.00008330 0.03705764"
             />
-            <!-- cog
-                ixx 0.00040220
-                ixy 0.00000498
-                ixz 0.00001924
-                iyy 0.00198747
-                iyz -0.00000020
-                izz 0.00194948
-            -->
+            <mass value="0.70818404" />
+            <inertia
+                ixx="0.00040220"
+                ixy="0.00000498"
+                ixz="0.00001924"
+                iyy="0.00198747"
+                iyz="0.00000020"
+                izz="0.00194948"
+            />
         </inertial>
     </link>
     <link name="shoulder_link">
@@ -58,15 +53,18 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.01708182 0.02587065 -0.00000217"
+            />
             <mass value="0.38358403" />
             <inertia
-                ixx="0.00136596"
-                ixy="0.00026225"
-                ixz="-0.000000001"
-                iyy="0.00094058"
-                iyz="-0.00000002"
-                izz="0.00163922"
+                ixx="0.00110923"
+                ixy="0.00043176"
+                ixz="-0.00000002"
+                iyy="0.00082865"
+                iyz="-0.00000004"
+                izz="0.00127056"
             />
         </inertial>
     </link>
@@ -87,15 +85,18 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.19665771 -0.00446385 0.00009568"
+            />
             <mass value="1.13853115" />
             <inertia
-                ixx="0.00094834"
-                ixy="0.00065020"
-                ixz="-0.00004546"
-                iyy="0.06046339"
-                iyz="-0.00000007"
-                izz="0.06100310"
+                ixx="0.00092564"
+                ixy="-0.00034926"
+                ixz="-0.00002404"
+                iyy="0.01643153"
+                iyz="-0.00000056"
+                izz="0.01694857"
             />
         </inertial>
     </link>
@@ -116,15 +117,18 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.20328210 -0.00230698 -0.00000001"
+            />
             <mass value="0.63998399" />
             <inertia
-                ixx="0.00026470"
-                ixy="0.00089331"
+                ixx="0.00026130"
+                ixy="0.00059318"
                 ixz="-0.000000001"
-                iyy="0.03834140"
+                iyy="0.01189494"
                 iyz="0.000000001"
-                izz="0.03857339"
+                izz="0.01212353"
             />
         </inertial>
     </link>
@@ -145,15 +149,18 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.04484721 -0.00013749 -0.00008218"
+            />
             <mass value="0.07166651" />
             <inertia
                 ixx="0.00000539"
-                ixy="-0.000000001"
-                ixz="-0.000000001"
-                iyy="0.000674381"
+                ixy="-0.00000044"
+                ixz="-0.00000027"
+                iyy="0.00053024"
                 iyz="0.00000005"
-                izz="0.00067461"
+                izz="0.00053047"
             />
         </inertial>
     </link>
@@ -164,7 +171,7 @@
                 <sphere radius="0.01" />
             </geometry>
             <material name="transparent">
-                <color rgba="1 1 1 0.1" />
+                <color rgba="1 1 1 0" />
             </material>
         </visual>
         <collision>
@@ -174,6 +181,13 @@
             </geometry>
         </collision>
     </link>
+    <gazebo reference="tip_link">
+        <visual>
+            <material>
+                <diffuse>0 0 0 0</diffuse>
+            </material>
+        </visual>
+    </gazebo>
 
     <!-- Actuator links -->
 
@@ -194,15 +208,18 @@
             </geometry>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0 0 0" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.06788886 -0.01642314 0"
+            />
             <mass value="0.70647685" />
             <inertia
-                ixx="0.00056505"
-                ixy="0.00068593"
-                ixz="0.000000001"
-                iyy="0.00438236"
+                ixx="0.00037450"
+                ixy="-0.00010175"
+                ixz="-0.000000001"
+                iyy="0.00112628"
                 iyz="-0.000000001"
-                izz="0.00483168"
+                izz="0.00138505"
             />
         </inertial>
     </link>
@@ -224,18 +241,21 @@
         </collision>
         <inertial>
             <mass value="0.04967122" />
-            <origin rpy="0 0 0" xyz="0 0 0" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.03254861 0.00000005 -0.00000010"
+            />
             <inertia
                 ixx="0.00000227"
-                ixy="-0.000000001"
-                ixz="-0.000000001"
-                iyy="0.00007177"
+                ixy="0.000000001"
+                ixz="0.000000001"
+                iyy="0.00001914"
                 iyz="-0.000000001"
-                izz="0.00007181"
+                izz="0.00001919"
             />
         </inertial>
     </link>
-   <link name="forearm_actuator_body_link">
+    <link name="forearm_actuator_body_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -253,14 +273,17 @@
         </collision>
         <inertial>
             <mass value="0.76281631" />
-            <origin rpy="0 0 0" xyz="0 0 0" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.09092269 0.00010124 -0.00000002"
+            />
             <inertia
-                ixx="0.00005723"
-                ixy="-0.00000008"
-                ixz="0.000000001"
-                iyy="0.00898024"
+                ixx="0.00005722"
+                ixy="0.00000694"
+                ixz="-0.000000001"
+                iyy="0.00267408"
                 iyz="-0.000000001"
-                izz="0.00898043"
+                izz="0.00267427"
             />
         </inertial>
     </link>
@@ -282,14 +305,17 @@
         </collision>
         <inertial>
             <mass value="0.08789688" />
-            <origin rpy="0 0 0" xyz="0 0 0" />
+            <origin
+                rpy="0 0 0"
+                xyz="0.03195776 0.00000003 0"
+            />
             <inertia
                 ixx="0.00000242"
                 ixy="-0.000000001"
                 ixz="-0.000000001"
-                iyy="0.00012182"
+                iyy="0.00003205"
                 iyz="-0.000000001"
-                izz="0.00012193"
+                izz="0.00003216"
             />
         </inertial>
     </link>
@@ -311,22 +337,69 @@
         </collision>
         <inertial>
             <mass value="0.01257956" />
-            <origin rpy="0 0 0" xyz="0 0 0" />
+            <origin
+                rpy="0 0 0"
+                xyz="-0.02406711 0 0"
+            />
             <inertia
                 ixx="0.00000051"
-                ixy="0.000000001"
+                ixy="-0.000000001"
                 ixz="0.000000001"
-                iyy="0.000011171"
+                iyy="0.00000389"
                 iyz="0.000000001"
-                izz="0.00001101"
+                izz="0.00000372"
             />
+        </inertial>
+    </link>
+    <link name="solenoid_mount_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoid.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoidBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+        </inertial>
+    </link>
+    <link name="solenoid_shaft_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoidShaft.stl" />
+            </geometry>
+            <material name="aluminum">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://str1ker/description/models/ArmSolenoidShaftBoundingBox.stl" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
         </inertial>
     </link>
 
     <!-- Joints -->
 
     <joint name="fixed" type="fixed">
-        <origin rpy="0 0 0" xyz="0 0 0.1" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
         <parent link="world" />
         <child link="base_link" />
     </joint>
@@ -361,8 +434,9 @@
         <axis xyz="0 0 1" />
         <parent link="forearm_link" />
         <child link="drumstick_link" />
-        <limit effort="100" velocity="1.0" lower="0.959931" upper="0.959931" />
+        <limit effort="100" velocity="1.0" lower="0.959931" upper="1.0" />
         <dynamics damping="0.7" friction="1.4" />
+        <mimic joint="solenoid" multiplier="13.8167" offset="0.9862" />
     </joint>
     <joint name="tip" type="fixed">
         <origin rpy="0 0 0" xyz="0.305 0.0 0.0" />
@@ -377,7 +451,7 @@
         <axis xyz="0 0 1" />
         <parent link="shoulder_link" />
         <child link="upperarm_actuator_body_link" />
-        <limit effort="100" velocity="1.0" lower="1.93" upper="2.293" />
+        <limit effort="100" velocity="1.0" lower="-6" upper="6" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="upperarm_actuator" multiplier="0.9" offset="1.560796327" />
     </joint>
@@ -394,7 +468,7 @@
         <axis xyz="0 0 1" />
         <parent link="upperarm_link" />
         <child link="forearm_actuator_body_link" />
-        <limit effort="100" velocity="1.0" lower="-0.06" upper="0" />
+        <limit effort="100" velocity="1.0" lower="-6" upper="6" />
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="forearm_actuator" multiplier="-2.5" offset="-0.146602" />
     </joint>
@@ -415,6 +489,22 @@
         <dynamics damping="0.7" friction="1.4" />
         <mimic joint="forearm_actuator" multiplier="0.604330709" offset="1.5444" />
     </joint>
+    <joint name="solenoid_mount" type="fixed">
+        <origin rpy="0 0 0" xyz="0.355 -0.031 0.013" />
+        <axis xyz="0 0 1" />
+        <parent link="forearm_link" />
+        <child link="solenoid_mount_link" />
+        <limit effort="100" velocity="1.0" lower="-0.09" upper="-0.09" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
+    <joint name="solenoid" type="prismatic">
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <axis xyz="1 0 0" />
+        <parent link="solenoid_mount_link" />
+        <child link="solenoid_shaft_link" />
+        <limit effort="100" velocity="1.0" lower="-0.0019" upper="0.001" />
+        <dynamics damping="0.7" friction="1.4" />
+    </joint>
     
     <!-- Transmissions -->
 
@@ -427,21 +517,73 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
-    <!--<transmission name="trans_shoulder">
+    <transmission name="trans_shoulder">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="base">
+        <joint name="upperarm_actuator">
             <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
-        <actuator name="base_motor">
+        <actuator name="shoulder_motor">
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
-    </transmission>-->
+    </transmission>
+    <transmission name="trans_elbow">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="forearm_actuator">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="elbow_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
 
     <!-- Arm controllers-->
 
+    <gazebo reference="upperarm_actuator_body">
+        <turnGravityOff>true</turnGravityOff>
+    </gazebo>
+
     <gazebo>
-        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <plugin
+            name="gazebo_ros_control"
+            filename="libgazebo_ros_control.so"
+        >
             <robotNamespace>/</robotNamespace>
+        </plugin>
+        <plugin
+            name="upperarm_mimic_joint_plugin"
+            filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"
+        >
+            <joint>upperarm_actuator</joint>
+            <mimicJoint>shoulder</mimicJoint>
+            <multiplier>7.640691589</multiplier>
+            <offset>0.817273346</offset>
+        </plugin>
+        <plugin
+            name="upperarm_mount_mimic_joint_plugin"
+            filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"
+        >
+            <joint>upperarm_actuator</joint>
+            <mimicJoint>upperarm_actuator_mount</mimicJoint>
+            <multiplier>1.0</multiplier>
+            <offset>1.57</offset>
+        </plugin>
+        <plugin
+            name="elbow_mimic_joint_plugin"
+            filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"
+        >
+            <joint>forearm_actuator</joint>
+            <mimicJoint>elbow</mimicJoint>
+            <multiplier>15.925786614</multiplier>
+            <offset>-1.123992</offset>
+        </plugin>
+        <plugin
+            name="forearm_actuator_mount_mimic_joint_plugin"
+            filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"
+        >
+            <joint>forearm_actuator</joint>
+            <mimicJoint>forearm_actuator_mount</mimicJoint>
+            <multiplier>-3.0</multiplier>
+            <offset>-0.15</offset>
         </plugin>
     </gazebo>
 </robot>

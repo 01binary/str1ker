@@ -6,12 +6,12 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- solenoid.cpp
+ solenoidStatePublisher.h
 
- Solenoid Controller Implementation
- Created 1/19/2021
+ Solenoid State Publisher Class Implementation
+ Created 8/29/2023
 
- Copyright (C) 2021 Valeriy Novytskyy
+ Copyright (C) 2023 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
 
@@ -19,79 +19,96 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <unistd.h>
+#include <string>
+#include <map>
+#include <vector>
 #include <ros/ros.h>
 #include "robot.h"
-#include "solenoid.h"
-#include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
 | Namespace
 \*----------------------------------------------------------*/
 
-using namespace str1ker;
+namespace str1ker {
 
 /*----------------------------------------------------------*\
-| Constants
+| Types
 \*----------------------------------------------------------*/
 
-const char solenoid::TYPE[] = "solenoid";
+struct solenoidState
+{
+    // Solenoid analog command channel
+    int channel;
+
+    // Corresponds to this joint name
+    std::string joint;
+
+    // Solenoid is engaged
+    bool trigger;
+
+    // Reset trigger state at this time
+    ros::Time reset;
+
+    // Joint state to publish when solenoid is off
+    double low;
+
+    // Joint state to publish when solenoid is on
+    double high;
+};
 
 /*----------------------------------------------------------*\
-| solenoid implementation
+| solenoidStatePublisher class
 \*----------------------------------------------------------*/
 
-REGISTER_CONTROLLER(solenoid)
-
-solenoid::solenoid(robot& robot, const char* path) :
-    controller(robot, path),
-    m_trigger(0)
+class solenoidStatePublisher
 {
-}
+private:
+    static const char PREFIX[];
 
-const char* solenoid::getType()
-{
-    return solenoid::TYPE;
-}
+    // Publisher queue size
+    const int PUBLISH_QUEUE_SIZE = 4;
 
-bool solenoid::init(ros::NodeHandle node)
-{
-    if (!m_enable) return true;
+    // Subscriber queue size
+    const int SUBSCRIBE_QUEUE_SIZE = 4;
 
-    m_pub = node.advertise<Pwm>(m_topic.c_str(), QUEUE_SIZE);
+    // Spin rate
+    double m_rate;
 
-    ROS_INFO("  initialized %s %s on %s channel %d", getPath(), getType(), m_topic.c_str(), m_trigger);
+    // Topic to listen to for solenoid messages
+    std::string m_subscribeTopic;
 
-    return true;
-}
+    // Topic to publish joint states to
+    std::string m_publishTopic;
 
-void solenoid::trigger(double durationSec)
-{
-    if (!m_enable) return;
+    // Solenoid states to translate into joint states
+    std::vector<solenoidState> m_states;
 
-    Pwm msg;
-    msg.channels[0].channel = m_trigger;
-    msg.channels[0].mode = PwmChannel::MODE_DIGITAL;
-    msg.channels[0].value = 1;
-    msg.channels[0].duration = uint8_t(durationSec / 1000000.0);
+    // Current node
+    ros::NodeHandle m_node;
 
-    m_pub.publish(msg);
+    // Subscriber to PWM topic
+    ros::Subscriber m_sub;
 
-    setLastError(NULL);
-}
+    // Publisher to joint_states topic
+    ros::Publisher m_pub;
 
-void solenoid::configure(ros::NodeHandle node)
-{
-    controller::configure(node);
+public:
+    solenoidStatePublisher(ros::NodeHandle node);
 
-    if (!ros::param::get(getControllerPath("topic"), m_topic))
-        ROS_WARN("%s did not specify PWM topic", getPath());
+public:
+    bool configure();
+    bool init();
+    void update();
 
-    if (!ros::param::get(getControllerPath("trigger"), m_trigger))
-        ROS_WARN("%s did not specify digital trigger channel", getPath());
-}
+private:
+    // Subscribe callback
+    void subscribeCallback(const Pwm::ConstPtr& msg);
+};
 
-controller* solenoid::create(robot& robot, const char* path)
-{
-    return new solenoid(robot, path);
-}
+} // namespace str1ker
+
+/*----------------------------------------------------------*\
+| Node entry point
+\*----------------------------------------------------------*/
+
+int main(int argc, char** argv);

@@ -1,0 +1,51 @@
+virtual joints
+
+	world	base_link	world	fixed
+	
+planning groups
+
+	arm
+		joints
+			upperarm_actuator - Prismatic
+			forearm_actuator - Prismatic
+			shoulder - Revolute
+			elbow - Revolute
+			forearm_actuator_mount - Revolute
+			upperarm_actuator_mount - Revolute
+			wrist - Revolute
+			base - Revolute
+		links
+			base_link
+			shoulder_link
+			upperarm_link
+			forearm_link
+			
+		chain
+			base_link -> tip_link
+			
+	effector
+		links
+			tip_link
+			
+poses
+	tuck
+	untuck
+	min
+	max
+		
+end effectors
+	tip	arm	tip_link
+		
+		
+passive joints
+	forearm_actuator_connector
+	solenoid_mount
+	solenoid
+	wrist
+	
+controllers
+	arm_velocity_controller	velocity_controllers/JointTrajectoryController
+		joints
+			forearm_actuator
+			upperarm_actuator
+			base

@@ -1,81 +1,59 @@
 <launch>
-  <node
+  <!-- Description-->
+  <param name="robot_description" textfile="$(find str1ker)/description/robot.urdf" />
+
+  <!-- Controller configuration -->
+  <rosparam file="$(find str1ker)/config/controllers.yaml" />
+
+  <!-- Velocity controller configuration -->
+  <rosparam file="$(find str1ker_moveit_config)/config/ros_controllers.yaml" />
+
+  <!-- Momentary controller configuration -->
+  <rosparam file="$(find str1ker)/config/solenoids.yaml" />
+
+  <!-- Analog/Digital I/O -->
+  <!--<node
     name="analog"
     pkg="rosserial_python"
     type="serial_node.py"
     args="/dev/ttyACM0"
     required="true"
     output="screen"
-  />
+  />-->
+
+  <!-- Hardware controllers -->
   <node
     name="robot"
     pkg="str1ker"
     type="robot"
     required="true"
     output="screen"
-  >
-    <rosparam>
-      rate: 6
-      arm1:
-        controller: 'arm'
-        enable: true
-        shoulder:
-          controller: 'motor'
-          enable: true
-          topic: 'robot/analog'
-          LPWM: 0
-          RPWM: 1
-          encoder:
-            controller: 'potentiometer'
-            enable: true
-            adc: 'robot/adc'
-            channel: 0
-            min: 180
-            max: 783
-            minAngle: 0
-            maxAngle: 180
-        upperarm:
-          controller: 'motor'
-          enable: false
-          topic: 'robot/analog'
-          LPWM: 2
-          RPWM: 3
-          encoder:
-            controller: 'potentiometer'
-            enable: true
-            adc: 'robot/analog'
-            channel: 1
-            min: 175
-            max: 200
-            minAngle: 23.35
-            maxAngle: 44.26
-        forearm:
-          controller: 'motor'
-          enable: false
-          topic: 'robot/analog'
-          LPWM: 4
-          RPWM: 5
-          encoder:
-            controller: 'potentiometer'
-            enable: true
-            adc: 'robot/adc'
-            channel: 2
-            min: 354
-            max: 194
-            minAngle: 69.75
-            maxAngle: 116.35
-        wrist:
-          controller: 'solenoid'
-          enable: false
-          gpio: 16
-    </rosparam>
-  </node>
+  />
+
+  <!-- Simulation controllers -->
+  <node
+    name="solenoid_state_publisher"
+    type="solenoid_state_publisher"
+    pkg="str1ker"
+    output="screen"
+  />
+
+  <!-- ROS controllers -->
   <node
     name="controller_spawner"
     pkg="controller_manager"
     type="spawner"
     respawn="false"
     output="screen"
-    args="/single_joint_actuator/joints_update"
+    args="arm_velocity_controller"
+  />
+
+  <!-- ROS state publisher -->
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="robot_state_publisher"
+    respawn="false"
+    output="screen"
   />
 </launch>

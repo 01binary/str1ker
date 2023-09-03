@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2
   tf2_ros
   tf2_geometry_msgs
+  sensor_msgs
   angles
   genmsg
   message_generation
@@ -63,6 +64,7 @@ catkin_package(
     tf2
     tf2_ros
     std_msgs
+    sensor_msgs
     genmsg
     cmake_modules
     message_runtime
@@ -104,6 +106,19 @@ target_link_libraries(robot
   -lrt
 )
 
+add_executable(solenoid_state_publisher
+  src/solenoidStatePublisher.cpp
+)
+
+add_dependencies(
+  solenoid_state_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+
+target_link_libraries(solenoid_state_publisher
+  ${catkin_LIBRARIES}
+)
+
 add_library(str1ker-ik
   src/ikPlugin.cpp
   src/ikSolver.cpp
@@ -116,7 +131,6 @@ target_link_libraries(str1ker-ik
 
 add_library(str1ker-planner
   src/plannerPlugin.cpp
-  src/plannerContext.cpp
 )
 
 target_link_libraries(str1ker-planner
@@ -160,34 +174,33 @@ install(
 
 install(
   FILES
-    src/include/ik.h
+    src/include/ikPlugin.h
   DESTINATION
     include
   RENAME
-    str1ker-ik.h
+    str1ker-ikPlugin.h
 )
 
 install(
   FILES
-    src/include/planner.h
+    src/include/plannerPlugin.h
   DESTINATION
     include
   RENAME
-    str1ker-planner.h
-)
-
-install(
-  FILES
-    src/include/context.h
-  DESTINATION
-    include
-  RENAME
-    str1ker-context.h
+    str1ker-plannerPlugin.h
 )
 
 install(
   TARGETS
     robot
+  RUNTIME
+  DESTINATION
+    ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(
+  TARGETS
+    solenoid_state_publisher
   RUNTIME
   DESTINATION
     ${CATKIN_PACKAGE_BIN_DESTINATION}

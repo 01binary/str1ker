@@ -48,8 +48,8 @@ private:
     // Publish topic
     std::string m_topic;
 
-    // Publisher channel
-    int m_channel;
+    // Publisher trigger channel
+    int m_trigger;
 
     // Publisher to node that runs solenoids
     ros::Publisher m_pub;
