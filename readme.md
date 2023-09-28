@@ -212,6 +212,8 @@ trajectory_msgs/JointTrajectory \
 
 ### Tune PID gains
 
+To tune directly while sending velocity commands or executing trajectories in RViz:
+
 ```
 rosrun rqt_reconfigure rqt_reconfigure
 ```
