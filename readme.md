@@ -89,6 +89,12 @@ To clear the build filter:
 catkin_make -DCATKIN_WHITELIST_PACKAGES=""
 ```
 
+To switch between Debug and Release
+
+```
+catkin_make -DMAKE_BUILD_TYPE=Debug | Release
+```
+
 ## Export
 
 One-time setup after the first build.
@@ -113,6 +119,8 @@ sudo apt-get install ros-${ROS_DISTRO}-rosserial
 
 rosrun rosserial_arduino make_libraries.py <Arduino libraries path>
 ```
+
+> The Arduino libraries are usually in ~/Arduino/libraries
 
 Compile and upload the ROS node. The default launch configuration in `robot.launch` will connect to `/dev/ttyACM0` automatically.
 
