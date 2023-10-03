@@ -165,7 +165,7 @@ roslaunch moveit_setup_assistant setup_assistant.launch
 ## Launch in Gazebo
 
 ```
-roslaunch str1ker gazebo.launch
+roslaunch str1ker_moveit_config demo_gazebo.launch
 ```
 
 ## Velocity Control
@@ -232,4 +232,12 @@ rosrun rqt_reconfigure rqt_reconfigure
 rostopic pub robot/pwm \
 str1ker/Pwm \
 '{ channels: [{ channel: 6, mode: 1, value: 1, duration: 255 }]}' -1
+```
+
+### Direct Velocity Control
+
+```
+rostopic pub robot/pwm \
+str1ker/Pwm \
+'{ channels: [{ channel: 0, mode: 0, value: 255, duration: 0 }]}' -1
 ```
