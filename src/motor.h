@@ -45,7 +45,7 @@ private:
     const int QUEUE_SIZE = 4;
 
     // Max PWM duty cycle
-    const uint8_t DUTY_CYCLE = 0xFF;
+    const uint16_t DUTY_CYCLE = 4096;
 
 private:
     // PWM topic
