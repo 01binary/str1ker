@@ -38,9 +38,8 @@ const int DELAY = 1000.0 / RATE_HZ;
 
 // Analog output
 const int PWM_CHANNELS = 16;
-const int PWM_FREQ_HZ = 700;
-const double PWM_OUTPUT_MAX = 4096.0;
-const double PWM_INPUT_MAX = 255.0;
+const int PWM_FREQ_HZ = 50;
+const int PWM_MAX = 4096;
 
 // Analog input
 const int ANALOG_CHANNELS = 12;
@@ -77,7 +76,9 @@ ros::Publisher pub(ADC_TOPIC, &msg);
 
 // PWM subscriber
 ros::Subscriber<str1ker::Pwm> sub(PWM_TOPIC, writePwm);
-Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(
+  PCA9685_I2C_ADDRESS
+);
 
 // ROS node
 ros::NodeHandle node;
@@ -107,8 +108,8 @@ void initPwm()
 {
   if (!isPwmAvailable()) return;
  
-  pwm.setPWMFreq(PWM_FREQ_HZ);
   pwm.begin();
+  pwm.setPWMFreq(PWM_FREQ_HZ);
 
   node.subscribe(sub);
 }
@@ -141,17 +142,23 @@ void readAdc()
 | Analog output
 \*----------------------------------------------------------*/
 
-void analog(int channel, double value)
+void analog(int channel, int value)
 {
-  pwm.setPWM(channel, int((1.0 - value) * PWM_OUTPUT_MAX), int(value * PWM_OUTPUT_MAX));
+  // channel, when on (0-4096), when off (0-4096)
+  if (value == 0)
+    pwm.setPWM(channel, 0, PWM_MAX);
+  else if (value == PWM_MAX)
+    pwm.setPWM(channel, PWM_MAX, 0);
+  else
+    pwm.setPWM(channel, PWM_MAX - value, 0);
 }
 
 void digital(int channel, bool value)
 {
   if (value)
-    pwm.setPWM(channel, int(PWM_OUTPUT_MAX), 0);
+    pwm.setPWM(channel, PWM_MAX, 0);
   else
-    pwm.setPWM(channel, 0, int(PWM_OUTPUT_MAX));
+    pwm.setPWM(channel, 0, PWM_MAX);
 }
 
 void writePwm(const str1ker::Pwm& msg)
@@ -163,7 +170,7 @@ void writePwm(const str1ker::Pwm& msg)
 
     if (request.mode == str1ker::PwmChannel::MODE_ANALOG)
     {
-      analog(request.channel, request.value / PWM_INPUT_MAX);
+      analog(request.channel, request.value);
     }
     else
     {
