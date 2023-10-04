@@ -38,7 +38,7 @@ const int DELAY = 1000.0 / RATE_HZ;
 
 // Analog output
 const int PWM_CHANNELS = 16;
-const int PWM_FREQ_HZ = 50;
+const int PWM_FREQ_HZ = 5000;
 const int PWM_MAX = 4096;
 
 // Analog input

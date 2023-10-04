@@ -87,7 +87,7 @@ double motor::getVelocity()
 
 bool motor::setVelocity(double velocity)
 {
-    uint8_t dutyCycle = uint8_t(abs(velocity) * double(DUTY_CYCLE));
+    uint16_t dutyCycle = uint16_t(abs(velocity) * double(DUTY_CYCLE));
 
     Pwm msg;
     msg.channels.resize(2);
