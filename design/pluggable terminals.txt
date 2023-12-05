@@ -1,0 +1,11 @@
+Replacing screw terminals with pluggable terminals
+
+Receptacle:
+Molex Eurostyle ESE 39521
+0395211004
+https://www.digikey.com/en/products/detail/molex/0395211004/1280652
+
+Plug:
+Molex Eurostyle ESE 39523
+0395232002
+https://www.digikey.com/en/products/detail/molex/0395232002/2737677
