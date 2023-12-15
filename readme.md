@@ -92,7 +92,7 @@ catkin_make -DCATKIN_WHITELIST_PACKAGES=""
 To switch between Debug and Release
 
 ```
-catkin_make -DMAKE_BUILD_TYPE=Debug | Release
+catkin_make -DCMAKE_BUILD_TYPE=Debug | Release
 ```
 
 ## Export
