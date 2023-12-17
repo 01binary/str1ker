@@ -44,7 +44,7 @@ git clone https://github.com/01binary/str1ker_moveit_config.git
 
 cd ./str1ker
 git sparse-checkout init --cone
-git sparse-checkout set src launch description msg
+git sparse-checkout set src config launch description msg
 ```
 
 ## Install Packages from Source
