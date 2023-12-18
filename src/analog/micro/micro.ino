@@ -6,14 +6,15 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- analog.ino
+ micro.ino
 
- Arduino Analog Controller
+ Arduino Micro Analog Controller
  Created 3/22/2023
 
  Copyright (C) 2023 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
+
 
 /*----------------------------------------------------------*\
 | Includes
@@ -21,10 +22,9 @@
 
 #define USE_USBCON
 
-#include <ros.h>                      // ROS communication
-#include <Adafruit_PWMServoDriver.h>  // Analog write library
-#include <str1ker/Adc.h>              // Analog read request
-#include <str1ker/Pwm.h>              // Analog write request
+#include <ros.h>            // ROS communication
+#include <str1ker/Adc.h>    // Analog read request
+#include <str1ker/Pwm.h>    // Analog write request
 
 /*----------------------------------------------------------*\
 | Constants
@@ -37,27 +37,31 @@ const double RATE_HZ = 50.0;
 const int DELAY = 1000.0 / RATE_HZ;
 
 // Analog output
-const int PWM_CHANNELS = 16;
-const int PWM_FREQ_HZ = 5000;
-const int PWM_MAX = 4096;
+const int PWM_PINS[] =
+{
+  3,    // ~D3/SCL
+  11,   // ~D11
+  5,    // ~D5
+  6,    // ~D6/A7
+  9,    // ~D9/A9
+  10,   // ~D10/A10
+  13    // D13~
+};
+const int PWM_CHANNELS = sizeof(PWM_PINS) / sizeof(int);
 
 // Analog input
-const int ANALOG_CHANNELS = 12;
-const int ANALOG_PINS[] =
+const int ADC_PINS[] =
 {
-  A0,
-  A1,
-  A2,
-  A3,
-  A4,
-  A5,
-  A6,
-  A7,
-  A8,
-  A9,
-  A10,
-  A11
+  A0,   // A0/D18
+  A1,   // A1/D19
+  A2,   // A2/D20
+  A3,   // A3/D21
+  A4,   // A4/D22
+  A5,   // A5/D23
+  A6,   // A6/D4
+  A11   // D12/A11
 };
+const int ADC_CHANNELS = sizeof(ADC_PINS) / sizeof(int);
 
 /*----------------------------------------------------------*\
 | Declarations
@@ -71,14 +75,11 @@ void writePwm(const str1ker::Pwm& msg);
 
 // ADC publisher
 str1ker::Adc msg;
-uint16_t adc[ANALOG_CHANNELS] = {0};
+uint16_t adc[ADC_CHANNELS] = {0};
 ros::Publisher pub(ADC_TOPIC, &msg);
 
 // PWM subscriber
 ros::Subscriber<str1ker::Pwm> sub(PWM_TOPIC, writePwm);
-Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(
-  PCA9685_I2C_ADDRESS
-);
 
 // ROS node
 ros::NodeHandle node;
@@ -89,27 +90,20 @@ ros::NodeHandle node;
 
 void initAdc()
 {
-  for (int channel = 0; channel < ANALOG_CHANNELS; channel++)
+  for (int channel = 0; channel < ADC_CHANNELS; channel++)
   {
-    pinMode(ANALOG_PINS[channel], INPUT_PULLUP);
+    pinMode(ADC_PINS[channel], INPUT_PULLUP);
   }
 
   node.advertise(pub);
 }
 
-bool isPwmAvailable()
-{
-  Wire.begin();
-  Wire.beginTransmission(PCA9685_I2C_ADDRESS);
-  return Wire.endTransmission() == 0;
-}
-
 void initPwm()
 {
-  if (!isPwmAvailable()) return;
- 
-  pwm.begin();
-  pwm.setPWMFreq(PWM_FREQ_HZ);
+  for (int channel = 0; channel < PWM_CHANNELS; channel++)
+  {
+    pinMode(PWM_PINS[channel], OUTPUT);
+  }
 
   node.subscribe(sub);
 }
@@ -119,6 +113,11 @@ void setup()
   node.initNode();
   initAdc();
   initPwm();
+
+  // Ensure the node is ready
+  delay(1000);
+  node.negotiateTopics();
+  delay(1000);
 }
 
 /*----------------------------------------------------------*\
@@ -127,12 +126,12 @@ void setup()
 
 void readAdc()
 {
-  for (int channel = 0; channel < ANALOG_CHANNELS; channel++)
+  for (int channel = 0; channel < ADC_CHANNELS; channel++)
   {
-    adc[channel] = (uint16_t)analogRead(ANALOG_PINS[channel]);
+    adc[channel] = (uint16_t)analogRead(ADC_PINS[channel]);
   }
 
-  msg.adc_length = ANALOG_CHANNELS;
+  msg.adc_length = ADC_CHANNELS;
   msg.adc = adc;
     
   pub.publish(&msg);
@@ -142,45 +141,31 @@ void readAdc()
 | Analog output
 \*----------------------------------------------------------*/
 
-void analog(int channel, int value)
-{
-  // channel, when on (0-4096), when off (0-4096)
-  if (value == 0)
-    pwm.setPWM(channel, 0, PWM_MAX);
-  else if (value == PWM_MAX)
-    pwm.setPWM(channel, PWM_MAX, 0);
-  else
-    pwm.setPWM(channel, PWM_MAX - value, 0);
-}
-
-void digital(int channel, bool value)
-{
-  if (value)
-    pwm.setPWM(channel, PWM_MAX, 0);
-  else
-    pwm.setPWM(channel, 0, PWM_MAX);
-}
-
 void writePwm(const str1ker::Pwm& msg)
 {
-  for (uint32_t n = 0; n < msg.channels_length; n++)
+  for (int n = 0; n < msg.channels_length; n++)
   {
     str1ker::PwmChannel& request = msg.channels[n];
-    if (request.channel >= PWM_CHANNELS) continue;
 
-    if (request.mode == str1ker::PwmChannel::MODE_ANALOG)
+    if (request.channel >= 0 && request.channel < PWM_CHANNELS)
     {
-      analog(request.channel, request.value);
-    }
-    else
-    {
-      digital(request.channel, bool(request.value));
-    }
+        if (request.mode == str1ker::PwmChannel::MODE_ANALOG)
+        {
+            // Write PWM waveform
+            analogWrite(PWM_PINS[request.channel], request.value);
+        }
+        else if (request.mode == str1ker::PwmChannel::MODE_DIGITAL)
+        {
+            // Write high or low
+            digitalWrite(PWM_PINS[request.channel], request.value ? HIGH : LOW);
 
-    if (request.duration > 0)
-    {
-      delay(request.duration);
-      digital(request.channel, request.value ? false : true);
+            if (request.duration > 0)
+            {
+                // Reset after waiting if duration specified
+                delay(request.duration);
+                digitalWrite(PWM_PINS[request.channel], LOW);
+            }
+        }
     }
   }
 }
