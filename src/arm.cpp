@@ -71,7 +71,7 @@ void arm::configure(ros::NodeHandle node)
     // Configure encoders and actuators
     vector<string> params;
     ros::param::getParamNames(params);
-    set<string> groupNames;
+    set<string> jointNames;
 
     for (int param = 0; param < params.size(); param++)
     {
@@ -84,18 +84,20 @@ void arm::configure(ros::NodeHandle node)
 
             if (paramNameEnd == -1) continue;
 
-            string groupName = paramName.substr(paramNameStart, paramNameEnd - paramNameStart);
-            groupNames.insert(groupName);
+            string jointName = paramName.substr(
+                paramNameStart, paramNameEnd - paramNameStart);
+
+            jointNames.insert(jointName);
         }
     }
 
-    for (auto controllerName: groupNames)
+    for (auto jointName: jointNames)
     {
         auto actuator = shared_ptr<controller>(
             controllerFactory::deserialize(
                 m_robot,
                 m_path.c_str(),
-                (controllerName + "/actuator").c_str(),
+                (jointName + "/actuator").c_str(),
                 node
             )
         );
@@ -104,7 +106,7 @@ void arm::configure(ros::NodeHandle node)
             controllerFactory::deserialize(
                 m_robot,
                 m_path.c_str(),
-                (controllerName + "/encoder").c_str(),
+                (jointName + "/encoder").c_str(),
                 node
             )
         );
@@ -125,6 +127,8 @@ void arm::configure(ros::NodeHandle node)
         {
             m_encoders.push_back(dynamic_pointer_cast<encoder>(enc));
         }
+
+        m_jointNames.push_back(jointName);
     }
 
     size_t numActuators = m_actuators.size();
@@ -142,15 +146,15 @@ void arm::configure(ros::NodeHandle node)
 
         if (model.initString(description))
         {
-            for (int actuator = 0; actuator < numActuators; actuator++)
+            for (int jointIndex = 0; jointIndex < numActuators; jointIndex++)
             {
-                auto jointName = m_actuators[actuator]->getName();
+                auto jointName = m_jointNames[jointIndex];
                 auto joint = model.getJoint(jointName);
 
                 joint_limits_interface::JointLimits limits;
 
                 if (!joint_limits_interface::getJointLimits(joint, limits))
-                    ROS_WARN("no limits for %s in robot_description", m_actuators[actuator]->getName());
+                    ROS_WARN("no limits for %s in robot_description", jointName.c_str());
 
                 m_actuatorLimits.push_back(limits);
             }
@@ -172,14 +176,14 @@ bool arm::init(ros::NodeHandle node)
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
         // Initialize actuator controller
-        auto name = m_actuators[actuator]->getName();
+        auto jointName = m_jointNames[actuator];
 
         if (!m_actuators[actuator]->init(node))
             return false;
 
         // Register state interface
         hardware_interface::JointStateHandle actuatorState(
-            name,
+            jointName,
             &m_actuatorPos[actuator],
             &m_actuatorVel[actuator],
             &m_actuatorEfforts[actuator]
@@ -199,7 +203,7 @@ bool arm::init(ros::NodeHandle node)
         if (m_actuatorLimits.size() > actuator)
         {
             hardware_interface::JointStateHandle jointState(
-                name,
+                jointName,
                 &m_actuatorPos[actuator],
                 &m_actuatorVel[actuator],
                 &m_actuatorEfforts[actuator]

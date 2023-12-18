@@ -27,7 +27,7 @@ robot:
         maxpos: 1
         threshold: 8
         average: 2
-    shoulder:
+    upperarm_actuator:
       actuator:
         controller: 'motor'
         topic: 'robot/pwm'
@@ -52,7 +52,7 @@ robot:
         maxPos: 1
         threshold: 8
         average: 2
-    elbow:
+    forearm_actuator:
       actuator:
         controller: 'motor'
         topic: 'robot/pwm'
@@ -70,7 +70,7 @@ robot:
       encoder:
         controller: 'encoder'
         topic: 'robot/adc'
-        channel: 2
+        channel: 6
         minReading: 976
         maxReading: 848
         minPos: -0.0508

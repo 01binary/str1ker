@@ -57,12 +57,17 @@ private:
     // Paths of actuators to publish
     std::vector<std::string> m_actuatorPaths;
 
-    // Actuator controllers
-    std::vector<std::shared_ptr<motor>> m_actuators;
-    std::shared_ptr<solenoid> m_solenoid;
+    // Joints
+    std::vector<std::string> m_jointNames;
 
-    // Encoder controllers
+    // Actuator controllers (one for each joint)
+    std::vector<std::shared_ptr<motor>> m_actuators;
+
+    // Encoder controllers (one for each joint)
     std::vector<std::shared_ptr<encoder>> m_encoders;
+
+    // Solenoid controller
+    std::shared_ptr<solenoid> m_solenoid;
 
     // Actuator positions
     std::vector<double> m_actuatorPos;

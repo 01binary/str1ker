@@ -3,7 +3,7 @@ solenoid_state_publisher:
   publish: /joint_states
   subscribe: /robot/pwm
   joints:
-    solenoid: 3
+    solenoid: 6
   solenoid:
     low: 0.001
     high: -0.0019
