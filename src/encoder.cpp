@@ -82,7 +82,8 @@ encoder::encoder(
 
 void encoder::configure(ros::NodeHandle node)
 {
-  // Read configuration settings
+  controller::configure(node);
+
   ros::param::get("topic", m_topic);
   ros::param::get("channel", m_channel);
   ros::param::get("minReading", m_minReading);
