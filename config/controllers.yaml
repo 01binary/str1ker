@@ -81,4 +81,4 @@ robot:
       actuator:
         controller: 'solenoid'
         topic: 'robot/pwm'
-        channel: 3
+        channel: 6
