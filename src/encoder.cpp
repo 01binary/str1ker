@@ -84,16 +84,31 @@ void encoder::configure(ros::NodeHandle node)
 {
   controller::configure(node);
 
-  ros::param::get("topic", m_topic);
-  ros::param::get("channel", m_channel);
-  ros::param::get("minReading", m_minReading);
-  ros::param::get("maxReading", m_maxReading);
-  ros::param::get("minPos", m_minPos);
-  ros::param::get("maxPos", m_maxPos);
+  if (!ros::param::get(getControllerPath("topic"), m_topic))
+    ROS_WARN("%s did not specify ADC input topic, using %s", getPath(), m_topic.c_str());
+
+  if (!ros::param::get(getControllerPath("channel"), m_channel))
+    ROS_WARN("%s did not specify ADC input channel, using %d", getPath(), m_channel);
+
+  if (!ros::param::get(getControllerPath("minReading"), m_minReading))
+    ROS_WARN("%s did not specify minReading value, using %d", getPath(), m_minReading);
+
+  if (!ros::param::get(getControllerPath("maxReading"), m_maxReading))
+    ROS_WARN("%s did not specify maxReading value, using %d", getPath(), m_maxReading);
+
+  if (!ros::param::get(getControllerPath("minPos"), m_minPos))
+    ROS_WARN("%s did not specify minPos value, using %g", getPath(), m_minPos);
+
+  if (!ros::param::get(getControllerPath("maxPos"), m_maxPos))
+    ROS_WARN("%s did not specify maxPos value, using %g", getPath(), m_maxPos);
 
   int threshold = DEFAULT_THRESHOLD, average = DEFAULT_AVERAGE;
-  ros::param::get("threshold", threshold);
-  ros::param::get("average", average);
+
+  if (!ros::param::get(getControllerPath("threshold"), threshold))
+    ROS_WARN("%s did not specify sample threshold, using %d", getPath(), DEFAULT_THRESHOLD);
+
+  if (!ros::param::get(getControllerPath("average"), average))
+    ROS_WARN("%s did not specify how many samples to average, using %d", getPath(), DEFAULT_AVERAGE);
 
   m_filter = filter(threshold, average);
 }
@@ -108,7 +123,7 @@ bool encoder::init(ros::NodeHandle& node)
   m_sub = node.subscribe<Adc>(
     m_topic, QUEUE_SIZE, &encoder::feedback, this);
 
-  ROS_INFO("  initialized %s %s on %s channel %d range [%d, %d] -> [%g, %g]",
+  ROS_INFO("  initialized %s %s on %s channel %d: [%d, %d] -> [%g, %g]",
     getPath(),
     getType(),
     m_topic.c_str(),

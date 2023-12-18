@@ -86,10 +86,10 @@ void solenoid::configure(ros::NodeHandle node)
     controller::configure(node);
 
     if (!ros::param::get(getControllerPath("topic"), m_topic))
-        ROS_WARN("%s did not specify PWM topic", getPath());
+        ROS_WARN("%s did not specify output topic, using %s", getPath(), m_topic.c_str());
 
     if (!ros::param::get(getControllerPath("channel"), m_channel))
-        ROS_WARN("%s did not specify digital channel", getPath());
+        ROS_WARN("%s did not specify output channel, using %d", getPath(), m_channel);
 }
 
 controller* solenoid::create(robot& robot, const char* path)

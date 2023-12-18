@@ -23,8 +23,8 @@ robot:
         channel: 0
         minReading: 810
         maxReading: 258
-        minPos: 0
-        maxpos: 1
+        minPos: -1.4929
+        maxPos: 1.4929
         threshold: 8
         average: 2
     upperarm_actuator:
@@ -48,8 +48,8 @@ robot:
         channel: 1
         minReading: 857
         maxReading: 902
-        minPos: 0
-        maxPos: 1
+        minPos: -0.054
+        maxPos: -0.0005
         threshold: 8
         average: 2
     forearm_actuator:
