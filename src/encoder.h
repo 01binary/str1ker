@@ -6,12 +6,12 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- motor.h
+ encoder.h
 
- PWM Motor Controller
- Created 1/19/2021
+ Absolute encoder class
+ Created 09/20/2023
 
- Copyright (C) 2021 Valeriy Novytskyy
+ Copyright (C) 2023 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
 
@@ -21,9 +21,11 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <str1ker/Pwm.h>
+#include <ros/ros.h>
+#include <str1ker/Adc.h>
 #include "controller.h"
 #include "utilities.h"
+#include "filter.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -32,93 +34,89 @@
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| motor class
+| encoder class
 \*----------------------------------------------------------*/
 
-class motor: public controller
+class encoder : public controller
 {
 public:
   // Controller type
   static const char TYPE[];
 
 private:
-  // Default min PWM pulse width
-  const int PWM_MIN = 0;
+  // Queue size for subscribers and publishers
+  const int QUEUE_SIZE = 16;
 
-  // Default max PWM pulse width
-  const int PWM_MAX = 255;
+  // Defaults for analog input range
+  const int ANALOG_MIN = 0;
+  const int ANALOG_MAX = 1023;
 
-  // Default min velocity
-  const double VELOCITY_MIN = 0.0;
+  // Defaults for analog input filtering
+  const int DEFAULT_THRESHOLD = 8;
+  const int DEFAULT_AVERAGE = 16;
 
-  // Default max velocity
-  const double VELOCITY_MAX = 1.0;
-
-  // Publish queue size
-  const int QUEUE_SIZE = 8;
+  // Defaults for virtual position
+  const double POS_MIN = 0.0;
+  const double POS_MAX = 0.0;
 
 private:
   //
   // Configuration
   //
 
-  // PWM output topic
-  std::string m_topic = "robot/pwm";
+  // Input topic for listening to analog readings
+  std::string m_topic = "robot/adc";
 
-  // Left PWM channel
-  int m_lpwm = 0;
+  // Analog input channel
+  int m_channel;
 
-  // Right PWM channel
-  int m_rpwm = 1;
+  // Analog reading min
+  int m_minReading = ANALOG_MIN;
 
-  // Min PWM pulse width
-  int m_minPwm = PWM_MIN;
+  // Analog reading max
+  int m_maxReading = ANALOG_MAX;
 
-  // Max PWM pulse width
-  int m_maxPwm = PWM_MAX;
+  // Position (joint state) min
+  double m_minPos = POS_MIN;
 
-  // Min velocity in physical units
-  double m_minVelocity = VELOCITY_MIN;
-
-  // Max velocity in physical units
-  double m_maxVelocity = VELOCITY_MAX;
-
-  //
-  // Interface
-  //
-
-  // PWM publisher to motor driver
-  ros::Publisher m_pwmPub;
+  // Position (joint state) max
+  double m_maxPos = POS_MAX;
 
   //
   // State
   //
 
-  // Last LPWM pulse width
-  uint16_t m_lpwmCommand = 0;
+  bool m_ready = false;
 
-  // Last RPWM pulse width
-  uint16_t m_rpwmCommand = 0;
+  // Last filtered analog reading
+  int m_reading = -1;
 
-  // Last velocity command
-  double m_velocity = 0.0;
+  // Last position mapped from last reading
+  double m_position = std::numeric_limits<double>::infinity();
+
+  // Filter for analog input
+  filter m_filter;
+
+  // Subscriber for receiving analog readings from motor absolute encoder
+  ros::Subscriber m_sub;
 
 public:
   //
   // Constructors
   //
 
-  motor(class robot& robot, const char* path);
-  motor(
+  encoder(class robot& robot, const char* path);
+  encoder(
     class robot& robot,
     const char* path,
-    std::string topic,
-    int lpwm,
-    int rpwm,
-    int minPwm,
-    int maxPwm,
-    double minVelocity,
-    double maxVelocity);
+    const std::string& topic,
+    int input,
+    int minReading,
+    int maxReading,
+    double minPos,
+    double maxPos,
+    int filterThreshold,
+    int filterAverage);
 
 public:
   // Get display type
@@ -127,32 +125,44 @@ public:
     return TYPE;
   }
 
-  // Get current velocity
-  inline double getVelocity()
+  // Get current filtered analog reading
+  inline int getReading() const
   {
-    return m_velocity;
+    return m_reading;
   }
 
-  // Get current LPWM pulse width
-  inline int getLPWM()
+  // Get current position mapped from filtered analog reading
+  inline double getPos() const
   {
-    return m_lpwmCommand;
+    return m_position;
   }
 
-  // Get current RPWM pulse width
-  inline int getRPWM()
+  // Get minimum position
+  inline double getMin() const
   {
-    return m_rpwmCommand;
+    return m_minPos;
   }
 
-  // Load settings
+  // Get maximum position
+  inline double getMax() const
+  {
+    return m_maxPos;
+  }
+
+  // Determine if the encoder is ready to provide readings
+  bool isReady() const
+  {
+    return m_ready;
+  }
+
+  // Configuration
   virtual void configure(ros::NodeHandle node);
 
-  // Initialize
-  virtual bool init(ros::NodeHandle node);
-  
-  // Command velocity
-  void command(double velocity);
+  // Initialization
+  virtual bool init(ros::NodeHandle& node);
+
+  // Analog reading feedback
+  void feedback(const Adc::ConstPtr& msg);
 
 public:
   // Create instance

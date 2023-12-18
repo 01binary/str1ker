@@ -43,7 +43,12 @@ const char motor::TYPE[] = "motor";
 
 REGISTER_CONTROLLER(motor)
 
-motor::motor(robot& robot, const char* path)
+//
+// Constructors
+//
+
+motor::motor(
+  robot& robot, const char* path)
   : controller(robot, path)
 {
 }
@@ -69,10 +74,26 @@ motor::motor(
 {
 }
 
-const char* motor::getType()
+//
+// Configuration
+//
+
+void motor::configure(ros::NodeHandle node)
 {
-  return motor::TYPE;
+  controller::configure(node);
+
+  ros::param::get("outputTopic", m_topic);
+  ros::param::get("lpwm", m_lpwm);
+  ros::param::get("rpwm", m_rpwm);
+  ros::param::get("minPwm", m_minPwm);
+  ros::param::get("maxPwm", m_maxPwm);
+  ros::param::get("minVelocity", m_minVelocity);
+  ros::param::get("maxVelocity", m_maxVelocity);
 }
+
+//
+// Initialization
+//
 
 bool motor::init(ros::NodeHandle node)
 {
@@ -84,6 +105,10 @@ bool motor::init(ros::NodeHandle node)
 
   return true;
 }
+
+//
+// Velocity command
+//
 
 void motor::command(double velocity)
 {
@@ -111,18 +136,9 @@ void motor::command(double velocity)
   m_pwmPub.publish(msg);
 }
 
-void motor::configure(ros::NodeHandle node)
-{
-  controller::configure(node);
-
-  ros::param::get("outputTopic", m_topic);
-  ros::param::get("lpwm", m_lpwm);
-  ros::param::get("rpwm", m_rpwm);
-  ros::param::get("minPwm", m_minPwm);
-  ros::param::get("maxPwm", m_maxPwm);
-  ros::param::get("minVelocity", m_minVelocity);
-  ros::param::get("maxVelocity", m_maxVelocity);
-}
+//
+// Dynamic creation
+//
 
 controller* motor::create(robot& robot, const char* path)
 {
