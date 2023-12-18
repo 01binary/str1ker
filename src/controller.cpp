@@ -81,7 +81,7 @@ void controller::configure(ros::NodeHandle node)
         ' '
     );
 
-    ROS_INFO("%sloading %s %s", indent.c_str(), getName(), getType());
+    ROS_INFO("%sloading %s %s", indent.c_str(), getType(), getPath());
 
     ros::param::get(getControllerPath("enable"), m_enable);
 }
