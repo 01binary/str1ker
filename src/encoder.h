@@ -54,9 +54,9 @@ private:
   const int DEFAULT_THRESHOLD = 8;
   const int DEFAULT_AVERAGE = 16;
 
-  // Defaults for virtual position
+  // Defaults mapping analog value to joint state
   const double POS_MIN = 0.0;
-  const double POS_MAX = 0.0;
+  const double POS_MAX = 1.0;
 
 private:
   //

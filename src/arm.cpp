@@ -168,17 +168,21 @@ void arm::configure(ros::NodeHandle node)
 
 bool arm::init(ros::NodeHandle node)
 {
-    // Initialize momentary actuators
+    // Initialize solenoid
     if (!m_solenoid->init(node))
         return false;
 
-    // Initialize velocity/position actuators
+    // Initialize velocity/position actuators and their encoders
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
         // Initialize actuator controller
         auto jointName = m_jointNames[actuator];
 
         if (!m_actuators[actuator]->init(node))
+            return false;
+
+        // Initialize actuator encoder
+        if (!m_encoders[actuator]->init(node))
             return false;
 
         // Register state interface
