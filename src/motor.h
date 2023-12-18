@@ -22,7 +22,8 @@
 \*----------------------------------------------------------*/
 
 #include <str1ker/Pwm.h>
-#include "potentiometer.h"
+#include "controller.h"
+#include "utilities.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -36,57 +37,119 @@ namespace str1ker {
 
 class motor: public controller
 {
-public:
-    // Controller type
-    static const char TYPE[];
+private:
+  // Default min PWM pulse width
+  const int PWM_MIN = 0;
+
+  // Default max PWM pulse width
+  const int PWM_MAX = 255;
+
+  // Default min velocity
+  const double VELOCITY_MIN = 0.0;
+
+  // Default max velocity
+  const double VELOCITY_MAX = 1.0;
+
+  // Publish queue size
+  const int QUEUE_SIZE = 8;
 
 private:
-    // PWM publishing queue size
-    const int QUEUE_SIZE = 4;
+  //
+  // Configuration
+  //
 
-    // Max PWM duty cycle
-    const uint16_t DUTY_CYCLE = 4096;
+  // PWM output topic
+  std::string m_topic = "robot/pwm";
 
-private:
-    // PWM topic
-    std::string m_topic;
+  // Left PWM channel
+  int m_lpwm = 0;
 
-    // LPWM channel
-    int m_lpwm;
+  // Right PWM channel
+  int m_rpwm = 1;
 
-    // RPWM channel
-    int m_rpwm;
+  // Min PWM pulse width
+  int m_minPwm = PWM_MIN;
 
-    // Current velocity
-    double m_velocity;
+  // Max PWM pulse width
+  int m_maxPwm = PWM_MAX;
 
-    // Potentiometer as absolute encoder
-    std::shared_ptr<potentiometer> m_encoder;
+  // Min velocity in physical units
+  double m_minVelocity = VELOCITY_MIN;
 
-    // Publisher to PWM node that runs motors
-    ros::Publisher m_pub;
+  // Max velocity in physical units
+  double m_maxVelocity = VELOCITY_MAX;
+
+  //
+  // Interface
+  //
+
+  // PWM publisher to motor driver
+  ros::Publisher m_pwmPub;
+
+  //
+  // State
+  //
+
+  // Last LPWM pulse width
+  uint16_t m_lpwmCommand = 0;
+
+  // Last RPWM pulse width
+  uint16_t m_rpwmCommand = 0;
+
+  // Last velocity command
+  double m_velocity = 0.0;
 
 public:
-    motor(class robot& robot, const char* path);
+  // Controller type
+  static const char TYPE[];
 
 public:
-    // Get display type
-    virtual const char* getType();
+  //
+  // Constructor
+  //
 
-    // Initialize
-    virtual bool init(ros::NodeHandle node);
+  motor(class robot& robot, const char* path);
+  motor(
+    class robot& robot,
+    const char* path,
+    std::string topic,
+    int lpwm,
+    int rpwm,
+    int minPwm,
+    int maxPwm,
+    double minVelocity,
+    double maxVelocity);
 
-    // Get position from associated encoder
-    double getPos();
+public:
+  // Get display type
+  virtual const char* getType();
 
-    // Get velocity
-    double getVelocity();
+  // Get current velocity
+  inline double getVelocity()
+  {
+    return m_velocity;
+  }
 
-    // Set velocity
-    bool setVelocity(double velocity);
+  // Get current LPWM pulse width
+  inline int getLPWM()
+  {
+    return m_lpwmCommand;
+  }
 
-    // Deserialize from settings
-    virtual void configure(ros::NodeHandle node);
+  // Get current RPWM pulse width
+  inline int getRPWM()
+  {
+    return m_rpwmCommand;
+  }
+
+  // Load settings
+  virtual void configure(ros::NodeHandle node);
+
+  // Initialize
+  virtual bool init(ros::NodeHandle node);
+  
+  // Command velocity
+  void command(double velocity);
 
 public:
     // Create instance

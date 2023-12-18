@@ -19,7 +19,6 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <math.h>
 #include <ros/ros.h>
 #include "robot.h"
 #include "motor.h"
@@ -44,91 +43,85 @@ const char motor::TYPE[] = "motor";
 
 REGISTER_CONTROLLER(motor)
 
-motor::motor(robot& robot, const char* path):
-    controller(robot, path),
-    m_topic("/robot/pwm"),
-    m_lpwm(0),
-    m_rpwm(1)
+motor::motor(robot& robot, const char* path)
+  : controller(robot, path)
+{
+}
+
+motor::motor(
+  robot& robot,
+  const char* path,
+  string topic,
+  int lpwm,
+  int rpwm,
+  int minPwm,
+  int maxPwm,
+  double minVelocity,
+  double maxVelocity)
+  : controller(robot, path)
+  , m_topic(topic)
+  , m_lpwm(lpwm)
+  , m_rpwm(rpwm)
+  , m_minPwm(minPwm)
+  , m_maxPwm(maxPwm)
+  , m_minVelocity(minVelocity)
+  , m_maxVelocity(maxVelocity)
 {
 }
 
 const char* motor::getType()
 {
-    return motor::TYPE;
+  return motor::TYPE;
 }
 
 bool motor::init(ros::NodeHandle node)
 {
-    if (!m_enable) return true;
+  // Initialize PWM output publisher
+  m_pwmPub = node.advertise<Pwm>(
+    m_topic,
+    QUEUE_SIZE
+  );
 
-    if (m_encoder && !m_encoder->init(node))
-    {
-        ROS_ERROR("  failed to initialize %s encoder", getPath());
-        return false;
-    }
-
-    m_pub = node.advertise<Pwm>(getPath(), QUEUE_SIZE);
-
-    ROS_INFO("  initialized %s %s on %s channels %d LPWM %d RPWM",
-        getPath(), getType(), m_topic.c_str(), m_lpwm, m_rpwm);
-
-    return true;
+  return true;
 }
 
-double motor::getPos()
+void motor::command(double velocity)
 {
-    return m_encoder ? m_encoder->getPos() : 0.0;
-}
+  m_velocity = utilities::clampZero(abs(velocity), m_minVelocity, m_maxVelocity);
 
-double motor::getVelocity()
-{
-    return m_velocity;
-}
+  uint16_t dutyCycle = (uint16_t)utilities::mapZero(
+    m_velocity, m_minVelocity, m_maxVelocity, (double)m_minPwm, (double)m_maxPwm);
 
-bool motor::setVelocity(double velocity)
-{
-    uint16_t dutyCycle = uint16_t(abs(velocity) * double(DUTY_CYCLE));
+  m_lpwmCommand = (velocity >= 0 ? 0 : dutyCycle);
+  m_rpwmCommand = (velocity >= 0 ? dutyCycle : 0);
 
-    Pwm msg;
-    msg.channels.resize(2);
+  Pwm msg;
+  msg.channels.resize(2);
 
-    // LPWM
-    msg.channels[0].channel = m_lpwm;
-    msg.channels[0].mode = PwmChannel::MODE_ANALOG;
-    msg.channels[0].value = velocity >= 0 ? 0 : dutyCycle;
-    msg.channels[0].duration = 0;
+  // LPWM
+  msg.channels[0].channel = m_lpwm;
+  msg.channels[0].mode = PwmChannel::MODE_ANALOG;
+  msg.channels[0].value = m_lpwmCommand;
 
-    // RPWM
-    msg.channels[1].channel = m_rpwm;
-    msg.channels[1].mode = PwmChannel::MODE_ANALOG;
-    msg.channels[1].value = velocity >= 0 ? dutyCycle : 0;
-    msg.channels[1].duration = 0;
+  // RPWM
+  msg.channels[1].channel = m_rpwm;
+  msg.channels[1].mode = PwmChannel::MODE_ANALOG;
+  msg.channels[1].value = m_rpwmCommand;
 
-    m_pub.publish(msg);
-
-    m_velocity = velocity;
-    setLastError(NULL);
-    return true;
+  m_pwmPub.publish(msg);
 }
 
 void motor::configure(ros::NodeHandle node)
 {
-    controller::configure(node);
+  controller::configure(node);
 
-    if (!ros::param::get(getControllerPath("topic"), m_topic))
-        ROS_WARN("%s no PWM topic specified, default /robot/pwm", getPath());
-
-    if (!ros::param::get(getControllerPath("LPWM"), m_lpwm))
-        ROS_WARN("%s no LPWM channel specified, default 0", getPath());
-
-    if (!ros::param::get(getControllerPath("RPWM"), m_lpwm))
-        ROS_WARN("%s no RPWM channel specified, default 1", getPath());
-
-    m_encoder = shared_ptr<potentiometer>(controllerFactory::deserialize<potentiometer>(
-        m_robot, getPath(), "encoder", node));
-
-    if (!m_encoder)
-        ROS_WARN("%s failed to load encoder", getPath());
+  ros::param::get("outputTopic", m_topic);
+  ros::param::get("lpwm", m_lpwm);
+  ros::param::get("rpwm", m_rpwm);
+  ros::param::get("minPwm", m_minPwm);
+  ros::param::get("maxPwm", m_maxPwm);
+  ros::param::get("minVelocity", m_minVelocity);
+  ros::param::get("maxVelocity", m_maxVelocity);
 }
 
 controller* motor::create(robot& robot, const char* path)
