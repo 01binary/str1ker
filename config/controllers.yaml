@@ -27,7 +27,7 @@ robot:
         maxpos: 1
         threshold: 8
         average: 2
-    upperarm_actuator:
+    shoulder:
       actuator:
         controller: 'motor'
         topic: 'robot/pwm'
@@ -52,7 +52,7 @@ robot:
         maxPos: 1
         threshold: 8
         average: 2
-    forearm_actuator:
+    elbow:
       actuator:
         controller: 'motor'
         topic: 'robot/pwm'
@@ -78,6 +78,7 @@ robot:
         threshold: 8
         average: 8
     wrist:
-      controller: 'solenoid'
-      topic: 'robot/pwm'
-      channel: 3
+      actuator:
+        controller: 'solenoid'
+        topic: 'robot/pwm'
+        channel: 3

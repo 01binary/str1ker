@@ -71,8 +71,7 @@ void arm::configure(ros::NodeHandle node)
     // Configure encoders and actuators
     vector<string> params;
     ros::param::getParamNames(params);
-    set<string> actuatorNames;
-    set<string> encoderNames;
+    set<string> groupNames;
 
     for (int param = 0; param < params.size(); param++)
     {
@@ -85,27 +84,46 @@ void arm::configure(ros::NodeHandle node)
 
             if (paramNameEnd == -1) continue;
 
-            string actuatorName = paramName.substr(paramNameStart, paramNameEnd - paramNameStart);
-            actuatorNames.insert(actuatorName);
+            string groupName = paramName.substr(paramNameStart, paramNameEnd - paramNameStart);
+            groupNames.insert(groupName);
         }
     }
 
-    for (auto actuatorName: actuatorNames)
+    for (auto controllerName: groupNames)
     {
-        auto actuatorController = shared_ptr<controller>(controllerFactory::deserialize(
-            m_robot,
-            m_path.c_str(),
-            actuatorName.c_str(),
-            node
-        ));
+        auto actuator = shared_ptr<controller>(
+            controllerFactory::deserialize(
+                m_robot,
+                m_path.c_str(),
+                (controllerName + "/actuator").c_str(),
+                node
+            )
+        );
 
-        if (strcmp(actuatorController->getType(), "solenoid") == 0)
+        auto enc = shared_ptr<controller>(
+            controllerFactory::deserialize(
+                m_robot,
+                m_path.c_str(),
+                (controllerName + "/encoder").c_str(),
+                node
+            )
+        );
+
+        if (actuator)
         {
-            m_solenoid = dynamic_pointer_cast<solenoid>(actuatorController);
+            if (strcmp(actuator->getType(), "solenoid") == 0)
+            {
+                m_solenoid = dynamic_pointer_cast<solenoid>(actuator);
+            }
+            else if (strcmp(actuator->getType(), "motor") == 0)
+            {
+                m_actuators.push_back(dynamic_pointer_cast<motor>(actuator));
+            }
         }
-        else if (strcmp(actuatorController->getType(), "motor") == 0)
+
+        if (enc)
         {
-            m_actuators.push_back(dynamic_pointer_cast<motor>(actuatorController));
+            m_encoders.push_back(dynamic_pointer_cast<encoder>(enc));
         }
     }
 
