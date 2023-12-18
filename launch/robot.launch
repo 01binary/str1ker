@@ -5,21 +5,21 @@
   <!-- Controller configuration -->
   <rosparam file="$(find str1ker)/config/controllers.yaml" />
 
-  <!-- Velocity controller configuration -->
+  <!-- Motor controller configuration -->
   <rosparam file="$(find str1ker_moveit_config)/config/ros_controllers.yaml" />
 
-  <!-- Momentary controller configuration -->
+  <!-- Solenoid controller configuration -->
   <rosparam file="$(find str1ker)/config/solenoids.yaml" />
 
   <!-- Analog/Digital I/O -->
-  <!--<node
+  <node
     name="analog"
     pkg="rosserial_python"
     type="serial_node.py"
     args="/dev/ttyACM0"
     required="true"
     output="screen"
-  />-->
+  />
 
   <!-- Hardware controllers -->
   <node
