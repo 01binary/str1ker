@@ -116,7 +116,7 @@ bool motor::init(ros::NodeHandle node)
     QUEUE_SIZE
   );
 
-  ROS_INFO("  initialized %s %s on %s: lpwm %d rpwm %d [%d, %d] -> [%g, %g]",
+  ROS_INFO("  initialized %s %s on %s: (LPWM %d RPWM %d) [%d, %d] -> [%g, %g]",
     getPath(),
     getType(),
     m_topic.c_str(),
