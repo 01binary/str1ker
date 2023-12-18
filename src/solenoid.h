@@ -46,10 +46,10 @@ private:
     const int QUEUE_SIZE = 4;
 
     // Publish topic
-    std::string m_topic;
+    std::string m_topic = "robot/pwm";
 
     // Publisher trigger channel
-    int m_trigger;
+    int m_channel;
 
     // Publisher to node that runs solenoids
     ros::Publisher m_pub;
@@ -61,14 +61,14 @@ public:
     // Get display type
     virtual const char* getType();
 
+    // Deserialize from settings
+    virtual void configure(ros::NodeHandle node);
+
     // Initialize
-    bool init(ros::NodeHandle node);
+    virtual bool init(ros::NodeHandle node);
 
     // Momentary trigger
     void trigger(double durationSec);
-
-    // Deserialize from settings
-    void configure(ros::NodeHandle node);
 
 public:
     // Create instance

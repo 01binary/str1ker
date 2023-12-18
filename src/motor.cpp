@@ -82,7 +82,7 @@ void motor::configure(ros::NodeHandle node)
 {
   controller::configure(node);
 
-  ros::param::get("outputTopic", m_topic);
+  ros::param::get("topic", m_topic);
   ros::param::get("lpwm", m_lpwm);
   ros::param::get("rpwm", m_rpwm);
   ros::param::get("minPwm", m_minPwm);
@@ -102,6 +102,9 @@ bool motor::init(ros::NodeHandle node)
     m_topic,
     QUEUE_SIZE
   );
+
+  ROS_INFO("  initialized %s %s on %s channels %d LPWM %d RPWM",
+    getPath(), getType(), m_topic.c_str(), m_lpwm, m_rpwm);
 
   return true;
 }

@@ -80,4 +80,4 @@ robot:
     wrist:
       controller: 'solenoid'
       topic: 'robot/pwm'
-      channel: 6
+      channel: 3

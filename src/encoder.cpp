@@ -83,7 +83,7 @@ encoder::encoder(
 void encoder::configure(ros::NodeHandle node)
 {
   // Read configuration settings
-  ros::param::get("inputTopic", m_topic);
+  ros::param::get("topic", m_topic);
   ros::param::get("channel", m_channel);
   ros::param::get("minReading", m_minReading);
   ros::param::get("maxReading", m_maxReading);
@@ -106,6 +106,16 @@ bool encoder::init(ros::NodeHandle& node)
   // Subscribe to analog readings
   m_sub = node.subscribe<Adc>(
     m_topic, QUEUE_SIZE, &encoder::feedback, this);
+
+  ROS_INFO("  initialized %s %s on %s channel %d range [%d, %d] -> [%g, %g]",
+    getPath(),
+    getType(),
+    m_topic.c_str(),
+    m_channel,
+    m_minReading,
+    m_maxReading,
+    m_minPos,
+    m_maxPos);
 
   return true;
 }
