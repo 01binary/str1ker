@@ -34,6 +34,7 @@
 
 #include "controller.h"
 #include "motor.h"
+#include "encoder.h"
 #include "solenoid.h"
 
 /*----------------------------------------------------------*\
@@ -59,6 +60,9 @@ private:
     // Actuator controllers
     std::vector<std::shared_ptr<motor>> m_actuators;
     std::shared_ptr<solenoid> m_solenoid;
+
+    // Encoder controllers
+    std::vector<std::shared_ptr<encoder>> m_encoders;
 
     // Actuator positions
     std::vector<double> m_actuatorPos;

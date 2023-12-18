@@ -24,7 +24,6 @@
 #include <ros/ros.h>
 #include <str1ker/Adc.h>
 #include "controller.h"
-#include "utilities.h"
 #include "filter.h"
 
 /*----------------------------------------------------------*\
@@ -122,7 +121,7 @@ public:
   // Get display type
   virtual const char* getType()
   {
-    return TYPE;
+    return encoder::TYPE;
   }
 
   // Get current filtered analog reading

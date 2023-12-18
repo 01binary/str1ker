@@ -18,7 +18,7 @@ robot:
           d: 0.1964
           i_clamp: 1.0
       encoder:
-        controller: 'potentiometer'
+        controller: 'encoder'
         topic: 'robot/adc'
         channel: 0
         minReading: 810
@@ -43,7 +43,7 @@ robot:
           d: 0.03102
           i_clamp: 1.0
       encoder:
-        controller: 'potentiometer'
+        controller: 'encoder'
         topic: 'robot/adc'
         channel: 1
         minReading: 857
@@ -68,7 +68,7 @@ robot:
           d: 0.3102
           i_clamp: 1.0
       encoder:
-        controller: 'potentiometer'
+        controller: 'encoder'
         topic: 'robot/adc'
         channel: 2
         minReading: 976

@@ -68,11 +68,11 @@ void arm::configure(ros::NodeHandle node)
 {
     controller::configure(node);
 
-    // Configure actuators
+    // Configure encoders and actuators
     vector<string> params;
-    set<string> actuatorNames;
-
     ros::param::getParamNames(params);
+    set<string> actuatorNames;
+    set<string> encoderNames;
 
     for (int param = 0; param < params.size(); param++)
     {
@@ -228,7 +228,7 @@ void arm::read()
 {
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
-        m_actuatorPos[actuator] = m_actuators[actuator]->getPos();
+        m_actuatorPos[actuator] = m_encoders[actuator]->getPos();
         m_actuatorVel[actuator] = m_actuators[actuator]->getVelocity();
     }
 }
@@ -237,7 +237,7 @@ void arm::write()
 {
     for (int actuator = 0; actuator < m_actuators.size(); actuator++)
     {
-        m_actuators[actuator]->setVelocity(m_actuatorVelCommands[actuator]);
+        m_actuators[actuator]->command(m_actuatorVelCommands[actuator]);
     }
 }
 

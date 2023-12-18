@@ -19,8 +19,10 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include "encoder.h"
+#include "robot.h"
 #include "controllerFactory.h"
+#include "utilities.h"
+#include "encoder.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -28,6 +30,12 @@
 
 using namespace str1ker;
 using namespace std;
+
+/*----------------------------------------------------------*\
+| Constants
+\*----------------------------------------------------------*/
+
+const char encoder::TYPE[] = "encoder";
 
 /*----------------------------------------------------------*\
 | encoder implementation
@@ -98,6 +106,8 @@ bool encoder::init(ros::NodeHandle& node)
   // Subscribe to analog readings
   m_sub = node.subscribe<Adc>(
     m_topic, QUEUE_SIZE, &encoder::feedback, this);
+
+  return true;
 }
 
 //
@@ -130,5 +140,5 @@ void encoder::feedback(const Adc::ConstPtr& msg)
 
 controller* encoder::create(robot& robot, const char* path)
 {
-    return new encoder(robot, path);
+  return new encoder(robot, path);
 }
