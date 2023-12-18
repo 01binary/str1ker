@@ -31,8 +31,8 @@
 \*----------------------------------------------------------*/
 
 // ROS topics and spin rate
-const char ADC_TOPIC[] = "robot/adc";
-const char PWM_TOPIC[] = "robot/pwm";
+const char ADC_TOPIC[] = "adc";
+const char PWM_TOPIC[] = "pwm";
 const double RATE_HZ = 50.0;
 const int DELAY = 1000.0 / RATE_HZ;
 

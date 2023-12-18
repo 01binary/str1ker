@@ -63,7 +63,7 @@ private:
   //
 
   // PWM output topic
-  std::string m_topic = "robot/pwm";
+  std::string m_topic = "pwm";
 
   // Left PWM channel
   int m_lpwm = 0;

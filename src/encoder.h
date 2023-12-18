@@ -64,7 +64,7 @@ private:
   //
 
   // Input topic for listening to analog readings
-  std::string m_topic = "robot/adc";
+  std::string m_topic = "adc";
 
   // Analog input channel
   int m_channel;

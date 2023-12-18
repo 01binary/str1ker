@@ -5,7 +5,7 @@ robot:
     base:
       actuator:
         controller: 'motor'
-        topic: 'robot/pwm'
+        topic: 'pwm'
         lpwm: 0
         rpwm: 1
         minPwm: 64
@@ -19,7 +19,7 @@ robot:
           i_clamp: 1.0
       encoder:
         controller: 'encoder'
-        topic: 'robot/adc'
+        topic: 'adc'
         channel: 0
         minReading: 810
         maxReading: 258
@@ -30,7 +30,7 @@ robot:
     upperarm_actuator:
       actuator:
         controller: 'motor'
-        topic: 'robot/pwm'
+        topic: 'pwm'
         lpwm: 2
         rpwm: 3
         minPwm: 32
@@ -44,7 +44,7 @@ robot:
           i_clamp: 1.0
       encoder:
         controller: 'encoder'
-        topic: 'robot/adc'
+        topic: 'adc'
         channel: 1
         minReading: 857
         maxReading: 902
@@ -55,7 +55,7 @@ robot:
     forearm_actuator:
       actuator:
         controller: 'motor'
-        topic: 'robot/pwm'
+        topic: 'pwm'
         lpwm: 4
         rpwm: 5
         minPwm: 200
@@ -69,7 +69,7 @@ robot:
           i_clamp: 1.0
       encoder:
         controller: 'encoder'
-        topic: 'robot/adc'
+        topic: 'adc'
         channel: 6
         minReading: 976
         maxReading: 848
@@ -80,5 +80,5 @@ robot:
     wrist:
       actuator:
         controller: 'solenoid'
-        topic: 'robot/pwm'
+        topic: 'pwm'
         channel: 6

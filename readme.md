@@ -229,7 +229,7 @@ rosrun rqt_reconfigure rqt_reconfigure
 ### Pulse Solenoid
 
 ```
-rostopic pub robot/pwm \
+rostopic pub pwm \
 str1ker/Pwm \
 '{ channels: [{ channel: 6, mode: 1, value: 1, duration: 255 }]}' -1
 ```
@@ -237,7 +237,7 @@ str1ker/Pwm \
 ### Direct Velocity Control
 
 ```
-rostopic pub robot/pwm \
+rostopic pub pwm \
 str1ker/Pwm \
 '{ channels: [{ channel: 0, mode: 0, value: 255, duration: 0 }]}' -1
 ```

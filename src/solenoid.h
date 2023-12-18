@@ -46,7 +46,7 @@ private:
     const int QUEUE_SIZE = 4;
 
     // Publish topic
-    std::string m_topic = "robot/pwm";
+    std::string m_topic = "pwm";
 
     // Publisher trigger channel
     int m_channel;

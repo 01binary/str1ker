@@ -1,7 +1,7 @@
 solenoid_state_publisher:
   rate: 50
   publish: /joint_states
-  subscribe: /robot/pwm
+  subscribe: /pwm
   joints:
     solenoid: 6
   solenoid:
