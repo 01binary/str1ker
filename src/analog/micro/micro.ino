@@ -36,7 +36,7 @@ const char PWM_TOPIC[] = "pwm";
 const double RATE_HZ = 50.0;
 const int DELAY = 1000.0 / RATE_HZ;
 
-// Analog output
+// Analog output (PWM)
 const int PWM_PINS[] =
 {
   3,    // ~D3/SCL
@@ -49,7 +49,7 @@ const int PWM_PINS[] =
 };
 const int PWM_CHANNELS = sizeof(PWM_PINS) / sizeof(int);
 
-// Analog input
+// Analog input (ADC)
 const int ADC_PINS[] =
 {
   A0,   // A0/D18

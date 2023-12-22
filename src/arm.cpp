@@ -45,7 +45,7 @@ REGISTER_CONTROLLER(arm)
 
 arm::arm(robot& robot, const char* path) :
     controller(robot, path),
-    m_controllers(this, robot.getNode()),
+    m_controllerManager(this, robot.getNode()),
     m_lastUpdate(0)
 {
 }
@@ -55,13 +55,9 @@ const char* arm::getType()
     return arm::TYPE;
 }
 
-void arm::trigger(double durationSeconds)
+void arm::trigger()
 {
-    if (!m_solenoid) return;
-
-    ROS_INFO("trigger %s for %g", m_solenoid->getPath(), durationSeconds);
-
-    return m_solenoid->trigger(durationSeconds);
+    m_actuatorVelCommands[m_jointNames.size() - 1] = 1.0;
 }
 
 void arm::configure(ros::NodeHandle node)
@@ -131,13 +127,14 @@ void arm::configure(ros::NodeHandle node)
         m_jointNames.push_back(jointName);
     }
 
-    size_t numActuators = m_actuators.size();
-    m_actuatorPos.resize(numActuators);
-    m_actuatorVel.resize(numActuators);
-    m_actuatorEfforts.resize(numActuators);
-    m_actuatorVelCommands.resize(numActuators);
+    size_t numJoints = m_jointNames.size();
 
-    // Configure limits
+    m_actuatorPos.resize(numJoints);
+    m_actuatorVel.resize(numJoints);
+    m_actuatorEfforts.resize(numJoints);
+    m_actuatorVelCommands.resize(numJoints);
+
+    // Configure limits for all joints including solenoid
     string description;
 
     if (ros::param::get("robot_description", description))
@@ -146,7 +143,7 @@ void arm::configure(ros::NodeHandle node)
 
         if (model.initString(description))
         {
-            for (int jointIndex = 0; jointIndex < numActuators; jointIndex++)
+            for (int jointIndex = 0; jointIndex < numJoints; jointIndex++)
             {
                 auto jointName = m_jointNames[jointIndex];
                 auto joint = model.getJoint(jointName);
@@ -168,61 +165,68 @@ void arm::configure(ros::NodeHandle node)
 
 bool arm::init(ros::NodeHandle node)
 {
-    // Initialize solenoid
-    if (!m_solenoid->init(node))
-        return false;
-
     // Initialize velocity/position actuators and their encoders
-    for (int actuator = 0; actuator < m_actuators.size(); actuator++)
+    for (int jointIndex = 0; jointIndex < m_jointNames.size(); jointIndex++)
     {
         // Initialize actuator controller
-        auto jointName = m_jointNames[actuator];
+        auto jointName = m_jointNames[jointIndex];
 
-        if (!m_actuators[actuator]->init(node))
-            return false;
+        if (jointIndex < m_actuators.size())
+        {
+            // Initialize motor
+            if (!m_actuators[jointIndex]->init(node))
+                return false;
 
-        // Initialize actuator encoder
-        if (!m_encoders[actuator]->init(node))
-            return false;
+            // Initialize encoder
+            if (!m_encoders[jointIndex]->init(node))
+                return false;
+        }
+        else
+        {
+            // Initialize solenoid
+            if (!m_solenoid->init(node))
+                return false;
+        }
 
         // Register state interface
         hardware_interface::JointStateHandle actuatorState(
             jointName,
-            &m_actuatorPos[actuator],
-            &m_actuatorVel[actuator],
-            &m_actuatorEfforts[actuator]
+            &m_actuatorPos[jointIndex],
+            &m_actuatorVel[jointIndex],
+            &m_actuatorEfforts[jointIndex]
         );
 
+        m_actuatorPos[jointIndex] = 0.0;
+        m_actuatorVel[jointIndex] = 0.0;
+        m_actuatorEfforts[jointIndex] = 0.0;
         m_stateInterface.registerHandle(actuatorState);
 
         // Register velocity interface
         hardware_interface::JointHandle actuatorVelocity(
             actuatorState,
-            &m_actuatorVelCommands[actuator]
+            &m_actuatorVelCommands[jointIndex]
         );
 
+        m_actuatorVelCommands[jointIndex] = 0.0;
         m_velInterface.registerHandle(actuatorVelocity);
 
         // Register limits interface
-        if (m_actuatorLimits.size() > actuator)
-        {
-            hardware_interface::JointStateHandle jointState(
-                jointName,
-                &m_actuatorPos[actuator],
-                &m_actuatorVel[actuator],
-                &m_actuatorEfforts[actuator]
-            );
+        hardware_interface::JointStateHandle jointState(
+            jointName,
+            &m_actuatorPos[jointIndex],
+            &m_actuatorVel[jointIndex],
+            &m_actuatorEfforts[jointIndex]
+        );
 
-            hardware_interface::JointHandle jointHandle(
-                jointState,
-                &m_actuatorVel[actuator]
-            );
+        hardware_interface::JointHandle jointHandle(
+            jointState,
+            &m_actuatorVel[jointIndex]
+        );
 
-            joint_limits_interface::VelocityJointSaturationHandle
-                actuatorLimits(jointHandle, m_actuatorLimits[actuator]);
-            
-            m_satInterface.registerHandle(actuatorLimits);
-        }
+        joint_limits_interface::VelocityJointSaturationHandle
+            actuatorLimits(jointHandle, m_actuatorLimits[jointIndex]);
+        
+        m_satInterface.registerHandle(actuatorLimits);
     }
 
     // Register interfaces for all joints
@@ -240,7 +244,14 @@ void arm::update()
 
     read();
 
-    m_controllers.update(time, period);
+    for (auto actuator: m_actuators)
+        actuator->update();
+
+    for (auto enc: m_encoders)
+        enc->update();
+
+    m_solenoid->update();
+    m_controllerManager.update(time, period);
     m_satInterface.enforceLimits(period);
 
     debug();
@@ -252,18 +263,48 @@ void arm::update()
 
 void arm::read()
 {
-    for (int actuator = 0; actuator < m_actuators.size(); actuator++)
+    for (int jointIndex = 0; jointIndex < m_jointNames.size(); jointIndex++)
     {
-        m_actuatorPos[actuator] = m_encoders[actuator]->getPos();
-        m_actuatorVel[actuator] = m_actuators[actuator]->getVelocity();
+        if (jointIndex < m_actuators.size())
+        {
+            // Read motor and encoder
+            m_actuatorPos[jointIndex] = m_encoders[jointIndex]->getPos();
+            m_actuatorVel[jointIndex] = m_actuators[jointIndex]->getVelocity();
+        }
+        else
+        {
+            // Read solenoid
+            auto solenoidLimit = m_actuatorLimits[m_actuators.size()];
+
+            m_actuatorPos[m_actuators.size()] = m_solenoid->isTriggered()
+                ? solenoidLimit.max_position
+                : solenoidLimit.min_position;
+
+            m_actuatorVel[m_actuators.size()] = m_solenoid->isTriggered()
+                ? solenoidLimit.max_velocity
+                : 0.0;
+        }
     }
 }
 
 void arm::write()
 {
-    for (int actuator = 0; actuator < m_actuators.size(); actuator++)
+    for (int jointIndex = 0; jointIndex < m_actuators.size(); jointIndex++)
     {
-        m_actuators[actuator]->command(m_actuatorVelCommands[actuator]);
+        if (jointIndex < m_actuators.size())
+        {
+            // Write motor
+            m_actuators[jointIndex]->command(m_actuatorVelCommands[jointIndex]);
+        }
+        else
+        {
+            // Write solenoid
+            if (m_actuatorVelCommands[jointIndex] > 0.0)
+            {
+                m_solenoid->trigger();
+                m_actuatorVelCommands[jointIndex] = 0.0;
+            }
+        }
     }
 }
 

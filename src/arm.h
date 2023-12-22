@@ -85,7 +85,7 @@ private:
     std::vector<double> m_actuatorVelCommands;
 
     // Joint hardware interfaces
-    controller_manager::ControllerManager m_controllers;
+    controller_manager::ControllerManager m_controllerManager;
     hardware_interface::JointStateInterface m_stateInterface;
     hardware_interface::VelocityJointInterface m_velInterface;
     joint_limits_interface::VelocityJointSaturationInterface m_satInterface;
@@ -101,7 +101,7 @@ public:
     virtual const char* getType();
 
     // Trigger arm
-    void trigger(double durationSeconds = 0.023);
+    void trigger();
 
     // Load arm controller settings
     virtual void configure(ros::NodeHandle node);

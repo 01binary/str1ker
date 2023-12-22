@@ -8,9 +8,6 @@
   <!-- Motor controller configuration -->
   <rosparam file="$(find str1ker_moveit_config)/config/ros_controllers.yaml" />
 
-  <!-- Solenoid controller configuration -->
-  <rosparam file="$(find str1ker)/config/solenoids.yaml" />
-
   <!-- Analog/Digital I/O -->
   <node
     name="arduinoMicro"
@@ -27,14 +24,6 @@
     pkg="str1ker"
     type="robot"
     required="true"
-    output="screen"
-  />
-
-  <!-- Simulation controllers -->
-  <node
-    name="solenoid_state_publisher"
-    type="solenoid_state_publisher"
-    pkg="str1ker"
     output="screen"
   />
 

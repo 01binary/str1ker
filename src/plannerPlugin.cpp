@@ -129,6 +129,8 @@ PluginContext::~PluginContext()
 
 bool PluginContext::solve(MotionPlanResponse& res)
 {
+    ROS_INFO_NAMED(PLUGIN_NAME, "PluginContext::solve was called (MotionPlanResponse)");
+
     MotionPlanDetailedResponse detailed;
     bool success = solve(detailed);
 
@@ -145,6 +147,8 @@ bool PluginContext::solve(MotionPlanResponse& res)
 
 bool PluginContext::solve(MotionPlanDetailedResponse& res)
 {
+    ROS_INFO_NAMED(PLUGIN_NAME, "PluginContext::solve was called (MotionPlanDetailedResponse)");
+
     if (!request_.goal_constraints.size())
     {
         ROS_ERROR_NAMED(PLUGIN_NAME, "No goal constraints specified");

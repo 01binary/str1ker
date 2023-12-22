@@ -82,3 +82,4 @@ robot:
         controller: 'solenoid'
         topic: 'pwm'
         channel: 6
+        triggerSeconds: 0.023

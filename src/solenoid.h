@@ -42,6 +42,10 @@ public:
     static const char TYPE[];
 
 private:
+    // Default trigger duration
+    const double DEFAULT_TRIGGER_DURATION_SEC = 0.023;
+
+private:
     // Publishing queue size
     const int QUEUE_SIZE = 4;
 
@@ -51,8 +55,17 @@ private:
     // Publisher trigger channel
     int m_channel;
 
-    // Publisher to node that runs solenoids
+    // Trigger duration in seconds
+    double m_triggerDurationSec;
+
+    // Publisher to solenoid driver
     ros::Publisher m_pub;
+
+    // Triggered status
+    bool m_triggered;
+
+    // Reset time if triggered
+    ros::Time m_resetTime;
 
 public:
     solenoid(class robot& robot, const char* path);
@@ -67,8 +80,12 @@ public:
     // Initialize
     virtual bool init(ros::NodeHandle node);
 
+    // Update
+    virtual void update();
+
     // Momentary trigger
-    void trigger(double durationSec);
+    void trigger();
+    bool isTriggered();
 
 public:
     // Create instance
