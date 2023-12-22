@@ -19,6 +19,10 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#include <vector>
+#include <string>
+#include <memory>
+
 #include <ros/ros.h>
 #include <controller_manager/controller_manager.h>
 #include <hardware_interface/joint_state_interface.h>
@@ -94,7 +98,7 @@ private:
 
 public:
     // Constructor
-    hardware(ros::NodeHandle node);
+    hardware(ros::NodeHandle node, const std::string namespace);
 
 public:
     // Load arm controller settings

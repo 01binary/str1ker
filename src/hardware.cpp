@@ -18,6 +18,8 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#include <set>
+#include "controllerFactory.h"
 #include "hardware.h"
 
 /*----------------------------------------------------------*\
@@ -38,7 +40,7 @@ hardware::hardware(ros::NodeHandle node)
 {
 }
 
-bool hardware::configure()
+bool hardware::configure(string namespace)
 {
     // Configure encoders and actuators
     vector<string> params;
@@ -49,7 +51,7 @@ bool hardware::configure()
     {
         auto paramName = params[param];
 
-        if (paramName.find(m_path) == 0)
+        if (paramName.find(namespace) == 0)
         {
             size_t paramNameStart = m_path.length() + 1;
             size_t paramNameEnd = paramName.find('/', paramNameStart);
