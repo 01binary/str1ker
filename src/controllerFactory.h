@@ -111,8 +111,11 @@ public:
     // Get controller name from path
     static const char* getControllerName(const char* path);
 
-    // Get controller parent from path
+    // Get controller parent name from path
     static std::string getParentName(const char* path);
+
+    // Get controller parent path from path
+    static std::string getParentPath(const char* path);
 
     // Get parent name
     static std::string getControllerPath(const char* path, const char* parentPath);

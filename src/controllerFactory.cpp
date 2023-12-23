@@ -152,13 +152,15 @@ controllerArray controllerFactory::deserialize(ros::NodeHandle node, const char*
 
         if (path.size() && controllerPaths.find(path) == controllerPaths.end())
         {
+            auto parent = getParentPath(path.c_str());
             auto name = getControllerName(path.c_str());
-            controller* instance = deserialize(node, controllerNamespace, name);
+
+            controller* instance = deserialize(node, parent.c_str(), name);
 
             if (instance)
             {
                 controllers.push_back(shared_ptr<controller>(instance));
-                controllerPaths.insert(string(path));
+                controllerPaths.insert(path);
             }
         }
     }
@@ -213,15 +215,32 @@ string controllerFactory::getParentName(const char* path)
     while (*parent != '/' && parent >= path)
         parent--;
 
-    if (parent == path) return NULL;
+    if (parent == path) return string();
 
     int parentLength = parentEnd - parent;
 
-    string parentName;
-    parentName.reserve(parentLength + 1);
+    string parentName(parentLength + 1, 0);
     strncpy(&parentName[0], parent, parentLength);
 
     return parentName;
+}
+
+string controllerFactory::getParentPath(const char* path)
+{
+    const char* parent = path + strlen(path) - 1;
+    if (*parent == '/') parent--;
+
+    while (*parent != '/' && parent >= path)
+        parent--;
+
+    if (parent == path) return string();
+
+    int length = parent - path;
+
+    string parentPath(length + 1, 0);
+    strncpy(&parentPath[0], path, length);
+
+    return parentPath;
 }
 
 string controllerFactory::getControllerPath(const char* path, const char* parentPath)
@@ -230,7 +249,7 @@ string controllerFactory::getControllerPath(const char* path, const char* parent
     sprintf(componentTypePath, "/%s/", parentPath);
 
     const char* typeNode = strstr(path, componentTypePath);
-    if (typeNode == NULL) return NULL;
+    if (typeNode == NULL) return string();
 
     // Path must end with /controller
     const char* leaf = path + strlen(path) - 1;
@@ -248,5 +267,5 @@ string controllerFactory::getControllerPath(const char* path, const char* parent
         return controllerPath;
     }
 
-    return string(0);
+    return string();
 }
