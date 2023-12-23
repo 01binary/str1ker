@@ -2,10 +2,10 @@
   <!-- Description-->
   <param name="robot_description" textfile="$(find str1ker)/description/robot.urdf" />
 
-  <!-- Controller configuration -->
-  <rosparam file="$(find str1ker)/config/controllers.yaml" />
+  <!-- Hardware controller configuration -->
+  <rosparam file="$(find str1ker)/config/hardware.yaml" />
 
-  <!-- Motor controller configuration -->
+  <!-- High-level controller configuration -->
   <rosparam file="$(find str1ker_moveit_config)/config/ros_controllers.yaml" />
 
   <!-- Analog/Digital I/O -->
@@ -18,7 +18,7 @@
     output="screen"
   />
 
-  <!-- Hardware -->
+  <!-- Hardware controllers -->
   <node
     name="hardware"
     type="hardware"
