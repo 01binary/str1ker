@@ -108,11 +108,14 @@ public:
     // Register controller type
     static void registerType(const char* type, createController create, bool shared);
 
-    // Get component name
+    // Get controller name from path
     static const char* getControllerName(const char* path);
 
+    // Get controller parent from path
+    static std::string getParentName(const char* path);
+
     // Get parent name
-    static const char* getControllerPath(const char* path, const char* componentType, char* componentPath);
+    static std::string getControllerPath(const char* path, const char* parentPath);
 };
 
 } // namespace str1ker

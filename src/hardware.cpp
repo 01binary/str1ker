@@ -35,7 +35,7 @@ using namespace std;
 
 hardware::hardware(ros::NodeHandle node)
     : m_node(node)
-    , m_controllerManager(this, node)
+    , m_controllerManager(this, node) // TODO default rate
     , m_lastUpdate(0)
 {
 }

@@ -134,21 +134,25 @@ controller* controllerFactory::deserialize(const char* type)
 
 controllerArray controllerFactory::deserialize(ros::NodeHandle node, const char* controllerNamespace)
 {
-    char path[255] = {0};
     vector<string> params;
     ros::param::getParamNames(params);
 
     controllerArray controllers;
     std::set<string> controllerPaths;
 
+    auto parentPath = controllerNamespace[0] == '/'
+        ? controllerNamespace + 1
+        : controllerNamespace;
+
     for (vector<string>::iterator pos = params.begin();
         pos != params.end();
         pos++)
     {
-        if (getControllerPath(pos->c_str(), controllerNamespace + 1, path) &&
-            controllerPaths.find(path) == controllerPaths.end())
+        auto path = getControllerPath(pos->c_str(), parentPath);
+
+        if (path.size() && controllerPaths.find(path) == controllerPaths.end())
         {
-            const char* name = getControllerName(path);
+            auto name = getControllerName(path.c_str());
             controller* instance = deserialize(node, controllerNamespace, name);
 
             if (instance)
@@ -196,20 +200,53 @@ const char* controllerFactory::getControllerName(const char* path)
     return lastSep + 1;
 }
 
-const char* controllerFactory::getControllerPath(
-    const char* path, const char* componentType, char* componentPath)
+string controllerFactory::getParentName(const char* path)
+{
+    const char* parent = path + strlen(path) - 1;
+    if (*parent == '/') parent--;
+
+    while (*parent != '/' && parent >= path)
+        parent--;
+
+    const char* parentEnd = parent;
+
+    while (*parent != '/' && parent >= path)
+        parent--;
+
+    if (parent == path) return NULL;
+
+    int parentLength = parentEnd - parent;
+
+    string parentName;
+    parentName.reserve(parentLength + 1);
+    strncpy(&parentName[0], parent, parentLength);
+
+    return parentName;
+}
+
+string controllerFactory::getControllerPath(const char* path, const char* parentPath)
 {
     char componentTypePath[64] = {0};
-    sprintf(componentTypePath, "/%s/", componentType);
+    sprintf(componentTypePath, "/%s/", parentPath);
 
     const char* typeNode = strstr(path, componentTypePath);
     if (typeNode == NULL) return NULL;
 
-    const char* nameNode = typeNode + strlen(componentTypePath);
-    const char* nextNode = strchr(nameNode , '/');
+    // Path must end with /controller
+    const char* leaf = path + strlen(path) - 1;
 
-    if (nextNode == NULL) nextNode = nameNode + strlen(nameNode);
+    while (*leaf != '/' && leaf >= path)
+        leaf--;
 
-    strncpy(componentPath, path, nextNode - path);
-    return componentPath;
+    if (strncmp(leaf, "/controller", strlen("/controller")) == 0)
+    {
+        int length = leaf - path;
+        string controllerPath(length, '\0');
+
+        strncpy(&controllerPath[0], path, length);
+
+        return controllerPath;
+    }
+
+    return string(0);
 }

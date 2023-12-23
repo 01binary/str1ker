@@ -86,13 +86,7 @@ include_directories(
 
 add_executable(robot
   src/robot.cpp
-  src/controllerFactory.cpp
-  src/controller.cpp
   src/arm.cpp
-  src/motor.cpp
-  src/solenoid.cpp
-  src/encoder.cpp
-  src/filter.cpp
 )
 
 add_dependencies(

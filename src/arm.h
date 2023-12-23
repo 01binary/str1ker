@@ -23,7 +23,6 @@
 
 #include <ros/ros.h>
 #include <controller_manager/controller_manager.h>
-#include "controller.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -35,27 +34,16 @@ namespace str1ker {
 | arm class
 \*----------------------------------------------------------*/
 
-class arm : public controller
+class arm
 {
-public:
-    // Controller type
-    static const char TYPE[];
-
 public:
     arm(ros::NodeHandle node, const char* path);
 
 public:
-    // Get display type
-    virtual const char* getType();
-
     // Trigger arm
     void trigger();
 
     // TODO motion planning with MoveIt
-
-public:
-    // Create instance
-    static controller* create(ros::NodeHandle node, const char* path);
 };
 
 } // namespace str1ker
