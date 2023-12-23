@@ -69,6 +69,8 @@ bool solenoid::configure()
 
     if (!ros::param::get(getControllerPath("triggerSeconds"), m_triggerDurationSec))
         ROS_WARN("%s did not specify trigger duration, using %g sec", getPath(), m_triggerDurationSec);
+
+    return true;
 }
 
 bool solenoid::init()

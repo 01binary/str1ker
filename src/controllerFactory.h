@@ -87,7 +87,7 @@ public:
         const char* parentPath,
         const char* controllerName)
     {
-        return dynamic_cast<T*>(deserialize(node, parentPath, controllerName, node));
+        return dynamic_cast<T*>(deserialize(node, parentPath, controllerName));
     }
 
     // Deserialize controller by type with type cast

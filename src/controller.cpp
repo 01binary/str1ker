@@ -21,7 +21,7 @@
 
 #include <algorithm>
 #include <ros/ros.h>
-#include "robot.h"
+#include "controllerFactory.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -34,18 +34,17 @@ using namespace std;
 | controller implementation
 \*----------------------------------------------------------*/
 
-controller::controller(robot& robot, const char* path) :
-    m_robot(robot),
-    m_name(robot::getControllerName(path)),
-    m_path(path),
-    m_enable(true),
-    m_error(NULL)
+controller::controller(ros::NodeHandle node, const char* path)
+    : m_node(node)
+    , m_name(controllerFactory::getControllerName(path))
+    , m_path(path)
+    , m_enable(true)
 {
 }
 
-robot& controller::getRobot()
+ros::NodeHandle controller::getNode()
 {
-    return m_robot;
+    return m_node;
 }
 
 const char* controller::getName()
@@ -63,17 +62,7 @@ const bool controller::isEnabled()
     return m_enable;
 }
 
-const char* controller::getLastError()
-{
-    return m_error;
-}
-
-void controller::setLastError(const char* error)
-{
-    m_error = error;
-}
-
-void controller::configure(ros::NodeHandle node)
+bool controller::configure()
 {
     string indent;
     indent.resize(
@@ -84,9 +73,11 @@ void controller::configure(ros::NodeHandle node)
     ROS_INFO("%sloading %s %s", indent.c_str(), getType(), getPath());
 
     ros::param::get(getControllerPath("enable"), m_enable);
+
+    return true;
 }
 
-bool controller::init(ros::NodeHandle node)
+bool controller::init()
 {
     return true;
 }
