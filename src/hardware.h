@@ -81,7 +81,7 @@ private:
 
 public:
     // Constructor
-    hardware(ros::NodeHandle node, const std::string namespace);
+    hardware(ros::NodeHandle node);
 
 public:
     // Load arm controller settings
