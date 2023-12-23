@@ -102,6 +102,8 @@ bool motor::configure()
 
   if (!ros::param::get(getControllerPath("maxVelocity"), m_maxVelocity))
     ROS_WARN("%s did not specify maxVelocity, using %g", getPath(), m_maxVelocity);
+
+  return true;
 }
 
 //

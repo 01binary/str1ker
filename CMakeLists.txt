@@ -107,6 +107,25 @@ target_link_libraries(robot
   -lrt
 )
 
+add_executable(hardware
+  src/controllerFactory.cpp
+  src/controller.cpp
+  src/hardware.cpp
+  src/motor.cpp
+  src/solenoid.cpp
+  src/encoder.cpp
+  src/filter.cpp
+)
+
+add_dependencies(
+  hardware ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  ${catkin_EXPORTED_TARGETS}
+)
+
+target_link_libraries(hardware
+  ${catkin_LIBRARIES}
+)
+
 add_library(str1ker-ik
   src/ikPlugin.cpp
   src/ikSolver.cpp
@@ -181,6 +200,14 @@ install(
 install(
   TARGETS
     robot
+  RUNTIME
+  DESTINATION
+    ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(
+  TARGETS
+    hardware
   RUNTIME
   DESTINATION
     ${CATKIN_PACKAGE_BIN_DESTINATION}
