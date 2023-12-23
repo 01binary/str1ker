@@ -1,7 +1,6 @@
 robot:
   rate: 50
   arm1:
-    controller: 'arm'
     base:
       actuator:
         controller: 'motor'
@@ -12,11 +11,6 @@ robot:
         maxPwm: 255
         minVelocity: 0.0
         maxVelocity: 1.0
-        pid:
-          p: 0.4079
-          i: 0.05242
-          d: 0.1964
-          i_clamp: 1.0
       encoder:
         controller: 'encoder'
         topic: 'adc'
@@ -37,11 +31,6 @@ robot:
         maxPwm: 255
         minVelocity: 0.0
         maxVelocity: 1.0
-        pid:
-          p: 3.149
-          i: 4.687
-          d: 0.03102
-          i_clamp: 1.0
       encoder:
         controller: 'encoder'
         topic: 'adc'
@@ -62,11 +51,6 @@ robot:
         maxPwm: 255
         minVelocity: 0.0
         maxVelocity: 1.0
-        pid:
-          p: 31.12
-          i: 10.22
-          d: 0.3102
-          i_clamp: 1.0
       encoder:
         controller: 'encoder'
         topic: 'adc'

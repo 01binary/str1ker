@@ -42,7 +42,7 @@ public:
     static const char TYPE[];
 
 public:
-    arm(class robot& robot, const char* path);
+    arm(ros::NodeHandle node, const char* path);
 
 public:
     // Get display type
@@ -55,7 +55,7 @@ public:
 
 public:
     // Create instance
-    static controller* create(class robot& robot, const char* path);
+    static controller* create(ros::NodeHandle node, const char* path);
 };
 
 } // namespace str1ker

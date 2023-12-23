@@ -21,6 +21,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#include <ros/ros.h>
 #include <str1ker/Pwm.h>
 #include "controller.h"
 #include "utilities.h"
@@ -108,9 +109,11 @@ public:
   // Constructors
   //
 
-  motor(class robot& robot, const char* path);
   motor(
-    class robot& robot,
+    ros::NodeHandle node, const char* path);
+
+  motor(
+    ros::NodeHandle node,
     const char* path,
     std::string topic,
     int lpwm,
@@ -146,17 +149,17 @@ public:
   }
 
   // Load settings
-  virtual void configure(ros::NodeHandle node);
+  virtual bool configure();
 
   // Initialize
-  virtual bool init(ros::NodeHandle node);
+  virtual bool init();
   
   // Command velocity
   void command(double velocity);
 
 public:
   // Create instance
-  static controller* create(class robot& robot, const char* path);
+  static controller* create(ros::NodeHandle node, const char* path);
 };
 
 } // namespace str1ker

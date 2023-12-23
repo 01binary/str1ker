@@ -42,8 +42,8 @@ class robot;
 class controller
 {
 protected:
-    // Robot the controller belongs to
-    robot& m_robot;
+    // Current node
+    ros::NodeHandle m_node;
 
     // Controller display name
     std::string m_name;
@@ -54,15 +54,12 @@ protected:
     // Whether controller is enabled
     bool m_enable;
 
-    // Last reported error
-    const char* m_error;
+public:
+    controller(ros::NodeHandle node, const char* path);
 
 public:
-    controller(robot& robot, const char* path);
-
-public:
-    // Get robot
-    robot& getRobot();
+    // Get current node
+    ros::NodeHandle getNode();
 
     // Get controller display name
     const char* getName();
@@ -73,27 +70,21 @@ public:
     // Get enabled status
     const bool isEnabled();
 
-    // Get last run-time error
-    const char* getLastError();
-
     // Get controller type display name
     virtual const char* getType() = 0;
 
     // Load controller settings
-    virtual void configure(ros::NodeHandle node);
+    virtual bool configure();
 
     // Initialize controller
-    virtual bool init(ros::NodeHandle node);
+    virtual bool init();
 
     // Update self and/or children
-    virtual void update();
+    virtual void update(ros::Time time, ros::Duration period);
 
 protected:
     // Get child controller path
     std::string getControllerPath(const char* controllerName);
-
-    // Set last run-time error
-    void setLastError(const char* lastError);
 };
 
 } // namespace str1ker

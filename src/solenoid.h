@@ -68,20 +68,20 @@ private:
     ros::Time m_resetTime;
 
 public:
-    solenoid(class robot& robot, const char* path);
+    solenoid(ros::NodeHandle node, const char* path);
 
 public:
     // Get display type
     virtual const char* getType();
 
     // Deserialize from settings
-    virtual void configure(ros::NodeHandle node);
+    virtual bool configure();
 
     // Initialize
-    virtual bool init(ros::NodeHandle node);
+    virtual bool init();
 
     // Update
-    virtual void update();
+    virtual void update(ros::Time time, ros::Duration period);
 
     // Momentary trigger
     void trigger();
@@ -89,7 +89,7 @@ public:
 
 public:
     // Create instance
-    static controller* create(robot& robot, const char* path);
+    static controller* create(ros::NodeHandle node, const char* path);
 };
 
 } // namespace str1ker

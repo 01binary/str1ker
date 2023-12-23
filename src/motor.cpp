@@ -48,13 +48,13 @@ REGISTER_CONTROLLER(motor)
 //
 
 motor::motor(
-  robot& robot, const char* path)
-  : controller(robot, path)
+  ros::NodeHandle node, const char* path)
+  : controller(node, path)
 {
 }
 
 motor::motor(
-  robot& robot,
+  ros::NodeHandle node,
   const char* path,
   string topic,
   int lpwm,
@@ -63,7 +63,7 @@ motor::motor(
   int maxPwm,
   double minVelocity,
   double maxVelocity)
-  : controller(robot, path)
+  : controller(node, path)
   , m_topic(topic)
   , m_lpwm(lpwm)
   , m_rpwm(rpwm)
@@ -78,9 +78,9 @@ motor::motor(
 // Configuration
 //
 
-void motor::configure(ros::NodeHandle node)
+bool motor::configure()
 {
-  controller::configure(node);
+  controller::configure();
 
   if (!ros::param::get(getControllerPath("topic"), m_topic))
     ROS_WARN("%s did not specify output topic, using %s", getPath(), m_topic.c_str());
@@ -108,10 +108,10 @@ void motor::configure(ros::NodeHandle node)
 // Initialization
 //
 
-bool motor::init(ros::NodeHandle node)
+bool motor::init()
 {
   // Initialize PWM output publisher
-  m_pwmPub = node.advertise<Pwm>(
+  m_pwmPub = m_node.advertise<Pwm>(
     m_topic,
     QUEUE_SIZE
   );
@@ -164,7 +164,7 @@ void motor::command(double velocity)
 // Dynamic creation
 //
 
-controller* motor::create(robot& robot, const char* path)
+controller* motor::create(ros::NodeHandle node, const char* path)
 {
-    return new motor(robot, path);
+    return new motor(node, path);
 }

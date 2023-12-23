@@ -104,9 +104,11 @@ public:
   // Constructors
   //
 
-  encoder(class robot& robot, const char* path);
   encoder(
-    class robot& robot,
+    ros::NodeHandle node, const char* path);
+
+  encoder(
+    ros::NodeHandle node,
     const char* path,
     const std::string& topic,
     int input,
@@ -155,17 +157,17 @@ public:
   }
 
   // Configuration
-  virtual void configure(ros::NodeHandle node);
+  virtual bool configure();
 
   // Initialization
-  virtual bool init(ros::NodeHandle& node);
+  virtual bool init();
 
   // Analog reading feedback
   void feedback(const Adc::ConstPtr& msg);
 
 public:
   // Create instance
-  static controller* create(class robot& robot, const char* path);
+  static controller* create(ros::NodeHandle node, const char* path);
 };
 
 } // namespace str1ker

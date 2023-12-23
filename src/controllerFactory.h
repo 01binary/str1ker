@@ -48,7 +48,8 @@ namespace str1ker {
 | Definitions
 \*----------------------------------------------------------*/
 
-typedef controller* (*createController)(class robot& robot, const char*);
+typedef controller* (*createController)(ros::NodeHandle node, const char*);
+typedef std::vector<std::shared_ptr<controller>> controllerArray;
 
 /*----------------------------------------------------------*\
 | controllerRegistration struct
@@ -82,12 +83,11 @@ public:
 public:
     // Deserialize controller with type cast
     template<class T> static T* deserialize(
-        class robot& robot,
+        ros::NodeHandle node,
         const char* parentPath,
-        const char* controllerName,
-        ros::NodeHandle node)
+        const char* controllerName)
     {
-        return dynamic_cast<T*>(deserialize(robot, parentPath, controllerName, node));
+        return dynamic_cast<T*>(deserialize(node, parentPath, controllerName, node));
     }
 
     // Deserialize controller by type with type cast
@@ -97,18 +97,22 @@ public:
     }
 
     // Deserialize controller by path
-    static controller* deserialize(
-        class robot& robot,
-        const char* parentPath,
-        const char* controllerName,
-        ros::NodeHandle node
-    );
+    static controller* deserialize(ros::NodeHandle node, const char* parentPath, const char* controllerName);
 
     // Deserialize controller by type
     static controller* deserialize(const char* type);
 
+    // Deserialize all controllers in configuration namespace
+    static controllerArray deserialize(ros::NodeHandle node, const char* controllerNamespace);
+
     // Register controller type
     static void registerType(const char* type, createController create, bool shared);
+
+    // Get component name
+    static const char* getControllerName(const char* path);
+
+    // Get parent name
+    static const char* getControllerPath(const char* path, const char* componentType, char* componentPath);
 };
 
 } // namespace str1ker

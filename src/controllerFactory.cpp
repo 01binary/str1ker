@@ -31,20 +31,23 @@ using namespace str1ker;
 using namespace std;
 
 /*----------------------------------------------------------*\
-| controllerFactory implementation
+| Variables
 \*----------------------------------------------------------*/
 
 map<string, controllerRegistration> controllerFactory::s_types;
 bool controllerFactory::s_initialized = false;
-
 controllerFactory instance;
+
+/*----------------------------------------------------------*\
+| controllerFactory implementation
+\*----------------------------------------------------------*/
 
 controllerFactory::controllerFactory()
 {
     s_initialized = true;
 }
 
-controller* controllerFactory::deserialize(robot& robot, const char* parentPath, const char* controllerName, ros::NodeHandle node)
+controller* controllerFactory::deserialize(ros::NodeHandle node, const char* parentPath, const char* controllerName)
 {
     try
     {
@@ -76,16 +79,16 @@ controller* controllerFactory::deserialize(robot& robot, const char* parentPath,
         {
             if (NULL == reg.instance)
             {
-                reg.instance = reg.create(robot, componentPath.c_str());
-                reg.instance->configure(node);
+                reg.instance = reg.create(node, componentPath.c_str());
+                reg.instance->configure();
             }
 
             instance = reg.instance;
         }
         else
         {
-            instance = reg.create(robot, componentPath.c_str());
-            instance->configure(node);
+            instance = reg.create(node, componentPath.c_str());
+            instance->configure();
         }
 
         return instance;
@@ -129,6 +132,36 @@ controller* controllerFactory::deserialize(const char* type)
     }
 }
 
+controllerArray controllerFactory::deserialize(ros::NodeHandle node, const char* controllerNamespace)
+{
+    char path[255] = {0};
+    vector<string> params;
+    ros::param::getParamNames(params);
+
+    controllerArray controllers;
+    std::set<string> controllerPaths;
+
+    for (vector<string>::iterator pos = params.begin();
+        pos != params.end();
+        pos++)
+    {
+        if (getControllerPath(pos->c_str(), controllerNamespace + 1, path) &&
+            controllerPaths.find(path) == controllerPaths.end())
+        {
+            const char* name = getControllerName(path);
+            controller* instance = deserialize(node, controllerNamespace, name);
+
+            if (instance)
+            {
+                controllers.push_back(shared_ptr<controller>(instance));
+                controllerPaths.insert(string(path));
+            }
+        }
+    }
+
+    return controllers;
+}
+
 void controllerFactory::registerType(const char* type, createController create, bool shared)
 {
     try
@@ -153,4 +186,30 @@ void controllerFactory::registerType(const char* type, createController create, 
     {
         ROS_ERROR("exception registering %s", type);
     }
+}
+
+const char* controllerFactory::getControllerName(const char* path)
+{
+    const char* lastSep = strrchr(path, '/');
+    if (lastSep == NULL) return path;
+
+    return lastSep + 1;
+}
+
+const char* controllerFactory::getControllerPath(
+    const char* path, const char* componentType, char* componentPath)
+{
+    char componentTypePath[64] = {0};
+    sprintf(componentTypePath, "/%s/", componentType);
+
+    const char* typeNode = strstr(path, componentTypePath);
+    if (typeNode == NULL) return NULL;
+
+    const char* nameNode = typeNode + strlen(componentTypePath);
+    const char* nextNode = strchr(nameNode , '/');
+
+    if (nextNode == NULL) nextNode = nameNode + strlen(nameNode);
+
+    strncpy(componentPath, path, nextNode - path);
+    return componentPath;
 }

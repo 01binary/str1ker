@@ -34,7 +34,7 @@
 #include <joint_limits_interface/joint_limits_urdf.h>
 #include <urdf/model.h>
 
-#include "controller.h"
+#include "controllerFactory.h"
 #include "motor.h"
 #include "encoder.h"
 #include "solenoid.h"
@@ -55,40 +55,23 @@ private:
     // ROS node
     ros::NodeHandle m_node;
 
-    // Controller manager service
+    // Spin rate
+    double m_rate;
+
+    // Velocity controllers
     controller_manager::ControllerManager m_controllerManager;
 
-    // Paths of actuators to publish
-    std::vector<std::string> m_actuatorPaths;
+    // Hardware controllers
+    controllerArray m_controllers;
 
-    // Joints
-    std::vector<std::string> m_jointNames;
+    // Hardware state
+    std::vector<double> m_pos;
+    std::vector<double> m_vel;
+    std::vector<double> m_effort;
+    std::vector<joint_limits_interface::JointLimits> m_limits;
+    std::vector<double> m_commands;
 
-    // Actuator controllers (one for each joint)
-    std::vector<std::shared_ptr<motor>> m_actuators;
-
-    // Encoder controllers (one for each joint)
-    std::vector<std::shared_ptr<encoder>> m_encoders;
-
-    // Solenoid controller
-    std::shared_ptr<solenoid> m_solenoid;
-
-    // Actuator positions
-    std::vector<double> m_actuatorPos;
-
-    // Actuator velocities
-    std::vector<double> m_actuatorVel;
-
-    // Actuator limits
-    std::vector<joint_limits_interface::JointLimits> m_actuatorLimits;
-
-    // Actuator efforts (not used)
-    std::vector<double> m_actuatorEfforts;
-
-    // Actuator velocity commands
-    std::vector<double> m_actuatorVelCommands;
-
-    // Joint hardware interfaces
+    // Hardware interfaces
     hardware_interface::JointStateInterface m_stateInterface;
     hardware_interface::VelocityJointInterface m_velInterface;
     joint_limits_interface::VelocityJointSaturationInterface m_satInterface;
@@ -102,7 +85,7 @@ public:
 
 public:
     // Load arm controller settings
-    bool configure();
+    bool configure(const char* controllerNamespace);
 
     // Initialize arm controllers
     bool init();

@@ -43,8 +43,8 @@ const char arm::TYPE[] = "arm";
 
 REGISTER_CONTROLLER(arm)
 
-arm::arm(robot& robot, const char* path)
-    : controller(robot, path)
+arm::arm(ros::NodeHandle node, const char* path)
+    : controller(node, path)
 {
 }
 
@@ -58,7 +58,7 @@ void arm::trigger()
     // TODO talk to hardare
 }
 
-controller* arm::create(robot& robot, const char* path)
+controller* arm::create(ros::NodeHandle node, const char* path)
 {
-    return new arm(robot, path);
+    return new arm(node, path);
 }

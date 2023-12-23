@@ -91,7 +91,7 @@ bool controller::init(ros::NodeHandle node)
     return true;
 }
 
-void controller::update()
+void controller::update(ros::Time time, ros::Duration period)
 {
 }
 

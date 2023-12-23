@@ -47,14 +47,14 @@ REGISTER_CONTROLLER(encoder);
 // Constructors
 //
 
-encoder::encoder(class robot& robot, const char* path)
-  : controller(robot, path)
+encoder::encoder(ros::NodeHandle node, const char* path)
+  : controller(node, path)
   , m_filter(DEFAULT_THRESHOLD, DEFAULT_AVERAGE)
 {
 }
 
 encoder::encoder(
-  class robot& robot,
+  ros::NodeHandle node,
   const char* path,
   const std::string& topic,
   int input,
@@ -64,7 +64,7 @@ encoder::encoder(
   double maxPos,
   int filterThreshold,
   int filterAverage)
-  : controller(robot, path)
+  : controller(node, path)
   , m_topic(topic)
   , m_filter(filterThreshold, filterAverage)
   , m_channel(input)
@@ -80,9 +80,9 @@ encoder::encoder(
 // Configuration
 //
 
-void encoder::configure(ros::NodeHandle node)
+bool encoder::configure()
 {
-  controller::configure(node);
+  controller::configure();
 
   if (!ros::param::get(getControllerPath("topic"), m_topic))
     ROS_WARN("%s did not specify ADC input topic, using %s", getPath(), m_topic.c_str());
@@ -111,16 +111,18 @@ void encoder::configure(ros::NodeHandle node)
     ROS_WARN("%s did not specify how many samples to average, using %d", getPath(), DEFAULT_AVERAGE);
 
   m_filter = filter(threshold, average);
+
+  return true;
 }
 
 //
 // Initialization
 //
 
-bool encoder::init(ros::NodeHandle& node)
+bool encoder::init()
 {
   // Subscribe to analog readings
-  m_sub = node.subscribe<Adc>(
+  m_sub = m_node.subscribe<Adc>(
     m_topic, QUEUE_SIZE, &encoder::feedback, this);
 
   ROS_INFO("  initialized %s %s on %s channel %d: [%d, %d] -> [%g, %g]",
@@ -164,7 +166,7 @@ void encoder::feedback(const Adc::ConstPtr& msg)
 // Dynamic creation
 //
 
-controller* encoder::create(robot& robot, const char* path)
+controller* encoder::create(ros::NodeHandle node, const char* path)
 {
-  return new encoder(robot, path);
+  return new encoder(node, path);
 }
