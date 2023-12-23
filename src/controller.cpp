@@ -57,6 +57,16 @@ const char* controller::getPath()
     return m_path.c_str();
 }
 
+std::string controller::getParentName()
+{
+    return controllerFactory::getParentName(m_path.c_str());
+}
+
+std::string controller::getParentPath()
+{
+    return controllerFactory::getParentPath(m_path.c_str());
+}
+
 const bool controller::isEnabled()
 {
     return m_enable;

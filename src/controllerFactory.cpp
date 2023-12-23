@@ -155,6 +155,7 @@ controllerArray controllerFactory::deserialize(ros::NodeHandle node, const char*
             auto parent = getParentPath(path.c_str());
             auto name = getControllerName(path.c_str());
 
+            // TODO: this function just concatenates parent and name again, let's not do that
             controller* instance = deserialize(node, parent.c_str(), name);
 
             if (instance)

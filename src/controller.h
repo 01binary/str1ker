@@ -62,11 +62,17 @@ public:
     // Get current node
     ros::NodeHandle getNode();
 
-    // Get controller display name
+    // Get controller name
     const char* getName();
 
-    // Get controller control path
+    // Get controller path
     const char* getPath();
+
+    // Get controller parent name
+    std::string getParentName();
+
+    // Get controller parent path
+    std::string getParentPath();
 
     // Get enabled status
     const bool isEnabled();
