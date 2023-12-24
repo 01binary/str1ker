@@ -103,6 +103,7 @@ target_link_libraries(robot
 
 add_executable(hardware
   src/controllerFactory.cpp
+  src/controllerUtilities.cpp
   src/controller.cpp
   src/hardware.cpp
   src/motor.cpp
