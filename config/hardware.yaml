@@ -4,6 +4,7 @@ robot:
     base:
       actuator:
         controller: 'motor'
+        enabled: false
         topic: 'pwm'
         lpwm: 0
         rpwm: 1
@@ -13,6 +14,7 @@ robot:
         maxVelocity: 1.0
       encoder:
         controller: 'encoder'
+        enabled: false
         topic: 'adc'
         channel: 0
         minReading: 810
@@ -24,6 +26,7 @@ robot:
     upperarm_actuator:
       actuator:
         controller: 'motor'
+        enabled: false
         topic: 'pwm'
         lpwm: 2
         rpwm: 3
@@ -33,6 +36,7 @@ robot:
         maxVelocity: 1.0
       encoder:
         controller: 'encoder'
+        enabled: false
         topic: 'adc'
         channel: 1
         minReading: 857
@@ -44,6 +48,7 @@ robot:
     forearm_actuator:
       actuator:
         controller: 'motor'
+        enabled: false
         topic: 'pwm'
         lpwm: 4
         rpwm: 5
@@ -53,6 +58,7 @@ robot:
         maxVelocity: 1.0
       encoder:
         controller: 'encoder'
+        enabled: false
         topic: 'adc'
         channel: 6
         minReading: 976
@@ -64,6 +70,7 @@ robot:
     wrist:
       actuator:
         controller: 'solenoid'
+        enabled: false
         topic: 'pwm'
         channel: 6
         triggerSeconds: 0.023

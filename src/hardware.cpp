@@ -268,6 +268,7 @@ int main(int argc, char** argv)
     while(node.ok())
     {
         hw.update();
+        ros::spinOnce();
         rate.sleep();
     }
 
