@@ -21,7 +21,7 @@
 
 #include "robot.h"
 #include "controllerFactory.h"
-#include "utilities.h"
+#include "hardwareUtilities.h"
 #include "encoder.h"
 
 /*----------------------------------------------------------*\

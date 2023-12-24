@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <ros/ros.h>
 #include "controllerFactory.h"
+#include "controllerUtilities.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -37,7 +38,7 @@ using namespace std;
 controller::controller(ros::NodeHandle node, string type, string path)
     : m_node(node)
     , m_type(type)
-    , m_name(controllerFactory::getControllerName(path))
+    , m_name(controllerUtilities::getControllerName(path))
     , m_path(path)
     , m_enable(true)
 {
@@ -65,12 +66,12 @@ const string& controller::getPath()
 
 std::string controller::getParentName()
 {
-    return controllerFactory::getParentName(m_path.c_str());
+    return controllerUtilities::getParentName(m_path.c_str());
 }
 
 std::string controller::getParentPath()
 {
-    return controllerFactory::getParentPath(m_path.c_str());
+    return controllerUtilities::getParentPath(m_path.c_str());
 }
 
 const bool controller::isEnabled()
@@ -86,7 +87,7 @@ bool controller::configure()
         ' '
     );
 
-    ROS_INFO("%sloading %s %s", indent.c_str(), getType(), getPath());
+    ROS_INFO("%sloading %s %s", indent.c_str(), getType().c_str(), getPath().c_str());
 
     ros::param::get(getChildPath("enable"), m_enable);
 
