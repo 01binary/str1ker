@@ -84,30 +84,30 @@ bool encoder::configure()
 {
   controller::configure();
 
-  if (!ros::param::get(getControllerPath("topic"), m_topic))
+  if (!ros::param::get(getChildPath("topic"), m_topic))
     ROS_WARN("%s did not specify ADC input topic, using %s", getPath().c_str(), m_topic.c_str());
 
-  if (!ros::param::get(getControllerPath("channel"), m_channel))
+  if (!ros::param::get(getChildPath("channel"), m_channel))
     ROS_WARN("%s did not specify ADC input channel, using %d", getPath().c_str(), m_channel);
 
-  if (!ros::param::get(getControllerPath("minReading"), m_minReading))
+  if (!ros::param::get(getChildPath("minReading"), m_minReading))
     ROS_WARN("%s did not specify minReading value, using %d", getPath().c_str(), m_minReading);
 
-  if (!ros::param::get(getControllerPath("maxReading"), m_maxReading))
+  if (!ros::param::get(getChildPath("maxReading"), m_maxReading))
     ROS_WARN("%s did not specify maxReading value, using %d", getPath().c_str(), m_maxReading);
 
-  if (!ros::param::get(getControllerPath("minPos"), m_minPos))
+  if (!ros::param::get(getChildPath("minPos"), m_minPos))
     ROS_WARN("%s did not specify minPos value, using %g", getPath().c_str(), m_minPos);
 
-  if (!ros::param::get(getControllerPath("maxPos"), m_maxPos))
+  if (!ros::param::get(getChildPath("maxPos"), m_maxPos))
     ROS_WARN("%s did not specify maxPos value, using %g", getPath().c_str(), m_maxPos);
 
   int threshold = DEFAULT_THRESHOLD, average = DEFAULT_AVERAGE;
 
-  if (!ros::param::get(getControllerPath("threshold"), threshold))
+  if (!ros::param::get(getChildPath("threshold"), threshold))
     ROS_WARN("%s did not specify sample threshold, using %d", getPath().c_str(), DEFAULT_THRESHOLD);
 
-  if (!ros::param::get(getControllerPath("average"), average))
+  if (!ros::param::get(getChildPath("average"), average))
     ROS_WARN("%s did not specify how many samples to average, using %d", getPath().c_str(), DEFAULT_AVERAGE);
 
   m_filter = filter(threshold, average);

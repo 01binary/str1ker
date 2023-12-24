@@ -57,13 +57,13 @@ bool solenoid::configure()
 {
     controller::configure();
 
-    if (!ros::param::get(getControllerPath("topic"), m_topic))
+    if (!ros::param::get(getChildPath("topic"), m_topic))
         ROS_WARN("%s did not specify output topic, using %s", getPath().c_str(), m_topic.c_str());
 
-    if (!ros::param::get(getControllerPath("channel"), m_channel))
+    if (!ros::param::get(getChildPath("channel"), m_channel))
         ROS_WARN("%s did not specify output channel, using %d", getPath().c_str(), m_channel);
 
-    if (!ros::param::get(getControllerPath("triggerSeconds"), m_triggerDurationSec))
+    if (!ros::param::get(getChildPath("triggerSeconds"), m_triggerDurationSec))
         ROS_WARN("%s did not specify trigger duration, using %g sec", getPath().c_str(), m_triggerDurationSec);
 
     return true;

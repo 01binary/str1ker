@@ -88,7 +88,7 @@ bool controller::configure()
 
     ROS_INFO("%sloading %s %s", indent.c_str(), getType(), getPath());
 
-    ros::param::get(getControllerPath("enable"), m_enable);
+    ros::param::get(getChildPath("enable"), m_enable);
 
     return true;
 }
@@ -102,7 +102,7 @@ void controller::update(ros::Time time, ros::Duration period)
 {
 }
 
-string controller::getControllerPath(string controllerName)
+string controller::getChildPath(const string& controllerName)
 {
     return m_path + "/" + controllerName;
 }

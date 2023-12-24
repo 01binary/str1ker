@@ -82,25 +82,25 @@ bool motor::configure()
 {
   controller::configure();
 
-  if (!ros::param::get(getControllerPath("topic"), m_topic))
+  if (!ros::param::get(getChildPath("topic"), m_topic))
     ROS_WARN("%s did not specify output topic, using %s", getPath().c_str(), m_topic.c_str());
 
-  if (!ros::param::get(getControllerPath("lpwm"), m_lpwm))
+  if (!ros::param::get(getChildPath("lpwm"), m_lpwm))
     ROS_WARN("%s did not specify lpwm channel, using %d", getPath().c_str(), m_lpwm);
 
-  if (!ros::param::get(getControllerPath("rpwm"), m_rpwm))
+  if (!ros::param::get(getChildPath("rpwm"), m_rpwm))
     ROS_WARN("%s did not specify rpwm channel, using %d", getPath().c_str(), m_rpwm);
 
-  if (!ros::param::get(getControllerPath("minPwm"), m_minPwm))
+  if (!ros::param::get(getChildPath("minPwm"), m_minPwm))
     ROS_WARN("%s did not specify minPwm value, using %d", getPath().c_str(), m_minPwm);
 
-  if (!ros::param::get(getControllerPath("maxPwm"), m_maxPwm))
+  if (!ros::param::get(getChildPath("maxPwm"), m_maxPwm))
     ROS_WARN("%s did not specify maxPwm value, using %d", getPath().c_str(), m_maxPwm);
 
-  if (!ros::param::get(getControllerPath("minVelocity"), m_minVelocity))
+  if (!ros::param::get(getChildPath("minVelocity"), m_minVelocity))
     ROS_WARN("%s did not specify minVelocity, using %g", getPath().c_str(), m_minVelocity);
 
-  if (!ros::param::get(getControllerPath("maxVelocity"), m_maxVelocity))
+  if (!ros::param::get(getChildPath("maxVelocity"), m_maxVelocity))
     ROS_WARN("%s did not specify maxVelocity, using %g", getPath().c_str(), m_maxVelocity);
 
   return true;

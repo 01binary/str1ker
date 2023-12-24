@@ -146,7 +146,7 @@ controllerArray controllerFactory::fromNamespace(ros::NodeHandle node, string co
     {
         auto path = getControllerPath(*pos, parentPath);
 
-        if (path.size() && controllerPaths.find(path) == controllerPaths.end())
+        if (path.length() && controllerPaths.find(path) == controllerPaths.end())
         {
             controller* instance = fromPath(node, path);
 
@@ -187,7 +187,7 @@ void controllerFactory::registerType(string type, createController create, bool 
     }
 }
 
-string controllerFactory::getControllerName(string path)
+string controllerFactory::getControllerName(const string& path)
 {
     const char* lastSep = strrchr(path.c_str(), '/');
     if (lastSep == NULL) return path;
@@ -195,14 +195,16 @@ string controllerFactory::getControllerName(string path)
     return lastSep + 1;
 }
 
-string controllerFactory::getParentName(string path)
+string controllerFactory::getParentName(const string& path)
 {
+    // Find controller name
     const char* parent = path.c_str() + path.length() - 1;
     if (*parent == '/') parent--;
 
     while (*parent != '/' && parent >= path)
         parent--;
 
+    // Find controller parent name
     const char* parentEnd = parent--;
 
     while (*parent != '/' && parent >= path)
@@ -210,6 +212,7 @@ string controllerFactory::getParentName(string path)
 
     if (parent == path) return string();
 
+    // Copy controller parent name
     int parentLength = parentEnd - parent - 1;
 
     string parentName(parentLength, 0);
@@ -218,7 +221,7 @@ string controllerFactory::getParentName(string path)
     return parentName;
 }
 
-string controllerFactory::getParentPath(string path)
+string controllerFactory::getParentPath(const string& path)
 {
     const char* parent = path.c_str() + path.length() - 1;
     if (*parent == '/') parent--;
@@ -236,7 +239,7 @@ string controllerFactory::getParentPath(string path)
     return parentPath;
 }
 
-string controllerFactory::getControllerPath(string path, string parentPath)
+string controllerFactory::getControllerPath(const string& path, const string& parentPath)
 {
     string typePath = "/" + parentPath + "/";
 

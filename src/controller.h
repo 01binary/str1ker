@@ -94,7 +94,7 @@ public:
 
 protected:
     // Get child controller path
-    std::string getControllerPath(std::string controllerName);
+    std::string getChildPath(const std::string& controllerName);
 };
 
 } // namespace str1ker
