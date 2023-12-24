@@ -47,28 +47,24 @@ controllerFactory::controllerFactory()
     s_initialized = true;
 }
 
-controller* controllerFactory::deserialize(ros::NodeHandle node, const char* parentPath, const char* controllerName)
+controller* controllerFactory::deserializeFromPath(ros::NodeHandle node, const char* path)
 {
     try
     {
         if (!s_initialized)
         {
-            ROS_ERROR("attempted to deserialize %s/%s before static initialization: ensure controllerFactory.cpp is first in CMakeLists", parentPath, controllerName);
+            ROS_ERROR("attempted to deserialize %s before static initialization: ensure controllerFactory.cpp is first in CMakeLists", path);
             return NULL;
         }
 
-        string componentPath = string(parentPath) + "/" + controllerName;
-        string controllerTypePath = componentPath + "/controller";
         string controllerType;
 
-        if (!ros::param::get(controllerTypePath, controllerType))
+        if (!ros::param::get(string(path) + "/controller", controllerType))
             return NULL;
 
         if (s_types.find(controllerType.c_str()) == s_types.end())
         {
-            ROS_WARN("could not find type '%s' loading %s from parent %s (no %s defined)",
-                controllerType.c_str(), controllerName, parentPath, controllerTypePath.c_str());
-
+            ROS_WARN("could not find type '%s' loading %s", controllerType.c_str(), path);
             return NULL;
         }
 
@@ -79,7 +75,7 @@ controller* controllerFactory::deserialize(ros::NodeHandle node, const char* par
         {
             if (NULL == reg.instance)
             {
-                reg.instance = reg.create(node, componentPath.c_str());
+                reg.instance = reg.create(node, path);
                 reg.instance->configure();
             }
 
@@ -87,7 +83,7 @@ controller* controllerFactory::deserialize(ros::NodeHandle node, const char* par
         }
         else
         {
-            instance = reg.create(node, componentPath.c_str());
+            instance = reg.create(node, path);
             instance->configure();
         }
 
@@ -95,12 +91,12 @@ controller* controllerFactory::deserialize(ros::NodeHandle node, const char* par
     }
     catch (...)
     {
-        ROS_ERROR("exception deserializing %s/%s", parentPath, controllerName);
+        ROS_ERROR("exception deserializing %s", path);
         return NULL;
     }
 }
 
-controller* controllerFactory::deserialize(const char* type)
+controller* controllerFactory::deserializeFromType(const char* type)
 {
     try
     {
@@ -132,7 +128,7 @@ controller* controllerFactory::deserialize(const char* type)
     }
 }
 
-controllerArray controllerFactory::deserialize(ros::NodeHandle node, const char* controllerNamespace)
+controllerArray controllerFactory::deserializeFromNamespace(ros::NodeHandle node, const char* controllerNamespace)
 {
     vector<string> params;
     ros::param::getParamNames(params);
@@ -152,11 +148,7 @@ controllerArray controllerFactory::deserialize(ros::NodeHandle node, const char*
 
         if (path.size() && controllerPaths.find(path) == controllerPaths.end())
         {
-            auto parent = getParentPath(path.c_str());
-            auto name = getControllerName(path.c_str());
-
-            // TODO: this function just concatenates parent and name again, let's not do that
-            controller* instance = deserialize(node, parent.c_str(), name);
+            controller* instance = deserializeFromPath(node, path.c_str());
 
             if (instance)
             {

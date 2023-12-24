@@ -44,7 +44,7 @@ bool hardware::configure(const char* controllerNamespace)
 {
     ros::param::get(string(controllerNamespace) + "/rate", m_rate);
 
-    m_controllers = controllerFactory::deserialize(m_node, controllerNamespace);
+    m_controllers = controllerFactory::deserializeFromNamespace(m_node, controllerNamespace);
 
     for (auto controller : m_controllers)
     {
