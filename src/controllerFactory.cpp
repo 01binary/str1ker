@@ -47,7 +47,7 @@ controllerFactory::controllerFactory()
     s_initialized = true;
 }
 
-controller* controllerFactory::deserializeFromPath(ros::NodeHandle node, const char* path)
+controller* controllerFactory::fromPath(ros::NodeHandle node, const char* path)
 {
     try
     {
@@ -96,7 +96,7 @@ controller* controllerFactory::deserializeFromPath(ros::NodeHandle node, const c
     }
 }
 
-controller* controllerFactory::deserializeFromType(const char* type)
+controller* controllerFactory::fromType(const char* type)
 {
     try
     {
@@ -128,7 +128,7 @@ controller* controllerFactory::deserializeFromType(const char* type)
     }
 }
 
-controllerArray controllerFactory::deserializeFromNamespace(ros::NodeHandle node, const char* controllerNamespace)
+controllerArray controllerFactory::fromNamespace(ros::NodeHandle node, const char* controllerNamespace)
 {
     vector<string> params;
     ros::param::getParamNames(params);
@@ -148,7 +148,7 @@ controllerArray controllerFactory::deserializeFromNamespace(ros::NodeHandle node
 
         if (path.size() && controllerPaths.find(path) == controllerPaths.end())
         {
-            controller* instance = deserializeFromPath(node, path.c_str());
+            controller* instance = fromPath(node, path.c_str());
 
             if (instance)
             {

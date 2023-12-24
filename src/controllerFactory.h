@@ -84,23 +84,23 @@ public:
     // Deserialize controller with type cast
     template<class T> static T* deserialize(ros::NodeHandle node, const char* path)
     {
-        return dynamic_cast<T*>(deserializeFromPath(node, path));
+        return dynamic_cast<T*>(fromPath(node, path));
     }
 
     // Deserialize controller by type with type cast
     template<class T> static T* deserialize(const char* type)
     {
-        return dynamic_cast<T*>(deserializeFromType(type));
+        return dynamic_cast<T*>(fromType(type));
     }
 
     // Deserialize controller by path
-    static controller* deserializeFromPath(ros::NodeHandle node, const char* path);
+    static controller* fromPath(ros::NodeHandle node, const char* path);
 
     // Deserialize controller by type
-    static controller* deserializeFromType(const char* type);
+    static controller* fromType(const char* type);
 
     // Deserialize all controllers in namespace
-    static controllerArray deserializeFromNamespace(ros::NodeHandle node, const char* controllerNamespace);
+    static controllerArray fromNamespace(ros::NodeHandle node, const char* controllerNamespace);
 
     // Register controller type
     static void registerType(const char* type, createController create, bool shared);
