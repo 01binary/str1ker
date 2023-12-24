@@ -34,8 +34,9 @@ using namespace std;
 | controller implementation
 \*----------------------------------------------------------*/
 
-controller::controller(ros::NodeHandle node, const char* path)
+controller::controller(ros::NodeHandle node, string type, string path)
     : m_node(node)
+    , m_type(type)
     , m_name(controllerFactory::getControllerName(path))
     , m_path(path)
     , m_enable(true)
@@ -47,14 +48,19 @@ ros::NodeHandle controller::getNode()
     return m_node;
 }
 
-const char* controller::getName()
+const string& controller::getType()
 {
-    return m_name.c_str();
+    return m_type;
 }
 
-const char* controller::getPath()
+const string& controller::getName()
 {
-    return m_path.c_str();
+    return m_name;
+}
+
+const string& controller::getPath()
+{
+    return m_path;
 }
 
 std::string controller::getParentName()
@@ -96,7 +102,7 @@ void controller::update(ros::Time time, ros::Duration period)
 {
 }
 
-string controller::getControllerPath(const char* controllerName)
+string controller::getControllerPath(string controllerName)
 {
     return m_path + "/" + controllerName;
 }

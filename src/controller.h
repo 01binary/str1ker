@@ -46,27 +46,33 @@ protected:
     // Current node
     ros::NodeHandle m_node;
 
-    // Controller display name
+    // Controller type
+    std::string m_type;
+
+    // Controller configuration node name
     std::string m_name;
 
-    // Controller control path
+    // Controller configuration path
     std::string m_path;
 
     // Whether controller is enabled
     bool m_enable;
 
 public:
-    controller(ros::NodeHandle node, const char* path);
+    controller(ros::NodeHandle node, std::string type, std::string path);
 
 public:
     // Get current node
     ros::NodeHandle getNode();
 
+    // Get controller type name
+    const std::string& getType();
+
     // Get controller name
-    const char* getName();
+    const std::string& getName();
 
     // Get controller path
-    const char* getPath();
+    const std::string& getPath();
 
     // Get controller parent name
     std::string getParentName();
@@ -76,9 +82,6 @@ public:
 
     // Get enabled status
     const bool isEnabled();
-
-    // Get controller type display name
-    virtual const char* getType() = 0;
 
     // Load controller settings
     virtual bool configure();
@@ -91,7 +94,7 @@ public:
 
 protected:
     // Get child controller path
-    std::string getControllerPath(const char* controllerName);
+    std::string getControllerPath(std::string controllerName);
 };
 
 } // namespace str1ker

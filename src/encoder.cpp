@@ -47,16 +47,16 @@ REGISTER_CONTROLLER(encoder);
 // Constructors
 //
 
-encoder::encoder(ros::NodeHandle node, const char* path)
-  : controller(node, path)
+encoder::encoder(ros::NodeHandle node, string path)
+  : controller(node, TYPE, path)
   , m_filter(DEFAULT_THRESHOLD, DEFAULT_AVERAGE)
 {
 }
 
 encoder::encoder(
   ros::NodeHandle node,
-  const char* path,
-  const std::string& topic,
+  string path,
+  string topic,
   int input,
   int minReading,
   int maxReading,
@@ -64,7 +64,7 @@ encoder::encoder(
   double maxPos,
   int filterThreshold,
   int filterAverage)
-  : controller(node, path)
+  : controller(node, TYPE, path)
   , m_topic(topic)
   , m_filter(filterThreshold, filterAverage)
   , m_channel(input)
@@ -85,30 +85,30 @@ bool encoder::configure()
   controller::configure();
 
   if (!ros::param::get(getControllerPath("topic"), m_topic))
-    ROS_WARN("%s did not specify ADC input topic, using %s", getPath(), m_topic.c_str());
+    ROS_WARN("%s did not specify ADC input topic, using %s", getPath().c_str(), m_topic.c_str());
 
   if (!ros::param::get(getControllerPath("channel"), m_channel))
-    ROS_WARN("%s did not specify ADC input channel, using %d", getPath(), m_channel);
+    ROS_WARN("%s did not specify ADC input channel, using %d", getPath().c_str(), m_channel);
 
   if (!ros::param::get(getControllerPath("minReading"), m_minReading))
-    ROS_WARN("%s did not specify minReading value, using %d", getPath(), m_minReading);
+    ROS_WARN("%s did not specify minReading value, using %d", getPath().c_str(), m_minReading);
 
   if (!ros::param::get(getControllerPath("maxReading"), m_maxReading))
-    ROS_WARN("%s did not specify maxReading value, using %d", getPath(), m_maxReading);
+    ROS_WARN("%s did not specify maxReading value, using %d", getPath().c_str(), m_maxReading);
 
   if (!ros::param::get(getControllerPath("minPos"), m_minPos))
-    ROS_WARN("%s did not specify minPos value, using %g", getPath(), m_minPos);
+    ROS_WARN("%s did not specify minPos value, using %g", getPath().c_str(), m_minPos);
 
   if (!ros::param::get(getControllerPath("maxPos"), m_maxPos))
-    ROS_WARN("%s did not specify maxPos value, using %g", getPath(), m_maxPos);
+    ROS_WARN("%s did not specify maxPos value, using %g", getPath().c_str(), m_maxPos);
 
   int threshold = DEFAULT_THRESHOLD, average = DEFAULT_AVERAGE;
 
   if (!ros::param::get(getControllerPath("threshold"), threshold))
-    ROS_WARN("%s did not specify sample threshold, using %d", getPath(), DEFAULT_THRESHOLD);
+    ROS_WARN("%s did not specify sample threshold, using %d", getPath().c_str(), DEFAULT_THRESHOLD);
 
   if (!ros::param::get(getControllerPath("average"), average))
-    ROS_WARN("%s did not specify how many samples to average, using %d", getPath(), DEFAULT_AVERAGE);
+    ROS_WARN("%s did not specify how many samples to average, using %d", getPath().c_str(), DEFAULT_AVERAGE);
 
   m_filter = filter(threshold, average);
 
@@ -126,8 +126,8 @@ bool encoder::init()
     m_topic, QUEUE_SIZE, &encoder::feedback, this);
 
   ROS_INFO("  initialized %s %s on %s channel %d: [%d, %d] -> [%g, %g]",
-    getPath(),
-    getType(),
+    getPath().c_str(),
+    getType().c_str(),
     m_topic.c_str(),
     m_channel,
     m_minReading,
@@ -166,7 +166,7 @@ void encoder::feedback(const Adc::ConstPtr& msg)
 // Dynamic creation
 //
 
-controller* encoder::create(ros::NodeHandle node, const char* path)
+controller* encoder::create(ros::NodeHandle node, string path)
 {
   return new encoder(node, path);
 }

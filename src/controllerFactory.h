@@ -48,7 +48,7 @@ namespace str1ker {
 | Definitions
 \*----------------------------------------------------------*/
 
-typedef controller* (*createController)(ros::NodeHandle node, const char*);
+typedef controller* (*createController)(ros::NodeHandle, std::string);
 typedef std::vector<std::shared_ptr<controller>> controllerArray;
 
 /*----------------------------------------------------------*\
@@ -82,40 +82,40 @@ public:
 
 public:
     // Deserialize controller with type cast
-    template<class T> static T* deserialize(ros::NodeHandle node, const char* path)
+    template<class T> static T* deserialize(ros::NodeHandle node, std::string path)
     {
         return dynamic_cast<T*>(fromPath(node, path));
     }
 
     // Deserialize controller by type with type cast
-    template<class T> static T* deserialize(const char* type)
+    template<class T> static T* deserialize(std::string type)
     {
         return dynamic_cast<T*>(fromType(type));
     }
 
     // Deserialize controller by path
-    static controller* fromPath(ros::NodeHandle node, const char* path);
+    static controller* fromPath(ros::NodeHandle node, std::string path);
 
     // Deserialize controller by type
-    static controller* fromType(const char* type);
+    static controller* fromType(std::string type);
 
     // Deserialize all controllers in namespace
-    static controllerArray fromNamespace(ros::NodeHandle node, const char* controllerNamespace);
+    static controllerArray fromNamespace(ros::NodeHandle node, std::string controllerNamespace);
 
     // Register controller type
-    static void registerType(const char* type, createController create, bool shared);
+    static void registerType(std::string type, createController create, bool shared);
 
     // Get controller name from path
-    static const char* getControllerName(const char* path);
+    static std::string getControllerName(std::string path);
 
     // Get controller parent name from path
-    static std::string getParentName(const char* path);
+    static std::string getParentName(std::string path);
 
     // Get controller parent path from path
-    static std::string getParentPath(const char* path);
+    static std::string getParentPath(std::string path);
 
     // Get parent name
-    static std::string getControllerPath(const char* path, const char* parentPath);
+    static std::string getControllerPath(std::string path, std::string parentPath);
 };
 
 } // namespace str1ker

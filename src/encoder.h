@@ -104,13 +104,12 @@ public:
   // Constructors
   //
 
-  encoder(
-    ros::NodeHandle node, const char* path);
+  encoder(ros::NodeHandle node, std::string path);
 
   encoder(
     ros::NodeHandle node,
-    const char* path,
-    const std::string& topic,
+    std::string path,
+    std::string topic,
     int input,
     int minReading,
     int maxReading,
@@ -120,12 +119,6 @@ public:
     int filterAverage);
 
 public:
-  // Get display type
-  virtual const char* getType()
-  {
-    return encoder::TYPE;
-  }
-
   // Get current filtered analog reading
   inline int getReading() const
   {
@@ -167,7 +160,7 @@ public:
 
 public:
   // Create instance
-  static controller* create(ros::NodeHandle node, const char* path);
+  static controller* create(ros::NodeHandle node, std::string path);
 };
 
 } // namespace str1ker

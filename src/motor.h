@@ -110,11 +110,11 @@ public:
   //
 
   motor(
-    ros::NodeHandle node, const char* path);
+    ros::NodeHandle node, std::string path);
 
   motor(
     ros::NodeHandle node,
-    const char* path,
+    std::string path,
     std::string topic,
     int lpwm,
     int rpwm,
@@ -124,12 +124,6 @@ public:
     double maxVelocity);
 
 public:
-  // Get display type
-  virtual const char* getType()
-  {
-    return TYPE;
-  }
-
   // Get current velocity
   inline double getVelocity()
   {
@@ -159,7 +153,7 @@ public:
 
 public:
   // Create instance
-  static controller* create(ros::NodeHandle node, const char* path);
+  static controller* create(ros::NodeHandle node, std::string path);
 };
 
 } // namespace str1ker

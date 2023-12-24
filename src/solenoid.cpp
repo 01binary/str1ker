@@ -29,6 +29,7 @@
 | Namespace
 \*----------------------------------------------------------*/
 
+using namespace std;
 using namespace str1ker;
 
 /*----------------------------------------------------------*\
@@ -43,8 +44,8 @@ const char solenoid::TYPE[] = "solenoid";
 
 REGISTER_CONTROLLER(solenoid)
 
-solenoid::solenoid(ros::NodeHandle node, const char* path) :
-    controller(node, path),
+solenoid::solenoid(ros::NodeHandle node, string path) :
+    controller(node, TYPE, path),
     m_channel(0),
     m_triggerDurationSec(DEFAULT_TRIGGER_DURATION_SEC),
     m_triggered(false),
@@ -52,23 +53,18 @@ solenoid::solenoid(ros::NodeHandle node, const char* path) :
 {
 }
 
-const char* solenoid::getType()
-{
-    return solenoid::TYPE;
-}
-
 bool solenoid::configure()
 {
     controller::configure();
 
     if (!ros::param::get(getControllerPath("topic"), m_topic))
-        ROS_WARN("%s did not specify output topic, using %s", getPath(), m_topic.c_str());
+        ROS_WARN("%s did not specify output topic, using %s", getPath().c_str(), m_topic.c_str());
 
     if (!ros::param::get(getControllerPath("channel"), m_channel))
-        ROS_WARN("%s did not specify output channel, using %d", getPath(), m_channel);
+        ROS_WARN("%s did not specify output channel, using %d", getPath().c_str(), m_channel);
 
     if (!ros::param::get(getControllerPath("triggerSeconds"), m_triggerDurationSec))
-        ROS_WARN("%s did not specify trigger duration, using %g sec", getPath(), m_triggerDurationSec);
+        ROS_WARN("%s did not specify trigger duration, using %g sec", getPath().c_str(), m_triggerDurationSec);
 
     return true;
 }
@@ -80,7 +76,7 @@ bool solenoid::init()
     m_pub = m_node.advertise<Pwm>(m_topic.c_str(), QUEUE_SIZE);
 
     ROS_INFO("  initialized %s %s on %s channel %d trigger %g sec",
-        getPath(), getType(), m_topic.c_str(), m_channel, m_triggerDurationSec);
+        getPath().c_str(), getType().c_str(), m_topic.c_str(), m_channel, m_triggerDurationSec);
 
     return true;
 }
@@ -116,7 +112,7 @@ void solenoid::update(ros::Time time, ros::Duration period)
     }
 }
 
-controller* solenoid::create(ros::NodeHandle node, const char* path)
+controller* solenoid::create(ros::NodeHandle node, string path)
 {
     return new solenoid(node, path);
 }

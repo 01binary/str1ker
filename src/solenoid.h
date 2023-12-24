@@ -68,11 +68,9 @@ private:
     ros::Time m_resetTime;
 
 public:
-    solenoid(ros::NodeHandle node, const char* path);
+    solenoid(ros::NodeHandle node, std::string path);
 
 public:
-    // Get display type
-    virtual const char* getType();
 
     // Deserialize from settings
     virtual bool configure();
@@ -89,7 +87,7 @@ public:
 
 public:
     // Create instance
-    static controller* create(ros::NodeHandle node, const char* path);
+    static controller* create(ros::NodeHandle node, std::string path);
 };
 
 } // namespace str1ker

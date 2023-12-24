@@ -48,14 +48,14 @@ REGISTER_CONTROLLER(motor)
 //
 
 motor::motor(
-  ros::NodeHandle node, const char* path)
-  : controller(node, path)
+  ros::NodeHandle node, string path)
+  : controller(node, TYPE, path)
 {
 }
 
 motor::motor(
   ros::NodeHandle node,
-  const char* path,
+  string path,
   string topic,
   int lpwm,
   int rpwm,
@@ -63,7 +63,7 @@ motor::motor(
   int maxPwm,
   double minVelocity,
   double maxVelocity)
-  : controller(node, path)
+  : controller(node, TYPE, path)
   , m_topic(topic)
   , m_lpwm(lpwm)
   , m_rpwm(rpwm)
@@ -83,25 +83,25 @@ bool motor::configure()
   controller::configure();
 
   if (!ros::param::get(getControllerPath("topic"), m_topic))
-    ROS_WARN("%s did not specify output topic, using %s", getPath(), m_topic.c_str());
+    ROS_WARN("%s did not specify output topic, using %s", getPath().c_str(), m_topic.c_str());
 
   if (!ros::param::get(getControllerPath("lpwm"), m_lpwm))
-    ROS_WARN("%s did not specify lpwm channel, using %d", getPath(), m_lpwm);
+    ROS_WARN("%s did not specify lpwm channel, using %d", getPath().c_str(), m_lpwm);
 
   if (!ros::param::get(getControllerPath("rpwm"), m_rpwm))
-    ROS_WARN("%s did not specify rpwm channel, using %d", getPath(), m_rpwm);
+    ROS_WARN("%s did not specify rpwm channel, using %d", getPath().c_str(), m_rpwm);
 
   if (!ros::param::get(getControllerPath("minPwm"), m_minPwm))
-    ROS_WARN("%s did not specify minPwm value, using %d", getPath(), m_minPwm);
+    ROS_WARN("%s did not specify minPwm value, using %d", getPath().c_str(), m_minPwm);
 
   if (!ros::param::get(getControllerPath("maxPwm"), m_maxPwm))
-    ROS_WARN("%s did not specify maxPwm value, using %d", getPath(), m_maxPwm);
+    ROS_WARN("%s did not specify maxPwm value, using %d", getPath().c_str(), m_maxPwm);
 
   if (!ros::param::get(getControllerPath("minVelocity"), m_minVelocity))
-    ROS_WARN("%s did not specify minVelocity, using %g", getPath(), m_minVelocity);
+    ROS_WARN("%s did not specify minVelocity, using %g", getPath().c_str(), m_minVelocity);
 
   if (!ros::param::get(getControllerPath("maxVelocity"), m_maxVelocity))
-    ROS_WARN("%s did not specify maxVelocity, using %g", getPath(), m_maxVelocity);
+    ROS_WARN("%s did not specify maxVelocity, using %g", getPath().c_str(), m_maxVelocity);
 
   return true;
 }
@@ -119,8 +119,8 @@ bool motor::init()
   );
 
   ROS_INFO("  initialized %s %s on %s: (LPWM %d RPWM %d) [%d, %d] -> [%g, %g]",
-    getPath(),
-    getType(),
+    getPath().c_str(),
+    getType().c_str(),
     m_topic.c_str(),
     m_lpwm,
     m_rpwm,
@@ -166,7 +166,7 @@ void motor::command(double velocity)
 // Dynamic creation
 //
 
-controller* motor::create(ros::NodeHandle node, const char* path)
+controller* motor::create(ros::NodeHandle node, string path)
 {
     return new motor(node, path);
 }

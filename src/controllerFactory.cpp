@@ -47,24 +47,24 @@ controllerFactory::controllerFactory()
     s_initialized = true;
 }
 
-controller* controllerFactory::fromPath(ros::NodeHandle node, const char* path)
+controller* controllerFactory::fromPath(ros::NodeHandle node, string path)
 {
     try
     {
         if (!s_initialized)
         {
-            ROS_ERROR("attempted to deserialize %s before static initialization: ensure controllerFactory.cpp is first in CMakeLists", path);
+            ROS_ERROR("attempted to deserialize %s before static initialization: ensure controllerFactory.cpp is first in CMakeLists", path.c_str());
             return NULL;
         }
 
         string controllerType;
 
-        if (!ros::param::get(string(path) + "/controller", controllerType))
+        if (!ros::param::get(path + "/controller", controllerType))
             return NULL;
 
-        if (s_types.find(controllerType.c_str()) == s_types.end())
+        if (s_types.find(controllerType) == s_types.end())
         {
-            ROS_WARN("could not find type '%s' loading %s", controllerType.c_str(), path);
+            ROS_WARN("could not find type '%s' loading %s", controllerType.c_str(), path.c_str());
             return NULL;
         }
 
@@ -91,24 +91,24 @@ controller* controllerFactory::fromPath(ros::NodeHandle node, const char* path)
     }
     catch (...)
     {
-        ROS_ERROR("exception deserializing %s", path);
+        ROS_ERROR("exception deserializing %s", path.c_str());
         return NULL;
     }
 }
 
-controller* controllerFactory::fromType(const char* type)
+controller* controllerFactory::fromType(string type)
 {
     try
     {
         if (!s_initialized)
         {
-            ROS_ERROR("attempted to deserialize %s before static initialization: ensure controllerFactory.cpp is first in CMakeLists", type);
+            ROS_ERROR("attempted to deserialize %s before static initialization: ensure controllerFactory.cpp is first in CMakeLists", type.c_str());
             return NULL;
         }
 
         if (s_types.find(type) == s_types.end())
         {
-            ROS_ERROR("failed to deserialize type '%s'", type);
+            ROS_ERROR("failed to deserialize type '%s'", type.c_str());
             return NULL;
         }
 
@@ -116,39 +116,39 @@ controller* controllerFactory::fromType(const char* type)
 
         if (NULL == instance)
         {
-            ROS_ERROR("type '%s' requested before it was loaded", type);
+            ROS_ERROR("type '%s' requested before it was loaded", type.c_str());
         }
 
         return instance;
     }
     catch (...)
     {
-        ROS_ERROR("exception deserializing %s", type);
+        ROS_ERROR("exception deserializing %s", type.c_str());
         return NULL;
     }
 }
 
-controllerArray controllerFactory::fromNamespace(ros::NodeHandle node, const char* controllerNamespace)
+controllerArray controllerFactory::fromNamespace(ros::NodeHandle node, string controllerNamespace)
 {
     vector<string> params;
     ros::param::getParamNames(params);
 
     controllerArray controllers;
-    std::set<string> controllerPaths;
+    set<string> controllerPaths;
 
-    auto parentPath = controllerNamespace[0] == '/'
-        ? controllerNamespace + 1
-        : controllerNamespace;
+    string parentPath = controllerNamespace[0] == '/'
+        ? controllerNamespace.c_str() + 1
+        : controllerNamespace.c_str();
 
     for (vector<string>::iterator pos = params.begin();
         pos != params.end();
         pos++)
     {
-        auto path = getControllerPath(pos->c_str(), parentPath);
+        auto path = getControllerPath(*pos, parentPath);
 
         if (path.size() && controllerPaths.find(path) == controllerPaths.end())
         {
-            controller* instance = fromPath(node, path.c_str());
+            controller* instance = fromPath(node, path);
 
             if (instance)
             {
@@ -161,13 +161,13 @@ controllerArray controllerFactory::fromNamespace(ros::NodeHandle node, const cha
     return controllers;
 }
 
-void controllerFactory::registerType(const char* type, createController create, bool shared)
+void controllerFactory::registerType(string type, createController create, bool shared)
 {
     try
     {
         if (!s_initialized)
         {
-            ROS_ERROR("attempted to register %s before static initialization: ensure controllerFactory.cpp is first in CMakeLists", type);
+            ROS_ERROR("attempted to register %s before static initialization: ensure controllerFactory.cpp is first in CMakeLists", type.c_str());
             return;
         }
 
@@ -179,25 +179,25 @@ void controllerFactory::registerType(const char* type, createController create, 
 
         s_types[type] = reg;
 
-        ROS_INFO("registered %s %s", type, shared ? "singleton" : "scoped");
+        ROS_INFO("registered %s %s", type.c_str(), shared ? "singleton" : "scoped");
     }
     catch (...)
     {
-        ROS_ERROR("exception registering %s", type);
+        ROS_ERROR("exception registering %s", type.c_str());
     }
 }
 
-const char* controllerFactory::getControllerName(const char* path)
+string controllerFactory::getControllerName(string path)
 {
-    const char* lastSep = strrchr(path, '/');
+    const char* lastSep = strrchr(path.c_str(), '/');
     if (lastSep == NULL) return path;
 
     return lastSep + 1;
 }
 
-string controllerFactory::getParentName(const char* path)
+string controllerFactory::getParentName(string path)
 {
-    const char* parent = path + strlen(path) - 1;
+    const char* parent = path.c_str() + path.length() - 1;
     if (*parent == '/') parent--;
 
     while (*parent != '/' && parent >= path)
@@ -218,9 +218,9 @@ string controllerFactory::getParentName(const char* path)
     return parentName;
 }
 
-string controllerFactory::getParentPath(const char* path)
+string controllerFactory::getParentPath(string path)
 {
-    const char* parent = path + strlen(path) - 1;
+    const char* parent = path.c_str() + path.length() - 1;
     if (*parent == '/') parent--;
 
     while (*parent != '/' && parent >= path)
@@ -228,34 +228,33 @@ string controllerFactory::getParentPath(const char* path)
 
     if (parent == path) return string();
 
-    int length = parent - path;
+    int length = parent - path.c_str();
 
     string parentPath(length + 1, 0);
-    strncpy(&parentPath[0], path, length);
+    strncpy(&parentPath[0], path.c_str(), length);
 
     return parentPath;
 }
 
-string controllerFactory::getControllerPath(const char* path, const char* parentPath)
+string controllerFactory::getControllerPath(string path, string parentPath)
 {
-    char componentTypePath[64] = {0};
-    sprintf(componentTypePath, "/%s/", parentPath);
+    string typePath = "/" + parentPath + "/";
 
-    const char* typeNode = strstr(path, componentTypePath);
+    const char* typeNode = strstr(path.c_str(), typePath.c_str());
     if (typeNode == NULL) return string();
 
     // Path must end with /controller
-    const char* leaf = path + strlen(path) - 1;
+    const char* leaf = path.c_str() + path.length() - 1;
 
     while (*leaf != '/' && leaf >= path)
         leaf--;
 
     if (strncmp(leaf, "/controller", strlen("/controller")) == 0)
     {
-        int length = leaf - path;
+        int length = leaf - path.c_str();
         string controllerPath(length, '\0');
 
-        strncpy(&controllerPath[0], path, length);
+        strncpy(&controllerPath[0], path.c_str(), length);
 
         return controllerPath;
     }
