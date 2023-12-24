@@ -55,9 +55,6 @@ private:
     // ROS node
     ros::NodeHandle m_node;
 
-    // Spin rate
-    double m_rate;
-
     // Velocity controllers
     controller_manager::ControllerManager m_controllerManager;
 
@@ -70,7 +67,7 @@ private:
     std::map<std::string, double> m_vel;
     std::map<std::string, double> m_effort;
     std::map<std::string, joint_limits_interface::JointLimits> m_limits;
-    std::map<std::string, double> m_commands;
+    std::map<std::string, double> m_cmd;
 
     // Hardware interfaces
     hardware_interface::JointStateInterface m_stateInterface;

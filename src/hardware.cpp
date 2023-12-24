@@ -35,15 +35,13 @@ using namespace std;
 
 hardware::hardware(ros::NodeHandle node)
     : m_node(node)
-    , m_controllerManager(this, node) // TODO default rate
+    , m_controllerManager(this, node)
     , m_lastUpdate(0)
 {
 }
 
 bool hardware::configure(const char* controllerNamespace)
 {
-    ros::param::get(string(controllerNamespace) + "/rate", m_rate);
-
     m_controllers = controllerFactory::fromNamespace(m_node, controllerNamespace);
 
     for (auto controller : m_controllers)
@@ -104,7 +102,7 @@ bool hardware::init()
         m_pos[group.first] = 0.0;
         m_vel[group.first] = 0.0;
         m_effort[group.first] = 0.0;
-        m_commands[group.first] = 0.0;
+        m_cmd[group.first] = 0.0;
 
         // Register state interface
         hardware_interface::JointStateHandle actuatorState(
@@ -119,10 +117,10 @@ bool hardware::init()
         // Register velocity interface
         hardware_interface::JointHandle actuatorVelocity(
             actuatorState,
-            &m_commands[group.first]
+            &m_cmd[group.first]
         );
 
-        m_commands[group.first] = 0.0;
+        m_cmd[group.first] = 0.0;
         m_velInterface.registerHandle(actuatorVelocity);
 
         // Register limits interface
@@ -213,9 +211,9 @@ void hardware::write()
     {
         for (auto controller: group.second)
         {
-            if (controller->getType() == solenoid::TYPE && m_commands[group.first] > 0.0)
+            if (controller->getType() == solenoid::TYPE && m_cmd[group.first] > 0.0)
             {
-                m_commands[group.first] = 0.0;
+                m_cmd[group.first] = 0.0;
 
                 solenoid* sol = dynamic_cast<solenoid*>(controller.get());
                 sol->trigger();
@@ -223,7 +221,7 @@ void hardware::write()
             else if (controller->getType() == motor::TYPE)
             {
                 motor* mtr = dynamic_cast<motor*>(controller.get());
-                mtr->command(m_commands[group.first]);
+                mtr->command(m_cmd[group.first]);
             }
         }
     }
@@ -231,6 +229,18 @@ void hardware::write()
 
 void hardware::debug()
 {
+    for (auto group : m_groups)
+    {
+        auto pos = m_pos[group.first];
+        auto vel = m_vel[group.first];
+        auto cmd = m_cmd[group.first];
+        auto eff = m_effort[group.first];
+        
+        ROS_INFO_NAMED(
+            "hardware",
+            "%s: pos %g vel %g eff %g cmd %g",
+            group.first.c_str(), pos, vel, eff, cmd);
+    }
 }
 
 /*----------------------------------------------------------*\
@@ -241,8 +251,11 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "hardware");
 
+    double updateRate = 50;
+    ros::param::get("robot/rate", updateRate);
+
     ros::NodeHandle node;
-    ros::Rate rate(6);
+    ros::Rate rate(updateRate);
 
     hardware hw(node);
 
