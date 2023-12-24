@@ -63,13 +63,14 @@ private:
 
     // Hardware controllers
     controllerArray m_controllers;
+    std::map<std::string, std::vector<std::shared_ptr<controller>>> m_groups;
 
     // Hardware state
-    std::vector<double> m_pos;
-    std::vector<double> m_vel;
-    std::vector<double> m_effort;
-    std::vector<joint_limits_interface::JointLimits> m_limits;
-    std::vector<double> m_commands;
+    std::map<std::string, double> m_pos;
+    std::map<std::string, double> m_vel;
+    std::map<std::string, double> m_effort;
+    std::map<std::string, joint_limits_interface::JointLimits> m_limits;
+    std::map<std::string, double> m_commands;
 
     // Hardware interfaces
     hardware_interface::JointStateInterface m_stateInterface;

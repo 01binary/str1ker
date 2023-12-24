@@ -211,17 +211,17 @@ string controllerFactory::getParentName(const char* path)
     while (*parent != '/' && parent >= path)
         parent--;
 
-    const char* parentEnd = parent;
+    const char* parentEnd = parent--;
 
     while (*parent != '/' && parent >= path)
         parent--;
 
     if (parent == path) return string();
 
-    int parentLength = parentEnd - parent;
+    int parentLength = parentEnd - parent - 1;
 
-    string parentName(parentLength + 1, 0);
-    strncpy(&parentName[0], parent, parentLength);
+    string parentName(parentLength, 0);
+    strncpy(&parentName[0], parent + 1, parentLength);
 
     return parentName;
 }

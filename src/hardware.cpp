@@ -50,13 +50,10 @@ bool hardware::configure(const char* controllerNamespace)
     {
         if (!controller->configure())
             return false;
-    }
 
-    size_t numControllers = m_controllers.size();
-    m_pos.resize(numControllers);
-    m_vel.resize(numControllers);
-    m_effort.resize(numControllers);
-    m_commands.resize(numControllers);
+        auto groupName = controller->getParentName();
+        m_groups[groupName].push_back(controller);
+    }
 
     string description;
 
@@ -66,16 +63,19 @@ bool hardware::configure(const char* controllerNamespace)
 
         if (model.initString(description))
         {
-            for (auto controller: m_controllers)
+            for (auto controller : m_controllers)
             {
-                auto joint = model.getJoint(controller->getName());
+                if (controller->getType() == solenoid::TYPE || controller->getType() == motor::TYPE)
+                {
+                    joint_limits_interface::JointLimits limits;
+                    auto jointName = controller->getParentName();
+                    auto joint = model.getJoint(jointName);
 
-                joint_limits_interface::JointLimits limits;
+                    if (!joint_limits_interface::getJointLimits(joint, limits))
+                        ROS_WARN("no limits for %s in robot_description", jointName.c_str());
 
-                if (!joint_limits_interface::getJointLimits(joint, limits))
-                    ROS_WARN("no limits for %s in robot_description", controller->getPath());
-
-                m_limits.push_back(limits);
+                    m_limits[jointName] = limits;
+                }
             }
         }
     }
@@ -89,24 +89,29 @@ bool hardware::configure(const char* controllerNamespace)
 
 bool hardware::init()
 {
-    for (int n = 0; n < m_controllers.size(); n++)
-    {
-        // Initialize hardware controller
-        if (!m_controllers[n]->init())
-            return false;
+    // Initialize hardware controllers
 
-        // Initialize hardware state
-        m_pos[n] = 0.0;
-        m_vel[n] = 0.0;
-        m_effort[n] = 0.0;
-        m_commands[n] = 0.0;
+    for (auto controller: m_controllers)
+    {
+        if (!controller->init())
+            return false;
+    }
+
+    // Initialize hardware state
+
+    for (auto group: m_groups)
+    {
+        m_pos[group.first] = 0.0;
+        m_vel[group.first] = 0.0;
+        m_effort[group.first] = 0.0;
+        m_commands[group.first] = 0.0;
 
         // Register state interface
         hardware_interface::JointStateHandle actuatorState(
-            m_controllers[n]->getName(),
-            &m_pos[n],
-            &m_vel[n],
-            &m_effort[n]
+            group.first,
+            &m_pos[group.first],
+            &m_vel[group.first],
+            &m_effort[group.first]
         );
 
         m_stateInterface.registerHandle(actuatorState);
@@ -114,32 +119,33 @@ bool hardware::init()
         // Register velocity interface
         hardware_interface::JointHandle actuatorVelocity(
             actuatorState,
-            &m_commands[n]
+            &m_commands[group.first]
         );
 
-        m_commands[n] = 0.0;
+        m_commands[group.first] = 0.0;
         m_velInterface.registerHandle(actuatorVelocity);
 
         // Register limits interface
         hardware_interface::JointStateHandle jointState(
-            m_controllers[n]->getName(),
-            &m_pos[n],
-            &m_vel[n],
-            &m_effort[n]
+            group.first,
+            &m_pos[group.first],
+            &m_vel[group.first],
+            &m_effort[group.first]
         );
 
         hardware_interface::JointHandle jointHandle(
             jointState,
-            &m_vel[n]
+            &m_vel[group.first]
         );
 
         joint_limits_interface::VelocityJointSaturationHandle
-            actuatorLimits(jointHandle, m_limits[n]);
+            actuatorLimits(jointHandle, m_limits[group.first]);
         
         m_satInterface.registerHandle(actuatorLimits);
     }
 
-    // Register interfaces for all joints
+    // Register hardware interfaces
+
     registerInterface(&m_stateInterface);
     registerInterface(&m_velInterface);
     registerInterface(&m_satInterface);
@@ -169,102 +175,62 @@ void hardware::update()
 
 void hardware::read()
 {
-    for (int n = 0; n < m_controllers.size(); n++)
+    for (auto group : m_groups)
     {
-        if (m_controllers[n]->getType() == solenoid::TYPE)
+        for (auto controller: group.second)
         {
-            solenoid* sol = dynamic_cast<solenoid*>(m_controllers[n].get());
-            auto solenoidLimit = m_limits[n];
+            if (controller->getType() == solenoid::TYPE)
+            {
+                solenoid* sol = dynamic_cast<solenoid*>(controller.get());
+                auto solenoidLimit = m_limits[group.first];
 
-            m_pos[n] = sol->isTriggered()
-                ? solenoidLimit.max_position
-                : solenoidLimit.min_position;
+                m_pos[group.first] = sol->isTriggered()
+                    ? solenoidLimit.max_position
+                    : solenoidLimit.min_position;
 
-            m_vel[n] = sol->isTriggered()
-                ? solenoidLimit.max_velocity
-                : 0.0;
-        }
-        else if (m_controllers[n]->getType() == encoder::TYPE)
-        {
-            encoder* enc = dynamic_cast<encoder*>(m_controllers[n].get());
-            m_pos[n] = enc->getPos();
-            
-        }
-        else if (m_controllers[n]->getType() == motor::TYPE)
-        {
-            motor* mtr = dynamic_cast<motor*>(m_controllers[n].get());
-            m_vel[n] = mtr->getVelocity();
+                m_vel[group.first] = sol->isTriggered()
+                    ? solenoidLimit.max_velocity
+                    : 0.0;
+            }
+            else if (controller->getType() == encoder::TYPE)
+            {
+                encoder* enc = dynamic_cast<encoder*>(controller.get());
+                m_pos[group.first] = enc->getPos();
+                
+            }
+            else if (controller->getType() == motor::TYPE)
+            {
+                motor* mtr = dynamic_cast<motor*>(controller.get());
+                m_vel[group.first] = mtr->getVelocity();
+            }
         }
     }
 }
 
 void hardware::write()
 {
-    for (int n = 0; n < m_controllers.size(); n++)
+    for (auto group : m_groups)
     {
-        if (m_controllers[n]->getType() == solenoid::TYPE && m_commands[n] > 0.0)
+        for (auto controller: group.second)
         {
-            solenoid* sol = dynamic_cast<solenoid*>(m_controllers[n].get());
-            sol->trigger();
+            if (controller->getType() == solenoid::TYPE && m_commands[group.first] > 0.0)
+            {
+                m_commands[group.first] = 0.0;
 
-            m_commands[n] = 0.0;
-        }
-        else if (m_controllers[n]->getType() == motor::TYPE)
-        {
-            motor* mtr = dynamic_cast<motor*>(m_controllers[n].get());
-            mtr->command(m_commands[n]);
+                solenoid* sol = dynamic_cast<solenoid*>(controller.get());
+                sol->trigger();
+            }
+            else if (controller->getType() == motor::TYPE)
+            {
+                motor* mtr = dynamic_cast<motor*>(controller.get());
+                mtr->command(m_commands[group.first]);
+            }
         }
     }
 }
 
 void hardware::debug()
 {
-    const double THRESHOLD = 0.01;
-
-    static bool s_initialized = false;
-    static double s_vel[3];
-    static double s_pos[3];
-
-    if (!s_initialized)
-    {
-        s_vel[0] = 0.0;
-        s_vel[1] = 0.0;
-        s_vel[2] = 0.0;
-
-        s_pos[0] = 0.0;
-        s_pos[1] = 0.0;
-        s_pos[2] = 0.0;
-
-        s_initialized = true;
-    }
-
-    if (
-        abs(m_pos[0] - s_pos[0]) >= THRESHOLD ||
-        abs(m_pos[1] - s_pos[1]) >= THRESHOLD ||
-        abs(m_pos[2] - s_pos[2]) >= THRESHOLD ||
-        abs(m_commands[0] - s_vel[0]) >= THRESHOLD ||
-        abs(m_commands[1] - s_vel[1]) >= THRESHOLD ||
-        abs(m_commands[2] - s_vel[2]) >= THRESHOLD
-    )
-    {
-        ROS_INFO(
-            "   base [%g >> %g] shoulder [%g >> %g] elbow [%g >> %g]",
-            m_pos[0],
-            m_commands[0],
-            m_pos[1],
-            m_commands[1],
-            m_pos[2],
-            m_commands[2]
-        );
-    }
-
-    s_pos[0] = m_pos[0];
-    s_pos[1] = m_pos[1];
-    s_pos[2] = m_pos[2];
-
-    s_vel[0] = m_commands[0];
-    s_vel[1] = m_commands[1];
-    s_vel[2] = m_commands[2];
 }
 
 /*----------------------------------------------------------*\
@@ -273,7 +239,7 @@ void hardware::debug()
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "solenoid_state_publisher");
+    ros::init(argc, argv, "hardware");
 
     ros::NodeHandle node;
     ros::Rate rate(6);
@@ -282,7 +248,7 @@ int main(int argc, char** argv)
 
     if (!hw.configure("robot") || !hw.init())
     {
-        ROS_FATAL("  Hardware failed to initialize");
+        ROS_FATAL("  hardware failed to initialize");
         return 1;
     }
 
