@@ -1,6 +1,6 @@
 robot:
   rate: 50
-  debug: true
+  debug: false
   arm1:
     base:
       actuator:

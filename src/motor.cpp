@@ -138,6 +138,11 @@ bool motor::init()
 
 void motor::command(double velocity)
 {
+  if (!m_enable || abs(m_velocity - velocity) <= std::numeric_limits<double>().epsilon())
+  {
+    return;
+  }
+
   m_velocity = utilities::clampZero(abs(velocity), m_minVelocity, m_maxVelocity);
 
   uint16_t dutyCycle = (uint16_t)utilities::mapZero(

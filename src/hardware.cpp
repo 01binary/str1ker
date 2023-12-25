@@ -295,11 +295,15 @@ int main(int argc, char** argv)
     ros::NodeHandle node;
     hardware hw(node, "robot");
 
+    ROS_FATAL("loading hardware");
+
     if (!hw.configure() || !hw.init())
     {
         ROS_FATAL("hardware failed to initialize");
         return 1;
     }
+
+    ROS_FATAL("hardware initialized successfully");
 
     hw.run();
 

@@ -18,7 +18,7 @@
     output="screen"
   />
 
-  <!-- High-level controllers -->
+  <!-- Robot controller -->
   <node
     name="robot"
     pkg="str1ker"
@@ -49,5 +49,15 @@
     name="joint_state_publisher"
     pkg="joint_state_publisher"
     type="joint_state_publisher"
+  />
+
+  <!-- Load trajectory controller -->
+  <node
+    name="controller_spawner"
+    pkg="controller_manager"
+    type="spawner"
+    respawn="false"
+    output="screen"
+    args="arm_velocity_controller"
   />
 </launch>
