@@ -81,13 +81,7 @@ const bool controller::isEnabled()
 
 bool controller::configure()
 {
-    string indent;
-    indent.resize(
-        (max((int)count(m_path.begin(), m_path.end(), '/') - 2, 1)) * 2,
-        ' '
-    );
-
-    ROS_INFO("%sloading %s %s", indent.c_str(), getType().c_str(), getPath().c_str());
+    ROS_INFO("  loading %s %s", getType().c_str(), getPath().c_str());
 
     ros::param::get(getChildPath("enable"), m_enable);
 
