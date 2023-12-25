@@ -168,6 +168,10 @@ roslaunch moveit_setup_assistant setup_assistant.launch
 roslaunch str1ker_moveit_config demo_gazebo.launch
 ```
 
+## Logging Level
+
+Logging level can be specified in `$ROS_ROOT/config/rosconsole.config`, either globally or for a specific package.
+
 ## Velocity Control
 
 ### Rotate Left
