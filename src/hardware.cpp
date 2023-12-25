@@ -275,6 +275,8 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "hardware");
 
+    puts("");
+    puts("");
     puts("                                   █████                                              ");
     puts("                                   █   █                                              ");
     puts("                                   █   █                                              ");
@@ -287,6 +289,8 @@ int main(int argc, char** argv)
     puts("                                  █  █  █     ██████                                  ");
     puts("                                  █  █  █   ██  ██  ██                                ");
     puts("                                   █████      ██████                                  ");
+    puts("");
+    puts("");
 
     ros::NodeHandle node;
     hardware hw(node, "robot");

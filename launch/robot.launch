@@ -18,20 +18,20 @@
     output="screen"
   />
 
-  <!-- Hardware controllers -->
-  <node
-    name="hardware"
-    type="hardware"
-    pkg="str1ker"
-    output="screen"
-  />
-
   <!-- High-level controllers -->
   <node
     name="robot"
     pkg="str1ker"
     type="robot"
     required="true"
+    output="screen"
+  />
+
+  <!-- Hardware controllers -->
+  <node
+    name="hardware"
+    type="hardware"
+    pkg="str1ker"
     output="screen"
   />
 
