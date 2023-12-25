@@ -276,7 +276,6 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "hardware");
 
     puts("");
-    puts("");
     puts("                                   █████                                              ");
     puts("                                   █   █                                              ");
     puts("                                   █   █                                              ");
@@ -290,12 +289,11 @@ int main(int argc, char** argv)
     puts("                                  █  █  █   ██  ██  ██                                ");
     puts("                                   █████      ██████                                  ");
     puts("");
-    puts("");
 
     ros::NodeHandle node;
     hardware hw(node, "robot");
 
-    ROS_FATAL("loading hardware");
+    ROS_INFO("loading hardware");
 
     if (!hw.configure() || !hw.init())
     {
@@ -303,7 +301,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    ROS_FATAL("hardware initialized successfully");
+    ROS_INFO("hardware initialized successfully");
 
     hw.run();
 
