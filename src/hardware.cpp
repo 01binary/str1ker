@@ -273,14 +273,27 @@ void hardware::run()
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "str1ker_hardware");
+    ros::init(argc, argv, "hardware");
+
+    puts("                                   █████                                              ");
+    puts("                                   █   █                                              ");
+    puts("                                   █   █                                              ");
+    puts(" █       █    ████    ████████      █ █     █         █    ████    ████████  ████████ ");
+    puts(" █████████  ████████  ████████      █ █     █    █    █  ████████  ████████  ████████ ");
+    puts(" █       █ █        █ █       █     █ █      ████ ████  █        █ █       █ ████████ ");
+    puts("                                  █     █                                             ");
+    puts("                                   █   █                                              ");
+    puts("                                  █  █  █                                             ");
+    puts("                                  █  █  █     ██████                                  ");
+    puts("                                  █  █  █   ██  ██  ██                                ");
+    puts("                                   █████      ██████                                  ");
 
     ros::NodeHandle node;
     hardware hw(node, "robot");
 
     if (!hw.configure() || !hw.init())
     {
-        ROS_FATAL("  hardware failed to initialize");
+        ROS_FATAL("hardware failed to initialize");
         return 1;
     }
 
