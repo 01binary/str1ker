@@ -33,16 +33,26 @@ using namespace std;
 | hardware implementation
 \*----------------------------------------------------------*/
 
-hardware::hardware(ros::NodeHandle node)
+hardware::hardware(ros::NodeHandle node, string configNamespace)
     : m_node(node)
+    , m_namespace(configNamespace)
     , m_controllerManager(this, node)
+    , m_rate(DEFAULT_RATE)
     , m_lastUpdate(0)
+    , m_debug(false)
 {
 }
 
-bool hardware::configure(const char* controllerNamespace)
+bool hardware::configure()
 {
-    m_controllers = controllerFactory::fromNamespace(m_node, controllerNamespace);
+    // Load settings
+
+    ros::param::get(m_namespace + "/rate", m_rate);
+    ros::param::get(m_namespace + "/debug", m_debug);
+
+    // Load controllers
+
+    m_controllers = controllerFactory::fromNamespace(m_node, m_namespace);
 
     for (auto controller : m_controllers)
     {
@@ -52,6 +62,8 @@ bool hardware::configure(const char* controllerNamespace)
         auto groupName = controller->getParentName();
         m_groups[groupName].push_back(controller);
     }
+
+    // Load description
 
     string description;
 
@@ -79,7 +91,7 @@ bool hardware::configure(const char* controllerNamespace)
     }
     else
     {
-        ROS_WARN("no limits loaded for %s, could not found robot_description", controllerNamespace);
+        ROS_WARN("no limits loaded for %s, could not found robot_description", m_namespace.c_str());
     }
 
     return true;
@@ -164,7 +176,7 @@ void hardware::update()
     m_controllerManager.update(time, period);
     m_satInterface.enforceLimits(period);
 
-    debug();
+    if (m_debug) debug();
 
     write();
 
@@ -243,34 +255,36 @@ void hardware::debug()
     }
 }
 
+void hardware::run()
+{
+    ros::Rate rate(m_rate);
+
+    while(m_node.ok())
+    {
+        update();
+        ros::spinOnce();
+        rate.sleep();
+    }
+}
+
 /*----------------------------------------------------------*\
 | Node entry point implementation
 \*----------------------------------------------------------*/
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "hardware");
-
-    double updateRate = 50;
-    ros::param::get("robot/rate", updateRate);
+    ros::init(argc, argv, "str1ker_hardware");
 
     ros::NodeHandle node;
-    ros::Rate rate(updateRate);
+    hardware hw(node, "robot");
 
-    hardware hw(node);
-
-    if (!hw.configure("robot") || !hw.init())
+    if (!hw.configure() || !hw.init())
     {
         ROS_FATAL("  hardware failed to initialize");
         return 1;
     }
 
-    while(node.ok())
-    {
-        hw.update();
-        ros::spinOnce();
-        rate.sleep();
-    }
+    hw.run();
 
     return 0;
 }

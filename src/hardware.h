@@ -52,8 +52,18 @@ namespace str1ker {
 class hardware : public hardware_interface::RobotHW
 {
 private:
+    // Default update rate 50 Hz
+    const double DEFAULT_RATE = 50;
+
+private:
+    // The namespace for loading settings
+    std::string m_namespace;
+
     // ROS node
     ros::NodeHandle m_node;
+
+    // Update rate
+    double m_rate;
 
     // Velocity controllers
     controller_manager::ControllerManager m_controllerManager;
@@ -77,19 +87,25 @@ private:
     // Last update time
     ros::Time m_lastUpdate;
 
+    // Debugging enabled
+    bool m_debug;
+
 public:
     // Constructor
-    hardware(ros::NodeHandle node);
+    hardware(ros::NodeHandle node, std::string configNamespace);
 
 public:
     // Load arm controller settings
-    bool configure(const char* controllerNamespace);
+    bool configure();
 
     // Initialize arm controllers
     bool init();
 
     // Update joints
     void update();
+
+    // Run real-time loop
+    void run();
 
 private:
     // Read hardware state
