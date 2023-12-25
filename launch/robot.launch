@@ -35,16 +35,6 @@
     output="screen"
   />
 
-  <!-- ROS controllers -->
-  <node
-    name="controller_spawner"
-    pkg="controller_manager"
-    type="spawner"
-    respawn="false"
-    output="screen"
-    args="arm_velocity_controller"
-  />
-
   <!-- ROS robot state publisher -->
   <node
     name="robot_state_publisher"
@@ -59,7 +49,5 @@
     name="joint_state_publisher"
     pkg="joint_state_publisher"
     type="joint_state_publisher"
-  >
-    <param name="use_gui" value="true" />
-  </node>
+  />
 </launch>
