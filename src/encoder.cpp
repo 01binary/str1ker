@@ -148,12 +148,15 @@ void encoder::feedback(const Adc::ConstPtr& msg)
   m_reading = m_filter(msg->adc[m_channel]);
 
   // Re-map to position
-  m_position = utilities::map(
+  double position = utilities::map(
     (double)m_reading,
     (double)m_minReading,
     (double)m_maxReading,
     m_minPos,
     m_maxPos);
+
+  // Clamp to valid range
+  m_position = utilities::clamp(position, m_minPos, m_maxPos);
 
   // Check if the position is ready to be used
   if (!m_ready)

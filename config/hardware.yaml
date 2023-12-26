@@ -3,7 +3,7 @@ joint_state_controller:
   publish_rate: 50
 robot:
   rate: 50
-  debug: true
+  debug: false
   arm1:
     base:
       actuator:
