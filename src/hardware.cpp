@@ -206,7 +206,6 @@ void hardware::read()
             {
                 encoder* enc = dynamic_cast<encoder*>(controller.get());
                 m_pos[group.first] = enc->getPos();
-                
             }
             else if (controller->getType() == motor::TYPE)
             {
@@ -258,11 +257,14 @@ void hardware::debug()
 void hardware::run()
 {
     ros::Rate rate(m_rate);
+    ros::AsyncSpinner spinner(3);
+
+    // Controller manager will deadlock with non-async spinner
+    spinner.start();
 
     while(m_node.ok())
     {
         update();
-        ros::spinOnce();
         rate.sleep();
     }
 }
