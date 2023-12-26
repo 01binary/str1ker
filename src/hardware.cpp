@@ -205,7 +205,8 @@ void hardware::read()
             else if (controller->getType() == encoder::TYPE)
             {
                 encoder* enc = dynamic_cast<encoder*>(controller.get());
-                m_pos[group.first] = enc->getPos();
+
+                if (enc->isReady()) m_pos[group.first] = enc->getPos();
             }
             else if (controller->getType() == motor::TYPE)
             {

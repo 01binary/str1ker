@@ -27,12 +27,22 @@
     output="screen"
   />
 
-  <!-- Hardware controllers -->
+  <!-- Hardware interface -->
   <node
     name="hardware"
     type="hardware"
     pkg="str1ker"
     output="screen"
+  />
+
+  <!-- Hardware controllers -->
+  <node
+    name="controller_spawner"
+    pkg="controller_manager"
+    type="spawner"
+    respawn="false"
+    output="screen"
+    args="joint_state_controller arm_velocity_controller"
   />
 
   <!-- ROS robot state publisher -->
@@ -42,22 +52,5 @@
     type="robot_state_publisher"
     respawn="false"
     output="screen"
-  />
-
-  <!-- ROS joint state publisher -->
-  <node
-    name="joint_state_publisher"
-    pkg="joint_state_publisher"
-    type="joint_state_publisher"
-  />
-
-  <!-- Load trajectory controller -->
-  <node
-    name="controller_spawner"
-    pkg="controller_manager"
-    type="spawner"
-    respawn="false"
-    output="screen"
-    args="arm_velocity_controller"
   />
 </launch>
