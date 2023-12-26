@@ -1,6 +1,3 @@
-joint_state_controller:
-  type: joint_state_controller/JointStateController
-  publish_rate: 50
 robot:
   publish_rate: 50
   debug: false
@@ -71,7 +68,7 @@ robot:
         maxPos: 0
         threshold: 8
         average: 8
-    wrist:
+    solenoid:
       actuator:
         controller: 'solenoid'
         enabled: true
