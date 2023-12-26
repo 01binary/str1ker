@@ -2,7 +2,7 @@ joint_state_controller:
   type: joint_state_controller/JointStateController
   publish_rate: 50
 robot:
-  rate: 50
+  publish_rate: 50
   debug: false
   arm1:
     base:

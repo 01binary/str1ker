@@ -47,7 +47,7 @@ bool hardware::configure()
 {
     // Load settings
 
-    ros::param::get(m_namespace + "/rate", m_rate);
+    ros::param::get(m_namespace + "/publish_rate", m_rate);
     ros::param::get(m_namespace + "/debug", m_debug);
 
     // Load controllers
