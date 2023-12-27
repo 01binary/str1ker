@@ -18,8 +18,8 @@ robot:
         enabled: true
         topic: 'adc'
         channel: 0
-        minReading: 810
-        maxReading: 258
+        minReading: 258
+        maxReading: 810
         minPos: -1.4929
         maxPos: 1.4929
         threshold: 8
