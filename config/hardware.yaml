@@ -61,7 +61,7 @@ robot:
         controller: 'encoder'
         enabled: true
         topic: 'adc'
-        channel: 6
+        channel: 2
         minReading: 976
         maxReading: 848
         minPos: -0.0508
