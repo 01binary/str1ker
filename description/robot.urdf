@@ -535,7 +535,7 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
-    <!-- Required to avoid "the complete state of the robot is not yet known warnings in Gazebo"-->
+    <!-- Required to avoid "the complete state of the robot is not yet known" warnings in Gazebo -->
     <transmission name="trans_solenoid">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="solenoid">
