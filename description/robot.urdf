@@ -535,6 +535,16 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
+    <!-- Required to avoid "the complete state of the robot is not yet known warnings in Gazebo"-->
+    <transmission name="trans_solenoid">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="solenoid">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="solenoid">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
 
     <!-- Arm controllers-->
 
