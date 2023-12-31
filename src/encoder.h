@@ -93,6 +93,9 @@ private:
   // Last position mapped from last reading
   double m_position = std::numeric_limits<double>::infinity();
 
+  // Whether analog input filtering is enabled
+  bool m_enableFilter = false;
+
   // Filter for analog input
   filter m_filter;
 

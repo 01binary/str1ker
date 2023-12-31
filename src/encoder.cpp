@@ -104,6 +104,9 @@ bool encoder::configure()
 
   int threshold = DEFAULT_THRESHOLD, average = DEFAULT_AVERAGE;
 
+  if (!ros::param::get(getChildPath("filter"), m_enableFilter))
+    ROS_WARN("%s did not specify whether filter is enabled, using %s", getPath().c_str(), m_enableFilter ? "true" : "false");
+
   if (!ros::param::get(getChildPath("threshold"), threshold))
     ROS_WARN("%s did not specify sample threshold, using %d", getPath().c_str(), DEFAULT_THRESHOLD);
 
@@ -145,7 +148,10 @@ bool encoder::init()
 void encoder::feedback(const Adc::ConstPtr& msg)
 {
   // Read analog input
-  m_reading = m_filter(msg->adc[m_channel]);
+  if (m_enableFilter)
+    m_reading = m_filter(msg->adc[m_channel]);
+  else
+    m_reading = msg->adc[m_channel];
 
   // Re-map to position
   double position = utilities::map(

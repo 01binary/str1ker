@@ -100,6 +100,8 @@ int filter::operator() (int sample)
 
 bool filter::isReady() const
 {
+  if (!m_average) return true;
+
   int last = m_buffer[0];
 
   for (auto sample : m_buffer)
@@ -140,6 +142,8 @@ void filter::debug() const
 
 int filter::average(int output)
 {
+  if (!m_average) return output;
+
   m_buffer[m_next++] = output;
 
   if (m_next == m_average)
