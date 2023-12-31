@@ -7,8 +7,8 @@ robot:
         controller: 'motor'
         enable: true
         topic: 'pwm'
-        lpwm: 0
-        rpwm: 1
+        lpwm: 1
+        rpwm: 0
         minPwm: 64
         maxPwm: 255
         minVelocity: 0.0
