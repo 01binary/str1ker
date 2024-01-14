@@ -114,13 +114,6 @@ private:
 
 public:
   //
-  // Constructor
-  //
-
-  trajectoryController();
-
-public:
-  //
   // Initialization
   //
 
