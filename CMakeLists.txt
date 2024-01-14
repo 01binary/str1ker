@@ -140,6 +140,15 @@ target_link_libraries(str1ker-planner
   ${Eigen3_LIBRARIES}
 )
 
+add_library(str1ker-trajectory-controller
+  src/trajectoryController.cpp
+)
+
+target_link_libraries(str1ker-trajectory-controller
+  ${catkin_LIBRARIES}
+  ${Eigen3_LIBRARIES}
+)
+
 install(
   FILES
     description/planner.xml
@@ -159,6 +168,15 @@ install(
 )
 
 install(
+  FILES
+    description/trajectory.xml
+  DESTINATION
+    ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  RENAME
+    str1ker-trajectory.xml
+)
+
+install(
   TARGETS
     str1ker-ik
   LIBRARY
@@ -169,6 +187,14 @@ install(
 install(
   TARGETS
     str1ker-planner
+  LIBRARY
+  DESTINATION
+    ${CATKIN_PACKAGE_LIB_DESTINATION}
+)
+
+install(
+  TARGETS
+    str1ker-trajectory-controller
   LIBRARY
   DESTINATION
     ${CATKIN_PACKAGE_LIB_DESTINATION}
