@@ -19,7 +19,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include "trajectoryController.h"
+#include "include/trajectoryController.h"
 
 /*----------------------------------------------------------*\
 | Namespace
@@ -36,7 +36,7 @@ bool trajectoryController::init(
     ros::NodeHandle& manager,
     ros::NodeHandle& controller)
 {
-
+  return true;
 }
 
 void trajectoryController::starting(const ros::Time& time)
@@ -69,9 +69,9 @@ void trajectoryController::runTrajectory(ros::Time& time, const ros::Duration& p
 
 }
 
-trajectoryPoint* trajectoryController::sampleTrajectory(double timeFromStart)
+trajectoryController::trajectoryPoint* trajectoryController::sampleTrajectory(double timeFromStart)
 {
-
+    return nullptr;
 }
 
 void trajectoryController::endTrajectory()

@@ -2,7 +2,7 @@
   <class
     name="str1ker/trajectoryController"
     type="str1ker::trajectoryController"
-    base_class_type="kinematics::KinematicsBase"
+    base_class_type="controller_interface::ControllerBase"
   >
     <description>
       Str1ker Joint Trajectory Controller for MoveIt!

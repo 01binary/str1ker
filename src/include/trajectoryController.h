@@ -30,6 +30,7 @@
 #include <control_msgs/QueryTrajectoryState.h>
 
 #include <controller_interface/controller.h>
+#include <hardware_interface/robot_hw.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/joint_command_interface.h>
 #include <control_toolbox/pid.h>
@@ -46,7 +47,7 @@ namespace str1ker {
 | trajectoryController class
 \*----------------------------------------------------------*/
 
-class trajectoryController: public controller_interface::Controller<hardware_interface::RobotHW>
+class trajectoryController: public controller_interface::Controller<hardware_interface::VelocityJointInterface>
 {
   //
   // Types
