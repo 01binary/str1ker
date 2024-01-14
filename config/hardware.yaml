@@ -18,12 +18,13 @@ robot:
         enable: true
         topic: 'adc'
         channel: 0
-        minReading: 278
-        maxReading: 789
+        minReading: 283
+        maxReading: 771
         minPos: -1.5708
         maxPos: 1.5708
+        filter: true
         threshold: 8
-        average: 0
+        average: 2
     upperarm_actuator:
       actuator:
         controller: 'motor'
@@ -44,6 +45,7 @@ robot:
         maxReading: 902
         minPos: -0.054
         maxPos: -0.0005
+        filter: true
         threshold: 8
         average: 2
     forearm_actuator:
@@ -66,8 +68,9 @@ robot:
         maxReading: 848
         minPos: -0.0508
         maxPos: 0
+        filter: true
         threshold: 8
-        average: 8
+        average: 2
     solenoid:
       actuator:
         controller: 'solenoid'

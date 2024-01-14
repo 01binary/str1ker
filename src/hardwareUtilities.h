@@ -56,7 +56,17 @@ template <class T> inline double clamp(T value, T min, T max)
 
 inline double map(double value, double min, double max, double targetMin, double targetMax)
 {
-  return (value - min) / (max - min) * (targetMax - targetMin) + targetMin;
+  bool invert = min > max;
+
+  if (invert) std::swap(min, max);
+
+  double norm = clamp((value - min) / (max - min), 0.0, 1.0);
+
+  if (invert) norm = 1.0 - norm;
+
+  if (targetMin > targetMax) std::swap(targetMin, targetMax);
+
+  return norm * abs(targetMax - targetMin) + targetMin;
 }
 
 inline double mapZero(double value, double min, double max, double targetMin, double targetMax)

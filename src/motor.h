@@ -102,7 +102,7 @@ private:
   uint16_t m_rpwmCommand = 0;
 
   // Last velocity command
-  double m_velocity = 0.0;
+  double m_velocity = INFINITY;
 
 public:
   //
