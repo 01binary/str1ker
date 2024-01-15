@@ -32,11 +32,47 @@ using namespace str1ker;
 \*----------------------------------------------------------*/
 
 bool trajectoryController::init(
-    hardware_interface::RobotHW* hw,
+    hardware_interface::VelocityJointInterface* hw,
     ros::NodeHandle& manager,
     ros::NodeHandle& controller)
 {
   ROS_INFO("<<<<<<<<< My custom trajectory controller initializing");
+
+  m_controller = controller;
+  m_hardware = hw;
+
+  // TODO set controller name from node handle namespace
+
+  // TODO load settings
+
+  // TODO load URDF
+
+  // TODO get joint handles from hw
+  for (int jointIndex = 0; jointIndex < m_jointInfo.size(); jointIndex++)
+  {
+    m_joints[jointIndex] = m_hardware->getHandle(m_jointInfo[jointIndex].name);
+  }
+
+  // Subscribe to trajectory goals
+  m_goalSub = m_controller.subscribe<control_msgs::FollowJointTrajectoryActionGoal>(
+    "follow_joint_trajectory", 1, trajectoryCallback
+  );
+
+  // Publish state
+  m_statePub = m_controller.advertise<control_msgs::JointTrajectoryControllerState>(
+    "state", 1
+  );
+
+  // Publish trajectory feedback
+  ros::Publisher m_feedbackPub = m_controller.advertise<control_msgs::FollowJointTrajectoryFeedback>(
+    "feedback", 1
+  );
+
+  // Publish trajectory result
+  ros::Publisher m_resultPub = m_controller.advertise<control_msgs::FollowJointTrajectoryResult>(
+    "result", 1
+  );
+
   return true;
 }
 

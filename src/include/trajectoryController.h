@@ -101,7 +101,7 @@ private:
   ros::Publisher m_feedbackPub;
   ros::Publisher m_resultPub;
 
-  hardware_interface::RobotHW* m_hardware;
+  hardware_interface::VelocityJointInterface* m_hardware;
   std::vector<hardware_interface::JointHandle> m_joints;
 
   controllerState m_state;
@@ -118,7 +118,7 @@ public:
   // Initialization
   //
 
-  bool init(hardware_interface::RobotHW* hw, ros::NodeHandle& manager, ros::NodeHandle& controller);
+  bool init(hardware_interface::VelocityJointInterface* hw, ros::NodeHandle& manager, ros::NodeHandle& controller);
 
   //
   // Lifecycle
