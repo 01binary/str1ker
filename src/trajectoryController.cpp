@@ -19,6 +19,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
+#include <pluginlib/class_list_macros.h>
 #include "include/trajectoryController.h"
 
 /*----------------------------------------------------------*\
@@ -55,7 +56,7 @@ bool trajectoryController::init(
 
   // Subscribe to trajectory goals
   m_goalSub = m_controller.subscribe<control_msgs::FollowJointTrajectoryActionGoal>(
-    "follow_joint_trajectory", 1, trajectoryCallback
+    "follow_joint_trajectory", 1, &trajectoryController::trajectoryCallback, this
   );
 
   // Publish state
@@ -86,22 +87,26 @@ void trajectoryController::stopping(const ros::Time&)
 
 }
 
-void trajectoryController::update(const ros::Time& time, const ros::Duration& period)
+void trajectoryController::update(
+  const ros::Time& time, const ros::Duration& period)
 {
 
 }
 
-void trajectoryController::trajectoryCallback(const control_msgs::FollowJointTrajectoryActionGoal::ConstPtr& msg)
+void trajectoryController::trajectoryCallback(
+  const control_msgs::FollowJointTrajectoryActionGoal::ConstPtr& msg)
 {
 
 }
 
-void trajectoryController::beginTrajectory(ros::Time& time, std::vector<trajectoryPoint> waypoints)
+void trajectoryController::beginTrajectory(
+  ros::Time& time, std::vector<trajectoryPoint> waypoints)
 {
 
 }
 
-void trajectoryController::runTrajectory(ros::Time& time, const ros::Duration& period)
+void trajectoryController::runTrajectory(
+  ros::Time& time, const ros::Duration& period)
 {
 
 }
@@ -121,3 +126,4 @@ void trajectoryController::debug()
 
 }
 
+PLUGINLIB_EXPORT_CLASS(str1ker::trajectoryController, controller_interface::ControllerBase);
