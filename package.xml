@@ -20,6 +20,7 @@
   <depend>sensor_msgs</depend>
   <depend>cmake_modules</depend>
   <depend>controller_manager</depend>
+  <depend>controller_interface</depend>
   <depend>yaml-cpp</depend>
   <depend>eigen</depend>
 
