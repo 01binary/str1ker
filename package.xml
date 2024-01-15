@@ -46,6 +46,6 @@
   <export>
     <moveit_core plugin="${prefix}/description/ik.xml"/>
     <moveit_core plugin="${prefix}/description/planner.xml"/>
-    <moveit_core plugin="${prefix}/description/trajectory.xml"/>
+    <controller_interface plugin="${prefix}/description/trajectory.xml"/>
   </export>
 </package>
