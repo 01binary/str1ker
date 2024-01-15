@@ -36,6 +36,7 @@ bool trajectoryController::init(
     ros::NodeHandle& manager,
     ros::NodeHandle& controller)
 {
+  ROS_INFO("<<<<<<<<< My custom trajectory controller initializing");
   return true;
 }
 
