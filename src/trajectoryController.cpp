@@ -237,8 +237,64 @@ void trajectoryController::update(
 
 void trajectoryController::trajectoryCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg)
 {
-  const trajectory_msgs::JointTrajectory& trajectory = *msg;
+  parseTrajectory(*msg);
+}
 
+void trajectoryController::trajectoryActionCallback(
+  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal)
+{
+  if (!this->isRunning())
+  {
+    ROS_ERROR_NAMED(m_name, "Can't accept new action goals. Controller is not running.");
+    control_msgs::FollowJointTrajectoryResult result;
+    result.error_code = control_msgs::FollowJointTrajectoryResult::INVALID_GOAL;
+    goal.setRejected(result);
+    return;
+  }
+
+  parseTrajectory(goal.getGoal()->trajectory);
+  goal.setAccepted();
+
+  // TODO: need to store the goal so we can call succeed
+}
+
+void trajectoryController::trajectoryCancelCallback(
+  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal)
+{
+  endTrajectory();
+}
+
+bool trajectoryController::queryStateService(
+  control_msgs::QueryTrajectoryState::Request& req,
+  control_msgs::QueryTrajectoryState::Response& res)
+{
+  if (!this->isRunning())
+  {
+    ROS_ERROR_NAMED(m_name, "Can't sample trajectory. Controller is not running.");
+    return false;
+  }
+
+  // TODO sample at req time not simply return current
+
+  res.name.resize(m_joints.size());
+  res.position.resize(m_joints.size());
+  res.velocity.resize(m_joints.size());
+  res.acceleration.resize(m_joints.size());
+
+  for (int jointIndex = 0; jointIndex < m_joints.size(); jointIndex++)
+  {
+    res.name[jointIndex] = m_joints[jointIndex].name;
+    res.position[jointIndex] = m_joints[jointIndex].pos;
+    res.velocity[jointIndex] = m_joints[jointIndex].vel;
+    res.acceleration[jointIndex] = 0.0;
+  }
+
+  return true;
+}
+
+void trajectoryController::parseTrajectory(
+  const trajectory_msgs::JointTrajectory& trajectory)
+{
   // Parse trajectory message joints
   vector<int> jointIndexes;
 
@@ -294,22 +350,6 @@ void trajectoryController::trajectoryCallback(const trajectory_msgs::JointTrajec
   beginTrajectory(ros::Time::now(), waypoints);
 }
 
-void trajectoryController::trajectoryActionCallback(
-  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal)
-{
-}
-
-void trajectoryController::trajectoryCancelCallback(
-  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal)
-{
-}
-
-bool trajectoryController::queryStateService(
-  control_msgs::QueryTrajectoryState::Request& req,
-  control_msgs::QueryTrajectoryState::Response& res)
-{
-}
-
 void trajectoryController::beginTrajectory(
   const ros::Time& time, const std::vector<waypoint_t>& waypoints)
 {
@@ -333,6 +373,10 @@ void trajectoryController::endTrajectory()
   }
 
   m_state = trajectoryState::DONE;
+
+  control_msgs::FollowJointTrajectoryResult result;
+  result.error_code = control_msgs::FollowJointTrajectoryResult::SUCCESSFUL;
+  // TODO goal.setAccepted(result);
 }
 
 void trajectoryController::runTrajectory(

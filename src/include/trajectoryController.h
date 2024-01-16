@@ -163,6 +163,7 @@ public:
   // Trajectory management
   //
   
+  void parseTrajectory(const trajectory_msgs::JointTrajectory& trajectory);
   void beginTrajectory(const ros::Time& time, const std::vector<waypoint_t>& waypoints);
   void runTrajectory(const ros::Time& time, const ros::Duration& period);
   waypoint_t* sampleTrajectory(double timeFromStart);
