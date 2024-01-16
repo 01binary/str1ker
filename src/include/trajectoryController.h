@@ -49,11 +49,12 @@ namespace str1ker {
 
 class trajectoryController: public controller_interface::Controller<hardware_interface::VelocityJointInterface>
 {
+private:
   //
   // Types
   //
 
-  enum controllerState
+  enum state
   {
     READY,
     EXECUTING,
@@ -66,22 +67,41 @@ class trajectoryController: public controller_interface::Controller<hardware_int
     PRISMATIC = 3
   };
 
-  struct jointInfo
+  struct joint_t
   {
     std::string name;
     supportedJointTypes type;
+    hardware_interface::JointHandle handle;
+    control_toolbox::Pid pid;
     double min;
     double max;
+    double maxVelocity;
     double tolerance;
     double timeout;
+
+    double pos;
+    double vel;
+    double posError;
+    double velError;
+    double command;
   };
 
-  struct trajectoryPoint
+  struct waypoint_t
   {
     double position;
     double velocity;
     double duration;
   };
+
+  //
+  // Constants
+  //
+
+  const double DEFAULT_TOLERANCE = 0.01;
+  const double DEFAULT_TIMEOUT = 1.0;
+  const double DEFAULT_P = 10.0;
+  const double DEFAULT_I = 1.0;
+  const double DEFAULT_D = 1.0;
 
 private:
   //
@@ -89,36 +109,31 @@ private:
   //
 
   std::string m_name;
-  std::vector<jointInfo> m_jointInfo;
+  std::vector<joint_t> m_joints;
 
   //
   // State
   //
 
-  ros::NodeHandle m_controller;
+  ros::NodeHandle m_node;
   ros::Subscriber m_goalSub;
   ros::Publisher m_statePub;
   ros::Publisher m_feedbackPub;
   ros::Publisher m_resultPub;
 
   hardware_interface::VelocityJointInterface* m_hardware;
-  std::vector<hardware_interface::JointHandle> m_joints;
 
-  controllerState m_state;
-  std::vector<trajectoryPoint> m_trajectory;
+  state m_state;
+  std::vector<waypoint_t> m_trajectory;
   ros::Time m_startTime;
   ros::Time m_lastTime;
-  std::vector<control_toolbox::Pid> m_pid;
-  std::vector<double> m_positions;
-  std::vector<double> m_errors;
-  std::vector<double> m_commands;
 
 public:
   //
   // Initialization
   //
 
-  bool init(hardware_interface::VelocityJointInterface* hw, ros::NodeHandle& manager, ros::NodeHandle& controller);
+  bool init(hardware_interface::VelocityJointInterface* hw, ros::NodeHandle& managerNode, ros::NodeHandle& node);
 
   //
   // Lifecycle
@@ -133,9 +148,9 @@ public:
   //
 
   void trajectoryCallback(const control_msgs::FollowJointTrajectoryActionGoal::ConstPtr& msg);
-  void beginTrajectory(ros::Time& time, std::vector<trajectoryPoint> waypoints);
-  void runTrajectory(ros::Time& time, const ros::Duration& period);
-  trajectoryPoint* sampleTrajectory(double timeFromStart);
+  void beginTrajectory(const ros::Time& time, std::vector<waypoint_t> waypoints);
+  void runTrajectory(const ros::Time& time, const ros::Duration& period);
+  waypoint_t* sampleTrajectory(double timeFromStart);
   void endTrajectory();
 
   //
