@@ -171,8 +171,8 @@ bool trajectoryController::init(
   }
 
   // Subscribe to trajectory goals
-  m_goalSub = m_node.subscribe<control_msgs::FollowJointTrajectoryActionGoal>(
-    "follow_joint_trajectory", 1, &trajectoryController::trajectoryCallback, this
+  m_goalSub = m_node.subscribe(
+    "command", 1, &trajectoryController::trajectoryCallback, this
   );
 
   // Publish state
@@ -188,6 +188,24 @@ bool trajectoryController::init(
   // Publish trajectory result
   ros::Publisher m_resultPub = m_node.advertise<control_msgs::FollowJointTrajectoryResult>(
     "result", 1
+  );
+
+  // Start trajectory goal action server
+  m_pGoalServer.reset(new actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>(
+    m_node,
+    "follow_joint_trajectory",
+    bind(&trajectoryController::trajectoryActionCallback, this, placeholders::_1),
+    bind(&trajectoryController::trajectoryCancelCallback, this, placeholders::_1),
+    false
+  ));
+
+  m_pGoalServer->start();
+
+  // Advertise trajectory state service
+  m_stateService = m_node.advertiseService(
+    "query_state",
+    &trajectoryController::queryStateService,
+    this
   );
 
   // Initialization complete
@@ -217,10 +235,9 @@ void trajectoryController::update(
   runTrajectory(time, period);
 }
 
-void trajectoryController::trajectoryCallback(
-  const control_msgs::FollowJointTrajectoryActionGoal::ConstPtr& msg)
+void trajectoryController::trajectoryCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg)
 {
-  auto trajectory = msg->goal.trajectory;
+  const trajectory_msgs::JointTrajectory& trajectory = *msg;
 
   // Parse trajectory message joints
   vector<int> jointIndexes;
@@ -275,6 +292,22 @@ void trajectoryController::trajectoryCallback(
 
   // Begin executing parsed trajectory
   beginTrajectory(ros::Time::now(), waypoints);
+}
+
+void trajectoryController::trajectoryActionCallback(
+  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal)
+{
+}
+
+void trajectoryController::trajectoryCancelCallback(
+  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal)
+{
+}
+
+bool trajectoryController::queryStateService(
+  control_msgs::QueryTrajectoryState::Request& req,
+  control_msgs::QueryTrajectoryState::Response& res)
+{
 }
 
 void trajectoryController::beginTrajectory(

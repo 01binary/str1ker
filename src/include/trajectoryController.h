@@ -24,6 +24,8 @@
 #include <string>
 #include <vector>
 
+#include <actionlib/server/action_server.h>
+
 #include <control_msgs/FollowJointTrajectoryAction.h>
 #include <trajectory_msgs/JointTrajectory.h>
 #include <control_msgs/JointTrajectoryControllerState.h>
@@ -121,6 +123,8 @@ private:
   ros::Publisher m_statePub;
   ros::Publisher m_feedbackPub;
   ros::Publisher m_resultPub;
+  std::shared_ptr<actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>> m_pGoalServer;
+  ros::ServiceServer m_stateService;
 
   hardware_interface::VelocityJointInterface* m_hardware;
 
@@ -148,7 +152,17 @@ public:
   // Interface
   //
 
-  void trajectoryCallback(const control_msgs::FollowJointTrajectoryActionGoal::ConstPtr& msg);
+  void trajectoryCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg);
+  void trajectoryActionCallback(actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
+  void trajectoryCancelCallback(actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
+  bool queryStateService(control_msgs::QueryTrajectoryState::Request& req,
+                         control_msgs::QueryTrajectoryState::Response& res);
+
+  
+  //
+  // Trajectory management
+  //
+  
   void beginTrajectory(const ros::Time& time, const std::vector<waypoint_t>& waypoints);
   void runTrajectory(const ros::Time& time, const ros::Duration& period);
   waypoint_t* sampleTrajectory(double timeFromStart);
