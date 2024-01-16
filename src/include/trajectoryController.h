@@ -54,7 +54,7 @@ private:
   // Types
   //
 
-  enum state
+  enum trajectoryState
   {
     READY,
     EXECUTING,
@@ -88,9 +88,10 @@ private:
 
   struct waypoint_t
   {
-    double position;
-    double velocity;
-    double duration;
+    std::vector<double> position;
+    std::vector<double> velocity;
+    std::vector<double> time;
+    std::vector<double> duration;
   };
 
   //
@@ -123,7 +124,7 @@ private:
 
   hardware_interface::VelocityJointInterface* m_hardware;
 
-  state m_state;
+  trajectoryState m_state;
   std::vector<waypoint_t> m_trajectory;
   ros::Time m_startTime;
   ros::Time m_lastTime;
@@ -148,7 +149,7 @@ public:
   //
 
   void trajectoryCallback(const control_msgs::FollowJointTrajectoryActionGoal::ConstPtr& msg);
-  void beginTrajectory(const ros::Time& time, std::vector<waypoint_t> waypoints);
+  void beginTrajectory(const ros::Time& time, const std::vector<waypoint_t>& waypoints);
   void runTrajectory(const ros::Time& time, const ros::Duration& period);
   waypoint_t* sampleTrajectory(double timeFromStart);
   void endTrajectory();

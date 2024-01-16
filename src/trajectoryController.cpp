@@ -190,14 +190,18 @@ bool trajectoryController::init(
     "result", 1
   );
 
+  // Initialization complete
+  m_state = trajectoryState::READY;
+
   return true;
 }
 
 void trajectoryController::starting(const ros::Time& time)
 {
-  // Zero all joints
+  // Zero all joints and reset PID states
   for (auto joint : m_joints)
   {
+    joint.pid.reset();
     joint.handle.setCommand(0.0);
   }
 }
@@ -216,13 +220,86 @@ void trajectoryController::update(
 void trajectoryController::trajectoryCallback(
   const control_msgs::FollowJointTrajectoryActionGoal::ConstPtr& msg)
 {
-  // TODO parse trajectory from message
+  auto trajectory = msg->goal.trajectory;
+
+  // Parse trajectory message joints
+  vector<int> jointIndexes;
+
+  for (auto jointName : trajectory.joint_names)
+  {
+    int foundJointIndex = -1;
+
+    for (int jointIndex = 0; jointIndex < m_joints.size(); jointIndex++)
+    {
+      if (m_joints[jointIndex].name == jointName)
+      {
+        foundJointIndex = jointIndex;
+        break;
+      }
+    }
+
+    jointIndexes.push_back(foundJointIndex);
+  }
+
+  // Parse trajectory message waypoints
+  vector<waypoint_t> waypoints(trajectory.points.size());
+  double prevWaypointTime = 0.0;
+
+  for (int waypointIndex = 0; waypointIndex < waypoints.size(); waypointIndex++)
+  {
+    auto sourceWaypoint = trajectory.points[waypointIndex];
+    auto targetWaypoint = waypoints[waypointIndex];
+
+    targetWaypoint.position.resize(jointIndexes.size());
+    targetWaypoint.velocity.resize(jointIndexes.size());
+    targetWaypoint.time.resize(jointIndexes.size());
+    targetWaypoint.duration.resize(jointIndexes.size());
+
+    for (int sourceJointIndex = 0; sourceJointIndex < jointIndexes.size(); sourceJointIndex++)
+    {
+      int targetJointIndex = jointIndexes[sourceJointIndex];
+      if (targetJointIndex == -1) continue;
+
+      double position = sourceWaypoint.positions[sourceJointIndex];
+      double velocity = sourceWaypoint.velocities[sourceJointIndex];
+      double waypointTime = sourceWaypoint.time_from_start.toSec();
+      double duration = waypointTime - prevWaypointTime;
+      prevWaypointTime = waypointTime;
+
+      targetWaypoint.position[targetJointIndex] = position;
+      targetWaypoint.velocity[targetJointIndex] = velocity;
+      targetWaypoint.time[targetJointIndex] = waypointTime;
+      targetWaypoint.duration[targetJointIndex] = duration;
+    }
+  }
+
+  // Begin executing parsed trajectory
+  beginTrajectory(ros::Time::now(), waypoints);
 }
 
 void trajectoryController::beginTrajectory(
-  const ros::Time& time, std::vector<waypoint_t> waypoints)
+  const ros::Time& time, const std::vector<waypoint_t>& waypoints)
 {
-  // TODO copy from motor_response
+  ROS_INFO_NAMED(
+    m_name.c_str(),
+    "starting trajectory with %d waypoints",
+    (int)waypoints.size()
+  );
+
+  m_state = trajectoryState::EXECUTING;
+  m_startTime = time;
+  m_lastTime = time;
+  m_trajectory = waypoints;
+}
+
+void trajectoryController::endTrajectory()
+{
+  for (auto joint : m_joints)
+  {
+    joint.handle.setCommand(0.0);
+  }
+
+  m_state = trajectoryState::DONE;
 }
 
 void trajectoryController::runTrajectory(
@@ -235,11 +312,6 @@ trajectoryController::waypoint_t* trajectoryController::sampleTrajectory(double 
 {
   // TODO haven't done this before
   return nullptr;
-}
-
-void trajectoryController::endTrajectory()
-{
-  // TODO copy from motor_response
 }
 
 void trajectoryController::debug()
