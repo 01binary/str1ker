@@ -165,6 +165,9 @@ bool trajectoryController::init(
       // Use default PID gains, clamp, and windup
       joint.pid.initPid(DEFAULT_P, DEFAULT_I, DEFAULT_D, 1.0, 0.0);
     }
+
+    // Loaded joint successfully
+    m_joints.push_back(joint);
   }
 
   // Subscribe to trajectory goals

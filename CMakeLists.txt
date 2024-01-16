@@ -142,6 +142,7 @@ target_link_libraries(str1ker-planner
 
 add_library(str1ker-trajectory-controller
   src/trajectoryController.cpp
+  src/controllerUtilities.cpp
 )
 
 target_link_libraries(str1ker-trajectory-controller
