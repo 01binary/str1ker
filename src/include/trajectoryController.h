@@ -79,11 +79,11 @@ private:
     double tolerance;
     double timeout;
 
-    double pos;
-    double vel;
-    double posError;
-    double velError;
-    double command;
+    double pos = {0.0};
+    double vel = {0.0};
+    double posError = {0.0};
+    double velError = {0.0};
+    double command = {0.0};
   };
 
   struct waypoint_t
