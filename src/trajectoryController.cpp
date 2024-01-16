@@ -254,8 +254,7 @@ void trajectoryController::trajectoryActionCallback(
 
   parseTrajectory(goal.getGoal()->trajectory);
   goal.setAccepted();
-
-  // TODO: need to store the goal so we can call succeed
+  m_goal = goal;
 }
 
 void trajectoryController::trajectoryCancelCallback(
@@ -374,9 +373,12 @@ void trajectoryController::endTrajectory()
 
   m_state = trajectoryState::DONE;
 
-  control_msgs::FollowJointTrajectoryResult result;
-  result.error_code = control_msgs::FollowJointTrajectoryResult::SUCCESSFUL;
-  // TODO goal.setAccepted(result);
+  if (m_goal.isValid())
+  {
+    control_msgs::FollowJointTrajectoryResult result;
+    result.error_code = control_msgs::FollowJointTrajectoryResult::SUCCESSFUL;
+    m_goal.setSucceeded(result);
+  }
 }
 
 void trajectoryController::runTrajectory(

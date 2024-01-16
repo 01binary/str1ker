@@ -115,7 +115,7 @@ private:
   std::vector<joint_t> m_joints;
 
   //
-  // State
+  // Interface
   //
 
   ros::NodeHandle m_node;
@@ -123,12 +123,16 @@ private:
   ros::Publisher m_statePub;
   ros::Publisher m_feedbackPub;
   ros::Publisher m_resultPub;
-  std::shared_ptr<actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>> m_pGoalServer;
   ros::ServiceServer m_stateService;
-
+  std::shared_ptr<actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>> m_pGoalServer;
   hardware_interface::VelocityJointInterface* m_hardware;
 
+  //
+  // State
+  //
+
   trajectoryState m_state;
+  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle m_goal;
   std::vector<waypoint_t> m_trajectory;
   ros::Time m_startTime;
   ros::Time m_lastTime;
@@ -138,7 +142,10 @@ public:
   // Initialization
   //
 
-  bool init(hardware_interface::VelocityJointInterface* hw, ros::NodeHandle& managerNode, ros::NodeHandle& node);
+  bool init(
+    hardware_interface::VelocityJointInterface* hw,
+    ros::NodeHandle& managerNode,
+    ros::NodeHandle& node);
 
   //
   // Lifecycle
@@ -153,8 +160,10 @@ public:
   //
 
   void trajectoryCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg);
-  void trajectoryActionCallback(actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
-  void trajectoryCancelCallback(actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
+  void trajectoryActionCallback(
+    actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
+  void trajectoryCancelCallback(
+    actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
   bool queryStateService(control_msgs::QueryTrajectoryState::Request& req,
                          control_msgs::QueryTrajectoryState::Response& res);
 
