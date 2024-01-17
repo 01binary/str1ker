@@ -398,4 +398,21 @@ void trajectoryController::debug()
   // TODO copy from motor_response
 }
 
+/*----------------------------------------------------------*\
+| trajectoryControllerAllocator class
+\*----------------------------------------------------------*/
+
+moveit_controller_manager::MoveItControllerHandlePtr trajectoryControllerAllocator::alloc(
+  const std::string& name,
+  const std::vector<std::string>& resources)
+{
+  return make_shared<moveit_simple_controller_manager::FollowJointTrajectoryControllerHandle>(
+    name, "follow_joint_trajectory");
+}
+
+/*----------------------------------------------------------*\
+| Plugin exports
+\*----------------------------------------------------------*/
+
 PLUGINLIB_EXPORT_CLASS(str1ker::trajectoryController, controller_interface::ControllerBase);
+PLUGINLIB_EXPORT_CLASS(str1ker::trajectoryControllerAllocator, moveit_ros_control_interface::ControllerHandleAllocator);

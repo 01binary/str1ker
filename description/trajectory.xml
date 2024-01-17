@@ -8,4 +8,14 @@
       Str1ker Joint Trajectory Controller for MoveIt!
     </description>
   </class>
+
+  <class
+    name="str1ker/trajectoryController"
+    type="moveit_ros_control_interface::JointTrajectoryControllerAllocator"
+    base_class_type="moveit_ros_control_interface::ControllerHandleAllocator"
+  >
+    <description>
+      Str1ker Joint Trajectory Controller Allocator for MoveIt!
+    </description>
+  </class>
 </library>

@@ -8,7 +8,7 @@
                                                                                      ███████                  
  trajectoryController.h
 
- Joint trajectory controller
+ A "forgiving" joint trajectory controller
  Created 01/14/2024
 
  Copyright (C) 2024 Valeriy Novytskyy
@@ -35,6 +35,7 @@
 #include <hardware_interface/robot_hw.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/joint_command_interface.h>
+#include <moveit_ros_control_interface/ControllerHandle.h>
 #include <control_toolbox/pid.h>
 #include <angles/angles.h>
 #include <urdf/model.h>
@@ -183,6 +184,18 @@ public:
   //
 
   void debug();
+};
+
+/*----------------------------------------------------------*\
+| trajectoryControllerAllocator class
+\*----------------------------------------------------------*/
+
+class trajectoryControllerAllocator : public ControllerHandleAllocator
+{
+public:
+  moveit_controller_manager::MoveItControllerHandlePtr alloc(
+    const std::string& name,
+    const std::vector<std::string>& resources);
 };
 
 } // namespace str1ker
