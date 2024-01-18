@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   controller_manager
   moveit_ros_robot_interaction
+  moveit_ros_control_interface
   moveit_core
   moveit_ros_planning
   pluginlib
@@ -71,6 +72,7 @@ catkin_package(
     actionlib
     controller_manager
     moveit_ros_robot_interaction
+    moveit_ros_control_interface
     pluginlib
     moveit_core
     moveit_ros_planning
