@@ -211,7 +211,7 @@ public:
 | trajectoryControllerAllocator class
 \*----------------------------------------------------------*/
 
-class trajectoryControllerAllocator : public ControllerHandleAllocator
+class trajectoryControllerAllocator : public moveit_ros_control_interface::ControllerHandleAllocator
 {
 public:
   moveit_controller_manager::MoveItControllerHandlePtr alloc(
