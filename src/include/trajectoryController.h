@@ -21,21 +21,42 @@
 | Includes
 \*----------------------------------------------------------*/
 
+//
+// Standard Library
+//
+
 #include <string>
 #include <vector>
 
-#include <actionlib/server/action_server.h>
+//
+// Actions and Messages
+//
 
+#include <actionlib/server/action_server.h>
 #include <control_msgs/FollowJointTrajectoryAction.h>
 #include <trajectory_msgs/JointTrajectory.h>
 #include <control_msgs/JointTrajectoryControllerState.h>
 #include <control_msgs/QueryTrajectoryState.h>
 
+//
+// MoveIt! Integration
+//
+
+#include <moveit/moveit_controller_manager/moveit_controller_manager.h>
+#include <moveit/moveit_controller_manager/controller_manager.h>
+#include <moveit/moveit_ros_control_interface/controller_handle_allocator.h>
+#include <moveit/moveit_ros_control_interface/moveit_controller_handle.h>
+#include <moveit/moveit_ros_control_interface/follow_joint_trajectory_controller_handle.h>
+
+//
+// ROS Controllers
+//
+
+#include <controller_manager/controller_manager.h>
 #include <controller_interface/controller.h>
 #include <hardware_interface/robot_hw.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/joint_command_interface.h>
-#include <moveit_ros_control_interface/ControllerHandle.h>
 #include <control_toolbox/pid.h>
 #include <angles/angles.h>
 #include <urdf/model.h>
