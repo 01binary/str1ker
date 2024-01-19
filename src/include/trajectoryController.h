@@ -33,6 +33,7 @@
 //
 
 #include <actionlib/server/action_server.h>
+#include <actionlib/client/simple_action_client.h>
 #include <control_msgs/FollowJointTrajectoryAction.h>
 #include <trajectory_msgs/JointTrajectory.h>
 #include <control_msgs/JointTrajectoryControllerState.h>
@@ -213,6 +214,7 @@ class trajectoryControllerHandle
 {
 private:
   std::string m_action;
+  std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> m_actionClient;
 
 public:
   trajectoryControllerHandle(const std::string& name, const std::string& action_ns);

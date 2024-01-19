@@ -406,6 +406,8 @@ trajectoryControllerHandle::trajectoryControllerHandle(const string& name, const
   : moveit_controller_manager::MoveItControllerHandle(name)
   , m_action(action_ns)
 {
+  m_actionClient = make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(
+    action_ns, true);
 }
 
 bool trajectoryControllerHandle::sendTrajectory(const moveit_msgs::RobotTrajectory& trajectory)
