@@ -211,6 +211,8 @@ bool trajectoryController::init(
   // Initialization complete
   m_state = trajectoryState::READY;
 
+  ROS_INFO_NAMED(m_name, "Trajectory controller plugin initialized");
+
   return true;
 }
 
@@ -406,17 +408,19 @@ trajectoryControllerHandle::trajectoryControllerHandle(const string& name, const
   : moveit_controller_manager::MoveItControllerHandle(name)
   , m_done(true)
 {
-  m_actionClient = make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(
-    action_ns, true);
+  string actionName = name + "/" + action_ns;
 
-  m_actionClient->waitForServer(ros::Duration(5.0));
+  m_actionClient = make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(
+    actionName, true);
+
+  m_actionClient->waitForServer(ros::Duration(20.0));
 
   if (!m_actionClient->isServerConnected())
   {
     ROS_ERROR_NAMED(
       getName().c_str(),
       "Action client failed to connect to %s",
-      action_ns.c_str());
+      actionName.c_str());
 
     m_actionClient.reset();
   }
