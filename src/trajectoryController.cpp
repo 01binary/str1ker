@@ -444,16 +444,16 @@ bool trajectoryControllerHandle::sendTrajectory(const moveit_msgs::RobotTrajecto
     goal,
     [this](const auto& state, const auto& result)
     {
-      ROS_INFO_NAMED(getName(), "Controller Handle Done");
+      ROS_INFO_NAMED(getName().c_str(), "Controller Handle Done");
       m_done = true;
     },
     [this]
     {
-      ROS_INFO_NAMED(getName(), "Controller Handle Activated");
+      ROS_INFO_NAMED(getName().c_str(), "Controller Handle Activated");
     },
     [this](const auto& feedback)
     {
-      ROS_INFO_NAMED(getName(), "Controller Handle Feedback");
+      ROS_INFO_NAMED(getName().c_str(), "Controller Handle Feedback");
     });
 
   m_done = false;
