@@ -48,5 +48,6 @@
     <moveit_core plugin="${prefix}/description/ik.xml"/>
     <moveit_core plugin="${prefix}/description/planner.xml"/>
     <controller_interface plugin="${prefix}/description/trajectory.xml"/>
+    <moveit_ros_control_interface plugin="${prefix}/description/allocator.xml"/>
   </export>
 </package>

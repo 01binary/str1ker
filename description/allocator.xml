@@ -1,0 +1,11 @@
+<library path="lib/libstr1ker-trajectory-controller">
+  <class
+    name="str1ker/trajectoryController"
+    type="str1ker::trajectoryControllerAllocator"
+    base_class_type="moveit_ros_control_interface::ControllerHandleAllocator"
+  >
+    <description>
+      Str1ker Joint Trajectory Controller Allocator for MoveIt!
+    </description>
+  </class>
+</library>
