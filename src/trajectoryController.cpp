@@ -408,6 +408,18 @@ trajectoryControllerHandle::trajectoryControllerHandle(const string& name, const
 {
   m_actionClient = make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(
     action_ns, true);
+
+  m_actionClient->waitForServer(ros::Duration(5.0));
+
+  if (!m_actionClient->isServerConnected())
+  {
+    ROS_ERROR_NAMED(
+      "str1ker::trajectoryControllerHandle",
+      "Action client failed to connect to %s",
+      action_ns.c_str());
+
+    m_actionClient.reset();
+  }
 }
 
 bool trajectoryControllerHandle::sendTrajectory(const moveit_msgs::RobotTrajectory& trajectory)

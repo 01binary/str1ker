@@ -72,7 +72,8 @@
         "bit": "cpp",
         "geometry": "cpp",
         "forward_list": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "*.ipp": "cpp"
     },
     "python.autoComplete.extraPaths": [
         "/home/val/catkin_ws/devel/lib/python3/dist-packages",
