@@ -404,8 +404,8 @@ void trajectoryController::debug()
 
 trajectoryControllerHandle::trajectoryControllerHandle(const string& name, const string& action_ns)
   : moveit_controller_manager::MoveItControllerHandle(name)
+  , m_action(action_ns)
 {
-  // TODO
 }
 
 bool trajectoryControllerHandle::sendTrajectory(const moveit_msgs::RobotTrajectory& trajectory)

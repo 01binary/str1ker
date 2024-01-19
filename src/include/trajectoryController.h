@@ -211,6 +211,9 @@ public:
 class trajectoryControllerHandle
   : public moveit_controller_manager::MoveItControllerHandle
 {
+private:
+  std::string m_action;
+
 public:
   trajectoryControllerHandle(const std::string& name, const std::string& action_ns);
 
