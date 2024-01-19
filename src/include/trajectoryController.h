@@ -67,7 +67,8 @@ namespace str1ker {
 | trajectoryController class
 \*----------------------------------------------------------*/
 
-class trajectoryController: public controller_interface::Controller<hardware_interface::VelocityJointInterface>
+class trajectoryController
+  : public controller_interface::Controller<hardware_interface::VelocityJointInterface>
 {
 private:
   //
@@ -204,6 +205,23 @@ public:
 };
 
 /*----------------------------------------------------------*\
+| trajectoryControllerHandle class
+\*----------------------------------------------------------*/
+
+class trajectoryControllerHandle
+  : public moveit_controller_manager::MoveItControllerHandle
+{
+public:
+  trajectoryControllerHandle(const std::string& name, const std::string& action_ns);
+
+public:
+  bool sendTrajectory(const moveit_msgs::RobotTrajectory& trajectory) override;
+  bool waitForExecution(const ros::Duration& timeout = ros::Duration(0)) override;
+  moveit_controller_manager::ExecutionStatus getLastExecutionStatus() override;
+  bool cancelExecution() override;
+};
+
+/*----------------------------------------------------------*\
 | trajectoryControllerAllocator class
 \*----------------------------------------------------------*/
 
@@ -211,7 +229,7 @@ class trajectoryControllerAllocator : public moveit_ros_control_interface::Contr
 {
 public:
   moveit_controller_manager::MoveItControllerHandlePtr alloc(
-    const std::string& name, const std::vector<std::string>& resources);
+    const std::string& name, const std::vector<std::string>& resources) override;
 };
 
 } // namespace str1ker

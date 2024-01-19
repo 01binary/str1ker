@@ -399,17 +399,53 @@ void trajectoryController::debug()
 }
 
 /*----------------------------------------------------------*\
-| trajectoryControllerAllocator class
+| trajectoryControllerHandle implementation
 \*----------------------------------------------------------*/
 
-moveit_controller_manager::MoveItControllerHandlePtr trajectoryControllerAllocator::alloc(
-  const std::string& name, const std::vector<std::string>& resources)
+trajectoryControllerHandle::trajectoryControllerHandle(const string& name, const string& action_ns)
+  : moveit_controller_manager::MoveItControllerHandle(name)
 {
+  // TODO
+}
 
+bool trajectoryControllerHandle::sendTrajectory(const moveit_msgs::RobotTrajectory& trajectory)
+{
+  // TODO
+  return true;
+}
+
+bool trajectoryControllerHandle::waitForExecution(const ros::Duration& timeout)
+{
+  // TODO
+  return true;
+}
+
+moveit_controller_manager::ExecutionStatus trajectoryControllerHandle::getLastExecutionStatus()
+{
+  // TODO
+  return moveit_controller_manager::ExecutionStatus(
+    moveit_controller_manager::ExecutionStatus::SUCCEEDED);
+}
+
+bool trajectoryControllerHandle::cancelExecution()
+{
+  // TODO
+  return true;
 }
 
 /*----------------------------------------------------------*\
-| Plugin exports
+| trajectoryControllerAllocator implementation
+\*----------------------------------------------------------*/
+
+moveit_controller_manager::MoveItControllerHandlePtr trajectoryControllerAllocator::alloc(
+  const string& name, const vector<string>& resources)
+{
+  return make_shared<trajectoryControllerHandle>(
+    name, "follow_joint_trajectory");
+}
+
+/*----------------------------------------------------------*\
+| Exports
 \*----------------------------------------------------------*/
 
 PLUGINLIB_EXPORT_CLASS(str1ker::trajectoryController, controller_interface::ControllerBase);

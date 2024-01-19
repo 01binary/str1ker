@@ -4,7 +4,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "~/catkin_ws/**",
+                "~/catkin_ws/src/**",
+                "~/catkin-ws/src/moveit/moveit_plugins/moveit_ros_control_interface/include",
                 "/opt/ros/noetic/**",
                 "/usr/include/**"
             ],
