@@ -414,7 +414,7 @@ trajectoryControllerHandle::trajectoryControllerHandle(const string& name, const
   if (!m_actionClient->isServerConnected())
   {
     ROS_ERROR_NAMED(
-      "str1ker::trajectoryControllerHandle",
+      getName().c_str(),
       "Action client failed to connect to %s",
       action_ns.c_str());
 
@@ -427,7 +427,7 @@ bool trajectoryControllerHandle::sendTrajectory(const moveit_msgs::RobotTrajecto
   if (!m_actionClient)
   {
     ROS_ERROR_NAMED(
-      "str1ker::trajectoryControllerHandle",
+      getName().c_str(),
       "Action client not connected, could not send trajectory");
 
     return false;
@@ -440,15 +440,16 @@ bool trajectoryControllerHandle::sendTrajectory(const moveit_msgs::RobotTrajecto
     goal,
     [this](const auto& state, const auto& result)
     {
-      //controllerDoneCallback(state, result);
+      ROS_INFO_NAMED(getName(), "Controller Handle Done");
+      m_done = true;
     },
     [this]
     {
-      //controllerActiveCallback();
+      ROS_INFO_NAMED(getName(), "Controller Handle Activated");
     },
     [this](const auto& feedback)
     {
-      //controllerFeedbackCallback(feedback);
+      ROS_INFO_NAMED(getName(), "Controller Handle Feedback");
     });
 
   m_done = false;
