@@ -404,7 +404,7 @@ void trajectoryController::debug()
 
 trajectoryControllerHandle::trajectoryControllerHandle(const string& name, const string& action_ns)
   : moveit_controller_manager::MoveItControllerHandle(name)
-  , m_action(action_ns)
+  , m_done(true)
 {
   m_actionClient = make_shared<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>>(
     action_ns, true);
@@ -424,21 +424,48 @@ trajectoryControllerHandle::trajectoryControllerHandle(const string& name, const
 
 bool trajectoryControllerHandle::sendTrajectory(const moveit_msgs::RobotTrajectory& trajectory)
 {
-  // TODO
+  if (!m_actionClient)
+  {
+    ROS_ERROR_NAMED(
+      "str1ker::trajectoryControllerHandle",
+      "Action client not connected, could not send trajectory");
+
+    return false;
+  }
+
+  control_msgs::FollowJointTrajectoryGoal goal;
+  goal.trajectory = trajectory.joint_trajectory;
+
+  m_actionClient->sendGoal(
+    goal,
+    [this](const auto& state, const auto& result)
+    {
+      //controllerDoneCallback(state, result);
+    },
+    [this]
+    {
+      //controllerActiveCallback();
+    },
+    [this](const auto& feedback)
+    {
+      //controllerFeedbackCallback(feedback);
+    });
+
+  m_done = false;
   return true;
 }
 
 bool trajectoryControllerHandle::waitForExecution(const ros::Duration& timeout)
 {
-  // TODO
+  if (m_actionClient && !m_done)
+    return m_actionClient->waitForResult(ros::Duration(5.0));
+
   return true;
 }
 
 moveit_controller_manager::ExecutionStatus trajectoryControllerHandle::getLastExecutionStatus()
 {
-  // TODO
-  return moveit_controller_manager::ExecutionStatus(
-    moveit_controller_manager::ExecutionStatus::SUCCEEDED);
+  return moveit_controller_manager::ExecutionStatus::SUCCEEDED;
 }
 
 bool trajectoryControllerHandle::cancelExecution()
@@ -447,6 +474,8 @@ bool trajectoryControllerHandle::cancelExecution()
     return false;
 
   m_actionClient->cancelGoal();
+  m_done = true;
+
   return true;
 }
 

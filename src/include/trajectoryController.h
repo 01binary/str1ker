@@ -213,7 +213,7 @@ class trajectoryControllerHandle
   : public moveit_controller_manager::MoveItControllerHandle
 {
 private:
-  std::string m_action;
+  bool m_done;
   std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> m_actionClient;
 
 public:
