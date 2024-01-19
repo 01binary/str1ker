@@ -443,7 +443,10 @@ moveit_controller_manager::ExecutionStatus trajectoryControllerHandle::getLastEx
 
 bool trajectoryControllerHandle::cancelExecution()
 {
-  // TODO
+  if (!m_actionClient)
+    return false;
+
+  m_actionClient->cancelGoal();
   return true;
 }
 
