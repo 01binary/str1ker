@@ -11,7 +11,7 @@
 
   <class
     name="str1ker/trajectoryController"
-    type="moveit_ros_control_interface::JointTrajectoryControllerAllocator"
+    type="str1ker::trajectoryControllerAllocator"
     base_class_type="moveit_ros_control_interface::ControllerHandleAllocator"
   >
     <description>

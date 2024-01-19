@@ -15,9 +15,10 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   std_msgs
   controller_manager
+  moveit_core
   moveit_ros_robot_interaction
   moveit_ros_control_interface
-  moveit_core
+  moveit_ros_planning_interface
   moveit_ros_planning
   pluginlib
   srdfdom
@@ -71,15 +72,17 @@ catkin_package(
     message_runtime
     actionlib
     controller_manager
+    moveit_core
     moveit_ros_robot_interaction
     moveit_ros_control_interface
-    pluginlib
-    moveit_core
+    moveit_ros_planning_interface
     moveit_ros_planning
+    pluginlib
   DEPENDS
     EIGEN3
 )
 
+include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
@@ -243,3 +246,5 @@ install(
   DESTINATION
     ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
+
+message(echoing catkin include dirs: "${catkin_INCLUDE_DIRS}")

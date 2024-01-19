@@ -403,11 +403,9 @@ void trajectoryController::debug()
 \*----------------------------------------------------------*/
 
 moveit_controller_manager::MoveItControllerHandlePtr trajectoryControllerAllocator::alloc(
-  const std::string& name,
-  const std::vector<std::string>& resources)
+  const std::string& name, const std::vector<std::string>& resources)
 {
-  return make_shared<moveit_simple_controller_manager::FollowJointTrajectoryControllerHandle>(
-    name, "follow_joint_trajectory");
+
 }
 
 /*----------------------------------------------------------*\

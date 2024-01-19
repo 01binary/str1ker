@@ -21,6 +21,10 @@
   <depend>cmake_modules</depend>
   <depend>controller_manager</depend>
   <depend>controller_interface</depend>
+  <depend>moveit_core</depend>
+  <depend>moveit_ros_planning</depend>
+  <depend>moveit_ros_planning_interface</depend>
+  <depend>moveit_ros_control_interface</depend>
   <depend>yaml-cpp</depend>
   <depend>eigen</depend>
 
@@ -29,15 +33,11 @@
   <build_depend>actionlib_msgs</build_depend>
   <build_depend>message_generation</build_depend>
   <build_depend>moveit_ros_robot_interaction</build_depend>
-  <build_depend>moveit_core</build_depend>
-  <build_depend>moveit_ros_planning</build_depend>
 
   <build_export_depend>message_runtime</build_export_depend>
 
   <exec_depend>message_runtime</exec_depend>
   <exec_depend>actionlib</exec_depend>
-  <exec_depend>moveit_core</exec_depend>
-  <exec_depend>moveit_ros_planning</exec_depend>
   <exec_depend>pluginlib</exec_depend>
   <exec_depend>moveit_ros_robot_interaction</exec_depend>
   <exec_depend>joint_state_controller</exec_depend>

@@ -42,11 +42,7 @@
 // MoveIt! Integration
 //
 
-#include <moveit/moveit_controller_manager/moveit_controller_manager.h>
-#include <moveit/moveit_controller_manager/controller_manager.h>
-#include <moveit/moveit_ros_control_interface/controller_handle_allocator.h>
-#include <moveit/moveit_ros_control_interface/moveit_controller_handle.h>
-#include <moveit/moveit_ros_control_interface/follow_joint_trajectory_controller_handle.h>
+#include <moveit_ros_control_interface/ControllerHandle.h>
 
 //
 // ROS Controllers
@@ -215,8 +211,7 @@ class trajectoryControllerAllocator : public moveit_ros_control_interface::Contr
 {
 public:
   moveit_controller_manager::MoveItControllerHandlePtr alloc(
-    const std::string& name,
-    const std::vector<std::string>& resources);
+    const std::string& name, const std::vector<std::string>& resources);
 };
 
 } // namespace str1ker
