@@ -191,12 +191,12 @@ bool trajectoryController::init(
   );
 
   // Publish trajectory feedback
-  ros::Publisher m_feedbackPub = m_node.advertise<control_msgs::FollowJointTrajectoryFeedback>(
+  m_feedbackPub = m_node.advertise<control_msgs::FollowJointTrajectoryFeedback>(
     "feedback", 1
   );
 
   // Publish trajectory result
-  ros::Publisher m_resultPub = m_node.advertise<control_msgs::FollowJointTrajectoryResult>(
+  m_resultPub = m_node.advertise<control_msgs::FollowJointTrajectoryResult>(
     "result", 1
   );
 
