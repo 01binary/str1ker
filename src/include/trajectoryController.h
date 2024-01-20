@@ -182,15 +182,15 @@ public:
   // Interface
   //
 
+  void trajectoryFeedback(const ros::Time& time, double trajectoryTime);
   void trajectoryCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg);
   void trajectoryActionCallback(
     actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
   void trajectoryCancelCallback(
     actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
-  bool queryStateService(control_msgs::QueryTrajectoryState::Request& req,
-                         control_msgs::QueryTrajectoryState::Response& res);
+  bool queryStateService(
+    control_msgs::QueryTrajectoryState::Request& req, control_msgs::QueryTrajectoryState::Response& res);
 
-  
   //
   // Trajectory management
   //
