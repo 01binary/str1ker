@@ -429,7 +429,7 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
     joint.pos = joint.handle.getPosition();
 
     // Update joint velocity
-    joint.vel = joint.handle.getVelocity();
+    joint.vel = ceil(joint.handle.getVelocity() * 100.0) / 100.0;
   }
 
   // Write joints
@@ -445,17 +445,21 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
     }
 
     // Get goal position
-    double goal = waypoint->position[&joint - &m_joints.front()];
+    joint.goal = waypoint->position[&joint - &m_joints.front()];
 
     // Calculate position error
     if (joint.type == supportedJointTypes::REVOLUTE)
     {
-      angles::shortest_angular_distance_with_large_limits(joint.pos, goal, joint.min, joint.max, joint.error);
+      angles::shortest_angular_distance_with_large_limits(
+        joint.pos, joint.goal, joint.min, joint.max, joint.error);
     }
     else if (joint.type == supportedJointTypes::PRISMATIC)
     {
-      joint.error = goal - joint.pos;
+      joint.error = joint.goal - joint.pos;
     }
+
+    // Round error
+    joint.error = ceil(joint.error * 1000.0) / 1000.0;
 
     // Stop if executed trajectory and ended within goal tolerance
     if (isLastWaypoint && abs(joint.error) <= joint.tolerance)
@@ -482,34 +486,21 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
 
       ROS_INFO_NAMED(
         m_name.c_str(),
-        "Joint %s trajectory completed: trajectory time %g exceeded timeout %g by %g seconds",
+        "Joint %s trajectory timeout %g seconds",
         joint.name.c_str(),
-        trajectoryTime,
-        joint.timeout,
-        trajectoryTime - joint.timeout
+        joint.timeout
       );
 
       continue;
     }
 
     // Calculate command
-    double command = clamp(
+    joint.command = clamp(
       joint.pid.computeCommand(joint.error, period),
       -joint.maxVelocity,
       joint.maxVelocity
     );
 
-    // If reversing direction, zero first
-    if (!utilities::isSameSign(command, joint.command))
-    {
-      joint.command = 0.0;
-    }
-    else
-    {
-      joint.command = command;
-    }
-
-    // Apply command
     joint.handle.setCommand(joint.command);
   }
 
@@ -609,7 +600,7 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
     int trajectoryIndex = waypoint - &m_trajectory.front();
 
     ROS_INFO(
-      "- waypoint %d / time %#.4g",
+      "[waypoint %d] time %#.4g",
       trajectoryIndex,
       trajectoryTime
     );
@@ -617,14 +608,15 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
     for (const joint_t& joint : m_joints)
     {
       ROS_INFO(
-        "\t%-24.24spos %#+.4g\tvel %#+.4g\t%s\tgoal %#+.4g\terr %#+.4g\t%s",
+        "\t%-24.24spos %#+.3g\tvel %#+.3g\tcmd %#+.3g\t%s goal %#+.3g\terr %#+.3g\t%s",
         joint.name.c_str(),
         joint.pos,
         joint.vel,
-        joint.vel > 0.0 ? "->" : joint.vel < 0.0 ? "<-" : "  ",
+        joint.command,
+        joint.command > 0.0 ? "->" : joint.command < 0.0 ? "<-" : "  ",
         joint.goal,
         joint.error,
-        joint.completed ? "done" : ""
+        joint.completed ? "✓" : ""
       );
     }
   }
