@@ -408,8 +408,8 @@
         <axis xyz="0 1 0" />
         <parent link="base_link" />
         <child link="shoulder_link" />
-        <limit effort="100" velocity="1.0" lower="-1.5708" upper="1.5708" />
-        <dynamics damping="0.7" friction="1.4" />
+        <limit effort="100" velocity="3.14160" lower="-1.5708" upper="1.5708" />
+        <dynamics damping="5" friction="5" />
     </joint>
     <joint name="shoulder" type="revolute">
         <origin rpy="0 0 0" xyz="-0.013 0.11518 0.0" />
