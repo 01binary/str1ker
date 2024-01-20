@@ -228,12 +228,6 @@ bool trajectoryController::init(
 
 void trajectoryController::starting(const ros::Time& time)
 {
-  // Zero all joints and reset PID states
-  for (auto joint : m_joints)
-  {
-    joint.pid.reset();
-    joint.handle.setCommand(0.0);
-  }
 }
 
 void trajectoryController::stopping(const ros::Time&)
@@ -452,12 +446,14 @@ void trajectoryController::beginTrajectory(
     (int)waypoints.size()
   );
 
+  // Reset controller state
   m_state = trajectoryState::EXECUTING;
   m_startTime = time;
   m_lastTime = time;
   m_trajectory = waypoints;
   m_seq = 0;
 
+  // Reset joint states
   for (joint_t& joint : m_joints)
   {
     joint.pos = joint.handle.getPosition();
@@ -481,6 +477,7 @@ void trajectoryController::endTrajectory()
 
   for (auto joint : m_joints)
   {
+    joint.pid.reset();
     joint.handle.setCommand(0.0);
   }
 

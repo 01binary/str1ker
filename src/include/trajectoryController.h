@@ -93,21 +93,28 @@ private:
   {
     std::string name;
     supportedJointTypes type;
+
+    // Handle for sending velocity commands and reading encoders from robot hardware
     hardware_interface::JointHandle handle;
+
+    // PID controller for calculating velocity
     control_toolbox::Pid pid;
 
+    // Configuration from URDF
     double min;
     double max;
     double maxVelocity;
+
+    // Configuration from YAML
     double tolerance;
     double timeout;
 
+    // State
     double goal = {0.0};
     double pos = {0.0};
     double vel = {0.0};
     double error = {0.0};
     double command = {0.0};
-
     bool completed = {false};
   };
 
