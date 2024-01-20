@@ -386,13 +386,24 @@ void trajectoryController::beginTrajectory(
 
   for (joint_t& joint : m_joints)
   {
+    joint.pos = joint.handle.getPosition();
+    joint.vel = joint.handle.getVelocity();
+    joint.error = 0.0;
+    joint.command = 0.0;
     joint.completed = false;
+
+    if (!waypoints.empty())
+    {
+      joint.goal = waypoints.front().position[&joint - &m_joints.front()];
+    }
   }
 }
 
 void trajectoryController::endTrajectory()
 {
   m_state = trajectoryState::DONE;
+
+  ROS_INFO_NAMED(m_name.c_str(), "Ending trajectory");
 
   for (auto joint : m_joints)
   {
@@ -457,9 +468,6 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
     {
       joint.error = joint.goal - joint.pos;
     }
-
-    // Round error
-    joint.error = ceil(joint.error * 1000.0) / 1000.0;
 
     // Stop if executed trajectory and ended within goal tolerance
     if (isLastWaypoint && abs(joint.error) <= joint.tolerance)
@@ -594,6 +602,11 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
 
   m_feedbackPub.publish(trajectoryFeedback);
 
+  if (m_goal.isValid())
+  {
+    m_goal.publishFeedback(trajectoryFeedback);
+  }
+
   // Emit current state
   if (m_debug)
   {
@@ -615,8 +628,8 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
         joint.command,
         joint.command > 0.0 ? "->" : joint.command < 0.0 ? "<-" : "  ",
         joint.goal,
-        joint.error,
-        joint.completed ? "✓" : ""
+        ceil(joint.error * 1000.0) / 1000.0,
+        joint.completed ? "done" : ""
       );
     }
   }
