@@ -182,7 +182,7 @@ bool trajectoryController::init(
 
   // Subscribe to trajectory goals
   m_goalSub = m_node.subscribe(
-    "command", 1, &trajectoryController::trajectoryCallback, this
+    "command", 1, &trajectoryController::trajectoryGoalCallback, this
   );
 
   // Publish state
@@ -316,7 +316,7 @@ void trajectoryController::trajectoryFeedback(const ros::Time& time, double traj
   }
 }
 
-void trajectoryController::trajectoryCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg)
+void trajectoryController::trajectoryGoalCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg)
 {
   parseTrajectory(*msg);
 }

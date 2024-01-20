@@ -191,7 +191,7 @@ public:
   //
 
   void trajectoryFeedback(const ros::Time& time, double trajectoryTime);
-  void trajectoryCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg);
+  void trajectoryGoalCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg);
   void trajectoryActionCallback(
     actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
   void trajectoryCancelCallback(
