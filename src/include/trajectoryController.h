@@ -111,15 +111,14 @@ private:
   struct waypoint_t
   {
     std::vector<double> position;
-    std::vector<double> velocity;
-    std::vector<double> time;
-    std::vector<double> duration;
+    double time;
   };
 
   //
   // Constants
   //
 
+  const double DISCRETE_TOLERANCE = 0.02;
   const double DEFAULT_TOLERANCE = 0.01;
   const double DEFAULT_TIMEOUT = 1.0;
   const double DEFAULT_P = 10.0;
