@@ -239,10 +239,10 @@ void trajectoryController::stopping(const ros::Time&)
   endTrajectory();
 }
 
-void trajectoryController::update(
-  const ros::Time& time, const ros::Duration& period)
+void trajectoryController::update(const ros::Time& time, const ros::Duration& period)
 {
-  if (m_state == trajectoryState::EXECUTING) runTrajectory(time, period);
+  if (m_state == trajectoryState::EXECUTING)
+    runTrajectory(time, period);
 }
 
 void trajectoryController::trajectoryCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg)
@@ -283,18 +283,19 @@ bool trajectoryController::queryStateService(
     return false;
   }
 
-  // TODO sample at req time not simply return current
-
   res.name.resize(m_joints.size());
   res.position.resize(m_joints.size());
   res.velocity.resize(m_joints.size());
   res.acceleration.resize(m_joints.size());
 
+  auto waypoint = sampleTrajectory(req.time.toSec());
+  if (!waypoint) return false;
+
   for (int jointIndex = 0; jointIndex < m_joints.size(); jointIndex++)
   {
     res.name[jointIndex] = m_joints[jointIndex].name;
-    res.position[jointIndex] = m_joints[jointIndex].pos;
-    res.velocity[jointIndex] = m_joints[jointIndex].vel;
+    res.position[jointIndex] = waypoint->position[jointIndex];
+    res.velocity[jointIndex] = 0.0;
     res.acceleration[jointIndex] = 0.0;
   }
 
