@@ -252,8 +252,13 @@ void trajectoryController::update(const ros::Time& time, const ros::Duration& pe
 void trajectoryController::trajectoryFeedback(const ros::Time& time, double trajectoryTime)
 {
   control_msgs::JointTrajectoryControllerState trajectoryState;
+  control_msgs::FollowJointTrajectoryFeedback trajectoryFeedback;
+
   trajectoryState.header.stamp = time; // TODO seq and frame id
   trajectoryState.joint_names.resize(m_joints.size());
+
+  trajectoryFeedback.header.stamp = time; // TODO seq and frame id
+  trajectoryFeedback.joint_names.resize(m_joints.size());
 
   trajectoryState.actual.time_from_start = ros::Duration(trajectoryTime);
   trajectoryState.actual.positions.resize(m_joints.size());
@@ -273,33 +278,6 @@ void trajectoryController::trajectoryFeedback(const ros::Time& time, double traj
   trajectoryState.error.accelerations.resize(m_joints.size());
   trajectoryState.error.effort.resize(m_joints.size());
 
-  for (int jointIndex = 0; jointIndex < m_joints.size(); jointIndex++)
-  {
-    trajectoryState.joint_names[jointIndex] = m_joints[jointIndex].name;
-
-    trajectoryState.actual.positions[jointIndex] = m_joints[jointIndex].pos;
-    trajectoryState.actual.velocities[jointIndex] = m_joints[jointIndex].vel;
-    trajectoryState.actual.accelerations[jointIndex] = 0.0;
-    trajectoryState.actual.effort[jointIndex] = 0.0;
-
-    trajectoryState.desired.positions[jointIndex] = m_joints[jointIndex].goal;
-    trajectoryState.desired.velocities[jointIndex] = m_joints[jointIndex].vel;
-    trajectoryState.desired.accelerations[jointIndex] = 0.0;
-    trajectoryState.desired.effort[jointIndex] = 0.0;
-
-    trajectoryState.error.positions[jointIndex] = m_joints[jointIndex].error;
-    trajectoryState.error.velocities[jointIndex] = 0.0;
-    trajectoryState.error.accelerations[jointIndex] = 0.0;
-    trajectoryState.error.effort[jointIndex] = 0.0;
-  }
-
-  m_statePub.publish(trajectoryState);
-
-  // Publish feedback
-  control_msgs::FollowJointTrajectoryFeedback trajectoryFeedback;
-  trajectoryFeedback.header.stamp = time; // TODO seq and frame id
-  trajectoryFeedback.joint_names.resize(m_joints.size());
-  
   trajectoryFeedback.actual.time_from_start = ros::Duration(trajectoryTime);
   trajectoryFeedback.actual.positions.resize(m_joints.size());
   trajectoryFeedback.actual.velocities.resize(m_joints.size());
@@ -320,6 +298,23 @@ void trajectoryController::trajectoryFeedback(const ros::Time& time, double traj
 
   for (int jointIndex = 0; jointIndex < m_joints.size(); jointIndex++)
   {
+    trajectoryState.joint_names[jointIndex] = m_joints[jointIndex].name;
+
+    trajectoryState.actual.positions[jointIndex] = m_joints[jointIndex].pos;
+    trajectoryState.actual.velocities[jointIndex] = m_joints[jointIndex].vel;
+    trajectoryState.actual.accelerations[jointIndex] = 0.0;
+    trajectoryState.actual.effort[jointIndex] = 0.0;
+
+    trajectoryState.desired.positions[jointIndex] = m_joints[jointIndex].goal;
+    trajectoryState.desired.velocities[jointIndex] = m_joints[jointIndex].vel;
+    trajectoryState.desired.accelerations[jointIndex] = 0.0;
+    trajectoryState.desired.effort[jointIndex] = 0.0;
+
+    trajectoryState.error.positions[jointIndex] = m_joints[jointIndex].error;
+    trajectoryState.error.velocities[jointIndex] = 0.0;
+    trajectoryState.error.accelerations[jointIndex] = 0.0;
+    trajectoryState.error.effort[jointIndex] = 0.0;
+
     trajectoryFeedback.joint_names[jointIndex] = m_joints[jointIndex].name;
 
     trajectoryFeedback.actual.positions[jointIndex] = m_joints[jointIndex].pos;
@@ -338,6 +333,7 @@ void trajectoryController::trajectoryFeedback(const ros::Time& time, double traj
     trajectoryFeedback.error.effort[jointIndex] = 0.0;
   }
 
+  m_statePub.publish(trajectoryState);
   m_feedbackPub.publish(trajectoryFeedback);
 
   if (m_goal.isValid())
