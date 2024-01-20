@@ -727,19 +727,20 @@ bool trajectoryControllerHandle::sendTrajectory(const moveit_msgs::RobotTrajecto
     goal,
     [this](const auto& state, const auto& result)
     {
-      ROS_INFO_NAMED(getName().c_str(), "Trajectory Controller Completed Trajectory");
+      ROS_DEBUG_NAMED(getName().c_str(), "Trajectory Controller Completed Trajectory");
       m_done = true;
     },
     [this]
     {
-      ROS_INFO_NAMED(getName().c_str(), "Trajectory Controller Beginning Trajectory");
+      ROS_DEBUG_NAMED(getName().c_str(), "Trajectory Controller Beginning Trajectory");
     },
     [this](const auto& feedback)
     {
-      ROS_INFO_NAMED(getName().c_str(), "Trajectory Controller Received Feedback");
+      ROS_DEBUG_NAMED(getName().c_str(), "Trajectory Controller Received Feedback");
     });
 
   m_done = false;
+
   return true;
 }
 
