@@ -189,7 +189,7 @@ public:
     actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
   void trajectoryCancelCallback(
     actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
-  bool queryStateService(
+  bool trajectoryQueryCallback(
     control_msgs::QueryTrajectoryState::Request& req, control_msgs::QueryTrajectoryState::Response& res);
 
   //

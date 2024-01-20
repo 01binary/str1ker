@@ -350,7 +350,7 @@ void trajectoryController::trajectoryCancelCallback(
   endTrajectory();
 }
 
-bool trajectoryController::queryStateService(
+bool trajectoryController::trajectoryQueryCallback(
   control_msgs::QueryTrajectoryState::Request& req,
   control_msgs::QueryTrajectoryState::Response& res)
 {
