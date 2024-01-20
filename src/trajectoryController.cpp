@@ -609,7 +609,7 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
     int trajectoryIndex = waypoint - &m_trajectory.front();
 
     ROS_INFO(
-      "[%d] time %#.4g",
+      "- waypoint %d / time %#.4g",
       trajectoryIndex,
       trajectoryTime
     );
@@ -617,14 +617,14 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
     for (const joint_t& joint : m_joints)
     {
       ROS_INFO(
-        "\t%-16.16s\tpos %#+.4g\tvel %#+.4g\t%s\tgoal %#+.4g\terr %#+.4g\t%s",
+        "\t%-24.24spos %#+.4g\tvel %#+.4g\t%s\tgoal %#+.4g\terr %#+.4g\t%s",
         joint.name.c_str(),
         joint.pos,
         joint.vel,
         joint.vel > 0.0 ? "->" : joint.vel < 0.0 ? "<-" : "  ",
         joint.goal,
         joint.error,
-        joint.completed ? "done" : "..."
+        joint.completed ? "done" : ""
       );
     }
   }
