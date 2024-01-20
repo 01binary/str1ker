@@ -214,7 +214,7 @@ bool trajectoryController::init(
   // Advertise trajectory state service
   m_stateService = m_node.advertiseService(
     "query_state",
-    &trajectoryController::queryStateService,
+    &trajectoryController::trajectoryQueryCallback,
     this
   );
 
