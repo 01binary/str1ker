@@ -95,17 +95,20 @@ private:
     supportedJointTypes type;
     hardware_interface::JointHandle handle;
     control_toolbox::Pid pid;
+
     double min;
     double max;
     double maxVelocity;
     double tolerance;
     double timeout;
 
+    double goal = {0.0};
     double pos = {0.0};
     double vel = {0.0};
-    double posError = {0.0};
-    double velError = {0.0};
+    double error = {0.0};
     double command = {0.0};
+
+    bool completed = {false};
   };
 
   struct waypoint_t

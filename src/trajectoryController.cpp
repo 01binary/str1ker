@@ -23,7 +23,9 @@
 #include <joint_limits_interface/joint_limits.h>
 #include <joint_limits_interface/joint_limits_urdf.h>
 #include <pluginlib/class_list_macros.h>
+
 #include "include/trajectoryController.h"
+#include "hardwareUtilities.h"
 #include "controllerUtilities.h"
 
 /*----------------------------------------------------------*\
@@ -242,7 +244,9 @@ void trajectoryController::stopping(const ros::Time&)
 void trajectoryController::update(const ros::Time& time, const ros::Duration& period)
 {
   if (m_state == trajectoryState::EXECUTING)
+  {
     runTrajectory(time, period);
+  }
 }
 
 void trajectoryController::trajectoryCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg)
@@ -379,44 +383,255 @@ void trajectoryController::beginTrajectory(
   m_startTime = time;
   m_lastTime = time;
   m_trajectory = waypoints;
+
+  for (joint_t& joint : m_joints)
+  {
+    joint.completed = false;
+  }
 }
 
 void trajectoryController::endTrajectory()
 {
+  m_state = trajectoryState::DONE;
+
   for (auto joint : m_joints)
   {
     joint.handle.setCommand(0.0);
   }
 
-  m_state = trajectoryState::DONE;
+  control_msgs::FollowJointTrajectoryResult result;
+  result.error_code = control_msgs::FollowJointTrajectoryResult::SUCCESSFUL;
 
+  // Notify action server goal is completed
   if (m_goal.isValid())
   {
-    control_msgs::FollowJointTrajectoryResult result;
-    result.error_code = control_msgs::FollowJointTrajectoryResult::SUCCESSFUL;
     m_goal.setSucceeded(result);
   }
+
+  // Publish trajectory result
+  m_resultPub.publish(result);
 }
 
 void trajectoryController::runTrajectory(const ros::Time& time, const ros::Duration& period)
 {
+  vector<double> position;
   double trajectoryTime = (time - m_startTime).toSec();
 
-  vector<double> position;
   auto waypoint = sampleTrajectory(trajectoryTime, position);
   if (!waypoint) return;
 
-  int trajectoryIndex = waypoint - &m_trajectory.front();
+  bool isLastWaypoint = waypoint - &m_trajectory.front() == m_trajectory.size() - 1;
 
-  // TODO copy from motor_response
+  // Read joints
+  for (joint_t& joint : m_joints)
+  {
+    // Update joint position
+    joint.pos = joint.handle.getPosition();
 
+    // Update joint velocity
+    joint.vel = joint.handle.getVelocity();
+  }
+
+  // Write joints
+  int completed = 0;
+
+  for (joint_t& joint : m_joints)
+  {
+    if (joint.completed)
+    {
+      // Joint completed its trajectory or timed out
+      completed++;
+      continue;
+    }
+
+    // Get goal position
+    double goal = waypoint->position[&joint - &m_joints.front()];
+
+    // Calculate position error
+    if (joint.type == supportedJointTypes::REVOLUTE)
+    {
+      angles::shortest_angular_distance_with_large_limits(joint.pos, goal, joint.min, joint.max, joint.error);
+    }
+    else if (joint.type == supportedJointTypes::PRISMATIC)
+    {
+      joint.error = goal - joint.pos;
+    }
+
+    // Stop if within goal tolerance
+    if (abs(joint.error) <= joint.tolerance)
+    {
+      joint.completed = true;
+
+      ROS_INFO_NAMED(
+        m_name.c_str(),
+        "Joint %s trajectory completed: position %g within %g of tolerance %g",
+        joint.name.c_str(),
+        joint.pos,
+        abs(joint.error),
+        joint.tolerance
+      );
+
+      continue;
+    }
+
+    // Stop if exceeded time tolerance
+    if (trajectoryTime >= joint.timeout)
+    {
+      joint.completed = true;
+
+      ROS_INFO_NAMED(
+        m_name.c_str(),
+        "Joint %s trajectory completed: trajectory time %g exceeded timeout %g by %g seconds",
+        joint.name.c_str(),
+        trajectoryTime,
+        joint.timeout,
+        trajectoryTime - joint.timeout
+      );
+
+      continue;
+    }
+
+    // Calculate command
+    double command = clamp(
+      joint.pid.computeCommand(joint.error, period),
+      -joint.maxVelocity,
+      joint.maxVelocity
+    );
+
+    // If reversing direction, zero first
+    if (!utilities::isSameSign(command, joint.command))
+    {
+      joint.command = 0.0;
+    }
+    else
+    {
+      joint.command = command;
+    }
+
+    // Apply command
+    joint.handle.setCommand(joint.command);
+  }
+
+  // Publish state
+  control_msgs::JointTrajectoryControllerState trajectoryState;
+  trajectoryState.header.stamp = time; // TODO seq and frame id
+  trajectoryState.joint_names.resize(m_joints.size());
+
+  trajectoryState.actual.time_from_start = ros::Duration(trajectoryTime);
+  trajectoryState.actual.positions.resize(m_joints.size());
+  trajectoryState.actual.velocities.resize(m_joints.size());
+  trajectoryState.actual.accelerations.resize(m_joints.size());
+  trajectoryState.actual.effort.resize(m_joints.size());
+
+  trajectoryState.desired.time_from_start = ros::Duration(trajectoryTime);
+  trajectoryState.desired.positions.resize(m_joints.size());
+  trajectoryState.desired.velocities.resize(m_joints.size());
+  trajectoryState.desired.accelerations.resize(m_joints.size());
+  trajectoryState.desired.effort.resize(m_joints.size());
+
+  trajectoryState.error.time_from_start = ros::Duration(trajectoryTime);
+  trajectoryState.error.positions.resize(m_joints.size());
+  trajectoryState.error.velocities.resize(m_joints.size());
+  trajectoryState.error.accelerations.resize(m_joints.size());
+  trajectoryState.error.effort.resize(m_joints.size());
+
+  for (int jointIndex = 0; jointIndex < m_joints.size(); jointIndex++)
+  {
+    trajectoryState.joint_names[jointIndex] = m_joints[jointIndex].name;
+
+    trajectoryState.actual.positions[jointIndex] = m_joints[jointIndex].pos;
+    trajectoryState.actual.velocities[jointIndex] = m_joints[jointIndex].vel;
+    trajectoryState.actual.accelerations[jointIndex] = 0.0;
+    trajectoryState.actual.effort[jointIndex] = 0.0;
+
+    trajectoryState.desired.positions[jointIndex] = m_joints[jointIndex].goal;
+    trajectoryState.desired.velocities[jointIndex] = m_joints[jointIndex].vel;
+    trajectoryState.desired.accelerations[jointIndex] = 0.0;
+    trajectoryState.desired.effort[jointIndex] = 0.0;
+
+    trajectoryState.error.positions[jointIndex] = m_joints[jointIndex].error;
+    trajectoryState.error.velocities[jointIndex] = 0.0;
+    trajectoryState.error.accelerations[jointIndex] = 0.0;
+    trajectoryState.error.effort[jointIndex] = 0.0;
+  }
+
+  m_statePub.publish(trajectoryState);
+
+  // Publish feedback
+  control_msgs::FollowJointTrajectoryFeedback trajectoryFeedback;
+  trajectoryFeedback.header.stamp = time; // TODO seq and frame id
+  trajectoryFeedback.joint_names.resize(m_joints.size());
+  
+  trajectoryFeedback.actual.time_from_start = ros::Duration(trajectoryTime);
+  trajectoryFeedback.actual.positions.resize(m_joints.size());
+  trajectoryFeedback.actual.velocities.resize(m_joints.size());
+  trajectoryFeedback.actual.accelerations.resize(m_joints.size());
+  trajectoryFeedback.actual.effort.resize(m_joints.size());
+
+  trajectoryFeedback.desired.time_from_start = ros::Duration(trajectoryTime);
+  trajectoryFeedback.desired.positions.resize(m_joints.size());
+  trajectoryFeedback.desired.velocities.resize(m_joints.size());
+  trajectoryFeedback.desired.accelerations.resize(m_joints.size());
+  trajectoryFeedback.desired.effort.resize(m_joints.size());
+
+  trajectoryFeedback.error.time_from_start = ros::Duration(trajectoryTime);
+  trajectoryFeedback.error.positions.resize(m_joints.size());
+  trajectoryFeedback.error.velocities.resize(m_joints.size());
+  trajectoryFeedback.error.accelerations.resize(m_joints.size());
+  trajectoryFeedback.error.effort.resize(m_joints.size());
+
+  for (int jointIndex = 0; jointIndex < m_joints.size(); jointIndex++)
+  {
+    trajectoryFeedback.joint_names[jointIndex] = m_joints[jointIndex].name;
+
+    trajectoryFeedback.actual.positions[jointIndex] = m_joints[jointIndex].pos;
+    trajectoryFeedback.actual.velocities[jointIndex] = m_joints[jointIndex].vel;
+    trajectoryFeedback.actual.accelerations[jointIndex] = 0.0;
+    trajectoryFeedback.actual.effort[jointIndex] = 0.0;
+
+    trajectoryFeedback.desired.positions[jointIndex] = m_joints[jointIndex].goal;
+    trajectoryFeedback.desired.velocities[jointIndex] = m_joints[jointIndex].vel;
+    trajectoryFeedback.desired.accelerations[jointIndex] = 0.0;
+    trajectoryFeedback.desired.effort[jointIndex] = 0.0;
+
+    trajectoryFeedback.error.positions[jointIndex] = m_joints[jointIndex].error;
+    trajectoryFeedback.error.velocities[jointIndex] = 0.0;
+    trajectoryFeedback.error.accelerations[jointIndex] = 0.0;
+    trajectoryFeedback.error.effort[jointIndex] = 0.0;
+  }
+
+  m_feedbackPub.publish(trajectoryFeedback);
+
+  // Emit current state
   if (m_debug)
   {
+    int trajectoryIndex = waypoint - &m_trajectory.front();
+
     ROS_INFO(
       "[%d] time %#.4g",
       trajectoryIndex,
       trajectoryTime
     );
+
+    for (const joint_t& joint : m_joints)
+    {
+      ROS_INFO(
+        "\t%s\tpos %#+.4g\tvel %#+.4g\t%s\tgoal %#+.4g\terr %#+.4g\t%s",
+        joint.name.c_str(),
+        joint.pos,
+        joint.vel,
+        joint.vel > 0.0 ? "->" : joint.vel < 0.0 ? "<-" : "  ",
+        joint.goal,
+        joint.error,
+        joint.completed ? "done" : "..."
+      );
+    }
+  }
+
+  // End trajectory if all joints reached goal positions or timed out
+  if (completed == m_joints.size())
+  {
+    endTrajectory();
   }
 }
 
