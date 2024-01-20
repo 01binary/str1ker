@@ -157,6 +157,7 @@ private:
   trajectoryState m_state;
   actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle m_goal;
   std::vector<waypoint_t> m_trajectory;
+  uint32_t m_seq;
   ros::Time m_startTime;
   ros::Time m_lastTime;
 
