@@ -132,6 +132,7 @@ private:
 
   std::string m_name;
   std::vector<joint_t> m_joints;
+  bool m_debug = false;
 
   //
   // Interface
@@ -196,12 +197,6 @@ public:
   void runTrajectory(const ros::Time& time, const ros::Duration& period);
   waypoint_t* sampleTrajectory(double timeFromStart);
   void endTrajectory();
-
-  //
-  // Debugging
-  //
-
-  void debug();
 };
 
 /*----------------------------------------------------------*\

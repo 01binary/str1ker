@@ -46,12 +46,20 @@ bool trajectoryController::init(
   m_hardware = hw;
   m_name = controllerUtilities::getControllerName(node.getNamespace());
 
+  // Load debug flag
+  node.getParam("debug", m_debug);
+
+  if (m_debug)
+  {
+    ROS_INFO_NAMED(m_name.c_str(), "Trajectory debugging enabled");
+  }
+
   // Load joint names
   vector<string> jointNames;
 
   if (!node.getParam("joints", jointNames))
   {
-    ROS_ERROR_NAMED(m_name.c_str(), "joints parameter is required");
+    ROS_ERROR_NAMED(m_name.c_str(), "The joints parameter is required");
     return false;
   }
 
@@ -60,7 +68,7 @@ bool trajectoryController::init(
 
   if (!ros::param::get("robot_description", description))
   {
-    ROS_ERROR_NAMED(m_name.c_str(), "robot description parameter is required");
+    ROS_ERROR_NAMED(m_name.c_str(), "The robot_description parameter is required");
     return false;
   }
 
@@ -68,7 +76,7 @@ bool trajectoryController::init(
 
   if (!model.initString(description))
   {
-    ROS_ERROR_NAMED(m_name.c_str(), "failed to load %s", description.c_str());
+    ROS_ERROR_NAMED(m_name.c_str(), "Failed to load %s", description.c_str());
     return false;
   }
 
@@ -93,7 +101,7 @@ bool trajectoryController::init(
     {
       ROS_WARN_NAMED(
         m_name.c_str(),
-        "unsupported joint type for %s, only revolute and prismatic supported",
+        "Unsupported joint type for %s, only revolute and prismatic supported",
         jointName.c_str()
       );
 
@@ -107,7 +115,7 @@ bool trajectoryController::init(
     {
       ROS_WARN_NAMED(
         m_name.c_str(),
-        "no limits for joint %s in robot_description",
+        "No limits for joint %s in robot_description",
         jointName.c_str()
       );
 
@@ -127,7 +135,7 @@ bool trajectoryController::init(
       {
         ROS_INFO_NAMED(
           m_name.c_str(),
-          "no goal or trajectory tolerance for %s, default %g (meters or radians)",
+          "No goal or trajectory tolerance for %s, default %g (meters or radians)",
           jointName.c_str(),
           DEFAULT_TOLERANCE
         );
@@ -142,7 +150,7 @@ bool trajectoryController::init(
     {
       ROS_INFO_NAMED(
         m_name.c_str(),
-        "no goal time tolerance for %s, default %g seconds",
+        "No goal time tolerance for %s, default %g seconds",
         jointName.c_str(),
         DEFAULT_TIMEOUT
       );
@@ -155,7 +163,7 @@ bool trajectoryController::init(
     {
       ROS_WARN_NAMED(
         m_name.c_str(),
-        "no pid gains for %s, default %g %g %g",
+        "No pid gains for %s, default %g %g %g",
         jointName.c_str(),
         DEFAULT_P,
         DEFAULT_I,
@@ -234,7 +242,7 @@ void trajectoryController::stopping(const ros::Time&)
 void trajectoryController::update(
   const ros::Time& time, const ros::Duration& period)
 {
-  runTrajectory(time, period);
+  if (m_state == trajectoryState::EXECUTING) runTrajectory(time, period);
 }
 
 void trajectoryController::trajectoryCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg)
@@ -391,18 +399,31 @@ void trajectoryController::endTrajectory()
 void trajectoryController::runTrajectory(
   const ros::Time& time, const ros::Duration& period)
 {
+  double trajectoryTime = (time - m_startTime).toSec();
+  waypoint_t* waypoint = sampleTrajectory(trajectoryTime);
+  if (!waypoint) return;
+
+  int trajectoryIndex = waypoint - &m_trajectory[0];
+
   // TODO copy from motor_response
+
+  if (m_debug)
+  {
+    ROS_INFO(
+      "[%d] time %#.4g",
+      trajectoryIndex,
+      trajectoryTime
+    );
+  }
 }
 
 trajectoryController::waypoint_t* trajectoryController::sampleTrajectory(double timeFromStart)
 {
-  // TODO haven't done this before
-  return nullptr;
-}
+  if (m_trajectory.empty()) return nullptr;
 
-void trajectoryController::debug()
-{
-  // TODO copy from motor_response
+  // TODO haven't done this before
+
+  return &m_trajectory[0];
 }
 
 /*----------------------------------------------------------*\
