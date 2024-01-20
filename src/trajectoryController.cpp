@@ -457,17 +457,18 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
       joint.error = goal - joint.pos;
     }
 
-    // Stop if within goal tolerance
-    if (abs(joint.error) <= joint.tolerance)
+    // Stop if executed trajectory and ended within goal tolerance
+    if (isLastWaypoint && abs(joint.error) <= joint.tolerance)
     {
       joint.completed = true;
 
       ROS_INFO_NAMED(
         m_name.c_str(),
-        "Joint %s trajectory completed: position %g within %g of tolerance %g",
+        "Joint %s trajectory completed: position %g within %g of %g, tolerance %g",
         joint.name.c_str(),
         joint.pos,
         abs(joint.error),
+        joint.goal,
         joint.tolerance
       );
 
@@ -616,7 +617,7 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
     for (const joint_t& joint : m_joints)
     {
       ROS_INFO(
-        "\t%s\tpos %#+.4g\tvel %#+.4g\t%s\tgoal %#+.4g\terr %#+.4g\t%s",
+        "\t%-16.16s\tpos %#+.4g\tvel %#+.4g\t%s\tgoal %#+.4g\terr %#+.4g\t%s",
         joint.name.c_str(),
         joint.pos,
         joint.vel,
@@ -721,16 +722,16 @@ bool trajectoryControllerHandle::sendTrajectory(const moveit_msgs::RobotTrajecto
     goal,
     [this](const auto& state, const auto& result)
     {
-      ROS_INFO_NAMED(getName().c_str(), "Controller Handle Done");
+      ROS_INFO_NAMED(getName().c_str(), "Trajectory Controller Completed Trajectory");
       m_done = true;
     },
     [this]
     {
-      ROS_INFO_NAMED(getName().c_str(), "Controller Handle Activated");
+      ROS_INFO_NAMED(getName().c_str(), "Trajectory Controller Beginning Trajectory");
     },
     [this](const auto& feedback)
     {
-      ROS_INFO_NAMED(getName().c_str(), "Controller Handle Feedback");
+      ROS_INFO_NAMED(getName().c_str(), "Trajectory Controller Received Feedback");
     });
 
   m_done = false;
