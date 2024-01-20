@@ -288,13 +288,14 @@ bool trajectoryController::queryStateService(
   res.velocity.resize(m_joints.size());
   res.acceleration.resize(m_joints.size());
 
-  auto waypoint = sampleTrajectory(req.time.toSec());
+  vector<double> position;
+  auto waypoint = sampleTrajectory(req.time.toSec(), position);
   if (!waypoint) return false;
 
   for (int jointIndex = 0; jointIndex < m_joints.size(); jointIndex++)
   {
     res.name[jointIndex] = m_joints[jointIndex].name;
-    res.position[jointIndex] = waypoint->position[jointIndex];
+    res.position[jointIndex] = position[jointIndex];
     res.velocity[jointIndex] = 0.0;
     res.acceleration[jointIndex] = 0.0;
   }
@@ -397,14 +398,15 @@ void trajectoryController::endTrajectory()
   }
 }
 
-void trajectoryController::runTrajectory(
-  const ros::Time& time, const ros::Duration& period)
+void trajectoryController::runTrajectory(const ros::Time& time, const ros::Duration& period)
 {
   double trajectoryTime = (time - m_startTime).toSec();
-  waypoint_t* waypoint = sampleTrajectory(trajectoryTime);
+
+  vector<double> position;
+  auto waypoint = sampleTrajectory(trajectoryTime, position);
   if (!waypoint) return;
 
-  int trajectoryIndex = waypoint - &m_trajectory[0];
+  int trajectoryIndex = waypoint - &m_trajectory.front();
 
   // TODO copy from motor_response
 
@@ -418,13 +420,46 @@ void trajectoryController::runTrajectory(
   }
 }
 
-trajectoryController::waypoint_t* trajectoryController::sampleTrajectory(double timeFromStart)
+const trajectoryController::waypoint_t* trajectoryController::sampleTrajectory(
+  double timeFromStart, vector<double>& position)
 {
   if (m_trajectory.empty()) return nullptr;
 
-  // TODO haven't done this before
+  for (const waypoint_t& waypoint : m_trajectory)
+  {
+    if (waypoint.time >= timeFromStart)
+    {
+      int nextIndex = &waypoint - &m_trajectory.front() + 1;
+      
+      if (nextIndex >= m_trajectory.size())
+      {
+        // Clamp position when out of trajectory bounds
+        position = waypoint.position;
+      }
+      else
+      {
+        // Interpolate position of each joint when between waypoints
+        position.resize(waypoint.position.size());
 
-  return &m_trajectory[0];
+        for (int jointIndex = 0; jointIndex < waypoint.position.size(); jointIndex++)
+        {
+          double x = timeFromStart;
+          double x1 = waypoint.time;
+          double y1 = waypoint.position[jointIndex];
+          double x2 = m_trajectory[nextIndex].time;
+          double y2 = m_trajectory[nextIndex].position[jointIndex];
+
+          position[jointIndex] = y1 + (x - x1) * ((y2 - y1) / (x2 - x1));
+        }
+      }
+
+      return &waypoint;
+    }
+  }
+
+  // Clamp position when out of trajectory bounds
+  position = m_trajectory.back().position;
+  return &m_trajectory.back();
 }
 
 /*----------------------------------------------------------*\
