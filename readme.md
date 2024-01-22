@@ -174,6 +174,12 @@ Logging level can be specified in `$ROS_ROOT/config/rosconsole.config`, either g
 
 ## Velocity Control
 
+Direct velocity control of joints can be accomplished by sending PWM messages to the Analog node:
+
+```
+rostopic pub /pwm str1ker/Pwm "{ channels: [{ channel: 0, value: 0 }, { channel: 1, value: 0 } ] }" -1
+```
+
 ### Rotate Left
 
 ```

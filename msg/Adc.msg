@@ -1,1 +1,1 @@
-uint16[] adc
+int16[] adc

@@ -15,28 +15,35 @@
  This software is licensed under GNU GPLv3
 */
 
-
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
 
 #define USE_USBCON
 
-#include <ros.h>            // ROS communication
-#include <str1ker/Adc.h>    // Analog read request
-#include <str1ker/Pwm.h>    // Analog write request
+#include <ros.h>                // ROS communication
+#include <str1ker/Adc.h>        // ADC/quadrature input request
+#include <str1ker/Pwm.h>        // PWM/digital output request
+#include <QuadratureEncoder.h>  // QuadratureEncoder library
 
 /*----------------------------------------------------------*\
 | Constants
 \*----------------------------------------------------------*/
 
-// ROS topics and spin rate
+//
+// ROS interface
+//
+
 const char ADC_TOPIC[] = "adc";
 const char PWM_TOPIC[] = "pwm";
 const double RATE_HZ = 50.0;
 const int DELAY = 1000.0 / RATE_HZ;
 
-// Analog output (PWM)
+//
+// PWM outputs
+//
+
+const int PWM_CHANNELS = 7;
 const int PWM_PINS[] =
 {
   3,    // ~D3/SCL
@@ -47,9 +54,12 @@ const int PWM_PINS[] =
   10,   // ~D10/A10
   13    // D13~
 };
-const int PWM_CHANNELS = sizeof(PWM_PINS) / sizeof(int);
 
-// Analog input (ADC)
+//
+// ADC inputs
+//
+
+const int ADC_CHANNELS = 8;
 const int ADC_PINS[] =
 {
   A0,   // A0/D18
@@ -61,25 +71,42 @@ const int ADC_PINS[] =
   A6,   // A6/D4
   A11   // D12/A11
 };
-const int ADC_CHANNELS = sizeof(ADC_PINS) / sizeof(int);
+
+//
+// Quadrature inputs
+//
+
+const int QUADRATURE_CHANNELS = 1;
+const int QUADRATURE_PINS[][2] =
+{
+  { 2, 7 }
+};
 
 /*----------------------------------------------------------*\
 | Declarations
 \*----------------------------------------------------------*/
 
-void writePwm(const str1ker::Pwm& msg);
+void setup();
+void read();
+void write(const str1ker::Pwm& msg);
+void loop();
 
 /*----------------------------------------------------------*\
 | Variables
 \*----------------------------------------------------------*/
 
+// Absolute and relative encoder readings
+int16_t readings[ADC_CHANNELS + QUADRATURE_CHANNELS] = {0};
+
+// Relative encoders
+Encoders** encoders;
+
 // ADC publisher
 str1ker::Adc msg;
-uint16_t adc[ADC_CHANNELS] = {0};
 ros::Publisher pub(ADC_TOPIC, &msg);
 
 // PWM subscriber
-ros::Subscriber<str1ker::Pwm> sub(PWM_TOPIC, writePwm);
+ros::Subscriber<str1ker::Pwm> sub(PWM_TOPIC, write);
 
 // ROS node
 ros::NodeHandle node;
@@ -108,40 +135,75 @@ void initPwm()
   node.subscribe(sub);
 }
 
+void initQuadrature()
+{
+  encoders = new Encoders*[QUADRATURE_CHANNELS];
+ 
+  for (int channel = 0; channel < QUADRATURE_CHANNELS; channel++)
+  {
+    encoders[channel] = new Encoders(
+      QUADRATURE_PINS[channel][0], QUADRATURE_PINS[channel][1]);
+
+    readings[ADC_CHANNELS + channel] = 0;
+  }
+}
+
 void setup()
 {
+  // Initialize ROS interface
   node.initNode();
+  node.negotiateTopics();
+
+  // Initialize inputs and outputs
   initAdc();
   initPwm();
-
-  // Ensure the node is ready
-  delay(1000);
-  node.negotiateTopics();
-  delay(1000);
+  initQuadrature();
 }
 
 /*----------------------------------------------------------*\
-| Analog input
+| Absolute encoder input
 \*----------------------------------------------------------*/
 
 void readAdc()
 {
   for (int channel = 0; channel < ADC_CHANNELS; channel++)
   {
-    adc[channel] = (uint16_t)analogRead(ADC_PINS[channel]);
+    readings[channel] = (int16_t)analogRead(ADC_PINS[channel]);
   }
+}
 
-  msg.adc_length = ADC_CHANNELS;
-  msg.adc = adc;
-    
+/*----------------------------------------------------------*\
+| Relative encoder input
+\*----------------------------------------------------------*/
+
+void readQuadrature()
+{
+  for (int channel = 0; channel < QUADRATURE_CHANNELS; channel++)
+  {
+    readings[ADC_CHANNELS + channel] = encoders[channel]->getEncoderCount();
+  }
+}
+
+/*----------------------------------------------------------*\
+| Input
+\*----------------------------------------------------------*/
+
+void read()
+{
+  readAdc();
+  readQuadrature();
+
+  msg.adc_length = ADC_CHANNELS + QUADRATURE_CHANNELS;
+  msg.adc = readings;
+
   pub.publish(&msg);
 }
 
 /*----------------------------------------------------------*\
-| Analog output
+| Output
 \*----------------------------------------------------------*/
 
-void writePwm(const str1ker::Pwm& msg)
+void write(const str1ker::Pwm& msg)
 {
   for (int n = 0; n < msg.channels_length; n++)
   {
@@ -176,7 +238,7 @@ void writePwm(const str1ker::Pwm& msg)
 
 void loop()
 {
-  readAdc();
+  read();
   node.spinOnce();
   delay(DELAY);
 }
