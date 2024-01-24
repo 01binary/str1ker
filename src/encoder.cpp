@@ -57,7 +57,8 @@ encoder::encoder(
   ros::NodeHandle node,
   string path,
   string topic,
-  int input,
+  int absoluteInput,
+  int quadratureInput,
   int minReading,
   int maxReading,
   double minPos,
@@ -67,7 +68,8 @@ encoder::encoder(
   : controller(node, TYPE, path)
   , m_topic(topic)
   , m_filter(filterThreshold, filterAverage)
-  , m_channel(input)
+  , m_absoluteChannel(absoluteInput)
+  , m_quadratureChannel(quadratureInput)
   , m_minReading(minReading)
   , m_maxReading(maxReading)
   , m_minPos(minPos)
@@ -87,8 +89,14 @@ bool encoder::configure()
   if (!ros::param::get(getChildPath("topic"), m_topic))
     ROS_WARN("%s did not specify ADC input topic, using %s", getPath().c_str(), m_topic.c_str());
 
-  if (!ros::param::get(getChildPath("channel"), m_channel))
-    ROS_WARN("%s did not specify ADC input channel, using %d", getPath().c_str(), m_channel);
+  if (!ros::param::get(getChildPath("absoluteChannel"), m_absoluteChannel))
+    ROS_WARN("%s did not specify absolute input channel, using %d", getPath().c_str(), m_absoluteChannel);
+
+  if (!ros::param::get(getChildPath("quadratureChannel"), m_quadratureChannel))
+    ROS_INFO("%s did not specify quadrature input channel, offset tracking disabled", getPath().c_str());
+
+  if (!ros::param::get(getChildPath("quadratureRange"), m_quadratureRange) && m_quadratureChannel != -1)
+    ROS_ERROR("%s did not specify quadrature range corresponding to absolute range", getPath().c_str());
 
   if (!ros::param::get(getChildPath("minReading"), m_minReading))
     ROS_WARN("%s did not specify minReading value, using %d", getPath().c_str(), m_minReading);
@@ -103,9 +111,6 @@ bool encoder::configure()
     ROS_WARN("%s did not specify maxPos value, using %g", getPath().c_str(), m_maxPos);
 
   int threshold = DEFAULT_THRESHOLD, average = DEFAULT_AVERAGE;
-
-  if (!ros::param::get(getChildPath("filter"), m_enableFilter))
-    ROS_WARN("%s did not specify whether filter is enabled, using %s", getPath().c_str(), m_enableFilter ? "true" : "false");
 
   if (!ros::param::get(getChildPath("threshold"), threshold))
     ROS_WARN("%s did not specify sample threshold, using %d", getPath().c_str(), DEFAULT_THRESHOLD);
@@ -124,19 +129,38 @@ bool encoder::configure()
 
 bool encoder::init()
 {
-  // Subscribe to analog readings
+  // Subscribe to absolute and quadrature readings
   m_sub = m_node.subscribe<Adc>(
     m_topic, QUEUE_SIZE, &encoder::feedback, this);
 
-  ROS_INFO("  initialized %s %s on %s channel %d: [%d, %d] -> [%g, %g]",
-    getPath().c_str(),
-    getType().c_str(),
-    m_topic.c_str(),
-    m_channel,
-    m_minReading,
-    m_maxReading,
-    m_minPos,
-    m_maxPos);
+  if (m_quadratureChannel == -1)
+  {
+    ROS_INFO("  initialized %s %s on %s channel %d: [%d, %d] -> [%g, %g]",
+      getPath().c_str(),
+      getType().c_str(),
+      m_topic.c_str(),
+      m_absoluteChannel,
+      m_minReading,
+      m_maxReading,
+      m_minPos,
+      m_maxPos);
+  }
+  else
+  {
+    ROS_INFO("  initialized %s %s on %s absolute channel %d / quadrature channel %d: [%d, %d] -> [%g, %g]",
+      getPath().c_str(),
+      getType().c_str(),
+      m_topic.c_str(),
+      m_absoluteChannel,
+      m_quadratureChannel,
+      m_minReading,
+      m_maxReading,
+      m_minPos,
+      m_maxPos);
+
+    int absoluteRange = abs(m_maxReading - m_minReading);
+    m_quadratureMultiplier = double(m_quadratureRange) / double(absoluteRange);
+  }
 
   return true;
 }
@@ -147,15 +171,25 @@ bool encoder::init()
 
 void encoder::feedback(const Adc::ConstPtr& msg)
 {
-  // Read analog input
-  if (m_enableFilter)
-    m_reading = m_filter(msg->adc[m_channel]);
-  else
-    m_reading = msg->adc[m_channel];
+  // Read absolute input
+  m_reading = m_filter(msg->adc[m_absoluteChannel]);
 
-  // Re-map to position
+  // Read quadrature input
+  if (m_quadratureChannel != -1)
+  {
+    m_offset = msg->adc[m_quadratureChannel];
+    m_fusedReading = m_filter.isStable()
+      ? m_reading
+      : m_fusedReading + int(double(m_offset) * m_quadratureMultiplier);
+  }
+  else
+  {
+    m_fusedReading = m_reading;
+  }
+
+  // Map to joint space
   double position = utilities::map(
-    (double)m_reading,
+    (double)m_fusedReading,
     (double)m_minReading,
     (double)m_maxReading,
     m_minPos,
@@ -167,7 +201,7 @@ void encoder::feedback(const Adc::ConstPtr& msg)
   // Check if the position is ready to be used
   if (!m_ready)
   {
-    m_ready = m_filter.isReady();
+    m_ready = m_filter.isStable();
   }
 }
 

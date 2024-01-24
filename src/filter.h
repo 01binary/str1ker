@@ -74,7 +74,7 @@ public:
   //
 
   int operator() (int sample);
-  bool isReady() const;
+  bool isStable() const;
   void debug() const;
 
 private:

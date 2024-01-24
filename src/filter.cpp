@@ -98,7 +98,7 @@ int filter::operator() (int sample)
 // (most are a similar value within threshold)
 //
 
-bool filter::isReady() const
+bool filter::isStable() const
 {
   if (!m_average) return true;
 

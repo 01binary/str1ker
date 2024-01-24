@@ -1,6 +1,5 @@
 robot:
   publish_rate: 50
-  debug: false
   arm1:
     base:
       actuator:
@@ -17,12 +16,12 @@ robot:
         controller: 'encoder'
         enable: true
         topic: 'adc'
-        channel: 0
+        absoluteChannel: 0
+        quadratureChannel: 8
         minReading: 283
         maxReading: 771
         minPos: -1.5708
         maxPos: 1.5708
-        filter: true
         threshold: 8
         average: 2
     upperarm_actuator:
@@ -40,12 +39,11 @@ robot:
         controller: 'encoder'
         enable: true
         topic: 'adc'
-        channel: 1
+        absoluteChannel: 1
         minReading: 857
         maxReading: 902
         minPos: -0.054
         maxPos: -0.0005
-        filter: true
         threshold: 8
         average: 2
     forearm_actuator:
@@ -63,12 +61,11 @@ robot:
         controller: 'encoder'
         enable: true
         topic: 'adc'
-        channel: 2
+        absoluteChannel: 2
         minReading: 976
         maxReading: 848
         minPos: -0.0508
         maxPos: 0
-        filter: true
         threshold: 8
         average: 2
     solenoid:

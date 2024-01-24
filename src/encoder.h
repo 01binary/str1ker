@@ -8,7 +8,7 @@
                                                                                      ███████                  
  encoder.h
 
- Absolute encoder class
+ Encoder class
  Created 09/20/2023
 
  Copyright (C) 2023 Valeriy Novytskyy
@@ -66,8 +66,17 @@ private:
   // Input topic for listening to analog readings
   std::string m_topic = "adc";
 
-  // Analog input channel
-  int m_channel;
+  // Analog input channel for absolute readings
+  int m_absoluteChannel;
+
+  // Digital input channel for relative readings (optional)
+  int m_quadratureChannel = -1;
+
+  // Quadrature reading range for absolute range between min and max
+  int m_quadratureRange = 0;
+
+  // Quadrature multiplier calculated from quadrature range
+  double m_quadratureMultiplier = 1.0;
 
   // Analog reading min
   int m_minReading = ANALOG_MIN;
@@ -85,16 +94,20 @@ private:
   // State
   //
 
+  // Ready to provide readings
   bool m_ready = false;
 
   // Last filtered analog reading
   int m_reading = -1;
 
+  // Last relative quadrature reading
+  int m_offset = 0;
+
+  // Last fused reading from absolute/relative inputs
+  int m_fusedReading = -1;
+
   // Last position mapped from last reading
   double m_position = std::numeric_limits<double>::infinity();
-
-  // Whether analog input filtering is enabled
-  bool m_enableFilter = false;
 
   // Filter for analog input
   filter m_filter;
@@ -113,7 +126,8 @@ public:
     ros::NodeHandle node,
     std::string path,
     std::string topic,
-    int input,
+    int absoluteInput,
+    int quadratureInput,
     int minReading,
     int maxReading,
     double minPos,
@@ -123,9 +137,15 @@ public:
 
 public:
   // Get current filtered analog reading
-  inline int getReading() const
+  inline int getAbsoluteReading() const
   {
     return m_reading;
+  }
+
+  // Get current relative quadrature reading
+  inline int getRelativeOffset() const
+  {
+    return m_offset;
   }
 
   // Get current position mapped from filtered analog reading
@@ -146,7 +166,7 @@ public:
     return m_maxPos;
   }
 
-  // Determine if the encoder is ready to provide readings
+  // Determine if the absolute encoder is ready to provide readings
   bool isReady() const
   {
     return m_ready;
