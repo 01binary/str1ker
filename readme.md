@@ -109,7 +109,7 @@ source ~/.bashrc
 
 ## Upload
 
-The analog read and write duties are handled by an Arduino ROS node in `src/analog.ino`.
+The analog read and write duties are handled by an Arduino ROS node in `src/analog/micro.ino`.
 
 To build it, first generate ROS message headers for Arduino:
 
