@@ -72,11 +72,8 @@ private:
   // Digital input channel for relative readings (optional)
   int m_quadratureChannel = -1;
 
-  // Quadrature reading range for absolute range between min and max
-  int m_quadratureRange = 0;
-
-  // Quadrature multiplier calculated from quadrature range
-  double m_quadratureMultiplier = 1.0;
+  // Quadrature mapping to absolute range
+  double m_quadratureScale = 1.0;
 
   // Analog reading min
   int m_minReading = ANALOG_MIN;

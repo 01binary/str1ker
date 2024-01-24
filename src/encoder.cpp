@@ -95,8 +95,8 @@ bool encoder::configure()
   if (!ros::param::get(getChildPath("quadratureChannel"), m_quadratureChannel))
     ROS_INFO("%s did not specify quadrature input channel, offset tracking disabled", getPath().c_str());
 
-  if (!ros::param::get(getChildPath("quadratureRange"), m_quadratureRange) && m_quadratureChannel != -1)
-    ROS_ERROR("%s did not specify quadrature range corresponding to absolute range", getPath().c_str());
+  if (!ros::param::get(getChildPath("quadratureScale"), m_quadratureScale) && m_quadratureChannel != -1)
+    ROS_ERROR("%s did not specify quadrature scale in relation to absolute range", getPath().c_str());
 
   if (!ros::param::get(getChildPath("minReading"), m_minReading))
     ROS_WARN("%s did not specify minReading value, using %d", getPath().c_str(), m_minReading);
@@ -157,9 +157,6 @@ bool encoder::init()
       m_maxReading,
       m_minPos,
       m_maxPos);
-
-    int absoluteRange = abs(m_maxReading - m_minReading);
-    m_quadratureMultiplier = double(m_quadratureRange) / double(absoluteRange);
   }
 
   return true;
@@ -180,7 +177,7 @@ void encoder::feedback(const Adc::ConstPtr& msg)
     m_offset = msg->adc[m_quadratureChannel];
     m_fusedReading = m_filter.isStable()
       ? m_reading
-      : m_fusedReading + int(double(m_offset) * m_quadratureMultiplier);
+      : m_fusedReading + int(double(m_offset) * m_quadratureScale);
   }
   else
   {
