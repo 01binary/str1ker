@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   std_msgs
   controller_manager
+  control_toolbox
   moveit_core
   moveit_ros_robot_interaction
   moveit_ros_control_interface
@@ -72,6 +73,7 @@ catkin_package(
     message_runtime
     actionlib
     controller_manager
+    control_toolbox
     moveit_core
     moveit_ros_robot_interaction
     moveit_ros_control_interface

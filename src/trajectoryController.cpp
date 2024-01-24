@@ -24,7 +24,7 @@
 #include <joint_limits_interface/joint_limits_urdf.h>
 #include <pluginlib/class_list_macros.h>
 
-#include "include/trajectoryController.h"
+#include "trajectoryController.h"
 #include "hardwareUtilities.h"
 #include "controllerUtilities.h"
 
