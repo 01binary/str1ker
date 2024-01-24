@@ -29,22 +29,6 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Eigen3 REQUIRED)
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(YAML_CPP REQUIRED yaml-cpp)
-find_path(YAML_CPP_INCLUDE_DIR
-  NAMES yaml_cpp.h
-  PATHS ${YAML_CPP_INCLUDE_DIRS}
-)
-find_library(YAML_CPP_LIBRARY
-  NAMES YAML_CPP
-  PATHS ${YAML_CPP_LIBRARY_DIRS}
-)
-link_directories(${YAML_CPP_LIBRARY_DIRS})
-
-if(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
-  add_definitions(-DHAVE_NEW_YAMLCPP)
-endif(NOT ${YAML_CPP_VERSION} VERSION_LESS "0.5")
-
 add_message_files(
   DIRECTORY msg
   FILES
@@ -88,7 +72,6 @@ include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
-  ${YAML_CPP_INCLUDE_DIRS}
 )
 
 add_executable(robot
@@ -104,7 +87,6 @@ add_dependencies(
 target_link_libraries(robot
   ${catkin_LIBRARIES}
   ${Eigen3_LIBRARIES}
-  ${YAML_CPP_LIBRARIES}
   -lrt
 )
 
