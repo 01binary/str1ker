@@ -18,7 +18,7 @@ robot:
         topic: 'adc'
         absoluteChannel: 0
         quadratureChannel: 8
-        quadratureScale: -0.136820926
+        quadratureScale: -0.132229249
         minReading: 283
         maxReading: 771
         minPos: -1.5708
