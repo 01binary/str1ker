@@ -24,7 +24,7 @@ robot:
         minPos: -1.5708
         maxPos: 1.5708
         threshold: 8
-        average: 2
+        average: 8
     upperarm_actuator:
       actuator:
         controller: 'motor'

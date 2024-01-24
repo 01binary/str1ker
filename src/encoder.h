@@ -44,7 +44,7 @@ public:
 
 private:
   // Queue size for subscribers and publishers
-  const int QUEUE_SIZE = 16;
+  const int QUEUE_SIZE = 8;
 
   // Defaults for analog input range
   const int ANALOG_MIN = 0;
