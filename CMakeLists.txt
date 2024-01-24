@@ -191,24 +191,6 @@ install(
 )
 
 install(
-  FILES
-    src/include/ikPlugin.h
-  DESTINATION
-    include
-  RENAME
-    str1ker-ikPlugin.h
-)
-
-install(
-  FILES
-    src/include/plannerPlugin.h
-  DESTINATION
-    include
-  RENAME
-    str1ker-plannerPlugin.h
-)
-
-install(
   TARGETS
     robot
   RUNTIME
