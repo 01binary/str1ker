@@ -145,7 +145,7 @@ public:
     return m_offset;
   }
 
-  // Get current position mapped from filtered analog reading
+  // Get current position mapped from readings
   inline double getPos() const
   {
     return m_position;
