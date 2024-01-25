@@ -11,16 +11,16 @@ robot:
         minPwm: 64
         maxPwm: 255
         minVelocity: 0.0
-        maxVelocity: 1.0
+        maxVelocity: 3.14160
       encoder:
         controller: 'encoder'
         enable: true
         topic: 'adc'
         absoluteChannel: 0
-        quadratureChannel: 8
+        #quadratureChannel: 8
         quadratureScale: -0.132229249
-        minReading: 283
-        maxReading: 771
+        minReading: 70
+        maxReading: 162
         minPos: -1.5708
         maxPos: 1.5708
         threshold: 8
@@ -35,7 +35,7 @@ robot:
         minPwm: 32
         maxPwm: 255
         minVelocity: 0.0
-        maxVelocity: 1.0
+        maxVelocity: 0.0508
       encoder:
         controller: 'encoder'
         enable: true
@@ -57,7 +57,7 @@ robot:
         minPwm: 200
         maxPwm: 255
         minVelocity: 0.0
-        maxVelocity: 1.0
+        maxVelocity: 0.0109982
       encoder:
         controller: 'encoder'
         enable: true
