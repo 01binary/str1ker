@@ -6,7 +6,7 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- ik.h
+ inverseKinematicsPlugin.h
 
  Inverse Kinematics Plugin
  Created 04/03/2023

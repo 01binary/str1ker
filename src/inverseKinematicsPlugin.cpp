@@ -6,7 +6,7 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
- ikPlugin.cpp
+ inverseKinematicsPlugin.cpp
 
  Inverse Kinematics Plugin
  Created 04/03/2023
@@ -24,8 +24,8 @@
 #include <pluginlib/class_list_macros.h>
 #include <eigen_conversions/eigen_msg.h>
 #include <tf2_eigen/tf2_eigen.h>
-#include "ikSolver.h"
-#include "ikPlugin.h"
+#include "inverseKinematicsSolver.h"
+#include "inverseKinematicsPlugin.h"
 
 /*----------------------------------------------------------*\
 | Namespace

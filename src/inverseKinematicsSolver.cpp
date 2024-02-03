@@ -6,7 +6,7 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- ikSolver.cpp
+ inverseKinematicsSolver.cpp
 
  Inverse Kinematics Solver
  Created 07/07/2023
@@ -19,7 +19,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include "ikSolver.h"
+#include "inverseKinematicsSolver.h"
 
 /*----------------------------------------------------------*\
 | Namespace

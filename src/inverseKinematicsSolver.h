@@ -6,7 +6,7 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- ikSolver.h
+ inverseKinematicsSolver.h
 
  Inverse Kinematics Solver
  Created 07/07/2023

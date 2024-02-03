@@ -46,9 +46,8 @@
   <exec_depend>joint_trajectory_controller</exec_depend>
 
   <export>
-    <moveit_core plugin="${prefix}/description/ik.xml"/>
-    <moveit_core plugin="${prefix}/description/planner.xml"/>
-    <controller_interface plugin="${prefix}/description/trajectory.xml"/>
-    <moveit_ros_control_interface plugin="${prefix}/description/allocator.xml"/>
+    <moveit_core plugin="${prefix}/description/inverseKinematicsPlugin.xml"/>
+    <moveit_core plugin="${prefix}/description/motionPlanningPlugin.xml"/>
+    <controller_interface plugin="${prefix}/description/trajectoryControllerPlugin.xml"/>
   </export>
 </package>

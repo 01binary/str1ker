@@ -6,7 +6,7 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- plannerPlugin.cpp
+ motionPlanningPlugin.cpp
 
  Motion Planning Plugin
  Created 05/01/2023
@@ -19,7 +19,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include "plannerPlugin.h"
+#include "motionPlanningPlugin.h"
 #include <moveit/planning_interface/planning_interface.h>
 #include <pluginlib/class_list_macros.h>
 #include <trajectory_msgs/JointTrajectory.h>

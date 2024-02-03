@@ -21,33 +21,14 @@
 | Includes
 \*----------------------------------------------------------*/
 
-//
-// Standard Library
-//
-
 #include <string>
 #include <vector>
-
-//
-// Actions and Messages
-//
 
 #include <actionlib/server/action_server.h>
 #include <actionlib/client/simple_action_client.h>
 #include <control_msgs/FollowJointTrajectoryAction.h>
-#include <trajectory_msgs/JointTrajectory.h>
 #include <control_msgs/JointTrajectoryControllerState.h>
 #include <control_msgs/QueryTrajectoryState.h>
-
-//
-// MoveIt! Integration
-//
-
-#include <moveit_ros_control_interface/ControllerHandle.h>
-
-//
-// ROS Controllers
-//
 
 #include <controller_manager/controller_manager.h>
 #include <controller_interface/controller.h>
@@ -59,6 +40,14 @@
 #include <urdf/model.h>
 
 /*----------------------------------------------------------*\
+| Definitions
+\*----------------------------------------------------------*/
+
+typedef hardware_interface::VelocityJointInterface velocityHardware;
+typedef controller_interface::Controller<velocityHardware> velocityController;
+typedef actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction> trajectoryActionServer;
+
+/*----------------------------------------------------------*\
 | Namespace
 \*----------------------------------------------------------*/
 
@@ -68,8 +57,7 @@ namespace str1ker {
 | trajectoryController class
 \*----------------------------------------------------------*/
 
-class trajectoryController
-  : public controller_interface::Controller<hardware_interface::VelocityJointInterface>
+class trajectoryController : public velocityController
 {
 private:
   //
@@ -154,15 +142,15 @@ private:
   ros::Publisher m_feedbackPub;
   ros::Publisher m_resultPub;
   ros::ServiceServer m_stateService;
-  std::shared_ptr<actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>> m_pGoalServer;
-  hardware_interface::VelocityJointInterface* m_hardware;
+  std::shared_ptr<trajectoryActionServer> m_pGoalServer;
+  velocityHardware* m_hardware;
 
   //
   // State
   //
 
   trajectoryState m_state;
-  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle m_goal;
+  trajectoryActionServer::GoalHandle m_goal;
   std::vector<waypoint_t> m_trajectory;
   uint32_t m_seq;
   ros::Time m_startTime;
@@ -174,7 +162,7 @@ public:
   //
 
   bool init(
-    hardware_interface::VelocityJointInterface* hw,
+    velocityHardware* hw,
     ros::NodeHandle& managerNode,
     ros::NodeHandle& node);
 
@@ -192,12 +180,9 @@ public:
 
   void trajectoryFeedback(const ros::Time& time, double trajectoryTime);
   void trajectoryGoalCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg);
-  void trajectoryActionCallback(
-    actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
-  void trajectoryCancelCallback(
-    actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal);
-  bool trajectoryQueryCallback(
-    control_msgs::QueryTrajectoryState::Request& req, control_msgs::QueryTrajectoryState::Response& res);
+  void trajectoryActionCallback(trajectoryActionServer::GoalHandle goal);
+  void trajectoryCancelCallback(trajectoryActionServer::GoalHandle goal);
+  bool trajectoryQueryCallback(control_msgs::QueryTrajectoryState::Request& req, control_msgs::QueryTrajectoryState::Response& res);
 
   //
   // Trajectory management
@@ -208,38 +193,6 @@ public:
   void runTrajectory(const ros::Time& time, const ros::Duration& period);
   const waypoint_t* sampleTrajectory(double timeFromStart, std::vector<double>& position);
   void endTrajectory();
-};
-
-/*----------------------------------------------------------*\
-| trajectoryControllerHandle class
-\*----------------------------------------------------------*/
-
-class trajectoryControllerHandle
-  : public moveit_controller_manager::MoveItControllerHandle
-{
-private:
-  bool m_done;
-  std::shared_ptr<actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>> m_actionClient;
-
-public:
-  trajectoryControllerHandle(const std::string& name, const std::string& action_ns);
-
-public:
-  bool sendTrajectory(const moveit_msgs::RobotTrajectory& trajectory) override;
-  bool waitForExecution(const ros::Duration& timeout = ros::Duration(0)) override;
-  moveit_controller_manager::ExecutionStatus getLastExecutionStatus() override;
-  bool cancelExecution() override;
-};
-
-/*----------------------------------------------------------*\
-| trajectoryControllerAllocator class
-\*----------------------------------------------------------*/
-
-class trajectoryControllerAllocator : public moveit_ros_control_interface::ControllerHandleAllocator
-{
-public:
-  moveit_controller_manager::MoveItControllerHandlePtr alloc(
-    const std::string& name, const std::vector<std::string>& resources) override;
 };
 
 } // namespace str1ker

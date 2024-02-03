@@ -65,7 +65,7 @@ private:
     // Update rate
     double m_rate;
 
-    // Velocity controllers
+    // ROS controller manager
     controller_manager::ControllerManager m_controllerManager;
 
     // Hardware controllers

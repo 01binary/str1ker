@@ -111,8 +111,8 @@ target_link_libraries(hardware
 )
 
 add_library(str1ker-ik
-  src/ikPlugin.cpp
-  src/ikSolver.cpp
+  src/inverseKinematicsPlugin.cpp
+  src/inverseKinematicsSolver.cpp
 )
 
 target_link_libraries(str1ker-ik
@@ -121,7 +121,7 @@ target_link_libraries(str1ker-ik
 )
 
 add_library(str1ker-planner
-  src/plannerPlugin.cpp
+  src/motionPlanningPlugin.cpp
 )
 
 target_link_libraries(str1ker-planner
@@ -137,33 +137,6 @@ add_library(str1ker-trajectory-controller
 target_link_libraries(str1ker-trajectory-controller
   ${catkin_LIBRARIES}
   ${Eigen3_LIBRARIES}
-)
-
-install(
-  FILES
-    description/planner.xml
-  DESTINATION
-    ${CATKIN_PACKAGE_SHARE_DESTINATION}
-  RENAME
-    str1ker-planner.xml
-)
-
-install(
-  FILES
-    description/ik.xml
-  DESTINATION
-    ${CATKIN_PACKAGE_SHARE_DESTINATION}
-  RENAME
-    str1ker-ik.xml
-)
-
-install(
-  FILES
-    description/trajectory.xml
-  DESTINATION
-    ${CATKIN_PACKAGE_SHARE_DESTINATION}
-  RENAME
-    str1ker-trajectory.xml
 )
 
 install(
@@ -212,5 +185,3 @@ install(
   DESTINATION
     ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
-
-message(echoing catkin include dirs: "${catkin_INCLUDE_DIRS}")
