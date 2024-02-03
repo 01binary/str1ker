@@ -6,7 +6,7 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- trajectoryController.cpp
+ jointTrajectoryController.cpp
 
  Joint trajectory controller implementation
  Created 01/14/2024
@@ -24,7 +24,7 @@
 #include <joint_limits_interface/joint_limits_urdf.h>
 #include <pluginlib/class_list_macros.h>
 
-#include "trajectoryController.h"
+#include "jointTrajectoryController.h"
 #include "hardwareUtilities.h"
 #include "controllerUtilities.h"
 
@@ -36,10 +36,10 @@ using namespace std;
 using namespace str1ker;
 
 /*----------------------------------------------------------*\
-| trajectoryController implementation
+| jointTrajectoryController implementation
 \*----------------------------------------------------------*/
 
-bool trajectoryController::init(
+bool jointTrajectoryController::init(
     hardware_interface::VelocityJointInterface* hw,
     ros::NodeHandle& managerNode,
     ros::NodeHandle& node)
@@ -182,7 +182,7 @@ bool trajectoryController::init(
 
   // Subscribe to trajectory goals
   m_goalSub = m_node.subscribe(
-    "command", 1, &trajectoryController::trajectoryGoalCallback, this
+    "command", 1, &jointTrajectoryController::trajectoryGoalCallback, this
   );
 
   // Publish state
@@ -204,8 +204,8 @@ bool trajectoryController::init(
   m_pGoalServer.reset(new actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>(
     m_node,
     "follow_joint_trajectory",
-    bind(&trajectoryController::trajectoryActionCallback, this, placeholders::_1),
-    bind(&trajectoryController::trajectoryCancelCallback, this, placeholders::_1),
+    bind(&jointTrajectoryController::trajectoryActionCallback, this, placeholders::_1),
+    bind(&jointTrajectoryController::trajectoryCancelCallback, this, placeholders::_1),
     false
   ));
 
@@ -214,7 +214,7 @@ bool trajectoryController::init(
   // Advertise trajectory state service
   m_stateService = m_node.advertiseService(
     "query_state",
-    &trajectoryController::trajectoryQueryCallback,
+    &jointTrajectoryController::trajectoryQueryCallback,
     this
   );
 
@@ -226,16 +226,16 @@ bool trajectoryController::init(
   return true;
 }
 
-void trajectoryController::starting(const ros::Time& time)
+void jointTrajectoryController::starting(const ros::Time& time)
 {
 }
 
-void trajectoryController::stopping(const ros::Time&)
+void jointTrajectoryController::stopping(const ros::Time&)
 {
   endTrajectory();
 }
 
-void trajectoryController::update(const ros::Time& time, const ros::Duration& period)
+void jointTrajectoryController::update(const ros::Time& time, const ros::Duration& period)
 {
   if (m_state == trajectoryState::EXECUTING)
   {
@@ -243,7 +243,7 @@ void trajectoryController::update(const ros::Time& time, const ros::Duration& pe
   }
 }
 
-void trajectoryController::trajectoryFeedback(const ros::Time& time, double trajectoryTime)
+void jointTrajectoryController::trajectoryFeedback(const ros::Time& time, double trajectoryTime)
 {
   control_msgs::JointTrajectoryControllerState trajectoryState;
   control_msgs::FollowJointTrajectoryFeedback trajectoryFeedback;
@@ -316,12 +316,12 @@ void trajectoryController::trajectoryFeedback(const ros::Time& time, double traj
   }
 }
 
-void trajectoryController::trajectoryGoalCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg)
+void jointTrajectoryController::trajectoryGoalCallback(const trajectory_msgs::JointTrajectory::ConstPtr& msg)
 {
   parseTrajectory(*msg);
 }
 
-void trajectoryController::trajectoryActionCallback(
+void jointTrajectoryController::trajectoryActionCallback(
   actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal)
 {
   if (!this->isRunning())
@@ -338,13 +338,13 @@ void trajectoryController::trajectoryActionCallback(
   m_goal = goal;
 }
 
-void trajectoryController::trajectoryCancelCallback(
+void jointTrajectoryController::trajectoryCancelCallback(
   actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::GoalHandle goal)
 {
   endTrajectory();
 }
 
-bool trajectoryController::trajectoryQueryCallback(
+bool jointTrajectoryController::trajectoryQueryCallback(
   control_msgs::QueryTrajectoryState::Request& req,
   control_msgs::QueryTrajectoryState::Response& res)
 {
@@ -374,7 +374,7 @@ bool trajectoryController::trajectoryQueryCallback(
   return true;
 }
 
-void trajectoryController::parseTrajectory(const trajectory_msgs::JointTrajectory& trajectory)
+void jointTrajectoryController::parseTrajectory(const trajectory_msgs::JointTrajectory& trajectory)
 {
   // Parse trajectory message joints
   vector<int> jointIndexes;
@@ -437,7 +437,7 @@ void trajectoryController::parseTrajectory(const trajectory_msgs::JointTrajector
   beginTrajectory(ros::Time::now(), waypoints);
 }
 
-void trajectoryController::beginTrajectory(
+void jointTrajectoryController::beginTrajectory(
   const ros::Time& time, const std::vector<waypoint_t>& waypoints)
 {
   ROS_INFO_NAMED(
@@ -469,7 +469,7 @@ void trajectoryController::beginTrajectory(
   }
 }
 
-void trajectoryController::endTrajectory()
+void jointTrajectoryController::endTrajectory()
 {
   m_state = trajectoryState::DONE;
 
@@ -494,7 +494,7 @@ void trajectoryController::endTrajectory()
   m_resultPub.publish(result);
 }
 
-void trajectoryController::runTrajectory(const ros::Time& time, const ros::Duration& period)
+void jointTrajectoryController::runTrajectory(const ros::Time& time, const ros::Duration& period)
 {
   vector<double> position;
   double trajectoryTime = (time - m_startTime).toSec();
@@ -620,7 +620,7 @@ void trajectoryController::runTrajectory(const ros::Time& time, const ros::Durat
   }
 }
 
-const trajectoryController::waypoint_t* trajectoryController::sampleTrajectory(
+const jointTrajectoryController::waypoint_t* jointTrajectoryController::sampleTrajectory(
   double timeFromStart, vector<double>& position)
 {
   if (m_trajectory.empty()) return nullptr;
@@ -662,4 +662,4 @@ const trajectoryController::waypoint_t* trajectoryController::sampleTrajectory(
   return &m_trajectory.back();
 }
 
-PLUGINLIB_EXPORT_CLASS(str1ker::trajectoryController, controller_interface::ControllerBase);
+PLUGINLIB_EXPORT_CLASS(str1ker::jointTrajectoryController, controller_interface::ControllerBase);

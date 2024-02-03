@@ -1,11 +1,11 @@
 <library path="lib/libstr1ker-trajectory-controller">
   <class
-    name="str1ker/trajectoryController"
-    type="str1ker::trajectoryController"
+    name="str1ker/jointTrajectoryController"
+    type="str1ker::jointTrajectoryController"
     base_class_type="controller_interface::ControllerBase"
   >
     <description>
-      Str1ker Joint Trajectory Controller for MoveIt!
+      Str1ker Joint Trajectory Controller Plugin for ROS Control
     </description>
   </class>
 </library>

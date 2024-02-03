@@ -6,9 +6,9 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- trajectoryController.h
+ jointTrajectoryController.h
 
- A "forgiving" joint trajectory controller
+ A "forgiving" joint trajectory controller with no hold trajectory
  Created 01/14/2024
 
  Copyright (C) 2024 Valeriy Novytskyy
@@ -54,10 +54,10 @@ typedef actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction> traje
 namespace str1ker {
 
 /*----------------------------------------------------------*\
-| trajectoryController class
+| jointTrajectoryController class
 \*----------------------------------------------------------*/
 
-class trajectoryController : public velocityController
+class jointTrajectoryController : public velocityController
 {
 private:
   //
@@ -161,10 +161,7 @@ public:
   // Initialization
   //
 
-  bool init(
-    velocityHardware* hw,
-    ros::NodeHandle& managerNode,
-    ros::NodeHandle& node);
+  bool init(velocityHardware* hw, ros::NodeHandle& managerNode, ros::NodeHandle& node);
 
   //
   // Lifecycle
@@ -175,7 +172,7 @@ public:
   void update(const ros::Time& time, const ros::Duration& period);
 
   //
-  // Interface
+  // ROS and MoveIt Interface
   //
 
   void trajectoryFeedback(const ros::Time& time, double trajectoryTime);

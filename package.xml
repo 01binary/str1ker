@@ -48,6 +48,7 @@
   <export>
     <moveit_core plugin="${prefix}/description/inverseKinematicsPlugin.xml"/>
     <moveit_core plugin="${prefix}/description/motionPlanningPlugin.xml"/>
-    <controller_interface plugin="${prefix}/description/trajectoryControllerPlugin.xml"/>
+    <controller_interface plugin="${prefix}/description/rosControllerPlugin.xml"/>
+    <moveit_ros_control_interface plugin="${prefix}/description/moveItControllerPlugin.xml"/>
   </export>
 </package>
