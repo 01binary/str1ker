@@ -91,14 +91,14 @@ target_link_libraries(robot
 )
 
 add_executable(hardware
-  src/controllerFactory.cpp
-  src/controllerUtilities.cpp
-  src/controller.cpp
-  src/hardware.cpp
-  src/motor.cpp
-  src/solenoid.cpp
-  src/encoder.cpp
-  src/filter.cpp
+  src/controllers/controllerFactory.cpp
+  src/controllers/controllerUtilities.cpp
+  src/controllers/controller.cpp
+  src/controllers/motor.cpp
+  src/controllers/solenoid.cpp
+  src/controllers/encoder.cpp
+  src/controllers/filter.cpp
+  src/controllers/hardware.cpp
 )
 
 add_dependencies(
@@ -111,8 +111,8 @@ target_link_libraries(hardware
 )
 
 add_library(str1ker-ik
-  src/inverseKinematicsPlugin.cpp
-  src/inverseKinematicsSolver.cpp
+  src/ik/inverseKinematicsPlugin.cpp
+  src/ik/inverseKinematicsSolver.cpp
 )
 
 target_link_libraries(str1ker-ik
@@ -129,16 +129,6 @@ target_link_libraries(str1ker-planner
   ${Eigen3_LIBRARIES}
 )
 
-add_library(str1ker-trajectory-controller
-  src/jointTrajectoryController.cpp
-  src/controllerUtilities.cpp
-)
-
-target_link_libraries(str1ker-trajectory-controller
-  ${catkin_LIBRARIES}
-  ${Eigen3_LIBRARIES}
-)
-
 install(
   TARGETS
     str1ker-ik
@@ -150,14 +140,6 @@ install(
 install(
   TARGETS
     str1ker-planner
-  LIBRARY
-  DESTINATION
-    ${CATKIN_PACKAGE_LIB_DESTINATION}
-)
-
-install(
-  TARGETS
-    str1ker-trajectory-controller
   LIBRARY
   DESTINATION
     ${CATKIN_PACKAGE_LIB_DESTINATION}

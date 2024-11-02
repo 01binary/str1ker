@@ -21,7 +21,7 @@
 
 #include <unistd.h>
 #include <ros/ros.h>
-#include "robot.h"
+#include "../robot.h"
 #include "solenoid.h"
 #include "controllerFactory.h"
 

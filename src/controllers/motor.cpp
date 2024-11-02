@@ -20,7 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include <ros/ros.h>
-#include "robot.h"
+#include "../robot.h"
 #include "motor.h"
 #include "controllerFactory.h"
 

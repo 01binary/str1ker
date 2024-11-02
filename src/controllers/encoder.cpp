@@ -19,9 +19,9 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include "robot.h"
+#include "../robot.h"
 #include "controllerFactory.h"
-#include "hardwareUtilities.h"
+#include "utilities.h"
 #include "encoder.h"
 
 /*----------------------------------------------------------*\

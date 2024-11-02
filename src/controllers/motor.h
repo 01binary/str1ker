@@ -24,7 +24,7 @@
 #include <ros/ros.h>
 #include <str1ker/Pwm.h>
 #include "controller.h"
-#include "hardwareUtilities.h"
+#include "utilities.h"
 
 /*----------------------------------------------------------*\
 | Namespace

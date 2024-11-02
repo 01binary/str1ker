@@ -81,7 +81,7 @@ private:
 
     // Hardware interfaces
     hardware_interface::JointStateInterface m_stateInterface;
-    hardware_interface::VelocityJointInterface m_velInterface;
+    hardware_interface::PositionJointInterface m_posInterface;
     joint_limits_interface::VelocityJointSaturationInterface m_satInterface;
 
     // Last update time

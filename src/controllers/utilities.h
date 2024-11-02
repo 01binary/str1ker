@@ -8,7 +8,7 @@
                                                                                      ███████                  
  utilities.h
 
- Motor and Encoder Utilities
+ Hardware Utilities
  Created 09/20/2023
 
  Copyright (C) 2023 Valeriy Novytskyy
