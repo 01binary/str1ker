@@ -399,12 +399,12 @@
     <!-- Joints -->
 
     <joint name="fixed" type="fixed">
-        <origin rpy="0 0 0" xyz="0 0 0" />
+        <origin rpy="0 0 0" xyz="0 0 0.5" />
         <parent link="world" />
         <child link="base_link" />
     </joint>
     <joint name="base" type="revolute">
-        <origin rpy="1.5708 0 0" xyz="0 0 0.069" />
+        <origin rpy="1.5708 0 0" xyz="0 0 0" />
         <axis xyz="0 1 0" />
         <parent link="base_link" />
         <child link="shoulder_link" />
