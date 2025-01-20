@@ -121,7 +121,7 @@ target_link_libraries(str1ker-ik
 )
 
 add_library(str1ker-planner
-  src/motionPlanningPlugin.cpp
+  src/ik/motionPlanningPlugin.cpp
 )
 
 target_link_libraries(str1ker-planner
