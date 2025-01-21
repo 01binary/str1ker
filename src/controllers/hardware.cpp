@@ -125,14 +125,14 @@ bool hardware::init()
 
         m_stateInterface.registerHandle(actuatorState);
 
-        // Register velocity interface
-        hardware_interface::JointHandle actuatorVelocity(
+        // Register position interface
+        hardware_interface::JointHandle actuatorCommand(
             actuatorState,
             &m_cmd[group.first]
         );
 
         m_cmd[group.first] = 0.0;
-        m_velInterface.registerHandle(actuatorVelocity);
+        m_posInterface.registerHandle(actuatorCommand);
 
         // Register limits interface
         hardware_interface::JointStateHandle jointState(
@@ -144,7 +144,7 @@ bool hardware::init()
 
         hardware_interface::JointHandle jointHandle(
             jointState,
-            &m_vel[group.first]
+            &m_pos[group.first]
         );
 
         joint_limits_interface::VelocityJointSaturationHandle
@@ -156,7 +156,7 @@ bool hardware::init()
     // Register hardware interfaces
 
     registerInterface(&m_stateInterface);
-    registerInterface(&m_velInterface);
+    registerInterface(&m_posInterface);
     registerInterface(&m_satInterface);
 
     return true;
@@ -211,6 +211,7 @@ void hardware::read()
             {
                 motor* mtr = dynamic_cast<motor*>(controller.get());
                 m_vel[group.first] = mtr->getVelocity();
+                // TODO position control
             }
         }
     }
