@@ -91,14 +91,7 @@ target_link_libraries(robot
 )
 
 add_executable(hardware
-  src/controllers/controllerFactory.cpp
-  src/controllers/controllerUtilities.cpp
-  src/controllers/controller.cpp
-  src/controllers/motor.cpp
-  src/controllers/solenoid.cpp
-  src/controllers/encoder.cpp
-  src/controllers/filter.cpp
-  src/controllers/hardware.cpp
+  src/hardware/hardware.cpp
 )
 
 add_dependencies(
