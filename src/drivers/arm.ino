@@ -111,6 +111,10 @@ ros::Subscriber<str1ker::VelocityCommand> velocitySub(
 ros::Subscriber<str1ker::PositionCommand> positionSub(
   POSITION_COMMAND, positionCommand);
 
+// Gripper command subscriber
+ros::Subscriber<str1ker::GripperCommand> gripperSub(
+  GRIPPER_COMMAND, gripperCommand);
+
 //
 // State
 //
@@ -187,6 +191,10 @@ void initializeHardware();
 void initializeControllers();
 void readSettings();
 void writeSettings();
+void velocityCommand(const str1ker::VelocityCommand& msg);
+void positionCommand(const str1ker::PositionCommand& msg);
+void velocityFeedback();
+void positionFeedback();
 
 /*----------------------------------------------------------*\
 | Functions
@@ -340,4 +348,24 @@ void writeSettings()
   preferences.begin("settings", false);
   // preferences.putString("name", name.c_str());
   preferences.end();
+}
+
+void velocityCommand(const str1ker::VelocityCommand& msg)
+{
+
+}
+
+void positionCommand(const str1ker::PositionCommand& msg)
+{
+
+}
+
+void velocityFeedback()
+{
+
+}
+
+void positionFeedback()
+{
+
 }
