@@ -34,7 +34,7 @@ const char VELOCITY_COMMAND[] = "velocity";
 const char POSITION_COMMAND[] = "position";
 
 // State feedback topic (see StateFeedback.msg)
-const char STATE_FEEDBACK[] = "state_feedback";
+const char STATE_FEEDBACK[] = "state";
 
 // Startup delay (prevents published too soon errors)
 const int STARTUP_DELAY = 3000;
@@ -183,9 +183,6 @@ Solenoid gripper;
 // Settings
 //
 
-// ROS Node name
-String name = "arm";
-
 // Update rate
 int rate = 50;
 
@@ -319,16 +316,10 @@ void initializeRosInterface()
   delay(STARTUP_DELAY);
 
   node.initNode();
-
   node.advertise(statePub);
-
-  // TODO configuration
-  //node.advertiseService(configServer);
-
   node.subscribe(velocitySub);
   node.subscribe(positionSub);
   node.subscribe(gripperSub);
-
   node.negotiateTopics();
 }
 
@@ -427,7 +418,7 @@ void initializeControllers()
 void readSettings()
 {
   preferences.begin("settings", false);
-  name = preferences.getString("name", name);
+
   rate = preferences.getInt("rate", rate);
 
   baseKp = preferences.getDouble("baseKp", baseKp);
@@ -477,7 +468,6 @@ void writeSettings()
 {
   preferences.begin("settings", false);
 
-  preferences.putString("name", name);
   preferences.putInt("rate", rate);
 
   preferences.putDouble("baseKp", baseKp);

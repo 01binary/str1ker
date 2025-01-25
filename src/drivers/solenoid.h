@@ -13,8 +13,7 @@ public:
   int triggerPin;
 
 public:
-  Solenoid():
-    triggerPin(0)
+  Solenoid(): triggerPin(0)
   {
   }
 
