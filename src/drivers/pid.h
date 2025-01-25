@@ -31,6 +31,8 @@ public:
   // State
   //
 
+  double goal;       // Goal
+
   double pe;         // Proportional error
   double ie;         // Integral error
   double de;         // Derivative error
@@ -49,16 +51,18 @@ public:
     pe(0.0), ie(0.0), de(0.0),
     iMin(0), iMax(1.0),
     p(0.0), i(0.0), d(0.0),
-    enabled(true),
+    goal(0.0),
+    enabled(false),
     elapsed(0.0)
   {
   }
 
 public:
-  void begin(double tolerance)
+  void begin(double goal, double tolerance)
   {
-    tolerance = tolerance;
-    enabled = true;
+    this->goal = goal;
+    this->tolerance = tolerance;
+    this->enabled = true;
   }
 
   void end()
@@ -73,16 +77,20 @@ public:
     elapsed = 0.0;
   }
 
-  double getCommand(double error, double dt)
+  double update(double position, double dt)
   {
     if (!enabled)
     {
-      return 0.0;
+      return 0;
     }
-    else if (abs(error) <= tolerance)
+
+    // Calculate proportional error
+    double error = goal - position;
+
+    if (abs(error) <= tolerance)
     {
       reset();
-      return 0.0;
+      return 0;
     }
 
     // Calculate integral error

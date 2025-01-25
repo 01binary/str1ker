@@ -66,7 +66,7 @@ public:
     current = double(analogRead(isPin)) / MAX_CURRENT;
   }
 
-  void write(double velocity)
+  void write(double command)
   {
     double speed = abs(command);
     double direction = command >= 0 ? 1 : -1;
