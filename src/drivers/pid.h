@@ -23,7 +23,6 @@ public:
   double Kp;         // Proportional gain
   double Ki;         // Integral gain
   double Kd;         // Derivative gain
-  double tolerance;  // Tolerance
   double iMin;       // Min integral
   double iMax;       // Max integral
 
@@ -31,7 +30,8 @@ public:
   // State
   //
 
-  double goal;       // Goal
+  double goal;       // Goal position
+  double tolerance;  // Tolerance reaching the goal
 
   double pe;         // Proportional error
   double ie;         // Integral error
@@ -58,6 +58,26 @@ public:
   }
 
 public:
+  void initialize(
+    double Kp,
+    double Ki,
+    double Kd,
+    double iMin,
+    double iMax)
+  {
+    this->Kp = Kp;
+    this->Ki = Ki;
+    this->Kd = Kd;
+    this->iMin = iMin;
+    this->iMax = iMax;
+    this->pe = 0.0;
+    this->ie = 0.0;
+    this->de = 0.0;
+    this->p = 0.0;
+    this->i = 0.0;
+    this->d = 0.0;
+  }
+
   void begin(double goal, double tolerance)
   {
     this->goal = goal;
@@ -124,25 +144,5 @@ public:
 
     // Calculate command
     return p + i + d;
-  }
-
-  void initialize(
-    double Kp,
-    double Ki,
-    double Kd,
-    double iMin,
-    double iMax)
-  {
-    this->Kp = Kp;
-    this->Ki = Ki;
-    this->Kd = Kd;
-    this->iMin = iMin;
-    this->iMax = iMax;
-    this->pe = 0.0;
-    this->ie = 0.0;
-    this->de = 0.0;
-    this->p = 0.0;
-    this->i = 0.0;
-    this->d = 0.0;
   }
 };

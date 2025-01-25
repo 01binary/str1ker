@@ -259,9 +259,11 @@ void init()
 
 void loop()
 {
-  velocityFeedback();
-  positionFeedback();
-  node.spinOnce();
+  if (millis() > STARTUP_DELAY)
+  {
+    stateFeedback();
+    node.spinOnce();
+  }
 }
 
 ros::Time getTime()
@@ -318,8 +320,7 @@ void initializeRosInterface()
 
   node.initNode();
 
-  node.advertise(velocityPub);
-  node.advertise(positionPub);
+  node.advertise(statePub);
 
   // TODO configuration
   //node.advertiseService(configServer);
@@ -532,7 +533,24 @@ void positionCommand(const str1ker::PositionCommand& msg)
 
 }
 
+void gripperCommand(const str1ker::GripperCommand& msg)
+{
+  gripper.write(msg.holdTime);
+}
+
 void stateFeedback()
 {
   str1ker::StateFeedback stateFeedbackMsg;
+
+  stateFeedbackMsg.basePosition = basePosition;
+  stateFeedbackMsg.baseVelocity = baseVelocity;
+  stateFeedbackMsg.baseStalled = baseStalled;
+
+  stateFeedbackMsg.shoulderPosition = shoulderPosition;
+  stateFeedbackMsg.shoulderVelocity = shoulderVelocity;
+  stateFeedbackMsg.shoulderStalled = shoulderStalled;
+
+  stateFeedbackMsg.elbowPosition = elbowPosition;
+  stateFeedbackMsg.elbowVelocity = elbowVelocity;
+  stateFeedbackMsg.elbowStalled = elbowStalled;
 }
