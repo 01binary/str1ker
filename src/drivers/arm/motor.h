@@ -4,18 +4,15 @@
 */
 
 /*----------------------------------------------------------*\
-| Constants
-\*----------------------------------------------------------*/
-
-const double MAX_CURRENT = double(0b1111111111);
-const double MAX_PWM = 0b11111111;
-
-/*----------------------------------------------------------*\
 | Classes
 \*----------------------------------------------------------*/
 
 class Motor
 {
+public:
+  const unsigned int CURRENT_MAX = 0b1111111111;
+  const unsigned int PWM_MAX = 0b11111111;
+
 public:
   int lpwmPin;
   int rpwmPin;
@@ -23,9 +20,10 @@ public:
 
   double pwmMin;
   double pwmMax;
+  double stallThreshold;
   bool invert;
 
-  double command;
+  double velocity;
   double current;
 
 public:
@@ -36,7 +34,9 @@ public:
     pwmMin(0.0),
     pwmMax(1.0),
     invert(false),
-    command(0.0)
+    stallThreshold(1.0),
+    velocity(0.0),
+    current(0.0)
   {
   }
 
@@ -47,7 +47,8 @@ public:
     int is,
     double min = 0.0,
     double max = 1.0,
-    bool invertCommand = false)
+    bool invertCommand = false,
+    double stallCurrentThreshold = 1.0)
   {
     lpwmPin = lpwm;
     rpwmPin = rpwm;
@@ -55,15 +56,32 @@ public:
     pwmMin = min;
     pwmMax = max;
     invert = invertCommand;
-    command = 0.0;
+    stallThreshold = stallCurrentThreshold;
+    velocity = 0.0;
 
     pinMode(lpwmPin, OUTPUT);
     pinMode(rpwmPin, OUTPUT);
   }
 
+  void readSettings()
+  {
+    pwmMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), 0.0);
+    pwmMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), 1.0);
+    stallThreshold = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), 1.0);
+    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(bool)), false);
+  }
+
+  void writeSettings()
+  {
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), pwmMin);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), pwmMax);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), stallThreshold);
+    EEPROM.writeBool(EEPROM.getAddress(sizeof(bool)), invert);
+  }
+
   void read()
   {
-    current = double(analogRead(isPin)) / MAX_CURRENT;
+    current = double(analogRead(isPin)) / double(CURRENT_MAX);
   }
 
   void write(double command)
@@ -92,8 +110,8 @@ public:
 
     if (nextCommand != commend)
     {
-      int lpwm = direction < 0 ? 0 : int(speed * MAX_PWM);
-      int rpwm = direction > 0 ? 0 : int(speed * MAX_PWM);
+      int lpwm = direction < 0 ? 0 : int(speed * double(PWM_MAX));
+      int rpwm = direction > 0 ? 0 : int(speed * double(PWM_MAX));
 
       analogWrite(lpwmPin, lpwm);
       analogWrite(rpwmPin, rpwm);

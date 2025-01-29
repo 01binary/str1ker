@@ -16,6 +16,14 @@
 class PID
 {
 public:
+  const double DEFAULT_KP = 1.0;
+  const double DEFAULT_KI = 0.1;
+  const double DEFAULT_KD = 0.1;
+  const double DEFAULT_IMIN = -1.0;
+  const double DEFAULT_IMAX = 1.0;
+  const double DEFAULT_TOLERANCE = 0.05;
+
+public:
   //
   // Configuration
   //
@@ -25,13 +33,13 @@ public:
   double Kd;         // Derivative gain
   double iMin;       // Min integral
   double iMax;       // Max integral
+  double tolerance;  // Tolerance reaching the goal
 
   //
   // State
   //
 
   double goal;       // Goal position
-  double tolerance;  // Tolerance reaching the goal
 
   double pe;         // Proportional error
   double ie;         // Integral error
@@ -46,10 +54,13 @@ public:
 
 public:
   PID():
-    Kp(1), Ki(0.1), Kd(0.1),
-    tolerance(0.05),
+    Kp(DEFAULT_KP),
+    Ki(DEFAULT_KI),
+    Kd(DEFAULT_KD),
+    iMin(DEFAULT_IMAX),
+    iMax(DEFAULT_IMAX),
+    tolerance(DEFAULT_TOLERANCE),
     pe(0.0), ie(0.0), de(0.0),
-    iMin(0), iMax(1.0),
     p(0.0), i(0.0), d(0.0),
     goal(0.0),
     enabled(false),
@@ -59,33 +70,50 @@ public:
 
 public:
   void initialize(
-    double Kp,
-    double Ki,
-    double Kd,
-    double iMin,
-    double iMax)
+    double proportionalGain,
+    double integralGain,
+    double derivativeGain,
+    double integralMin,
+    double integralMax,
+    double positionTolerance)
   {
-    this->Kp = Kp;
-    this->Ki = Ki;
-    this->Kd = Kd;
-    this->iMin = iMin;
-    this->iMax = iMax;
-    this->pe = 0.0;
-    this->ie = 0.0;
-    this->de = 0.0;
-    this->p = 0.0;
-    this->i = 0.0;
-    this->d = 0.0;
+    stop();
+  
+    Kp = proportionalGain;
+    Ki = integralGain;
+    Kd = derivativeGain;
+    iMin = integralMin;
+    iMax = integralMax;
+    tolerance = positionTolerance;
   }
 
-  void begin(double goal, double tolerance)
+  void readSettings()
   {
-    this->goal = goal;
-    this->tolerance = tolerance;
-    this->enabled = true;
+    Kp = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_KP);
+    Ki = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_KI);
+    Kd = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_KD);
+    iMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_IMIN);
+    iMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_IMAX);
+    tolerance = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_TOLERANCE);
   }
 
-  void end()
+  void writeSettings()
+  {
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Kp);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Ki);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Kd);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), iMin);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), iMax);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), tolerance);
+  }
+
+  void start(double goalPosition)
+  {
+    goal = goalPosition;
+    enabled = true;
+  }
+
+  void stop()
   {
     pe = 0.0;
     ie = 0.0;

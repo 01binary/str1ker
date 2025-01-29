@@ -104,8 +104,8 @@ target_link_libraries(hardware
 )
 
 add_library(str1ker-ik
-  src/ik/inverseKinematicsPlugin.cpp
-  src/ik/inverseKinematicsSolver.cpp
+  src/plugins/inverseKinematicsPlugin.cpp
+  src/plugins/inverseKinematicsSolver.cpp
 )
 
 target_link_libraries(str1ker-ik
@@ -114,7 +114,7 @@ target_link_libraries(str1ker-ik
 )
 
 add_library(str1ker-planner
-  src/ik/motionPlanningPlugin.cpp
+  src/plugins/motionPlanningPlugin.cpp
 )
 
 target_link_libraries(str1ker-planner
