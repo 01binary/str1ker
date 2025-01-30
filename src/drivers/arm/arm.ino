@@ -19,6 +19,7 @@
 
 #include <ros.h>
 #include <ros/time.h>
+#include <EEPROMex.h>
 #include "freertos/FreeRTOS.h"
 #include "interface.h"
 #include "motor.h"
@@ -75,10 +76,7 @@ void init()
 {
   delay(STARTUP_DELAY);
 
-  readSettings();
-
   initializeRosInterface();
-  initializeHardware();
   initializeControllers();
 }
 
@@ -91,8 +89,11 @@ void loop()
   }
 }
 
-void initializeHardware()
+void initializeControllers()
 {
+  EEPROM.setMemPool(memBase, EEPROMSizeMega);
+  EEPROM.setMaxAllowedWrites(500);
+
   // Base
   base.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_IS);
   base.encoder.initialize(BASE_CS, BASE_CLK, BASE_MISO, BASE_MOSI, BASE_A, BASE_B);
@@ -110,10 +111,7 @@ void initializeHardware()
 
   // Gripper
   gripper.initialize(GRIPPER_PIN);
-}
 
-void initializeControllers()
-{
   xTaskCreate(
     motorControl,
     "MotorControl",
