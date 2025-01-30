@@ -1,6 +1,16 @@
+
 /*
-    motor.h
-    Motor PWM Driver
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
+ motor.h
+ Motor PWM driver
+ Copyright (C) 2025 Valeriy Novytskyy
+ This software is licensed under GNU GPLv3
 */
 
 /*----------------------------------------------------------*\
@@ -41,7 +51,7 @@ public:
   }
 
 public:
-  void initialize(
+  Motor& initialize(
     int lpwm,
     int rpwm,
     int is,
@@ -61,6 +71,8 @@ public:
 
     pinMode(lpwmPin, OUTPUT);
     pinMode(rpwmPin, OUTPUT);
+
+    return *this;
   }
 
   void readSettings()

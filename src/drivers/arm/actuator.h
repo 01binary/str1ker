@@ -1,6 +1,16 @@
+
 /*
-    actuator.h
-    Actuator consisting of motor and encoder(s)
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
+ actuator.h
+ Actuator consisting of motor and encoder
+ Copyright (C) 2025 Valeriy Novytskyy
+ This software is licensed under GNU GPLv3
 */
 
 /*----------------------------------------------------------*\
@@ -75,13 +85,13 @@ public:
     }
   }
 
-  void setPosition(double command)
+  void writePosition(double command)
   {
     mode = POSITION;
     controller.start(command);
   }
 
-  void setVelocity(double command)
+  void writeVelocity(double command)
   {
     mode = VELOCITY;
     velocity = command;

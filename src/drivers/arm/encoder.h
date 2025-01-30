@@ -1,7 +1,16 @@
+
 /*
-    encoder.h
-    Gets absolute encoder readings.
-    Supports SSI/SPI and analog/PWM interfaces.
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
+ encoder.h
+ Absolute and Quadrature encoder drivers
+ Copyright (C) 2025 Valeriy Novytskyy
+ This software is licensed under GNU GPLv3
 */
 
 /*----------------------------------------------------------*\
@@ -48,7 +57,7 @@ public:
   {
   }
 
-  void initialize(
+  Potentiometer& initialize(
     int adc,
     int normalizedMin = 0,
     int normalizedMax = MAX,
@@ -64,6 +73,8 @@ public:
     invert = invertReadings;
 
     pinMode(adcPin, INPUT_PULLUP);
+
+    return *this;
   }
 
   void readSettings()
@@ -150,7 +161,7 @@ public:
   }
 
 public:
-  void initialize(
+  AS5045Encoder& initialize(
     int cs,
     int clock,
     int miso,
@@ -181,6 +192,8 @@ public:
 
     pinMode(csPin, OUTPUT);
     digitalWrite(csPin, HIGH);
+
+    return *this;
   }
 
   void readSettings()
@@ -258,7 +271,7 @@ public:
   }
 
 public:
-  void initialize(int a, int b, bool invertCount = false)
+  QuadratureEncoder& initialize(int a, int b, bool invertCount = false)
   {
     delete pQuadrature;
     pQuadrature = new Encoders(a, b);
@@ -266,6 +279,8 @@ public:
     invert = invertCount;
     count = 0;
     lastCount = 0;
+
+    return *this;
   }
 
   void readSettings()
@@ -291,22 +306,43 @@ public:
   }
 }
 
-template <typename AbsoluteEncoderType> class FusionEncoder: Encoder
+template class FusionEncoder: public Encoder
 {
 public:
-  AbsoluteEncoderType absoluteEncoder;
-  QuadratureEncoder relativeEncoder;
+  AS5045Encoder absolute;
+  QuadratureEncoder quadrature;
 
 public:
-  FusionEncoder(
-    const AbsoluteEncoderType& absolute,
-    const QuadratureEncoder& relative)
+  FusionEncoder& initialize(
+    int cs,
+    int clock,
+    int miso,
+    int mosi,
+    int normalizedMin = 0,
+    int normalizedMax = AS5045Encoder::MAX,
+    int a,
+    int b)
   {
+    absolute.initialize(cs, clock, miso, mosi);
+    quadrature.initialize(a, b);
+    return *this;
   }
 
-public:
   double read()
   {
-    // TODO: sensor fusion
+    // TODO: fuse measurements
+    return absolute.read();
+  }
+
+  void readSettings()
+  {
+    absolute.readSettings();
+    quadrature.readSettings();
+  }
+
+  void writeSettings()
+  {
+    absolute.writeSettings();
+    quadrature.writeSettings();
   }
 }
