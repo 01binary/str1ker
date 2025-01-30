@@ -64,8 +64,6 @@ Solenoid gripper;                         // Gripper hardware
 | Forward Declarations
 \*----------------------------------------------------------*/
 
-void initializeHardware();
-void initializeControllers();
 void motorControl();
 
 /*----------------------------------------------------------*\
@@ -74,23 +72,11 @@ void motorControl();
 
 void init()
 {
+  // ROS interface
+  initializeRosInterface();
   delay(STARTUP_DELAY);
 
-  initializeRosInterface();
-  initializeControllers();
-}
-
-void loop()
-{
-  if (millis() > STARTUP_DELAY)
-  {
-    stateFeedback();
-    node.spinOnce();
-  }
-}
-
-void initializeControllers()
-{
+  // Storage
   EEPROM.setMemPool(memBase, EEPROMSizeMega);
   EEPROM.setMaxAllowedWrites(500);
 
@@ -112,6 +98,7 @@ void initializeControllers()
   // Gripper
   gripper.initialize(GRIPPER_PIN);
 
+  // Real-time thread
   xTaskCreate(
     motorControl,
     "MotorControl",
@@ -120,6 +107,15 @@ void initializeControllers()
     configMAX_PRIORITIES - 1,
     NULL
   );
+}
+
+void loop()
+{
+  if (millis() > STARTUP_DELAY)
+  {
+    stateFeedback();
+    node.spinOnce();
+  }
 }
 
 ros::Time getTime()
