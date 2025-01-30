@@ -138,11 +138,11 @@ void motorControl()
   while (true)
   {
     ros::Time now = getTime();
-    double dt = (now - time).toSec();
+    double timeStep = (now - time).toSec();
     time = now;
 
-    base.update();
-    shoulder.update();
-    elbow.update();
+    base.update(timeStep);
+    shoulder.update(timeStep);
+    elbow.update(timeStep);
   }
 }

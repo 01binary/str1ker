@@ -73,7 +73,7 @@ public:
     motor.writeSettings();
   }
 
-  void update()
+  void update(double timeStep)
   {
     position = encoder.read();
     current = motor.read();
@@ -81,7 +81,7 @@ public:
 
     if (mode == POSITION)
     {
-      velocity = controller.update(position);
+      velocity = controller.update(position, timeStep);
     }
   }
 
