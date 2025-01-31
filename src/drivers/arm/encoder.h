@@ -128,9 +128,6 @@ public:
 
 public:
   int csPin;
-  int clockPin;
-  int misoPin;
-  int mosiPin;
   int normMin;
   int normMax;
   double scaleMin;
@@ -141,9 +138,6 @@ public:
 public:
   AS5045Encoder():
     csPin(0),
-    clockPin(0),
-    misoPin(0),
-    mosiPin(0),
     normMin(0),
     normMax(MAX),
     scaleMin(0.0),
@@ -161,9 +155,6 @@ public:
 public:
   void initialize(
     int cs,
-    int clock,
-    int miso,
-    int mosi,
     int normalizedMin = 0,
     int normalizedMax = MAX,
     double scaledMin = 0.0,
@@ -176,9 +167,6 @@ public:
     }
 
     csPin = cs;
-    clockPin = clock;
-    misoPin = miso;
-    mosiPin = mosi;
     normMin = normalizedMin;
     normMax = normalizedMax;
     scaleMin = scaledMin;
@@ -309,15 +297,10 @@ public:
 public:
   void initialize(
     int cs,
-    int clock,
-    int miso,
-    int mosi,
-    int normalizedMin = 0,
-    int normalizedMax = AS5045Encoder::MAX,
     int a,
     int b)
   {
-    absolute.initialize(cs, clock, miso, mosi);
+    absolute.initialize(cs);
     quadrature.initialize(a, b);
   }
 

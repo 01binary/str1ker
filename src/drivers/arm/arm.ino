@@ -39,22 +39,22 @@ const int RT = configMAX_PRIORITIES - 1;  // Real time thread priority
 
 const int BASE_LPWM = 11;                 // Base motor left PWM pin
 const int BASE_RPWM = 3;                  // Base motor right PWM pin
-const int BASE_IS = 3;                    // Base motor current sense pin
+const int BASE_IS = A2;                   // Base motor current sense pin
 const int BASE_A = 18;                    // Base quadrature encoder A pin
 const int BASE_B = 19;                    // Base quadrature encoder B pin
 const int BASE_CS = 53;                   // Base absolute encoder chip select pin
-const int BASE_CLK = 7;                   // Base absolute encoder clock pin
-const int BASE_MISO = 8;                  // Base absolute encoder MISO pin
-const int BASE_MOSI = 9;                  // Base absolute encoder MOSI pin
-const int SHOULDER_LPWM = 10;             // Shoulder motor left PWM pin
-const int SHOULDER_RPWM = 11;             // Shoulder motor right PWM pin
-const int SHOULDER_IS = 12;               // Shoulder motor current sense pin
+
+const int SHOULDER_LPWM = 6;              // Shoulder motor left PWM pin
+const int SHOULDER_RPWM = 5;              // Shoulder motor right PWM pin
+const int SHOULDER_IS = A3;               // Shoulder motor current sense pin
 const int SHOULDER_POT = A0;              // Shoulder motor potentiometer pin
-const int ELBOW_LPWM = 13;                // Elbow motor left PWM pin
-const int ELBOW_RPWM = 16;                // Elbow motor right PWM pin
-const int ELBOW_IS = 11;                  // Elbow motor current sense pin
+
+const int ELBOW_LPWM = 10;                // Elbow motor left PWM pin
+const int ELBOW_RPWM = 9;                 // Elbow motor right PWM pin
+const int ELBOW_IS = A4;                  // Elbow motor current sense pin
 const int ELBOW_POT = A1;                 // Elbow motor potentiometer pin
-const int GRIPPER_PIN = 17;               // Gripper solenoid pin
+
+const int GRIPPER_PIN = 13;               // Gripper solenoid pin
 
 /*----------------------------------------------------------*\
 | Variables
@@ -88,7 +88,7 @@ void init()
 
   // Initialize base actuator
   base.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_IS);
-  base.encoder.initialize(BASE_CS, BASE_CLK, BASE_MISO, BASE_MOSI, BASE_A, BASE_B);
+  base.encoder.initialize(BASE_CS, BASE_A, BASE_B);
   base.readSettings();
 
   // Initialize shoulder actuator
