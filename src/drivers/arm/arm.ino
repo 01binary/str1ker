@@ -30,6 +30,7 @@
 | Constants
 \*----------------------------------------------------------*/
 
+const int RATE_HZ = 50;                   // Default real time update rate
 const int STARTUP_DELAY = 3000;           // Prevent "published too soon" errors
 const int MEMBASE = 350;                  // Flash storage offset
 const int MEMSIZE = 4096 - MEMBASE;       // Flash storage size
@@ -59,6 +60,7 @@ const int GRIPPER_PIN = 17;               // Gripper solenoid pin
 | Variables
 \*----------------------------------------------------------*/
 
+int rateHz;                               // Real time update rate
 Actuator<FusionEncoder, Motor> base;      // Base hardware
 Actuator<Potentiometer, Motor> shoulder;  // Shoulder hardware
 Actuator<Potentiometer, Motor> elbow;     // Elbow hardware
@@ -68,6 +70,8 @@ Solenoid gripper;                         // Gripper hardware
 | Forward Declarations
 \*----------------------------------------------------------*/
 
+void readSettings();
+void writeSettings();
 void motorControl();
 
 /*----------------------------------------------------------*\
@@ -78,11 +82,9 @@ void init()
 {
   // Initialize ROS interface
   initializeRosInterface();
-  delay(STARTUP_DELAY);
 
-  // Initialize flash storage for saving settings
-  EEPROM.setMemPool(MEMBASE, MEMSIZE);
-  EEPROM.setMaxAllowedWrites(MAX_WRITES);
+  // Load control settings
+  readSettings();
 
   // Initialize base actuator
   base.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_IS);
@@ -115,6 +117,19 @@ void loop()
   }
 }
 
+void readSettings()
+{
+  EEPROM.setMemPool(MEMBASE, MEMSIZE);
+  EEPROM.setMaxAllowedWrites(MAX_WRITES);
+
+  rateHz = EEPROM.readInt(EEPROM.getAddress(sizeof(int)), RATE_HZ);
+}
+
+void writeSettings()
+{
+  EEPROM.writeInt(EEPROM.getAddress(sizeof(int)), rateHz);
+}
+
 ros::Time getTime()
 {
   uint32_t ms = millis();
@@ -127,7 +142,7 @@ ros::Time getTime()
 void motorControl()
 {
   ros::Time time = getTime();
-  const TickType_t frequency = pdMS_TO_TICKS(rtTimeStep);
+  const TickType_t frequency = pdMS_TO_TICKS(int(1000.0 / rateHz));
   TickType_t lastTick = xTaskGetTickCount();
 
   while (true)
@@ -139,7 +154,7 @@ void motorControl()
     base.update(timeStep);
     shoulder.update(timeStep);
     elbow.update(timeStep);
-  }
 
-  vTaskDelayUntil(&lastTick, frequency);
+    vTaskDelayUntil(&lastTick, frequency);
+  }
 }
