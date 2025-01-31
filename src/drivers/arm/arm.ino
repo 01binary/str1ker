@@ -80,29 +80,23 @@ void realTimeMotorControl();
 
 void init()
 {
-  // Initialize ROS interface
   initializeRosInterface();
   readSettings();
 
-  // Initialize base actuator
   base.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_IS);
   base.encoder.initialize(BASE_CS, BASE_A, BASE_B);
   base.readSettings();
 
-  // Initialize shoulder actuator
   shoulder.motor.initialize(SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_IS);
   shoulder.encoder.initialize(SHOULDER_POT);
   shoulder.readSettings()
 
-  // Initialize elbow actuator
   elbow.motor.initialize(ELBOW_LPWM, ELBOW_RPWM, ELBOW_IS);
   elbow.encoder.initialize(ELBOW_POT);
   elbow.readSettings()
 
-  // Initialize gripper solenoid
   gripper.initialize(GRIPPER_PIN);
 
-  // Start real-time motor control
   xTaskCreate(realTimeMotorControl, "motor", 2048, NULL, RT, NULL);
 }
 
