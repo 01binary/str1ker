@@ -69,7 +69,7 @@ public:
   }
 
 public:
-  PID& initialize(
+  void initialize(
     double proportionalGain = DEFAULT_KP,
     double integralGain = DEFAULT_KI,
     double derivativeGain = DEFAULT_KD,
@@ -85,8 +85,6 @@ public:
     iMin = integralMin;
     iMax = integralMax;
     tolerance = positionTolerance;
-
-    return *this;
   }
 
   void readSettings()

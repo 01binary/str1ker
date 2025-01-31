@@ -57,7 +57,7 @@ public:
   {
   }
 
-  Potentiometer& initialize(
+  void initialize(
     int adc,
     int normalizedMin = 0,
     int normalizedMax = MAX,
@@ -73,8 +73,6 @@ public:
     invert = invertReadings;
 
     pinMode(adcPin, INPUT_PULLUP);
-
-    return *this;
   }
 
   void readSettings()
@@ -161,7 +159,7 @@ public:
   }
 
 public:
-  AS5045Encoder& initialize(
+  void initialize(
     int cs,
     int clock,
     int miso,
@@ -192,8 +190,6 @@ public:
 
     pinMode(csPin, OUTPUT);
     digitalWrite(csPin, HIGH);
-
-    return *this;
   }
 
   void readSettings()
@@ -271,7 +267,7 @@ public:
   }
 
 public:
-  QuadratureEncoder& initialize(int a, int b, bool invertCount = false)
+  void initialize(int a, int b, bool invertCount = false)
   {
     delete pQuadrature;
     pQuadrature = new Encoders(a, b);
@@ -279,8 +275,6 @@ public:
     invert = invertCount;
     count = 0;
     lastCount = 0;
-
-    return *this;
   }
 
   void readSettings()
@@ -313,7 +307,7 @@ public:
   QuadratureEncoder quadrature;
 
 public:
-  FusionEncoder& initialize(
+  void initialize(
     int cs,
     int clock,
     int miso,
@@ -325,7 +319,6 @@ public:
   {
     absolute.initialize(cs, clock, miso, mosi);
     quadrature.initialize(a, b);
-    return *this;
   }
 
   double read()

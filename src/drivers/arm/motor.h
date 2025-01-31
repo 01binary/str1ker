@@ -51,7 +51,7 @@ public:
   }
 
 public:
-  Motor& initialize(
+  void initialize(
     int lpwm,
     int rpwm,
     int is,
@@ -71,8 +71,6 @@ public:
 
     pinMode(lpwmPin, OUTPUT);
     pinMode(rpwmPin, OUTPUT);
-
-    return *this;
   }
 
   void readSettings()
