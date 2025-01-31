@@ -27,14 +27,17 @@
 | Constants
 \*----------------------------------------------------------*/
 
-// Velocity command topic (see VelocityCommand.msg)
-const char VELOCITY_COMMAND[] = "velocity";
+const char VELOCITY[] = "velocity";   // Velocity command topic
+const char POSITION[] = "position";   // Position command topic
+const char STATE[] = "state";         // State feedback topic
 
-// Position command topic (see PositionCommand.msg)
-const char POSITION_COMMAND[] = "position";
+/*----------------------------------------------------------*\
+| Definitions
+\*----------------------------------------------------------*/
 
-// State feedback topic (see StateFeedback.msg)
-const char STATE_FEEDBACK[] = "state";
+typedef ros::Subscriber<str1ker::VelocityCommand> VelocitySubscriber;
+typedef ros::Subscriber<str1ker::PositionCommand> PositionSubscriber;
+typedef ros::Subscriber<str1ker::GripperCommand> GripperSubscriber;
 
 /*----------------------------------------------------------*\
 | Forward Declarations
@@ -49,24 +52,11 @@ void stateFeedback();
 | Variables
 \*----------------------------------------------------------*/
 
-// ROS node
 ros::NodeHandle node;
-
-// State feedback publisher
-ros::Publisher statePub(
-  STATE_FEEDBACK, &stateFeedbackMsg);
-
-// Velocity command subscriber
-ros::Subscriber<str1ker::VelocityCommand> velocitySub(
-  VELOCITY_COMMAND, velocityCommand);
-
-// Position command subscriber
-ros::Subscriber<str1ker::PositionCommand> positionSub(
-  POSITION_COMMAND, positionCommand);
-
-// Gripper command subscriber
-ros::Subscriber<str1ker::GripperCommand> gripperSub(
-  GRIPPER_COMMAND, gripperCommand);
+ros::Publisher statePub(STATE, &stateFeedbackMsg);
+VelocitySubscriber velocitySub(VELOCITY, velocityCommand);
+PositionSubscriber positionSub(POSITION, positionCommand);
+GripperSubscriber gripperSub(GRIPPER, gripperCommand);
 
 /*----------------------------------------------------------*\
 | Functions
