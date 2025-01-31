@@ -72,7 +72,7 @@ Solenoid gripper;                         // Gripper hardware
 
 void readSettings();
 void writeSettings();
-void motorControl();
+void realTimeMotorControl();
 
 /*----------------------------------------------------------*\
 | Functions
@@ -82,8 +82,6 @@ void init()
 {
   // Initialize ROS interface
   initializeRosInterface();
-
-  // Load control settings
   readSettings();
 
   // Initialize base actuator
@@ -105,7 +103,7 @@ void init()
   gripper.initialize(GRIPPER_PIN);
 
   // Start real-time motor control
-  xTaskCreate(motorControl, "motor", 2048, NULL, RT, NULL);
+  xTaskCreate(realTimeMotorControl, "motor", 2048, NULL, RT, NULL);
 }
 
 void loop()
@@ -139,7 +137,7 @@ ros::Time getTime()
   return ros::Time(sec, ns);
 }
 
-void motorControl()
+void realTimeMotorControl()
 {
   ros::Time time = getTime();
   const TickType_t frequency = pdMS_TO_TICKS(int(1000.0 / rateHz));
