@@ -29,6 +29,7 @@
 
 const char VELOCITY[] = "velocity";   // Velocity command topic
 const char POSITION[] = "position";   // Position command topic
+const char GRIPPER[] = "gripper";     // Gripper command topic
 const char STATE[] = "state";         // State feedback topic
 
 /*----------------------------------------------------------*\
