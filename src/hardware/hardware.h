@@ -34,11 +34,6 @@
 #include <joint_limits_interface/joint_limits_urdf.h>
 #include <urdf/model.h>
 
-#include "controllerFactory.h"
-#include "motor.h"
-#include "encoder.h"
-#include "solenoid.h"
-
 /*----------------------------------------------------------*\
 | Namespace
 \*----------------------------------------------------------*/
@@ -67,10 +62,6 @@ private:
 
     // ROS controller manager
     controller_manager::ControllerManager m_controllerManager;
-
-    // Hardware controllers
-    controllerArray m_controllers;
-    std::map<std::string, std::vector<std::shared_ptr<controller>>> m_groups;
 
     // Hardware state
     std::map<std::string, double> m_pos;

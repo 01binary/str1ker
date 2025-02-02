@@ -32,9 +32,10 @@ find_package(Eigen3 REQUIRED)
 add_message_files(
   DIRECTORY msg
   FILES
-  Adc.msg
-  Pwm.msg
-  PwmChannel.msg
+  VelocityCommand.msg
+  PositionCommand.msg
+  GripperCommand.msg
+  StateFeedback.msg
 )
 
 generate_messages(

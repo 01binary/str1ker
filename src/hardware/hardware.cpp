@@ -49,19 +49,6 @@ bool hardware::configure()
     ros::param::get(m_namespace + "/publish_rate", m_rate);
     ros::param::get(m_namespace + "/debug", m_debug);
 
-    // Load controllers
-
-    m_controllers = controllerFactory::fromNamespace(m_node, m_namespace);
-
-    for (auto controller : m_controllers)
-    {
-        if (!controller->configure())
-            return false;
-
-        auto groupName = controller->getParentName();
-        m_groups[groupName].push_back(controller);
-    }
-
     // Load description
 
     string description;
@@ -72,7 +59,8 @@ bool hardware::configure()
 
         if (model.initString(description))
         {
-            for (auto controller : m_controllers)
+            // TODO: update how limits are loaded
+            /*for (auto controller : m_controllers)
             {
                 if (controller->getType() == solenoid::TYPE || controller->getType() == motor::TYPE)
                 {
@@ -85,7 +73,7 @@ bool hardware::configure()
 
                     m_limits[jointName] = limits;
                 }
-            }
+            }*/
         }
     }
     else
@@ -98,17 +86,9 @@ bool hardware::configure()
 
 bool hardware::init()
 {
-    // Initialize hardware controllers
-
-    for (auto controller: m_controllers)
-    {
-        if (!controller->init())
-            return false;
-    }
-
     // Initialize hardware state
 
-    for (auto group: m_groups)
+    /*for (auto group: m_groups)
     {
         m_pos[group.first] = 0.0;
         m_vel[group.first] = 0.0;
@@ -151,7 +131,7 @@ bool hardware::init()
             actuatorLimits(jointHandle, m_limits[group.first]);
         
         m_satInterface.registerHandle(actuatorLimits);
-    }
+    }*/
 
     // Register hardware interfaces
 
@@ -169,9 +149,6 @@ void hardware::update()
 
     read();
 
-    for (auto controller: m_controllers)
-        controller->update(time, period);
-
     m_controllerManager.update(time, period);
     m_satInterface.enforceLimits(period);
 
@@ -184,64 +161,17 @@ void hardware::update()
 
 void hardware::read()
 {
-    for (auto group : m_groups)
-    {
-        for (auto controller: group.second)
-        {
-            if (controller->getType() == solenoid::TYPE)
-            {
-                solenoid* sol = dynamic_cast<solenoid*>(controller.get());
-                auto solenoidLimit = m_limits[group.first];
-
-                m_pos[group.first] = sol->isTriggered()
-                    ? solenoidLimit.max_position
-                    : solenoidLimit.min_position;
-
-                m_vel[group.first] = sol->isTriggered()
-                    ? solenoidLimit.max_velocity
-                    : 0.0;
-            }
-            else if (controller->getType() == encoder::TYPE)
-            {
-                encoder* enc = dynamic_cast<encoder*>(controller.get());
-
-                if (enc->isReady()) m_pos[group.first] = enc->getPos();
-            }
-            else if (controller->getType() == motor::TYPE)
-            {
-                motor* mtr = dynamic_cast<motor*>(controller.get());
-                m_vel[group.first] = mtr->getVelocity();
-                // TODO position control
-            }
-        }
-    }
+    // TODO
 }
 
 void hardware::write()
 {
-    for (auto group : m_groups)
-    {
-        for (auto controller: group.second)
-        {
-            if (controller->getType() == solenoid::TYPE && m_cmd[group.first] > 0.0)
-            {
-                m_cmd[group.first] = 0.0;
-
-                solenoid* sol = dynamic_cast<solenoid*>(controller.get());
-                sol->trigger();
-            }
-            else if (controller->getType() == motor::TYPE)
-            {
-                motor* mtr = dynamic_cast<motor*>(controller.get());
-                mtr->command(m_cmd[group.first]);
-            }
-        }
-    }
+    // TODO
 }
 
 void hardware::debug()
 {
-    for (auto group : m_groups)
+    /*for (auto group : m_groups)
     {
         auto pos = m_pos[group.first];
         auto vel = m_vel[group.first];
@@ -252,7 +182,7 @@ void hardware::debug()
             "hardware",
             "%s: pos %g vel %g eff %g cmd %g",
             group.first.c_str(), pos, vel, eff, cmd);
-    }
+    }*/
 }
 
 void hardware::run()
