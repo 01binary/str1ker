@@ -118,7 +118,7 @@ public:
 
     double nextCommand = direction * speed;
 
-    if (nextCommand != command)
+    if (nextCommand != velocity)
     {
       int lpwm = direction < 0 ? 0 : int(speed * double(PWM_MAX));
       int rpwm = direction > 0 ? 0 : int(speed * double(PWM_MAX));
@@ -126,7 +126,7 @@ public:
       analogWrite(lpwmPin, lpwm);
       analogWrite(rpwmPin, rpwm);
 
-      command = nextCommand;
+      velocity = nextCommand;
     }
   }
 };

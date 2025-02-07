@@ -82,6 +82,8 @@ public:
     {
       velocity = controller.update(position, timeStep);
     }
+
+    motor.write(velocity);
   }
 
   void writePosition(double command)
