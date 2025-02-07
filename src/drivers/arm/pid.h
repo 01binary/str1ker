@@ -101,12 +101,12 @@ public:
 
   void writeSettings()
   {
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Kp);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Ki);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Kd);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), iMin);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), iMax);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), tolerance);
   }
 
   void start(double goalPosition)

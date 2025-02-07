@@ -36,7 +36,6 @@ public:
   bool invert;
 
   double velocity;
-  double current;
 
 public:
   Motor():
@@ -47,8 +46,7 @@ public:
     pwmMax(1.0),
     invert(false),
     stallThreshold(1.0),
-    velocity(0.0),
-    current(0.0)
+    velocity(0.0)
   {
   }
 
@@ -80,7 +78,7 @@ public:
     pwmMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     pwmMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     stallThreshold = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(bool)));
+    invert = EEPROM.readInt(EEPROM.getAddress(sizeof(bool)));
   }
 
   void writeSettings()
@@ -88,12 +86,12 @@ public:
     EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), pwmMin);
     EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), pwmMax);
     EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), stallThreshold);
-    EEPROM.writeBool(EEPROM.getAddress(sizeof(bool)), invert);
+    EEPROM.writeInt(EEPROM.getAddress(sizeof(bool)), invert);
   }
 
-  void read()
+  double read()
   {
-    current = double(analogRead(isPin)) / double(CURRENT_MAX);
+    return double(analogRead(isPin)) / double(CURRENT_MAX);
   }
 
   void write(double command)
@@ -120,7 +118,7 @@ public:
 
     double nextCommand = direction * speed;
 
-    if (nextCommand != commend)
+    if (nextCommand != command)
     {
       int lpwm = direction < 0 ? 0 : int(speed * double(PWM_MAX));
       int rpwm = direction > 0 ? 0 : int(speed * double(PWM_MAX));
@@ -131,4 +129,4 @@ public:
       command = nextCommand;
     }
   }
-}
+};

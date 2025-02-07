@@ -43,4 +43,4 @@ public:
     delay(int(holdTime * 1000));
     digitalWrite(triggerPin, LOW);
   }
-}
+};

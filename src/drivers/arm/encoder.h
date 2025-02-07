@@ -83,7 +83,7 @@ public:
     normMax = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
     scaleMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     scaleMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(double)));
+    invert = EEPROM.readInt(EEPROM.getAddress(sizeof(double)));
   }
 
   void writeSettings()
@@ -92,7 +92,7 @@ public:
     EEPROM.writeInt(EEPROM.getAddress(sizeof(int)), normMax);
     EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), scaleMin);
     EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), scaleMax);
-    EEPROM.writeBool(EEPROM.getAddress(sizeof(double)), invert);
+    EEPROM.writeInt(EEPROM.getAddress(sizeof(double)), invert);
   }
 
   double read()
@@ -188,7 +188,7 @@ public:
     normMax = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
     scaleMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     scaleMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(double)));
+    invert = EEPROM.readInt(EEPROM.getAddress(sizeof(double)));
   }
 
   void writeSettings()
@@ -197,7 +197,7 @@ public:
     EEPROM.writeInt(EEPROM.getAddress(sizeof(int)), normMax);
     EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), scaleMin);
     EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), scaleMax);
-    EEPROM.writeBool(EEPROM.getAddress(sizeof(double)), invert);
+    EEPROM.writeInt(EEPROM.getAddress(sizeof(double)), invert);
   }
 
   double read()
@@ -269,12 +269,12 @@ public:
 
   void readSettings()
   {
-    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(double)));
+    invert = EEPROM.readInt(EEPROM.getAddress(sizeof(double)));
   }
 
   void writeSettings()
   {
-    EEPROM.writeBool(EEPROM.getAddress(sizeof(double)), invert);
+    EEPROM.writeInt(EEPROM.getAddress(sizeof(double)), invert);
   }
 
   int read()
@@ -288,7 +288,7 @@ public:
 
     return diff;
   }
-}
+};
 
 class FusionEncoder: public Encoder
 {
@@ -323,4 +323,4 @@ public:
     absolute.writeSettings();
     quadrature.writeSettings();
   }
-}
+};

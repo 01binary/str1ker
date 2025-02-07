@@ -25,6 +25,8 @@
 #include <str1ker/GripperCommand.h>
 #include <str1ker/StateFeedback.h>
 #include "actuator.h"
+#include "motor.h"
+#include "solenoid.h"
 #include "encoder.h"
 
 /*----------------------------------------------------------*\
@@ -104,17 +106,17 @@ void gripperCommand(const str1ker::GripperCommand& msg)
 
 void stateFeedback()
 {
-  stateFeedbackMsg.basePosition = basePosition;
-  stateFeedbackMsg.baseVelocity = baseVelocity;
-  stateFeedbackMsg.baseStalled = baseStalled;
+  stateFeedbackMsg.basePosition = base.position;
+  stateFeedbackMsg.baseVelocity = base.velocity;
+  stateFeedbackMsg.baseStalled = base.stalled;
 
-  stateFeedbackMsg.shoulderPosition = shoulderPosition;
-  stateFeedbackMsg.shoulderVelocity = shoulderVelocity;
-  stateFeedbackMsg.shoulderStalled = shoulderStalled;
+  stateFeedbackMsg.shoulderPosition = shoulder.position;
+  stateFeedbackMsg.shoulderVelocity = shoulder.velocity;
+  stateFeedbackMsg.shoulderStalled = shoulder.stalled;
 
-  stateFeedbackMsg.elbowPosition = elbowPosition;
-  stateFeedbackMsg.elbowVelocity = elbowVelocity;
-  stateFeedbackMsg.elbowStalled = elbowStalled;
+  stateFeedbackMsg.elbowPosition = elbow.position;
+  stateFeedbackMsg.elbowVelocity = elbow.velocity;
+  stateFeedbackMsg.elbowStalled = elbow.stalled;
 
-  statePub.publish(&msg);
+  statePub.publish(&stateFeedbackMsg);
 }

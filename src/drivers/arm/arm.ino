@@ -25,6 +25,7 @@
 #include "interface.h"
 #include "motor.h"
 #include "encoder.h"
+#include "solenoid.h"
 #include "pid.h"
 
 /*----------------------------------------------------------*\
@@ -79,7 +80,7 @@ void realTimeMotorControl();
 | Functions
 \*----------------------------------------------------------*/
 
-void init()
+void setup()
 {
   initializeRosInterface();
   readSettings();
@@ -90,11 +91,11 @@ void init()
 
   shoulder.motor.initialize(SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_IS);
   shoulder.encoder.initialize(SHOULDER_POT);
-  shoulder.readSettings()
+  shoulder.readSettings();
 
   elbow.motor.initialize(ELBOW_LPWM, ELBOW_RPWM, ELBOW_IS);
   elbow.encoder.initialize(ELBOW_POT);
-  elbow.readSettings()
+  elbow.readSettings();
 
   gripper.initialize(GRIPPER_PIN);
 
