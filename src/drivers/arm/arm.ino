@@ -20,10 +20,11 @@
 #include <ros.h>
 #include <ros/time.h>
 #include <EEPROMex.h>
-#include "freertos/FreeRTOS.h"
+#include <Arduino_FreeRTOS.h>
+#include "actuator.h"
 #include "interface.h"
 #include "motor.h"
-#include "encoder..h"
+#include "encoder.h"
 #include "pid.h"
 
 /*----------------------------------------------------------*\
@@ -114,7 +115,7 @@ void readSettings()
   EEPROM.setMemPool(MEMBASE, MEMSIZE);
   EEPROM.setMaxAllowedWrites(MAX_WRITES);
 
-  rateHz = EEPROM.readInt(EEPROM.getAddress(sizeof(int)), RATE_HZ);
+  rateHz = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
 }
 
 void writeSettings()

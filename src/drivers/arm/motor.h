@@ -13,6 +13,8 @@
  This software is licensed under GNU GPLv3
 */
 
+#pragma once
+
 /*----------------------------------------------------------*\
 | Classes
 \*----------------------------------------------------------*/
@@ -20,8 +22,8 @@
 class Motor
 {
 public:
-  const unsigned int CURRENT_MAX = 0b1111111111;
-  const unsigned int PWM_MAX = 0b11111111;
+  static const unsigned int CURRENT_MAX = 0b1111111111;
+  static const unsigned int PWM_MAX = 0b11111111;
 
 public:
   int lpwmPin;
@@ -75,10 +77,10 @@ public:
 
   void readSettings()
   {
-    pwmMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), 0.0);
-    pwmMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), 1.0);
-    stallThreshold = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), 1.0);
-    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(bool)), false);
+    pwmMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    pwmMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    stallThreshold = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(bool)));
   }
 
   void writeSettings()

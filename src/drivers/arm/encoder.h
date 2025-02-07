@@ -13,6 +13,8 @@
  This software is licensed under GNU GPLv3
 */
 
+#pragma once
+
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
@@ -35,7 +37,7 @@ public:
 class Potentiometer: Encoder
 {
 public:
-  const unsigned int MAX = 0b1111111111;
+  static const unsigned int MAX = 0b1111111111;
 
 public:
   // Analog pin the potentiometer or encoder is connected to
@@ -77,11 +79,11 @@ public:
 
   void readSettings()
   {
-    normMin = EEPROM.readInt(EEPROM.getAddress(sizeof(int)), 0);
-    normMax = EEPROM.readInt(EEPROM.getAddress(sizeof(int)), MAX);
-    scaleMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), 0.0);
-    scaleMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), 1.0);
-    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(double)), false);
+    normMin = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
+    normMax = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
+    scaleMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    scaleMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(double)));
   }
 
   void writeSettings()
@@ -124,7 +126,7 @@ public:
 class AS5045Encoder: Encoder
 {
 public:
-  const unsigned int MAX = 0b111111111111;
+  static const unsigned int MAX = 0b111111111111;
 
 public:
   int csPin;
@@ -182,11 +184,11 @@ public:
 
   void readSettings()
   {
-    normMin = EEPROM.readInt(EEPROM.getAddress(sizeof(int)), 0);
-    normMax = EEPROM.readInt(EEPROM.getAddress(sizeof(int)), MAX);
-    scaleMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), 0.0);
-    scaleMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), 1.0);
-    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(double)), false);
+    normMin = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
+    normMax = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
+    scaleMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    scaleMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(double)));
   }
 
   void writeSettings()
@@ -267,7 +269,7 @@ public:
 
   void readSettings()
   {
-    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(double)), false);
+    invert = EEPROM.readBool(EEPROM.getAddress(sizeof(double)));
   }
 
   void writeSettings()
@@ -288,7 +290,7 @@ public:
   }
 }
 
-template class FusionEncoder: public Encoder
+class FusionEncoder: public Encoder
 {
 public:
   AS5045Encoder absolute;

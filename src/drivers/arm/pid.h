@@ -3,6 +3,8 @@
     Simple PID algorithm with integral limit.
 */
 
+#pragma once
+
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
@@ -16,12 +18,12 @@
 class PID
 {
 public:
-  const double DEFAULT_KP = 1.0;
-  const double DEFAULT_KI = 0.1;
-  const double DEFAULT_KD = 0.1;
-  const double DEFAULT_IMIN = -1.0;
-  const double DEFAULT_IMAX = 1.0;
-  const double DEFAULT_TOLERANCE = 0.05;
+  static const double DEFAULT_KP = 1.0;
+  static const double DEFAULT_KI = 0.1;
+  static const double DEFAULT_KD = 0.1;
+  static const double DEFAULT_IMIN = -1.0;
+  static const double DEFAULT_IMAX = 1.0;
+  static const double DEFAULT_TOLERANCE = 0.05;
 
 public:
   //
@@ -89,22 +91,22 @@ public:
 
   void readSettings()
   {
-    Kp = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_KP);
-    Ki = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_KI);
-    Kd = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_KD);
-    iMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_IMIN);
-    iMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_IMAX);
-    tolerance = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)), DEFAULT_TOLERANCE);
+    Kp = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    Ki = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    Kd = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    iMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    iMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    tolerance = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
   }
 
   void writeSettings()
   {
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Kp);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Ki);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Kd);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), iMin);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), iMax);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), tolerance);
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
+    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)));
   }
 
   void start(double goalPosition)
@@ -137,7 +139,7 @@ public:
 
     if (abs(error) <= tolerance)
     {
-      reset();
+      stop();
       return 0;
     }
 

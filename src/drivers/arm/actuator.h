@@ -13,6 +13,8 @@
  This software is licensed under GNU GPLv3
 */
 
+#pragma once
+
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
@@ -20,21 +22,18 @@
 #include "pid.h"
 
 /*----------------------------------------------------------*\
-| Constants
-\*----------------------------------------------------------*/
-
-enum ControlMode
-{
-  VELOCITY,
-  POSITION
-};
-
-/*----------------------------------------------------------*\
 | Classes
 \*----------------------------------------------------------*/
 
 template <typename EncoderType, typename MotorType> class Actuator
 {
+public:
+  enum ControlMode
+  {
+    VELOCITY,
+    POSITION
+  };
+
 public:
   ControlMode mode;
   MotorType motor;

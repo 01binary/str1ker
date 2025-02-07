@@ -13,15 +13,19 @@
  This software is licensed under GNU GPLv3
 */
 
+#pragma once
+
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
 
 #include <ros.h>
 #include <str1ker/VelocityCommand.h>
-#include <str1ker/VelocityFeedback.h>
 #include <str1ker/PositionCommand.h>
-#include <str1ker/PositionFeedback.h>
+#include <str1ker/GripperCommand.h>
+#include <str1ker/StateFeedback.h>
+#include "actuator.h"
+#include "encoder.h"
 
 /*----------------------------------------------------------*\
 | Constants
@@ -44,6 +48,11 @@ typedef ros::Subscriber<str1ker::GripperCommand> GripperSubscriber;
 | Forward Declarations
 \*----------------------------------------------------------*/
 
+extern Actuator<FusionEncoder, Motor> base;
+extern Actuator<Potentiometer, Motor> shoulder;
+extern Actuator<Potentiometer, Motor> elbow;
+extern Solenoid gripper;
+
 void velocityCommand(const str1ker::VelocityCommand& msg);
 void positionCommand(const str1ker::PositionCommand& msg);
 void gripperCommand(const str1ker::GripperCommand& msg);
@@ -54,6 +63,7 @@ void stateFeedback();
 \*----------------------------------------------------------*/
 
 ros::NodeHandle node;
+str1ker::StateFeedback stateFeedbackMsg;
 ros::Publisher statePub(STATE, &stateFeedbackMsg);
 VelocitySubscriber velocitySub(VELOCITY, velocityCommand);
 PositionSubscriber positionSub(POSITION, positionCommand);
@@ -94,8 +104,6 @@ void gripperCommand(const str1ker::GripperCommand& msg)
 
 void stateFeedback()
 {
-  str1ker::StateFeedback stateFeedbackMsg;
-
   stateFeedbackMsg.basePosition = basePosition;
   stateFeedbackMsg.baseVelocity = baseVelocity;
   stateFeedbackMsg.baseStalled = baseStalled;
