@@ -32,9 +32,10 @@ find_package(Eigen3 REQUIRED)
 add_message_files(
   DIRECTORY msg
   FILES
-  Adc.msg
-  Pwm.msg
-  PwmChannel.msg
+  VelocityCommand.msg
+  PositionCommand.msg
+  GripperCommand.msg
+  StateFeedback.msg
 )
 
 generate_messages(
@@ -91,14 +92,7 @@ target_link_libraries(robot
 )
 
 add_executable(hardware
-  src/controllers/controllerFactory.cpp
-  src/controllers/controllerUtilities.cpp
-  src/controllers/controller.cpp
-  src/controllers/motor.cpp
-  src/controllers/solenoid.cpp
-  src/controllers/encoder.cpp
-  src/controllers/filter.cpp
-  src/controllers/hardware.cpp
+  src/hardware/hardware.cpp
 )
 
 add_dependencies(
@@ -111,8 +105,8 @@ target_link_libraries(hardware
 )
 
 add_library(str1ker-ik
-  src/ik/inverseKinematicsPlugin.cpp
-  src/ik/inverseKinematicsSolver.cpp
+  src/plugins/inverseKinematicsPlugin.cpp
+  src/plugins/inverseKinematicsSolver.cpp
 )
 
 target_link_libraries(str1ker-ik
@@ -121,7 +115,7 @@ target_link_libraries(str1ker-ik
 )
 
 add_library(str1ker-planner
-  src/ik/motionPlanningPlugin.cpp
+  src/plugins/motionPlanningPlugin.cpp
 )
 
 target_link_libraries(str1ker-planner

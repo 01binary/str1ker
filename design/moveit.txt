@@ -44,7 +44,7 @@ passive joints
 	wrist
 	
 controllers
-	arm_velocity_controller	velocity_controllers/JointTrajectoryController
+	arm_position_controller	position_controllers/JointTrajectoryController
 		joints
 			forearm_actuator
 			upperarm_actuator

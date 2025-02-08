@@ -10,7 +10,7 @@
 
   <!-- Analog/Digital I/O -->
   <node
-    name="arduinoMicro"
+    name="arm_driver"
     pkg="rosserial_python"
     type="serial_node.py"
     args="/dev/ttyACM0"

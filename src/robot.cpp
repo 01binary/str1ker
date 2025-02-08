@@ -23,7 +23,6 @@
 #include <set>
 #include <ros/ros.h>
 #include "robot.h"
-#include "controllers/controllerFactory.h"
 
 /*----------------------------------------------------------*\
 | Namespace
