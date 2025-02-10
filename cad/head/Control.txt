@@ -1,7 +1,0 @@
-Face control
-	Jaw open close	
-	Tongue in-out
-	Nose tilt
-	Nose bridge slide
-	Nose Sides rotate outward
-	Nose muzzle slide backward
