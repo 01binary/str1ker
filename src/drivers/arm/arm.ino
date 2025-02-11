@@ -21,6 +21,7 @@
 #include <ros/time.h>
 #include <EEPROMex.h>
 #include <Arduino_FreeRTOS.h>
+#include "reconfigure.h"
 #include "actuator.h"
 #include "interface.h"
 #include "motor.h"
