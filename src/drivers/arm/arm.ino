@@ -83,6 +83,7 @@ void realTimeMotorControl();
 void setup()
 {
   initializeRosInterface();
+  initializeDynamicReconfigure();
   readSettings();
 
   base.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_IS);
