@@ -89,7 +89,6 @@ void realTimeMotorControl();
 void setup()
 {
   initializeRosInterface();
-  initializeDynamicReconfigure();
 
   readSettings();
 
@@ -108,6 +107,8 @@ void setup()
   gripper.initialize(GRIPPER_PIN);
 
   xTaskCreate(realTimeMotorControl, "motor", 2048, NULL, RT, NULL);
+
+  initializeDynamicReconfigure();
 }
 
 void loop()
