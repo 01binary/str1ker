@@ -12,19 +12,22 @@
 #include <ros.h>
 
 /*----------------------------------------------------------*\
+| Constants
+\*----------------------------------------------------------*/
+
+const double DEFAULT_KP = 1.0;
+const double DEFAULT_KI = 0.1;
+const double DEFAULT_KD = 0.1;
+const double DEFAULT_IMIN = -1.0;
+const double DEFAULT_IMAX = 1.0;
+const double DEFAULT_TOLERANCE = 0.05;
+
+/*----------------------------------------------------------*\
 | Classes
 \*----------------------------------------------------------*/
 
 class PID
 {
-public:
-  static const double DEFAULT_KP = 1.0;
-  static const double DEFAULT_KI = 0.1;
-  static const double DEFAULT_KD = 0.1;
-  static const double DEFAULT_IMIN = -1.0;
-  static const double DEFAULT_IMAX = 1.0;
-  static const double DEFAULT_TOLERANCE = 0.05;
-
 public:
   //
   // Configuration

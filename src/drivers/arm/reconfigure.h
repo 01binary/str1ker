@@ -39,18 +39,23 @@ typedef dynamic_reconfigure::Reconfigure::Response ReconfigureRes;
 typedef ros::ServiceServer<ReconfigureReq, ReconfigureRes> ReconfigureSrv;
 
 /*----------------------------------------------------------*\
-| Variables
-\*----------------------------------------------------------*/
-
-ros::Publisher descriptionPublisher;
-ros::Publisher updatePublisher;
-ReconfigureSrv reconfigureServer;
-
-/*----------------------------------------------------------*\
 | Forward Declarations
 \*----------------------------------------------------------*/
 
 extern ros::NodeHandle node;
+void configureCommand(const ReconfigureReq &req, ReconfigureRes& res);
+
+/*----------------------------------------------------------*\
+| Variables
+\*----------------------------------------------------------*/
+
+dynamic_reconfigure::ConfigDescription descriptionMsg;
+ros::Publisher descriptionPublisher(DESCRIPTIONS, &descriptionMsg);
+
+dynamic_reconfigure::Config updateMsg;
+ros::Publisher updatePublisher(UPDATES, &updateMsg);
+
+ReconfigureSrv reconfigureServer(SET, &configureCommand);
 
 /*----------------------------------------------------------*\
 | Functions
@@ -58,22 +63,20 @@ extern ros::NodeHandle node;
 
 void initializeDynamicReconfigure()
 {
-  descriptionPublisher = node.advertise(DESCRIPTIONS, 1, true);
-  updatePublisher = node.advertise(UPDATES, 1, true);
-  reconfigureServer = node.advertiseService(SET, &configureCommand);
+  node.advertise(descriptionPublisher);
+  node.advertise(updatePublisher);
+  node.advertiseService(reconfigureServer);
 }
 
 void descriptionFeedback()
 {
-  dynamic_reconfigure::ConfigDescription descriptionMsg;
 }
 
 void updateFeedback()
 {
-  dynamic_reconfigure::Config updateMsg;
 }
 
-bool configureCommand(ReconfigureReq &req, ReconfigureRes& res)
+void configureCommand(const ReconfigureReq &req, ReconfigureRes& res)
 {
 
 }

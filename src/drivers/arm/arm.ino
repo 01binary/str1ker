@@ -13,6 +13,9 @@
  This software is licensed under GNU GPLv3
 */
 
+#undef max
+#undef min
+
 /*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
@@ -35,7 +38,7 @@
 
 const int RATE_HZ = 50;                   // Default real time update rate
 const int STARTUP_DELAY = 3000;           // Prevent "published too soon" errors
-const int MEMBASE = 350;                  // Flash storage offset
+const int MEMBASE = 3900;                 // Flash storage offset
 const int MEMSIZE = 4096 - MEMBASE;       // Flash storage size
 const int MAX_WRITES = 250;               // Max flash storage writes
 const int RT = configMAX_PRIORITIES - 1;  // Real time thread priority
@@ -135,7 +138,7 @@ ros::Time getTime()
   return ros::Time(sec, ns);
 }
 
-void realTimeMotorControl()
+void realTimeMotorControl(void* parameters)
 {
   ros::Time time = getTime();
   const TickType_t frequency = pdMS_TO_TICKS(int(1000.0 / rateHz));
