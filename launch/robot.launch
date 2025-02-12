@@ -8,9 +8,8 @@
   <!-- High-level controller configuration -->
   <rosparam file="$(find str1ker_moveit_config)/config/ros_controllers.yaml" />
 
-  <!-- Analog/Digital I/O -->
   <node
-    name="arm_driver"
+    name="arm_node"
     pkg="rosserial_python"
     type="serial_node.py"
     args="/dev/ttyACM0"

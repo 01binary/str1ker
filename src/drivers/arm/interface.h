@@ -33,10 +33,11 @@
 | Constants
 \*----------------------------------------------------------*/
 
-const char VELOCITY[] = "velocity";   // Velocity command topic
-const char POSITION[] = "position";   // Position command topic
-const char GRIPPER[] = "gripper";     // Gripper command topic
-const char STATE[] = "state";         // State feedback topic
+const String NAMESPACE = "arm/";                // Node namespace
+const String VELOCITY = NAMESPACE + "velocity"; // Velocity command topic
+const String POSITION = NAMESPACE + "position"; // Position command topic
+const String GRIPPER = NAMESPACE + "gripper";   // Gripper command topic
+const String STATE = NAMESPACE + "state";       // State feedback topic
 
 /*----------------------------------------------------------*\
 | Definitions
@@ -66,10 +67,10 @@ void stateFeedback();
 
 ros::NodeHandle node;
 str1ker::StateFeedback stateFeedbackMsg;
-ros::Publisher statePub(STATE, &stateFeedbackMsg);
-VelocitySubscriber velocitySub(VELOCITY, velocityCommand);
-PositionSubscriber positionSub(POSITION, positionCommand);
-GripperSubscriber gripperSub(GRIPPER, gripperCommand);
+ros::Publisher statePub(STATE.c_str(), &stateFeedbackMsg);
+VelocitySubscriber velocitySub(VELOCITY.c_str(), velocityCommand);
+PositionSubscriber positionSub(POSITION.c_str(), positionCommand);
+GripperSubscriber gripperSub(GRIPPER.c_str(), gripperCommand);
 
 /*----------------------------------------------------------*\
 | Functions

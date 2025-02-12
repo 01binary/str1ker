@@ -28,9 +28,9 @@
 #include <ros/time.h>
 #include <EEPROMex.h>
 #include <Arduino_FreeRTOS.h>
+#include "interface.h"
 #include "reconfigure.h"
 #include "actuator.h"
-#include "interface.h"
 #include "motor.h"
 #include "encoder.h"
 #include "solenoid.h"
@@ -42,9 +42,7 @@
 
 const int RATE_HZ = 50;                   // Default real time update rate
 const int STARTUP_DELAY = 3000;           // Prevent "published too soon" errors
-const int MEMBASE = 3900;                 // Flash storage offset
-const int MEMSIZE = 4096 - MEMBASE;       // Flash storage size
-const int MAX_WRITES = 250;               // Max flash storage writes
+const int MAX_WRITES = 50;                // Max flash (EEPROM) storage writes
 const int RT = configMAX_PRIORITIES - 1;  // Real time thread priority
 
 const int BASE_LPWM = 11;                 // Base motor left PWM pin
@@ -92,6 +90,7 @@ void setup()
 {
   initializeRosInterface();
   initializeDynamicReconfigure();
+
   readSettings();
 
   base.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_IS);
@@ -122,10 +121,15 @@ void loop()
 
 void readSettings()
 {
-  EEPROM.setMemPool(MEMBASE, MEMSIZE);
+  EEPROM.setMemPool(0, EEPROMSizeMega);
   EEPROM.setMaxAllowedWrites(MAX_WRITES);
 
-  rateHz = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
+  while(!EEPROM.isReady())
+  {
+    delay(100);
+  }
+
+  rateHz = EEPROM.readInt(EEPROM.getAddress(sizeof(int))) || RATE_HZ;
 }
 
 void writeSettings()
