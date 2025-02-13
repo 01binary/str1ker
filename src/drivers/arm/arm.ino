@@ -78,7 +78,7 @@ Solenoid gripper;                         // Gripper hardware
 | Forward Declarations
 \*----------------------------------------------------------*/
 
-void readSettings();
+void readSettings(Group& group);
 void writeSettings();
 void realTimeMotorControl();
 
@@ -89,26 +89,26 @@ void realTimeMotorControl();
 void setup()
 {
   initializeRosInterface();
-
-  readSettings();
+  initializeDynamicReconfigure();
+  readSettings(settings.group("default"));
 
   base.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_IS);
   base.encoder.initialize(BASE_CS, BASE_A, BASE_B);
-  base.readSettings();
+  base.readSettings(settings.group("base"));
 
   shoulder.motor.initialize(SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_IS);
   shoulder.encoder.initialize(SHOULDER_POT);
-  shoulder.readSettings();
+  shoulder.readSettings(settings.group("shoulder"));
 
   elbow.motor.initialize(ELBOW_LPWM, ELBOW_RPWM, ELBOW_IS);
   elbow.encoder.initialize(ELBOW_POT);
-  elbow.readSettings();
+  elbow.readSettings(settings.group("elbow"));
 
   gripper.initialize(GRIPPER_PIN);
 
   xTaskCreate(realTimeMotorControl, "motor", 2048, NULL, RT, NULL);
 
-  initializeDynamicReconfigure();
+  
 }
 
 void loop()
@@ -120,7 +120,7 @@ void loop()
   }
 }
 
-void readSettings()
+void readSettings(Group& group)
 {
   EEPROM.setMemPool(0, EEPROMSizeMega);
   EEPROM.setMaxAllowedWrites(MAX_WRITES);
@@ -131,6 +131,7 @@ void readSettings()
   }
 
   rateHz = EEPROM.readInt(EEPROM.getAddress(sizeof(int))) || RATE_HZ;
+  group.describe("rateHz", &rateHz, 1, 2000, "PID update rate in Hz");
 }
 
 void writeSettings()

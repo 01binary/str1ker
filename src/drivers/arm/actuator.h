@@ -22,6 +22,12 @@
 #include "pid.h"
 
 /*----------------------------------------------------------*\
+| Forward Declarations
+\*----------------------------------------------------------*/
+
+struct Group;
+
+/*----------------------------------------------------------*\
 | Classes
 \*----------------------------------------------------------*/
 
@@ -58,11 +64,11 @@ public:
   }
 
 public:
-  void readSettings()
+  void readSettings(Group& group)
   {
-    controller.readSettings();
-    encoder.readSettings();
-    motor.readSettings();
+    controller.readSettings(group);
+    encoder.readSettings(group);
+    motor.readSettings(group);
   }
 
   void writeSettings()

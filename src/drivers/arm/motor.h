@@ -16,6 +16,12 @@
 #pragma once
 
 /*----------------------------------------------------------*\
+| Includes
+\*----------------------------------------------------------*/
+
+#include "reconfigure.h"
+
+/*----------------------------------------------------------*\
 | Classes
 \*----------------------------------------------------------*/
 
@@ -73,12 +79,18 @@ public:
     pinMode(rpwmPin, OUTPUT);
   }
 
-  void readSettings()
+  void readSettings(Group& group)
   {
     pwmMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     pwmMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     stallThreshold = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     invert = EEPROM.readInt(EEPROM.getAddress(sizeof(bool)));
+
+    group
+      .describe("pwmMin", &pwmMin, 0, PWM_MAX, "Max PWM pulse")
+      .describe("pwmMax", &pwmMax, 0, PWM_MAX, "Max PWM pulse")
+      .describe("stallThreshold", &stallThreshold, 0, 1000.0, "Stall current")
+      .describe("invert", &invert, "Invert PWM pulse");
   }
 
   void writeSettings()

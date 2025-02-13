@@ -1,4 +1,3 @@
-
 /*
                                                                                      ███████                  
  ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
@@ -21,6 +20,7 @@
 
 #include <SPI.h>
 #include <QuadratureEncoder.h>
+#include "reconfigure.h"
 
 /*----------------------------------------------------------*\
 | Classes
@@ -30,7 +30,7 @@ class Encoder
 {
 public:
   virtual double read() = 0;
-  virtual void readSettings() = 0;
+  virtual void readSettings(Group& group) = 0;
   virtual void writeSettings() = 0;
 };
 
@@ -77,13 +77,20 @@ public:
     pinMode(adcPin, INPUT_PULLUP);
   }
 
-  void readSettings()
+  void readSettings(Group& group)
   {
     normMin = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
     normMax = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
     scaleMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     scaleMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     invert = EEPROM.readInt(EEPROM.getAddress(sizeof(double)));
+
+    group
+      .describe("normMin", &normMin, 0, MAX, "Min sensor reading")
+      .describe("normMax", &normMax, 0, MAX, "Max sensor reading")
+      .describe("scaleMin", &scaleMin, -1000.0, 1000.0, "Min joint position")
+      .describe("scaleMax", &scaleMax, -1000.0, 1000.0, "Max joint position")
+      .describe("invert", &invert, "Invert joint position");
   }
 
   void writeSettings()
@@ -182,13 +189,20 @@ public:
     digitalWrite(csPin, HIGH);
   }
 
-  void readSettings()
+  void readSettings(Group& group)
   {
     normMin = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
     normMax = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
     scaleMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     scaleMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     invert = EEPROM.readInt(EEPROM.getAddress(sizeof(double)));
+
+    group
+      .describe("normMin", &normMin, 0, MAX, "Min sensor reading")
+      .describe("normMax", &normMax, 0, MAX, "Max sensor reading")
+      .describe("scaleMin", &scaleMin, -1000.0, 1000.0, "Min joint position")
+      .describe("scaleMax", &scaleMax, -1000.0, 1000.0, "Max joint position")
+      .describe("invert", &invert, "Invert joint position");
   }
 
   void writeSettings()
@@ -267,9 +281,10 @@ public:
     lastCount = 0;
   }
 
-  void readSettings()
+  void readSettings(Group& group)
   {
     invert = EEPROM.readInt(EEPROM.getAddress(sizeof(double)));
+    group.describe("invert", &invert, "Invert quadrature readings");
   }
 
   void writeSettings()
@@ -312,10 +327,10 @@ public:
     return absolute.read();
   }
 
-  void readSettings()
+  void readSettings(Group& group)
   {
-    absolute.readSettings();
-    quadrature.readSettings();
+    absolute.readSettings(group);
+    quadrature.readSettings(group);
   }
 
   void writeSettings()

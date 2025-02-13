@@ -1,6 +1,16 @@
+
 /*
-    pid.h
-    Simple PID algorithm with integral limit.
+                                                                                     ███████                  
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████ 
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████                  
+ pid.h
+ PID Controller with Integral Limit
+ Copyright (C) 2025 Valeriy Novytskyy
+ This software is licensed under GNU GPLv3
 */
 
 #pragma once
@@ -10,11 +20,14 @@
 \*----------------------------------------------------------*/
 
 #include <ros.h>
+#include "reconfigure.h"
 
 /*----------------------------------------------------------*\
 | Constants
 \*----------------------------------------------------------*/
 
+const double K_MIN = 0.0;
+const double K_MAX = 1000.0;
 const double DEFAULT_KP = 1.0;
 const double DEFAULT_KI = 0.1;
 const double DEFAULT_KD = 0.1;
@@ -92,7 +105,7 @@ public:
     tolerance = positionTolerance;
   }
 
-  void readSettings()
+  void readSettings(Group& group)
   {
     Kp = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     Ki = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
@@ -100,6 +113,14 @@ public:
     iMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     iMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
     tolerance = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+
+    group
+      .describe("Kp", &Kp, K_MIN, K_MAX, "Proportional gain")
+      .describe("Ki", &Ki, K_MIN, K_MAX, "Integral gain")
+      .describe("Kd", &Kd, K_MIN, K_MAX, "Derivative gain")
+      .describe("iMin", &iMin, -K_MAX, K_MAX, "Integral min")
+      .describe("iMax", &iMax, -K_MAX, K_MAX, "Integral max")
+      .describe("tolerance", &tolerance, K_MIN, K_MAX, "Position tolerance");
   }
 
   void writeSettings()

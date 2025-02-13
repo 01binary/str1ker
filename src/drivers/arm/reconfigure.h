@@ -63,12 +63,9 @@ template<typename T> struct Setting
   Setting(T* address, T minValue, T maxValue, const char* desc):
     value(address),
     min(minValue),
-    max(maxValue)
+    max(maxValue),
+    description(desc)
   {
-    if (desc)
-    {
-      description = desc;
-    }
   }
 };
 
@@ -103,7 +100,7 @@ public:
   std::map<String, Group> groups;
 
 public:
-  Group& describe(const char* name)
+  Group& group(const char* name)
   {
     if (groups.find(name) == groups.end())
     {
@@ -130,7 +127,6 @@ public:
 
   void read(const ReconfigureReq& req)
   {
-    write(req.config);
   }
 };
 
@@ -164,6 +160,7 @@ void initializeDynamicReconfigure()
   node.advertise(descriptionPublisher);
   node.advertise(updatePublisher);
   node.advertiseService(reconfigureServer);
+
   delay(RECONFIGURE_DELAY);
 }
 
