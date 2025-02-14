@@ -82,10 +82,10 @@ public:
   void registerSettings(ConfigurationGroup& group)
   {
     group
-      .registerSetting("pwmMin", &pwmMin, 0, PWM_MAX, "Max PWM pulse")
-      .registerSetting("pwmMax", &pwmMax, 0, PWM_MAX, "Max PWM pulse")
-      .registerSetting("stallThreshold", &stallThreshold, 0, 1000.0, "Stall current")
-      .registerSetting("invert", &invert, "Invert PWM pulse");
+      .registerSetting("pwmMin", &pwmMin, 0, PWM_MAX, 0, "Max PWM pulse")
+      .registerSetting("pwmMax", &pwmMax, 0, PWM_MAX, PWM_MAX, "Max PWM pulse")
+      .registerSetting("stallThreshold", &stallThreshold, 0, 1000.0, 1000.0, "Stall current")
+      .registerSetting("invert", &invert, false, "Invert PWM pulse");
   }
 
   double read()

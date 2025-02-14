@@ -56,15 +56,17 @@ template<typename T> struct ConfigurationSetting
   String description;
   T min;
   T max;
+  T deflt;
 
-  ConfigurationSetting(): value(nullptr), min(0), max(0)
+  ConfigurationSetting(): value(nullptr), min(0), max(0), deflt(0)
   {
   }
 
-  ConfigurationSetting(T* address, T minValue, T maxValue, const char* desc):
+  ConfigurationSetting(T* address, T minValue, T maxValue, T defaultValue, const char* desc):
     value(address),
     min(minValue),
     max(maxValue),
+    deflt(defaultValue),
     description(desc)
   {
   }
@@ -81,28 +83,28 @@ struct ConfigurationGroup
   DoubleConfigMap doubles;
 
   ConfigurationGroup& registerSetting(
-    const char* name, int* address, int minValue, int maxValue, const char* description)
+    const char* name, int* address, int minValue, int maxValue, int defaultValue, const char* description)
   {
     ints[name] = ConfigurationSetting<int>(
-      address, minValue, maxValue, description);
+      address, minValue, maxValue, defaultValue, description);
 
     return *this;
   }
 
   ConfigurationGroup& registerSetting(
-    const char* name, double* address, double minValue, double maxValue, const char* description)
+    const char* name, double* address, double minValue, double maxValue, double defaultValue, const char* description)
   {
     doubles[name] = ConfigurationSetting<double>(
-      address, minValue, maxValue, description);
+      address, minValue, maxValue, defaultValue, description);
 
     return *this;
   }
 
   ConfigurationGroup& registerSetting(
-    const char* name, bool* address, const char* description)
+    const char* name, bool* address, bool defaultValue, const char* description)
   {
     bools[name] = ConfigurationSetting<bool>(
-      address, false, true, description);
+      address, false, true, defaultValue, description);
 
     return *this;
   }
@@ -175,6 +177,7 @@ public:
 
   void describeConfiguration(dynamic_reconfigure::ConfigDescription& description)
   {
+    //description.dflt
   }
 
   void getConfiguration(dynamic_reconfigure::Config& config)

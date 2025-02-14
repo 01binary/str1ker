@@ -108,12 +108,12 @@ public:
   void registerSettings(ConfigurationGroup& group)
   {
     group
-      .registerSetting("Kp", &Kp, K_MIN, K_MAX, "Proportional gain")
-      .registerSetting("Ki", &Ki, K_MIN, K_MAX, "Integral gain")
-      .registerSetting("Kd", &Kd, K_MIN, K_MAX, "Derivative gain")
-      .registerSetting("iMin", &iMin, -K_MAX, K_MAX, "Integral min")
-      .registerSetting("iMax", &iMax, -K_MAX, K_MAX, "Integral max")
-      .registerSetting("tolerance", &tolerance, K_MIN, K_MAX, "Position tolerance");
+      .registerSetting("Kp", &Kp, K_MIN, K_MAX, K_MIN, "Proportional gain")
+      .registerSetting("Ki", &Ki, K_MIN, K_MAX, K_MIN, "Integral gain")
+      .registerSetting("Kd", &Kd, K_MIN, K_MAX, K_MIN, "Derivative gain")
+      .registerSetting("iMin", &iMin, -K_MAX, K_MAX, 0, "Integral min")
+      .registerSetting("iMax", &iMax, -K_MAX, K_MAX, 0, "Integral max")
+      .registerSetting("tolerance", &tolerance, K_MIN, K_MAX, 0.001, "Position tolerance");
   }
 
   void start(double goalPosition)

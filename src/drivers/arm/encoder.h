@@ -79,11 +79,11 @@ public:
   void registerSettings(ConfigurationGroup& group)
   {
     group
-      .registerSetting("normMin", &normMin, 0, MAX, "Min sensor reading")
-      .registerSetting("normMax", &normMax, 0, MAX, "Max sensor reading")
-      .registerSetting("scaleMin", &scaleMin, -1000.0, 1000.0, "Min joint position")
-      .registerSetting("scaleMax", &scaleMax, -1000.0, 1000.0, "Max joint position")
-      .registerSetting("invert", &invert, "Invert joint position");
+      .registerSetting("normMin", &normMin, 0, MAX, 0, "Min sensor reading")
+      .registerSetting("normMax", &normMax, 0, MAX, MAX, "Max sensor reading")
+      .registerSetting("scaleMin", &scaleMin, -1000.0, 1000.0, 0, "Min joint position")
+      .registerSetting("scaleMax", &scaleMax, -1000.0, 1000.0, 1, "Max joint position")
+      .registerSetting("invert", &invert, false, "Invert joint position");
   }
 
   double read()
@@ -176,11 +176,11 @@ public:
   void registerSettings(ConfigurationGroup& group)
   {
     group
-      .registerSetting("normMin", &normMin, 0, MAX, "Min sensor reading")
-      .registerSetting("normMax", &normMax, 0, MAX, "Max sensor reading")
-      .registerSetting("scaleMin", &scaleMin, -1000.0, 1000.0, "Min joint position")
-      .registerSetting("scaleMax", &scaleMax, -1000.0, 1000.0, "Max joint position")
-      .registerSetting("invert", &invert, "Invert joint position");
+      .registerSetting("normMin", &normMin, 0, MAX, 0, "Min sensor reading")
+      .registerSetting("normMax", &normMax, 0, MAX, MAX, "Max sensor reading")
+      .registerSetting("scaleMin", &scaleMin, -1000.0, 1000.0, 0, "Min joint position")
+      .registerSetting("scaleMax", &scaleMax, -1000.0, 1000.0, 1, "Max joint position")
+      .registerSetting("invert", &invert, false, "Invert joint position");
   }
 
   double read()
@@ -252,7 +252,7 @@ public:
 
   void registerSettings(ConfigurationGroup& group)
   {
-    group.registerSetting("invert", &invert, "Invert quadrature readings");
+    group.registerSetting("invert", &invert, false, "Invert quadrature readings");
   }
 
   int read()
