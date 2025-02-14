@@ -26,7 +26,6 @@
 
 #include <ros.h>
 #include <ros/time.h>
-#include <EEPROMex.h>
 #include <Arduino_FreeRTOS.h>
 #include "interface.h"
 #include "reconfigure.h"
@@ -42,7 +41,6 @@
 
 const int RATE_HZ = 50;                   // Default real time update rate
 const int STARTUP_DELAY = 3000;           // Prevent "published too soon" errors
-const int MAX_WRITES = 50;                // Max flash (EEPROM) storage writes
 const int RT = configMAX_PRIORITIES - 1;  // Real time thread priority
 
 const int BASE_LPWM = 11;                 // Base motor left PWM pin
@@ -68,7 +66,6 @@ const int GRIPPER_PIN = 13;               // Gripper solenoid pin
 | Variables
 \*----------------------------------------------------------*/
 
-int rateHz;                               // Real time update rate
 Actuator<FusionEncoder, Motor> base;      // Base hardware
 Actuator<Potentiometer, Motor> shoulder;  // Shoulder hardware
 Actuator<Potentiometer, Motor> elbow;     // Elbow hardware
@@ -78,8 +75,6 @@ Solenoid gripper;                         // Gripper hardware
 | Forward Declarations
 \*----------------------------------------------------------*/
 
-void readSettings(Group& group);
-void writeSettings();
 void realTimeMotorControl();
 
 /*----------------------------------------------------------*\
@@ -88,27 +83,24 @@ void realTimeMotorControl();
 
 void setup()
 {
-  initializeRosInterface();
-  initializeDynamicReconfigure();
-  readSettings(settings.group("default"));
+  initializeRos();
 
   base.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_IS);
   base.encoder.initialize(BASE_CS, BASE_A, BASE_B);
-  base.readSettings(settings.group("base"));
-
   shoulder.motor.initialize(SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_IS);
   shoulder.encoder.initialize(SHOULDER_POT);
-  shoulder.readSettings(settings.group("shoulder"));
-
   elbow.motor.initialize(ELBOW_LPWM, ELBOW_RPWM, ELBOW_IS);
   elbow.encoder.initialize(ELBOW_POT);
-  elbow.readSettings(settings.group("elbow"));
-
   gripper.initialize(GRIPPER_PIN);
 
-  xTaskCreate(realTimeMotorControl, "motor", 2048, NULL, RT, NULL);
+  Reconfigure& config = initializeReconfigure();
+  base.registerSettings(config.group("base"));
+  shoulder.registerSettings(config.group("shoulder"));
+  elbow.registerSettings(config.group("elbow"));
 
-  
+  config.loadSettings();
+
+  xTaskCreate(realTimeMotorControl, "motor", 2048, NULL, RT, NULL);
 }
 
 void loop()
@@ -118,25 +110,6 @@ void loop()
     stateFeedback();
     node.spinOnce();
   }
-}
-
-void readSettings(Group& group)
-{
-  EEPROM.setMemPool(0, EEPROMSizeMega);
-  EEPROM.setMaxAllowedWrites(MAX_WRITES);
-
-  while(!EEPROM.isReady())
-  {
-    delay(100);
-  }
-
-  rateHz = EEPROM.readInt(EEPROM.getAddress(sizeof(int))) || RATE_HZ;
-  group.describe("rateHz", &rateHz, 1, 2000, "PID update rate in Hz");
-}
-
-void writeSettings()
-{
-  EEPROM.writeInt(EEPROM.getAddress(sizeof(int)), rateHz);
 }
 
 ros::Time getTime()
@@ -151,7 +124,7 @@ ros::Time getTime()
 void realTimeMotorControl(void* parameters)
 {
   ros::Time time = getTime();
-  const TickType_t frequency = pdMS_TO_TICKS(int(1000.0 / rateHz));
+  const TickType_t frequency = pdMS_TO_TICKS(int(1000.0 / RATE_HZ));
   TickType_t lastTick = xTaskGetTickCount();
 
   while (true)

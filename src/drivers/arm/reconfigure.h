@@ -21,6 +21,7 @@
 
 #include <ArduinoSTL.h>
 #include <map>
+#include <EEPROMex.h>
 #include <dynamic_reconfigure/Config.h>
 #include <dynamic_reconfigure/Group.h>
 #include <dynamic_reconfigure/ConfigDescription.h>
@@ -32,10 +33,10 @@
 
 extern const String NAMESPACE;
 
-const int RECONFIGURE_DELAY = 1000;
 const String DESCRIPTIONS = NAMESPACE + "parameter_descriptions";
 const String UPDATES = NAMESPACE + "parameter_updates";
 const String SET = NAMESPACE + "set_parameters";
+const int MAX_WRITES = 50;
 
 /*----------------------------------------------------------*\
 | Definitions
@@ -49,18 +50,18 @@ typedef ros::ServiceServer<ReconfigureReq, ReconfigureRes> ReconfigureSrv;
 | Classes
 \*----------------------------------------------------------*/
 
-template<typename T> struct Setting
+template<typename T> struct ConfigurationSetting
 {
   T* value;
   String description;
   T min;
   T max;
 
-  Setting(): value(nullptr), min(0), max(0)
+  ConfigurationSetting(): value(nullptr), min(0), max(0)
   {
   }
 
-  Setting(T* address, T minValue, T maxValue, const char* desc):
+  ConfigurationSetting(T* address, T minValue, T maxValue, const char* desc):
     value(address),
     min(minValue),
     max(maxValue),
@@ -69,64 +70,169 @@ template<typename T> struct Setting
   }
 };
 
-struct Group
+typedef std::map<String, ConfigurationSetting<int>> IntConfigMap;
+typedef std::map<String, ConfigurationSetting<bool>> BoolConfigMap;
+typedef std::map<String, ConfigurationSetting<double>> DoubleConfigMap;
+
+struct ConfigurationGroup
 {
-  std::map<String, Setting<int>> ints;
-  std::map<String, Setting<bool>> bools;
-  std::map<String, Setting<double>> doubles;
+  IntConfigMap ints;
+  BoolConfigMap bools;
+  DoubleConfigMap doubles;
 
-  Group& describe(const char* name, int* address, int minValue, int maxValue, const char* description)
+  ConfigurationGroup& registerSetting(
+    const char* name, int* address, int minValue, int maxValue, const char* description)
   {
-    ints[name] = Setting<int>(address, minValue, maxValue, description);
+    ints[name] = ConfigurationSetting<int>(
+      address, minValue, maxValue, description);
+
     return *this;
   }
 
-  Group& describe(const char* name, double* address, double minValue, double maxValue, const char* description)
+  ConfigurationGroup& registerSetting(
+    const char* name, double* address, double minValue, double maxValue, const char* description)
   {
-    doubles[name] = Setting<double>(address, minValue, maxValue, description);
+    doubles[name] = ConfigurationSetting<double>(
+      address, minValue, maxValue, description);
+
     return *this;
   }
 
-  Group& describe(const char* name, bool* address, const char* description)
+  ConfigurationGroup& registerSetting(
+    const char* name, bool* address, const char* description)
   {
-    bools[name] = Setting<bool>(address, false, true, description);
+    bools[name] = ConfigurationSetting<bool>(
+      address, false, true, description);
+
     return *this;
+  }
+
+  void load()
+  {
+    for (IntConfigMap::iterator pos = ints.begin();
+        pos != ints.end();
+        pos++)
+    {
+      *pos->second.value = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
+    }
+
+    for (BoolConfigMap::iterator pos = bools.begin();
+        pos != bools.end();
+        pos++)
+    {
+      *pos->second.value = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
+    }
+
+    for (DoubleConfigMap::iterator pos = doubles.begin();
+        pos != doubles.end();
+        pos++)
+    {
+      *pos->second.value = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
+    }
+  }
+
+  void save()
+  {
+    // Write int settings
+    for (IntConfigMap::iterator pos = ints.begin();
+        pos != ints.end();
+        pos++)
+    {
+      EEPROM.writeInt(EEPROM.getAddress(sizeof(int)), *pos->second.value);
+    }
+
+    for (BoolConfigMap::iterator pos = bools.begin();
+        pos != bools.end();
+        pos++)
+    {
+      EEPROM.writeInt(EEPROM.getAddress(sizeof(int)), *pos->second.value);
+    }
+
+    for (DoubleConfigMap::iterator pos = doubles.begin();
+        pos != doubles.end();
+        pos++)
+    {
+      EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), *pos->second.value);
+    }
   }
 };
 
 class Reconfigure
 {
 public:
-  std::map<String, Group> groups;
+  std::map<String, ConfigurationGroup> groups;
 
 public:
-  Group& group(const char* name)
+  ConfigurationGroup& group(const char* name)
   {
     if (groups.find(name) == groups.end())
     {
-      groups[name] = Group();
+      groups[name] = ConfigurationGroup();
     }
 
     return groups[name];
   }
 
-  void write(dynamic_reconfigure::ConfigDescription& description)
+  void describeConfiguration(dynamic_reconfigure::ConfigDescription& description)
   {
-    // Describe all settings
   }
 
-  void write(dynamic_reconfigure::Config& config)
+  void getConfiguration(dynamic_reconfigure::Config& config)
   {
-    // Report values for all settings
   }
 
-  void write(ReconfigureRes& res)
+  void setConfiguration(const ReconfigureReq& req)
   {
-    // Set values for all settings
+    for (std::map<String, ConfigurationGroup>::iterator pos = groups.begin();
+        pos != groups.end();
+        pos++)
+    {
+      // Update settings
+      // Write settings to flash
+    }
   }
 
-  void read(const ReconfigureReq& req)
+  void loadSettings()
   {
+    // Initialize flash storage
+    EEPROM.setMemPool(0, EEPROMSizeMega);
+    EEPROM.setMaxAllowedWrites(MAX_WRITES);
+
+    while(!EEPROM.isReady())
+    {
+      delay(100);
+    }
+
+    // Read signature
+    int signature = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
+
+    if (signature == 0xFF)
+    {
+      // Settings have never been saved
+      return;
+    }
+
+    // Read settings
+    for (std::map<String, ConfigurationGroup>::iterator pos = groups.begin();
+        pos != groups.end();
+        pos++)
+    {
+      pos->second.load();
+    }
+  }
+
+  void saveSettings()
+  {
+    // Write signature
+    EEPROM.writeInt(EEPROM.getAddress(sizeof(int)), 0);
+
+    // Write settings
+    for (std::map<String, ConfigurationGroup>::iterator pos = groups.begin();
+        pos != groups.end();
+        pos++)
+    {
+      pos->second.save();
+    }
   }
 };
 
@@ -135,13 +241,13 @@ public:
 \*----------------------------------------------------------*/
 
 extern ros::NodeHandle node;
-void configureSettings(const ReconfigureReq &req, ReconfigureRes& res);
+void configure(const ReconfigureReq &req, ReconfigureRes& res);
 
 /*----------------------------------------------------------*\
 | Variables
 \*----------------------------------------------------------*/
 
-Reconfigure settings;
+Reconfigure config;
 
 dynamic_reconfigure::ConfigDescription configDescription;
 ros::Publisher descriptionPublisher(DESCRIPTIONS.c_str(), &configDescription);
@@ -149,35 +255,35 @@ ros::Publisher descriptionPublisher(DESCRIPTIONS.c_str(), &configDescription);
 dynamic_reconfigure::Config configUpdate;
 ros::Publisher updatePublisher(UPDATES.c_str(), &configUpdate);
 
-ReconfigureSrv reconfigureServer(SET.c_str(), &configureSettings);
+ReconfigureSrv reconfigureServer(SET.c_str(), &configure);
 
 /*----------------------------------------------------------*\
 | Functions
 \*----------------------------------------------------------*/
 
-void initializeDynamicReconfigure()
+Reconfigure& initializeReconfigure()
 {
   node.advertise(descriptionPublisher);
   node.advertise(updatePublisher);
   node.advertiseService(reconfigureServer);
 
-  delay(RECONFIGURE_DELAY);
+  return config;
 }
 
-void advertiseSettings()
+void advertiseConfiguration()
 {
-  settings.write(configDescription);
+  config.describeConfiguration(configDescription);
   descriptionPublisher.publish(&configDescription);
 }
 
-void advertiseSettingValues()
+void advertiseConfigurationValues()
 {
-  settings.write(configUpdate);
+  config.getConfiguration(configUpdate);
   updatePublisher.publish(&configUpdate);
 }
 
-void configureSettings(const ReconfigureReq &req, ReconfigureRes& res)
+void configure(const ReconfigureReq &req, ReconfigureRes& res)
 {
-  settings.read(req);
-  settings.write(res);
+  config.setConfiguration(req);
+  config.getConfiguration(res.config);
 }

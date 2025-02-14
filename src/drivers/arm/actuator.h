@@ -25,7 +25,7 @@
 | Forward Declarations
 \*----------------------------------------------------------*/
 
-struct Group;
+struct ConfigurationGroup;
 
 /*----------------------------------------------------------*\
 | Classes
@@ -64,18 +64,11 @@ public:
   }
 
 public:
-  void readSettings(Group& group)
+  void registerSettings(ConfigurationGroup& group)
   {
-    controller.readSettings(group);
-    encoder.readSettings(group);
-    motor.readSettings(group);
-  }
-
-  void writeSettings()
-  {
-    controller.writeSettings();
-    encoder.writeSettings();
-    motor.writeSettings();
+    controller.registerSettings(group);
+    encoder.registerSettings(group);
+    motor.registerSettings(group);
   }
 
   void update(double timeStep)

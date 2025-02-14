@@ -30,8 +30,7 @@ class Encoder
 {
 public:
   virtual double read() = 0;
-  virtual void readSettings(Group& group) = 0;
-  virtual void writeSettings() = 0;
+  virtual void registerSettings(ConfigurationGroup& group) = 0;
 };
 
 class Potentiometer: Encoder
@@ -77,29 +76,14 @@ public:
     pinMode(adcPin, INPUT_PULLUP);
   }
 
-  void readSettings(Group& group)
+  void registerSettings(ConfigurationGroup& group)
   {
-    normMin = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
-    normMax = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
-    scaleMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    scaleMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    invert = EEPROM.readInt(EEPROM.getAddress(sizeof(double)));
-
     group
-      .describe("normMin", &normMin, 0, MAX, "Min sensor reading")
-      .describe("normMax", &normMax, 0, MAX, "Max sensor reading")
-      .describe("scaleMin", &scaleMin, -1000.0, 1000.0, "Min joint position")
-      .describe("scaleMax", &scaleMax, -1000.0, 1000.0, "Max joint position")
-      .describe("invert", &invert, "Invert joint position");
-  }
-
-  void writeSettings()
-  {
-    EEPROM.writeInt(EEPROM.getAddress(sizeof(int)), normMin);
-    EEPROM.writeInt(EEPROM.getAddress(sizeof(int)), normMax);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), scaleMin);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), scaleMax);
-    EEPROM.writeInt(EEPROM.getAddress(sizeof(double)), invert);
+      .registerSetting("normMin", &normMin, 0, MAX, "Min sensor reading")
+      .registerSetting("normMax", &normMax, 0, MAX, "Max sensor reading")
+      .registerSetting("scaleMin", &scaleMin, -1000.0, 1000.0, "Min joint position")
+      .registerSetting("scaleMax", &scaleMax, -1000.0, 1000.0, "Max joint position")
+      .registerSetting("invert", &invert, "Invert joint position");
   }
 
   double read()
@@ -189,29 +173,14 @@ public:
     digitalWrite(csPin, HIGH);
   }
 
-  void readSettings(Group& group)
+  void registerSettings(ConfigurationGroup& group)
   {
-    normMin = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
-    normMax = EEPROM.readInt(EEPROM.getAddress(sizeof(int)));
-    scaleMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    scaleMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    invert = EEPROM.readInt(EEPROM.getAddress(sizeof(double)));
-
     group
-      .describe("normMin", &normMin, 0, MAX, "Min sensor reading")
-      .describe("normMax", &normMax, 0, MAX, "Max sensor reading")
-      .describe("scaleMin", &scaleMin, -1000.0, 1000.0, "Min joint position")
-      .describe("scaleMax", &scaleMax, -1000.0, 1000.0, "Max joint position")
-      .describe("invert", &invert, "Invert joint position");
-  }
-
-  void writeSettings()
-  {
-    EEPROM.writeInt(EEPROM.getAddress(sizeof(int)), normMin);
-    EEPROM.writeInt(EEPROM.getAddress(sizeof(int)), normMax);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), scaleMin);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), scaleMax);
-    EEPROM.writeInt(EEPROM.getAddress(sizeof(double)), invert);
+      .registerSetting("normMin", &normMin, 0, MAX, "Min sensor reading")
+      .registerSetting("normMax", &normMax, 0, MAX, "Max sensor reading")
+      .registerSetting("scaleMin", &scaleMin, -1000.0, 1000.0, "Min joint position")
+      .registerSetting("scaleMax", &scaleMax, -1000.0, 1000.0, "Max joint position")
+      .registerSetting("invert", &invert, "Invert joint position");
   }
 
   double read()
@@ -281,15 +250,9 @@ public:
     lastCount = 0;
   }
 
-  void readSettings(Group& group)
+  void registerSettings(ConfigurationGroup& group)
   {
-    invert = EEPROM.readInt(EEPROM.getAddress(sizeof(double)));
-    group.describe("invert", &invert, "Invert quadrature readings");
-  }
-
-  void writeSettings()
-  {
-    EEPROM.writeInt(EEPROM.getAddress(sizeof(double)), invert);
+    group.registerSetting("invert", &invert, "Invert quadrature readings");
   }
 
   int read()
@@ -327,15 +290,9 @@ public:
     return absolute.read();
   }
 
-  void readSettings(Group& group)
+  void registerSettings(ConfigurationGroup& group)
   {
-    absolute.readSettings(group);
-    quadrature.readSettings(group);
-  }
-
-  void writeSettings()
-  {
-    absolute.writeSettings();
-    quadrature.writeSettings();
+    absolute.registerSettings(group);
+    quadrature.registerSettings(group);
   }
 };

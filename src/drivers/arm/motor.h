@@ -79,26 +79,13 @@ public:
     pinMode(rpwmPin, OUTPUT);
   }
 
-  void readSettings(Group& group)
+  void registerSettings(ConfigurationGroup& group)
   {
-    pwmMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    pwmMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    stallThreshold = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    invert = EEPROM.readInt(EEPROM.getAddress(sizeof(bool)));
-
     group
-      .describe("pwmMin", &pwmMin, 0, PWM_MAX, "Max PWM pulse")
-      .describe("pwmMax", &pwmMax, 0, PWM_MAX, "Max PWM pulse")
-      .describe("stallThreshold", &stallThreshold, 0, 1000.0, "Stall current")
-      .describe("invert", &invert, "Invert PWM pulse");
-  }
-
-  void writeSettings()
-  {
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), pwmMin);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), pwmMax);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), stallThreshold);
-    EEPROM.writeInt(EEPROM.getAddress(sizeof(bool)), invert);
+      .registerSetting("pwmMin", &pwmMin, 0, PWM_MAX, "Max PWM pulse")
+      .registerSetting("pwmMax", &pwmMax, 0, PWM_MAX, "Max PWM pulse")
+      .registerSetting("stallThreshold", &stallThreshold, 0, 1000.0, "Stall current")
+      .registerSetting("invert", &invert, "Invert PWM pulse");
   }
 
   double read()

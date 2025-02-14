@@ -105,32 +105,15 @@ public:
     tolerance = positionTolerance;
   }
 
-  void readSettings(Group& group)
+  void registerSettings(ConfigurationGroup& group)
   {
-    Kp = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    Ki = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    Kd = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    iMin = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    iMax = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-    tolerance = EEPROM.readDouble(EEPROM.getAddress(sizeof(double)));
-
     group
-      .describe("Kp", &Kp, K_MIN, K_MAX, "Proportional gain")
-      .describe("Ki", &Ki, K_MIN, K_MAX, "Integral gain")
-      .describe("Kd", &Kd, K_MIN, K_MAX, "Derivative gain")
-      .describe("iMin", &iMin, -K_MAX, K_MAX, "Integral min")
-      .describe("iMax", &iMax, -K_MAX, K_MAX, "Integral max")
-      .describe("tolerance", &tolerance, K_MIN, K_MAX, "Position tolerance");
-  }
-
-  void writeSettings()
-  {
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Kp);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Ki);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), Kd);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), iMin);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), iMax);
-    EEPROM.writeDouble(EEPROM.getAddress(sizeof(double)), tolerance);
+      .registerSetting("Kp", &Kp, K_MIN, K_MAX, "Proportional gain")
+      .registerSetting("Ki", &Ki, K_MIN, K_MAX, "Integral gain")
+      .registerSetting("Kd", &Kd, K_MIN, K_MAX, "Derivative gain")
+      .registerSetting("iMin", &iMin, -K_MAX, K_MAX, "Integral min")
+      .registerSetting("iMax", &iMax, -K_MAX, K_MAX, "Integral max")
+      .registerSetting("tolerance", &tolerance, K_MIN, K_MAX, "Position tolerance");
   }
 
   void start(double goalPosition)

@@ -76,7 +76,7 @@ GripperSubscriber gripperSub(GRIPPER.c_str(), gripperCommand);
 | Functions
 \*----------------------------------------------------------*/
 
-void initializeRosInterface()
+void initializeRos()
 {
   node.initNode();
   node.advertise(statePub);
