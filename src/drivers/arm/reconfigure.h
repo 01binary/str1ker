@@ -177,11 +177,53 @@ public:
 
   void describeConfiguration(dynamic_reconfigure::ConfigDescription& description)
   {
-    //description.dflt
+    for (std::map<String, ConfigurationGroup>::iterator groupPos = groups.begin();
+        groupPos != groups.end();
+        groupPos++)
+    {
+      dynamic_reconfigure::Group dg;
+      dg.name = groupPos->first.c_str();
+
+      for (IntConfigMap::iterator settingPos = groupPos->second.ints.begin();
+          settingPos != groupPos->second.ints.end();
+          settingPos++)
+      {
+        dynamic_reconfigure::ParamDescription pd;
+        pd.name = settingPos->first.c_str();
+        pd.description = settingPos->second.description.c_str();
+        pd.type = "int";
+        dg.parameters.push_back(pd);
+      }
+
+      for (BoolConfigMap::iterator settingPos = groupPos->second.bools.begin();
+          settingPos != groupPos->second.bools.end();
+          settingPos++)
+      {
+        dynamic_reconfigure::ParamDescription pd;
+        pd.name = settingPos->first.c_str();
+        pd.description = settingPos->second.description.c_str();
+        pd.type = "bool";
+        dg.parameters.push_back(pd);
+      }
+
+      for (DoubleConfigMap::iterator settingPos = groupPos->second.doubles.begin();
+          settingPos != groupPos->second.doubles.end();
+          settingPos++)
+      {
+        dynamic_reconfigure::ParamDescription pd;
+        pd.name = settingPos->first.c_str();
+        pd.description = settingPos->second.description.c_str();
+        pd.type = "double";
+        dg.parameters.push_back(pd);
+      }
+
+      description.groups.push_back(dg);
+    }
   }
 
   void getConfiguration(dynamic_reconfigure::Config& config)
   {
+    
   }
 
   void setConfiguration(const ReconfigureReq& req)
