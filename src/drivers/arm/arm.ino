@@ -97,8 +97,10 @@ void setup()
   base.registerSettings(config.group("base"));
   shoulder.registerSettings(config.group("shoulder"));
   elbow.registerSettings(config.group("elbow"));
-
   config.loadSettings();
+
+  advertiseConfiguration();
+  advertiseConfigurationValues();
 
   xTaskCreate(realTimeMotorControl, "motor", 2048, NULL, RT, NULL);
 }
