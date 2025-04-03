@@ -1,0 +1,12 @@
+<launch>
+  <node
+    name="arm_node"
+    pkg="rosserial_python"
+    type="serial_node.py"
+    args="/dev/ttyACM0"
+    required="true"
+    output="screen"
+  >
+    <rosparam file="$(find str1ker)/config/arm.yaml" />
+  </node>
+</launch>
