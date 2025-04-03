@@ -2,12 +2,10 @@
   <!-- Description-->
   <param name="robot_description" textfile="$(find str1ker)/description/robot.urdf" />
 
-  <!-- Hardware controller configuration -->
-  <rosparam file="$(find str1ker)/config/hardware.yaml" />
-
-  <!-- High-level controller configuration -->
+  <!-- Configuration -->
   <rosparam file="$(find str1ker_moveit_config)/config/ros_controllers.yaml" />
 
+  <!-- Hardware controller-->
   <node
     name="arm_node"
     pkg="rosserial_python"
@@ -15,7 +13,9 @@
     args="/dev/ttyACM0"
     required="true"
     output="screen"
-  />
+  >
+    <rosparam file="$(find str1ker)/config/arm.yaml" />
+  </node>
 
   <!-- Robot controller -->
   <node
@@ -34,7 +34,7 @@
     output="screen"
   />
 
-  <!-- Hardware controllers -->
+  <!-- Controller Manager-->
   <node
     name="controller_spawner"
     pkg="controller_manager"
@@ -44,7 +44,7 @@
     args="joint_state_controller arm_velocity_controller"
   />
 
-  <!-- ROS robot state publisher -->
+  <!-- Robot state publisher -->
   <node
     name="robot_state_publisher"
     pkg="robot_state_publisher"

@@ -20,20 +20,19 @@
 \*----------------------------------------------------------*/
 
 #include <ros.h>
-#include "reconfigure.h"
 
 /*----------------------------------------------------------*\
 | Constants
 \*----------------------------------------------------------*/
 
-const double K_MIN = 0.0;
-const double K_MAX = 1000.0;
-const double DEFAULT_KP = 1.0;
-const double DEFAULT_KI = 0.1;
-const double DEFAULT_KD = 0.1;
-const double DEFAULT_IMIN = -1.0;
-const double DEFAULT_IMAX = 1.0;
-const double DEFAULT_TOLERANCE = 0.05;
+const float K_MIN = 0.0;
+const float K_MAX = 1000.0;
+const float DEFAULT_KP = 1.0;
+const float DEFAULT_KI = 0.1;
+const float DEFAULT_KD = 0.1;
+const float DEFAULT_IMIN = -1.0;
+const float DEFAULT_IMAX = 1.0;
+const float DEFAULT_TOLERANCE = 0.05;
 
 /*----------------------------------------------------------*\
 | Classes
@@ -46,29 +45,29 @@ public:
   // Configuration
   //
 
-  double Kp;         // Proportional gain
-  double Ki;         // Integral gain
-  double Kd;         // Derivative gain
-  double iMin;       // Min integral
-  double iMax;       // Max integral
-  double tolerance;  // Tolerance reaching the goal
+  float Kp;         // Proportional gain
+  float Ki;         // Integral gain
+  float Kd;         // Derivative gain
+  float iMin;       // Min integral
+  float iMax;       // Max integral
+  float tolerance;  // Tolerance reaching the goal
 
   //
   // State
   //
 
-  double goal;       // Goal position
+  float goal;       // Goal position
 
-  double pe;         // Proportional error
-  double ie;         // Integral error
-  double de;         // Derivative error
+  float pe;         // Proportional error
+  float ie;         // Integral error
+  float de;         // Derivative error
 
-  double p;          // Proportional term
-  double i;          // Integral term
-  double d;          // Derivative term
+  float p;          // Proportional term
+  float i;          // Integral term
+  float d;          // Derivative term
 
   bool enabled;      // Whether the controller is enabled
-  double elapsed;    // Elapsed time since start
+  float elapsed;    // Elapsed time since start
 
 public:
   PID():
@@ -88,12 +87,12 @@ public:
 
 public:
   void initialize(
-    double proportionalGain = DEFAULT_KP,
-    double integralGain = DEFAULT_KI,
-    double derivativeGain = DEFAULT_KD,
-    double integralMin = DEFAULT_IMIN,
-    double integralMax = DEFAULT_IMAX,
-    double positionTolerance = DEFAULT_TOLERANCE)
+    float proportionalGain = DEFAULT_KP,
+    float integralGain = DEFAULT_KI,
+    float derivativeGain = DEFAULT_KD,
+    float integralMin = DEFAULT_IMIN,
+    float integralMax = DEFAULT_IMAX,
+    float positionTolerance = DEFAULT_TOLERANCE)
   {
     stop();
   
@@ -105,18 +104,17 @@ public:
     tolerance = positionTolerance;
   }
 
-  void registerSettings(ConfigurationGroup& group)
+  void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    group
-      .registerSetting("Kp", &Kp, K_MIN, K_MAX, K_MIN, "Proportional gain")
-      .registerSetting("Ki", &Ki, K_MIN, K_MAX, K_MIN, "Integral gain")
-      .registerSetting("Kd", &Kd, K_MIN, K_MAX, K_MIN, "Derivative gain")
-      .registerSetting("iMin", &iMin, -K_MAX, K_MAX, 0, "Integral min")
-      .registerSetting("iMax", &iMax, -K_MAX, K_MAX, 0, "Integral max")
-      .registerSetting("tolerance", &tolerance, K_MIN, K_MAX, 0.001, "Position tolerance");
+    node.getParam((String("~") + group + "/Kp").c_str(), &Kp);
+    node.getParam((String("~") + group + "/Ki").c_str(), &Ki);
+    node.getParam((String("~") + group + "/Kd").c_str(), &Kd);
+    node.getParam((String("~") + group + "/iMin").c_str(), &iMin);
+    node.getParam((String("~") + group + "/iMax").c_str(), &iMax);
+    node.getParam((String("~") + group + "/tolerance").c_str(), &tolerance);
   }
 
-  void start(double goalPosition)
+  void start(float goalPosition)
   {
     goal = goalPosition;
     enabled = true;
@@ -134,7 +132,7 @@ public:
     elapsed = 0.0;
   }
 
-  double update(double position, double dt)
+  float update(float position, float dt)
   {
     if (!enabled)
     {
@@ -142,7 +140,7 @@ public:
     }
 
     // Calculate proportional error
-    double error = goal - position;
+    float error = goal - position;
 
     if (abs(error) <= tolerance)
     {

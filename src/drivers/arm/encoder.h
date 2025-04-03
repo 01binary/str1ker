@@ -20,7 +20,8 @@
 
 #include <SPI.h>
 #include <QuadratureEncoder.h>
-#include "reconfigure.h"
+#include <ArduinoSTL.h>
+#include <ros.h>
 
 /*----------------------------------------------------------*\
 | Classes
@@ -29,8 +30,8 @@
 class Encoder
 {
 public:
-  virtual double read() = 0;
-  virtual void registerSettings(ConfigurationGroup& group) = 0;
+  virtual float read() = 0;
+  virtual void loadSettings(ros::NodeHandle& node, const char* group) = 0;
 };
 
 class Potentiometer: Encoder
@@ -43,8 +44,8 @@ public:
   int adcPin;
   int normMin;
   int normMax;
-  double scaleMin;
-  double scaleMax;
+  float scaleMin;
+  float scaleMax;
   bool invert;
 
 public:
@@ -62,8 +63,8 @@ public:
     int adc,
     int normalizedMin = 0,
     int normalizedMax = MAX,
-    double scaledMin = 0.0,
-    double scaledMax = 1.0,
+    float scaledMin = 0.0,
+    float scaledMax = 1.0,
     bool invertReadings = false)
   {
     adcPin = adc;
@@ -76,23 +77,22 @@ public:
     pinMode(adcPin, INPUT_PULLUP);
   }
 
-  void registerSettings(ConfigurationGroup& group)
+  void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    group
-      .registerSetting("normMin", &normMin, 0, MAX, 0, "Min sensor reading")
-      .registerSetting("normMax", &normMax, 0, MAX, MAX, "Max sensor reading")
-      .registerSetting("scaleMin", &scaleMin, -1000.0, 1000.0, 0, "Min joint position")
-      .registerSetting("scaleMax", &scaleMax, -1000.0, 1000.0, 1, "Max joint position")
-      .registerSetting("invert", &invert, false, "Invert joint position");
+    node.getParam((String("~") + group + "/normMin").c_str(), &normMin);
+    node.getParam((String("~") + group + "/normMax").c_str(), &normMax);
+    node.getParam((String("~") + group + "/scaleMin").c_str(), &scaleMin);
+    node.getParam((String("~") + group + "/scaleMax").c_str(), &scaleMax);
+    node.getParam((String("~") + group + "/invert").c_str(), &invert);
   }
 
-  double read()
+  float read()
   {
     // Convert
     int reading = analogRead(adcPin);
 
     // Normalize
-    double norm = double(reading - normMin) / double(normMax - normMin);
+    float norm = float(reading - normMin) / float(normMax - normMin);
 
     // Invert
     if (invert)
@@ -123,8 +123,8 @@ public:
   int csPin;
   int normMin;
   int normMax;
-  double scaleMin;
-  double scaleMax;
+  float scaleMin;
+  float scaleMax;
   bool invert;
   bool initialized;
 
@@ -150,8 +150,8 @@ public:
     int cs,
     int normalizedMin = 0,
     int normalizedMax = MAX,
-    double scaledMin = 0.0,
-    double scaledMax = 1.0,
+    float scaledMin = 0.0,
+    float scaledMax = 1.0,
     bool invertReadings = false)
   {
     if (initialized)
@@ -173,17 +173,16 @@ public:
     digitalWrite(csPin, HIGH);
   }
 
-  void registerSettings(ConfigurationGroup& group)
+  void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    group
-      .registerSetting("normMin", &normMin, 0, MAX, 0, "Min sensor reading")
-      .registerSetting("normMax", &normMax, 0, MAX, MAX, "Max sensor reading")
-      .registerSetting("scaleMin", &scaleMin, -1000.0, 1000.0, 0, "Min joint position")
-      .registerSetting("scaleMax", &scaleMax, -1000.0, 1000.0, 1, "Max joint position")
-      .registerSetting("invert", &invert, false, "Invert joint position");
+    node.getParam((String("~") + group + "/normMin").c_str(), &normMin);
+    node.getParam((String("~") + group + "/normMax").c_str(), &normMax);
+    node.getParam((String("~") + group + "/scaleMin").c_str(), &scaleMin);
+    node.getParam((String("~") + group + "/scaleMax").c_str(), &scaleMax);
+    node.getParam((String("~") + group + "/invert").c_str(), &invert);
   }
 
-  double read()
+  float read()
   {
     // Select
     digitalWrite(csPin, LOW);
@@ -207,8 +206,8 @@ public:
     unsigned int reading = (raw >> 3) & 0x1FFF;
 
     // Normalize
-    double norm = constrain(
-      double(reading - normMin) / double(normMax - normMin), 0.0, 1.0);
+    float norm = constrain(
+      float(reading - normMin) / float(normMax - normMin), 0.0, 1.0);
 
     // Invert
     if (invert)
@@ -250,9 +249,9 @@ public:
     lastCount = 0;
   }
 
-  void registerSettings(ConfigurationGroup& group)
+  void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    group.registerSetting("invert", &invert, false, "Invert quadrature readings");
+    node.getParam((String("~") + group + "/invert").c_str(), &invert);
   }
 
   int read()
@@ -284,15 +283,15 @@ public:
     quadrature.initialize(a, b);
   }
 
-  double read()
+  float read()
   {
     // TODO: fuse measurements
     return absolute.read();
   }
 
-  void registerSettings(ConfigurationGroup& group)
+  void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    absolute.registerSettings(group);
-    quadrature.registerSettings(group);
+    absolute.loadSettings(node, group);
+    quadrature.loadSettings(node, group);
   }
 };

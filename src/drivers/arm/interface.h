@@ -33,6 +33,7 @@
 | Constants
 \*----------------------------------------------------------*/
 
+extern const int STARTUP_DELAY;
 const String NAMESPACE = "arm/";                // Node namespace
 const String VELOCITY = NAMESPACE + "velocity"; // Velocity command topic
 const String POSITION = NAMESPACE + "position"; // Position command topic
@@ -76,14 +77,24 @@ GripperSubscriber gripperSub(GRIPPER.c_str(), gripperCommand);
 | Functions
 \*----------------------------------------------------------*/
 
-void initializeRos()
+ros::NodeHandle& initializeRos()
 {
   node.initNode();
+
+  while (!node.connected())
+  {
+    node.spinOnce();
+  }
+
   node.advertise(statePub);
   node.subscribe(velocitySub);
   node.subscribe(positionSub);
   node.subscribe(gripperSub);
   node.negotiateTopics();
+
+  delay(STARTUP_DELAY);
+
+  return node;
 }
 
 void velocityCommand(const str1ker::VelocityCommand& msg)

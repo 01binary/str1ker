@@ -1,3 +1,3 @@
-float64 base
-float64 shoulder
-float64 elbow
+float32 base
+float32 shoulder
+float32 elbow

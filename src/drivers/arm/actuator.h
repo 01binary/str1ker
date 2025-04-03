@@ -20,6 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include "pid.h"
+#include <ArduinoSTL.h>
 
 /*----------------------------------------------------------*\
 | Forward Declarations
@@ -46,10 +47,10 @@ public:
   EncoderType encoder;
   PID controller;
 
-  double position;
-  double velocity;
-  double current;
-  double stallThreshold;
+  float position;
+  float velocity;
+  float current;
+  float stallThreshold;
   bool stalled;
 
 public:
@@ -64,14 +65,14 @@ public:
   }
 
 public:
-  void registerSettings(ConfigurationGroup& group)
+  void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    controller.registerSettings(group);
-    encoder.registerSettings(group);
-    motor.registerSettings(group);
+    controller.loadSettings(node, (String(group) + "/controller").c_str());
+    encoder.loadSettings(node, (String(group) + "/encoder").c_str());
+    motor.loadSettings(node, (String(group) + "/motor").c_str());
   }
 
-  void update(double timeStep)
+  void update(float timeStep)
   {
     position = encoder.read();
     current = motor.read();
@@ -85,13 +86,13 @@ public:
     motor.write(velocity);
   }
 
-  void writePosition(double command)
+  void writePosition(float command)
   {
     mode = POSITION;
     controller.start(command);
   }
 
-  void writeVelocity(double command)
+  void writeVelocity(float command)
   {
     mode = VELOCITY;
     velocity = command;

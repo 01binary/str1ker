@@ -1,1 +1,1 @@
-float64 holdTime
+float32 holdTime

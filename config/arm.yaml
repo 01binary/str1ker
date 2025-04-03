@@ -1,0 +1,57 @@
+base:
+  controller:
+    Kp: 1.0
+    Ki: 0.01
+    Kd: 0.01
+    iMin: -1
+    iMax: 1
+    tolerance: 0.1
+  motor:
+    pwmMin: 64
+    pwmMax: 255
+    stallThreshold: 255
+    invert: false
+  encoder:
+    normMin: 70
+    normMax: 162
+    scaleMin: -1.5708
+    scaleMax: 1.5708
+    invert: false
+shoulder:
+  controller:
+    Kp: 1.0
+    Ki: 0.01
+    Kd: 0.01
+    iMin: -1
+    iMax: 1
+    tolerance: 0.1
+  motor:
+    pwmMin: 32
+    pwmMax: 255
+    stallThreshold: 255
+    invert: false
+  encoder:
+    normMin: 857
+    normMax: 902
+    scaleMin: -0.054
+    scaleMax: -0.0005
+    invert: false
+elbow:
+  controller:
+    Kp: 1.0
+    Ki: 0.01
+    Kd: 0.01
+    iMin: -1
+    iMax: 1
+    tolerance: 0.1
+  motor:
+    pwmMin: 200
+    pwmMax: 255
+    stallThreshold: 255
+    invert: false
+  encoder:
+    normMin: 976
+    normMax: 848
+    scaleMin: -0.0508
+    scaleMax: 0
+    invert: false

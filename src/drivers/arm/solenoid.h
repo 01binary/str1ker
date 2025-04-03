@@ -37,7 +37,7 @@ public:
     digitalWrite(triggerPin, LOW);
   }
 
-  void write(double holdTime)
+  void write(float holdTime)
   {
     digitalWrite(triggerPin, HIGH);
     delay(int(holdTime * 1000));

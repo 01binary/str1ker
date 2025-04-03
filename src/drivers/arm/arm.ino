@@ -28,7 +28,6 @@
 #include <ros/time.h>
 #include <Arduino_FreeRTOS.h>
 #include "interface.h"
-#include "reconfigure.h"
 #include "actuator.h"
 #include "motor.h"
 #include "encoder.h"
@@ -83,8 +82,6 @@ void realTimeMotorControl();
 
 void setup()
 {
-  initializeRos();
-
   base.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_IS);
   base.encoder.initialize(BASE_CS, BASE_A, BASE_B);
   shoulder.motor.initialize(SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_IS);
@@ -93,14 +90,11 @@ void setup()
   elbow.encoder.initialize(ELBOW_POT);
   gripper.initialize(GRIPPER_PIN);
 
-  Reconfigure& config = initializeReconfigure();
-  base.registerSettings(config.group("base"));
-  shoulder.registerSettings(config.group("shoulder"));
-  elbow.registerSettings(config.group("elbow"));
-  config.loadSettings();
+  ros::NodeHandle& node = initializeRos();
 
-  advertiseConfiguration();
-  advertiseConfigurationValues();
+  base.loadSettings(node, "base");
+  shoulder.loadSettings(node, "shoulder");
+  elbow.loadSettings(node, "elbow");
 
   xTaskCreate(realTimeMotorControl, "motor", 2048, NULL, RT, NULL);
 }
@@ -110,6 +104,7 @@ void loop()
   if (millis() > STARTUP_DELAY)
   {
     stateFeedback();
+
     node.spinOnce();
   }
 }
@@ -132,7 +127,7 @@ void realTimeMotorControl(void* parameters)
   while (true)
   {
     ros::Time now = getTime();
-    double timeStep = (now - time).toSec();
+    float timeStep = (now - time).toSec();
     time = now;
 
     base.update(timeStep);

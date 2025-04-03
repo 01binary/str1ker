@@ -37,7 +37,6 @@
                 "/home/val/Arduino/libraries/ros_lib",
                 "/home/val/Arduino/libraries/FreeRTOS/src",
                 "/home/val/Arduino/libraries/ArduinoSTL/src",
-                "/home/val/Arduino/libraries/EEPROMEx",
                 "/home/val/Downloads/arduino-1.8.19/hardware/arduino/avr/libraries/SPI/src",
                 "/home/val/Arduino/libraries/QuadratureEncoder",
                 "/home/val/Arduino/libraries/EnableInterrupt",
