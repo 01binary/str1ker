@@ -41,7 +41,7 @@ private:
     ros::NodeHandle m_node;
 
     // Spin rate
-    double m_rate;
+    float m_rate;
 
 public:
     robot(ros::NodeHandle node);

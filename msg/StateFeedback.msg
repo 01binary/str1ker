@@ -1,11 +1,11 @@
-float64 basePosition
-float64 baseVelocity
+float32 basePosition
+float32 baseVelocity
 bool baseStalled
 
-float64 shoulderPosition
-float64 shoulderVelocity
+float32 shoulderPosition
+float32 shoulderVelocity
 bool shoulderStalled
 
-float64 elbowPosition
-float64 elbowVelocity
+float32 elbowPosition
+float32 elbowVelocity
 bool elbowStalled

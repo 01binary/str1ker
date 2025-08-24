@@ -19,7 +19,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include "reconfigure.h"
+#include <ros.h>
 
 /*----------------------------------------------------------*\
 | Classes
@@ -36,12 +36,12 @@ public:
   int rpwmPin;
   int isPin;
 
-  double pwmMin;
-  double pwmMax;
-  double stallThreshold;
+  float pwmMin;
+  float pwmMax;
+  float stallThreshold;
   bool invert;
 
-  double velocity;
+  float velocity;
 
 public:
   Motor():
@@ -61,10 +61,10 @@ public:
     int lpwm,
     int rpwm,
     int is,
-    double min = 0.0,
-    double max = 1.0,
+    float min = 0.0,
+    float max = 1.0,
     bool invertCommand = false,
-    double stallCurrentThreshold = 1.0)
+    float stallCurrentThreshold = 1.0)
   {
     lpwmPin = lpwm;
     rpwmPin = rpwm;
@@ -79,24 +79,23 @@ public:
     pinMode(rpwmPin, OUTPUT);
   }
 
-  void registerSettings(ConfigurationGroup& group)
+  void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    group
-      .registerSetting("pwmMin", &pwmMin, 0, PWM_MAX, 0, "Max PWM pulse")
-      .registerSetting("pwmMax", &pwmMax, 0, PWM_MAX, PWM_MAX, "Max PWM pulse")
-      .registerSetting("stallThreshold", &stallThreshold, 0, 1000.0, 1000.0, "Stall current")
-      .registerSetting("invert", &invert, false, "Invert PWM pulse");
+    node.getParam((String("~") + group + "/pwmMin").c_str(), &pwmMin);
+    node.getParam((String("~") + group + "/pwmMax").c_str(), &pwmMax);
+    node.getParam((String("~") + group + "/stallThreshold").c_str(), &stallThreshold);
+    node.getParam((String("~") + group + "/invert").c_str(), &invert);
   }
 
-  double read()
+  float read()
   {
-    return double(analogRead(isPin)) / double(CURRENT_MAX);
+    return float(analogRead(isPin)) / float(CURRENT_MAX);
   }
 
-  void write(double command)
+  void write(float command)
   {
-    double speed = abs(command);
-    double direction = command >= 0 ? 1 : -1;
+    float speed = abs(command);
+    float direction = command >= 0 ? 1 : -1;
 
     if (invert)
     {
@@ -115,12 +114,12 @@ public:
       }
     }
 
-    double nextCommand = direction * speed;
+    float nextCommand = direction * speed;
 
     if (nextCommand != velocity)
     {
-      int lpwm = direction < 0 ? 0 : int(speed * double(PWM_MAX));
-      int rpwm = direction > 0 ? 0 : int(speed * double(PWM_MAX));
+      int lpwm = direction < 0 ? 0 : int(speed * float(PWM_MAX));
+      int rpwm = direction > 0 ? 0 : int(speed * float(PWM_MAX));
 
       analogWrite(lpwmPin, lpwm);
       analogWrite(rpwmPin, rpwm);

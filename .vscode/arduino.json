@@ -1,0 +1,6 @@
+{
+    "configuration": "cpu=atmega2560",
+    "board": "arduino:avr:mega",
+    "sketch": "src/drivers/arm/arm.ino",
+    "port": "/dev/ttyACM0"
+}
