@@ -3,9 +3,6 @@
 Source code and parts for [Str1ker](https://www.01binary.us/projects/drumming-robot/) drumming robot. See [build log](https://hackaday.io/project/171607-drumming-robot) on Hackaday.io.
 
 ![body](./doc/readme/body.png)
-![arms](./doc/readme/arms.png)
-![wiring](./doc/readme/wiring.jpeg)
-![rviz](./design/arm.png)
 
 ## System Requirements
 
