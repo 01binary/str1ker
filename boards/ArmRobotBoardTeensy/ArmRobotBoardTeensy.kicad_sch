@@ -5537,7 +5537,7 @@
 	)
 	(wire
 		(pts
-			(xy 39.37 71.12) (xy 35.56 71.12)
+			(xy 39.37 20.32) (xy 35.56 20.32)
 		)
 		(stroke
 			(width 0)
@@ -5587,7 +5587,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.1 104.14) (xy 35.56 104.14)
+			(xy 38.1 119.38) (xy 35.56 119.38)
 		)
 		(stroke
 			(width 0)
@@ -5657,7 +5657,7 @@
 	)
 	(wire
 		(pts
-			(xy 40.64 60.96) (xy 35.56 60.96)
+			(xy 40.64 39.37) (xy 35.56 39.37)
 		)
 		(stroke
 			(width 0)
@@ -5677,7 +5677,7 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 119.38) (xy 35.56 119.38)
+			(xy 36.83 73.66) (xy 35.56 73.66)
 		)
 		(stroke
 			(width 0)
@@ -5687,7 +5687,7 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 121.92) (xy 35.56 121.92)
+			(xy 36.83 76.2) (xy 35.56 76.2)
 		)
 		(stroke
 			(width 0)
@@ -5747,7 +5747,7 @@
 	)
 	(wire
 		(pts
-			(xy 39.37 86.36) (xy 35.56 86.36)
+			(xy 39.37 60.96) (xy 35.56 60.96)
 		)
 		(stroke
 			(width 0)
@@ -5817,7 +5817,7 @@
 	)
 	(wire
 		(pts
-			(xy 39.37 96.52) (xy 35.56 96.52)
+			(xy 39.37 50.8) (xy 35.56 50.8)
 		)
 		(stroke
 			(width 0)
@@ -5957,7 +5957,7 @@
 	)
 	(wire
 		(pts
-			(xy 40.64 63.5) (xy 35.56 63.5)
+			(xy 40.64 41.91) (xy 35.56 41.91)
 		)
 		(stroke
 			(width 0)
@@ -5997,7 +5997,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.1 73.66) (xy 35.56 73.66)
+			(xy 38.1 22.86) (xy 35.56 22.86)
 		)
 		(stroke
 			(width 0)
@@ -6057,7 +6057,7 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 76.2) (xy 35.56 76.2)
+			(xy 36.83 25.4) (xy 35.56 25.4)
 		)
 		(stroke
 			(width 0)
@@ -6199,7 +6199,7 @@
 	)
 	(global_label "PWM1VT"
 		(shape input)
-		(at 35.56 25.4 0)
+		(at 35.56 88.9 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6209,7 +6209,7 @@
 		)
 		(uuid "08ae89ee-efec-4d65-a669-9f4e6a9020b2")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 45.9837 25.4 0)
+			(at 45.9837 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6287,7 +6287,7 @@
 	)
 	(global_label "PWM3VT"
 		(shape input)
-		(at 35.56 50.8 0)
+		(at 35.56 114.3 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6297,7 +6297,7 @@
 		)
 		(uuid "11ef1787-6205-4979-810a-f38a76a926d5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 45.9837 50.8 0)
+			(at 45.9837 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6309,7 +6309,7 @@
 	)
 	(global_label "CS"
 		(shape input)
-		(at 39.37 71.12 0)
+		(at 39.37 20.32 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6319,7 +6319,7 @@
 		)
 		(uuid "13ba888a-e720-4bc3-9d29-c1c3a90f4220")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.8347 71.12 0)
+			(at 44.8347 20.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6331,7 +6331,7 @@
 	)
 	(global_label "PWM3EN"
 		(shape input)
-		(at 35.56 43.18 0)
+		(at 35.56 106.68 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6341,7 +6341,7 @@
 		)
 		(uuid "13e4a737-662e-4e9a-b53a-90888347bcf8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 46.407 43.18 0)
+			(at 46.407 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6397,7 +6397,7 @@
 	)
 	(global_label "LPWM2"
 		(shape input)
-		(at 35.56 35.56 0)
+		(at 35.56 99.06 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6407,7 +6407,7 @@
 		)
 		(uuid "1bd4cdda-8101-43e5-b5e2-53cd6c829d4e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.9556 35.56 0)
+			(at 44.9556 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6461,6 +6461,28 @@
 			)
 		)
 	)
+	(global_label "A0"
+		(shape input)
+		(at 39.37 50.8 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1ee0eb12-124a-487b-9a0b-2c70c77ad187")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 44.6533 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "RPWM2A"
 		(shape input)
 		(at 83.82 185.42 0)
@@ -6485,7 +6507,7 @@
 	)
 	(global_label "SIG"
 		(shape input)
-		(at 38.1 104.14 0)
+		(at 38.1 119.38 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6495,7 +6517,7 @@
 		)
 		(uuid "210d7ac9-3a5b-4917-a7f2-53b6b1eff94a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.1695 104.14 0)
+			(at 44.1695 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6507,7 +6529,7 @@
 	)
 	(global_label "A"
 		(shape input)
-		(at 40.64 60.96 0)
+		(at 40.64 39.37 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6517,7 +6539,7 @@
 		)
 		(uuid "23971d14-1e19-4fd9-a304-f11740e680f3")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.7138 60.96 0)
+			(at 44.7138 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6573,7 +6595,7 @@
 	)
 	(global_label "RPWM2"
 		(shape input)
-		(at 35.56 33.02 0)
+		(at 35.56 96.52 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6583,7 +6605,7 @@
 		)
 		(uuid "367a5216-914d-4c78-8cc6-c5e139f76c91")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 45.1975 33.02 0)
+			(at 45.1975 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6595,7 +6617,7 @@
 	)
 	(global_label "PWM2EN"
 		(shape input)
-		(at 35.56 30.48 0)
+		(at 35.56 93.98 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6605,7 +6627,7 @@
 		)
 		(uuid "391a2f42-d86f-45e3-a98f-dd401842bb8c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 46.407 30.48 0)
+			(at 46.407 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6727,7 +6749,7 @@
 	)
 	(global_label "PWM2VT"
 		(shape input)
-		(at 35.56 38.1 0)
+		(at 35.56 101.6 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6737,7 +6759,7 @@
 		)
 		(uuid "5263f57b-b37a-41bb-a2bf-f3487a3367c0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 45.9837 38.1 0)
+			(at 45.9837 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6903,7 +6925,7 @@
 	)
 	(global_label "SCK"
 		(shape input)
-		(at 38.1 73.66 0)
+		(at 38.1 22.86 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6913,7 +6935,7 @@
 		)
 		(uuid "7b9a0300-8fc0-4b66-95c1-83d74fc30a06")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.8347 73.66 0)
+			(at 44.8347 22.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6991,7 +7013,7 @@
 	)
 	(global_label "SCL"
 		(shape input)
-		(at 36.83 119.38 0)
+		(at 36.83 73.66 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7001,7 +7023,7 @@
 		)
 		(uuid "85c68c2f-e93d-4d54-86a4-dda2a1c8a812")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 43.3228 119.38 0)
+			(at 43.3228 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7029,28 +7051,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "A1"
-		(shape input)
-		(at 39.37 96.52 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "92fb4ec9-a073-4cb9-a6b8-8f53c6a8079a")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.6533 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
 				(hide yes)
 			)
 		)
@@ -7343,7 +7343,7 @@
 	)
 	(global_label "RPWM3"
 		(shape input)
-		(at 35.56 45.72 0)
+		(at 35.56 109.22 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7353,29 +7353,7 @@
 		)
 		(uuid "c388efd4-57da-490e-80d8-cdc17caf7aab")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 45.1975 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "A0"
-		(shape input)
-		(at 39.37 86.36 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "c6f1c508-0669-456b-8869-ef337781886e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.6533 86.36 0)
+			(at 45.1975 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7409,7 +7387,7 @@
 	)
 	(global_label "SDA"
 		(shape input)
-		(at 36.83 121.92 0)
+		(at 36.83 76.2 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7419,7 +7397,7 @@
 		)
 		(uuid "c7ea26e2-a3c8-4c42-a2b0-b302e0756ad3")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 43.3833 121.92 0)
+			(at 43.3833 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7453,7 +7431,7 @@
 	)
 	(global_label "LPWM3"
 		(shape input)
-		(at 35.56 48.26 0)
+		(at 35.56 111.76 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7463,7 +7441,7 @@
 		)
 		(uuid "cc2ce94e-6b0f-4e5a-8517-65918124789d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.9556 48.26 0)
+			(at 44.9556 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7486,6 +7464,28 @@
 		(uuid "cc84d9c3-e28f-4894-bcf6-2a49a63db7b9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 135.1256 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "A1"
+		(shape input)
+		(at 39.37 60.96 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d1bd9d00-1cd1-4690-8f4a-9c8785dcce58")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 44.6533 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7607,7 +7607,7 @@
 	)
 	(global_label "RPWM1"
 		(shape input)
-		(at 35.56 20.32 0)
+		(at 35.56 83.82 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7617,7 +7617,7 @@
 		)
 		(uuid "dcef92e6-cbf1-4ed5-9847-46310a3a6cb2")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 45.1975 20.32 0)
+			(at 45.1975 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7629,7 +7629,7 @@
 	)
 	(global_label "B"
 		(shape input)
-		(at 40.64 63.5 0)
+		(at 40.64 41.91 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7639,7 +7639,7 @@
 		)
 		(uuid "ddb2e3f8-dc05-48e7-b1ea-83e618cffb15")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.8952 63.5 0)
+			(at 44.8952 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7651,7 +7651,7 @@
 	)
 	(global_label "MISO"
 		(shape input)
-		(at 36.83 76.2 0)
+		(at 36.83 25.4 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7661,7 +7661,7 @@
 		)
 		(uuid "de5c554a-30cb-4159-813d-8f4f5dff882b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.4114 76.2 0)
+			(at 44.4114 25.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7695,7 +7695,7 @@
 	)
 	(global_label "PWM1EN"
 		(shape input)
-		(at 35.56 17.78 0)
+		(at 35.56 81.28 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7705,7 +7705,7 @@
 		)
 		(uuid "e46526ee-99a3-4798-ae26-99591d31b5d7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 46.407 17.78 0)
+			(at 46.407 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7805,7 +7805,7 @@
 	)
 	(global_label "LPWM1"
 		(shape input)
-		(at 35.56 22.86 0)
+		(at 35.56 86.36 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7815,7 +7815,7 @@
 		)
 		(uuid "fc250153-7271-4c64-8848-1f0d92e06744")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 44.9556 22.86 0)
+			(at 44.9556 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7835,7 +7835,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0330b4bd-c025-4ff5-9ce6-b22dd116d955")
-		(property "Reference" "#PWR033"
+		(property "Reference" "#PWR022"
 			(at 130.81 25.4 0)
 			(effects
 				(font
@@ -7886,7 +7886,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR033")
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)
@@ -7901,7 +7901,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "04fe2ed3-cf9b-4c18-bad1-24dc5a2fb410")
-		(property "Reference" "PWM1ENR1"
+		(property "Reference" "R9"
 			(at 261.62 116.84 0)
 			(effects
 				(font
@@ -7954,7 +7954,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM1ENR1")
+					(reference "R9")
 					(unit 1)
 				)
 			)
@@ -7962,7 +7962,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
-		(at 30.48 86.36 0)
+		(at 30.48 60.96 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -7970,8 +7970,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0e3fc1cf-58e8-4e62-811f-198841cc989a")
-		(property "Reference" "ADC1"
-			(at 27.94 85.0899 0)
+		(property "Reference" "J4"
+			(at 27.94 59.6899 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7980,7 +7980,7 @@
 			)
 		)
 		(property "Value" "B3B-XH-A"
-			(at 27.94 87.6299 0)
+			(at 27.94 62.2299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7989,7 +7989,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical"
-			(at 30.48 86.36 0)
+			(at 30.48 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7998,7 +7998,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 30.48 86.36 0)
+			(at 30.48 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8007,7 +8007,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 30.48 86.36 0)
+			(at 30.48 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8027,7 +8027,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "ADC1")
+					(reference "J4")
 					(unit 1)
 				)
 			)
@@ -8042,7 +8042,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "149b17df-1c05-4e01-9af9-80cd158b0a29")
-		(property "Reference" "#PWR018"
+		(property "Reference" "#PWR033"
 			(at 218.44 139.7 0)
 			(effects
 				(font
@@ -8093,7 +8093,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR018")
+					(reference "#PWR033")
 					(unit 1)
 				)
 			)
@@ -8108,7 +8108,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "14c16b7f-b56c-49f8-998e-a75da7b4b599")
-		(property "Reference" "LPWM2ALEDR1"
+		(property "Reference" "R4"
 			(at 157.48 64.77 0)
 			(effects
 				(font
@@ -8161,7 +8161,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "LPWM2ALEDR1")
+					(reference "R4")
 					(unit 1)
 				)
 			)
@@ -8177,7 +8177,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1757b5ec-9667-42ba-8a31-446611a3ba64")
-		(property "Reference" "555RA1"
+		(property "Reference" "R15"
 			(at 129.54 143.51 0)
 			(effects
 				(font
@@ -8230,7 +8230,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "555RA1")
+					(reference "R15")
 					(unit 1)
 				)
 			)
@@ -8246,7 +8246,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1e0f1542-4e5d-4cdd-b906-89f7c7076a86")
-		(property "Reference" "#PWR034"
+		(property "Reference" "#PWR024"
 			(at 130.81 55.88 0)
 			(effects
 				(font
@@ -8297,7 +8297,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR034")
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -8312,7 +8312,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1f42762a-b792-4a52-9351-ec5e17f543be")
-		(property "Reference" "555TIMER1"
+		(property "Reference" "U2"
 			(at 100.33 113.792 0)
 			(effects
 				(font
@@ -8384,7 +8384,7 @@
 		(instances
 			(project ""
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "555TIMER1")
+					(reference "U2")
 					(unit 1)
 				)
 			)
@@ -8400,7 +8400,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "20be4a22-e08d-440f-b76e-4a1c4223777f")
-		(property "Reference" "PWM3SLED1"
+		(property "Reference" "D11"
 			(at 246.38 66.04 0)
 			(effects
 				(font
@@ -8454,7 +8454,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM3SLED1")
+					(reference "D11")
 					(unit 1)
 				)
 			)
@@ -8470,7 +8470,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "25aacbd8-da7c-4b8d-a458-4c375a233a2e")
-		(property "Reference" "#PWR026"
+		(property "Reference" "#PWR019"
 			(at 105.41 146.05 0)
 			(effects
 				(font
@@ -8521,7 +8521,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR026")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -8537,7 +8537,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2991dcbf-3b13-41bf-91b6-39546ad0efd9")
-		(property "Reference" "555C1"
+		(property "Reference" "C1"
 			(at 109.22 134.6199 90)
 			(effects
 				(font
@@ -8593,7 +8593,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "555C1")
+					(reference "C1")
 					(unit 1)
 				)
 			)
@@ -8601,7 +8601,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 35.56 55.88 270)
+		(at 35.56 34.29 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8609,8 +8609,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "29adcac6-6950-4806-a93e-b58ecd9f5834")
-		(property "Reference" "#PWR08"
-			(at 31.75 55.88 0)
+		(property "Reference" "#PWR02"
+			(at 31.75 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8619,7 +8619,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 41.402 55.88 90)
+			(at 41.402 34.29 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8627,7 +8627,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 55.88 0)
+			(at 35.56 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8636,7 +8636,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 55.88 0)
+			(at 35.56 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8645,7 +8645,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 35.56 55.88 0)
+			(at 35.56 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8659,7 +8659,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR08")
+					(reference "#PWR02")
 					(unit 1)
 				)
 			)
@@ -8667,7 +8667,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 35.56 109.22 90)
+		(at 35.56 124.46 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8675,8 +8675,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "2ad2cdb6-572c-4887-80c9-da0be10d7610")
-		(property "Reference" "#PWR015"
-			(at 41.91 109.22 0)
+		(property "Reference" "#PWR011"
+			(at 41.91 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8685,7 +8685,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 39.37 109.2199 90)
+			(at 39.37 124.4599 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8694,7 +8694,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 109.22 0)
+			(at 35.56 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8703,7 +8703,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 109.22 0)
+			(at 35.56 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8712,7 +8712,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 35.56 109.22 0)
+			(at 35.56 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8726,7 +8726,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR015")
+					(reference "#PWR011")
 					(unit 1)
 				)
 			)
@@ -8742,7 +8742,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2b77df5c-4516-4c04-84cb-fa73a18ad16d")
-		(property "Reference" "PWM1ENTR1"
+		(property "Reference" "R14"
 			(at 271.78 151.1301 90)
 			(effects
 				(font
@@ -8797,7 +8797,7 @@
 		(instances
 			(project ""
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM1ENTR1")
+					(reference "R14")
 					(unit 1)
 				)
 			)
@@ -8880,7 +8880,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2e50c714-1428-4f8f-b677-2a734ca8c830")
-		(property "Reference" "PWM3SLEDR1"
+		(property "Reference" "R13"
 			(at 262.89 69.85 0)
 			(effects
 				(font
@@ -8933,7 +8933,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM3SLEDR1")
+					(reference "R13")
 					(unit 1)
 				)
 			)
@@ -8949,7 +8949,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2ebb8a23-1acd-41d6-966f-72341b99040e")
-		(property "Reference" "PWM1LIMR1"
+		(property "Reference" "R8"
 			(at 228.6 111.7599 90)
 			(effects
 				(font
@@ -9004,7 +9004,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM1LIMR1")
+					(reference "R8")
 					(unit 1)
 				)
 			)
@@ -9019,7 +9019,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "317b8ede-20cb-42e4-8022-a0d47f3db3d9")
-		(property "Reference" "#PWR02"
+		(property "Reference" "#PWR017"
 			(at 73.66 62.23 0)
 			(effects
 				(font
@@ -9069,7 +9069,7 @@
 		(instances
 			(project ""
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR02")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -9144,7 +9144,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
-		(at 30.48 33.02 0)
+		(at 30.48 96.52 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -9152,8 +9152,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "31ec0b99-57b8-4934-8663-3c2418ae2cb6")
-		(property "Reference" "PWM2"
-			(at 27.94 33.0199 0)
+		(property "Reference" "J9"
+			(at 27.94 96.5199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9162,7 +9162,7 @@
 			)
 		)
 		(property "Value" "B4B-XH-A"
-			(at 27.94 35.5599 0)
+			(at 27.94 99.0599 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9171,7 +9171,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical"
-			(at 30.48 33.02 0)
+			(at 30.48 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9180,7 +9180,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 30.48 33.02 0)
+			(at 30.48 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9189,7 +9189,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 30.48 33.02 0)
+			(at 30.48 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9212,7 +9212,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM2")
+					(reference "J9")
 					(unit 1)
 				)
 			)
@@ -9227,7 +9227,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "330fbc2c-aef4-47fc-8eac-45027d649753")
-		(property "Reference" "RPWM3ALEDR1"
+		(property "Reference" "R6"
 			(at 210.82 19.05 0)
 			(effects
 				(font
@@ -9280,7 +9280,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "RPWM3ALEDR1")
+					(reference "R6")
 					(unit 1)
 				)
 			)
@@ -9288,7 +9288,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 35.56 83.82 270)
+		(at 35.56 58.42 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -9296,8 +9296,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "33af34da-ac8f-4d5f-bf02-a94a896f8447")
-		(property "Reference" "#PWR010"
-			(at 31.75 83.82 0)
+		(property "Reference" "#PWR06"
+			(at 31.75 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9306,7 +9306,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 41.402 83.82 90)
+			(at 41.402 58.42 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9314,7 +9314,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 83.82 0)
+			(at 35.56 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9323,7 +9323,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 83.82 0)
+			(at 35.56 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9332,7 +9332,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 35.56 83.82 0)
+			(at 35.56 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9346,7 +9346,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR010")
+					(reference "#PWR06")
 					(unit 1)
 				)
 			)
@@ -9362,7 +9362,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "35077947-0d69-4e01-897e-04e8ac5dbcbb")
-		(property "Reference" "SPILEDR1"
+		(property "Reference" "R10"
 			(at 262.89 19.05 0)
 			(effects
 				(font
@@ -9415,7 +9415,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "SPILEDR1")
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -9423,7 +9423,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 35.56 93.98 270)
+		(at 35.56 48.26 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -9431,8 +9431,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3cc9de67-aeca-4be4-945d-3033efb55068")
-		(property "Reference" "#PWR011"
-			(at 31.75 93.98 0)
+		(property "Reference" "#PWR08"
+			(at 31.75 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9441,7 +9441,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 41.402 93.98 90)
+			(at 41.402 48.26 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9449,7 +9449,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 93.98 0)
+			(at 35.56 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9458,7 +9458,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 93.98 0)
+			(at 35.56 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9467,7 +9467,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 35.56 93.98 0)
+			(at 35.56 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9481,7 +9481,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR011")
+					(reference "#PWR08")
 					(unit 1)
 				)
 			)
@@ -9489,7 +9489,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
-		(at 30.48 20.32 0)
+		(at 30.48 83.82 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -9497,8 +9497,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "405c1d2f-a186-47ff-be68-67a6d8f3f5a5")
-		(property "Reference" "PWM1"
-			(at 27.94 20.3199 0)
+		(property "Reference" "J8"
+			(at 27.94 83.8199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9507,7 +9507,7 @@
 			)
 		)
 		(property "Value" "B4B-XH-A"
-			(at 27.94 22.8599 0)
+			(at 27.94 86.3599 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9516,7 +9516,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical"
-			(at 30.48 20.32 0)
+			(at 30.48 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9525,7 +9525,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 30.48 20.32 0)
+			(at 30.48 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9534,7 +9534,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 30.48 20.32 0)
+			(at 30.48 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9557,7 +9557,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM1")
+					(reference "J8")
 					(unit 1)
 				)
 			)
@@ -9573,7 +9573,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "441acbcc-483d-46c7-8917-7f7d0cba9e9a")
-		(property "Reference" "RPWM1ALED1"
+		(property "Reference" "D1"
 			(at 140.97 15.24 0)
 			(effects
 				(font
@@ -9627,7 +9627,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "RPWM1ALED1")
+					(reference "D1")
 					(unit 1)
 				)
 			)
@@ -9635,7 +9635,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 35.56 68.58 270)
+		(at 35.56 17.78 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -9643,8 +9643,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4a96a186-63d7-49f1-a922-50b4a297414c")
-		(property "Reference" "#PWR05"
-			(at 31.75 68.58 0)
+		(property "Reference" "#PWR04"
+			(at 31.75 17.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9653,7 +9653,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 41.402 68.58 90)
+			(at 41.402 17.78 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9661,7 +9661,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 68.58 0)
+			(at 35.56 17.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9670,7 +9670,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 68.58 0)
+			(at 35.56 17.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9679,7 +9679,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 35.56 68.58 0)
+			(at 35.56 17.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9693,7 +9693,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR05")
+					(reference "#PWR04")
 					(unit 1)
 				)
 			)
@@ -9709,7 +9709,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4e7a9721-1beb-489b-a9d2-ad6e27e8e9f3")
-		(property "Reference" "#PWR021"
+		(property "Reference" "#PWR034"
 			(at 238.76 88.9 0)
 			(effects
 				(font
@@ -9759,7 +9759,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR021")
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -9775,7 +9775,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4fca6412-547c-4368-852d-6a34c2e61c7e")
-		(property "Reference" "#PWR016"
+		(property "Reference" "#PWR036"
 			(at 236.22 41.91 0)
 			(effects
 				(font
@@ -9826,7 +9826,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR016")
+					(reference "#PWR036")
 					(unit 1)
 				)
 			)
@@ -9841,7 +9841,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "515051db-e69c-4258-9a87-38855d63772c")
-		(property "Reference" "#PWR038"
+		(property "Reference" "#PWR015"
 			(at 71.12 119.38 0)
 			(effects
 				(font
@@ -9891,7 +9891,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR038")
+					(reference "#PWR015")
 					(unit 1)
 				)
 			)
@@ -9899,7 +9899,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 35.56 78.74 90)
+		(at 35.56 27.94 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -9907,8 +9907,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "52447470-abba-4415-9957-018494c14b1c")
-		(property "Reference" "#PWR06"
-			(at 41.91 78.74 0)
+		(property "Reference" "#PWR05"
+			(at 41.91 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9917,7 +9917,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 39.37 78.7399 90)
+			(at 39.37 27.9399 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9926,7 +9926,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 78.74 0)
+			(at 35.56 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9935,7 +9935,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 78.74 0)
+			(at 35.56 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9944,7 +9944,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 35.56 78.74 0)
+			(at 35.56 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9958,7 +9958,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR06")
+					(reference "#PWR05")
 					(unit 1)
 				)
 			)
@@ -9974,7 +9974,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "56ddfc74-b85c-4fbe-96bf-1fe4db276022")
-		(property "Reference" "#PWR023"
+		(property "Reference" "#PWR038"
 			(at 236.22 76.2 0)
 			(effects
 				(font
@@ -10025,7 +10025,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR023")
+					(reference "#PWR038")
 					(unit 1)
 				)
 			)
@@ -10108,7 +10108,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "5abb9037-af2b-4455-ab09-47c97c00b48e")
-		(property "Reference" "#PWR028"
+		(property "Reference" "#PWR018"
 			(at 80.01 170.18 0)
 			(effects
 				(font
@@ -10158,7 +10158,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR028")
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -10174,7 +10174,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5d365ae8-0745-4bcf-81e5-5339ed79b0a0")
-		(property "Reference" "#PWR07"
+		(property "Reference" "#PWR035"
 			(at 236.22 25.4 0)
 			(effects
 				(font
@@ -10225,7 +10225,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR07")
+					(reference "#PWR035")
 					(unit 1)
 				)
 			)
@@ -10241,7 +10241,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "5fa14049-4804-423e-93e2-db8ee69e3593")
-		(property "Reference" "#PWR017"
+		(property "Reference" "#PWR032"
 			(at 224.79 88.9 0)
 			(effects
 				(font
@@ -10291,7 +10291,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR017")
+					(reference "#PWR032")
 					(unit 1)
 				)
 			)
@@ -10307,7 +10307,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "627991e6-85e0-449d-b77d-7580d772d897")
-		(property "Reference" "SOLED1"
+		(property "Reference" "D9"
 			(at 246.38 31.75 0)
 			(effects
 				(font
@@ -10361,7 +10361,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "SOLED1")
+					(reference "D9")
 					(unit 1)
 				)
 			)
@@ -10377,7 +10377,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "65caa78c-b386-41d7-a714-c72736638f2d")
-		(property "Reference" "#PWR035"
+		(property "Reference" "#PWR025"
 			(at 130.81 71.12 0)
 			(effects
 				(font
@@ -10428,7 +10428,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR035")
+					(reference "#PWR025")
 					(unit 1)
 				)
 			)
@@ -10444,7 +10444,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "73925a30-bc71-4a57-8b69-79beac9e47c3")
-		(property "Reference" "LIM2"
+		(property "Reference" "J6"
 			(at 215.9 97.282 0)
 			(effects
 				(font
@@ -10496,7 +10496,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "LIM2")
+					(reference "J6")
 					(unit 1)
 				)
 			)
@@ -10512,7 +10512,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "73e2bed8-a745-45d6-aa72-106943f64fb3")
-		(property "Reference" "#PWR024"
+		(property "Reference" "#PWR026"
 			(at 134.62 106.68 0)
 			(effects
 				(font
@@ -10562,7 +10562,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR024")
+					(reference "#PWR026")
 					(unit 1)
 				)
 			)
@@ -10578,7 +10578,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "742754f6-ceb4-4ab7-96e7-4ee528e405da")
-		(property "Reference" "#PWR01"
+		(property "Reference" "#PWR016"
 			(at 63.5 24.13 0)
 			(effects
 				(font
@@ -10629,7 +10629,7 @@
 		(instances
 			(project ""
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR01")
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)
@@ -10645,7 +10645,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "77639788-1f27-437c-9cf4-2d6b58b99287")
-		(property "Reference" "PWM1ENT1"
+		(property "Reference" "Q1"
 			(at 250.19 127 0)
 			(effects
 				(font
@@ -10702,7 +10702,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM1ENT1")
+					(reference "Q1")
 					(unit 1)
 				)
 			)
@@ -10710,7 +10710,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
-		(at 30.48 58.42 0)
+		(at 30.48 36.83 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -10718,8 +10718,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "78de7bc1-9013-4b07-b6d4-3166c482cdca")
-		(property "Reference" "QUAD1"
-			(at 27.94 58.4199 0)
+		(property "Reference" "J2"
+			(at 27.94 36.8299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10728,7 +10728,7 @@
 			)
 		)
 		(property "Value" "B4B-XH-A"
-			(at 27.94 60.9599 0)
+			(at 27.94 39.3699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10737,7 +10737,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical"
-			(at 30.48 58.42 0)
+			(at 30.48 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10746,7 +10746,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 30.48 58.42 0)
+			(at 30.48 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10755,7 +10755,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 30.48 58.42 0)
+			(at 30.48 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10778,7 +10778,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "QUAD1")
+					(reference "J2")
 					(unit 1)
 				)
 			)
@@ -10794,7 +10794,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "795e0e15-2824-4caf-bdec-c2c58a75964a")
-		(property "Reference" "#PWR037"
+		(property "Reference" "#PWR030"
 			(at 184.15 40.64 0)
 			(effects
 				(font
@@ -10845,7 +10845,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR037")
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)
@@ -10860,7 +10860,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7af458aa-b721-448a-83b8-f221a087fceb")
-		(property "Reference" "#PWR039"
+		(property "Reference" "#PWR021"
 			(at 123.19 149.86 0)
 			(effects
 				(font
@@ -10910,7 +10910,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR039")
+					(reference "#PWR021")
 					(unit 1)
 				)
 			)
@@ -10925,7 +10925,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7cb3e9a0-4a12-446a-a499-fd52abd626a7")
-		(property "Reference" "LPWM1ALEDR1"
+		(property "Reference" "R2"
 			(at 157.48 34.29 0)
 			(effects
 				(font
@@ -10978,7 +10978,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "LPWM1ALEDR1")
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -10993,7 +10993,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "801968aa-bc65-4277-aa33-60e053d3f0f7")
-		(property "Reference" "LPWM3ALEDR1"
+		(property "Reference" "R7"
 			(at 210.82 34.29 0)
 			(effects
 				(font
@@ -11046,7 +11046,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "LPWM3ALEDR1")
+					(reference "R7")
 					(unit 1)
 				)
 			)
@@ -11062,7 +11062,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8208c970-a511-471e-b315-21e0c47ab3c1")
-		(property "Reference" "GATE1"
+		(property "Reference" "U3"
 			(at 55.88 160.02 0)
 			(effects
 				(font
@@ -11152,7 +11152,7 @@
 		(instances
 			(project ""
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "GATE1")
+					(reference "U3")
 					(unit 1)
 				)
 			)
@@ -11168,7 +11168,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "828bedc7-48a1-4254-90a4-94d7ca0dfc4e")
-		(property "Reference" "LPWM1ALED1"
+		(property "Reference" "D2"
 			(at 140.716 31.242 0)
 			(effects
 				(font
@@ -11222,7 +11222,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "LPWM1ALED1")
+					(reference "D2")
 					(unit 1)
 				)
 			)
@@ -11238,7 +11238,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "84972de7-ae4c-4341-843c-9e11f76ae264")
-		(property "Reference" "LPWM3ALED1"
+		(property "Reference" "D7"
 			(at 194.056 31.242 0)
 			(effects
 				(font
@@ -11292,7 +11292,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "LPWM3ALED1")
+					(reference "D7")
 					(unit 1)
 				)
 			)
@@ -11308,7 +11308,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "866a00e0-682b-4aba-8766-a89197976f46")
-		(property "Reference" "RPWM3ALED1"
+		(property "Reference" "D6"
 			(at 194.056 16.002 0)
 			(effects
 				(font
@@ -11362,7 +11362,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "RPWM3ALED1")
+					(reference "D6")
 					(unit 1)
 				)
 			)
@@ -11378,7 +11378,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8966fdf6-c609-40e8-a5da-be0d9c881384")
-		(property "Reference" "#PWR022"
+		(property "Reference" "#PWR037"
 			(at 236.22 57.15 0)
 			(effects
 				(font
@@ -11429,7 +11429,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR022")
+					(reference "#PWR037")
 					(unit 1)
 				)
 			)
@@ -11444,7 +11444,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "8b7210df-6d14-4286-a224-c87ef4f92671")
-		(property "Reference" "#PWR027"
+		(property "Reference" "#PWR028"
 			(at 185.42 125.73 0)
 			(effects
 				(font
@@ -11495,7 +11495,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR027")
+					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -11511,7 +11511,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8d980d22-59b7-486b-8e98-8ff4f2ccf754")
-		(property "Reference" "#PWR030"
+		(property "Reference" "#PWR01"
 			(at 21.59 185.42 0)
 			(effects
 				(font
@@ -11562,7 +11562,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR030")
+					(reference "#PWR01")
 					(unit 1)
 				)
 			)
@@ -11802,7 +11802,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9cb78066-15d2-4d4f-b8bc-bb3455ffe211")
-		(property "Reference" "RPWM2ALED1"
+		(property "Reference" "D3"
 			(at 140.716 46.482 0)
 			(effects
 				(font
@@ -11856,7 +11856,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "RPWM2ALED1")
+					(reference "D3")
 					(unit 1)
 				)
 			)
@@ -11871,7 +11871,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9d6d6303-5243-4e24-839c-04203511f161")
-		(property "Reference" "#PWR019"
+		(property "Reference" "#PWR031"
 			(at 203.2 90.17 0)
 			(effects
 				(font
@@ -11922,7 +11922,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR019")
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)
@@ -11930,7 +11930,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 35.56 106.68 270)
+		(at 35.56 121.92 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11938,8 +11938,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a0828800-31a2-42cd-84eb-d4108eb49582")
-		(property "Reference" "#PWR014"
-			(at 31.75 106.68 0)
+		(property "Reference" "#PWR010"
+			(at 31.75 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11948,7 +11948,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 41.402 106.68 90)
+			(at 41.402 121.92 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11956,7 +11956,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 106.68 0)
+			(at 35.56 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11965,7 +11965,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 106.68 0)
+			(at 35.56 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11974,7 +11974,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 35.56 106.68 0)
+			(at 35.56 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11988,7 +11988,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR014")
+					(reference "#PWR010")
 					(unit 1)
 				)
 			)
@@ -12004,7 +12004,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "aa9db3f3-0e58-4edb-9544-baccaa5f077f")
-		(property "Reference" "#PWR020"
+		(property "Reference" "#PWR039"
 			(at 269.24 160.02 0)
 			(effects
 				(font
@@ -12055,7 +12055,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR020")
+					(reference "#PWR039")
 					(unit 1)
 				)
 			)
@@ -12071,7 +12071,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ac58531f-18c4-4857-9c58-e1b03cc4d24d")
-		(property "Reference" "LPWM2ALED1"
+		(property "Reference" "D4"
 			(at 140.716 61.722 0)
 			(effects
 				(font
@@ -12125,7 +12125,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "LPWM2ALED1")
+					(reference "D4")
 					(unit 1)
 				)
 			)
@@ -12141,7 +12141,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ac842ea9-0c5c-49e3-9d69-e3533962e2bf")
-		(property "Reference" "#PWR032"
+		(property "Reference" "#PWR023"
 			(at 130.81 40.64 0)
 			(effects
 				(font
@@ -12192,7 +12192,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR032")
+					(reference "#PWR023")
 					(unit 1)
 				)
 			)
@@ -12200,7 +12200,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
-		(at 30.48 96.52 0)
+		(at 30.48 50.8 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -12208,8 +12208,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b44bcbb5-57a5-4705-919d-b430ac882ef2")
-		(property "Reference" "ADC2"
-			(at 27.94 95.2499 0)
+		(property "Reference" "J3"
+			(at 27.94 49.5299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12218,7 +12218,7 @@
 			)
 		)
 		(property "Value" "B3B-XH-A"
-			(at 27.94 97.7899 0)
+			(at 27.94 52.0699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12227,7 +12227,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical"
-			(at 30.48 96.52 0)
+			(at 30.48 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12236,7 +12236,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 30.48 96.52 0)
+			(at 30.48 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12245,7 +12245,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 30.48 96.52 0)
+			(at 30.48 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12265,7 +12265,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "ADC2")
+					(reference "J3")
 					(unit 1)
 				)
 			)
@@ -12281,7 +12281,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b853e5b1-9ea6-4061-8e0b-65a5abf0d175")
-		(property "Reference" "#PWR029"
+		(property "Reference" "#PWR027"
 			(at 161.29 170.18 0)
 			(effects
 				(font
@@ -12331,7 +12331,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR029")
+					(reference "#PWR027")
 					(unit 1)
 				)
 			)
@@ -12347,7 +12347,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "baa26b11-3d6b-425b-8503-be1a63545f96")
-		(property "Reference" "GATE2"
+		(property "Reference" "U4"
 			(at 137.16 160.02 0)
 			(effects
 				(font
@@ -12437,7 +12437,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "GATE2")
+					(reference "U4")
 					(unit 1)
 				)
 			)
@@ -12452,8 +12452,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "beb9c076-65be-45bb-928f-cb20f1819962")
-		(property "Reference" "PWM2SLEDR1"
-			(at 262.89 52.07 0)
+		(property "Reference" "R12"
+			(at 263.144 50.546 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12461,7 +12461,7 @@
 			)
 		)
 		(property "Value" "RCG06031K00FKEA"
-			(at 262.89 54.61 0)
+			(at 263.144 52.832 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12505,7 +12505,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM2SLEDR1")
+					(reference "R12")
 					(unit 1)
 				)
 			)
@@ -12521,7 +12521,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bfa56afd-0831-4207-90fe-8e0fd3d32307")
-		(property "Reference" "#PWR036"
+		(property "Reference" "#PWR029"
 			(at 184.15 25.4 0)
 			(effects
 				(font
@@ -12572,7 +12572,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR036")
+					(reference "#PWR029")
 					(unit 1)
 				)
 			)
@@ -12587,7 +12587,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c0ed47c4-a74d-4c19-9cdd-1f13e69c64ae")
-		(property "Reference" "RPWM1ALEDR1"
+		(property "Reference" "R1"
 			(at 157.48 19.05 0)
 			(effects
 				(font
@@ -12640,7 +12640,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "RPWM1ALEDR1")
+					(reference "R1")
 					(unit 1)
 				)
 			)
@@ -12656,7 +12656,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c15c0f8e-2b32-4f6e-b108-f38d8d9c2742")
-		(property "Reference" "PWM1SLED1"
+		(property "Reference" "D5"
 			(at 203.454 116.84 90)
 			(effects
 				(font
@@ -12712,7 +12712,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM1SLED1")
+					(reference "D5")
 					(unit 1)
 				)
 			)
@@ -12728,7 +12728,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c25225ec-c71e-4cb7-941a-9bc5424ab76f")
-		(property "Reference" "LIM1"
+		(property "Reference" "J7"
 			(at 229.87 96.52 0)
 			(effects
 				(font
@@ -12780,7 +12780,7 @@
 		(instances
 			(project ""
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "LIM1")
+					(reference "J7")
 					(unit 1)
 				)
 			)
@@ -12788,7 +12788,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 35.56 116.84 90)
+		(at 35.56 71.12 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -12796,8 +12796,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c283bb2a-e498-47f8-a4a6-3397f283ab37")
-		(property "Reference" "#PWR04"
-			(at 41.91 116.84 0)
+		(property "Reference" "#PWR013"
+			(at 41.91 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12806,7 +12806,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 39.37 116.8399 90)
+			(at 39.37 71.1199 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12815,7 +12815,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 116.84 0)
+			(at 35.56 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12824,7 +12824,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 116.84 0)
+			(at 35.56 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12833,7 +12833,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 35.56 116.84 0)
+			(at 35.56 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12847,7 +12847,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR04")
+					(reference "#PWR013")
 					(unit 1)
 				)
 			)
@@ -12862,7 +12862,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c7248308-1266-443a-b60c-a606d07793a2")
-		(property "Reference" "SOLEDR1"
+		(property "Reference" "R11"
 			(at 262.89 35.56 0)
 			(effects
 				(font
@@ -12915,7 +12915,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "SOLEDR1")
+					(reference "R11")
 					(unit 1)
 				)
 			)
@@ -12931,7 +12931,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cd1aaaf3-35ab-424c-9e28-6c3e4013e76a")
-		(property "Reference" "555RB1"
+		(property "Reference" "R16"
 			(at 148.59 121.92 0)
 			(effects
 				(font
@@ -12984,7 +12984,7 @@
 		(instances
 			(project ""
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "555RB1")
+					(reference "R16")
 					(unit 1)
 				)
 			)
@@ -12992,7 +12992,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
-		(at 30.48 45.72 0)
+		(at 30.48 109.22 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13000,8 +13000,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "cd20a80e-fee9-41d3-b36b-0400c52c98c2")
-		(property "Reference" "PWM3"
-			(at 27.94 45.7199 0)
+		(property "Reference" "J10"
+			(at 27.94 109.2199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13010,7 +13010,7 @@
 			)
 		)
 		(property "Value" "B4B-XH-A"
-			(at 27.94 48.2599 0)
+			(at 27.94 111.7599 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13019,7 +13019,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical"
-			(at 30.48 45.72 0)
+			(at 30.48 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13028,7 +13028,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 30.48 45.72 0)
+			(at 30.48 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13037,7 +13037,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 30.48 45.72 0)
+			(at 30.48 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13060,7 +13060,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM3")
+					(reference "J10")
 					(unit 1)
 				)
 			)
@@ -13135,7 +13135,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 35.56 88.9 90)
+		(at 35.56 63.5 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13143,8 +13143,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d04479fc-827b-4ff7-b211-75174328ba05")
-		(property "Reference" "#PWR012"
-			(at 41.91 88.9 0)
+		(property "Reference" "#PWR07"
+			(at 41.91 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13153,7 +13153,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 39.37 88.8999 90)
+			(at 39.37 63.4999 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13162,7 +13162,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 88.9 0)
+			(at 35.56 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13171,7 +13171,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 88.9 0)
+			(at 35.56 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13180,7 +13180,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 35.56 88.9 0)
+			(at 35.56 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13194,7 +13194,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR012")
+					(reference "#PWR07")
 					(unit 1)
 				)
 			)
@@ -13202,7 +13202,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x05")
-		(at 30.48 73.66 0)
+		(at 30.48 22.86 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13210,8 +13210,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d1839b59-16b3-4f04-bb6d-790a772c2aab")
-		(property "Reference" "SPI1"
-			(at 27.94 72.3899 0)
+		(property "Reference" "J1"
+			(at 27.94 21.5899 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13220,7 +13220,7 @@
 			)
 		)
 		(property "Value" "B5B-XH-A"
-			(at 27.94 74.9299 0)
+			(at 27.94 24.1299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13229,7 +13229,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B5B-XH-A_1x05_P2.50mm_Vertical"
-			(at 30.48 73.66 0)
+			(at 30.48 22.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13238,7 +13238,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 30.48 73.66 0)
+			(at 30.48 22.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13247,7 +13247,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 30.48 73.66 0)
+			(at 30.48 22.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13273,7 +13273,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "SPI1")
+					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -13288,7 +13288,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d227031d-daee-4c6b-945c-46baa44b596d")
-		(property "Reference" "RPWM2ALEDR1"
+		(property "Reference" "R3"
 			(at 157.48 49.53 0)
 			(effects
 				(font
@@ -13341,7 +13341,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "RPWM2ALEDR1")
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -13357,7 +13357,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d7e18069-c7c0-4d4d-940a-d24582cf9b19")
-		(property "Reference" "#PWR025"
+		(property "Reference" "#PWR014"
 			(at 60.96 111.76 0)
 			(effects
 				(font
@@ -13408,7 +13408,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR025")
+					(reference "#PWR014")
 					(unit 1)
 				)
 			)
@@ -13424,7 +13424,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e14645ea-6077-44bb-8594-f498d42faabb")
-		(property "Reference" "PWM1SLEDR1"
+		(property "Reference" "R5"
 			(at 192.786 101.092 0)
 			(effects
 				(font
@@ -13477,7 +13477,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM1SLEDR1")
+					(reference "R5")
 					(unit 1)
 				)
 			)
@@ -13493,7 +13493,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e155472f-d21a-469f-92b9-663039427d0b")
-		(property "Reference" "SPILED1"
+		(property "Reference" "D8"
 			(at 246.38 15.24 0)
 			(effects
 				(font
@@ -13547,7 +13547,7 @@
 		(instances
 			(project ""
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "SPILED1")
+					(reference "D8")
 					(unit 1)
 				)
 			)
@@ -13562,7 +13562,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e22bac11-a958-4638-9ef6-eb13ed7a4f9c")
-		(property "Reference" "555C2"
+		(property "Reference" "C2"
 			(at 163.322 112.268 0)
 			(effects
 				(font
@@ -13618,7 +13618,7 @@
 		(instances
 			(project ""
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "555C2")
+					(reference "C2")
 					(unit 1)
 				)
 			)
@@ -13626,7 +13626,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
-		(at 30.48 116.84 0)
+		(at 30.48 71.12 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13634,8 +13634,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e352b587-625e-4ac1-abe1-637003384869")
-		(property "Reference" "I2C1"
-			(at 27.94 116.8399 0)
+		(property "Reference" "J5"
+			(at 27.94 71.1199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13644,7 +13644,7 @@
 			)
 		)
 		(property "Value" "B4B-XH-A"
-			(at 27.94 119.3799 0)
+			(at 27.94 73.6599 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13653,7 +13653,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical"
-			(at 30.48 116.84 0)
+			(at 30.48 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13662,7 +13662,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 30.48 116.84 0)
+			(at 30.48 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13671,7 +13671,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 30.48 116.84 0)
+			(at 30.48 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13694,7 +13694,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "I2C1")
+					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -13702,7 +13702,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
-		(at 30.48 106.68 0)
+		(at 30.48 121.92 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13710,8 +13710,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ebadfccf-0636-45fd-9e62-863a62907550")
-		(property "Reference" "SOL1"
-			(at 27.94 105.4099 0)
+		(property "Reference" "J11"
+			(at 27.94 120.6499 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13720,7 +13720,7 @@
 			)
 		)
 		(property "Value" "B3B-XH-A"
-			(at 27.94 107.9499 0)
+			(at 27.94 123.1899 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13729,7 +13729,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical"
-			(at 30.48 106.68 0)
+			(at 30.48 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13738,7 +13738,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 30.48 106.68 0)
+			(at 30.48 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13747,7 +13747,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 30.48 106.68 0)
+			(at 30.48 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13767,7 +13767,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "SOL1")
+					(reference "J11")
 					(unit 1)
 				)
 			)
@@ -13775,7 +13775,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 35.56 114.3 270)
+		(at 35.56 68.58 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13783,8 +13783,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ebfb808b-c719-49bc-bebc-6a3a5921907d")
-		(property "Reference" "#PWR03"
-			(at 31.75 114.3 0)
+		(property "Reference" "#PWR012"
+			(at 31.75 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13793,7 +13793,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 41.402 114.3 90)
+			(at 41.402 68.58 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13801,7 +13801,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 114.3 0)
+			(at 35.56 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13810,7 +13810,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 114.3 0)
+			(at 35.56 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13819,7 +13819,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 35.56 114.3 0)
+			(at 35.56 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13833,7 +13833,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR03")
+					(reference "#PWR012")
 					(unit 1)
 				)
 			)
@@ -13849,8 +13849,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f4e2ae3b-d01c-455e-a1e4-c99d9c8358ac")
-		(property "Reference" "PWM2SLED1"
-			(at 246.38 48.26 0)
+		(property "Reference" "D10"
+			(at 246.38 47.244 0)
 			(effects
 				(font
 					(size 1.524 1.524)
@@ -13858,7 +13858,7 @@
 			)
 		)
 		(property "Value" "XL-2012SURC"
-			(at 246.38 50.8 0)
+			(at 246.38 49.784 0)
 			(effects
 				(font
 					(size 1.524 1.524)
@@ -13903,7 +13903,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "PWM2SLED1")
+					(reference "D10")
 					(unit 1)
 				)
 			)
@@ -13911,7 +13911,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 35.56 58.42 90)
+		(at 35.56 36.83 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13919,8 +13919,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f55c0c45-91ab-4d34-8c78-b5ffb74b8aeb")
-		(property "Reference" "#PWR09"
-			(at 41.91 58.42 0)
+		(property "Reference" "#PWR03"
+			(at 41.91 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13929,7 +13929,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 39.37 58.4199 90)
+			(at 39.37 36.8299 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13938,7 +13938,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 58.42 0)
+			(at 35.56 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13947,7 +13947,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 58.42 0)
+			(at 35.56 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13956,7 +13956,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 35.56 58.42 0)
+			(at 35.56 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13970,7 +13970,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR09")
+					(reference "#PWR03")
 					(unit 1)
 				)
 			)
@@ -13978,7 +13978,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 35.56 99.06 90)
+		(at 35.56 53.34 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13986,8 +13986,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f8eaf8ef-bf2d-479d-afe7-85cff3dfbf72")
-		(property "Reference" "#PWR013"
-			(at 41.91 99.06 0)
+		(property "Reference" "#PWR09"
+			(at 41.91 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13996,7 +13996,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 39.37 99.0599 90)
+			(at 39.37 53.3399 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14005,7 +14005,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 99.06 0)
+			(at 35.56 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14014,7 +14014,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 99.06 0)
+			(at 35.56 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14023,7 +14023,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 35.56 99.06 0)
+			(at 35.56 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14037,7 +14037,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR013")
+					(reference "#PWR09")
 					(unit 1)
 				)
 			)
@@ -14053,7 +14053,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fb8dac3f-12bb-4b0f-9006-230cbc1deccf")
-		(property "Reference" "#PWR031"
+		(property "Reference" "#PWR020"
 			(at 102.87 185.42 0)
 			(effects
 				(font
@@ -14104,7 +14104,7 @@
 		(instances
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR031")
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
