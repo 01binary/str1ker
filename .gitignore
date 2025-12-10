@@ -1,3 +1,4 @@
 **/OldVersions/**/*
 *.lck
 .vscode/settings.json
+**/*Backups

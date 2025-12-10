@@ -113,6 +113,7 @@ The first PWM channel differs from the rest in that it has two normally open lim
 |`555C2`     |PWM Activity Blink Timer Cont Capacitor
 |`555RA`     |PWM Activity Blink Timer Discharge Resistor 1
 |`555RB`     |PWM Activity Blink Timer Discharge Resistor 2
+|`Q1`        |PWM Channel 1 Status Transistor (SMMBT3904LT1G)
 |`PWM2SLED`  |PWM Channel 2 Status LED
 |`PWM2SLEDR` |PWM Channel 2 Status LED Resistor 1K
 |`PWM3SLED`  |PWM Channel 3 Status LED
@@ -222,6 +223,7 @@ An external voltage/current sensor (Adafruit INA260) is attached to Teensy I2C b
 |Pullup Resistor 10K|CRCW060310K0FKEA|https://www.digikey.com/en/products/detail/vishay-dale/crcw060310k0fkea/1174782
 |Series Resistor 100K|CRCW0603100KFKEA|https://www.digikey.com/en/products/detail/vishay-dale/crcw0603100kfkea/1174896
 |IC Gate|SN74HC08DR|https://www.digikey.com/en/products/detail/texas-instruments/sn74hc08dr/276834
+|Transistor|SMMBT3904LT1G|https://www.digikey.com/en/products/detail/onsemi/smmbt3904lt1g/3062754
 |555 Timer|TLC555CDR|https://www.digikey.com/en/products/detail/texas-instruments/tlc555cdr/276979
 |555 Timer Resistor 360K|RC0603FR-07360KL|https://www.digikey.com/en/products/detail/yageo/rc0603fr-07360kl/727183
 |555 Timer Capacitor 1uF|CC0603JRX7R7BB105|https://www.digikey.com/en/products/detail/yageo/CC0603JRX7R7BB105/7164369
