@@ -1648,7 +1648,7 @@
 		(path "/c25225ec-c71e-4cb7-941a-9bc5424ab76f")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)
@@ -2093,7 +2093,7 @@
 		(path "/405c1d2f-a186-47ff-be68-67a6d8f3f5a5")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)
@@ -3325,7 +3325,7 @@
 		(path "/73925a30-bc71-4a57-8b69-79beac9e47c3")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)
@@ -4076,7 +4076,7 @@
 		(path "/e352b587-625e-4ac1-abe1-637003384869")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)
@@ -5433,7 +5433,7 @@
 		(path "/ebadfccf-0636-45fd-9e62-863a62907550")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)
@@ -6068,7 +6068,7 @@
 		(path "/31ec0b99-57b8-4934-8663-3c2418ae2cb6")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)
@@ -6714,7 +6714,7 @@
 		(path "/cd20a80e-fee9-41d3-b36b-0400c52c98c2")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)
@@ -8794,7 +8794,7 @@
 		(path "/b44bcbb5-57a5-4705-919d-b430ac882ef2")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)
@@ -9246,7 +9246,7 @@
 		(path "/953c6944-5c13-4b8f-875b-d8b25781afb5")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start 17.78 8.89)
 			(end 17.78 -8.89)
@@ -11302,7 +11302,7 @@
 		(path "/d1839b59-16b3-4f04-bb6d-790a772c2aab")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)
@@ -13325,7 +13325,7 @@
 		(path "/0e3fc1cf-58e8-4e62-811f-198841cc989a")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)
@@ -13781,7 +13781,7 @@
 		(path "/78de7bc1-9013-4b07-b6d4-3166c482cdca")
 		(sheetname "/")
 		(sheetfile "ArmRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)
