@@ -98,42 +98,6 @@ The first PWM channel differs from the rest in that it has two normally open lim
 |`LPWM3`     |PWM Channel `3` LPWM
 |`PWM3VT`    |PWM Channel `3` Stall Warning
 
-|Component   |Description
-|------------|-----------------------------
-|`PWM1ENT`   |PWM Channel 1 Enabled Transistor
-|`PWM1ENTR`  |PWM Channel 1 Enabled Transistor Base Resistor 100K
-|`PWM1ENR`   |PWM Channel 1 Enabled Resistor 100K
-|`PWM1LIMR`  |PWM Channel 1 Enabled Limit Switch Resistor 10K
-|`PWM1SLEDR` |PWM Channel 1 Status LED Resistor
-|`PWM1SLED`  |PWM Channel 1 Status LED
-|`LIM1`      |PWM Channel 1 Enabled Limit Switch 1
-|`LIM2`      |PWM Channel 1 Enabled Limit Switch 2
-|`555TIMER`  |PWM Activity Blink Timer
-|`555C1`     |PWM Activity Blink Timer Treshold/Trigger Capacitor
-|`555C2`     |PWM Activity Blink Timer Cont Capacitor
-|`555RA`     |PWM Activity Blink Timer Discharge Resistor 1
-|`555RB`     |PWM Activity Blink Timer Discharge Resistor 2
-|`Q1`        |PWM Channel 1 Status Transistor (SMMBT3904LT1G)
-|`PWM2SLED`  |PWM Channel 2 Status LED
-|`PWM2SLEDR` |PWM Channel 2 Status LED Resistor 1K
-|`PWM3SLED`  |PWM Channel 3 Status LED
-|`PWM3SLEDR` |PWM Channel 3 Status LED Resistor 1K
-|`RPWM1ALED` |RPWM Channel 1 Activity LED
-|`RPWM1ALEDR`|RPWM Channel 1 Activity LED Resistor 1K
-|`LPWM1ALED` |LPWM Channel 1 Activity LED
-|`LPWM1ALEDR`|LPWM Channel 1 Activity LED Resistor 1K
-|`RPWM2ALED` |RPWM Channel 2 Activity LED
-|`RPWM2ALEDR`|RPWM Channel 2 Activity LED Resistor 1K
-|`LPWM2ALED` |LPWM Channel 2 Activity LED
-|`LPWM2ALEDR`|LPWM Channel 2 Activity LED Resistor 1K
-|`RPWM3ALED` |RPWM Channel 3 Activity LED
-|`RPWM3ALEDR`|RPWM Channel 3 Activity LED Resistor 1K
-|`LPWM3ALED` |LPWM Channel 3 Activity LED
-|`LPWM3ALEDR`|LPWM Channel 3 Activity LED Resistor 1K
-|`PWM1`      |PWM Channel 1 Locking Connector
-|`PWM2`      |PWM Channel 2 Locking Connector
-|`PWM3`      |PWM Channel 3 Locking Connector
-
 ## Solenoid
 
 There is one external solenoid with `VDD` (power), `GND` (ground), and `SIG` (signal) pins. The solenoid is enabled when it gets power from Teensy on the `VDD` pin, and gets triggered whenever `SIG` pin is `HIGH`.
@@ -143,12 +107,6 @@ The solenoid has its own activity LED called `SOLED` which lights up whenever th
 |Net         |Description
 |------------|----------------------------|
 |`SIG`       |Solenoid Trigger
-
-|Component   |Description
-|------------|-----------------------------
-|`SOLED`     |Solenoid Activity LED
-|`SOLEDR`    |Solenoid Activity LED Resistor 1K
-|`SOL1`      |Solenoid Locking Connector
 
 ## Absolute Encoder
 
@@ -166,10 +124,6 @@ When the communication with the encoder is initialized successfully, the control
 |`SCK`       |Absolute Encoder SPI Clock
 |`MISO`      |Absolute Encoder SPI Output
 
-|Component   |Description
-|------------|-----------------------------
-|`SPI1`      |Absolute Encoder Locking Connector
-
 ## Relative Encoder
 
 An external relative encoder is attached to Teensy interruptable pins `D2` and `D5`. Like the absolute encoder, it is powered through Teensy 3.3V and Ground pins.
@@ -181,10 +135,6 @@ An external relative encoder is attached to Teensy interruptable pins `D2` and `
 |`A`         |Relative Encoder A Channel
 |`B`         |Relative Encoder B Channel
 
-|Component   |Description
-|------------|-----------------------------
-|`QUAD`      |Relative Encoder Locking Connector
-
 ## Potentiometers
 
 Two external potentiometers are attached to Teensy pins `A0` and `A1` through locking connectors. Both need power and ground from Teensy.
@@ -195,11 +145,6 @@ Two external potentiometers are attached to Teensy pins `A0` and `A1` through lo
 |`GND`       |Potentiometer Ground
 |`A0`        |Potentiometer 1 Voltage
 |`A1`        |Potentiometer 2 Voltage
-
-|Component   |Description
-|------------|-----------------------------
-|`ADC1`      |Potentiometer 1 Locking Connector
-|`ADC2`      |Potentiometer 2 Locking Connector
 
 ## Voltage/Current Sensor
 
