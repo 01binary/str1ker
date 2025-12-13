@@ -81,8 +81,6 @@ The 555 timer is configured with two resistors, 10K and 360K, for a blink rate o
 
 The first PWM channel differs from the rest in that it has two normally open limit switches that cut off the `EN` signal from microcontroller when closed by using a transistor. In this way, even if this PWM channel is enabled by the controller, closing either switch will disable it.
 
-### Networks
-
 |Net         |Description
 |------------|----------------------------|
 |`PWM1EN`    |PWM Channel `1` Enabled
