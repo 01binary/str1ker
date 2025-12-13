@@ -5198,6 +5198,107 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "power:PWR_FLAG"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#FLG"
+				(at 0 1.905 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "PWR_FLAG"
+				(at 0 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Special symbol for telling ERC where power comes from"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "flag power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "PWR_FLAG_0_0"
+				(pin power_out line
+					(at 0 0 90)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(polyline
 		(pts
@@ -5356,6 +5457,12 @@
 		(uuid "2ae10436-dd96-4da7-b4eb-0829b3093e99")
 	)
 	(junction
+		(at 57.15 62.23)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b07b2202-8410-4de0-a5af-b4bb083d927e")
+	)
+	(junction
 		(at 158.75 128.27)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5378,6 +5485,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "eeebe53e-e63d-4c6e-a827-b472e6e4a696")
+	)
+	(junction
+		(at 57.15 24.13)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fca4df13-28f7-4ffb-98a1-5e1f5e0ed282")
 	)
 	(no_connect
 		(at 125.73 67.31)
@@ -5624,6 +5737,16 @@
 			(type default)
 		)
 		(uuid "200e65d7-2140-45f5-8aa6-9a9879e4959a")
+	)
+	(wire
+		(pts
+			(xy 57.15 62.23) (xy 69.85 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "25b03d64-25e3-4949-ab91-17ad3c1a1915")
 	)
 	(wire
 		(pts
@@ -5887,6 +6010,16 @@
 	)
 	(wire
 		(pts
+			(xy 55.88 62.23) (xy 57.15 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7f089126-1b54-4163-b887-876d6657c9db")
+	)
+	(wire
+		(pts
 			(xy 138.43 111.76) (xy 133.35 111.76)
 		)
 		(stroke
@@ -6027,6 +6160,16 @@
 	)
 	(wire
 		(pts
+			(xy 55.88 24.13) (xy 57.15 24.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b4715ca4-a861-40a7-b547-ca424d2c2dcd")
+	)
+	(wire
+		(pts
 			(xy 64.77 77.47) (xy 69.85 77.47)
 		)
 		(stroke
@@ -6084,6 +6227,16 @@
 			(type default)
 		)
 		(uuid "da424f46-d037-4c43-9cdb-dc3ae8b4d381")
+	)
+	(wire
+		(pts
+			(xy 57.15 24.13) (xy 69.85 24.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e9514000-8b79-490d-8b32-3ad05ffda6c3")
 	)
 	(wire
 		(pts
@@ -6154,16 +6307,6 @@
 			(justify left bottom)
 		)
 		(uuid "3998e048-662d-48ec-802f-bc53da688c5d")
-	)
-	(label "PWM1EN"
-		(at 198.12 123.19 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "8c630c21-fe70-4225-a5eb-65eaa13cec78")
 	)
 	(label "NODE_A"
 		(at 129.54 128.27 0)
@@ -7583,7 +7726,7 @@
 			)
 		)
 	)
-	(global_label "SOL"
+	(global_label "SIG"
 		(shape input)
 		(at 66.04 82.55 180)
 		(fields_autoplaced yes)
@@ -7595,7 +7738,7 @@
 		)
 		(uuid "dc2195bf-10ce-42e7-9249-f8fa211534de")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 59.4867 82.55 0)
+			(at 59.9705 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7909,7 +8052,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 261.62 119.38 0)
 			(effects
 				(font
@@ -8116,7 +8259,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 157.48 67.31 0)
 			(effects
 				(font
@@ -8185,7 +8328,7 @@
 				)
 			)
 		)
-		(property "Value" "CRCW060310K0FKEA"
+		(property "Value" "10K"
 			(at 129.54 146.05 0)
 			(effects
 				(font
@@ -8408,7 +8551,7 @@
 				)
 			)
 		)
-		(property "Value" "XL-2012SURC"
+		(property "Value" "PINK LED"
 			(at 246.38 68.58 0)
 			(effects
 				(font
@@ -8546,7 +8689,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "CC0603JRX7R7BB105"
+		(property "Value" "1uF"
 			(at 109.22 137.1599 90)
 			(effects
 				(font
@@ -8594,72 +8737,6 @@
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "C1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3.3V")
-		(at 35.56 34.29 270)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "29adcac6-6950-4806-a93e-b58ecd9f5834")
-		(property "Reference" "#PWR02"
-			(at 31.75 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3.3V"
-			(at 41.402 34.29 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 35.56 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 35.56 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 35.56 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "88263635-33e8-4e32-a7c1-59ab596b0ed1")
-		)
-		(instances
-			(project "ArmRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR02")
 					(unit 1)
 				)
 			)
@@ -8751,7 +8828,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "CRCW0603100KFKEA"
+		(property "Value" "100K"
 			(at 271.78 148.5901 90)
 			(effects
 				(font
@@ -8888,7 +8965,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 262.89 72.39 0)
 			(effects
 				(font
@@ -8958,7 +9035,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "CRCW060310K0FKEA"
+		(property "Value" "10K"
 			(at 228.6 114.2999 90)
 			(effects
 				(font
@@ -9012,7 +9089,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 69.85 62.23 90)
+		(at 55.88 62.23 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9020,7 +9097,7 @@
 		(dnp no)
 		(uuid "317b8ede-20cb-42e4-8022-a0d47f3db3d9")
 		(property "Reference" "#PWR017"
-			(at 73.66 62.23 0)
+			(at 59.69 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9029,7 +9106,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 64.008 62.23 90)
+			(at 50.038 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9037,7 +9114,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 69.85 62.23 0)
+			(at 55.88 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9046,7 +9123,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 69.85 62.23 0)
+			(at 55.88 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9055,7 +9132,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 69.85 62.23 0)
+			(at 55.88 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9235,7 +9312,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 210.82 21.59 0)
 			(effects
 				(font
@@ -9370,7 +9447,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 262.89 21.59 0)
 			(effects
 				(font
@@ -9581,7 +9658,7 @@
 				)
 			)
 		)
-		(property "Value" "150080BS75000"
+		(property "Value" "BLUE LED"
 			(at 140.97 17.78 0)
 			(effects
 				(font
@@ -10315,7 +10392,7 @@
 				)
 			)
 		)
-		(property "Value" "150080BS75000"
+		(property "Value" "BLUE LED"
 			(at 246.38 34.29 0)
 			(effects
 				(font
@@ -10429,6 +10506,72 @@
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR025")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3.3V")
+		(at 35.56 34.29 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6aacd635-c30d-469a-97ea-50b70acad18d")
+		(property "Reference" "#PWR02"
+			(at 31.75 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 41.402 34.29 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 35.56 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 35.56 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 35.56 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f5de60b2-08b2-45a5-ade2-2cf311ca4534")
+		)
+		(instances
+			(project "ArmRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "#PWR02")
 					(unit 1)
 				)
 			)
@@ -10570,7 +10713,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 69.85 24.13 270)
+		(at 55.88 24.13 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10579,7 +10722,7 @@
 		(fields_autoplaced yes)
 		(uuid "742754f6-ceb4-4ab7-96e7-4ee528e405da")
 		(property "Reference" "#PWR016"
-			(at 63.5 24.13 0)
+			(at 49.53 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10588,7 +10731,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 66.04 24.1299 90)
+			(at 52.07 24.1299 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10597,7 +10740,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 69.85 24.13 0)
+			(at 55.88 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10606,7 +10749,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 69.85 24.13 0)
+			(at 55.88 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10615,7 +10758,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 69.85 24.13 0)
+			(at 55.88 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10933,7 +11076,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 157.48 36.83 0)
 			(effects
 				(font
@@ -11001,7 +11144,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 210.82 36.83 0)
 			(effects
 				(font
@@ -11176,7 +11319,7 @@
 				)
 			)
 		)
-		(property "Value" "150080BS75000"
+		(property "Value" "BLUE LED"
 			(at 140.716 33.782 0)
 			(effects
 				(font
@@ -11246,7 +11389,7 @@
 				)
 			)
 		)
-		(property "Value" "150080BS75000"
+		(property "Value" "BLUE LED"
 			(at 194.056 33.782 0)
 			(effects
 				(font
@@ -11316,7 +11459,7 @@
 				)
 			)
 		)
-		(property "Value" "150080BS75000"
+		(property "Value" "BLUE LED"
 			(at 194.056 18.542 0)
 			(effects
 				(font
@@ -11810,7 +11953,7 @@
 				)
 			)
 		)
-		(property "Value" "150080BS75000"
+		(property "Value" "BLUE LED"
 			(at 140.716 49.022 0)
 			(effects
 				(font
@@ -11995,6 +12138,71 @@
 		)
 	)
 	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 57.15 62.23 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a0a9d557-c655-472f-ab3b-437c78e10698")
+		(property "Reference" "#FLG01"
+			(at 57.15 60.325 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 63.754 60.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 57.15 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 57.15 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 57.15 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4378b980-cb3a-49cc-be71-0bc658ec53ac")
+		)
+		(instances
+			(project ""
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "#FLG01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 275.59 160.02 270)
 		(mirror x)
@@ -12079,7 +12287,7 @@
 				)
 			)
 		)
-		(property "Value" "150080BS75000"
+		(property "Value" "BLUE LED"
 			(at 140.716 64.262 0)
 			(effects
 				(font
@@ -12460,7 +12668,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 263.144 52.832 0)
 			(effects
 				(font
@@ -12595,7 +12803,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 157.48 21.59 0)
 			(effects
 				(font
@@ -12665,7 +12873,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "XL-2012SURC"
+		(property "Value" "PINK LED"
 			(at 203.454 114.3 90)
 			(effects
 				(font
@@ -12870,7 +13078,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 262.89 38.1 0)
 			(effects
 				(font
@@ -12939,7 +13147,7 @@
 				)
 			)
 		)
-		(property "Value" "RC0603FR-07360KL"
+		(property "Value" "360K"
 			(at 148.59 124.46 0)
 			(effects
 				(font
@@ -13296,7 +13504,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 157.48 52.07 0)
 			(effects
 				(font
@@ -13432,7 +13640,7 @@
 				)
 			)
 		)
-		(property "Value" "RCG06031K00FKEA"
+		(property "Value" "1K"
 			(at 190.246 101.092 0)
 			(effects
 				(font
@@ -13501,7 +13709,7 @@
 				)
 			)
 		)
-		(property "Value" "XL-2012SURC"
+		(property "Value" "PINK LED"
 			(at 246.38 17.78 0)
 			(effects
 				(font
@@ -13571,7 +13779,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "C0402C103J4RACTU"
+		(property "Value" "0.01uF"
 			(at 163.322 114.808 0)
 			(effects
 				(font
@@ -13840,6 +14048,71 @@
 		)
 	)
 	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 57.15 24.13 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ed5ae50b-081a-4e66-88fb-5bfdd4627e2e")
+		(property "Reference" "#FLG02"
+			(at 57.15 22.225 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 63.754 22.606 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 57.15 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 57.15 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 57.15 24.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c74c1597-f499-4a9b-b50d-04c4ce4f1e0d")
+		)
+		(instances
+			(project ""
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "#FLG02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "XL-2012UPC:XL-2012SURC")
 		(at 252.73 57.15 0)
 		(mirror y)
@@ -13857,7 +14130,7 @@
 				)
 			)
 		)
-		(property "Value" "XL-2012SURC"
+		(property "Value" "PINK LED"
 			(at 246.38 49.784 0)
 			(effects
 				(font
