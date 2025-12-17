@@ -490,7 +490,7 @@
       "plot": "",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "../../../Desktop/ArmRobotBoardTeensy.step",
+      "step": "../../../../ArmRobotBoardTeensy.step",
       "svg": "",
       "vrml": ""
     },

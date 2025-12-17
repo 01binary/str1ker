@@ -8559,7 +8559,7 @@
 				)
 			)
 		)
-		(property "Footprint" "LED_XL-2012:LED_XL-2012SURC_XLG"
+		(property "Footprint" "XL-2012UPC:LED_XL-2012SURC_XLG"
 			(at 252.73 76.2 0)
 			(effects
 				(font
@@ -9666,7 +9666,7 @@
 				)
 			)
 		)
-		(property "Footprint" "150080BS75000:150080BS75000"
+		(property "Footprint" "150080BS75000:150080BS75000_Modified"
 			(at 147.32 25.4 0)
 			(effects
 				(font
@@ -10400,7 +10400,7 @@
 				)
 			)
 		)
-		(property "Footprint" "150080BS75000:150080BS75000"
+		(property "Footprint" "150080BS75000:150080BS75000_Modified"
 			(at 252.73 41.91 0)
 			(effects
 				(font
@@ -11327,7 +11327,7 @@
 				)
 			)
 		)
-		(property "Footprint" "150080BS75000:150080BS75000"
+		(property "Footprint" "150080BS75000:150080BS75000_Modified"
 			(at 147.32 40.64 0)
 			(effects
 				(font
@@ -11397,7 +11397,7 @@
 				)
 			)
 		)
-		(property "Footprint" "150080BS75000:150080BS75000"
+		(property "Footprint" "150080BS75000:150080BS75000_Modified"
 			(at 200.66 40.64 0)
 			(effects
 				(font
@@ -11467,7 +11467,7 @@
 				)
 			)
 		)
-		(property "Footprint" "150080BS75000:150080BS75000"
+		(property "Footprint" "150080BS75000:150080BS75000_Modified"
 			(at 200.66 25.4 0)
 			(effects
 				(font
@@ -11961,7 +11961,7 @@
 				)
 			)
 		)
-		(property "Footprint" "150080BS75000:150080BS75000"
+		(property "Footprint" "150080BS75000:150080BS75000_Modified"
 			(at 147.32 55.88 0)
 			(effects
 				(font
@@ -12295,7 +12295,7 @@
 				)
 			)
 		)
-		(property "Footprint" "150080BS75000:150080BS75000"
+		(property "Footprint" "150080BS75000:150080BS75000_Modified"
 			(at 147.32 71.12 0)
 			(effects
 				(font
@@ -12882,7 +12882,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "LED_XL-2012:LED_XL-2012SURC_XLG"
+		(property "Footprint" "XL-2012UPC:LED_XL-2012SURC_XLG"
 			(at 196.85 120.65 0)
 			(effects
 				(font
@@ -13717,7 +13717,7 @@
 				)
 			)
 		)
-		(property "Footprint" "LED_XL-2012:LED_XL-2012SURC_XLG"
+		(property "Footprint" "XL-2012UPC:LED_XL-2012SURC_XLG"
 			(at 252.73 25.4 0)
 			(effects
 				(font
@@ -14138,7 +14138,7 @@
 				)
 			)
 		)
-		(property "Footprint" "LED_XL-2012:LED_XL-2012SURC_XLG"
+		(property "Footprint" "XL-2012UPC:LED_XL-2012SURC_XLG"
 			(at 252.73 57.15 0)
 			(effects
 				(font
