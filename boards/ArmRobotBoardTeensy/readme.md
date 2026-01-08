@@ -163,6 +163,8 @@ An external voltage/current sensor (Adafruit INA260) is attached to Teensy I2C b
 |Pink LED|XL-2012UPC|https://www.digikey.com/en/products/detail/xinglight/xl-2012upc/25672960
 |Blue LED|150080BS75000|https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150080bs75000/4489912
 |LED Resistor 1K|RCG06031K00FKEA|https://www.digikey.com/en/products/detail/vishay-dale/rcg06031k00fkea/4172389
+|LED Resistor 150 Ohm|RC0603FR-07150RL|https://www.digikey.com/en/products/detail/yageo/RC0603FR-07150RL/726958
+|LED Resistor 470 Ohm|RC0603FR-07470RL|https://www.digikey.com/en/products/detail/yageo/RC0603FR-07470RL/727256
 |Pullup Resistor 10K|CRCW060310K0FKEA|https://www.digikey.com/en/products/detail/vishay-dale/crcw060310k0fkea/1174782
 |Series Resistor 100K|CRCW0603100KFKEA|https://www.digikey.com/en/products/detail/vishay-dale/crcw0603100kfkea/1174896
 |IC Gate|SN74HC08DR|https://www.digikey.com/en/products/detail/texas-instruments/sn74hc08dr/276834

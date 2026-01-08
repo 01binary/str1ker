@@ -12,4 +12,6 @@
   (lib (name "RC0603FR-07360KL")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor360K/RC0603FR-07360KL.kicad_sym")(options "")(descr "Resistor 360K"))
   (lib (name "CC0603JRX7R7BB105")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Capacitor1uF/CC0603JRX7R7BB105.kicad_sym")(options "")(descr "Capacitor 1uF"))
   (lib (name "C0402C103J4RACTU")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Capacitor0.01uF/C0402C103J4RACTU.kicad_sym")(options "")(descr "Capacitor 0.01uF"))
+  (lib (name "RC0603FR-07150RL")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor150/RC0603FR-07150RL.kicad_sym")(options "")(descr ""))
+  (lib (name "RC0603FR-07470RL")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor470/RC0603FR-07470RL.kicad_sym")(options "")(descr ""))
 )
