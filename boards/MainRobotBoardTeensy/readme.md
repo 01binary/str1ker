@@ -100,7 +100,7 @@ The following external components are connected to the board via JST-XH locking 
 
 |Component|Description|
 |-|-|
-|[CRCW060310K0FKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw060310k0fkea/1174782)|10K Pull-Down Resistor (PWM channels)|
+|[CRCW060310K0FKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw060310k0fkea/1174782)|`10K` Pull-Down Resistor (PWM channels)|
 ||`47R` Series Resistor (PWM channels)|
 ||`2.2K` Series Resistor (ADC channels)|
 ||`150R` Series Resistor (Blue LEDs)|
