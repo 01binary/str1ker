@@ -37,7 +37,7 @@ The following external components are connected to the board via JST-XH locking 
 |[AS5045 Hall Effect Encoder](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045-adapterboard/2339623)|Head Pan Encoder|
 |[4x NP32HS Hollow Shaft Potentiometer](https://p3america.com/np32hs-series/)|Knee Encoder|
 |[PerfectPass 56Kg Servo](https://www.amazon.com/dp/B09Y4NZJBJ)|Mouth Movement|
-|[CPM-MCVC-3441S-RLN](https://teknic.com/model-info/CPM-MCVC-3441S-RLN/?model_voltage=75VDC)|Torso (Integrated) Motor Driver
+|[CPM-MCVC-3441S-RLN](https://teknic.com/model-info/CPM-MCVC-3441S-RLN/?model_voltage=75VDC)|Torso Pan Motor Driver
 
 ## Pins
 
