@@ -1,4 +1,4 @@
-# Teensy Motor Control Board
+# Arm Motor Control Board
 
 ![board](./Graphics/Board3D.png)
 
