@@ -2,9 +2,9 @@
 
 A board that controls robot head, body, and legs (everything but the arms).
 
-+ Head pan/tilt
-+ Mouth movement
-+ Torso pan/tilt
++ Head Pan/Tilt
++ Mouth Movement
++ Torso Pan/Tilt
 + Leg Raise/Lower
 + Leg Drive
 + Voltage and Current Sensing
