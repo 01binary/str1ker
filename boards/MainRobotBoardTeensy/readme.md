@@ -103,7 +103,6 @@ The following external components are connected to the board via JST-XH locking 
 |[CRCW060310K0FKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw060310k0fkea/1174782)|`10K` Pull-Down Resistor (PWM channels)|
 ||`47R` Series Resistor (PWM channels)|
 ||`2.2K` Series Resistor (ADC channels)|
-||`150R` Series Resistor (Blue LEDs)|
 ||`470R` Series Resistor (Pink LEDs)|
 ||`47nF` Capacitor (ADC channels)|
 |[JST_XH_B3B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b3b-xh-a/1651046)|Current Sensor, Head Tilt Potentiometer, Torso Tilt Potentiometer, Knee Potentiometers (`3V3`, `SIG`, `GND`)|
