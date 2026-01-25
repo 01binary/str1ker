@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "AS5047P")(type "KiCad")(uri "${KIPRJMOD}/dependencies/AS5047P-ASST/AS5047P-ASST.kicad_sym")(options "")(descr ""))
+)

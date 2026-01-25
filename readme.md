@@ -3,17 +3,12 @@
 Source code and parts for [Str1ker](https://www.01binary.us/projects/drumming-robot/) drumming robot. See [build log](https://hackaday.io/project/171607-drumming-robot) on Hackaday.io.
 
 ![body](./doc/readme/body.png)
-![arms](./doc/readme/arms.png)
-![wiring](./doc/readme/wiring.jpeg)
-![rviz](./design/arm.png)
 
 ## System Requirements
 
 ### Hardware
 
-**Minimum**: [Raspberry Pi 4B 8GB](https://www.amazon.com/Raspberry-Pi-Computer-Suitable-Workstation/dp/B0899VXM8F) + [Arduino Micro](https://www.amazon.com/Arduino-Micro-Headers-A000053-Controller/dp/B00AFY2S56)
-
-**Recommended**: [Latte Panda 3 Delta](https://www.amazon.com/LattePanda-Delta-864-Pocket-Sized-Computer/dp/B0BB7CY51B)
+[Latte Panda 3 Delta](https://www.amazon.com/LattePanda-Delta-864-Pocket-Sized-Computer/dp/B0BB7CY51B)
 
 ### Software
 

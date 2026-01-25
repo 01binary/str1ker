@@ -1,3 +1,6 @@
 **/OldVersions/**/*
 *.lck
 .vscode/settings.json
+**/*Backups
+.DS_Store
+*.bak
