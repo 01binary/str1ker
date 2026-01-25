@@ -10,10 +10,13 @@ For 3.3V operation `VDD` and `VDD3V3` are bridged and decoupled to `GND` via `10
 
 ## Interface
 
+The following is documented in [AS5047P specifications](./doc/AS5047P.pdf):
+
 + SPI mode 1 (`CPOL` = `0`, `CPHA` = `1`)
-+ Transfer starts when `CSn` is `LOW` and `CLK` is LOW
++ Transfer begins when `CSn` is `LOW` and `CLK` is `LOW`
 + MSB-first, data protected by parity
-+ 16 bit data frame
+
+The encoder returns a 16-bit data frame:
 
 ```c++
 struct AS5047Reading
@@ -46,7 +49,11 @@ struct AS5047Reading
     this->error || __builtin_popcount(this->value) & 1 != this->parity;
   }
 };
+```
 
+The commands are also sent in a 16-bit data frame:
+
+```c++
 enum AS5047Commands
 {
   ANGLE = 0x3FFF;
@@ -78,12 +85,12 @@ struct AS5047Command
     this->address = (command & 0x3FFF);
     this->readWrite = 1;
     this->parity = 0;
-    this->parity = __builtin_popcount(this->value) & 1;
+    this->parity = __builtin_popcount(this->value) % 2;
   }
 };
 ```
 
-The parity bit is calculated on the first 15 bits of the data frame. If the value is even, the parity bit is set, otherwise cleared.
+> The parity bit is calculated on the first 15 bits of the data frame. This counts how many bits are set in the value - if the number of `1`'s is *even* the parity bit will be `0`, otherwise `1`.
 
 ## Connector
 
@@ -159,8 +166,24 @@ void loop()
 }
 ```
 
+## Network
+
+The following components appear on the board other than the encoder and the connector:
+
++ `100nF` to `GND` on `VDD`: decoupling capacitor
++ `10nF` to `GND` on `VDD`: bypass capacitor
++ `1uF` to `GDN` on `VDD3V3`: bulk capacitor
++ `VDD` and `VDD3V3` bridged on `VIN`: for 3.3V operation
++ `4.7K` to `GND` on `SCK`: clock pull-down
++ `4.7K` to `VIN` on `CS`: chip select pull-up
+
 ## BOM
 
 |Component|Description|
 |-|-|
-|
+|[AS5047P-ATST](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5047p-atst-tssop14-lf-t-rdp/5288535)|Encoder|
+|[885342208002](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/885342208002/9345893)|`100nF` Decoupling Capacitor|
+|[885012206089](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/885012206089/5453862)|`10nF` Bypass Capacitor|
+|[CC0603JRX7R7BB105](https://www.digikey.com/en/products/detail/yageo/CC0603JRX7R7BB105/7164369)|`1uF` Bulk Capacitor|
+|[RE0603FRE074K7L](https://www.digikey.com/en/products/detail/yageo/RE0603FRE074K7L/12708232)|`4.7K` Pull-Down/Pull-Up Resistor|
+|PinHeader_2x05_P2.54mm|Standard KiCad IDC Connector|
