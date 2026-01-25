@@ -112,7 +112,6 @@ The following can be used to initialize the encoder on [Teensy 4.0](https://www.
 const int CS = 10;
 const int SCK = 13;
 const int MISO = 12;
-const long MHz = 1000000;
 
 void setup()
 {
@@ -132,6 +131,8 @@ void setup()
 The following can be used to read the encoder value:
 
 ```c++
+const long MHz = 1000000;
+
 AS5047Command angleCommand(ANGLE);
 AS5047Command nopCommand(NOP);
 AS5047Reading reading;
