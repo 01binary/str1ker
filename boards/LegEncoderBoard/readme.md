@@ -2,7 +2,7 @@
 
 A custom board that simplifies mounting `AS5047P` hall-effect on-axis encoder with 14-bit resolution directly on robot wheel hubs.
 
-> Ready-made alternatives like [SideView Tech](https://www.amazon.com/AS5047P-Magnetic-Position-Breakout-Compatible/dp/B0DLJ6XDNM) and [AS5046P Adapter Board](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5047p-adapterboard/5452344) do exist, but have extra pins not used in this project and a footprint that makes them hard to mount.
+> Ready-made alternatives like [SideView Tech](https://www.amazon.com/AS5047P-Magnetic-Position-Breakout-Compatible/dp/B0DLJ6XDNM) and [AS5047P Adapter Board](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5047p-adapterboard/5452344) do exist, but have extra pins not used in this project and a footprint that makes them hard to mount.
 
 ## Power
 
@@ -94,12 +94,11 @@ struct AS5047Command
 
 ## Connector
 
-The connector is designed to accomodate only absolute output (one row of 5 pins) or an IDE connector with two rows of 5 pins (absolute and incremental output with programming support).
+The connector is designed to accomodate only relative output:
 
-```
-|3V3 |CS |SCK |MISO|GND |
-|MOSI|A  |B   |I   |GND |
-```
+|Pin|1|2|3|4|5
+|-|-|-|-|-|-|
+|Signal|3V3|A|B|I|GND|
 
 ## Example
 
@@ -187,4 +186,4 @@ The following components appear on the board other than the encoder and the conn
 |[885012206089](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/885012206089/5453862)|`10nF` Bypass Capacitor|
 |[CC0603JRX7R7BB105](https://www.digikey.com/en/products/detail/yageo/CC0603JRX7R7BB105/7164369)|`1uF` Bulk Capacitor|
 |[RE0603FRE074K7L](https://www.digikey.com/en/products/detail/yageo/RE0603FRE074K7L/12708232)|`4.7K` Pull-Down/Pull-Up Resistor|
-|PinHeader_2x05_P2.54mm|Standard KiCad IDC Connector|
+|[B5B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b5b-xh-a/1530483)|5-pin `JST-XH` connector (2.5mm pitch)|

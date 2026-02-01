@@ -116,4 +116,4 @@ The following components appear on the board other than the encoder and the conn
 |[AS5045-ATST](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045-asst/2334769)|Hall Effect Encoder|
 |[885342208002](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/885342208002/9345893)|`100nF` Decoupling Capacitor|
 |[RE0603FRE074K7L](https://www.digikey.com/en/products/detail/yageo/RE0603FRE074K7L/12708232)|`4.7K` Pull-Down/Pull-Up Resistor|
-|[B5B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b5b-xh-a/1530483)|5-pin JST-XH connector (2.5mm pitch)|
+|[B5B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b5b-xh-a/1530483)|5-pin `JST-XH` connector (2.5mm pitch)|
