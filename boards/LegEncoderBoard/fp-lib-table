@@ -1,0 +1,8 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "AS5047P-ASST")(type "KiCad")(uri "${KIPRJMOD}/dependencies/AS5047P-ASST")(options "")(descr ""))
+  (lib (name "Capacitor1uF")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Capacitor1uF")(options "")(descr ""))
+  (lib (name "Capacitor10nF")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Capacitor10nF")(options "")(descr ""))
+  (lib (name "Capacitor100nF")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Capacitor100nF")(options "")(descr ""))
+  (lib (name "Resistor4.7K")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor4.7K")(options "")(descr ""))
+)

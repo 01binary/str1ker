@@ -32,7 +32,7 @@
 					)
 				)
 			)
-			(property "Footprint" "AS5047P:AS5047P-ASST"
+			(property "Footprint" "AS5047P-ASST:AS5047P-ASST"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1939,7 +1939,7 @@
 				)
 			)
 		)
-		(property "Footprint" "AS5047P:AS5047P-ATST"
+		(property "Footprint" "AS5047P-ASST:AS5047P-ASST"
 			(at 110.49 90.17 0)
 			(effects
 				(font
@@ -1949,7 +1949,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "AS5047P-ATST"
+		(property "Datasheet" "AS5047P-ATSM"
 			(at 110.49 90.17 0)
 			(effects
 				(font
@@ -2179,7 +2179,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor4.7K:CR0603-FX-4701ELF"
 			(at 68.326 82.804 90)
 			(effects
 				(font
@@ -2315,7 +2315,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor4.7K:CR0603-FX-4701ELF"
 			(at 92.456 101.854 90)
 			(effects
 				(font
@@ -2385,7 +2385,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor100nF:885342208002"
 			(at 179.07 102.87 0)
 			(effects
 				(font
@@ -2455,7 +2455,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_JST:JST_XH_B5B-XH-A_1x05_P2.50mm_Vertical"
 			(at 119.38 62.23 0)
 			(effects
 				(font
@@ -2866,7 +2866,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor4.7K:CR0603-FX-4701ELF"
 			(at 68.326 99.314 90)
 			(effects
 				(font
@@ -2936,7 +2936,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor1uF:CC0603JRX7R7BB105"
 			(at 163.83 91.44 0)
 			(effects
 				(font
@@ -3006,7 +3006,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor10nF:885012206089"
 			(at 191.77 102.87 0)
 			(effects
 				(font

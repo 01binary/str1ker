@@ -25,7 +25,7 @@
 				)
 			)
 		)
-		(property "Footprint" "AS5047P:AS5047P-ASST"
+		(property "Footprint" "AS5047P-ASST:AS5047P-ASST"
 			(at 0 0 0)
 			(effects
 				(font

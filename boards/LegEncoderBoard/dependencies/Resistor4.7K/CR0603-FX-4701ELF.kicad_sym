@@ -2,30 +2,30 @@
 	(version 20241209)
 	(generator "kicad_symbol_editor")
 	(generator_version "9.0")
-	(symbol "CC0603JRX7R7BB105"
+	(symbol "CR0603-FX-4701ELF"
 		(pin_names
 			(offset 0.254)
 		)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(property "Reference" "C"
-			(at 3.81 3.81 0)
+		(property "Reference" "R"
+			(at 5.715 3.81 0)
 			(effects
 				(font
 					(size 1.524 1.524)
 				)
 			)
 		)
-		(property "Value" "CC0603JRX7R7BB105"
-			(at 3.81 -3.81 0)
+		(property "Value" "CR0603-FX-4701ELF"
+			(at 6.35 -3.81 0)
 			(effects
 				(font
 					(size 1.524 1.524)
 				)
 			)
 		)
-		(property "Footprint" "Capacitor1uF:CC0603JRX7R7BB105"
+		(property "Footprint" "Resistor4.7K:CR0603-FX-4701ELF"
 			(at 0 0 0)
 			(effects
 				(font
@@ -35,7 +35,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "CC0603JRX7R7BB105"
+		(property "Datasheet" "CR0603-FX-4701ELF"
 			(at 0 0 0)
 			(effects
 				(font
@@ -54,7 +54,7 @@
 				(hide yes)
 			)
 		)
-		(property "ki_keywords" "CC0603JRX7R7BB105"
+		(property "ki_keywords" "CR0603-FX-4701ELF"
 			(at 0 0 0)
 			(effects
 				(font
@@ -63,7 +63,7 @@
 				(hide yes)
 			)
 		)
-		(property "ki_fp_filters" "CAP_CC0603_YAG CAP_CC0603_YAG-M CAP_CC0603_YAG-L"
+		(property "ki_fp_filters" "BO_CR0603 BO_CR0603-M BO_CR0603-L"
 			(at 0 0 0)
 			(effects
 				(font
@@ -72,10 +72,10 @@
 				(hide yes)
 			)
 		)
-		(symbol "CC0603JRX7R7BB105_1_1"
+		(symbol "CR0603-FX-4701ELF_1_1"
 			(polyline
 				(pts
-					(xy 2.54 0) (xy 3.4798 0)
+					(xy 2.54 0) (xy 3.175 1.27)
 				)
 				(stroke
 					(width 0.2032)
@@ -87,7 +87,7 @@
 			)
 			(polyline
 				(pts
-					(xy 3.4798 -1.905) (xy 3.4798 1.905)
+					(xy 3.175 1.27) (xy 4.445 -1.27)
 				)
 				(stroke
 					(width 0.2032)
@@ -99,7 +99,7 @@
 			)
 			(polyline
 				(pts
-					(xy 4.1148 0) (xy 5.08 0)
+					(xy 4.445 -1.27) (xy 5.715 1.27)
 				)
 				(stroke
 					(width 0.2032)
@@ -111,7 +111,43 @@
 			)
 			(polyline
 				(pts
-					(xy 4.1148 -1.905) (xy 4.1148 1.905)
+					(xy 5.715 1.27) (xy 6.985 -1.27)
+				)
+				(stroke
+					(width 0.2032)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 6.985 -1.27) (xy 8.255 1.27)
+				)
+				(stroke
+					(width 0.2032)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 8.255 1.27) (xy 9.525 -1.27)
+				)
+				(stroke
+					(width 0.2032)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 9.525 -1.27) (xy 10.16 0)
 				)
 				(stroke
 					(width 0.2032)
@@ -140,7 +176,7 @@
 				)
 			)
 			(pin unspecified line
-				(at 7.62 0 180)
+				(at 12.7 0 180)
 				(length 2.54)
 				(name ""
 					(effects
@@ -158,10 +194,10 @@
 				)
 			)
 		)
-		(symbol "CC0603JRX7R7BB105_1_2"
+		(symbol "CR0603-FX-4701ELF_1_2"
 			(polyline
 				(pts
-					(xy -1.905 -3.4798) (xy 1.905 -3.4798)
+					(xy -1.27 8.255) (xy 1.27 9.525)
 				)
 				(stroke
 					(width 0.2032)
@@ -173,7 +209,7 @@
 			)
 			(polyline
 				(pts
-					(xy -1.905 -4.1148) (xy 1.905 -4.1148)
+					(xy -1.27 5.715) (xy 1.27 6.985)
 				)
 				(stroke
 					(width 0.2032)
@@ -185,7 +221,7 @@
 			)
 			(polyline
 				(pts
-					(xy 0 -2.54) (xy 0 -3.4798)
+					(xy -1.27 3.175) (xy 1.27 4.445)
 				)
 				(stroke
 					(width 0.2032)
@@ -197,7 +233,43 @@
 			)
 			(polyline
 				(pts
-					(xy 0 -4.1148) (xy 0 -5.08)
+					(xy 0 2.54) (xy -1.27 3.175)
+				)
+				(stroke
+					(width 0.2032)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 1.27 9.525) (xy 0 10.16)
+				)
+				(stroke
+					(width 0.2032)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 1.27 6.985) (xy -1.27 8.255)
+				)
+				(stroke
+					(width 0.2032)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 1.27 4.445) (xy -1.27 5.715)
 				)
 				(stroke
 					(width 0.2032)
@@ -208,7 +280,7 @@
 				)
 			)
 			(pin unspecified line
-				(at 0 0 270)
+				(at 0 12.7 270)
 				(length 2.54)
 				(name ""
 					(effects
@@ -226,7 +298,7 @@
 				)
 			)
 			(pin unspecified line
-				(at 0 -7.62 90)
+				(at 0 0 90)
 				(length 2.54)
 				(name ""
 					(effects
