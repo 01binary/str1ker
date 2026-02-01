@@ -6,7 +6,7 @@ A custom board that simplifies mounting `AS5047P` hall-effect on-axis encoder wi
 
 ## Power
 
-For 3.3V operation `VDD` and `VDD3V3` are bridged and decoupled to `GND` via `100nF` capacitor.
+For `3.3V` operation `VDD` and `VDD3V3` are bridged and decoupled to `GND` via `100nF` capacitor.
 
 ## Interface
 

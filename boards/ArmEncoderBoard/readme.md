@@ -6,7 +6,7 @@ A custom board that simplifies mounting `AS5045` hall-effect on-axis encoder wit
 
 ## Power
 
-For 3.3V operation `VDD5V` and `VDD3V3` are bridged and routed to `VIN` (3.3V). A single `100nF` decoupling capacitor is placed at the bridge (close to the IC) to `GND`.
+For `3.3V` operation `VDD5V` and `VDD3V3` are bridged and routed to `VIN` (3.3V). A single `100nF` decoupling capacitor is placed at the bridge (close to the IC) to `GND`.
 
 ## Interface
 
