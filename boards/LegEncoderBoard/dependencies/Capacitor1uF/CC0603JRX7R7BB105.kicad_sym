@@ -25,7 +25,7 @@
 				)
 			)
 		)
-		(property "Footprint" "CC0603JRX7R7BB105:CC0603JRX7R7BB105"
+		(property "Footprint" "Capacitor1uF:CC0603JRX7R7BB105"
 			(at 0 0 0)
 			(effects
 				(font
