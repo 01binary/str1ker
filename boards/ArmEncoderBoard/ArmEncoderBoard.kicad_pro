@@ -494,7 +494,7 @@
       "plot": "Export/",
       "pos_files": "Export/",
       "specctra_dsn": "",
-      "step": "../../../Desktop/ArmEncoderBoardPcb.STEP",
+      "step": "../../../../ArmEncoderBoardCorrectedFootprint.step",
       "svg": "",
       "vrml": "../../../Desktop/ArmEncoderBoard.wrl"
     },
