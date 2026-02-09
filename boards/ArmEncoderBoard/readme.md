@@ -1,4 +1,4 @@
-# Encoder Board
+# Arm Encoder Board
 
 A custom board that simplifies mounting `AS5045` hall-effect on-axis encoder with 12-bit resolution onto DC and stepper motors.
 
@@ -104,7 +104,7 @@ void loop()
 
 The following components appear on the board other than the encoder and the connector:
 
-+ `100nF` to `GND` on `VDD`: decoupling capacitor
++ `100nF` (`0.1uF`) to `GND` on `VDD`: decoupling capacitor
 + `VDD` and `VDD3V3` bridged on `VIN`: for 3.3V operation
 + `4.7K` to `GND` on `SCK`: clock pull-down
 + `4.7K` to `VIN` on `CS`: chip select pull-up
@@ -114,6 +114,11 @@ The following components appear on the board other than the encoder and the conn
 |Component|Description|
 |-|-|
 |[AS5045-ATST](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045-asst/2334769)|Hall Effect Encoder|
-|[885342208002](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/885342208002/9345893)|`100nF` Decoupling Capacitor|
+|[CC0603KRX7R9BB104](https://www.digikey.com/en/products/detail/yageo/cc0603krx7r9bb104/2103082)|`100nF` Decoupling Capacitor|
 |[RE0603FRE074K7L](https://www.digikey.com/en/products/detail/yageo/RE0603FRE074K7L/12708232)|`4.7K` Pull-Down/Pull-Up Resistor|
+|[SN74LVC2G17DBVR](https://www.digikey.com/en/products/detail/umw/sn74lvc2g17dbvr/24890103)|Schmitt Buffer (2-channel)|
+|[MMBT3904LT1G](https://www.digikey.com/en/products/detail/onsemi/MMBT3904LT1G/919601)|Transistor|
+|[BAT54WS-7-F](https://www.digikey.com/en/products/detail/diodes-incorporated/bat54ws-7-f/804865)|Envelope Diode|
+|[YLED0603R](https://www.lcsc.com/product-detail/C19171390.html)|Red LED 0603|
+|[YLED0603B](https://www.lcsc.com/product-detail/C19171394.html)|Blue LED 0603|
 |[B5B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b5b-xh-a/1530483)|5-pin `JST-XH` connector (2.5mm pitch)|

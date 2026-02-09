@@ -1,4 +1,4 @@
-26776411936566998
+26787036078879220
 AS5045
 AS5045-ASST
 
@@ -2954,12 +2954,19 @@ Gauge Massstab 100mm SilkScreenTop Type 2
 0
 0
 Capacitor100nF
-885342208002
+CC0603KRX7R9BB104
 
-
+CC0603KRX7R9BB104 
 0
 2
 2
+Capacitor100nF
+Untitled
+
+
+0
+0
+0
 Capacitor_SMD
 CP_Elec_3x5.3
 SMT capacitor, aluminium electrolytic, 3x5.3, Cornell Dubilier Electronics 
@@ -61389,6 +61396,13 @@ One digit LED 7 segment SA39-11 SC39-11 SA39-12 SC39-12
 0
 10
 10
+EnvelopeDiode
+BAT54WS-7-F
+
+BAT54WS-7-F 
+0
+2
+2
 Ferrite_THT
 LairdTech_28C0236-0JW-10
 Ferrite, vertical, LairdTech 28C0236-0JW-10, https://assets.lairdtech.com/home/brandworld/files/28C0236-0JW-10.pdf, JW Miller core https://www.bourns.com/products/magnetic-products/j.w.-miller-through-hole-ferrite-beads-emi-filters
@@ -70584,6 +70598,20 @@ LED_THT
 LED_VCCLite_5381H7_6.35x6.35mm
 Yellow 5381 Series LED VCCLite https://vcclite.com/wp-content/uploads/wpallimport/files/files/5381Series.pdf http://static.vcclite.com/pdf/Mounting%20Hole%20Pattern%202.pdf
 Yellow 5381 Series LED
+0
+2
+2
+LedBlue
+YLED0603B
+
+
+0
+2
+2
+LedRed
+YLED0603R
+
+
 0
 2
 2
@@ -97299,6 +97327,13 @@ rotary encoder illuminated switch vertical
 0
 9
 8
+SchmittBuffer
+SN74LVC2G17DBVR
+
+SN74LVC2G17DBVR 
+0
+6
+6
 Sensor
 ASAIR_AM2302_P2.54mm_Lead2.75mm_TabDown
 Temperature and humidity module, http://akizukidenshi.com/download/ds/aosong/AM2302.pdf
@@ -105482,6 +105517,13 @@ voltage transformer ZMPT
 0
 4
 4
+Transistor
+MMBT3904LT1G
+
+
+0
+3
+3
 Transistor_Power
 GaN_Systems_GaNPX-3_5x6.6mm_Drain2.93x0.6mm
 GaN Systems GaNPX GS66502B Package, https://gansystems.com/wp-content/uploads/2020/04/GS66502B-DS-Rev-200402.pdf
