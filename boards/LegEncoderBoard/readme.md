@@ -66,7 +66,7 @@ Without adding sustain, the LEDs would blink too quickly to be noticeable, and s
 The transistor is used to drive LEDs from the power source, using AS5047's A/B/I pins as on/off switches so they don't drive LEDs directly.
 
 + Emitter connects to `GND`
-+ Collector connects to `LED_K`
++ Collector connects to `LED_CATHODE`
 + Base connects to `ENV` through `47K` base resistor
 + Base connects to `GND` through `470K` pull-down resistor
 
@@ -77,7 +77,7 @@ The transistor is used to drive LEDs from the power source, using AS5047's A/B/I
 
 ## Connector
 
-The board uses an IDC connector with two rows of 4 pins. This enables twisting each signal lane ith a ground lane for better interference rejection.
+The board uses an IDC connector with two rows of 4 pins. This enables twisting each of the signal wires with ground for better interference rejection.
 
 |Column|1|2|3|4|
 |-|-|-|-|-|
