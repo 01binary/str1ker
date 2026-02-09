@@ -5,7 +5,7 @@
 	(uuid "e3febdb5-abb1-4bc1-8dd2-9c5ab1adf099")
 	(paper "A4")
 	(title_block
-		(title "Upper Arm Encoder Board")
+		(title "Leg (Wheel) Encoder Board")
 		(company "01 Binary")
 	)
 	(lib_symbols
