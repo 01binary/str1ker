@@ -1,4 +1,4 @@
-26783480592743871
+26806490713621352
 AS5047P-ASST
 AS5047P-ASST
 
@@ -388,6 +388,20 @@ Battery
 Battery_Panasonic_CR3032-VCN_Vertical_CircularHoles
 Panasonic CR-3032/VCN battery, https://industrial.panasonic.com/cdbs/www-data/pdf2/AAA4000/AAA4000D508.PDF
 battery CR-3032 coin cell vertical
+0
+2
+2
+BlueLED
+150080BS75000
+
+150080BS75000 
+0
+2
+2
+BlueLED
+150080BS75000_Modified
+
+150080BS75000 
 0
 2
 2
@@ -2953,6 +2967,13 @@ Gauge Massstab 100mm SilkScreenTop Type 2
 0
 0
 0
+Capacitor0.1uF
+GRM188R71H104KA93J
+
+
+0
+2
+2
 Capacitor1uF
 CC0603JRX7R7BB105
 
@@ -61417,6 +61438,13 @@ One digit LED 7 segment SA39-11 SC39-11 SA39-12 SC39-12
 0
 10
 10
+EnvelopeDiode
+BAT54WS-7-F
+
+BAT54WS-7-F 
+0
+2
+2
 Ferrite_THT
 LairdTech_28C0236-0JW-10
 Ferrite, vertical, LairdTech 28C0236-0JW-10, https://assets.lairdtech.com/home/brandworld/files/28C0236-0JW-10.pdf, JW Miller core https://www.bourns.com/products/magnetic-products/j.w.-miller-through-hole-ferrite-beads-emi-filters
@@ -94996,6 +95024,13 @@ WiFi IEEE802.11 b/g/n
 0
 44
 44
+RedLED
+RC0603FR-07150RL
+
+RC0603FR-07150RL 
+0
+2
+2
 Relay_SMD
 Relay_2P2T_10x6mm_TE_IMxxG
 Signal Relay, 10x6mm, 2 Form C, Gull Wings, https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Data+Sheet%7F108-98001%7FZ.1%7Fpdf%7FEnglish%7FENG_DS_108-98001_Z.1.pdf
@@ -95962,10 +95997,52 @@ SPST SPDT DC TE0598-P2
 0
 7
 7
+Resistor1K
+RCG06031K00FKEA
+
+
+0
+2
+2
 Resistor4.7K
 CR0603-FX-4701ELF
 
 CR0603-FX-4701ELF 
+0
+2
+2
+Resistor22
+RC0603FR-0722RL
+
+RC0603FR-0722RL 
+0
+2
+2
+Resistor47K
+RC0603FR-0747KL
+
+RC0603FR-0747KL 
+0
+2
+2
+Resistor100K
+CRCW0603100KFKEA
+
+
+0
+2
+2
+Resistor150
+RESC1607X60N
+
+
+0
+2
+2
+Resistor470K
+RC0603FR-07470KL
+
+RC0603FR-07470KL 
 0
 2
 2
@@ -97326,6 +97403,13 @@ Rotary encoder with switch and illuminated 4,6,8,13,18mm shaft, dual-led, https:
 rotary encoder illuminated switch vertical
 0
 9
+8
+SchmittBuffer
+SN74LVC3G17DCUR
+
+SN74LVC3G17DCUR 
+0
+8
 8
 Sensor
 ASAIR_AM2302_P2.54mm_Lead2.75mm_TabDown
@@ -105510,6 +105594,13 @@ voltage transformer ZMPT
 0
 4
 4
+Transistor
+MMBT3904LT1G
+
+
+0
+3
+3
 Transistor_Power
 GaN_Systems_GaNPX-3_5x6.6mm_Drain2.93x0.6mm
 GaN Systems GaNPX GS66502B Package, https://gansystems.com/wp-content/uploads/2020/04/GS66502B-DS-Rev-200402.pdf
