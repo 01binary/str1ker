@@ -12,7 +12,7 @@ The [AS5047P documentation](./doc/AS5047P.pdf) specifies that `A` and `B` pins o
 
 For `3.3V` operation `VDD` and `VDD3V3` are bridged and decoupled to `GND` via `100nF` decoupling capacitor and `10uF` bypass capacitor.
 
-An additional `1nF` bulk capacitor is on `VDD3V3` line for additional stabilization.
+Another `1nF` bulk capacitor is on `VDD3V3` line for additional stabilization.
 
 ## Indicators
 
@@ -22,7 +22,7 @@ The following components are used to enable this:
 
 + 1× `SN74LVC3G17DCUR` triple Schmitt buffer
 + 3× `BAT54WS` Schottky diodes
-+ 3× `1M` resistors (transistor base pull-down)
++ 3× `470K` resistors (transistor base bleed)
 + 3× `47K` resistors (transistor base resistor)
 + 3× `100K` resistors (envelope discharge)
 + 3× `1 µF` capacitors (envelope storage)
@@ -34,9 +34,9 @@ Each signal (`A`, `B`, and `I`) is connected in the following network:
 
 |Signal|Pin|
 |-|-|
-|`RAW`|AS5047 A, B, or I pin|
-|`BUF`|Schmitt buffer output pin|
-|`ENV`|Envelope capacitor|
+|`RAW`|AS5047 A, B, or I pins going to Schmitt buffer inputs|
+|`BUF`|Schmitt buffer output pins|
+|`ENV`|Envelope capacitors|
 |`BASE`|Transistor base|
 |`LED_CATHODE`|LED cathode|
 |`LED_ANODE`|LED anode|
@@ -51,9 +51,9 @@ The buffer clamps the analog input to either `HIGH` or `LOW` on the output.
 
 ### Envelope Generator
 
-The envelope generator modifies the transient characteristics of the incoming signal by making it rise quickly (fast attack) but decay slowly (slow decay).
+The envelope generator modifies the transient characteristics of the incoming signal by making it rise quickly (fast attack) but decay slowly (slow release).
 
-> Fast attack/slow decay combination creates "sustain" which enables the LED indicators to stay on after being triggered from AS5047 A/B/I outputs through the Schmitt trigger.
+> Fast attack/slow release combination creates "sustain" which enables the LED indicators to stay on after being triggered from AS5047 A/B/I outputs through the Schmitt trigger.
 
 Without adding sustain, the LEDs would blink too quickly to be noticeable, and simply end up looking "weakly on".
 
@@ -68,12 +68,12 @@ The transistor is used to drive LEDs from the power source, using AS5047's A/B/I
 + Emitter connects to `GND`
 + Collector connects to `LED_K`
 + Base connects to `ENV` through `47K` base resistor
-+ Base connects to `GND` through `1M` pull-down resistor
++ Base connects to `GND` through `470K` pull-down resistor
 
 ### Indicator
 
-+ LED anode (`LED_K`) connects to `3.3V` through LED resistor (depending on LED color)
-+ LED cathode (`LED_A`) connects to transistor collector
++ LED anode (`LED_CATHODE`) connects to `3.3V` through LED resistor (depending on LED color)
++ LED cathode (`LED_ANODE`) connects to transistor collector
 
 ## Connector
 
