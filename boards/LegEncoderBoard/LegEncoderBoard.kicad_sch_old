@@ -5,7 +5,7 @@
 	(uuid "e3febdb5-abb1-4bc1-8dd2-9c5ab1adf099")
 	(paper "A4")
 	(title_block
-		(title "Upper Arm Encoder Board")
+		(title "Leg (Wheel) Encoder Board")
 		(company "01 Binary")
 	)
 	(lib_symbols
@@ -5756,7 +5756,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor100nF:885342208002"
+		(property "Footprint" "Capacitor100nF:CC0603KRX7R9BB104"
 			(at 144.78 49.53 0)
 			(effects
 				(font

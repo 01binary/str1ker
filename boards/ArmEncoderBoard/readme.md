@@ -109,13 +109,20 @@ The following components appear on the board other than the encoder and the conn
 + `4.7K` to `GND` on `SCK`: clock pull-down
 + `4.7K` to `VIN` on `CS`: chip select pull-up
 
-## BOM
+## Bill of Materials
 
 |Component|Description|
 |-|-|
 |[AS5045-ATST](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045-asst/2334769)|Hall Effect Encoder|
 |[CC0603KRX7R9BB104](https://www.digikey.com/en/products/detail/yageo/cc0603krx7r9bb104/2103082)|`100nF` Decoupling Capacitor|
+|[CC0603JRX7R7BB105](https://www.digikey.com/en/products/detail/yageo/cc0603jrx7r7bb105/7164369)|`1uF` Capacitor|
+|[RCG06031K00FKEA](https://www.digikey.com/en/products/detail/vishay-dale/rcg06031k00fkea/4172389)|`1K` Red LED Resistor|
 |[RE0603FRE074K7L](https://www.digikey.com/en/products/detail/yageo/RE0603FRE074K7L/12708232)|`4.7K` Pull-Down/Pull-Up Resistor|
+|[RC0603FR-0747KL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-0747kl/727253)|`47K` Resistor|
+|[CRCW0603100KFKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw0603100kfkea/1174896)|`100K` Resistor|
+|[RC0603FR-07470KL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07470kl/727257)|`470K` Resistor|
+|[RC0603FR-07150RL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07150rl/726958)|`150R` Blue LED Resistor|
+|[RC0603FR-0722RL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-0722rl/727055)|`22R` Resistor|
 |[SN74LVC2G17DBVR](https://www.digikey.com/en/products/detail/umw/sn74lvc2g17dbvr/24890103)|Schmitt Buffer (2-channel)|
 |[MMBT3904LT1G](https://www.digikey.com/en/products/detail/onsemi/MMBT3904LT1G/919601)|Transistor|
 |[BAT54WS-7-F](https://www.digikey.com/en/products/detail/diodes-incorporated/bat54ws-7-f/804865)|Envelope Diode|

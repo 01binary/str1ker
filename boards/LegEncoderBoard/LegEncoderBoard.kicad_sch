@@ -5756,7 +5756,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor100nF:885342208002"
+		(property "Footprint" "Capacitor100nF:CC0603KRX7R9BB104"
 			(at 144.78 49.53 0)
 			(effects
 				(font
@@ -5783,7 +5783,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C2176910"
+		(property "LCSC" "C14663"
 			(at 147.32 48.3869 0)
 			(effects
 				(font
@@ -7708,6 +7708,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C114608"
+			(at 224.79 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "876ac58a-c72a-47d3-a593-fcffc6fdf4bc")
 		)
@@ -8489,7 +8498,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C2169542"
+		(property "LCSC" "C85973"
 			(at 160.02 48.3869 0)
 			(effects
 				(font

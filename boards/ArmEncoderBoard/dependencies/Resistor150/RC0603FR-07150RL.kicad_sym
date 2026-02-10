@@ -2,38 +2,38 @@
 	(version 20241209)
 	(generator "kicad_symbol_editor")
 	(generator_version "9.0")
-	(symbol "WCAP-CSGP_0603"
+	(symbol "RC0603FR-07150RL"
 		(pin_names
 			(offset 1.016)
 		)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(property "Reference" "C"
-			(at 1.27 3.302 0)
+		(property "Reference" "R"
+			(at -3.81 1.4986 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify bottom)
+				(justify left bottom)
 			)
 		)
-		(property "Value" "WCAP-CSGP_0603"
-			(at 1.27 -5.08 0)
+		(property "Value" "RC0603FR-07150RL"
+			(at -3.81 -3.302 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify bottom)
+				(justify left bottom)
 			)
 		)
-		(property "Footprint" "Capacitor10nF:885012206089"
+		(property "Footprint" "Resistor150:RESC1607X60N"
 			(at 0 0 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
+				(justify bottom)
 			)
 		)
 		(property "Datasheet" ""
@@ -54,7 +54,7 @@
 				(hide yes)
 			)
 		)
-		(property "DigiKey_Part_Number" "732-8007-1-ND"
+		(property "DigiKey_Part_Number" "311-150HRCT-ND"
 			(at 0 0 0)
 			(effects
 				(font
@@ -64,7 +64,7 @@
 				(hide yes)
 			)
 		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/885012206089/W%25C3%25BCrth+Elektronik+Midcom/view-part/?ref=snap"
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/RC0603FR-07150RL/Yageo/view-part/?ref=snap"
 			(at 0 0 0)
 			(effects
 				(font
@@ -74,7 +74,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description_1" "10000 pF ±10% 50V Ceramic Capacitor X7R 0603 (1608 Metric)"
+		(property "Description_1" "150 Ohms ±1% 0.1W, 1/10W Chip Resistor 0603 (1608 Metric) Moisture Resistant Thick Film"
 			(at 0 0 0)
 			(effects
 				(font
@@ -84,7 +84,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Würth Elektronik"
+		(property "MF" "Yageo"
 			(at 0 0 0)
 			(effects
 				(font
@@ -94,7 +94,7 @@
 				(hide yes)
 			)
 		)
-		(property "Package" "0603 Wurth Electronics"
+		(property "Package" "0603 Yageo"
 			(at 0 0 0)
 			(effects
 				(font
@@ -104,7 +104,7 @@
 				(hide yes)
 			)
 		)
-		(property "Check_prices" "https://www.snapeda.com/parts/885012206089/W%25C3%25BCrth+Elektronik+Midcom/view-part/?ref=eda"
+		(property "Check_prices" "https://www.snapeda.com/parts/RC0603FR-07150RL/Yageo/view-part/?ref=eda"
 			(at 0 0 0)
 			(effects
 				(font
@@ -114,7 +114,7 @@
 				(hide yes)
 			)
 		)
-		(property "MP" "885012206089"
+		(property "MP" "RC0603FR-07150RL"
 			(at 0 0 0)
 			(effects
 				(font
@@ -124,13 +124,13 @@
 				(hide yes)
 			)
 		)
-		(symbol "WCAP-CSGP_0603_0_0"
+		(symbol "RC0603FR-07150RL_0_0"
 			(polyline
 				(pts
-					(xy 0 0) (xy 0.6426 0)
+					(xy -2.54 0) (xy -2.159 1.016)
 				)
 				(stroke
-					(width 0.1524)
+					(width 0.2032)
 					(type default)
 				)
 				(fill
@@ -139,10 +139,10 @@
 			)
 			(polyline
 				(pts
-					(xy 0.635 -1.905) (xy 0.635 1.905)
+					(xy -2.159 1.016) (xy -1.524 -1.016)
 				)
 				(stroke
-					(width 0.254)
+					(width 0.2032)
 					(type default)
 				)
 				(fill
@@ -151,10 +151,10 @@
 			)
 			(polyline
 				(pts
-					(xy 1.905 1.905) (xy 1.905 -1.905)
+					(xy -1.524 -1.016) (xy -0.889 1.016)
 				)
 				(stroke
-					(width 0.254)
+					(width 0.2032)
 					(type default)
 				)
 				(fill
@@ -163,10 +163,70 @@
 			)
 			(polyline
 				(pts
-					(xy 1.9279 0) (xy 2.5705 0)
+					(xy -0.889 1.016) (xy -0.254 -1.016)
 				)
 				(stroke
-					(width 0.1524)
+					(width 0.2032)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -0.254 -1.016) (xy 0.381 1.016)
+				)
+				(stroke
+					(width 0.2032)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.381 1.016) (xy 1.016 -1.016)
+				)
+				(stroke
+					(width 0.2032)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 1.016 -1.016) (xy 1.651 1.016)
+				)
+				(stroke
+					(width 0.2032)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 1.651 1.016) (xy 2.286 -1.016)
+				)
+				(stroke
+					(width 0.2032)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.286 -1.016) (xy 2.54 0)
+				)
+				(stroke
+					(width 0.2032)
 					(type default)
 				)
 				(fill
@@ -174,8 +234,8 @@
 				)
 			)
 			(pin passive line
-				(at -2.54 0 0)
-				(length 2.54)
+				(at -7.62 0 0)
+				(length 5.08)
 				(name "~"
 					(effects
 						(font
@@ -192,8 +252,8 @@
 				)
 			)
 			(pin passive line
-				(at 5.08 0 180)
-				(length 2.54)
+				(at 7.62 0 180)
+				(length 5.08)
 				(name "~"
 					(effects
 						(font

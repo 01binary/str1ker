@@ -141,7 +141,7 @@ void loop()
 |-|-|
 |[AS5047P-ATST](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5047p-atst-tssop14-lf-t-rdp/5288535)|Encoder|
 |[885342208002](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/885342208002/9345893)|`100nF` Decoupling Capacitor|
-|[885012206089](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/885012206089/5453862)|`10nF` Bypass Capacitor|
+|[GRM1885C1H103JA01D](https://www.digikey.com/en/models/4421555)|`10nF` Bypass Capacitor|
 |[CC0603JRX7R7BB105](https://www.digikey.com/en/products/detail/yageo/CC0603JRX7R7BB105/7164369)|`1uF` Bulk Capacitor|
 |[GRM188R71H104KA93J](https://www.digikey.com/en/products/detail/murata-electronics/GRM188R71H104KA93J/2345327)|`0.1uF` Schmitt Buffer Decoupling Capacitor|
 |[150080BS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/)|Blue LED for A and B channels|
