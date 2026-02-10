@@ -4490,7 +4490,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C105579"
+		(property "LCSC" "C107701"
 			(at 137.16 175.26 0)
 			(effects
 				(font
@@ -4976,7 +4976,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C105579"
+		(property "LCSC" "C107701"
 			(at 129.54 177.8 0)
 			(effects
 				(font
@@ -5598,7 +5598,7 @@
 				)
 			)
 		)
-		(property "Footprint" "BlueLED:150080BS75000_Modified"
+		(property "Footprint" "LedBlue:YLED0603B"
 			(at 201.93 109.22 0)
 			(effects
 				(font
@@ -5677,7 +5677,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.1uF"
+		(property "Value" "100nF"
 			(at 246.38 34.4169 0)
 			(effects
 				(font
@@ -5686,7 +5686,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor0.1uF:GRM188R71H104KA93J"
+		(property "Footprint" "Capacitor100nF:CC0603KRX7R9BB104"
 			(at 243.84 33.02 0)
 			(effects
 				(font
@@ -5706,6 +5706,15 @@
 		)
 		(property "Description" "capacitor, small US symbol"
 			(at 243.84 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C14663"
+			(at 246.38 31.8769 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5860,7 +5869,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C105579"
+		(property "LCSC" "C107701"
 			(at 144.78 172.72 0)
 			(effects
 				(font
@@ -6200,7 +6209,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RedLED:RC0603FR-07150RL"
+		(property "Footprint" "LedRed:YLED0603R"
 			(at 201.93 137.16 0)
 			(effects
 				(font
@@ -7518,7 +7527,7 @@
 				)
 			)
 		)
-		(property "Footprint" "BlueLED:150080BS75000_Modified"
+		(property "Footprint" "LedBlue:YLED0603B"
 			(at 201.93 82.55 0)
 			(effects
 				(font
@@ -8471,7 +8480,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor10nF:885012206089"
+		(property "Footprint" "Capacitor10nF:GRM1885C1H103JA01D"
 			(at 157.48 49.53 0)
 			(effects
 				(font
