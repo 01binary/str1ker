@@ -135,7 +135,7 @@ void loop()
 }
 ```
 
-## BOM
+## Bill of Materials
 
 |Component|Description|
 |-|-|

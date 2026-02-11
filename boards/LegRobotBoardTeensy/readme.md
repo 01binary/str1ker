@@ -3,7 +3,7 @@
 A board that controls robot legs:
 
 + Leg Actuators
-+ Leg Knee Potentiometers
++ Leg Actuator Potentiometers
 + Leg Wheels
 + Leg Wheel Encoders
 
@@ -22,17 +22,17 @@ The following external components are connected to the board via `JST-XH` lockin
 |Device|Function|
 |-|-|
 |8x [IBT2 Motor Drivers](https://www.amazon.com/2-Piece-High-Power-Limiting-Function-Suitable/dp/B0DXKXKYRK)|Wheel Motor Drivers, Leg Actuator Drivers|
-|4x [NP32HS Hollow Shaft Potentiometer](https://p3america.com/np32hs-series/)|Knee Absolute Encoder|
-|4x [CIMCoder 256](https://andymark.com/products/cimcoder-256-hi-resolution-cim-encoder)|Wheel Quadrature Encoder|
+|4x [Feedback Rod Linear Actuator](https://www.firgelliauto.com/products/feedback-rod-actuator?variant=2632742851) Potentiometers|Leg Actuator Potentiometers|
+|4x [Leg Encoder Board](../LegEncoderBoard/readme.md)|Wheel Encoders|
 
 ## Pins
 
 | Pin   | Function                                          |
 | ----- | ------------------------------------------------- |
-| `A0`  | Knee 1 Potentiometer `SIG`                        |
-| `A1`  | Knee 2 Potentiometer `SIG`                        |
-| `A2`  | Knee 3 Potentiometer `SIG`                        |
-| `A3`  | Knee 4 Potentiometer `SIG`                        |
+| `A0`  | Actuator 1 Potentiometer `SIG`                        |
+| `A1`  | Actuator 2 Potentiometer `SIG`                        |
+| `A2`  | Actuator 3 Potentiometer `SIG`                        |
+| `A3`  | Actuator 4 Potentiometer `SIG`                        |
 | `D0`  | Wheel 1 Encoder `A`                               |
 | `D1`  | Wheel 1 Encoder `B`                               |
 | `D2`  | Wheel 2 Encoder `A`                               |

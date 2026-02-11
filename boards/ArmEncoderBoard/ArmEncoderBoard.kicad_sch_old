@@ -4305,7 +4305,7 @@
 				)
 			)
 		)
-		(property "Footprint" "LedRed:YLED0603R"
+		(property "Footprint" "LedRed:NCD0603R1"
 			(at 176.53 139.7 0)
 			(effects
 				(font
@@ -6015,7 +6015,7 @@
 				)
 			)
 		)
-		(property "Footprint" "LedBlue:YLED0603B"
+		(property "Footprint" "LedBlue:150080BS75000_Modified"
 			(at 176.53 116.84 0)
 			(effects
 				(font

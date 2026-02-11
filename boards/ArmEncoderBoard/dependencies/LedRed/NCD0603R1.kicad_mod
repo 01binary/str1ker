@@ -1,4 +1,4 @@
-(footprint "YLED0603R"
+(footprint "NCD0603R1"
 	(version 20241229)
 	(generator "pcbnew")
 	(generator_version "9.0")
@@ -15,7 +15,7 @@
 			)
 		)
 	)
-	(property "Value" "YLED0603R"
+	(property "Value" "NCD0603R1"
 		(at 0 2.72 0)
 		(unlocked yes)
 		(layer "F.Fab")
@@ -55,8 +55,8 @@
 	)
 	(attr smd)
 	(fp_line
-		(start -0.35 -1.72)
-		(end 0.24 -1.32)
+		(start -0.305 0.92)
+		(end 0.285 1.32)
 		(stroke
 			(width 0.1)
 			(type default)
@@ -65,8 +65,8 @@
 		(uuid "f0e3793c-c1e4-43e1-9199-bdc7fd60e6da")
 	)
 	(fp_line
-		(start -0.35 -0.92)
-		(end -0.35 -1.72)
+		(start -0.305 1.72)
+		(end -0.305 0.92)
 		(stroke
 			(width 0.1)
 			(type default)
@@ -75,8 +75,8 @@
 		(uuid "682a4639-e7fc-4e4b-9ae2-5d114eacea13")
 	)
 	(fp_line
-		(start 0.24 -1.32)
-		(end -0.35 -0.92)
+		(start 0.285 1.32)
+		(end -0.305 1.72)
 		(stroke
 			(width 0.1)
 			(type default)
@@ -85,8 +85,8 @@
 		(uuid "fee25aef-366d-414e-ae08-076471fe0126")
 	)
 	(fp_line
-		(start 0.35 -1.72)
-		(end 0.35 -0.92)
+		(start 0.395 0.92)
+		(end 0.395 1.72)
 		(stroke
 			(width 0.1)
 			(type default)
@@ -317,7 +317,7 @@
 		)
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/dependencies/LedRed/YLED0603R.stp"
+	(model "${KIPRJMOD}/dependencies/LedRed/NCD0603R1.stp"
 		(offset
 			(xyz 0 0 0)
 		)
