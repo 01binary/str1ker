@@ -20,13 +20,13 @@ LEDs are attached to quadrature (`A`, `B`, `I`) encoder outputs. These LEDs blin
 
 The following components are used to enable this:
 
-+ 1× `SN74LVC3G17DCUR` triple Schmitt buffer
++ 1× `SN74LVC3G17DCTRE4` triple Schmitt buffer
 + 3× `BAT54WS` Schottky diodes
 + 3× `470K` resistors (transistor base bleed)
 + 3× `47K` resistors (transistor base resistor)
 + 3× `100K` resistors (envelope discharge)
 + 3× `1 µF` capacitors (envelope storage)
-+ 1× `0.1 µF` capacitor (buffer decoupling)
++ 1× `100 µF` capacitor (buffer decoupling)
 + 3× `470R` resistors (LED current limit)
 + 3× `MMBT3904` transistors (LED sink drivers)
 
@@ -152,7 +152,7 @@ void loop()
 |[CRCW0603100KFKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw0603100kfkea/1174896)|`100K` Discharge Resistor|
 |[RC0603FR-07150RL](https://www.digikey.com/en/products/detail/yageo/RC0603FR-07150RL/726958)|`150 Ohm` Resistor (Blue LED)|
 |[RC0603FR-0722RL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-0722rl/727055)|`22 Ohm` Series Resistor (A/B/I channels)|
-|[SN74LVC3G17DCUR](https://www.digikey.com/en/products/detail/texas-instruments/SN74LVC3G17DCUR/863652)|Schmitt-trigger buffer|
+|[SN74LVC3G17DCTRE4](https://www.digikey.com/en/products/detail/texas-instruments/sn74lvc3g17dctre4/1592395)|Schmitt-trigger buffer|
 |[BAT54WS-7-F](https://www.digikey.com/en/products/detail/diodes-incorporated/BAT54WS-7-F/804865)|Envelope Diode|
 |[MMBT3904LT1G](https://www.digikey.com/en/products/detail/onsemi/MMBT3904LT1G/919601)|LED Transistor|
 |[B5B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b5b-xh-a/1530483)|5-pin `JST-XH` connector (2.5mm pitch)|

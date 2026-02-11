@@ -4153,7 +4153,7 @@
 		(path "/a92b63b8-6719-45e5-85c5-c1d481d87fb7")
 		(sheetname "/")
 		(sheetfile "ArmEncoderBoard.kicad_sch")
-		(attr through_hole exclude_from_pos_files exclude_from_bom dnp)
+		(attr through_hole exclude_from_pos_files)
 		(fp_line
 			(start -2.85 -2.75)
 			(end -2.85 -1.5)

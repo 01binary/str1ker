@@ -14,6 +14,6 @@
   (lib (name "Resistor47K")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor47K")(options "")(descr ""))
   (lib (name "Resistor470K")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor470K")(options "")(descr ""))
   (lib (name "Resistor22")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor22R")(options "")(descr ""))
-  (lib (name "LedRed")(type "KiCad")(uri "${KIPRJMOD}/dependencies/LedRed")(options "")(descr ""))
   (lib (name "LedBlue")(type "KiCad")(uri "${KIPRJMOD}/dependencies/LedBlue")(options "")(descr ""))
+  (lib (name "LedRed")(type "KiCad")(uri "${KIPRJMOD}/dependencies/LedRed")(options "")(descr ""))
 )

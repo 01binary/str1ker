@@ -7,7 +7,7 @@
   (lib (name "Resistor4.7K")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor4.7K/CR0603-FX-4701ELF.kicad_sym")(options "")(descr ""))
   (lib (name "Resistor1K")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor1K/RCG06031K00FKEA.kicad_sym")(options "")(descr ""))
   (lib (name "Resistor150")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor150/RC0603FR-07150RL.kicad_sym")(options "")(descr ""))
-  (lib (name "SchmittBuffer")(type "KiCad")(uri "${KIPRJMOD}/dependencies/SchmittBuffer/SN74LVC3G17DCUR.kicad_sym")(options "")(descr ""))
+  (lib (name "SchmittBuffer")(type "KiCad")(uri "${KIPRJMOD}/dependencies/SchmittBuffer/SN74LVC3G17DCTR.kicad_sym")(options "")(descr ""))
   (lib (name "EnvelopeDiode")(type "KiCad")(uri "${KIPRJMOD}/dependencies/EnvelopeDiode/BAT54WS-7-F.kicad_sym")(options "")(descr ""))
   (lib (name "Resistor100K")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor100K/CRCW0603100KFKEA.kicad_sym")(options "")(descr ""))
   (lib (name "Transistor")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Transistor/MMBT3904LT1G.kicad_sym")(options "")(descr ""))
