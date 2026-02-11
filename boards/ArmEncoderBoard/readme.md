@@ -4,6 +4,11 @@ A custom board that simplifies mounting `AS5045` hall-effect on-axis encoder wit
 
 > Ready-made alternatives like [AS5045 Adapter Board](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045-adapterboard/2339623) do exist, but have extra pins not used in this project, and a footprint that makes them hard to mount.
 
+The board also includes educational indicators:
+
++ An LED that blinks on one full 350 degree rotation, fed by the `I` (index) pulse from the encoder
++ An LED that blinks when the encoder detects motion, fed by the `A` quadrature pulse from the encoder
+
 ## Power
 
 For `3.3V` operation `VDD5V` and `VDD3V3` are bridged and routed to `VIN` (3.3V). A single `100nF` decoupling capacitor is placed at the bridge (close to the IC) to `GND`.
@@ -37,6 +42,65 @@ union AS5045Reading
   static const double MAX = 0b111111111111;
 };
 ```
+
+## Indicators
+
+LEDs are attached to quadrature (`A`, `I`) encoder outputs. These LEDs blink when receiving the quadrature signal.
+
+The following components are used to enable this:
+
++ 1× `SN74LVC2G17DBVR` double Schmitt buffer
++ 3× `BAT54WS` Schottky diodes
++ 3× `470K` resistors (transistor base bleed)
++ 3× `47K` resistors (transistor base resistor)
++ 3× `100K` resistors (envelope discharge)
++ 3× `1 µF` capacitors (envelope storage)
++ 1× `100 µF` capacitor (buffer decoupling)
++ 3× `470R` resistors (LED current limit)
++ 3× `MMBT3904` transistors (LED sink drivers)
+
+Each signal (`A`,`I`) is connected in the following network:
+
+|Signal|Pin|
+|-|-|
+|`A`, `I`|AS5045 A and I pins going to Schmitt buffer inputs|
+|`A_BUF`, `I_BUF`|Schmitt buffer output pins|
+|`A_ENV`, `I_ENV`|Envelope capacitors|
+|`A_BASE`, `I_BASE`|Transistor base|
+|`A_LED_CATHODE`, `I_LED_CATHODE`|LED cathode|
+|`A_LED_ANODE`, `I_LED_ANODE`|LED anode|
+
+### Schmitt Buffer
+
+The buffer clamps the analog input to either `HIGH` or `LOW` on the output.
+
++ AS5045 output (`RAW`) connects to buffer input (`1A`/`2A`)
++ Schmitt buffer output (`1Y`/`2Y`) connects to buffer output (`BUF`)
++ A `100uF` decoupling capacitor from `VCC` to `GND` is placed next to the buffer IC
+
+### Envelope Generator
+
+The envelope generator modifies the transient characteristics of the incoming signal by making it rise quickly (fast attack) but decay slowly (slow release).
+
+Without adding sustain, the LEDs would blink too quickly to be noticeable, and simply end up looking "weakly on".
+
++ `BAT54` diode: anode connects to `BUF`, cathode to `ENV`
++ `1 uF` capacitor between `ENV` and `GND`
++ `100K` resistor between `ENV` and `GND`
+
+### Transistor
+
+The transistor is used to drive LEDs from the power source, using AS5045's A/I pins as on/off switches so they don't drive LEDs directly.
+
++ Emitter connects to `GND`
++ Collector connects to LED cathode
++ Base connects to `ENV` through `47K` base resistor
++ Base connects to `GND` through `470K` pull-down resistor
+
+### Indicator
+
++ LED anode connects to `3.3V` through LED resistor (depending on LED color)
++ LED cathode connects to transistor collector
 
 ## Connector
 
