@@ -5,7 +5,7 @@
 	(uuid "e3febdb5-abb1-4bc1-8dd2-9c5ab1adf099")
 	(paper "A4")
 	(title_block
-		(title "Upper Arm Encoder Board")
+		(title "Leg (Wheel) Encoder Board")
 		(company "01 Binary")
 	)
 	(lib_symbols
@@ -1594,45 +1594,46 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "SchmittBuffer:SN74LVC3G17DCUR"
+		(symbol "SchmittBuffer:SN74LVC3G17DCTRE4"
 			(pin_names
-				(offset 0.254)
+				(offset 1.016)
 			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "U"
-				(at 27.94 10.16 0)
+				(at -12.7 11.16 0)
 				(effects
 					(font
-						(size 1.524 1.524)
+						(size 1.27 1.27)
 					)
+					(justify left bottom)
 				)
 			)
-			(property "Value" "SN74LVC3G17DCUR"
-				(at 27.94 7.62 0)
+			(property "Value" "SN74LVC3G17DCTRE4"
+				(at -12.7 -14.16 0)
 				(effects
 					(font
-						(size 1.524 1.524)
+						(size 1.27 1.27)
 					)
+					(justify left bottom)
 				)
 			)
-			(property "Footprint" "SchmittBuffer:SN74LVC3G17DCUR"
+			(property "Footprint" "SchmittBuffer:SN74LVC3G17DCTR"
 				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
-						(italic yes)
 					)
+					(justify bottom)
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "https://www.ti.com/lit/gpn/sn74lvc3g17"
+			(property "Datasheet" ""
 				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
-						(italic yes)
 					)
 					(hide yes)
 				)
@@ -1646,213 +1647,238 @@
 					(hide yes)
 				)
 			)
-			(property "ki_keywords" "SN74LVC3G17DCUR"
+			(property "MF" "Texas Instruments"
 				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify bottom)
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "DCU8 DCU8-M DCU8-L"
+			(property "Description_1" "TRIPLE SCHMITT-TRIGGER BUFFER 8-SM8 -40 to 125"
 				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify bottom)
 					(hide yes)
 				)
 			)
-			(symbol "SN74LVC3G17DCUR_0_1"
-				(polyline
-					(pts
-						(xy 7.62 5.08) (xy 7.62 -12.7)
+			(property "Package" "SSOP-8 Texas Instruments"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
 					)
-					(stroke
-						(width 0.127)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
+					(justify bottom)
+					(hide yes)
 				)
-				(polyline
-					(pts
-						(xy 7.62 -12.7) (xy 48.26 -12.7)
+			)
+			(property "Price" "None"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
 					)
-					(stroke
-						(width 0.127)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
+					(justify bottom)
+					(hide yes)
 				)
-				(polyline
-					(pts
-						(xy 48.26 5.08) (xy 7.62 5.08)
+			)
+			(property "SnapEDA_Link" "https://www.snapeda.com/parts/SN74LVC3G17DCTRE4/Texas+Instruments/view-part/?ref=snap"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
 					)
-					(stroke
-						(width 0.127)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
+					(justify bottom)
+					(hide yes)
 				)
-				(polyline
-					(pts
-						(xy 48.26 -12.7) (xy 48.26 5.08)
+			)
+			(property "MP" "SN74LVC3G17DCTRE4"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
 					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Availability" "In Stock"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Check_prices" "https://www.snapeda.com/parts/SN74LVC3G17DCTRE4/Texas+Instruments/view-part/?ref=eda"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(symbol "SN74LVC3G17DCTRE4_0_0"
+				(rectangle
+					(start -12.7 -10.16)
+					(end 12.7 10.16)
 					(stroke
-						(width 0.127)
+						(width 0.41)
 						(type default)
 					)
 					(fill
-						(type none)
+						(type background)
 					)
 				)
 				(pin input line
-					(at 0 0 0)
-					(length 7.62)
+					(at -17.78 2.54 0)
+					(length 5.08)
 					(name "1A"
 						(effects
 							(font
-								(size 1.27 1.27)
+								(size 1.016 1.016)
 							)
 						)
 					)
 					(number "1"
 						(effects
 							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 0 -2.54 0)
-					(length 7.62)
-					(name "3Y"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
+								(size 1.016 1.016)
 							)
 						)
 					)
 				)
 				(pin input line
-					(at 0 -5.08 0)
-					(length 7.62)
+					(at -17.78 0 0)
+					(length 5.08)
 					(name "2A"
 						(effects
 							(font
-								(size 1.27 1.27)
+								(size 1.016 1.016)
 							)
 						)
 					)
 					(number "3"
 						(effects
 							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 -7.62 0)
-					(length 7.62)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 55.88 0 180)
-					(length 7.62)
-					(name "VCC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 55.88 -2.54 180)
-					(length 7.62)
-					(name "1Y"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
+								(size 1.016 1.016)
 							)
 						)
 					)
 				)
 				(pin input line
-					(at 55.88 -5.08 180)
-					(length 7.62)
+					(at -17.78 -2.54 0)
+					(length 5.08)
 					(name "3A"
 						(effects
 							(font
-								(size 1.27 1.27)
+								(size 1.016 1.016)
 							)
 						)
 					)
 					(number "6"
 						(effects
 							(font
-								(size 1.27 1.27)
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 17.78 7.62 180)
+					(length 5.08)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.016 1.016)
 							)
 						)
 					)
 				)
 				(pin output line
-					(at 55.88 -7.62 180)
-					(length 7.62)
+					(at 17.78 2.54 180)
+					(length 5.08)
+					(name "1Y"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 17.78 0 180)
+					(length 5.08)
 					(name "2Y"
 						(effects
 							(font
-								(size 1.27 1.27)
+								(size 1.016 1.016)
 							)
 						)
 					)
 					(number "5"
 						(effects
 							(font
-								(size 1.27 1.27)
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 17.78 -2.54 180)
+					(length 5.08)
+					(name "3Y"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 17.78 -7.62 180)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.016 1.016)
 							)
 						)
 					)
@@ -2489,12 +2515,6 @@
 		(uuid "0389c09d-3359-4185-bc31-b38a1031a47a")
 	)
 	(junction
-		(at 243.84 40.64)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1528bb92-a3a6-42bd-8101-9732c80845e6")
-	)
-	(junction
 		(at 87.63 88.9)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2583,6 +2603,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c9a972a4-beff-48fe-a7f4-d3b59ea7cdea")
+	)
+	(junction
+		(at 233.68 38.1)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d28c4a68-24c4-41f1-b263-b1ea69d83d52")
 	)
 	(junction
 		(at 87.63 143.51)
@@ -2824,7 +2850,7 @@
 	)
 	(wire
 		(pts
-			(xy 254 40.64) (xy 243.84 40.64)
+			(xy 243.84 38.1) (xy 233.68 38.1)
 		)
 		(stroke
 			(width 0)
@@ -2914,7 +2940,7 @@
 	)
 	(wire
 		(pts
-			(xy 243.84 30.48) (xy 243.84 27.94)
+			(xy 233.68 31.75) (xy 233.68 33.02)
 		)
 		(stroke
 			(width 0)
@@ -3074,7 +3100,7 @@
 	)
 	(wire
 		(pts
-			(xy 243.84 35.56) (xy 243.84 40.64)
+			(xy 233.68 36.83) (xy 233.68 38.1)
 		)
 		(stroke
 			(width 0)
@@ -3291,16 +3317,6 @@
 			(type default)
 		)
 		(uuid "d60e4b5d-202b-413f-bbdf-66e037d170b6")
-	)
-	(wire
-		(pts
-			(xy 189.23 48.26) (xy 187.96 48.26)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d65016ee-d160-427c-98fb-32a5ff4eaf0f")
 	)
 	(wire
 		(pts
@@ -3622,28 +3638,6 @@
 			)
 		)
 	)
-	(global_label "B"
-		(shape input)
-		(at 187.96 45.72 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "2eb854ca-5bcc-4b2a-a896-f8649bb220df")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 183.7048 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "VIN"
 		(shape input)
 		(at 72.39 36.83 180)
@@ -3668,7 +3662,7 @@
 	)
 	(global_label "A_BUF"
 		(shape output)
-		(at 243.84 43.18 0)
+		(at 233.68 43.18 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3678,7 +3672,7 @@
 		)
 		(uuid "35ec79a8-e163-4cce-8bb1-5ffaec31c2a0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 252.5705 43.18 0)
+			(at 242.4105 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3690,7 +3684,7 @@
 	)
 	(global_label "VIN"
 		(shape input)
-		(at 254 40.64 0)
+		(at 243.84 38.1 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3700,7 +3694,7 @@
 		)
 		(uuid "369c8661-3862-498d-9fad-62b820391bd9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 260.0091 40.64 0)
+			(at 249.8491 38.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3712,7 +3706,7 @@
 	)
 	(global_label "A"
 		(shape input)
-		(at 187.96 40.64 180)
+		(at 198.12 43.18 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3722,7 +3716,7 @@
 		)
 		(uuid "4afa0f27-474e-486d-a7a0-7b2ea568684c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 183.8862 40.64 0)
+			(at 194.0462 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3798,6 +3792,28 @@
 			)
 		)
 	)
+	(global_label "B"
+		(shape input)
+		(at 198.12 45.72 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "659fd6f1-37b2-480c-be60-b3f87017b7f3")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 193.8648 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "A"
 		(shape output)
 		(at 72.39 49.53 180)
@@ -3822,7 +3838,7 @@
 	)
 	(global_label "B_BUF"
 		(shape output)
-		(at 243.84 48.26 0)
+		(at 233.68 45.72 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3832,29 +3848,7 @@
 		)
 		(uuid "a1bc19fc-852c-4328-9057-6ea974255aa0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 252.7519 48.26 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "I"
-		(shape input)
-		(at 243.84 45.72 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "ae6d68b6-df25-4fa6-ac4b-e5c78f6db70a")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 247.43 45.72 0)
+			(at 242.5919 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3888,7 +3882,29 @@
 	)
 	(global_label "I_BUF"
 		(shape output)
-		(at 187.96 43.18 180)
+		(at 233.68 48.26 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b52ebf98-4aef-4c99-bb6b-1b4bf953b545")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 241.9267 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "I"
+		(shape input)
+		(at 198.12 48.26 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3896,9 +3912,9 @@
 			)
 			(justify right)
 		)
-		(uuid "b52ebf98-4aef-4c99-bb6b-1b4bf953b545")
+		(uuid "c39f1e53-b69f-4b2d-ae58-e90ed63fe00f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 179.7133 43.18 0)
+			(at 194.53 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4275,14 +4291,13 @@
 		)
 	)
 	(symbol
-		(lib_id "SchmittBuffer:SN74LVC3G17DCUR")
-		(at 187.96 40.64 0)
+		(lib_id "SchmittBuffer:SN74LVC3G17DCTRE4")
+		(at 215.9 45.72 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "27ef35fc-7b4e-4879-96f3-a95f8e064e45")
 		(property "Reference" "U2"
 			(at 215.9 30.48 0)
@@ -4292,7 +4307,7 @@
 				)
 			)
 		)
-		(property "Value" "SN74LVC3G17DCUR"
+		(property "Value" "SN74LVC3G17DCTR"
 			(at 215.9 33.02 0)
 			(effects
 				(font
@@ -4300,28 +4315,27 @@
 				)
 			)
 		)
-		(property "Footprint" "SchmittBuffer:SN74LVC3G17DCUR"
-			(at 187.96 40.64 0)
+		(property "Footprint" "SchmittBuffer:SN74LVC3G17DCTR"
+			(at 215.9 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
-					(italic yes)
 				)
+				(justify bottom)
 				(hide yes)
 			)
 		)
 		(property "Datasheet" "https://www.ti.com/lit/gpn/sn74lvc3g17"
-			(at 187.96 40.64 0)
+			(at 215.9 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
-					(italic yes)
 				)
 				(hide yes)
 			)
 		)
 		(property "Description" ""
-			(at 187.96 40.64 0)
+			(at 215.9 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4330,11 +4344,141 @@
 			)
 		)
 		(property "LCSC" "C68245"
-			(at 215.9 30.48 0)
+			(at 243.84 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
+			)
+		)
+		(property "DigiKey_Part_Number" "296-18818-1-ND"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/SN74LVC3G17DCTRE4/Texas+Instruments/view-part/?ref=snap"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MAXIMUM_PACKAGE_HEIGHT" "0.9 mm"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "SSOP-8 Texas Instruments"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/SN74LVC3G17DCTRE4/Texas+Instruments/view-part/?ref=eda"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "STANDARD" "IPC-7351B"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PARTREV" "F"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "Texas Instruments"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "SN74LVC3G17DCTRE4"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "TRIPLE SCHMITT-TRIGGER BUFFER 8-SM8 -40 to 125"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MANUFACTURER" "Texas Instruments"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 215.9 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
 				(hide yes)
 			)
 		)
@@ -4490,7 +4634,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C105579"
+		(property "LCSC" "C107701"
 			(at 137.16 175.26 0)
 			(effects
 				(font
@@ -4976,7 +5120,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C105579"
+		(property "LCSC" "C107701"
 			(at 129.54 177.8 0)
 			(effects
 				(font
@@ -5226,16 +5370,16 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 189.23 48.26 270)
+		(at 233.68 53.34 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "56c0d7ed-dfc6-4066-9fce-93d121ad2d4c")
 		(property "Reference" "#PWR04"
-			(at 182.88 48.26 0)
+			(at 240.03 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5244,7 +5388,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 185.42 48.2599 90)
+			(at 237.49 53.3399 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5253,7 +5397,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 189.23 48.26 0)
+			(at 233.68 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5262,7 +5406,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 189.23 48.26 0)
+			(at 233.68 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5271,7 +5415,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 189.23 48.26 0)
+			(at 233.68 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5359,7 +5503,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 243.84 27.94 180)
+		(at 233.68 33.02 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5368,7 +5512,7 @@
 		(fields_autoplaced yes)
 		(uuid "5e6ca2b1-aeb2-4914-bd5e-7670069c315f")
 		(property "Reference" "#PWR012"
-			(at 243.84 21.59 0)
+			(at 233.68 26.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5377,7 +5521,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 243.84 22.86 0)
+			(at 233.68 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5385,7 +5529,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 243.84 27.94 0)
+			(at 233.68 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5394,7 +5538,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 243.84 27.94 0)
+			(at 233.68 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5403,7 +5547,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 243.84 27.94 0)
+			(at 233.68 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5598,7 +5742,7 @@
 				)
 			)
 		)
-		(property "Footprint" "BlueLED:150080BS75000_Modified"
+		(property "Footprint" "LedBlue:150080BS75000_Modified"
 			(at 201.93 109.22 0)
 			(effects
 				(font
@@ -5660,7 +5804,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small_US")
-		(at 243.84 33.02 0)
+		(at 233.68 34.29 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5669,7 +5813,7 @@
 		(fields_autoplaced yes)
 		(uuid "79b858b1-f518-47c4-8df3-4416bb53c4e8")
 		(property "Reference" "C4"
-			(at 246.38 31.8769 0)
+			(at 236.22 33.1469 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5677,8 +5821,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.1uF"
-			(at 246.38 34.4169 0)
+		(property "Value" "100nF"
+			(at 236.22 35.6869 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5686,8 +5830,8 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor0.1uF:GRM188R71H104KA93J"
-			(at 243.84 33.02 0)
+		(property "Footprint" "Capacitor100nF:CC0603KRX7R9BB104"
+			(at 233.68 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5696,7 +5840,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 243.84 33.02 0)
+			(at 233.68 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5705,7 +5849,16 @@
 			)
 		)
 		(property "Description" "capacitor, small US symbol"
-			(at 243.84 33.02 0)
+			(at 233.68 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C14663"
+			(at 236.22 33.1469 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5756,7 +5909,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor100nF:885342208002"
+		(property "Footprint" "Capacitor100nF:CC0603KRX7R9BB104"
 			(at 144.78 49.53 0)
 			(effects
 				(font
@@ -5783,7 +5936,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C2176910"
+		(property "LCSC" "C14663"
 			(at 147.32 48.3869 0)
 			(effects
 				(font
@@ -5860,7 +6013,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C105579"
+		(property "LCSC" "C107701"
 			(at 144.78 172.72 0)
 			(effects
 				(font
@@ -6200,7 +6353,7 @@
 				)
 			)
 		)
-		(property "Footprint" "RedLED:RC0603FR-07150RL"
+		(property "Footprint" "LedRed:NCD0603R1"
 			(at 201.93 137.16 0)
 			(effects
 				(font
@@ -7518,7 +7671,7 @@
 				)
 			)
 		)
-		(property "Footprint" "BlueLED:150080BS75000_Modified"
+		(property "Footprint" "LedBlue:150080BS75000_Modified"
 			(at 201.93 82.55 0)
 			(effects
 				(font
@@ -7701,6 +7854,15 @@
 		)
 		(property "Description" "Resistor, US symbol"
 			(at 224.79 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C114608"
+			(at 224.79 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8462,7 +8624,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor10nF:885012206089"
+		(property "Footprint" "Capacitor10nF:GRM1885C1H103JA01D"
 			(at 157.48 49.53 0)
 			(effects
 				(font
@@ -8489,7 +8651,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C2169542"
+		(property "LCSC" "C85973"
 			(at 160.02 48.3869 0)
 			(effects
 				(font

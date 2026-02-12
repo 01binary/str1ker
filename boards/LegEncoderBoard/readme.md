@@ -4,6 +4,10 @@ A custom board that simplifies mounting `AS5047P` hall-effect on-axis encoder wi
 
 > Ready-made alternatives like [SideView Tech](https://www.amazon.com/AS5047P-Magnetic-Position-Breakout-Compatible/dp/B0DLJ6XDNM) and [AS5047P Adapter Board](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5047p-adapterboard/5452344) do exist, but have extra pins not used in this project and a board shape that makes them hard to mount.
 
+The board also includes educational indicators:
++ An LED that blinks on one full 350 degree rotation, fed by the index pulse from the encoder
++ Two LEDs that blink when the encoder detects motion, fed by A/B quadrature pulses from the encoder
+
 ## Signal
 
 The [AS5047P documentation](./doc/AS5047P.pdf) specifies that `A` and `B` pins output a quadrature signal, and an additional `I` pin outputs index (one pulse per complete revolution).
@@ -12,7 +16,7 @@ The [AS5047P documentation](./doc/AS5047P.pdf) specifies that `A` and `B` pins o
 
 For `3.3V` operation `VDD` and `VDD3V3` are bridged and decoupled to `GND` via `100nF` decoupling capacitor and `10uF` bypass capacitor.
 
-An additional `1nF` bulk capacitor is on `VDD3V3` line for additional stabilization.
+Another `1nF` bulk capacitor is on `VDD3V3` line for additional stabilization.
 
 ## Indicators
 
@@ -20,26 +24,25 @@ LEDs are attached to quadrature (`A`, `B`, `I`) encoder outputs. These LEDs blin
 
 The following components are used to enable this:
 
-+ 1× `SN74LVC3G17DCUR` triple Schmitt buffer
++ 1× `SN74LVC3G17DCTRE4` triple Schmitt buffer
 + 3× `BAT54WS` Schottky diodes
-+ 3× `1M` resistors (transistor base pull-down)
++ 3× `470K` resistors (transistor base bleed)
 + 3× `47K` resistors (transistor base resistor)
 + 3× `100K` resistors (envelope discharge)
 + 3× `1 µF` capacitors (envelope storage)
-+ 1× `0.1 µF` capacitor (buffer decoupling)
-+ 3× `470R` resistors (LED current limit)
++ 1× `100 nF` capacitor (buffer decoupling)
 + 3× `MMBT3904` transistors (LED sink drivers)
 
 Each signal (`A`, `B`, and `I`) is connected in the following network:
 
 |Signal|Pin|
 |-|-|
-|`RAW`|AS5047 A, B, or I pin|
-|`BUF`|Schmitt buffer output pin|
-|`ENV`|Envelope capacitor|
-|`BASE`|Transistor base|
-|`LED_CATHODE`|LED cathode|
-|`LED_ANODE`|LED anode|
+|`A`, `B`, `I`|AS5047 A, B, or I pins going to Schmitt buffer inputs|
+|`A_BUF`, `B_BUF`, `I_BUF`|Schmitt buffer output pins|
+|`A_ENV`, `B_ENV`, `I_ENV`|Envelope capacitors|
+|`A_BASE`, `B_BASE`, `I_BASE`|Transistor base|
+|`A_LED_CATHODE`, `B_LED_CATHODE`, `I_LED_CATHODE`|LED cathode|
+|`A_LED_ANODE`, `B_LED_ANODE`, `I_LED_ANODE`|LED anode|
 
 ### Schmitt Buffer
 
@@ -51,9 +54,9 @@ The buffer clamps the analog input to either `HIGH` or `LOW` on the output.
 
 ### Envelope Generator
 
-The envelope generator modifies the transient characteristics of the incoming signal by making it rise quickly (fast attack) but decay slowly (slow decay).
+The envelope generator modifies the transient characteristics of the incoming signal by making it rise quickly (fast attack) but decay slowly (slow release).
 
-> Fast attack/slow decay combination creates "sustain" which enables the LED indicators to stay on after being triggered from AS5047 A/B/I outputs through the Schmitt trigger.
+> Fast attack/slow release combination creates "sustain" which enables the LED indicators to stay on after being triggered from AS5047 A/B/I outputs through the Schmitt trigger.
 
 Without adding sustain, the LEDs would blink too quickly to be noticeable, and simply end up looking "weakly on".
 
@@ -66,18 +69,18 @@ Without adding sustain, the LEDs would blink too quickly to be noticeable, and s
 The transistor is used to drive LEDs from the power source, using AS5047's A/B/I pins as on/off switches so they don't drive LEDs directly.
 
 + Emitter connects to `GND`
-+ Collector connects to `LED_K`
++ Collector connects to `LED_CATHODE`
 + Base connects to `ENV` through `47K` base resistor
-+ Base connects to `GND` through `1M` pull-down resistor
++ Base connects to `GND` through `470K` pull-down resistor
 
 ### Indicator
 
-+ LED anode (`LED_K`) connects to `3.3V` through LED resistor (depending on LED color)
-+ LED cathode (`LED_A`) connects to transistor collector
++ LED anode (`LED_CATHODE`) connects to `3.3V` through LED resistor (depending on LED color)
++ LED cathode (`LED_ANODE`) connects to transistor collector
 
 ## Connector
 
-The board uses an IDC connector with two rows of 4 pins. This enables twisting each signal lane ith a ground lane for better interference rejection.
+The board uses an IDC connector with two rows of 4 pins. This enables twisting each of the signal wires with ground for better interference rejection.
 
 |Column|1|2|3|4|
 |-|-|-|-|-|
@@ -135,24 +138,22 @@ void loop()
 }
 ```
 
-## BOM
+## Bill of Materials
 
 |Component|Description|
 |-|-|
 |[AS5047P-ATST](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5047p-atst-tssop14-lf-t-rdp/5288535)|Encoder|
-|[885342208002](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/885342208002/9345893)|`100nF` Decoupling Capacitor|
-|[885012206089](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/885012206089/5453862)|`10nF` Bypass Capacitor|
+|[CC0603KRX7R9BB104](https://www.digikey.com/en/products/detail/yageo/cc0603krx7r9bb104/2103082)|`100nF` Decoupling Capacitor|
+|[GRM1885C1H103JA01D](https://www.digikey.com/en/models/4421555)|`10nF` Bypass Capacitor|
 |[CC0603JRX7R7BB105](https://www.digikey.com/en/products/detail/yageo/CC0603JRX7R7BB105/7164369)|`1uF` Bulk Capacitor|
-|[GRM188R71H104KA93J](https://www.digikey.com/en/products/detail/murata-electronics/GRM188R71H104KA93J/2345327)|`0.1uF` Schmitt Buffer Decoupling Capacitor|
 |[150080BS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/)|Blue LED for A and B channels|
-|[150080RS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150080RS75000/4489918)|Red LED for I channel|
+|[NCD0603R1](https://www.lcsc.com/product-detail/C84263.html?s_z=s_C84263)|Red LED for I channel|
 |[RC0603FR-07470KL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07470kl/727257)|`470K` Bleed Resistor|
 |[RCG06031K00FKEA](https://www.digikey.com/en/products/detail/vishay-dale/rcg06031k00fkea/4172389)|`1K` Resistor (Red LED)|
 |[RC0603FR-0747KL](https://www.digikey.com/en/products/detail/yageo/RC0603FR-0747KL/730200)|`47K` Transistor Base Resistor|
 |[CRCW0603100KFKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw0603100kfkea/1174896)|`100K` Discharge Resistor|
-|[RC0603FR-07150RL](https://www.digikey.com/en/products/detail/yageo/RC0603FR-07150RL/726958)|`150 Ohm` Resistor (Blue LED)|
+|[RC0603FR-07150RL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07150rl/726958)|`150 Ohm` Resistor (Blue LED)|
 |[RC0603FR-0722RL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-0722rl/727055)|`22 Ohm` Series Resistor (A/B/I channels)|
-|[SN74LVC3G17DCUR](https://www.digikey.com/en/products/detail/texas-instruments/SN74LVC3G17DCUR/863652)|Schmitt-trigger buffer|
+|[SN74LVC3G17DCTRE4](https://www.digikey.com/en/products/detail/texas-instruments/sn74lvc3g17dctre4/1592395)|Schmitt-trigger buffer|
 |[BAT54WS-7-F](https://www.digikey.com/en/products/detail/diodes-incorporated/BAT54WS-7-F/804865)|Envelope Diode|
 |[MMBT3904LT1G](https://www.digikey.com/en/products/detail/onsemi/MMBT3904LT1G/919601)|LED Transistor|
-|[B5B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b5b-xh-a/1530483)|5-pin `JST-XH` connector (2.5mm pitch)|

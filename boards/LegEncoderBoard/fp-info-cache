@@ -1,4 +1,4 @@
-26806490713621352
+26802958156349116
 AS5047P-ASST
 AS5047P-ASST
 
@@ -388,20 +388,6 @@ Battery
 Battery_Panasonic_CR3032-VCN_Vertical_CircularHoles
 Panasonic CR-3032/VCN battery, https://industrial.panasonic.com/cdbs/www-data/pdf2/AAA4000/AAA4000D508.PDF
 battery CR-3032 coin cell vertical
-0
-2
-2
-BlueLED
-150080BS75000
-
-150080BS75000 
-0
-2
-2
-BlueLED
-150080BS75000_Modified
-
-150080BS75000 
 0
 2
 2
@@ -2967,13 +2953,6 @@ Gauge Massstab 100mm SilkScreenTop Type 2
 0
 0
 0
-Capacitor0.1uF
-GRM188R71H104KA93J
-
-
-0
-2
-2
 Capacitor1uF
 CC0603JRX7R7BB105
 
@@ -2996,16 +2975,16 @@ CC0603JRX7R7BB105
 2
 2
 Capacitor10nF
-885012206089
+GRM1885C1H103JA01D
 
-
+GRM1885C1H103JA01D 
 0
 2
 2
 Capacitor100nF
-885342208002
+CC0603KRX7R9BB104
 
-
+CC0603KRX7R9BB104 
 0
 2
 2
@@ -70643,6 +70622,20 @@ Yellow 5381 Series LED
 0
 2
 2
+LedBlue
+150080BS75000_Modified
+
+150080BS75000 
+0
+2
+2
+LedRed
+NCD0603R1
+
+
+0
+2
+2
 Module
 A20_OLINUXINO_LIME2
 A20 Olinuxino LIME2, 1.2GHz, 512-1024MB RAM, Micro-SD, NAND or eMMC, 1000Mbit Ethernet
@@ -95024,13 +95017,6 @@ WiFi IEEE802.11 b/g/n
 0
 44
 44
-RedLED
-RC0603FR-07150RL
-
-RC0603FR-07150RL 
-0
-2
-2
 Relay_SMD
 Relay_2P2T_10x6mm_TE_IMxxG
 Signal Relay, 10x6mm, 2 Form C, Gull Wings, https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Data+Sheet%7F108-98001%7FZ.1%7Fpdf%7FEnglish%7FENG_DS_108-98001_Z.1.pdf
@@ -97405,9 +97391,9 @@ rotary encoder illuminated switch vertical
 9
 8
 SchmittBuffer
-SN74LVC3G17DCUR
+SN74LVC3G17DCTR
 
-SN74LVC3G17DCUR 
+
 0
 8
 8

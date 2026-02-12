@@ -1,8 +1,13 @@
-# Encoder Board
+# Arm Encoder Board
 
 A custom board that simplifies mounting `AS5045` hall-effect on-axis encoder with 12-bit resolution onto DC and stepper motors.
 
 > Ready-made alternatives like [AS5045 Adapter Board](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045-adapterboard/2339623) do exist, but have extra pins not used in this project, and a footprint that makes them hard to mount.
+
+The board also includes educational indicators:
+
++ An LED that blinks on one full 350 degree rotation, fed by the `I` (index) pulse from the encoder
++ An LED that blinks when the encoder detects motion, fed by the `A` quadrature pulse from the encoder
 
 ## Power
 
@@ -37,6 +42,65 @@ union AS5045Reading
   static const double MAX = 0b111111111111;
 };
 ```
+
+## Indicators
+
+LEDs are attached to quadrature (`A`, `I`) encoder outputs. These LEDs blink when receiving the quadrature signal.
+
+The following components are used to enable this:
+
++ 1× `SN74LVC2G17DBVR` double Schmitt buffer
++ 3× `BAT54WS` Schottky diodes
++ 3× `470K` resistors (transistor base bleed)
++ 3× `47K` resistors (transistor base resistor)
++ 3× `100K` resistors (envelope discharge)
++ 3× `1 µF` capacitors (envelope storage)
++ 1× `100 µF` capacitor (buffer decoupling)
++ 3× `470R` resistors (LED current limit)
++ 3× `MMBT3904` transistors (LED sink drivers)
+
+Each signal (`A`,`I`) is connected in the following network:
+
+|Signal|Pin|
+|-|-|
+|`A`, `I`|AS5045 A and I pins going to Schmitt buffer inputs|
+|`A_BUF`, `I_BUF`|Schmitt buffer output pins|
+|`A_ENV`, `I_ENV`|Envelope capacitors|
+|`A_BASE`, `I_BASE`|Transistor base|
+|`A_LED_CATHODE`, `I_LED_CATHODE`|LED cathode|
+|`A_LED_ANODE`, `I_LED_ANODE`|LED anode|
+
+### Schmitt Buffer
+
+The buffer clamps the analog input to either `HIGH` or `LOW` on the output.
+
++ AS5045 output (`RAW`) connects to buffer input (`1A`/`2A`)
++ Schmitt buffer output (`1Y`/`2Y`) connects to buffer output (`BUF`)
++ A `100uF` decoupling capacitor from `VCC` to `GND` is placed next to the buffer IC
+
+### Envelope Generator
+
+The envelope generator modifies the transient characteristics of the incoming signal by making it rise quickly (fast attack) but decay slowly (slow release).
+
+Without adding sustain, the LEDs would blink too quickly to be noticeable, and simply end up looking "weakly on".
+
++ `BAT54` diode: anode connects to `BUF`, cathode to `ENV`
++ `1 uF` capacitor between `ENV` and `GND`
++ `100K` resistor between `ENV` and `GND`
+
+### Transistor
+
+The transistor is used to drive LEDs from the power source, using AS5045's A/I pins as on/off switches so they don't drive LEDs directly.
+
++ Emitter connects to `GND`
++ Collector connects to LED cathode
++ Base connects to `ENV` through `47K` base resistor
++ Base connects to `GND` through `470K` pull-down resistor
+
+### Indicator
+
++ LED anode connects to `3.3V` through LED resistor (depending on LED color)
++ LED cathode connects to transistor collector
 
 ## Connector
 
@@ -104,16 +168,26 @@ void loop()
 
 The following components appear on the board other than the encoder and the connector:
 
-+ `100nF` to `GND` on `VDD`: decoupling capacitor
++ `100nF` (`0.1uF`) to `GND` on `VDD`: decoupling capacitor
 + `VDD` and `VDD3V3` bridged on `VIN`: for 3.3V operation
 + `4.7K` to `GND` on `SCK`: clock pull-down
 + `4.7K` to `VIN` on `CS`: chip select pull-up
 
-## BOM
+## Bill of Materials
 
 |Component|Description|
 |-|-|
-|[AS5045-ATST](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045-asst/2334769)|Hall Effect Encoder|
-|[885342208002](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/885342208002/9345893)|`100nF` Decoupling Capacitor|
-|[RE0603FRE074K7L](https://www.digikey.com/en/products/detail/yageo/RE0603FRE074K7L/12708232)|`4.7K` Pull-Down/Pull-Up Resistor|
+|[AS5045B-ASST SSOP16 LF T&RDP](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045b-asst-ssop16-lf-t-rdp/4896030)|Hall Effect Encoder|
+|[CC0603KRX7R9BB104](https://www.digikey.com/en/products/detail/yageo/cc0603krx7r9bb104/2103082)|`100nF` Decoupling Capacitor|
+|[CC0603JRX7R7BB105](https://www.digikey.com/en/products/detail/yageo/cc0603jrx7r7bb105/7164369)|`1uF` Capacitor|
+|[RCG06031K00FKEA](https://www.digikey.com/en/products/detail/vishay-dale/rcg06031k00fkea/4172389)|`1K` Red LED Resistor|
+|[CR0603-FX-4701ELF](https://www.digikey.com/en/products/detail/bourns-inc/cr0603-fx-4701elf/3740916)|`4.7K` Pull-Down/Pull-Up Resistor|
+|[RC0603FR-0747KL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-0747kl/727253)|`47K` Resistor|
+|[CRCW0603100KFKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw0603100kfkea/1174896)|`100K` Resistor|
+|[RC0603FR-07150RL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07150rl/726958)|`150R` Blue LED Resistor|
+|[SN74LVC2G17DBVR](https://www.digikey.com/en/products/detail/umw/sn74lvc2g17dbvr/24890103)|Schmitt Buffer (2-channel)|
+|[MMBT3904LT1G](https://www.digikey.com/en/products/detail/onsemi/MMBT3904LT1G/919601)|Transistor|
+|[BAT54WS-7-F](https://www.digikey.com/en/products/detail/diodes-incorporated/bat54ws-7-f/804865)|Envelope Diode|
+|[NCD0603R1](https://www.lcsc.com/product-detail/C84263.html?s_z=n_NCD0603R1)|Red LED 0603|
+|[150080BS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150080bs75000/4489912)|Blue LED 0805|
 |[B5B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b5b-xh-a/1530483)|5-pin `JST-XH` connector (2.5mm pitch)|
