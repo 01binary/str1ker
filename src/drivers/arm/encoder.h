@@ -20,7 +20,6 @@
 
 #include <SPI.h>
 #include <QuadratureEncoder.h>
-#include <ArduinoSTL.h>
 #include <ros.h>
 
 /*----------------------------------------------------------*\
@@ -180,6 +179,16 @@ public:
     node.getParam((String("~") + group + "/scaleMin").c_str(), &scaleMin);
     node.getParam((String("~") + group + "/scaleMax").c_str(), &scaleMax);
     node.getParam((String("~") + group + "/invert").c_str(), &invert);
+
+    char buffer[100] = {0};
+
+    sprintf(
+      buffer,
+      "%s encoder: normMin=%d normMax=%d scaleMin=%f scaleMax=%f invert=%d",
+      group, normMin, normMax, scaleMin, scaleMax, invert
+    );
+
+    node.loginfo(buffer);
   }
 
   float read()

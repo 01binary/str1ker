@@ -26,7 +26,6 @@
 
 #include <ros.h>
 #include <ros/time.h>
-#include <Arduino_FreeRTOS.h>
 #include "interface.h"
 #include "actuator.h"
 #include "motor.h"
@@ -40,7 +39,6 @@
 
 const int RATE_HZ = 50;                   // Default real time update rate
 const int STARTUP_DELAY = 3000;           // Prevent "published too soon" errors
-const int RT = configMAX_PRIORITIES - 1;  // Real time thread priority
 
 const int BASE_LPWM = 11;                 // Base motor left PWM pin
 const int BASE_RPWM = 3;                  // Base motor right PWM pin
@@ -69,12 +67,7 @@ Actuator<FusionEncoder, Motor> base;      // Base hardware
 Actuator<Potentiometer, Motor> shoulder;  // Shoulder hardware
 Actuator<Potentiometer, Motor> elbow;     // Elbow hardware
 Solenoid gripper;                         // Gripper hardware
-
-/*----------------------------------------------------------*\
-| Forward Declarations
-\*----------------------------------------------------------*/
-
-void realTimeMotorControl();
+uint32_t lastTime = 0;
 
 /*----------------------------------------------------------*\
 | Functions
@@ -95,45 +88,26 @@ void setup()
   base.loadSettings(node, "base");
   shoulder.loadSettings(node, "shoulder");
   elbow.loadSettings(node, "elbow");
-
-  xTaskCreate(realTimeMotorControl, "motor", 2048, NULL, RT, NULL);
 }
 
 void loop()
 {
-  if (millis() > STARTUP_DELAY)
+  uint32_t now = millis();
+
+  if (now < STARTUP_DELAY)
   {
-    stateFeedback();
-
-    node.spinOnce();
+    lastTime = now;
+    return;
   }
-}
 
-ros::Time getTime()
-{
-  uint32_t ms = millis();
-  uint32_t sec = ms / 1000;
-  uint32_t ns = (ms - sec * 1000) * 1000000;
+  float timeStep = (now - lastTime) * 0.001f;
 
-  return ros::Time(sec, ns);
-}
+  base.update(timeStep);
+  shoulder.update(timeStep);
+  elbow.update(timeStep);
 
-void realTimeMotorControl(void* parameters)
-{
-  ros::Time time = getTime();
-  const TickType_t frequency = pdMS_TO_TICKS(int(1000.0 / RATE_HZ));
-  TickType_t lastTick = xTaskGetTickCount();
+  stateFeedback();
 
-  while (true)
-  {
-    ros::Time now = getTime();
-    float timeStep = (now - time).toSec();
-    time = now;
-
-    base.update(timeStep);
-    shoulder.update(timeStep);
-    elbow.update(timeStep);
-
-    vTaskDelayUntil(&lastTick, frequency);
-  }
+  node.spinOnce();
+  lastTime = now;
 }

@@ -85,6 +85,13 @@ public:
     node.getParam((String("~") + group + "/pwmMax").c_str(), &pwmMax);
     node.getParam((String("~") + group + "/stallThreshold").c_str(), &stallThreshold);
     node.getParam((String("~") + group + "/invert").c_str(), &invert);
+
+    char buffer[100] = {0};
+
+    sprintf(buffer, "%s motor: pwmMin=%d pwmMax=%d stallThreshold=%d invert=%d",
+      group, pwmMin, pwmMax, stallThreshold, invert);
+
+    node.loginfo(buffer);
   }
 
   float read()
