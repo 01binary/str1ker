@@ -20,7 +20,6 @@
 
 #include <SPI.h>
 #include <QuadratureEncoder.h>
-#include <ArduinoSTL.h>
 #include <ros.h>
 
 /*----------------------------------------------------------*\
