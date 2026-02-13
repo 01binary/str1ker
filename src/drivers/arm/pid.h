@@ -112,6 +112,13 @@ public:
     node.getParam((String("~") + group + "/iMin").c_str(), &iMin);
     node.getParam((String("~") + group + "/iMax").c_str(), &iMax);
     node.getParam((String("~") + group + "/tolerance").c_str(), &tolerance);
+
+    char buffer[100] = {0};
+
+    sprintf(buffer, "%s PID: Kp=%f Ki=%f Kd=%f iMin=%f iMax=%f tol=%f",
+      group, Kp, Ki, Kd, iMin, iMax, tolerance);
+
+    node.loginfo(buffer);
   }
 
   void start(float goalPosition)
