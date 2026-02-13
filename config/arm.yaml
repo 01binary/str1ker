@@ -1,12 +1,13 @@
-base/controller/Kp: 1.0
-base/controller/Ki: 0.01
-base/controller/Kd: 0.01
-base/controller/iMin: -1.0
-base/controller/iMax: 1.0
-base/controller/tolerance: 0.1
-base/motor/pwmMin: 64.0
-base/motor/pwmMax: 255.0
-base/motor/stallThreshold: 255
+# base joint
+base/controller/Kp: 10.0
+base/controller/Ki: 1.0
+base/controller/Kd: 1.0
+base/controller/iMin: -2.0
+base/controller/iMax: 2.0
+base/controller/tolerance: 0.3
+base/motor/pwmMin: 65.0
+base/motor/pwmMax: 253.0
+base/motor/stallThreshold: 251
 base/motor/invert: 0
 base/encoder/normMin: 70
 base/encoder/normMax: 162
@@ -14,6 +15,7 @@ base/encoder/scaleMin: -1.5708
 base/encoder/scaleMax: 1.5708
 base/encoder/invert: 0
 
+# shoulder joint
 shoulder/controller/Kp: 1.0
 shoulder/controller/Ki: 0.01
 shoulder/controller/Kd: 0.01
@@ -30,6 +32,7 @@ shoulder/encoder/scaleMin: -0.054
 shoulder/encoder/scaleMax: -0.0005
 shoulder/encoder/invert: 0
 
+#elbow joint
 elbow/controller/Kp: 1.0
 elbow/controller/Ki: 0.01
 elbow/controller/Kd: 0.01

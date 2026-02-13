@@ -86,6 +86,7 @@ void setup()
   ros::NodeHandle& node = initializeRos();
 
   base.loadSettings(node, "base");
+  base.dump(node, "base");
   shoulder.loadSettings(node, "shoulder");
   elbow.loadSettings(node, "elbow");
 }

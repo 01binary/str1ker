@@ -84,14 +84,10 @@ public:
     node.getParam((String("~") + group + "/pwmMin").c_str(), &pwmMin);
     node.getParam((String("~") + group + "/pwmMax").c_str(), &pwmMax);
     node.getParam((String("~") + group + "/stallThreshold").c_str(), &stallThreshold);
-    node.getParam((String("~") + group + "/invert").c_str(), &invert);
 
-    char buffer[100] = {0};
-
-    sprintf(buffer, "%s motor: pwmMin=%d pwmMax=%d stallThreshold=%d invert=%d",
-      group, pwmMin, pwmMax, stallThreshold, invert);
-
-    node.loginfo(buffer);
+    int invert_i = 0;
+    node.getParam((String("~") + group + "/invert").c_str(), &invert_i);
+    invert = invert_i;
   }
 
   float read()
@@ -133,5 +129,20 @@ public:
 
       velocity = nextCommand;
     }
+  }
+
+  void dump(ros::NodeHandle& node, const char* group)
+  {
+    char buffer[256] = {0};
+    char min_s[16], max_s[16], thresh_s[16];
+
+    dtostrf(pwmMin, 0, 4, min_s);
+    dtostrf(pwmMax, 0, 4, max_s);
+    dtostrf(stallThreshold, 0, 4, thresh_s);
+
+    sprintf(buffer, "%s: pwmMin=%s pwmMax=%s stallThreshold=%S%s",
+      group, min_s, max_s, thresh_s, invert ? " invert" : "");
+
+    node.loginfo(buffer);
   }
 };

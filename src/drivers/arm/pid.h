@@ -66,7 +66,7 @@ public:
   float i;          // Integral term
   float d;          // Derivative term
 
-  bool enabled;      // Whether the controller is enabled
+  bool enabled;     // Whether the controller is enabled
   float elapsed;    // Elapsed time since start
 
 public:
@@ -112,13 +112,6 @@ public:
     node.getParam((String("~") + group + "/iMin").c_str(), &iMin);
     node.getParam((String("~") + group + "/iMax").c_str(), &iMax);
     node.getParam((String("~") + group + "/tolerance").c_str(), &tolerance);
-
-    char buffer[100] = {0};
-
-    sprintf(buffer, "%s PID: Kp=%f Ki=%f Kd=%f iMin=%f iMax=%f tol=%f",
-      group, Kp, Ki, Kd, iMin, iMax, tolerance);
-
-    node.loginfo(buffer);
   }
 
   void start(float goalPosition)
@@ -186,5 +179,24 @@ public:
 
     // Calculate command
     return p + i + d;
+  }
+
+  void dump(ros::NodeHandle& node, const char* group)
+  {
+    char buffer[255] = {0};
+    char kp_s[16], ki_s[16], kd_s[16], imin_s[16], imax_s[16], tol_s[16];
+
+    dtostrf(Kp,        0, 4, kp_s);
+    dtostrf(Ki,        0, 4, ki_s);
+    dtostrf(Kd,        0, 4, kd_s);
+    dtostrf(iMin,      0, 4, imin_s);
+    dtostrf(iMax,      0, 4, imax_s);
+    dtostrf(tolerance, 0, 4, tol_s);
+
+    snprintf(buffer, sizeof(buffer),
+            "%s: Kp=%s Ki=%s Kd=%s iMin=%s iMax=%s tolerance=%s",
+            group, kp_s, ki_s, kd_s, imin_s, imax_s, tol_s);
+
+    node.loginfo(buffer);
   }
 };
