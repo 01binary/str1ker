@@ -84,6 +84,7 @@ ros::NodeHandle& initializeRos()
   while (!node.connected())
   {
     node.spinOnce();
+    delay(10);
   }
 
   node.advertise(statePub);

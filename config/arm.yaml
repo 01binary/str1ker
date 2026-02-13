@@ -1,57 +1,47 @@
-base:
-  controller:
-    Kp: 1.0
-    Ki: 0.01
-    Kd: 0.01
-    iMin: -1
-    iMax: 1
-    tolerance: 0.1
-  motor:
-    pwmMin: 64
-    pwmMax: 255
-    stallThreshold: 255
-    invert: false
-  encoder:
-    normMin: 70
-    normMax: 162
-    scaleMin: -1.5708
-    scaleMax: 1.5708
-    invert: false
-shoulder:
-  controller:
-    Kp: 1.0
-    Ki: 0.01
-    Kd: 0.01
-    iMin: -1
-    iMax: 1
-    tolerance: 0.1
-  motor:
-    pwmMin: 32
-    pwmMax: 255
-    stallThreshold: 255
-    invert: false
-  encoder:
-    normMin: 857
-    normMax: 902
-    scaleMin: -0.054
-    scaleMax: -0.0005
-    invert: false
-elbow:
-  controller:
-    Kp: 1.0
-    Ki: 0.01
-    Kd: 0.01
-    iMin: -1
-    iMax: 1
-    tolerance: 0.1
-  motor:
-    pwmMin: 200
-    pwmMax: 255
-    stallThreshold: 255
-    invert: false
-  encoder:
-    normMin: 976
-    normMax: 848
-    scaleMin: -0.0508
-    scaleMax: 0
-    invert: false
+base/controller/Kp: 1.0
+base/controller/Ki: 0.01
+base/controller/Kd: 0.01
+base/controller/iMin: -1.0
+base/controller/iMax: 1.0
+base/controller/tolerance: 0.1
+base/motor/pwmMin: 64.0
+base/motor/pwmMax: 255.0
+base/motor/stallThreshold: 255
+base/motor/invert: 0
+base/encoder/normMin: 70
+base/encoder/normMax: 162
+base/encoder/scaleMin: -1.5708
+base/encoder/scaleMax: 1.5708
+base/encoder/invert: 0
+
+shoulder/controller/Kp: 1.0
+shoulder/controller/Ki: 0.01
+shoulder/controller/Kd: 0.01
+shoulder/controller/iMin: -1.0
+shoulder/controller/iMax: 1.0
+shoulder/controller/tolerance: 0.1
+shoulder/motor/pwmMin: 32
+shoulder/motor/pwmMax: 255
+shoulder/motor/stallThreshold: 255
+shoulder/motor/invert: 0
+shoulder/encoder/normMin: 857
+shoulder/encoder/normMax: 902
+shoulder/encoder/scaleMin: -0.054
+shoulder/encoder/scaleMax: -0.0005
+shoulder/encoder/invert: 0
+
+elbow/controller/Kp: 1.0
+elbow/controller/Ki: 0.01
+elbow/controller/Kd: 0.01
+elbow/controller/iMin: -1.0
+elbow/controller/iMax: 1.0
+elbow/controller/tolerance: 0.1
+elbow/motor/pwmMin: 200
+elbow/motor/pwmMax: 255
+elbow/motor/stallThreshold: 255
+elbow/motor/invert: 0
+elbow/encoder/normMin: 976
+elbow/encoder/normMax: 848
+elbow/encoder/scaleMin: -0.0508
+elbow/encoder/scaleMax: 0.0
+elbow/encoder/invert: 0

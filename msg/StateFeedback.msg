@@ -1,11 +1,11 @@
 float32 basePosition
 float32 baseVelocity
-bool baseStalled
+uint8 baseStalled
 
 float32 shoulderPosition
 float32 shoulderVelocity
-bool shoulderStalled
+uint8 shoulderStalled
 
 float32 elbowPosition
 float32 elbowVelocity
-bool elbowStalled
+uint8 elbowStalled
