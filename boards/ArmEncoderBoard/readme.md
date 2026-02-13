@@ -4,11 +4,6 @@ A custom board that simplifies mounting `AS5045` hall-effect on-axis encoder wit
 
 > Ready-made alternatives like [AS5045 Adapter Board](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045-adapterboard/2339623) do exist, but have extra pins not used in this project, and a footprint that makes them hard to mount.
 
-The board also includes educational indicators:
-
-+ An LED that blinks on one full 350 degree rotation, fed by the `I` (index) pulse from the encoder
-+ An LED that blinks when the encoder detects motion, fed by the `A` quadrature pulse from the encoder
-
 ## Power
 
 For `3.3V` operation `VDD5V` and `VDD3V3` are bridged and routed to `VIN` (3.3V). A single `100nF` decoupling capacitor is placed at the bridge (close to the IC) to `GND`.
