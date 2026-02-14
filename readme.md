@@ -2,11 +2,11 @@
 
 This repository contains source code, mechanical parts, and printed circuit boards for [Str1ker](https://www.01binary.us/projects/drumming-robot/) drumming robot.
 
-![body](./doc/readme/hero.png)
+![body](./readme/hero.png)
 
 ## Overview
 
-Striker is a human-scale teleoperated mech built with metal casting, CNC machining, 3D printing, sheet metal parts, tube frame chassis fabrication, and pre-made components.
+Striker is a human-scale teleoperated mech built with metal casting, CNC machining, 3D printing, sheet metal parts, tube frame chassis, and pre-made components.
 
 This open-source educational project features custom electronics and ROS-based control, demonstrating how to design and build a large robot that combines mobility, sensing, and manipulation.
 
@@ -16,28 +16,51 @@ More details on [my blog](https://www.01binary.us/projects/drumming-robot/) and 
 
 ## Details
 
-+ Mechanical Design 
-  - [Autodesk Inventor mechanical parts](./cad)
-+ Electrical Design
-  - [KiCad schematics and boards](./boards/)
-+ Software Stack
-  - [Ubuntu 20.04](https://wiki.ros.org/noetic/Installation/Ubunt)
-  - [ROS Noetic](https://wiki.ros.org/noetic)
-  - [MoveIt](https://moveit.ai/)
-  - [ROS Control](./src/hardware/hardware.h)
-  - [Inverse Kinematics solver](./src/plugins/)
-  - [PID controller](./src/drivers/arm/pid.h)
-  - [ROS](./src) and [ROS Serial](./src/drivers/) nodes
-+ Fabrication
-  - The arms were cast out of Aluminum 356 in the metal foundry at [Ctrl^H Hackerspace](https://pdxhackerspace.org/index.html).
-  - The CNC, sheet metal, tube frame, and 3D-printed parts were ordered from [Xometry](https://www.xometry.com/) online service.
-  - Pre-made components sourced from [GoBilda](https://www.gobilda.com/), [Pololu](https://www.pololu.com/), [McMaster-Carr](https://www.mcmaster.com/), [Robot Shop](https://www.robotshop.com/), and Amazon.
-  - Welded by [skorndaap](https://www.instagram.com/skorndaap/)
-+ Compute
-  - [Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html) MCUs for arms, body and legs
-  - [Weidian](https://www.amazon.com/dp/B0BTVN6V7W) industrial mini PC
-+ Teleoperation & Simulation
-  - [Intel NUC 11](https://www.amazon.com/dp/B09PRL9V2F) for running ROS Master, RVIZ, and Gazebo
+### Mechanical Design
+
+[Autodesk Inventor mechanical parts](./cad) available in `./cad`.
+
+![mechanical](./readme/mechanical.png)
+
+### Electrical Design
+
+[KiCad schematics and boards](./boards/) available in `./boards`.
+
+![pcb](./readme/pcb.png)
+
+### Fabrication
+
+The arms were cast out of Aluminum 356 in the metal foundry at [Ctrl^H Hackerspace](https://pdxhackerspace.org/index.html).
+
+![casting](./readme/casting.png)
+
+Tube frame chassis welding by [skorndaap](https://www.instagram.com/skorndaap/).
+
+The CNC, sheet metal, tube frame, and 3D-printed parts were ordered from [Xometry](https://www.xometry.com/) online service.
+
+![cnc](./readme/cnc.png)
+
+The PCB's were auto-routed by [FreeRouting](https://freerouting.org/freerouting/using-with-kicad) and ordered from [JLCPCB](https://jlcpcb.com/) using JLCPCB KiCad plugin.
+
+![electrical](./readme/electrical.png)
+
+Pre-made components sourced from [GoBilda](https://www.gobilda.com/), [Pololu](https://www.pololu.com/), [McMaster-Carr](https://www.mcmaster.com/), [Robot Shop](https://www.robotshop.com/), and Amazon.
+
+### Software
+
+- [Ubuntu 20.04](https://wiki.ros.org/noetic/Installation/Ubunt)
+- [ROS Noetic](https://wiki.ros.org/noetic)
+- [MoveIt](https://moveit.ai/)
+- [ROS Control](./src/hardware/hardware.h)
+- [Inverse Kinematics solver](./src/plugins/)
+- [PID controller](./src/drivers/arm/pid.h)
+- [ROS](./src) and [ROS Serial](./src/drivers/) nodes
+
+### Hardware
+
+- [Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html) MCUs for arms, body and legs
+- [Weidian](https://www.amazon.com/dp/B0BTVN6V7W) industrial mini PC for high-level control
+- [Intel NUC 11](https://www.amazon.com/dp/B09PRL9V2F) for teleoperation & simulation
 
 ## System Requirements
 
