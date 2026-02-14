@@ -8,9 +8,9 @@ This repository contains source code, mechanical parts, and printed circuit boar
 
 Striker is a human-scale teleoperated mech built with metal casting, CNC machining, 3D printing, sheet metal parts, tube frame chassis, and pre-made components.
 
-This open-source educational project features custom electronics and ROS-based control, demonstrating how to design and build a large robot that combines mobility, sensing, and manipulation.
+> This open-source educational project features custom electronics and ROS-based control, demonstrating how to design and build a large robot that combines mobility, sensing, and manipulation.
 
-> The robot moves on a mecanum base, articulates its head and arms, and visualizes live lidar and RGB-D perception in RViz. The arms terminate in percussive end-effectors, designed for future live drum performance.
+The robot moves on a mecanum base, articulates its head and arms, and visualizes live lidar and RGB-D perception in RViz. The arms terminate in percussive end-effectors, designed for future live drum performance.
 
 More details on [my blog](https://www.01binary.us/projects/drumming-robot/) and media on [instagram](https://www.instagram.com/01binaryus/). Say hello at the next [Portland Area Robotics Society](https://portlandrobotics.org/home.php?link_id=1) monthly meetup!
 
@@ -30,15 +30,19 @@ More details on [my blog](https://www.01binary.us/projects/drumming-robot/) and 
 
 ### Fabrication
 
-The arms were cast out of Aluminum 356 in the metal foundry at [Ctrl^H Hackerspace](https://pdxhackerspace.org/index.html).
+The arms were cast out of Aluminum 356 in the metal foundry at [Ctrl^H Hackerspace](https://pdxhackerspace.org/index.html) and welded together by [skorndaap](https://www.instagram.com/skorndaap/), then polished.
 
 ![casting](./readme/casting.png)
+
+![arm](./readme/arm.png)
 
 Tube frame chassis welding by [skorndaap](https://www.instagram.com/skorndaap/).
 
 The CNC, sheet metal, tube frame, and 3D-printed parts were ordered from [Xometry](https://www.xometry.com/) online service.
 
 ![cnc](./readme/cnc.png)
+
+![sheet metal](./readme/sheetmetal.png)
 
 The PCB's were auto-routed by [FreeRouting](https://freerouting.org/freerouting/using-with-kicad) and ordered from [JLCPCB](https://jlcpcb.com/) using JLCPCB KiCad plugin.
 
