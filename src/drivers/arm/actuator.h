@@ -69,6 +69,7 @@ public:
     controller.loadSettings(node, (String(group) + "/controller").c_str());
     encoder.loadSettings(node, (String(group) + "/encoder").c_str());
     motor.loadSettings(node, (String(group) + "/motor").c_str());
+    debug(node, group);
   }
 
   void update(float timeStep)
@@ -97,10 +98,10 @@ public:
     velocity = command;
   }
 
-  void dump(ros::NodeHandle& node, const char* group)
+  void debug(ros::NodeHandle& node, const char* group)
   {
-    controller.dump(node, (String(group) + "/controller").c_str());
-    encoder.dump(node, (String(group) + "/encoder").c_str());
-    motor.dump(node, (String(group) + "/motor").c_str());
+    controller.debug(node, (String(group) + "/controller").c_str());
+    encoder.debug(node, (String(group) + "/encoder").c_str());
+    motor.debug(node, (String(group) + "/motor").c_str());
   }
 };

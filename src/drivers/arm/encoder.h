@@ -106,7 +106,7 @@ public:
     return norm * (scaleMax - scaleMin) + scaleMin;
   }
 
-  void dump(ros::NodeHandle& node, const char* group)
+  void debug(ros::NodeHandle& node, const char* group)
   {
     char buffer[256] = {0};
     char scaleMin_s[16], scaleMax_s[16];
@@ -241,7 +241,7 @@ public:
     return norm * (scaleMax - scaleMin) + scaleMin;
   }
 
-  void dump(ros::NodeHandle& node, const char* group)
+  void debug(ros::NodeHandle& node, const char* group)
   {
     char buffer[256] = {0};
     char scaleMin_s[16], scaleMax_s[16];
@@ -307,7 +307,7 @@ public:
     return diff;
   }
 
-  void dump(ros::NodeHandle& node, const char* group)
+  void debug(ros::NodeHandle& node, const char* group)
   {
     if (!invert) return;
 
@@ -351,9 +351,9 @@ public:
     quadrature.loadSettings(node, group);
   }
 
-  void dump(ros::NodeHandle& node, const char* group)
+  void debug(ros::NodeHandle& node, const char* group)
   {
-    absolute.dump(node, group);
-    quadrature.dump(node, group);
+    absolute.debug(node, group);
+    quadrature.debug(node, group);
   }
 };

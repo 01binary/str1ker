@@ -181,7 +181,7 @@ public:
     return p + i + d;
   }
 
-  void dump(ros::NodeHandle& node, const char* group)
+  void debug(ros::NodeHandle& node, const char* group)
   {
     char buffer[255] = {0};
     char kp_s[16], ki_s[16], kd_s[16], imin_s[16], imax_s[16], tol_s[16];

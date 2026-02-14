@@ -131,7 +131,7 @@ public:
     }
   }
 
-  void dump(ros::NodeHandle& node, const char* group)
+  void debug(ros::NodeHandle& node, const char* group)
   {
     char buffer[256] = {0};
     char min_s[16], max_s[16], thresh_s[16];
