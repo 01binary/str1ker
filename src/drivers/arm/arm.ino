@@ -88,7 +88,9 @@ void setup()
   base.loadSettings(node, "base");
   base.dump(node, "base");
   shoulder.loadSettings(node, "shoulder");
+  shoulder.dump(node, "shoulder");
   elbow.loadSettings(node, "elbow");
+  elbow.dump(node, "elbow");
 }
 
 void loop()

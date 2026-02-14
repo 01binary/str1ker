@@ -68,7 +68,7 @@ public:
   {
     controller.loadSettings(node, (String(group) + "/controller").c_str());
     encoder.loadSettings(node, (String(group) + "/encoder").c_str());
-    //motor.loadSettings(node, (String(group) + "/motor").c_str());
+    motor.loadSettings(node, (String(group) + "/motor").c_str());
   }
 
   void update(float timeStep)

@@ -140,7 +140,7 @@ public:
     dtostrf(pwmMax, 0, 4, max_s);
     dtostrf(stallThreshold, 0, 4, thresh_s);
 
-    sprintf(buffer, "%s: pwmMin=%s pwmMax=%s stallThreshold=%S%s",
+    sprintf(buffer, "%s: pwmMin=%s pwmMax=%s stallThreshold=%s%s",
       group, min_s, max_s, thresh_s, invert ? " invert" : "");
 
     node.loginfo(buffer);

@@ -82,7 +82,10 @@ public:
     node.getParam((String("~") + group + "/normMax").c_str(), &normMax);
     node.getParam((String("~") + group + "/scaleMin").c_str(), &scaleMin);
     node.getParam((String("~") + group + "/scaleMax").c_str(), &scaleMax);
-    node.getParam((String("~") + group + "/invert").c_str(), &invert);
+
+    int invert_i = 0;
+    node.getParam((String("~") + group + "/invert").c_str(), &invert_i);
+    
   }
 
   float read()
@@ -101,6 +104,23 @@ public:
 
     // Scale
     return norm * (scaleMax - scaleMin) + scaleMin;
+  }
+
+  void dump(ros::NodeHandle& node, const char* group)
+  {
+    char buffer[256] = {0};
+    char scaleMin_s[16], scaleMax_s[16];
+
+    dtostrf(scaleMin, 0, 4, scaleMin_s);
+    dtostrf(scaleMax, 0, 4, scaleMax_s);
+
+    sprintf(
+      buffer,
+      "%s: normMin=%d normMax=%d scaleMin=%s scaleMax=%s%s",
+      group, normMin, normMax, scaleMin_s, scaleMax_s, invert ? " invert" : ""
+    );
+
+    node.loginfo(buffer);
   }
 };
 
