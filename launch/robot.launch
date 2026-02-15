@@ -41,7 +41,7 @@
     type="spawner"
     respawn="false"
     output="screen"
-    args="joint_state_controller arm_velocity_controller"
+    args="joint_state_controller arm_position_controller"
   />
 
   <!-- Robot state publisher -->
