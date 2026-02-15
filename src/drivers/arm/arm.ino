@@ -73,59 +73,7 @@ GripperSubscriber gripperSub(GRIPPER_TOPIC, gripperCommand);
 typedef jointImpl<FusionEncoder> baseJoint;
 typedef jointImpl<Potentiometer> armJoint;
 
-void initBase(baseJoint::actuator& actuator)
-{
-  actuator.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_SENSE);
-  actuator.encoder.initialize(BASE_CS, BASE_A, BASE_B);
-}
-
-void initShoulder(armJoint::actuator& actuator)
-{
-  actuator.motor.initialize(SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_SENSE);
-  actuator.encoder.initialize(SHOULDER_POTENTIOMETER);
-}
-
-void initElbow(armJoint::actuator& actuator)
-{
-  actuator.motor.initialize(ELBOW_LPWM, ELBOW_RPWM, ELBOW_SENSE);
-  actuator.encoder.initialize(ELBOW_POTENTIOMETER);
-}
-
-baseJoint base(
-  "base",
-  &str1ker::VelocityCommand::base,
-  &str1ker::PositionCommand::base,
-  &str1ker::StateFeedback::basePosition,
-  &str1ker::StateFeedback::baseVelocity,
-  &str1ker::StateFeedback::baseStalled,
-  initBase
-);
-
-armJoint shoulder(
-  "shoulder",
-  &str1ker::VelocityCommand::shoulder,
-  &str1ker::PositionCommand::shoulder,
-  &str1ker::StateFeedback::shoulderPosition,
-  &str1ker::StateFeedback::shoulderVelocity,
-  &str1ker::StateFeedback::shoulderStalled,
-  initShoulder
-);
-
-armJoint elbow(
-  "elbow",
-  &str1ker::VelocityCommand::elbow,
-  &str1ker::PositionCommand::elbow,
-  &str1ker::StateFeedback::elbowPosition,
-  &str1ker::StateFeedback::elbowVelocity,
-  &str1ker::StateFeedback::elbowStalled,
-  initElbow
-);
-
-joint* joints[] = {
-  &base,
-  &shoulder,
-  &elbow
-};
+joint* joints[3] = {0};
 
 const unsigned int JOINT_COUNT = sizeof(joints) / sizeof(joints[0]);
 
@@ -158,7 +106,10 @@ void velocityCommand(const str1ker::VelocityCommand& msg)
 {
   for (unsigned int i = 0; i < JOINT_COUNT; i++)
   {
-    joints[i]->writeVelocity(msg);
+    if (joints[i])
+    {
+      joints[i]->writeVelocity(msg);
+    }
   }
 }
 
@@ -166,7 +117,10 @@ void positionCommand(const str1ker::PositionCommand& msg)
 {
   for (unsigned int i = 0; i < JOINT_COUNT; i++)
   {
-    joints[i]->writePosition(msg);
+    if (joints[i])
+    {
+      joints[i]->writePosition(msg);
+    }
   }
 }
 
@@ -179,10 +133,62 @@ void stateFeedback()
 {
   for (unsigned int i = 0; i < JOINT_COUNT; i++)
   {
-    joints[i]->writeState(stateFeedbackMsg);
+    if (joints[i])
+    {
+      joints[i]->writeState(stateFeedbackMsg);
+    }
   }
 
   statePub.publish(&stateFeedbackMsg);
+}
+
+void initializeJoints()
+{
+  static baseJoint base(
+    "base",
+    &str1ker::VelocityCommand::base,
+    &str1ker::PositionCommand::base,
+    &str1ker::StateFeedback::basePosition,
+    &str1ker::StateFeedback::baseVelocity,
+    &str1ker::StateFeedback::baseStalled,
+    [](baseJoint::actuator& actuator)
+    {
+      actuator.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_SENSE);
+      actuator.encoder.initialize(BASE_CS, BASE_A, BASE_B);
+    }
+  );
+
+  static armJoint shoulder(
+    "shoulder",
+    &str1ker::VelocityCommand::shoulder,
+    &str1ker::PositionCommand::shoulder,
+    &str1ker::StateFeedback::shoulderPosition,
+    &str1ker::StateFeedback::shoulderVelocity,
+    &str1ker::StateFeedback::shoulderStalled,
+    [](armJoint::actuator& actuator)
+    {
+      actuator.motor.initialize(SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_SENSE);
+      actuator.encoder.initialize(SHOULDER_POTENTIOMETER);
+    }
+  );
+
+  static armJoint elbow(
+    "elbow",
+    &str1ker::VelocityCommand::elbow,
+    &str1ker::PositionCommand::elbow,
+    &str1ker::StateFeedback::elbowPosition,
+    &str1ker::StateFeedback::elbowVelocity,
+    &str1ker::StateFeedback::elbowStalled,
+    [](armJoint::actuator& actuator)
+    {
+      actuator.motor.initialize(ELBOW_LPWM, ELBOW_RPWM, ELBOW_SENSE);
+      actuator.encoder.initialize(ELBOW_POTENTIOMETER);
+    }
+  );
+
+  joints[0] = &base;
+  joints[1] = &shoulder;
+  joints[2] = &elbow;
 }
 
 /*----------------------------------------------------------*\
@@ -191,18 +197,25 @@ void stateFeedback()
 
 void setup()
 {
+  initializeJoints();
   gripper.initialize(GRIPPER_PIN);
 
   for (unsigned int i = 0; i < JOINT_COUNT; i++)
   {
-    joints[i]->initialize();
+    if (joints[i])
+    {
+      joints[i]->initialize();
+    }
   }
 
   initializeRos();
 
   for (unsigned int i = 0; i < JOINT_COUNT; i++)
   {
-    joints[i]->load(node);
+    if (joints[i])
+    {
+      joints[i]->load(node);
+    }
   }
 }
 
@@ -237,7 +250,10 @@ void loop()
 
   for (unsigned int i = 0; i < JOINT_COUNT; i++)
   {
-    joints[i]->update(timeStep);
+    if (joints[i])
+    {
+      joints[i]->update(timeStep);
+    }
   }
 
   stateFeedback();
