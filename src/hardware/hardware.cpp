@@ -308,7 +308,7 @@ void hardware::update()
     m_lastUpdate = now;
 }
 
-bool hardware::getJointStateFromFeedback(
+bool hardware::readJoint(
     const str1ker::StateFeedback& msg,
     const string& jointName,
     double& position,
@@ -338,7 +338,7 @@ bool hardware::getJointStateFromFeedback(
     return false;
 }
 
-bool hardware::setJointCommandOnMessage(
+bool hardware::writeJoint(
     str1ker::PositionCommand& msg,
     const string& jointName,
     double command) const
@@ -373,7 +373,7 @@ void hardware::stateCallback(const str1ker::StateFeedbackConstPtr& msg)
         double position = 0.0;
         double velocity = 0.0;
 
-        if (getJointStateFromFeedback(*msg, jointName, position, velocity))
+        if (readJoint(*msg, jointName, position, velocity))
         {
             m_feedbackPos[jointName] = position;
             m_feedbackVel[jointName] = velocity;
@@ -396,18 +396,6 @@ void hardware::read()
 
         lastFeedback = m_lastFeedback;
     }
-
-    if (lastFeedback.isZero())
-    {
-        ROS_WARN_THROTTLE(5.0, "waiting for state feedback on '%s'", m_stateTopic.c_str());
-        return;
-    }
-
-    const double age = (ros::Time::now() - lastFeedback).toSec();
-    if (age > 1.0)
-    {
-        ROS_WARN_THROTTLE(5.0, "state feedback is stale (age %.3f s)", age);
-    }
 }
 
 void hardware::write()
@@ -422,7 +410,7 @@ void hardware::write()
             continue;
         }
 
-        if (!setJointCommandOnMessage(msg, jointName, it->second))
+        if (!writeJoint(msg, jointName, it->second))
         {
             ROS_WARN_THROTTLE(5.0, "cannot map joint '%s' to PositionCommand", jointName.c_str());
         }

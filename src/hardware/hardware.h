@@ -131,14 +131,14 @@ private:
     bool loadJointLimitsFromUrdf();
 
     // Read one joint from state feedback
-    bool getJointStateFromFeedback(
+    bool readJoint(
         const str1ker::StateFeedback& msg,
         const std::string& jointName,
         double& position,
         double& velocity) const;
 
     // Write one joint into outgoing position command
-    bool setJointCommandOnMessage(
+    bool writeJoint(
         str1ker::PositionCommand& msg,
         const std::string& jointName,
         double command) const;
