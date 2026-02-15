@@ -37,9 +37,9 @@ public:
   float str1ker::VelocityCommand::*velocity;
   float str1ker::PositionCommand::*position;
 
-  float str1ker::StateFeedback::*state_position;
-  float str1ker::StateFeedback::*state_velocity;
-  uint8_t str1ker::StateFeedback::*state_stalled;
+  float str1ker::StateFeedback::*statePosition;
+  float str1ker::StateFeedback::*stateVelocity;
+  uint8_t str1ker::StateFeedback::*stateStalled;
 
 public:
   joint(
@@ -52,9 +52,9 @@ public:
     name(jointName),
     velocity(velocityMember),
     position(positionMember),
-    state_position(statePositionMember),
-    state_velocity(stateVelocityMember),
-    state_stalled(stateStalledMember)
+    statePosition(statePositionMember),
+    stateVelocity(stateVelocityMember),
+    stateStalled(stateStalledMember)
   {
   }
 
@@ -64,30 +64,30 @@ public:
   virtual void load(ros::NodeHandle& node) = 0;
   virtual void update(float timeStep) = 0;
 
-  virtual void write_velocity(const str1ker::VelocityCommand& msg) = 0;
-  virtual void write_position(const str1ker::PositionCommand& msg) = 0;
-  virtual void write_state(str1ker::StateFeedback& msg) = 0;
+  virtual void writeVelocity(const str1ker::VelocityCommand& msg) = 0;
+  virtual void writePosition(const str1ker::PositionCommand& msg) = 0;
+  virtual void writeState(str1ker::StateFeedback& msg) = 0;
 };
 
-template <typename EncoderType> class joint_impl : public joint
+template <typename EncoderType> class jointImpl : public joint
 {
 public:
-  typedef Actuator<EncoderType, Motor> actuator_t;
-  typedef void (*init_t)(actuator_t& actuator);
+  typedef Actuator<EncoderType, Motor> actuator;
+  typedef void (*initializer)(actuator& actuatorRef);
 
 public:
-  actuator_t actuator;
-  init_t init;
+  actuator actuatorDevice;
+  initializer init;
 
 public:
-  joint_impl(
+  jointImpl(
     const char* jointName,
     float str1ker::VelocityCommand::*velocityMember,
     float str1ker::PositionCommand::*positionMember,
     float str1ker::StateFeedback::*statePositionMember,
     float str1ker::StateFeedback::*stateVelocityMember,
     uint8_t str1ker::StateFeedback::*stateStalledMember,
-    init_t initializeHardware):
+    initializer initializeHardware):
     joint(
       jointName,
       velocityMember,
@@ -104,34 +104,34 @@ public:
   {
     if (init)
     {
-      init(actuator);
+      init(actuatorDevice);
     }
   }
 
   void load(ros::NodeHandle& node) override
   {
-    actuator.loadSettings(node, name);
+    actuatorDevice.loadSettings(node, name);
   }
 
   void update(float timeStep) override
   {
-    actuator.update(timeStep);
+    actuatorDevice.update(timeStep);
   }
 
-  void write_velocity(const str1ker::VelocityCommand& msg) override
+  void writeVelocity(const str1ker::VelocityCommand& msg) override
   {
-    actuator.writeVelocity(msg.*velocity);
+    actuatorDevice.writeVelocity(msg.*velocity);
   }
 
-  void write_position(const str1ker::PositionCommand& msg) override
+  void writePosition(const str1ker::PositionCommand& msg) override
   {
-    actuator.writePosition(msg.*position);
+    actuatorDevice.writePosition(msg.*position);
   }
 
-  void write_state(str1ker::StateFeedback& msg) override
+  void writeState(str1ker::StateFeedback& msg) override
   {
-    msg.*state_position = actuator.getPosition();
-    msg.*state_velocity = actuator.getVelocity();
-    msg.*state_stalled = actuator.isStalled() ? 1 : 0;
+    msg.*statePosition = actuatorDevice.getPosition();
+    msg.*stateVelocity = actuatorDevice.getVelocity();
+    msg.*stateStalled = actuatorDevice.isStalled() ? 1 : 0;
   }
 };

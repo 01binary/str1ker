@@ -70,28 +70,28 @@ VelocitySubscriber velocitySub(VELOCITY_TOPIC, velocityCommand);
 PositionSubscriber positionSub(POSITION_TOPIC, positionCommand);
 GripperSubscriber gripperSub(GRIPPER_TOPIC, gripperCommand);
 
-typedef joint_impl<FusionEncoder> base_joint_t;
-typedef joint_impl<Potentiometer> arm_joint_t;
+typedef jointImpl<FusionEncoder> baseJoint;
+typedef jointImpl<Potentiometer> armJoint;
 
-void initBase(base_joint_t::actuator_t& actuator)
+void initBase(baseJoint::actuator& actuator)
 {
   actuator.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_SENSE);
   actuator.encoder.initialize(BASE_CS, BASE_A, BASE_B);
 }
 
-void initShoulder(arm_joint_t::actuator_t& actuator)
+void initShoulder(armJoint::actuator& actuator)
 {
   actuator.motor.initialize(SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_SENSE);
   actuator.encoder.initialize(SHOULDER_POTENTIOMETER);
 }
 
-void initElbow(arm_joint_t::actuator_t& actuator)
+void initElbow(armJoint::actuator& actuator)
 {
   actuator.motor.initialize(ELBOW_LPWM, ELBOW_RPWM, ELBOW_SENSE);
   actuator.encoder.initialize(ELBOW_POTENTIOMETER);
 }
 
-base_joint_t base(
+baseJoint base(
   "base",
   &str1ker::VelocityCommand::base,
   &str1ker::PositionCommand::base,
@@ -101,7 +101,7 @@ base_joint_t base(
   initBase
 );
 
-arm_joint_t shoulder(
+armJoint shoulder(
   "shoulder",
   &str1ker::VelocityCommand::shoulder,
   &str1ker::PositionCommand::shoulder,
@@ -111,7 +111,7 @@ arm_joint_t shoulder(
   initShoulder
 );
 
-arm_joint_t elbow(
+armJoint elbow(
   "elbow",
   &str1ker::VelocityCommand::elbow,
   &str1ker::PositionCommand::elbow,
@@ -158,7 +158,7 @@ void velocityCommand(const str1ker::VelocityCommand& msg)
 {
   for (unsigned int i = 0; i < JOINT_COUNT; i++)
   {
-    joints[i]->write_velocity(msg);
+    joints[i]->writeVelocity(msg);
   }
 }
 
@@ -166,7 +166,7 @@ void positionCommand(const str1ker::PositionCommand& msg)
 {
   for (unsigned int i = 0; i < JOINT_COUNT; i++)
   {
-    joints[i]->write_position(msg);
+    joints[i]->writePosition(msg);
   }
 }
 
@@ -179,7 +179,7 @@ void stateFeedback()
 {
   for (unsigned int i = 0; i < JOINT_COUNT; i++)
   {
-    joints[i]->write_state(stateFeedbackMsg);
+    joints[i]->writeState(stateFeedbackMsg);
   }
 
   statePub.publish(&stateFeedbackMsg);
