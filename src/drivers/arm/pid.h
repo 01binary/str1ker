@@ -74,7 +74,7 @@ public:
     Kp(DEFAULT_KP),
     Ki(DEFAULT_KI),
     Kd(DEFAULT_KD),
-    iMin(DEFAULT_IMAX),
+    iMin(DEFAULT_IMIN),
     iMax(DEFAULT_IMAX),
     tolerance(DEFAULT_TOLERANCE),
     pe(0.0), ie(0.0), de(0.0),
@@ -116,6 +116,7 @@ public:
 
   void start(float goalPosition)
   {
+    stop();
     goal = goalPosition;
     enabled = true;
   }
@@ -134,7 +135,7 @@ public:
 
   float update(float position, float dt)
   {
-    if (!enabled)
+    if (!enabled || dt <= 0.0f)
     {
       return 0;
     }
@@ -149,7 +150,7 @@ public:
     }
 
     // Calculate integral error
-    ie += dt * pe;
+    ie += dt * error;
 
     // Limit integral error
     if (Ki && iMax != 0.0 && iMin != 0.0) {

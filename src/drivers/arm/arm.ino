@@ -87,14 +87,30 @@ void setup()
 void loop()
 {
   uint32_t now = millis();
+  const uint32_t periodMs = 1000 / RATE_HZ;
 
   if (now < STARTUP_DELAY)
   {
     lastTime = now;
+    node.spinOnce();
     return;
   }
 
-  float timeStep = (now - lastTime) * MS_TO_SECONDS;
+  uint32_t elapsedMs = now - lastTime;
+
+  if (elapsedMs < periodMs)
+  {
+    node.spinOnce();
+    return;
+  }
+
+  float timeStep = elapsedMs * MS_TO_SECONDS;
+
+  if (timeStep <= 0.0f)
+  {
+    node.spinOnce();
+    return;
+  }
 
   base.update(timeStep);
   shoulder.update(timeStep);

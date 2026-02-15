@@ -76,7 +76,7 @@ public:
   {
     position = encoder.read();
     current = motor.read();
-    stalled = current > stallThreshold;
+    stalled = current > motor.stallThreshold;
 
     if (mode == POSITION)
     {

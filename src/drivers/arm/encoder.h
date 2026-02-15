@@ -85,7 +85,7 @@ public:
 
     int invert_i = 0;
     node.getParam((String("~") + group + "/invert").c_str(), &invert_i);
-    
+    invert = invert_i;
   }
 
   float read()
