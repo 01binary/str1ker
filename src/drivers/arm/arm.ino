@@ -115,6 +115,7 @@ void loop()
   base.update(timeStep);
   shoulder.update(timeStep);
   elbow.update(timeStep);
+  gripper.update();
 
   stateFeedback();
 
