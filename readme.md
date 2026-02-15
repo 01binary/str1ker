@@ -8,9 +8,11 @@ This repository contains source code, mechanical parts, and printed circuit boar
 
 Striker is a human-scale teleoperated mech built with metal casting, CNC machining, 3D printing, sheet metal parts, tube frame chassis, and pre-made components.
 
-> This open-source educational project features custom electronics and ROS-based control, demonstrating how to design and build a large robot that combines mobility, sensing, and manipulation.
+> This open-source educational project features custom electronics and [Robot Operating System](https://www.ros.org/) integration, demonstrating how to design and build a large robot that combines mobility, sensing, and manipulation.
 
-The robot moves on a mecanum base, articulates its head and arms, and visualizes live lidar and RGB-D perception in RViz. The arms terminate in percussive end-effectors, designed for future live drum performance.
+The robot moves on a mecanum base, articulates its head and arms, and visualizes live lidar and RGB-D perception in Robot Visualization tool ([RViz](https://wiki.ros.org/rviz/Tutorials)).
+
+The arms terminate in percussive end-effectors, designed for future live drum performance.
 
 More details on [my blog](https://www.01binary.us/projects/drumming-robot/) and media on [instagram](https://www.instagram.com/01binaryus/). Say hello at the next [Portland Area Robotics Society](https://portlandrobotics.org/home.php?link_id=1) monthly meetup!
 
