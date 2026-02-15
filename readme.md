@@ -1,26 +1,84 @@
-# Drumming Robot
+# Str1ker: The Drumming Mech
 
-Source code and parts for [Str1ker](https://www.01binary.us/projects/drumming-robot/) drumming robot. See [build log](https://hackaday.io/project/171607-drumming-robot) on Hackaday.io.
+This repository contains source code, mechanical parts, and printed circuit boards for [Str1ker](https://www.01binary.us/projects/drumming-robot/) drumming robot.
 
-![body](./doc/readme/body.png)
+![body](./readme/hero.png)
 
-## System Requirements
+## Overview
 
-### Hardware
+Striker is a human-scale teleoperated mech built with metal casting, CNC machining, 3D printing, sheet metal parts, tube frame chassis, and pre-made components.
 
-[Latte Panda 3 Delta](https://www.amazon.com/LattePanda-Delta-864-Pocket-Sized-Computer/dp/B0BB7CY51B)
+> This open-source educational project features custom electronics and ROS-based control, demonstrating how to design and build a large robot that combines mobility, sensing, and manipulation.
+
+The robot moves on a mecanum base, articulates its head and arms, and visualizes live lidar and RGB-D perception in RViz. The arms terminate in percussive end-effectors, designed for future live drum performance.
+
+More details on [my blog](https://www.01binary.us/projects/drumming-robot/) and media on [instagram](https://www.instagram.com/01binaryus/). Say hello at the next [Portland Area Robotics Society](https://portlandrobotics.org/home.php?link_id=1) monthly meetup!
+
+## Details
+
+### Mechanical Design
+
+[Autodesk Inventor mechanical parts](./cad) available in `./cad`.
+
+![mechanical](./readme/mechanical.png)
+
+### Electrical Design
+
+[KiCad schematics and boards](./boards/) available in `./boards`.
+
+![pcb](./readme/pcb.png)
+
+### Fabrication
+
+The arms were cast out of Aluminum 356 in the metal foundry at [Ctrl^H Hackerspace](https://pdxhackerspace.org/index.html) and welded together by [skorndaap](https://www.instagram.com/skorndaap/), then polished.
+
+![casting](./readme/casting.png)
+
+![arm](./readme/arm.png)
+
+Tube frame chassis welding by [skorndaap](https://www.instagram.com/skorndaap/).
+
+The CNC, sheet metal, tube frame, and 3D-printed parts were ordered from [Xometry](https://www.xometry.com/) online service.
+
+![cnc](./readme/cnc.png)
+
+![sheet metal](./readme/sheetmetal.png)
+
+The PCB's were auto-routed by [FreeRouting](https://freerouting.org/freerouting/using-with-kicad) and ordered from [JLCPCB](https://jlcpcb.com/) using JLCPCB KiCad plugin.
+
+![electrical](./readme/electrical.png)
+
+Pre-made components sourced from [GoBilda](https://www.gobilda.com/), [Pololu](https://www.pololu.com/), [McMaster-Carr](https://www.mcmaster.com/), [Robot Shop](https://www.robotshop.com/), and Amazon.
 
 ### Software
 
-The Robot Operating System (ROS) only runs on Linux. ROS Noetic packages are only available for Ubuntu Focal `20.04.x`.
+- [Ubuntu 20.04](https://wiki.ros.org/noetic/Installation/Ubunt)
+- [ROS Noetic](https://wiki.ros.org/noetic)
+- [MoveIt](https://moveit.ai/)
+- [ROS Control](./src/hardware/hardware.h)
+- [Inverse Kinematics solver](./src/plugins/)
+- [PID controller](./src/drivers/arm/pid.h)
+- [ROS](./src) and [ROS Serial](./src/drivers/) nodes
 
-Running on Raspbian requires [building ROS from source](https://varhowto.com/install-ros-noetic-raspberry-pi-4/).
+### Hardware
 
-See [Installing from source](http://wiki.ros.org/noetic/Installation/Source) for more information.
+- [Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html) MCUs for arms, body and legs
+- [Weidian](https://www.amazon.com/dp/B0BTVN6V7W) industrial mini PC for high-level control
+- [Intel NUC 11](https://www.amazon.com/dp/B09PRL9V2F) for teleoperation & simulation
 
-## Source Control
+## System Requirements
 
-First-time git setup on Ubuntu:
+The high-level controllers (Ubuntu 20.04/ROS Noetic) can run on any [mini PC](https://www.amazon.com/s?k=mini+pc), [NUC](https://www.amazon.com/s?k=NUC), a low-end SBC like [Raspberry Pi](https://www.amazon.com/Raspberry-Model-2019-Quad-Bluetooth/dp/B07TD43PDZ/) or a high-end SBC like [Latte Panda 3 Delta](https://www.amazon.com/LattePanda-864-Pocket-Sized-Windows-Single-Computer/dp/B0C6TCP3MN).
+
+The low-level serial nodes that run motors and sensors were designed for Arduino Mega, and are currently being ported to [Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html) because its more powerful specs make it a better choice for robotics.
+
+Teleoperation and simulation requires 3D visualization software like [RViz](https://wiki.ros.org/rviz) and [Gazebo](https://gazebosim.org/home), which [like NVidia cards](https://wiki.ros.org/simulator_gazebo/SystemRequirements).
+
+## Setup
+
+Follow the [official guide](https://wiki.ros.org/noetic/Installation/Ubuntu) to install ROS Noetic and [configure the ROS environment](https://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment).
+
+Configure source control:
 
 ```
 git config --global user.name <your username>
@@ -28,7 +86,7 @@ git config --global user.email <your email>
 git config --global credential.helper store
 ```
 
-Clone the projects. When asked for password, paste your [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+Clone the projects (when asked for password, paste your [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)):
 
 ```
 mkdir -p ~/catkin_ws/src
@@ -44,7 +102,9 @@ git sparse-checkout set .vscode src config launch description msg
 
 ## Install Packages from Source
 
-One of the packages does not have a published binary and must be cloned into the workspace.
+Follow the [official guide](https://moveit.ai/install/source/) to build MoveIt from source using `catkin_ws` as the workspace name instead of `moveit_ws`.
+
+Build Gazebo plugins from source:
 
 ```
 cd ~/catkin_ws/src
@@ -90,7 +150,7 @@ To switch between Debug and Release
 catkin_make -DCMAKE_BUILD_TYPE=Debug | Release
 ```
 
-## Export
+## Environment
 
 One-time setup after the first build.
 
@@ -104,7 +164,7 @@ source ~/.bashrc
 
 ## Upload
 
-The analog read and write duties are handled by an Arduino ROS node in `src/analog/micro.ino`.
+The low-level hardware is handled by an Arduino ROS node in `src/drivers/arm.ino`.
 
 To build it, first generate ROS message headers for Arduino:
 
@@ -112,137 +172,57 @@ To build it, first generate ROS message headers for Arduino:
 sudo apt-get install ros-${ROS_DISTRO}-rosserial-arduino
 sudo apt-get install ros-${ROS_DISTRO}-rosserial
 
-rosrun rosserial_arduino make_libraries.py <Arduino libraries path>
+rosrun rosserial_arduino make_libraries.py ~/Arduino/libraries
 ```
 
-> The Arduino libraries are usually in `~/Arduino/libraries`. If you installed Arduino IDE as a *snap*, you could also try looking in `~/snap/arduino`.
+> If you installed Arduino IDE as a *snap* plugin, you could also try looking in `~/snap/arduino`.
 
 Compile and upload the ROS node. The default launch configuration in `robot.launch` will connect to `/dev/ttyACM0` automatically.
 
-To launch manually for testing in isolation:
-
-Run `roscore` if not already running:
-
-```
-roscore
-```
-
-Run the `rosserial` node (substitute `/dev/ttyACM0` for the port the Arduino is on):
-
-```
-rosrun rosserial_python serial_node.py /dev/ttyACM0
-```
-
 ## Launch
 
-To launch the robot on the real hardware:
+### Hardware
+
+To launch the low-level hardware node:
+
+```
+roslaunch str1ker hardware.launch
+```
+
+### Full Stack
+
+To launch both high-level and low-level nodes:
 
 ```
 roslaunch str1ker robot.launch
 ```
 
-## Launch in RViz
+### Teleoperation
 
-To launch the robot on simulated hardware:
+To teleoperate the robot:
 
 ```
 roslaunch str1ker_moveit_config demo.launch
 ```
 
-## Configure MoveIt
+### Simulation
 
-Follow [MoveIt installation instructions](https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html) to install and build MoveIt on ROS Noetic.
+To simulate the robot:
+
+```
+roslaunch str1ker_moveit_config gazebo.launch
+```
+
+### Configuration
+
+The low-level configuration is in YAML format at [config](./config/).
+
+To launch the MoveIt wizard for custom robot arm setup:
 
 ```
 roslaunch moveit_setup_assistant setup_assistant.launch
 ```
 
-## Launch in Gazebo
-
-```
-roslaunch str1ker_moveit_config demo_gazebo.launch
-```
-
-## Logging Level
+## Logging
 
 Logging level can be specified in `$ROS_ROOT/config/rosconsole.config`, either globally or for a specific package.
-
-## Velocity Control
-
-Direct velocity control of joints can be accomplished by sending PWM messages to the Analog node:
-
-```
-rostopic pub /pwm str1ker/Pwm "{ channels: [{ channel: 0, value: 0 }, { channel: 1, value: 0 } ] }" -1
-```
-
-### Rotate Left
-
-```
-rostopic pub arm_velocity_controller/command \
-trajectory_msgs/JointTrajectory \
-'{ joint_names: ['base'], points: [{velocities: [1.0], positions: [1.4929], time_from_start: {secs: 1}}]}' -1
-```
-
-### Rotate Right
-
-```
-rostopic pub arm_velocity_controller/command \
-trajectory_msgs/JointTrajectory \
-'{ joint_names: ['base'], points: [{velocities: [1.0], positions: [-1.4929], time_from_start: {secs: 1}}]}' -1
-```
-
-### Raise
-
-```
-rostopic pub arm_velocity_controller/command \
-trajectory_msgs/JointTrajectory \
-'{ joint_names: ['upperarm_actuator'], points: [{velocities: [0.0508], positions: [-0.0005], time_from_start: {secs: 1}}]}' -1
-```
-
-### Lower
-
-```
-rostopic pub arm_velocity_controller/command \
-trajectory_msgs/JointTrajectory \
-'{ joint_names: ['upperarm_actuator'], points: [{velocities: [-0.0508], positions: [-0.054], time_from_start: {secs: 1}}]}' -1
-```
-
-### Extend
-
-```
-rostopic pub arm_velocity_controller/command \
-trajectory_msgs/JointTrajectory \
-'{ joint_names: ['forearm_actuator'], points: [{velocities: [0.0109982], positions: [0], time_from_start: {secs: 1}}]}' -1
-```
-
-### Contract
-
-```
-rostopic pub arm_velocity_controller/command \
-trajectory_msgs/JointTrajectory \
-'{ joint_names: ['forearm_actuator'], points: [{velocities: [0.0109982], positions: [-0.0508], time_from_start: {secs: 1}}]}' -1
-```
-
-### Tune PID gains
-
-To tune directly while sending velocity commands or executing trajectories in RViz:
-
-```
-rosrun rqt_reconfigure rqt_reconfigure
-```
-
-### Pulse Solenoid
-
-```
-rostopic pub pwm \
-str1ker/Pwm \
-'{ channels: [{ channel: 6, mode: 1, value: 1, duration: 255 }]}' -1
-```
-
-### Direct Velocity Control
-
-```
-rostopic pub pwm \
-str1ker/Pwm \
-'{ channels: [{ channel: 0, mode: 0, value: 255, duration: 0 }]}' -1
-```
