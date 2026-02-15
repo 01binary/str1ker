@@ -20,6 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include <ros.h>
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Classes
@@ -84,9 +85,9 @@ public:
 
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    node.getParam((String("~") + group + "/pwmMin").c_str(), &pwmMin);
-    node.getParam((String("~") + group + "/pwmMax").c_str(), &pwmMax);
-    node.getParam((String("~") + group + "/stallThreshold").c_str(), &stallThreshold);
+    loadParam(node, group, "pwmMin", pwmMin);
+    loadParam(node, group, "pwmMax", pwmMax);
+    loadParam(node, group, "stallThreshold", stallThreshold);
 
     if (pwmMin < 0 || pwmMin > int(PWM_MAX))
     {
@@ -122,9 +123,7 @@ public:
       node.logwarn(buffer);
     }
 
-    int invert_i = 0;
-    node.getParam((String("~") + group + "/invert").c_str(), &invert_i);
-    invert = invert_i;
+    loadBoolParam(node, group, "invert", invert);
   }
 
   float read()

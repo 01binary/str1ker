@@ -20,6 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include <ros.h>
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Constants
@@ -106,12 +107,12 @@ public:
 
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    node.getParam((String("~") + group + "/Kp").c_str(), &Kp);
-    node.getParam((String("~") + group + "/Ki").c_str(), &Ki);
-    node.getParam((String("~") + group + "/Kd").c_str(), &Kd);
-    node.getParam((String("~") + group + "/iMin").c_str(), &iMin);
-    node.getParam((String("~") + group + "/iMax").c_str(), &iMax);
-    node.getParam((String("~") + group + "/tolerance").c_str(), &tolerance);
+    loadParam(node, group, "Kp", Kp);
+    loadParam(node, group, "Ki", Ki);
+    loadParam(node, group, "Kd", Kd);
+    loadParam(node, group, "iMin", iMin);
+    loadParam(node, group, "iMax", iMax);
+    loadParam(node, group, "tolerance", tolerance);
   }
 
   void start(float goalPosition)

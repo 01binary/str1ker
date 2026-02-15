@@ -20,11 +20,9 @@
 #include <ros.h>
 #include <ros/time.h>
 #include "interface.h"
-#include "actuator.h"
-#include "motor.h"
 #include "encoder.h"
 #include "solenoid.h"
-#include "pid.h"
+#include "joint.h"
 
 /*----------------------------------------------------------*\
 | Constants
@@ -52,42 +50,167 @@ const int ELBOW_SENSE = A4;               // Elbow motor current sense pin
 const int ELBOW_POTENTIOMETER = A1;       // Elbow motor potentiometer pin
 
 const int GRIPPER_PIN = 13;               // Gripper solenoid pin
+const char ARM_NAMESPACE[] = "arm/";      // Node namespace
+const char VELOCITY_TOPIC[] = "arm/velocity";
+const char POSITION_TOPIC[] = "arm/position";
+const char GRIPPER_TOPIC[] = "arm/gripper";
+const char STATE_TOPIC[] = "arm/state";
 
 /*----------------------------------------------------------*\
 | Variables
 \*----------------------------------------------------------*/
 
-Actuator<FusionEncoder, Motor> base;      // Base hardware
-Actuator<Potentiometer, Motor> shoulder;  // Shoulder hardware
-Actuator<Potentiometer, Motor> elbow;     // Elbow hardware
 Solenoid gripper;                         // Gripper hardware
 uint32_t lastTime = 0;
+
+ros::NodeHandle node;
+str1ker::StateFeedback stateFeedbackMsg;
+ros::Publisher statePub(STATE_TOPIC, &stateFeedbackMsg);
+VelocitySubscriber velocitySub(VELOCITY_TOPIC, velocityCommand);
+PositionSubscriber positionSub(POSITION_TOPIC, positionCommand);
+GripperSubscriber gripperSub(GRIPPER_TOPIC, gripperCommand);
+
+typedef joint_impl<FusionEncoder> base_joint_t;
+typedef joint_impl<Potentiometer> arm_joint_t;
+
+void initBase(base_joint_t::actuator_t& actuator)
+{
+  actuator.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_SENSE);
+  actuator.encoder.initialize(BASE_CS, BASE_A, BASE_B);
+}
+
+void initShoulder(arm_joint_t::actuator_t& actuator)
+{
+  actuator.motor.initialize(SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_SENSE);
+  actuator.encoder.initialize(SHOULDER_POTENTIOMETER);
+}
+
+void initElbow(arm_joint_t::actuator_t& actuator)
+{
+  actuator.motor.initialize(ELBOW_LPWM, ELBOW_RPWM, ELBOW_SENSE);
+  actuator.encoder.initialize(ELBOW_POTENTIOMETER);
+}
+
+base_joint_t base(
+  "base",
+  &str1ker::VelocityCommand::base,
+  &str1ker::PositionCommand::base,
+  &str1ker::StateFeedback::basePosition,
+  &str1ker::StateFeedback::baseVelocity,
+  &str1ker::StateFeedback::baseStalled,
+  initBase
+);
+
+arm_joint_t shoulder(
+  "shoulder",
+  &str1ker::VelocityCommand::shoulder,
+  &str1ker::PositionCommand::shoulder,
+  &str1ker::StateFeedback::shoulderPosition,
+  &str1ker::StateFeedback::shoulderVelocity,
+  &str1ker::StateFeedback::shoulderStalled,
+  initShoulder
+);
+
+arm_joint_t elbow(
+  "elbow",
+  &str1ker::VelocityCommand::elbow,
+  &str1ker::PositionCommand::elbow,
+  &str1ker::StateFeedback::elbowPosition,
+  &str1ker::StateFeedback::elbowVelocity,
+  &str1ker::StateFeedback::elbowStalled,
+  initElbow
+);
+
+joint* joints[] = {
+  &base,
+  &shoulder,
+  &elbow
+};
+
+const unsigned int JOINT_COUNT = sizeof(joints) / sizeof(joints[0]);
 
 /*----------------------------------------------------------*\
 | Functions
 \*----------------------------------------------------------*/
 
+ros::NodeHandle& initializeRos()
+{
+  node.initNode();
+
+  while (!node.connected())
+  {
+    node.spinOnce();
+    delay(10);
+  }
+
+  node.advertise(statePub);
+  node.subscribe(velocitySub);
+  node.subscribe(positionSub);
+  node.subscribe(gripperSub);
+  node.negotiateTopics();
+
+  delay(STARTUP_DELAY);
+
+  return node;
+}
+
+void velocityCommand(const str1ker::VelocityCommand& msg)
+{
+  for (unsigned int i = 0; i < JOINT_COUNT; i++)
+  {
+    joints[i]->write_velocity(msg);
+  }
+}
+
+void positionCommand(const str1ker::PositionCommand& msg)
+{
+  for (unsigned int i = 0; i < JOINT_COUNT; i++)
+  {
+    joints[i]->write_position(msg);
+  }
+}
+
+void gripperCommand(const str1ker::GripperCommand& msg)
+{
+  gripper.write(msg.holdTime);
+}
+
+void stateFeedback()
+{
+  for (unsigned int i = 0; i < JOINT_COUNT; i++)
+  {
+    joints[i]->write_state(stateFeedbackMsg);
+  }
+
+  statePub.publish(&stateFeedbackMsg);
+}
+
+/*----------------------------------------------------------*\
+| Entry points
+\*----------------------------------------------------------*/
+
 void setup()
 {
-  base.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_SENSE);
-  base.encoder.initialize(BASE_CS, BASE_A, BASE_B);
-  shoulder.motor.initialize(SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_SENSE);
-  shoulder.encoder.initialize(SHOULDER_POTENTIOMETER);
-  elbow.motor.initialize(ELBOW_LPWM, ELBOW_RPWM, ELBOW_SENSE);
-  elbow.encoder.initialize(ELBOW_POTENTIOMETER);
   gripper.initialize(GRIPPER_PIN);
 
-  ros::NodeHandle& node = initializeRos();
+  for (unsigned int i = 0; i < JOINT_COUNT; i++)
+  {
+    joints[i]->initialize();
+  }
 
-  base.loadSettings(node, "base");
-  shoulder.loadSettings(node, "shoulder");
-  elbow.loadSettings(node, "elbow");
+  initializeRos();
+
+  for (unsigned int i = 0; i < JOINT_COUNT; i++)
+  {
+    joints[i]->load(node);
+  }
 }
 
 void loop()
 {
   uint32_t now = millis();
   const uint32_t periodMs = 1000 / RATE_HZ;
+  gripper.update();
 
   if (now < STARTUP_DELAY)
   {
@@ -112,10 +235,10 @@ void loop()
     return;
   }
 
-  base.update(timeStep);
-  shoulder.update(timeStep);
-  elbow.update(timeStep);
-  gripper.update();
+  for (unsigned int i = 0; i < JOINT_COUNT; i++)
+  {
+    joints[i]->update(timeStep);
+  }
 
   stateFeedback();
 

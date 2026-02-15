@@ -21,6 +21,7 @@
 #include <SPI.h>
 #include <QuadratureEncoder.h>
 #include <ros.h>
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Classes
@@ -33,7 +34,7 @@ public:
   virtual void loadSettings(ros::NodeHandle& node, const char* group) = 0;
 };
 
-class Potentiometer: Encoder
+class Potentiometer: public Encoder
 {
 public:
   static const unsigned int MAX = 0b1111111111;
@@ -78,14 +79,11 @@ public:
 
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    node.getParam((String("~") + group + "/normMin").c_str(), &normMin);
-    node.getParam((String("~") + group + "/normMax").c_str(), &normMax);
-    node.getParam((String("~") + group + "/scaleMin").c_str(), &scaleMin);
-    node.getParam((String("~") + group + "/scaleMax").c_str(), &scaleMax);
-
-    int invert_i = 0;
-    node.getParam((String("~") + group + "/invert").c_str(), &invert_i);
-    invert = invert_i;
+    loadParam(node, group, "normMin", normMin);
+    loadParam(node, group, "normMax", normMax);
+    loadParam(node, group, "scaleMin", scaleMin);
+    loadParam(node, group, "scaleMax", scaleMax);
+    loadBoolParam(node, group, "invert", invert);
   }
 
   float read()
@@ -133,7 +131,7 @@ public:
 // MISO (white)
 // MOSI (orange)
 
-class AS5045Encoder: Encoder
+class AS5045Encoder: public Encoder
 {
 public:
   static const unsigned int MAX = 0b111111111111;
@@ -194,14 +192,11 @@ public:
 
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    node.getParam((String("~") + group + "/normMin").c_str(), &normMin);
-    node.getParam((String("~") + group + "/normMax").c_str(), &normMax);
-    node.getParam((String("~") + group + "/scaleMin").c_str(), &scaleMin);
-    node.getParam((String("~") + group + "/scaleMax").c_str(), &scaleMax);
-
-    int invert_i = 0;
-    node.getParam((String("~") + group + "/invert").c_str(), &invert_i);
-    invert = invert_i;
+    loadParam(node, group, "normMin", normMin);
+    loadParam(node, group, "normMax", normMax);
+    loadParam(node, group, "scaleMin", scaleMin);
+    loadParam(node, group, "scaleMax", scaleMax);
+    loadBoolParam(node, group, "invert", invert);
   }
 
   float read()
@@ -290,9 +285,7 @@ public:
 
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    int invert_i = 0;
-    node.getParam((String("~") + group + "/invert").c_str(), &invert_i);
-    invert = invert_i;
+    loadBoolParam(node, group, "invert", invert);
   }
 
   int read()
