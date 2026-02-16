@@ -46,7 +46,7 @@ The CNC, sheet metal, tube frame, and 3D-printed parts were ordered from [Xometr
 
 ![sheet metal](./readme/sheetmetal.png)
 
-The PCB's were auto-routed by [FreeRouting](https://freerouting.org/freerouting/using-with-kicad) and ordered from [JLCPCB](https://jlcpcb.com/) using JLCPCB KiCad plugin.
+The PCB's were ordered from [JLCPCB](https://jlcpcb.com/) using JLCPCB KiCad plugin.
 
 ![electrical](./readme/electrical.png)
 
