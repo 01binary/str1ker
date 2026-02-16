@@ -1,21 +1,6 @@
 <launch>
-  <!-- Description-->
-  <param name="robot_description" textfile="$(find str1ker)/description/robot.urdf" />
-
-  <!-- Configuration -->
-  <rosparam file="$(find str1ker_moveit_config)/config/ros_controllers.yaml" />
-
-  <!-- Hardware controller-->
-  <node
-    name="arm_node"
-    pkg="rosserial_python"
-    type="serial_node.py"
-    args="/dev/ttyACM0"
-    required="true"
-    output="screen"
-  >
-    <rosparam file="$(find str1ker)/config/arm.yaml" />
-  </node>
+  <!-- Hardware stack -->
+  <include file="$(find str1ker)/launch/hardware.launch" />
 
   <!-- Robot controller -->
   <node
@@ -26,30 +11,4 @@
     output="screen"
   />
 
-  <!-- Hardware interface -->
-  <node
-    name="hardware"
-    type="hardware"
-    pkg="str1ker"
-    output="screen"
-  />
-
-  <!-- Controller Manager-->
-  <node
-    name="controller_spawner"
-    pkg="controller_manager"
-    type="spawner"
-    respawn="false"
-    output="screen"
-    args="joint_state_controller arm_velocity_controller"
-  />
-
-  <!-- Robot state publisher -->
-  <node
-    name="robot_state_publisher"
-    pkg="robot_state_publisher"
-    type="robot_state_publisher"
-    respawn="false"
-    output="screen"
-  />
 </launch>

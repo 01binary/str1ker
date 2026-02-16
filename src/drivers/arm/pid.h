@@ -1,4 +1,3 @@
-
 /*
                                                                                      ███████                  
  ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
@@ -20,6 +19,7 @@
 \*----------------------------------------------------------*/
 
 #include <ros.h>
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Constants
@@ -74,7 +74,7 @@ public:
     Kp(DEFAULT_KP),
     Ki(DEFAULT_KI),
     Kd(DEFAULT_KD),
-    iMin(DEFAULT_IMAX),
+    iMin(DEFAULT_IMIN),
     iMax(DEFAULT_IMAX),
     tolerance(DEFAULT_TOLERANCE),
     pe(0.0), ie(0.0), de(0.0),
@@ -106,16 +106,17 @@ public:
 
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    node.getParam((String("~") + group + "/Kp").c_str(), &Kp);
-    node.getParam((String("~") + group + "/Ki").c_str(), &Ki);
-    node.getParam((String("~") + group + "/Kd").c_str(), &Kd);
-    node.getParam((String("~") + group + "/iMin").c_str(), &iMin);
-    node.getParam((String("~") + group + "/iMax").c_str(), &iMax);
-    node.getParam((String("~") + group + "/tolerance").c_str(), &tolerance);
+    loadParam(node, group, "Kp", Kp);
+    loadParam(node, group, "Ki", Ki);
+    loadParam(node, group, "Kd", Kd);
+    loadParam(node, group, "iMin", iMin);
+    loadParam(node, group, "iMax", iMax);
+    loadParam(node, group, "tolerance", tolerance);
   }
 
   void start(float goalPosition)
   {
+    stop();
     goal = goalPosition;
     enabled = true;
   }
@@ -134,7 +135,7 @@ public:
 
   float update(float position, float dt)
   {
-    if (!enabled)
+    if (!enabled || dt <= 0.0f)
     {
       return 0;
     }
@@ -149,7 +150,7 @@ public:
     }
 
     // Calculate integral error
-    ie += dt * pe;
+    ie += dt * error;
 
     // Limit integral error
     if (Ki && iMax != 0.0 && iMin != 0.0) {

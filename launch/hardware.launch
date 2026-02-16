@@ -1,4 +1,11 @@
 <launch>
+  <!-- Description -->
+  <param name="robot_description" textfile="$(find str1ker)/description/robot.urdf" />
+
+  <!-- Controller configuration -->
+  <rosparam file="$(find str1ker_moveit_config)/config/ros_controllers.yaml" />
+
+  <!-- Hardware controller -->
   <node
     name="arm_node"
     pkg="rosserial_python"
@@ -9,4 +16,31 @@
   >
     <rosparam command="load" file="$(find str1ker)/config/arm.yaml" />
   </node>
+
+  <!-- Hardware interface -->
+  <node
+    name="hardware"
+    pkg="str1ker"
+    type="hardware"
+    output="screen"
+  />
+
+  <!-- Controller manager -->
+  <node
+    name="controller_spawner"
+    pkg="controller_manager"
+    type="spawner"
+    respawn="false"
+    output="screen"
+    args="joint_state_controller arm_position_controller"
+  />
+
+  <!-- Robot state publisher -->
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="robot_state_publisher"
+    respawn="false"
+    output="screen"
+  />
 </launch>

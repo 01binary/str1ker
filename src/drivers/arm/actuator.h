@@ -20,12 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include "pid.h"
-
-/*----------------------------------------------------------*\
-| Forward Declarations
-\*----------------------------------------------------------*/
-
-struct ConfigurationGroup;
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Classes
@@ -49,7 +44,6 @@ public:
   float position;
   float velocity;
   float current;
-  float stallThreshold;
   bool stalled;
 
 public:
@@ -58,7 +52,6 @@ public:
     position(0.0),
     velocity(0.0),
     current(0.0),
-    stallThreshold(0.0),
     stalled(false)
   {
   }
@@ -66,9 +59,17 @@ public:
 public:
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    controller.loadSettings(node, (String(group) + "/controller").c_str());
-    encoder.loadSettings(node, (String(group) + "/encoder").c_str());
-    motor.loadSettings(node, (String(group) + "/motor").c_str());
+    char controllerGroup[64] = {0};
+    char encoderGroup[64] = {0};
+    char motorGroup[64] = {0};
+
+    makeGroupPath(controllerGroup, sizeof(controllerGroup), group, "controller");
+    makeGroupPath(encoderGroup, sizeof(encoderGroup), group, "encoder");
+    makeGroupPath(motorGroup, sizeof(motorGroup), group, "motor");
+
+    controller.loadSettings(node, controllerGroup);
+    encoder.loadSettings(node, encoderGroup);
+    motor.loadSettings(node, motorGroup);
     debug(node, group);
   }
 
@@ -76,7 +77,7 @@ public:
   {
     position = encoder.read();
     current = motor.read();
-    stalled = current > stallThreshold;
+    stalled = current > motor.stallThreshold;
 
     if (mode == POSITION)
     {
@@ -98,10 +99,33 @@ public:
     velocity = command;
   }
 
+  float getPosition() const
+  {
+    return position;
+  }
+
+  float getVelocity() const
+  {
+    return velocity;
+  }
+
+  bool isStalled() const
+  {
+    return stalled;
+  }
+
   void debug(ros::NodeHandle& node, const char* group)
   {
-    controller.debug(node, (String(group) + "/controller").c_str());
-    encoder.debug(node, (String(group) + "/encoder").c_str());
-    motor.debug(node, (String(group) + "/motor").c_str());
+    char controllerGroup[64] = {0};
+    char encoderGroup[64] = {0};
+    char motorGroup[64] = {0};
+
+    makeGroupPath(controllerGroup, sizeof(controllerGroup), group, "controller");
+    makeGroupPath(encoderGroup, sizeof(encoderGroup), group, "encoder");
+    makeGroupPath(motorGroup, sizeof(motorGroup), group, "motor");
+
+    controller.debug(node, controllerGroup);
+    encoder.debug(node, encoderGroup);
+    motor.debug(node, motorGroup);
   }
 };

@@ -18,7 +18,6 @@ find_package(catkin REQUIRED COMPONENTS
   control_toolbox
   moveit_core
   moveit_ros_robot_interaction
-  moveit_ros_control_interface
   moveit_ros_planning_interface
   moveit_ros_planning
   pluginlib
@@ -61,7 +60,6 @@ catkin_package(
     control_toolbox
     moveit_core
     moveit_ros_robot_interaction
-    moveit_ros_control_interface
     moveit_ros_planning_interface
     moveit_ros_planning
     pluginlib

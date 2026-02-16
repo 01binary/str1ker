@@ -1,4 +1,3 @@
-
 /*
                                                                                      ███████                  
  ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████ 
@@ -7,8 +6,8 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- solenoid.h
- Solenoid Driver
+ params.h
+ Shared parameter-loading helpers
  Copyright (C) 2025 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -16,65 +15,44 @@
 #pragma once
 
 /*----------------------------------------------------------*\
-| Classes
+| Includes
 \*----------------------------------------------------------*/
 
-class Solenoid
+#include <ros.h>
+#include <stdio.h>
+
+/*----------------------------------------------------------*\
+| Functions
+\*----------------------------------------------------------*/
+
+inline void makeGroupPath(
+  char* path,
+  size_t pathSize,
+  const char* group,
+  const char* child)
 {
-public:
-  int triggerPin;
-  uint32_t lastTriggered;
-  uint32_t holdMs;
-  bool active;
+  snprintf(path, pathSize, "%s/%s", group, child);
+}
 
-public:
-  Solenoid():
-    triggerPin(0),
-    lastTriggered(0),
-    holdMs(0),
-    active(false)
-  {
-  }
+template<typename T>
+inline void loadParam(
+  ros::NodeHandle& node,
+  const char* group,
+  const char* key,
+  T& value)
+{
+  char path[96] = {0};
+  snprintf(path, sizeof(path), "~%s/%s", group, key);
+  node.getParam(path, &value);
+}
 
-public:
-  void initialize(int trigger)
-  {
-    triggerPin = trigger;
-    pinMode(triggerPin, OUTPUT);
-    digitalWrite(triggerPin, LOW);
-    active = false;
-    holdMs = 0;
-    lastTriggered = 0;
-  }
-
-  void write(float holdTime)
-  {
-    if (holdTime <= 0.0f)
-    {
-      digitalWrite(triggerPin, LOW);
-      active = false;
-      holdMs = 0;
-      return;
-    }
-
-    holdMs = uint32_t(holdTime * 1000.0f);
-    lastTriggered = millis();
-    active = true;
-    digitalWrite(triggerPin, HIGH);
-  }
-
-  void update()
-  {
-    if (!active)
-    {
-      return;
-    }
-
-    uint32_t now = millis();
-    if ((now - lastTriggered) >= holdMs)
-    {
-      digitalWrite(triggerPin, LOW);
-      active = false;
-    }
-  }
-};
+inline void loadBoolParam(
+  ros::NodeHandle& node,
+  const char* group,
+  const char* key,
+  bool& value)
+{
+  int value_i = value ? 1 : 0;
+  loadParam(node, group, key, value_i);
+  value = value_i != 0;
+}
