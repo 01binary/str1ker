@@ -36,6 +36,9 @@ public:
   };
 
 public:
+  ros::NodeHandle& node;
+  const char* group;
+  const char* name;
   ControlMode mode;
   MotorType motor;
   EncoderType encoder;
@@ -47,7 +50,14 @@ public:
   bool stalled;
 
 public:
-  Actuator():
+  Actuator(
+    ros::NodeHandle& rosNode,
+    const char* groupName,
+    const char* actuatorName
+  ):
+    node(rosNode),
+    group(groupName),
+    name(actuatorName),
     mode(VELOCITY),
     position(0.0),
     velocity(0.0),
@@ -57,12 +67,14 @@ public:
   }
 
 public:
-  void loadSettings(ros::NodeHandle& node, const char* group)
+  void loadSettings()
   {
+    char path[64] = {0};
     char controllerGroup[64] = {0};
     char encoderGroup[64] = {0};
     char motorGroup[64] = {0};
 
+    makeGroupPath(path, sizeof(path), group, name);
     makeGroupPath(controllerGroup, sizeof(controllerGroup), group, "controller");
     makeGroupPath(encoderGroup, sizeof(encoderGroup), group, "encoder");
     makeGroupPath(motorGroup, sizeof(motorGroup), group, "motor");
@@ -70,7 +82,8 @@ public:
     controller.loadSettings(node, controllerGroup);
     encoder.loadSettings(node, encoderGroup);
     motor.loadSettings(node, motorGroup);
-    debug(node, group);
+
+    debug();
   }
 
   void update(float timeStep)
@@ -109,20 +122,27 @@ public:
     return velocity;
   }
 
+  float getCurrent() const
+  {
+    return current;
+  }
+
   bool isStalled() const
   {
     return stalled;
   }
 
-  void debug(ros::NodeHandle& node, const char* group)
+  void debug()
   {
+    char path[64] = {0};
     char controllerGroup[64] = {0};
     char encoderGroup[64] = {0};
     char motorGroup[64] = {0};
 
-    makeGroupPath(controllerGroup, sizeof(controllerGroup), group, "controller");
-    makeGroupPath(encoderGroup, sizeof(encoderGroup), group, "encoder");
-    makeGroupPath(motorGroup, sizeof(motorGroup), group, "motor");
+    makeGroupPath(path, sizeof(path), group, name);
+    makeGroupPath(controllerGroup, sizeof(controllerGroup), path, "controller");
+    makeGroupPath(encoderGroup, sizeof(encoderGroup), path, "encoder");
+    makeGroupPath(motorGroup, sizeof(motorGroup), path, "motor");
 
     controller.debug(node, controllerGroup);
     encoder.debug(node, encoderGroup);

@@ -131,10 +131,21 @@ public:
 // MISO (white)
 // MOSI (orange)
 
+union AS5045Reading
+{
+  struct
+  {
+    uint16_t status   : 4;
+    uint16_t position : 12;
+  };
+
+  uint16_t data;
+};
+
 class AS5045Encoder: public Encoder
 {
 public:
-  static const unsigned int MAX = 0b111111111111;
+  static const unsigned int MAX = 4096;
 
 public:
   int csPin;
@@ -203,7 +214,6 @@ public:
   {
     // Select
     digitalWrite(csPin, LOW);
-    delayMicroseconds(1);
 
     // Read
     SPI.beginTransaction(SPISettings(
@@ -212,19 +222,17 @@ public:
       SPI_MODE0
     ));
 
-    unsigned int raw = SPI.transfer16(0);
+    AS5045Reading reading;
+    reading.data = SPI.transfer16(0);
 
     SPI.endTransaction();
 
     // Deselect
     digitalWrite(csPin, HIGH);
 
-    // Convert
-    unsigned int reading = (raw >> 3) & 0x1FFF;
-
     // Normalize
     float norm = constrain(
-      float(reading - normMin) / float(normMax - normMin), 0.0, 1.0);
+      float(reading.position - normMin) / float(normMax - normMin), 0.0, 1.0);
 
     // Invert
     if (invert)

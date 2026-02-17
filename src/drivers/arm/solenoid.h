@@ -71,6 +71,7 @@ public:
     }
 
     uint32_t now = millis();
+
     if ((now - lastTriggered) >= holdMs)
     {
       digitalWrite(triggerPin, LOW);
