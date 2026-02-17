@@ -28,6 +28,7 @@
 #include "motor.h"
 #include "encoder.h"
 #include "solenoid.h"
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Constants
@@ -55,11 +56,12 @@ const int ELBOW_SENSE = A4;                   // Elbow motor current sense pin
 const int ELBOW_POTENTIOMETER = A1;           // Elbow motor potentiometer pin
 
 const int GRIPPER_PIN = 13;                   // Gripper solenoid pin
-const char ARM_NAMESPACE[] = "arm/";          // Node namespace
+const char ARM_NAMESPACE[] = "arm";           // Node namespace
 const char VELOCITY_TOPIC[] = "arm/velocity"; // Velocity command topic
 const char POSITION_TOPIC[] = "arm/position"; // Position command topic
 const char GRIPPER_TOPIC[] = "arm/gripper";   // Gripper command topic
 const char STATE_TOPIC[] = "arm/state";       // State topic
+const char RAW_TOPIC[] = "arm/raw";           // Raw sensor topic
 
 /*----------------------------------------------------------*\
 | Definitions
@@ -75,11 +77,13 @@ typedef ros::Subscriber<str1ker::GripperCommand> GripperSubscriber;
 
 ros::NodeHandle& initializeRos();
 void initializeJoints();
+void loadSettings();
 void updateJoints(float timeStep);
 void velocityCommand(const str1ker::VelocityCommand& msg);
 void positionCommand(const str1ker::PositionCommand& msg);
 void gripperCommand(const str1ker::GripperCommand& msg);
 void stateFeedback();
+void rawFeedback();
 
 /*----------------------------------------------------------*\
 | Variables
@@ -87,14 +91,19 @@ void stateFeedback();
 
 ros::NodeHandle node;
 str1ker::StateFeedback stateFeedbackMsg;
+str1ker::RawJointSensors rawFeedbackMsg;
 ros::Publisher statePub(STATE_TOPIC, &stateFeedbackMsg);
+ros::Publisher rawPub(RAW_TOPIC, &rawFeedbackMsg);
 VelocitySubscriber velocitySub(VELOCITY_TOPIC, velocityCommand);
 PositionSubscriber positionSub(POSITION_TOPIC, positionCommand);
 GripperSubscriber gripperSub(GRIPPER_TOPIC, gripperCommand);
+
 Actuator<AS5045Encoder, Motor> baseJoint(node, "arm", "base");
 Actuator<Potentiometer, Motor> shoulderJoint(node, "arm", "shoulder");
 Actuator<Potentiometer, Motor> elbowJoint(node, "arm", "elbow");
 Solenoid gripper;
+
+bool debug;
 
 /*----------------------------------------------------------*\
 | Entry points
@@ -104,6 +113,7 @@ void setup()
 {
   initializeRos();
   initializeJoints();
+  loadSettings();
 }
 
 void loop()
@@ -180,6 +190,16 @@ void initializeJoints()
 
   gripper.initialize(GRIPPER_PIN);
   gripper.update();
+}
+
+void loadSettings()
+{
+  loadParam(node, ARM_NAMESPACE, "debug", (int&)debug);
+
+  if (debug)
+  {
+    node.loginfo("Debugging enabled");
+  }
 
   baseJoint.loadSettings();
   shoulderJoint.loadSettings();
@@ -194,6 +214,11 @@ void updateJoints(float timeStep)
   gripper.update();
 
   stateFeedback();
+
+  if (debug)
+  {
+    rawFeedback();
+  }
 }
 
 void velocityCommand(const str1ker::VelocityCommand& msg)
@@ -233,4 +258,11 @@ void stateFeedback()
   stateFeedbackMsg.elbowStalled = elbowJoint.isStalled();
 
   statePub.publish(&stateFeedbackMsg);
+}
+
+void rawFeedback()
+{
+  rawFeedbackMsg.base = baseJoint.encoder.raw();
+  rawFeedbackMsg.shoulder = shoulderJoint.encoder.raw();
+  rawFeedbackMsg.elbow = elbowJoint.encoder.raw();
 }

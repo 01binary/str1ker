@@ -31,6 +31,7 @@ class Encoder
 {
 public:
   virtual float read() = 0;
+  virtual int raw() = 0;
   virtual void loadSettings(ros::NodeHandle& node, const char* group) = 0;
 };
 
@@ -47,6 +48,7 @@ public:
   float scaleMin;
   float scaleMax;
   bool invert;
+  int reading;
 
 public:
   Potentiometer():
@@ -55,7 +57,8 @@ public:
     normMax(MAX),
     scaleMin(0.0),
     scaleMax(1.0),
-    invert(false)
+    invert(false),
+    reading(0)
   {
   }
 
@@ -89,7 +92,7 @@ public:
   float read()
   {
     // Convert
-    int reading = analogRead(adcPin);
+    reading = analogRead(adcPin);
 
     // Normalize
     float norm = float(reading - normMin) / float(normMax - normMin);
@@ -102,6 +105,11 @@ public:
 
     // Scale
     return norm * (scaleMax - scaleMin) + scaleMin;
+  }
+
+  int raw()
+  {
+    return reading;
   }
 
   void debug(ros::NodeHandle& node, const char* group)
@@ -155,6 +163,7 @@ public:
   float scaleMax;
   bool invert;
   bool initialized;
+  AS5045Reading reading;
 
 public:
   AS5045Encoder():
@@ -194,6 +203,7 @@ public:
     scaleMax = scaledMax;
     invert = invertReadings;
     initialized = true;
+    reading.position = 0;
 
     SPI.begin();
 
@@ -222,7 +232,6 @@ public:
       SPI_MODE0
     ));
 
-    AS5045Reading reading;
     reading.data = SPI.transfer16(0);
 
     SPI.endTransaction();
@@ -244,6 +253,11 @@ public:
     return norm * (scaleMax - scaleMin) + scaleMin;
   }
 
+  int raw()
+  {
+    return reading.position;
+  }
+
   void debug(ros::NodeHandle& node, const char* group)
   {
     char buffer[256] = {0};
@@ -259,102 +273,5 @@ public:
     );
 
     node.loginfo(buffer);
-  }
-};
-
-class QuadratureEncoder
-{
-public:
-  Encoders* pQuadrature;
-  bool invert;
-
-  int count;
-  int lastCount;
-
-public:
-  QuadratureEncoder():
-    pQuadrature(nullptr),
-    invert(false),
-    count(0),
-    lastCount(0)
-  {
-  }
-
-public:
-  void initialize(int a, int b, bool invertCount = false)
-  {
-    delete pQuadrature;
-    pQuadrature = new Encoders(a, b);
-
-    invert = invertCount;
-    count = 0;
-    lastCount = 0;
-  }
-
-  void loadSettings(ros::NodeHandle& node, const char* group)
-  {
-    loadBoolParam(node, group, "invert", invert);
-  }
-
-  int read()
-  {
-    count = pQuadrature
-      ? pQuadrature->getEncoderCount()
-      : 0;
-
-    int diff = count - lastCount;
-    lastCount = count;
-
-    return diff;
-  }
-
-  void debug(ros::NodeHandle& node, const char* group)
-  {
-    if (!invert) return;
-
-    char buffer[100] = {0};
-
-    sprintf(
-      buffer,
-      "%s: %s%s",
-      group, invert ? " invert" : ""
-    );
-
-    node.loginfo(buffer);
-  }
-};
-
-class FusionEncoder: public Encoder
-{
-public:
-  AS5045Encoder absolute;
-  QuadratureEncoder quadrature;
-
-public:
-  void initialize(
-    int cs,
-    int a,
-    int b)
-  {
-    absolute.initialize(cs);
-    quadrature.initialize(a, b);
-  }
-
-  float read()
-  {
-    // TODO: fuse measurements
-    return absolute.read();
-  }
-
-  void loadSettings(ros::NodeHandle& node, const char* group)
-  {
-    absolute.loadSettings(node, group);
-    quadrature.loadSettings(node, group);
-  }
-
-  void debug(ros::NodeHandle& node, const char* group)
-  {
-    absolute.debug(node, group);
-    quadrature.debug(node, group);
   }
 };

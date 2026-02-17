@@ -112,6 +112,11 @@ public:
     velocity = command;
   }
 
+  int getReading() const
+  {
+    return encoder.raw();
+  }
+
   float getPosition() const
   {
     return position;

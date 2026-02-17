@@ -1,3 +1,5 @@
+debug 1
+
 # base
 base/controller/Kp: 0.1
 base/controller/Ki: 0.01
