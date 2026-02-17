@@ -56,7 +56,7 @@ const int ELBOW_SENSE = A4;                   // Elbow motor current sense pin
 const int ELBOW_POTENTIOMETER = A1;           // Elbow motor potentiometer pin
 
 const int GRIPPER_PIN = 13;                   // Gripper solenoid pin
-const char NAMESPACE[] = "arm_node";          // Node namespace
+const char PARAM_ROOT[] = "";                 // Node private namespace root
 const char VELOCITY_TOPIC[] = "arm/velocity"; // Velocity command topic
 const char POSITION_TOPIC[] = "arm/position"; // Position command topic
 const char GRIPPER_TOPIC[] = "arm/gripper";   // Gripper command topic
@@ -76,6 +76,7 @@ typedef ros::Subscriber<str1ker::GripperCommand> GripperSubscriber;
 \*----------------------------------------------------------*/
 
 ros::NodeHandle& initializeRos();
+void initializeRosInterface();
 void initializeJoints();
 void loadSettings();
 void updateJoints(float timeStep);
@@ -98,11 +99,10 @@ VelocitySubscriber velocitySub(VELOCITY_TOPIC, velocityCommand);
 PositionSubscriber positionSub(POSITION_TOPIC, positionCommand);
 GripperSubscriber gripperSub(GRIPPER_TOPIC, gripperCommand);
 
-Actuator<AS5045Encoder, Motor> baseJoint(node, NAMESPACE, "base");
-Actuator<Potentiometer, Motor> shoulderJoint(node, NAMESPACE, "shoulder");
-Actuator<Potentiometer, Motor> elbowJoint(node, NAMESPACE, "elbow");
+Actuator<AS5045Encoder, Motor> baseJoint(node, PARAM_ROOT, "base");
+Actuator<Potentiometer, Motor> shoulderJoint(node, PARAM_ROOT, "shoulder");
+Actuator<Potentiometer, Motor> elbowJoint(node, PARAM_ROOT, "elbow");
 Solenoid gripper;
-
 bool debug;
 
 /*----------------------------------------------------------*\
@@ -114,6 +114,9 @@ void setup()
   initializeRos();
   initializeJoints();
   loadSettings();
+  initializeRosInterface();
+
+  delay(STARTUP_DELAY);
 }
 
 void loop()
@@ -122,6 +125,13 @@ void loop()
 
   uint32_t now = millis();
   const uint32_t period = 1000 / RATE_HZ;
+
+  if (last == 0)
+  {
+    last = now;
+    node.spinOnce();
+    return;
+  }
 
   if (now < STARTUP_DELAY)
   {
@@ -166,15 +176,22 @@ ros::NodeHandle& initializeRos()
     delay(10);
   }
 
+  return node;
+}
+
+void initializeRosInterface()
+{
   node.advertise(statePub);
+
+  if (debug)
+  {
+    node.advertise(rawPub);
+  }
+
   node.subscribe(velocitySub);
   node.subscribe(positionSub);
   node.subscribe(gripperSub);
   node.negotiateTopics();
-
-  delay(STARTUP_DELAY);
-
-  return node;
 }
 
 void initializeJoints()
@@ -194,7 +211,7 @@ void initializeJoints()
 
 void loadSettings()
 {
-  loadParam(node, ARM_NAMESPACE, "debug", (int&)debug);
+  loadBoolParam(node, PARAM_ROOT, "debug", debug);
 
   if (debug)
   {
@@ -265,4 +282,6 @@ void rawFeedback()
   rawFeedbackMsg.base = baseJoint.encoder.raw();
   rawFeedbackMsg.shoulder = shoulderJoint.encoder.raw();
   rawFeedbackMsg.elbow = elbowJoint.encoder.raw();
+
+  rawPub.publish(&rawFeedbackMsg);
 }

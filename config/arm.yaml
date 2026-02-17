@@ -13,8 +13,8 @@ base/motor/stallThreshold: 0.2454
 base/motor/invert: 0
 base/encoder/normMin: 553
 base/encoder/normMax: 1585
-base/encoder/scaleMin: -1
-base/encoder/scaleMax: 1
+base/encoder/scaleMin: -1.0
+base/encoder/scaleMax: 1.0
 #base/encoder/scaleMin: -1.5708
 #base/encoder/scaleMax: 1.5708
 base/encoder/invert: 0

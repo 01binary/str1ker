@@ -75,9 +75,9 @@ public:
     char motorGroup[64] = {0};
 
     makeGroupPath(path, sizeof(path), group, name);
-    makeGroupPath(controllerGroup, sizeof(controllerGroup), group, "controller");
-    makeGroupPath(encoderGroup, sizeof(encoderGroup), group, "encoder");
-    makeGroupPath(motorGroup, sizeof(motorGroup), group, "motor");
+    makeGroupPath(controllerGroup, sizeof(controllerGroup), path, "controller");
+    makeGroupPath(encoderGroup, sizeof(encoderGroup), path, "encoder");
+    makeGroupPath(motorGroup, sizeof(motorGroup), path, "motor");
 
     controller.loadSettings(node, controllerGroup);
     encoder.loadSettings(node, encoderGroup);

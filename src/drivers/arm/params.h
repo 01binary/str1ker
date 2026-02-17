@@ -31,7 +31,25 @@ inline void makeGroupPath(
   const char* group,
   const char* child)
 {
-  snprintf(path, pathSize, "%s/%s", group, child);
+  const bool hasGroup = group != nullptr && group[0] != '\0';
+  const bool hasChild = child != nullptr && child[0] != '\0';
+
+  if (hasGroup && hasChild)
+  {
+    snprintf(path, pathSize, "%s/%s", group, child);
+  }
+  else if (hasGroup)
+  {
+    snprintf(path, pathSize, "%s", group);
+  }
+  else if (hasChild)
+  {
+    snprintf(path, pathSize, "%s", child);
+  }
+  else
+  {
+    path[0] = '\0';
+  }
 }
 
 template<typename T>
@@ -42,7 +60,15 @@ inline void loadParam(
   T& value)
 {
   char path[96] = {0};
-  snprintf(path, sizeof(path), "~%s/%s", group, key);
+  if (group != nullptr && group[0] != '\0')
+  {
+    snprintf(path, sizeof(path), "~%s/%s", group, key);
+  }
+  else
+  {
+    snprintf(path, sizeof(path), "~%s", key);
+  }
+
   node.getParam(path, &value);
 }
 
