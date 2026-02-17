@@ -56,7 +56,7 @@ const int ELBOW_SENSE = A4;                   // Elbow motor current sense pin
 const int ELBOW_POTENTIOMETER = A1;           // Elbow motor potentiometer pin
 
 const int GRIPPER_PIN = 13;                   // Gripper solenoid pin
-const char ARM_NAMESPACE[] = "arm";           // Node namespace
+const char NAMESPACE[] = "arm_node";          // Node namespace
 const char VELOCITY_TOPIC[] = "arm/velocity"; // Velocity command topic
 const char POSITION_TOPIC[] = "arm/position"; // Position command topic
 const char GRIPPER_TOPIC[] = "arm/gripper";   // Gripper command topic
@@ -98,9 +98,9 @@ VelocitySubscriber velocitySub(VELOCITY_TOPIC, velocityCommand);
 PositionSubscriber positionSub(POSITION_TOPIC, positionCommand);
 GripperSubscriber gripperSub(GRIPPER_TOPIC, gripperCommand);
 
-Actuator<AS5045Encoder, Motor> baseJoint(node, "arm", "base");
-Actuator<Potentiometer, Motor> shoulderJoint(node, "arm", "shoulder");
-Actuator<Potentiometer, Motor> elbowJoint(node, "arm", "elbow");
+Actuator<AS5045Encoder, Motor> baseJoint(node, NAMESPACE, "base");
+Actuator<Potentiometer, Motor> shoulderJoint(node, NAMESPACE, "shoulder");
+Actuator<Potentiometer, Motor> elbowJoint(node, NAMESPACE, "elbow");
 Solenoid gripper;
 
 bool debug;

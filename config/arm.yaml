@@ -1,4 +1,4 @@
-debug 1
+debug: 1
 
 # base
 base/controller/Kp: 0.1
