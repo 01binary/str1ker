@@ -1,6 +1,9 @@
 <launch>
-  <!-- Hardware stack -->
+  <!-- Serial bridge -->
   <include file="$(find str1ker)/launch/hardware.launch" />
+
+  <!-- ROS control stack -->
+  <include file="$(find str1ker)/launch/controllers.launch" />
 
   <!-- Robot controller -->
   <node

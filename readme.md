@@ -185,10 +185,18 @@ Compile and upload the ROS node. The default launch configuration in `robot.laun
 
 ### Hardware
 
-To launch the low-level hardware node:
+To launch only the serial bridge to the arm firmware:
 
 ```
 roslaunch str1ker hardware.launch
+```
+
+### Controllers
+
+To launch ROS control nodes (URDF + controllers + state publisher):
+
+```
+roslaunch str1ker controllers.launch
 ```
 
 ### Full Stack
