@@ -212,13 +212,42 @@ roslaunch str1ker robot.launch
 To launch Carmine with OpenNI2 (recommended on ROS Noetic):
 
 ```
-roslaunch str1ker carmine.launch
+roslaunch str1ker vision.launch
 ```
 
 To use legacy OpenNI instead:
 
 ```
-roslaunch str1ker carmine.launch use_openni2:=false
+roslaunch str1ker vision.launch use_openni2:=false
+```
+
+### Laser Scanner (Hokuyo UTM-30LX)
+
+Install the Hokuyo ROS driver:
+
+```
+sudo apt-get install -y ros-${ROS_DISTRO}-urg-node
+```
+
+The default launch path uses the stable built-in udev symlink under `/dev/serial/by-id`.
+
+If you still want a custom short alias (for example `/dev/str1ker_laser`), create one with:
+
+```
+# Example when Hokuyo appears as /dev/ttyACM0
+./scripts/alias.sh /dev/ttyACM0 str1ker_laser --install
+```
+
+To launch the laser scanner driver:
+
+```
+roslaunch str1ker laserscan.launch
+```
+
+If you want to bypass by-id and use the current kernel device path:
+
+```
+roslaunch str1ker laserscan.launch serial_port:=/dev/ttyACM0
 ```
 
 ### Teleoperation

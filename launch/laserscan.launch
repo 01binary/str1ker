@@ -1,0 +1,31 @@
+<launch>
+  <!-- Laser scanner launch for Hokuyo UTM-30LX via urg_node -->
+  <arg name="frame_id" default="laser" />
+  <arg name="topic" default="scan" />
+
+  <!-- Serial connection. Default uses built-in stable by-id path. -->
+  <arg
+    name="serial_port"
+    default="/dev/serial/by-id/usb-Hokuyo_Data_Flex_for_USB_URG-Series_USB_Driver-if00"
+  />
+  <arg name="serial_baud" default="115200" />
+
+  <!-- Ethernet connection (leave empty to use serial instead) -->
+  <arg name="ip_address" default="" />
+  <arg name="ip_port" default="10940" />
+
+  <node
+    name="laserscan_node"
+    pkg="urg_node"
+    type="urg_node"
+    required="true"
+    output="screen"
+  >
+    <param name="frame_id" value="$(arg frame_id)" />
+    <param name="topic_name" value="$(arg topic)" />
+    <param name="serial_port" value="$(arg serial_port)" />
+    <param name="serial_baud" value="$(arg serial_baud)" />
+    <param name="ip_address" value="$(arg ip_address)" />
+    <param name="ip_port" value="$(arg ip_port)" />
+  </node>
+</launch>
