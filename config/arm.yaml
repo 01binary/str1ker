@@ -8,8 +8,9 @@ base/controller/iMin: -1.0
 base/controller/iMax: 1.0
 base/controller/tolerance: 0.2
 base/motor/pwmMin: 65
-base/motor/pwmMax: 253
+base/motor/pwmMax: 128
 base/motor/stallThreshold: 0.2454
+base/motor/stopBeforeReverse: 0
 base/motor/invert: 0
 base/encoder/normMin: 553
 base/encoder/normMax: 1585
@@ -29,9 +30,10 @@ shoulder/controller/tolerance: 0.1
 shoulder/motor/pwmMin: 32
 shoulder/motor/pwmMax: 255
 shoulder/motor/stallThreshold: 0.2493
-shoulder/motor/invert: 0
-shoulder/encoder/normMin: 857
-shoulder/encoder/normMax: 902
+shoulder/motor/invert: 1
+shoulder/motor/stopBeforeReverse: 1
+shoulder/encoder/normMin: 210
+shoulder/encoder/normMax: 153
 shoulder/encoder/scaleMin: -0.054
 shoulder/encoder/scaleMax: -0.0005
 shoulder/encoder/invert: 0
@@ -47,8 +49,9 @@ elbow/motor/pwmMin: 200
 elbow/motor/pwmMax: 255
 elbow/motor/stallThreshold: 0.2493
 elbow/motor/invert: 0
+elbow/motor/stopBeforeReverse: 1
 elbow/encoder/normMin: 976
-elbow/encoder/normMax: 848
+elbow/encoder/normMax: 1014
 elbow/encoder/scaleMin: -0.0508
 elbow/encoder/scaleMax: 0.0
 elbow/encoder/invert: 0

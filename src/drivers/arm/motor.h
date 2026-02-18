@@ -41,6 +41,7 @@ public:
   int pwmMax;
   float stallThreshold;
   bool invert;
+  bool stopBeforeReverse;
 
   float velocity;
   float current;
@@ -53,6 +54,7 @@ public:
     pwmMin(0),
     pwmMax(PWM_MAX),
     invert(false),
+    stopBeforeReverse(false),
     stallThreshold(1.0),
     velocity(0.0),
     current(0.0)
@@ -75,6 +77,7 @@ public:
     pwmMin = min;
     pwmMax = max;
     invert = invertCommand;
+    stopBeforeReverse = false;
     stallThreshold = stallCurrentThreshold;
     velocity = 0.0;
     current = 0.0;
@@ -88,6 +91,7 @@ public:
     loadParam(node, group, "pwmMin", pwmMin);
     loadParam(node, group, "pwmMax", pwmMax);
     loadParam(node, group, "stallThreshold", stallThreshold);
+    loadBoolParam(node, group, "stopBeforeReverse", stopBeforeReverse);
 
     if (pwmMin < 0 || pwmMin > int(PWM_MAX))
     {
@@ -159,6 +163,18 @@ public:
     float limitedSpeed = float(pwm) / float(PWM_MAX);
     float nextCommand = direction * limitedSpeed;
 
+    bool isDirectionSwitch =
+      (velocity > 0.0f && nextCommand < 0.0f) ||
+      (velocity < 0.0f && nextCommand > 0.0f);
+
+    if (stopBeforeReverse && isDirectionSwitch)
+    {
+      analogWrite(lpwmPin, 0);
+      analogWrite(rpwmPin, 0);
+      velocity = 0.0f;
+      return;
+    }
+
     if (nextCommand != velocity)
     {
       int lpwm = direction < 0 ? 0 : pwm;
@@ -180,8 +196,10 @@ public:
     dtostrf(current, 0, 4, current_s);
 
     snprintf(buffer, sizeof(buffer),
-      "%s: pwmMin=%d pwmMax=%d stallThreshold=%s current=%s%s",
-      group, pwmMin, pwmMax, thresh_s, current_s, invert ? " invert" : "");
+      "%s: pwmMin=%d pwmMax=%d stallThreshold=%s current=%s%s%s",
+      group, pwmMin, pwmMax, thresh_s, current_s,
+      invert ? " invert" : "",
+      stopBeforeReverse ? " stopBeforeReverse" : "");
 
     node.loginfo(buffer);
   }
