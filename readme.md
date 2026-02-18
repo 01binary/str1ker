@@ -207,6 +207,20 @@ To launch both high-level and low-level nodes:
 roslaunch str1ker robot.launch
 ```
 
+### PrimeSense Carmine 1.09
+
+To launch Carmine with OpenNI2 (recommended on ROS Noetic):
+
+```
+roslaunch str1ker carmine.launch
+```
+
+To use legacy OpenNI instead:
+
+```
+roslaunch str1ker carmine.launch use_openni2:=false
+```
+
 ### Teleoperation
 
 To teleoperate the robot:
