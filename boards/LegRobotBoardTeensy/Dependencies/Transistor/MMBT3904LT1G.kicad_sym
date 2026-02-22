@@ -27,7 +27,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "Transistor:MMBT3904LT1G"
+		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
 			(at 0 0 0)
 			(effects
 				(font
