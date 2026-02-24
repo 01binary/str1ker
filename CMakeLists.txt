@@ -18,7 +18,6 @@ find_package(catkin REQUIRED COMPONENTS
   control_toolbox
   moveit_core
   moveit_ros_robot_interaction
-  moveit_ros_control_interface
   moveit_ros_planning_interface
   moveit_ros_planning
   pluginlib
@@ -36,6 +35,7 @@ add_message_files(
   PositionCommand.msg
   GripperCommand.msg
   StateFeedback.msg
+  RawJointSensors.msg
 )
 
 generate_messages(
@@ -61,7 +61,6 @@ catkin_package(
     control_toolbox
     moveit_core
     moveit_ros_robot_interaction
-    moveit_ros_control_interface
     moveit_ros_planning_interface
     moveit_ros_planning
     pluginlib

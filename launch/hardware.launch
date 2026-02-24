@@ -1,4 +1,5 @@
 <launch>
+  <!-- Serial bridge to the arm firmware -->
   <node
     name="arm_node"
     pkg="rosserial_python"

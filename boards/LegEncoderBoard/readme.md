@@ -4,10 +4,6 @@ A custom board that simplifies mounting `AS5047P` hall-effect on-axis encoder wi
 
 > Ready-made alternatives like [SideView Tech](https://www.amazon.com/AS5047P-Magnetic-Position-Breakout-Compatible/dp/B0DLJ6XDNM) and [AS5047P Adapter Board](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5047p-adapterboard/5452344) do exist, but have extra pins not used in this project and a board shape that makes them hard to mount.
 
-The board also includes educational indicators:
-+ An LED that blinks on one full 350 degree rotation, fed by the index pulse from the encoder
-+ Two LEDs that blink when the encoder detects motion, fed by A/B quadrature pulses from the encoder
-
 ## Signal
 
 The [AS5047P documentation](./doc/AS5047P.pdf) specifies that `A` and `B` pins output a quadrature signal, and an additional `I` pin outputs index (one pulse per complete revolution).

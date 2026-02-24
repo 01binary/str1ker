@@ -511,7 +511,7 @@
     <transmission name="trans_base">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="base">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="base_motor">
             <mechanicalReduction>1</mechanicalReduction>
@@ -519,8 +519,8 @@
     </transmission>
     <transmission name="trans_shoulder">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="upperarm_actuator">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <joint name="shoulder">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="shoulder_motor">
             <mechanicalReduction>1</mechanicalReduction>
@@ -528,8 +528,8 @@
     </transmission>
     <transmission name="trans_elbow">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="forearm_actuator">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <joint name="elbow">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="elbow_motor">
             <mechanicalReduction>1</mechanicalReduction>
@@ -539,7 +539,7 @@
     <transmission name="trans_solenoid">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="solenoid">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="solenoid">
             <mechanicalReduction>1</mechanicalReduction>

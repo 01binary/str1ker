@@ -1,11 +1,14 @@
 float32 basePosition
 float32 baseVelocity
+float32 baseCurrent
 uint8 baseStalled
 
 float32 shoulderPosition
 float32 shoulderVelocity
+float32 shoulderCurrent
 uint8 shoulderStalled
 
 float32 elbowPosition
 float32 elbowVelocity
+float32 elbowCurrent
 uint8 elbowStalled

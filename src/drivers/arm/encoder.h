@@ -21,6 +21,7 @@
 #include <SPI.h>
 #include <QuadratureEncoder.h>
 #include <ros.h>
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Classes
@@ -30,10 +31,11 @@ class Encoder
 {
 public:
   virtual float read() = 0;
+  virtual int raw() = 0;
   virtual void loadSettings(ros::NodeHandle& node, const char* group) = 0;
 };
 
-class Potentiometer: Encoder
+class Potentiometer: public Encoder
 {
 public:
   static const unsigned int MAX = 0b1111111111;
@@ -46,6 +48,7 @@ public:
   float scaleMin;
   float scaleMax;
   bool invert;
+  int reading;
 
 public:
   Potentiometer():
@@ -54,7 +57,8 @@ public:
     normMax(MAX),
     scaleMin(0.0),
     scaleMax(1.0),
-    invert(false)
+    invert(false),
+    reading(0)
   {
   }
 
@@ -78,17 +82,17 @@ public:
 
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    node.getParam((String("~") + group + "/normMin").c_str(), &normMin);
-    node.getParam((String("~") + group + "/normMax").c_str(), &normMax);
-    node.getParam((String("~") + group + "/scaleMin").c_str(), &scaleMin);
-    node.getParam((String("~") + group + "/scaleMax").c_str(), &scaleMax);
-    node.getParam((String("~") + group + "/invert").c_str(), &invert);
+    loadParam(node, group, "normMin", normMin);
+    loadParam(node, group, "normMax", normMax);
+    loadParam(node, group, "scaleMin", scaleMin);
+    loadParam(node, group, "scaleMax", scaleMax);
+    loadBoolParam(node, group, "invert", invert);
   }
 
   float read()
   {
     // Convert
-    int reading = analogRead(adcPin);
+    reading = analogRead(adcPin);
 
     // Normalize
     float norm = float(reading - normMin) / float(normMax - normMin);
@@ -102,6 +106,28 @@ public:
     // Scale
     return norm * (scaleMax - scaleMin) + scaleMin;
   }
+
+  int raw()
+  {
+    return reading;
+  }
+
+  void debug(ros::NodeHandle& node, const char* group)
+  {
+    char buffer[256] = {0};
+    char scaleMin_s[16], scaleMax_s[16];
+
+    dtostrf(scaleMin, 0, 4, scaleMin_s);
+    dtostrf(scaleMax, 0, 4, scaleMax_s);
+
+    sprintf(
+      buffer,
+      "%s: normMin=%d normMax=%d scaleMin=%s scaleMax=%s%s",
+      group, normMin, normMax, scaleMin_s, scaleMax_s, invert ? " invert" : ""
+    );
+
+    node.loginfo(buffer);
+  }
 };
 
 // AS5045 (SPI)
@@ -113,10 +139,21 @@ public:
 // MISO (white)
 // MOSI (orange)
 
-class AS5045Encoder: Encoder
+union AS5045Reading
+{
+  struct
+  {
+    uint16_t status   : 4;
+    uint16_t position : 12;
+  };
+
+  uint16_t data;
+};
+
+class AS5045Encoder: public Encoder
 {
 public:
-  static const unsigned int MAX = 0b111111111111;
+  static const unsigned int MAX = 4096;
 
 public:
   int csPin;
@@ -126,6 +163,7 @@ public:
   float scaleMax;
   bool invert;
   bool initialized;
+  AS5045Reading reading;
 
 public:
   AS5045Encoder():
@@ -165,6 +203,7 @@ public:
     scaleMax = scaledMax;
     invert = invertReadings;
     initialized = true;
+    reading.position = 0;
 
     SPI.begin();
 
@@ -174,28 +213,17 @@ public:
 
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    node.getParam((String("~") + group + "/normMin").c_str(), &normMin);
-    node.getParam((String("~") + group + "/normMax").c_str(), &normMax);
-    node.getParam((String("~") + group + "/scaleMin").c_str(), &scaleMin);
-    node.getParam((String("~") + group + "/scaleMax").c_str(), &scaleMax);
-    node.getParam((String("~") + group + "/invert").c_str(), &invert);
-
-    char buffer[100] = {0};
-
-    sprintf(
-      buffer,
-      "%s encoder: normMin=%d normMax=%d scaleMin=%f scaleMax=%f invert=%d",
-      group, normMin, normMax, scaleMin, scaleMax, invert
-    );
-
-    node.loginfo(buffer);
+    loadParam(node, group, "normMin", normMin);
+    loadParam(node, group, "normMax", normMax);
+    loadParam(node, group, "scaleMin", scaleMin);
+    loadParam(node, group, "scaleMax", scaleMax);
+    loadBoolParam(node, group, "invert", invert);
   }
 
   float read()
   {
     // Select
     digitalWrite(csPin, LOW);
-    delayMicroseconds(1);
 
     // Read
     SPI.beginTransaction(SPISettings(
@@ -204,19 +232,16 @@ public:
       SPI_MODE0
     ));
 
-    unsigned int raw = SPI.transfer16(0);
+    reading.data = SPI.transfer16(0);
 
     SPI.endTransaction();
 
     // Deselect
     digitalWrite(csPin, HIGH);
 
-    // Convert
-    unsigned int reading = (raw >> 3) & 0x1FFF;
-
     // Normalize
     float norm = constrain(
-      float(reading - normMin) / float(normMax - normMin), 0.0, 1.0);
+      float(reading.position - normMin) / float(normMax - normMin), 0.0, 1.0);
 
     // Invert
     if (invert)
@@ -227,80 +252,26 @@ public:
     // Scale
     return norm * (scaleMax - scaleMin) + scaleMin;
   }
-};
 
-class QuadratureEncoder
-{
-public:
-  Encoders* pQuadrature;
-  bool invert;
-
-  int count;
-  int lastCount;
-
-public:
-  QuadratureEncoder():
-    pQuadrature(nullptr),
-    invert(false),
-    count(0),
-    lastCount(0)
+  int raw()
   {
+    return reading.position;
   }
 
-public:
-  void initialize(int a, int b, bool invertCount = false)
+  void debug(ros::NodeHandle& node, const char* group)
   {
-    delete pQuadrature;
-    pQuadrature = new Encoders(a, b);
+    char buffer[256] = {0};
+    char scaleMin_s[16], scaleMax_s[16];
 
-    invert = invertCount;
-    count = 0;
-    lastCount = 0;
-  }
+    dtostrf(scaleMin, 0, 4, scaleMin_s);
+    dtostrf(scaleMax, 0, 4, scaleMax_s);
 
-  void loadSettings(ros::NodeHandle& node, const char* group)
-  {
-    node.getParam((String("~") + group + "/invert").c_str(), &invert);
-  }
+    sprintf(
+      buffer,
+      "%s: normMin=%d normMax=%d scaleMin=%s scaleMax=%s%s",
+      group, normMin, normMax, scaleMin_s, scaleMax_s, invert ? " invert" : ""
+    );
 
-  int read()
-  {
-    count = pQuadrature
-      ? pQuadrature->getEncoderCount()
-      : 0;
-
-    int diff = count - lastCount;
-    lastCount = count;
-
-    return diff;
-  }
-};
-
-class FusionEncoder: public Encoder
-{
-public:
-  AS5045Encoder absolute;
-  QuadratureEncoder quadrature;
-
-public:
-  void initialize(
-    int cs,
-    int a,
-    int b)
-  {
-    absolute.initialize(cs);
-    quadrature.initialize(a, b);
-  }
-
-  float read()
-  {
-    // TODO: fuse measurements
-    return absolute.read();
-  }
-
-  void loadSettings(ros::NodeHandle& node, const char* group)
-  {
-    absolute.loadSettings(node, group);
-    quadrature.loadSettings(node, group);
+    node.loginfo(buffer);
   }
 };

@@ -20,6 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include <ros.h>
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Classes
@@ -36,23 +37,27 @@ public:
   int rpwmPin;
   int isPin;
 
-  float pwmMin;
-  float pwmMax;
+  int pwmMin;
+  int pwmMax;
   float stallThreshold;
   bool invert;
+  bool stopBeforeReverse;
 
   float velocity;
+  float current;
 
 public:
   Motor():
     lpwmPin(0),
     rpwmPin(0),
     isPin(0),
-    pwmMin(0.0),
-    pwmMax(1.0),
+    pwmMin(0),
+    pwmMax(PWM_MAX),
     invert(false),
+    stopBeforeReverse(false),
     stallThreshold(1.0),
-    velocity(0.0)
+    velocity(0.0),
+    current(0.0)
   {
   }
 
@@ -61,8 +66,8 @@ public:
     int lpwm,
     int rpwm,
     int is,
-    float min = 0.0,
-    float max = 1.0,
+    int min = 0,
+    int max = PWM_MAX,
     bool invertCommand = false,
     float stallCurrentThreshold = 1.0)
   {
@@ -72,8 +77,10 @@ public:
     pwmMin = min;
     pwmMax = max;
     invert = invertCommand;
+    stopBeforeReverse = false;
     stallThreshold = stallCurrentThreshold;
     velocity = 0.0;
+    current = 0.0;
 
     pinMode(lpwmPin, OUTPUT);
     pinMode(rpwmPin, OUTPUT);
@@ -81,27 +88,57 @@ public:
 
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
-    node.getParam((String("~") + group + "/pwmMin").c_str(), &pwmMin);
-    node.getParam((String("~") + group + "/pwmMax").c_str(), &pwmMax);
-    node.getParam((String("~") + group + "/stallThreshold").c_str(), &stallThreshold);
-    node.getParam((String("~") + group + "/invert").c_str(), &invert);
+    loadParam(node, group, "pwmMin", pwmMin);
+    loadParam(node, group, "pwmMax", pwmMax);
+    loadParam(node, group, "stallThreshold", stallThreshold);
+    loadBoolParam(node, group, "stopBeforeReverse", stopBeforeReverse);
 
-    char buffer[100] = {0};
+    if (pwmMin < 0 || pwmMin > int(PWM_MAX))
+    {
+      char buffer[100] = {0};
+      snprintf(buffer, sizeof(buffer), "%s/pwmMin out of range [0..%u]: %d",
+        group, PWM_MAX, pwmMin);
+      node.logwarn(buffer);
+    }
 
-    sprintf(buffer, "%s motor: pwmMin=%d pwmMax=%d stallThreshold=%d invert=%d",
-      group, pwmMin, pwmMax, stallThreshold, invert);
+    if (pwmMax < 0 || pwmMax > int(PWM_MAX))
+    {
+      char buffer[100] = {0};
+      snprintf(buffer, sizeof(buffer), "%s/pwmMax out of range [0..%u]: %d",
+        group, PWM_MAX, pwmMax);
+      node.logwarn(buffer);
+    }
 
-    node.loginfo(buffer);
+    if (pwmMin > pwmMax)
+    {
+      char buffer[100] = {0};
+      snprintf(buffer, sizeof(buffer), "%s has pwmMin > pwmMax (%d > %d)",
+        group, pwmMin, pwmMax);
+      node.logwarn(buffer);
+    }
+
+    if (stallThreshold < 0.0f || stallThreshold > 1.0f)
+    {
+      char buffer[100] = {0};
+      char threshold_s[16];
+      dtostrf(stallThreshold, 0, 4, threshold_s);
+      snprintf(buffer, sizeof(buffer), "%s/stallThreshold out of range [0..1]: %s",
+        group, threshold_s);
+      node.logwarn(buffer);
+    }
+
+    loadBoolParam(node, group, "invert", invert);
   }
 
   float read()
   {
-    return float(analogRead(isPin)) / float(CURRENT_MAX);
+    current = float(analogRead(isPin)) / float(CURRENT_MAX);
+    return current;
   }
 
   void write(float command)
   {
-    float speed = abs(command);
+    float speed = constrain(abs(command), 0.0f, 1.0f);
     float direction = command >= 0 ? 1 : -1;
 
     if (invert)
@@ -109,29 +146,61 @@ public:
       direction *= -1;
     }
 
-    if (speed != 0)
+    int pwm = int(speed * float(PWM_MAX));
+
+    if (pwm != 0)
     {
-      if (speed < pwmMin)
+      if (pwm < pwmMin)
       {
-        speed = pwmMin;
+        pwm = pwmMin;
       }
-      else if (speed > pwmMax)
+      else if (pwm > pwmMax)
       {
-        speed = pwmMax;
+        pwm = pwmMax;
       }
     }
 
-    float nextCommand = direction * speed;
+    float limitedSpeed = float(pwm) / float(PWM_MAX);
+    float nextCommand = direction * limitedSpeed;
+
+    bool isDirectionSwitch =
+      (velocity > 0.0f && nextCommand < 0.0f) ||
+      (velocity < 0.0f && nextCommand > 0.0f);
+
+    if (stopBeforeReverse && isDirectionSwitch)
+    {
+      analogWrite(lpwmPin, 0);
+      analogWrite(rpwmPin, 0);
+      velocity = 0.0f;
+      return;
+    }
 
     if (nextCommand != velocity)
     {
-      int lpwm = direction < 0 ? 0 : int(speed * float(PWM_MAX));
-      int rpwm = direction > 0 ? 0 : int(speed * float(PWM_MAX));
+      int lpwm = direction < 0 ? 0 : pwm;
+      int rpwm = direction > 0 ? 0 : pwm;
 
       analogWrite(lpwmPin, lpwm);
       analogWrite(rpwmPin, rpwm);
 
-      velocity = nextCommand;
+      velocity = direction * limitedSpeed;
     }
+  }
+
+  void debug(ros::NodeHandle& node, const char* group)
+  {
+    char buffer[256] = {0};
+    char thresh_s[16], current_s[16];
+
+    dtostrf(stallThreshold, 0, 4, thresh_s);
+    dtostrf(current, 0, 4, current_s);
+
+    snprintf(buffer, sizeof(buffer),
+      "%s: pwmMin=%d pwmMax=%d stallThreshold=%s current=%s%s%s",
+      group, pwmMin, pwmMax, thresh_s, current_s,
+      invert ? " invert" : "",
+      stopBeforeReverse ? " stopBeforeReverse" : "");
+
+    node.loginfo(buffer);
   }
 };
