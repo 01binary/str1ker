@@ -40,6 +40,8 @@ The arms were cast out of Aluminum 356 in the metal foundry at [Ctrl^H Hackerspa
 
 Tube frame chassis welding by [skorndaap](https://www.instagram.com/skorndaap/).
 
+![aframem](./readme/frame.png)
+
 The CNC, sheet metal, tube frame, and 3D-printed parts were ordered from [Xometry](https://www.xometry.com/) online service.
 
 ![cnc](./readme/cnc.png)
