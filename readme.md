@@ -171,7 +171,7 @@ sudo apt-get install ros-${ROS_DISTRO}-rosserial
 rosrun rosserial_arduino make_libraries.py ~/Arduino/libraries
 ```
 
-> If you installed Arduino IDE as a *snap* plugin, you could also try looking in `~/snap/arduino`.
+> If you installed Arduino IDE as a *snap* plugin, Arduino libraries are likely in `~/snap/arduino` (the exact location is specific to your system).
 
 Compile and upload the ROS node. The default launch configuration in `robot.launch` will connect to `/dev/ttyACM0` automatically.
 
