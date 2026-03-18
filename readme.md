@@ -82,15 +82,7 @@ Teleoperation and simulation requires 3D visualization software like [RViz](http
 
 Follow the [official guide](https://wiki.ros.org/noetic/Installation/Ubuntu) to install ROS Noetic and [configure the ROS environment](https://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment).
 
-Configure source control:
-
-```
-git config --global user.name <your username>
-git config --global user.email <your email>
-git config --global credential.helper store
-```
-
-Clone the projects (when asked for password, paste your [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)):
+Clone the projects:
 
 ```
 mkdir -p ~/catkin_ws/src
@@ -108,7 +100,7 @@ git sparse-checkout set .vscode src config launch description msg
 
 Follow the [official guide](https://moveit.ai/install/source/) to build MoveIt from source using `catkin_ws` as the workspace name instead of `moveit_ws`.
 
-Build Gazebo plugins from source:
+Prepare Gazebo plugins to be built from source:
 
 ```
 cd ~/catkin_ws/src
