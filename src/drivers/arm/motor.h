@@ -29,7 +29,7 @@
 class Motor
 {
 public:
-  static const unsigned float CURRENT_MAX = 1023.0f;
+  static const float CURRENT_MAX = 1023.0f;
   static const unsigned int PWM_MAX = 255;
   static const unsigned int PWM_FREQ = 20000;
 
