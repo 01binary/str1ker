@@ -72,7 +72,7 @@ Pre-made components sourced from [GoBilda](https://www.gobilda.com/), [Pololu](h
 
 ## System Requirements
 
-The high-level controllers (Ubuntu 20.04/ROS Noetic) can run on any [mini PC](https://www.amazon.com/s?k=mini+pc), [NUC](https://www.amazon.com/s?k=NUC), a low-end SBC like [Raspberry Pi](https://www.amazon.com/Raspberry-Model-2019-Quad-Bluetooth/dp/B07TD43PDZ/) or a high-end SBC like [Latte Panda 3 Delta](https://www.amazon.com/LattePanda-864-Pocket-Sized-Windows-Single-Computer/dp/B0C6TCP3MN).
+The high-level controllers (Ubuntu 20.04/ROS Noetic) can run on any [mini PC](https://www.amazon.com/s?k=mini+pc), [NUC](https://www.amazon.com/s?k=NUC), a low-end Single Board Computer (SBC) like [Raspberry Pi](https://www.amazon.com/Raspberry-Model-2019-Quad-Bluetooth/dp/B07TD43PDZ/) or a high-end SBC like [Latte Panda 3 Delta](https://www.amazon.com/LattePanda-864-Pocket-Sized-Windows-Single-Computer/dp/B0C6TCP3MN).
 
 The low-level serial nodes that run motors and sensors were designed for Arduino Mega, and are currently being ported to [Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html) because its more powerful specs make it a better choice for robotics.
 
