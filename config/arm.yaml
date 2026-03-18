@@ -7,6 +7,7 @@ base/controller/Kd: 0.01
 base/controller/iMin: -1.0
 base/controller/iMax: 1.0
 base/controller/tolerance: 0.2
+base/motor/enabled: 1
 base/motor/pwmMin: 65
 base/motor/pwmMax: 128
 base/motor/stallThreshold: 0.2454
@@ -27,6 +28,7 @@ shoulder/controller/Kd: 0.01
 shoulder/controller/iMin: -1.0
 shoulder/controller/iMax: 1.0
 shoulder/controller/tolerance: 0.1
+shoulder/motor/enabled: 1
 shoulder/motor/pwmMin: 32
 shoulder/motor/pwmMax: 255
 shoulder/motor/stallThreshold: 0.2493
@@ -45,6 +47,7 @@ elbow/controller/Kd: 0.01
 elbow/controller/iMin: -1.0
 elbow/controller/iMax: 1.0
 elbow/controller/tolerance: 0.1
+elbow/motor/enabled: 1
 elbow/motor/pwmMin: 200
 elbow/motor/pwmMax: 255
 elbow/motor/stallThreshold: 0.2493

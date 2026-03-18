@@ -12,3 +12,6 @@ float32 elbowPosition
 float32 elbowVelocity
 float32 elbowCurrent
 uint8 elbowStalled
+
+float32 voltage
+float32 current

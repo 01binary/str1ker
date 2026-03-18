@@ -7,76 +7,60 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- solenoid.h
- Solenoid Driver
- Copyright (C) 2025 Valeriy Novytskyy
+ meter.h
+ Voltage/Current Metering
+ Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
 
-#pragma once
-
 /*----------------------------------------------------------*\
-| Classes
+| Includes
 \*----------------------------------------------------------*/
 
-class Solenoid
+#include <Adafruit_INA260.h>
+
+/*----------------------------------------------------------*\
+| Constants
+\*----------------------------------------------------------*/
+
+// Multiplier to convert mA to A
+const float MA_TO_A = 0.001;
+
+// Multiplier to convert mV to V
+const float MV_TO_V = 0.001;
+
+/*----------------------------------------------------------*\
+| Variables
+\*----------------------------------------------------------*/
+
+Adafruit_INA260 ina260 = Adafruit_INA260();
+bool enableVoltageCurrent = false;
+
+/*----------------------------------------------------------*\
+| Functions
+\*----------------------------------------------------------*/
+
+void initializeVoltageCurrentMeter()
 {
-public:
-  int triggerPin;
-  uint32_t lastTriggered;
-  uint32_t holdMs;
-  bool active;
+  enableVoltageCurrent = ina260.begin();
+}
 
-public:
-  Solenoid():
-    triggerPin(0),
-    lastTriggered(0),
-    holdMs(0),
-    active(false)
+float measureVoltage()
+{
+  if (!enableVoltageCurrent)
   {
+    return 0.0;
   }
 
-public:
-  void initialize(int trigger)
-  {
-    triggerPin = trigger;
-    active = false;
-    holdMs = 0;
-    lastTriggered = 0;
+  return ina260.readBusVoltage() * MV_TO_V;
+}
 
-    pinMode(triggerPin, OUTPUT);
-    digitalWrite(triggerPin, LOW);
+float measureCurrent()
+{
+  if (!enableVoltageCurrent)
+  {
+    return 0.0;
   }
 
-  void write(float holdTime)
-  {
-    if (holdTime <= 0.0f)
-    {
-      digitalWrite(triggerPin, LOW);
-      active = false;
-      holdMs = 0;
-      return;
-    }
-
-    holdMs = uint32_t(holdTime * 1000.0f);
-    lastTriggered = millis();
-    active = true;
-    digitalWrite(triggerPin, HIGH);
-  }
-
-  void update()
-  {
-    if (!active)
-    {
-      return;
-    }
-
-    uint32_t now = millis();
-
-    if ((now - lastTriggered) >= holdMs)
-    {
-      digitalWrite(triggerPin, LOW);
-      active = false;
-    }
-  }
-};
+  return ina260.readCurrent() * MA_TO_A;
+}

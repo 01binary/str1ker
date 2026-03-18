@@ -23,11 +23,12 @@
 #include <str1ker/PositionCommand.h>
 #include <str1ker/GripperCommand.h>
 #include <str1ker/StateFeedback.h>
-#include <str1ker/RawJointSensors.h>
+#include <str1ker/RawStateFeedback.h>
 #include "actuator.h"
 #include "motor.h"
 #include "encoder.h"
 #include "solenoid.h"
+#include "meter.h"
 #include "params.h"
 
 /*----------------------------------------------------------*\
@@ -38,24 +39,31 @@ const int RATE_HZ = 50;                       // Default real time update rate
 const int STARTUP_DELAY = 3000;               // Prevent "published too soon" errors
 const float MILLISECONDS_TO_SECONDS = 0.001f; // Milliseconds to seconds conversion factor
 
-const int BASE_LPWM = 11;                     // Base motor left PWM pin
-const int BASE_RPWM = 3;                      // Base motor right PWM pin
-const int BASE_SENSE = A2;                    // Base motor current sense pin
-const int BASE_A = 18;                        // Base quadrature encoder A pin
-const int BASE_B = 19;                        // Base quadrature encoder B pin
-const int BASE_CS = 53;                       // Base absolute encoder chip select pin
+const int BASE_EN = 0;                        // Base motor driver Enabled pin
+const int BASE_RPWM = 1;                      // Base motor driver right PWM pin
+const int BASE_LPWM = 3;                      // Base motor driver left PWM pin
+const int BASE_SENSE = A2;                    // Base motor driver current sense pin
+const int BASE_A = 2;                         // Base quadrature encoder A pin
+const int BASE_B = 5;                         // Base quadrature encoder B pin
+const int BASE_CS = 10;                       // Base absolute encoder chip select pin
+const int BASE_SCK = 13;                      // Base absolute encoder clock pin
+const int BASE_MISO = 12;                     // Base absolute encoder data pin
+const int BASE_STATUS = 9;                    // Base absolute encoder status pin
 
-const int SHOULDER_LPWM = 6;                  // Shoulder motor left PWM pin
-const int SHOULDER_RPWM = 5;                  // Shoulder motor right PWM pin
-const int SHOULDER_SENSE = A3;                // Shoulder motor current sense pin
-const int SHOULDER_POTENTIOMETER = A0;        // Shoulder motor potentiometer pin
+const int SHOULDER_EN = 6;                    // Shoulder motor driver Enabled pin
+const int SHOULDER_RPWM = 7;                  // Shoulder motor driver right PWM pin
+const int SHOULDER_LPWM = 8;                  // Shoulder motor driver left PWM pin
+const int SHOULDER_SENSE = 4;                 // Shoulder motor driver current sense pin
+const int SHOULDER_POTENTIOMETER = A0;        // Shoulder potentiometer pin
 
-const int ELBOW_LPWM = 10;                    // Elbow motor left PWM pin
-const int ELBOW_RPWM = 9;                     // Elbow motor right PWM pin
-const int ELBOW_SENSE = A4;                   // Elbow motor current sense pin
+const int ELBOW_EN = 21;                      // Elbow motor driver Enabled pin
+const int ELBOW_RPWM = 22;                    // Elbow motor right PWM pin
+const int ELBOW_LPWM = 23;                    // Elbow motor left PWM pin
+const int ELBOW_SENSE = 20;                   // Elbow motor current sense pin
 const int ELBOW_POTENTIOMETER = A1;           // Elbow motor potentiometer pin
 
-const int GRIPPER_PIN = 13;                   // Gripper solenoid pin
+const int GRIPPER_PIN = 17;                   // Gripper solenoid pin
+
 const char PARAM_ROOT[] = "";                 // Node private namespace root
 const char VELOCITY_TOPIC[] = "arm/velocity"; // Velocity command topic
 const char POSITION_TOPIC[] = "arm/position"; // Position command topic
@@ -92,13 +100,12 @@ void rawFeedback();
 
 ros::NodeHandle node;
 str1ker::StateFeedback stateFeedbackMsg;
-str1ker::RawJointSensors rawFeedbackMsg;
+str1ker::RawStateFeedback rawFeedbackMsg;
 ros::Publisher statePub(STATE_TOPIC, &stateFeedbackMsg);
 ros::Publisher rawPub(RAW_TOPIC, &rawFeedbackMsg);
 VelocitySubscriber velocitySub(VELOCITY_TOPIC, velocityCommand);
 PositionSubscriber positionSub(POSITION_TOPIC, positionCommand);
 GripperSubscriber gripperSub(GRIPPER_TOPIC, gripperCommand);
-
 Actuator<AS5045Encoder, Motor> baseJoint(node, PARAM_ROOT, "base");
 Actuator<Potentiometer, Motor> shoulderJoint(node, PARAM_ROOT, "shoulder");
 Actuator<Potentiometer, Motor> elbowJoint(node, PARAM_ROOT, "elbow");
@@ -113,6 +120,7 @@ void setup()
 {
   initializeRos();
   initializeJoints();
+  initializeVoltageCurrentMeter();
   loadSettings();
   initializeRosInterface();
 
@@ -196,13 +204,13 @@ void initializeRosInterface()
 
 void initializeJoints()
 {
-  baseJoint.motor.initialize(BASE_LPWM, BASE_RPWM, BASE_SENSE);
-  baseJoint.encoder.initialize(BASE_CS, BASE_A, BASE_B);
+  baseJoint.motor.initialize(BASE_EN, BASE_LPWM, BASE_RPWM, BASE_SENSE);
+  baseJoint.encoder.initialize(BASE_STATUS, BASE_CS);
 
-  shoulderJoint.motor.initialize(SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_SENSE);
+  shoulderJoint.motor.initialize(SHOULDER_EN, SHOULDER_LPWM, SHOULDER_RPWM, SHOULDER_SENSE);
   shoulderJoint.encoder.initialize(SHOULDER_POTENTIOMETER);
 
-  elbowJoint.motor.initialize(ELBOW_LPWM, ELBOW_RPWM, ELBOW_SENSE);
+  elbowJoint.motor.initialize(ELBOW_EN, ELBOW_LPWM, ELBOW_RPWM, ELBOW_SENSE);
   elbowJoint.encoder.initialize(ELBOW_POTENTIOMETER);
 
   gripper.initialize(GRIPPER_PIN);
@@ -274,6 +282,9 @@ void stateFeedback()
   stateFeedbackMsg.elbowCurrent = elbowJoint.getCurrent();
   stateFeedbackMsg.elbowStalled = elbowJoint.isStalled();
 
+  stateFeedbackMsg.voltage = measureVoltage();
+  stateFeedbackMsg.current = measureCurrent();
+
   statePub.publish(&stateFeedbackMsg);
 }
 
@@ -282,6 +293,10 @@ void rawFeedback()
   rawFeedbackMsg.base = baseJoint.encoder.raw();
   rawFeedbackMsg.shoulder = shoulderJoint.encoder.raw();
   rawFeedbackMsg.elbow = elbowJoint.encoder.raw();
+
+  rawFeedbackMsg.baseI = baseJoint.motor.readRaw();
+  rawFeedbackMsg.shoulderI = shoulderJoint.motor.readRaw();
+  rawFeedbackMsg.elbowI = elbowJoint.motor.readRaw();
 
   rawPub.publish(&rawFeedbackMsg);
 }
