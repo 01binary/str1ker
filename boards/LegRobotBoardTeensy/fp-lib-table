@@ -15,4 +15,6 @@
   (lib (name "Teensy40")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Teensy")(options "")(descr ""))
   (lib (name "SMMBT3904LT1G")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Transistor")(options "")(descr ""))
   (lib (name "PCA9685PW,118")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/PWMDriver")(options "")(descr ""))
+  (lib (name "BNO055")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/BNO055.pretty")(options "")(descr ""))
+  (lib (name "CC0603KRX7R9BB104")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Capacitor100nF")(options "")(descr ""))
 )

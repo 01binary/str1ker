@@ -69,6 +69,11 @@ The [wheel encoders](../LegEncoderBoard/readme.md) are connected to each of the 
 | `D13`          | Actuator 2 Driver `EN`         |
 | `D20`          | Actuator 3 Driver `EN`         |
 | `D21`          | Actuator 4 Driver `EN`         |
+| `D22`          | Wheel 1 Encoder `Index`        |
+| `D23`          | Wheel 2 Encoder `Index`        |
+| `D24`          | Wheel 3 Encoder `Index`        |
+| `D25`          | Wheel 4 Encoder `Index`        |
+| `D26`          | BNO055 `RST`                   |
 | `PCA9685 CH0`  | Wheel 1 Driver `LPWM`          |
 | `PCA9685 CH1`  | Wheel 1 Driver `RPWM`          |
 | `PCA9685 CH2`  | Wheel 2 Driver `LPWM`          |
