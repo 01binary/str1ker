@@ -6,6 +6,7 @@ A board that controls the mobile platform with four mecanum wheels:
 + Leg Actuator Potentiometers
 + Leg Wheels
 + Leg Wheel Encoders
++ 9-DOF IMU
 
 ## Modules
 
@@ -14,6 +15,7 @@ The following components are placed onto the board as modules:
 |Module|Function|
 |-|-|
 |[Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html)|[ROS](https://www.ros.org/) Node|
+|[Adafruit 9-DOF IMU](https://www.adafruit.com/product/2472)|[TF2](https://wiki.ros.org/tf2) Transform|
 
 ## Devices
 

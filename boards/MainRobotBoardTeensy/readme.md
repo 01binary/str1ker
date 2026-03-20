@@ -3,10 +3,9 @@
 A board that controls robot head and body.
 
 + Head Pan/Tilt
-+ Mouth Movement
 + Torso Pan/Tilt
++ Mouth Movement
 + Voltage and Current Sensing
-+ 9-DOF IMU
 
 ## Modules
 
@@ -15,7 +14,6 @@ The following components are placed onto the board as modules:
 |Module|Function|
 |-|-|
 |[Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html)|[ROS](https://www.ros.org/) Node|
-|[Adafruit 9-DOF IMU](https://www.adafruit.com/product/2472)|[TF2](https://wiki.ros.org/tf2) Transform|
 |[INA260 Voltage Sensor](https://learn.adafruit.com/adafruit-ina260-current-voltage-power-sensor-breakout)|Bus Voltage Sensing|
 |[ACS37220 Current Sensor](https://www.pololu.com/product/5295)|Bus Current Sensing|
 
@@ -25,27 +23,27 @@ The following external components are connected to the board via JST-XH locking 
 
 |Device|Function|
 |-|-|
-|[TB6600HG Stepper Motor Driver](https://www.amazon.com/dp/B01N6AIEQT)|Head Pan|
-|4x [Mini IBT Motor Driver](https://www.aliexpress.us/item/2251832603816751.html)|Head Tilt (2), Torso Tilt (2)|
+|[TB6600HG Stepper Motor Driver](https://www.amazon.com/dp/B01N6AIEQT)|Head Pan Motor|
+|4x [Mini IBT Motor Driver](https://www.aliexpress.us/item/2251832603816751.html)|2x Head Tilt Motor Driver, 2x Torso Tilt Motor Driver|
+|[Lamprey 2 Absolute Encoder](https://andymark.com/products/lamprey2-absolute-encoder)|Head Pan Encoder|
 |[Lamprey 2 Absolute Encoder 4 inch](https://andymark.com/products/lamprey2-4-inch-absolute-encoder)|Torso Pan Encoder|
-|2x [NP24HS Hollow Shaft Potentiometer](https://p3america.com/np24hs-series/)|Head Tilt Encoder, Torso Tilt Encoder|
-|[AS5045 Hall Effect Encoder](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045-adapterboard/2339623)|Head Pan Encoder|
+|3x Potentiometers|1x Head Tilt Encoder, 2x Torso Tilt Encoders|
 |[PerfectPass 56Kg Servo](https://www.amazon.com/dp/B09Y4NZJBJ)|Mouth Movement|
 |[CPM-MCVC-3441S-RLN](https://teknic.com/model-info/CPM-MCVC-3441S-RLN/?model_voltage=75VDC)|Torso Pan Motor Driver
 
 ## Buses
 
-| Bus   | Devices              |
-| ----- | -------------------- |
-| `I2C` | IMU, INA260          |
-| `SPI` | AS5045, Lamprey      |
+| Bus   | Devices                       |
+| ----- | ----------------------------- |
+| `I2C` | INA260 voltage/current sensor |
+| `SPI` | Lamprey encoders              |
 
 ## Pins
 
 | Pin   | Function                                                   |
 | ----- | ---------------------------------------------------------- |
-| `D19` | I2C `SCL` (9-DOF IMU, INA260)                              |
-| `D18` | I2C `SDA` (9-DOF IMU, INA260)                              |
+| `D19` | I2C `SCL` (INA260)                                         |
+| `D18` | I2C `SDA` (INA260)                                         |
 | `A0`  | `ACS37220` Current Sensor `VOUT`                           |
 | `D2`  | `CPM-MCVC-3441S-RLN` Torso Motor `A`                       |
 | `D3`  | `CPM-MCVC-3441S-RLN` Torso Motor `B`                       |
@@ -53,12 +51,13 @@ The following external components are connected to the board via JST-XH locking 
 | `D5`  | `CPM-MCVC-3441S-RLN` Torso Motor `Status`                  |
 | `D7`  | `TB6600` Head Pan Stepper Driver `PUL`                     |
 | `D8`  | `TB6600` Head Pan Stepper Driver `DIR`                     |
-| `D13` | SPI `SCK` (shared: Lamprey, AS5045)                        |
-| `D12` | SPI `MISO` (shared: Lamprey, AS5045)                       |
-| `D0`  | Lamprey `CS`                                               |
-| `D1`  | AS5045 `CS`                                                |
+| `D13` | SPI `SCK` (shared: Lamprey neck & torso)                   |
+| `D12` | SPI `MISO` (shared: Lamprey neck & torso)                  |
+| `D0`  | Lamprey (neck) `CS`                                        |
+| `D1`  | Lamprey (torso) `CS`                                       |
 | `A1`  | Head Tilt Potentiometer `SIG`                              |
-| `A2`  | Torso Tilt Potentiometer `SIG`                             |
+| `A2`  | Torso Tilt Potentiometer 1 `SIG`                           |
+| `A3`  | Torso Tilt Potentiometer 2 `SIG`                           |
 | `D9`  | Head Tilt Drivers `LPWM`                                   |
 | `D10` | Head Tilt Drivers `RPWM`                                   |
 | `D20` | Torso Tilt Drivers `LPWM`                                  |
