@@ -40,29 +40,34 @@ The following external components are connected to the board via JST-XH locking 
 
 ## Pins
 
-| Pin   | Function                                                   |
-| ----- | ---------------------------------------------------------- |
-| `D19` | I2C `SCL` (INA260)                                         |
-| `D18` | I2C `SDA` (INA260)                                         |
-| `A0`  | `ACS37220` Current Sensor `VOUT`                           |
-| `D2`  | `CPM-MCVC-3441S-RLN` Torso Motor `A`                       |
-| `D3`  | `CPM-MCVC-3441S-RLN` Torso Motor `B`                       |
-| `D4`  | `CPM-MCVC-3441S-RLN` Torso Motor `Enable`                  |
-| `D5`  | `CPM-MCVC-3441S-RLN` Torso Motor `Status`                  |
-| `D7`  | `TB6600` Head Pan Stepper Driver `PUL`                     |
-| `D8`  | `TB6600` Head Pan Stepper Driver `DIR`                     |
-| `D13` | SPI `SCK` (shared: Lamprey neck & torso)                   |
-| `D12` | SPI `MISO` (shared: Lamprey neck & torso)                  |
-| `D0`  | Lamprey (neck) `CS`                                        |
-| `D1`  | Lamprey (torso) `CS`                                       |
-| `A1`  | Head Tilt Potentiometer `SIG`                              |
-| `A2`  | Torso Tilt Potentiometer 1 `SIG`                           |
-| `A3`  | Torso Tilt Potentiometer 2 `SIG`                           |
-| `D9`  | Head Tilt Drivers `LPWM`                                   |
-| `D10` | Head Tilt Drivers `RPWM`                                   |
-| `D20` | Torso Tilt Drivers `LPWM`                                  |
-| `D21` | Torso Tilt Drivers `RPWM`                                  |
-| `D6`  | PerfectPass Servo `SIG`                                    |
+| Pin   | Function                                  |
+| ----- | ----------------------------------------- |
+| `D19` | I2C `SCL` (INA260)                        |
+| `D18` | I2C `SDA` (INA260)                        |
+| `A0`  | `ACS37220` Current Sensor `VOUT`          |
+| `D20` | `CPM-MCVC-3441S-RLN` Torso Motor `A`      |
+| `D21` | `CPM-MCVC-3441S-RLN` Torso Motor `B`      |
+| `D7`  | `CPM-MCVC-3441S-RLN` Torso Motor `Enable` |
+| `D8`  | `CPM-MCVC-3441S-RLN` Torso Motor `Status` |
+| `D6`  | `TB6600` Head Pan Stepper Driver `EN`     |
+| `D24` | `TB6600` Head Pan Stepper Driver `PUL`    |
+| `D25` | `TB6600` Head Pan Stepper Driver `DIR`    |
+| `D13` | SPI `SCK` (shared: Lamprey neck & torso)  |
+| `D12` | SPI `MISO` (shared: Lamprey neck & torso) |
+| `D0`  | Lamprey (neck) `CS`                       |
+| `D1`  | Lamprey (torso) `CS`                      |
+| `A1`  | Head Tilt Potentiometer `SIG`             |
+| `A2`  | Torso Tilt Potentiometer 1 `SIG`          |
+| `A3`  | Torso Tilt Potentiometer 2 `SIG`          |
+| `D2`  | Head Pan Motor Driver 1 `LPWM`            |
+| `D3`  | Head Pan Motor Driver 1 `RPWM`            |
+| `D4`  | Head Pan Motor Driver 2 `LPWM`            |
+| `D5`  | Head Pan Motor Driver 2 `RPWM`            |
+| `D9`  | Torso Tilt Motor Driver 1 `LPWM`          |
+| `D10` | Torso Tilt Motor Driver 1 `RPWM`          |
+| `D22` | Torso Tilt Motor Driver 2 `LPWM`          |
+| `D23` | Torso Tilt Motor Driver 2 `RPWM`          |
+| `D26` | PerfectPass Servo `SIG`                   |
 
 ## Bill of Materials
 
