@@ -14,4 +14,6 @@
   (lib (name "150080BS75000")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/LedBlue/150080BS75000.kicad_sym")(options "")(descr ""))
   (lib (name "MMBT3904LT1G")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Transistor/MMBT3904LT1G.kicad_sym")(options "")(descr ""))
   (lib (name "PCA9685PW,118")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/PWMDriver/PCA9685PW,118.kicad_sym")(options "")(descr ""))
+  (lib (name "BNO055")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/BNO055.kicad_sym")(options "")(descr ""))
+  (lib (name "CC0603KRX7R9BB104")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Capacitor100nF/CC0603KRX7R9BB104.kicad_sym")(options "")(descr ""))
 )

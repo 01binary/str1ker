@@ -72,7 +72,7 @@ Pre-made components sourced from [GoBilda](https://www.gobilda.com/), [Pololu](h
 
 ## System Requirements
 
-The high-level controllers (Ubuntu 20.04/ROS Noetic) can run on any [mini PC](https://www.amazon.com/s?k=mini+pc), [NUC](https://www.amazon.com/s?k=NUC), a low-end SBC like [Raspberry Pi](https://www.amazon.com/Raspberry-Model-2019-Quad-Bluetooth/dp/B07TD43PDZ/) or a high-end SBC like [Latte Panda 3 Delta](https://www.amazon.com/LattePanda-864-Pocket-Sized-Windows-Single-Computer/dp/B0C6TCP3MN).
+The high-level controllers (Ubuntu 20.04/ROS Noetic) can run on any [mini PC](https://www.amazon.com/s?k=mini+pc), [NUC](https://www.amazon.com/s?k=NUC), a low-end Single Board Computer (SBC) like [Raspberry Pi](https://www.amazon.com/Raspberry-Model-2019-Quad-Bluetooth/dp/B07TD43PDZ/) or a high-end SBC like [Latte Panda 3 Delta](https://www.amazon.com/LattePanda-864-Pocket-Sized-Windows-Single-Computer/dp/B0C6TCP3MN).
 
 The low-level serial nodes that run motors and sensors were designed for Arduino Mega, and are currently being ported to [Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html) because its more powerful specs make it a better choice for robotics.
 
@@ -82,15 +82,7 @@ Teleoperation and simulation requires 3D visualization software like [RViz](http
 
 Follow the [official guide](https://wiki.ros.org/noetic/Installation/Ubuntu) to install ROS Noetic and [configure the ROS environment](https://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment).
 
-Configure source control:
-
-```
-git config --global user.name <your username>
-git config --global user.email <your email>
-git config --global credential.helper store
-```
-
-Clone the projects (when asked for password, paste your [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)):
+Clone the projects:
 
 ```
 mkdir -p ~/catkin_ws/src
@@ -108,7 +100,7 @@ git sparse-checkout set .vscode src config launch description msg
 
 Follow the [official guide](https://moveit.ai/install/source/) to build MoveIt from source using `catkin_ws` as the workspace name instead of `moveit_ws`.
 
-Build Gazebo plugins from source:
+Prepare Gazebo plugins to be built from source:
 
 ```
 cd ~/catkin_ws/src
@@ -179,7 +171,7 @@ sudo apt-get install ros-${ROS_DISTRO}-rosserial
 rosrun rosserial_arduino make_libraries.py ~/Arduino/libraries
 ```
 
-> If you installed Arduino IDE as a *snap* plugin, you could also try looking in `~/snap/arduino`.
+> If you installed Arduino IDE as a *snap* plugin, Arduino libraries are likely in `~/snap/arduino` (the exact location is specific to your system).
 
 Compile and upload the ROS node. The default launch configuration in `robot.launch` will connect to `/dev/ttyACM0` automatically.
 
@@ -214,13 +206,42 @@ roslaunch str1ker robot.launch
 To launch Carmine with OpenNI2 (recommended on ROS Noetic):
 
 ```
-roslaunch str1ker carmine.launch
+roslaunch str1ker vision.launch
 ```
 
 To use legacy OpenNI instead:
 
 ```
-roslaunch str1ker carmine.launch use_openni2:=false
+roslaunch str1ker vision.launch use_openni2:=false
+```
+
+### Laser Scanner (Hokuyo UTM-30LX)
+
+Install the Hokuyo ROS driver:
+
+```
+sudo apt-get install -y ros-${ROS_DISTRO}-urg-node
+```
+
+The default launch path uses the stable built-in udev symlink under `/dev/serial/by-id`.
+
+If you still want a custom short alias (for example `/dev/str1ker_laser`), create one with:
+
+```
+# Example when Hokuyo appears as /dev/ttyACM0
+./scripts/alias.sh /dev/ttyACM0 str1ker_laser --install
+```
+
+To launch the laser scanner driver:
+
+```
+roslaunch str1ker laserscan.launch
+```
+
+If you want to bypass by-id and use the current kernel device path:
+
+```
+roslaunch str1ker laserscan.launch serial_port:=/dev/ttyACM0
 ```
 
 ### Teleoperation

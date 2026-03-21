@@ -35,7 +35,7 @@ add_message_files(
   PositionCommand.msg
   GripperCommand.msg
   StateFeedback.msg
-  RawJointSensors.msg
+  RawStateFeedback.msg
 )
 
 generate_messages(

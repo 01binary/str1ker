@@ -33,6 +33,7 @@
       "footprint_text",
       "footprint_anchors",
       "ratsnest",
+      "grid",
       "footprints_front",
       "footprints_back",
       "footprint_values",
@@ -58,7 +59,7 @@
     "ssh_key": ""
   },
   "meta": {
-    "filename": "ArmRobotBoardTeensy.kicad_prl",
+    "filename": "LegRobotBoardTeensy.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {
@@ -96,7 +97,7 @@
       103,
       74,
       103,
-      103
+      10
     ],
     "custom_group_rules": [],
     "expanded_rows": [],

@@ -40,11 +40,12 @@ public:
   void initialize(int trigger)
   {
     triggerPin = trigger;
-    pinMode(triggerPin, OUTPUT);
-    digitalWrite(triggerPin, LOW);
     active = false;
     holdMs = 0;
     lastTriggered = 0;
+
+    pinMode(triggerPin, OUTPUT);
+    digitalWrite(triggerPin, LOW);
   }
 
   void write(float holdTime)

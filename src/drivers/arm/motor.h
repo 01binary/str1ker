@@ -29,14 +29,17 @@
 class Motor
 {
 public:
-  static const unsigned int CURRENT_MAX = 0b1111111111;
-  static const unsigned int PWM_MAX = 0b11111111;
+  static const float CURRENT_MAX = 1023.0f;
+  static const unsigned int PWM_MAX = 255;
+  static const unsigned int PWM_FREQ = 20000;
 
 public:
   int lpwmPin;
   int rpwmPin;
   int isPin;
+  int enPin;
 
+  bool enabled;
   int pwmMin;
   int pwmMax;
   float stallThreshold;
@@ -45,12 +48,15 @@ public:
 
   float velocity;
   float current;
+  int rawCurrent;
 
 public:
   Motor():
+    enPin(0),
     lpwmPin(0),
     rpwmPin(0),
     isPin(0),
+    enabled(false),
     pwmMin(0),
     pwmMax(PWM_MAX),
     invert(false),
@@ -63,6 +69,7 @@ public:
 
 public:
   void initialize(
+    int en,
     int lpwm,
     int rpwm,
     int is,
@@ -71,6 +78,7 @@ public:
     bool invertCommand = false,
     float stallCurrentThreshold = 1.0)
   {
+    enPin = en;
     lpwmPin = lpwm;
     rpwmPin = rpwm;
     isPin = is;
@@ -84,14 +92,24 @@ public:
 
     pinMode(lpwmPin, OUTPUT);
     pinMode(rpwmPin, OUTPUT);
+    pinMode(enPin, OUTPUT);
+
+    digitalWrite(lpwmPin, LOW);
+    digitalWrite(rpwmPin, LOW);
+    digitalWrite(enPin, LOW);
+
+    analogWriteFrequency(lpwmPin, PWM_FREQ);
+    analogWriteFrequency(rpwmPin, PWM_FREQ);
   }
 
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
+    loadBoolParam(node, group, "enabled", enabled);
     loadParam(node, group, "pwmMin", pwmMin);
     loadParam(node, group, "pwmMax", pwmMax);
     loadParam(node, group, "stallThreshold", stallThreshold);
     loadBoolParam(node, group, "stopBeforeReverse", stopBeforeReverse);
+    loadBoolParam(node, group, "invert", invert);
 
     if (pwmMin < 0 || pwmMin > int(PWM_MAX))
     {
@@ -127,17 +145,40 @@ public:
       node.logwarn(buffer);
     }
 
-    loadBoolParam(node, group, "invert", invert);
+    if (enabled)
+    {
+      enable();
+    }
+  }
+
+  void enable()
+  {
+    enabled = true;
+    digitalWrite(enPin, HIGH);
+  }
+
+  void disable()
+  {
+    enabled = false;
+    digitalWrite(enPin, LOW);
   }
 
   float read()
   {
-    current = float(analogRead(isPin)) / float(CURRENT_MAX);
+    rawCurrent = analogRead(isPin);
+    current = float(rawCurrent) / CURRENT_MAX;
     return current;
+  }
+
+  int readRaw()
+  {
+    return rawCurrent;
   }
 
   void write(float command)
   {
+    if (!enabled) return;
+
     float speed = constrain(abs(command), 0.0f, 1.0f);
     float direction = command >= 0 ? 1 : -1;
 
@@ -163,11 +204,11 @@ public:
     float limitedSpeed = float(pwm) / float(PWM_MAX);
     float nextCommand = direction * limitedSpeed;
 
-    bool isDirectionSwitch =
+    bool reversedDirection =
       (velocity > 0.0f && nextCommand < 0.0f) ||
       (velocity < 0.0f && nextCommand > 0.0f);
 
-    if (stopBeforeReverse && isDirectionSwitch)
+    if (stopBeforeReverse && reversedDirection)
     {
       analogWrite(lpwmPin, 0);
       analogWrite(rpwmPin, 0);
@@ -196,8 +237,10 @@ public:
     dtostrf(current, 0, 4, current_s);
 
     snprintf(buffer, sizeof(buffer),
-      "%s: pwmMin=%d pwmMax=%d stallThreshold=%s current=%s%s%s",
-      group, pwmMin, pwmMax, thresh_s, current_s,
+      "%s: pwmMin=%d pwmMax=%d %s stallThreshold=%s current=%s%s%s",
+      group, pwmMin, pwmMax,
+      enabled ? "enabled" : "disabled",
+      thresh_s, current_s,
       invert ? " invert" : "",
       stopBeforeReverse ? " stopBeforeReverse" : "");
 

@@ -130,24 +130,23 @@ public:
   }
 };
 
-// AS5045 (SPI)
-// ------------
-// GND (black)
-// 5V (red)
-// SS (green)
-// SCK (yellow)
-// MISO (white)
-// MOSI (orange)
-
 union AS5045Reading
 {
   struct
   {
-    uint16_t status   : 4;
+    uint16_t magInc   : 1;
+    uint16_t lin      : 1;
+    uint16_t cof      : 1;
+    uint16_t ocf      : 1;
     uint16_t position : 12;
   };
 
   uint16_t data;
+
+  bool valid() const
+  {
+    return ocf && !cof;
+  }
 };
 
 class AS5045Encoder: public Encoder
@@ -156,6 +155,7 @@ public:
   static const unsigned int MAX = 4096;
 
 public:
+  int statusPin;
   int csPin;
   int normMin;
   int normMax;
@@ -163,17 +163,23 @@ public:
   float scaleMax;
   bool invert;
   bool initialized;
+  bool valid;
+
+  SPISettings settings;
   AS5045Reading reading;
 
 public:
   AS5045Encoder():
+    statusPin(0),
     csPin(0),
     normMin(0),
     normMax(MAX),
     scaleMin(0.0),
     scaleMax(1.0),
     invert(false),
-    initialized(false)
+    initialized(false),
+    valid(false),
+    settings(1e6, MSBFIRST, SPI_MODE0)
   {
   }
 
@@ -184,6 +190,7 @@ public:
 
 public:
   void initialize(
+    int status,
     int cs,
     int normalizedMin = 0,
     int normalizedMax = MAX,
@@ -196,6 +203,7 @@ public:
       SPI.end();
     }
 
+    statusPin = status;
     csPin = cs;
     normMin = normalizedMin;
     normMax = normalizedMax;
@@ -203,12 +211,15 @@ public:
     scaleMax = scaledMax;
     invert = invertReadings;
     initialized = true;
-    reading.position = 0;
+    reading.data = 0;
 
     SPI.begin();
 
+    pinMode(statusPin, OUTPUT);
     pinMode(csPin, OUTPUT);
+
     digitalWrite(csPin, HIGH);
+    digitalWrite(statusPin, LOW);
   }
 
   void loadSettings(ros::NodeHandle& node, const char* group)
@@ -226,18 +237,26 @@ public:
     digitalWrite(csPin, LOW);
 
     // Read
-    SPI.beginTransaction(SPISettings(
-      1e6,
-      MSBFIRST,
-      SPI_MODE0
-    ));
-
+    SPI.beginTransaction(settings);
     reading.data = SPI.transfer16(0);
-
     SPI.endTransaction();
 
     // Deselect
     digitalWrite(csPin, HIGH);
+
+    // Validate
+    if (!reading.valid())
+    {
+      valid = false;
+      digitalWrite(statusPin, LOW);
+      return invert ? scaleMax : scaleMin;
+    }
+
+    if (!valid)
+    {
+      valid = true;
+      digitalWrite(statusPin, HIGH);
+    }
 
     // Normalize
     float norm = constrain(
