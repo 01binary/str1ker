@@ -1,6 +1,6 @@
 # Main Robot Board
 
-A board that controls robot head and body.
+A board that controls robot head & body and measures battery charge.
 
 + Head Pan/Tilt
 + Torso Pan/Tilt
@@ -40,34 +40,38 @@ The following external components are connected to the board via JST-XH locking 
 
 ## Pins
 
-| Pin   | Function                                  |
-| ----- | ----------------------------------------- |
-| `D19` | I2C `SCL` (INA260)                        |
-| `D18` | I2C `SDA` (INA260)                        |
-| `A0`  | `ACS37220` Current Sensor `VOUT`          |
-| `D20` | `CPM-MCVC-3441S-RLN` Torso Motor `A`      |
-| `D21` | `CPM-MCVC-3441S-RLN` Torso Motor `B`      |
-| `D7`  | `CPM-MCVC-3441S-RLN` Torso Motor `Enable` |
-| `D8`  | `CPM-MCVC-3441S-RLN` Torso Motor `Status` |
-| `D6`  | `TB6600` Head Pan Stepper Driver `EN`     |
-| `D24` | `TB6600` Head Pan Stepper Driver `PUL`    |
-| `D25` | `TB6600` Head Pan Stepper Driver `DIR`    |
-| `D13` | SPI `SCK` (shared: Lamprey neck & torso)  |
-| `D12` | SPI `MISO` (shared: Lamprey neck & torso) |
-| `D0`  | Lamprey (neck) `CS`                       |
-| `D1`  | Lamprey (torso) `CS`                      |
-| `A1`  | Head Tilt Potentiometer `SIG`             |
-| `A2`  | Torso Tilt Potentiometer 1 `SIG`          |
-| `A3`  | Torso Tilt Potentiometer 2 `SIG`          |
-| `D2`  | Head Pan Motor Driver 1 `LPWM`            |
-| `D3`  | Head Pan Motor Driver 1 `RPWM`            |
-| `D4`  | Head Pan Motor Driver 2 `LPWM`            |
-| `D5`  | Head Pan Motor Driver 2 `RPWM`            |
-| `D9`  | Torso Tilt Motor Driver 1 `LPWM`          |
-| `D10` | Torso Tilt Motor Driver 1 `RPWM`          |
-| `D22` | Torso Tilt Motor Driver 2 `LPWM`          |
-| `D23` | Torso Tilt Motor Driver 2 `RPWM`          |
-| `D26` | PerfectPass Servo `SIG`                   |
+| Pin   | Function                                   |
+| ----- | ------------------------------------------ |
+| `D19` | I2C `SCL` (INA260)                         |
+| `D18` | I2C `SDA` (INA260)                         |
+| `A0`  | `ACS37220` Current Sensor `VOUT`           |
+| `D20` | `CPM-MCVC-3441S-RLN` Torso Motor `DIR` (A) |
+| `D21` | `CPM-MCVC-3441S-RLN` Torso Motor `PWM` (B) |
+| `D7`  | `CPM-MCVC-3441S-RLN` Torso Motor `Enable`  |
+| `D8`  | `CPM-MCVC-3441S-RLN` Torso Motor `Status`  |
+| `D6`  | `TB6600` Head Pan Stepper Driver `EN`      |
+| `D24` | `TB6600` Head Pan Stepper Driver `PUL`     |
+| `D25` | `TB6600` Head Pan Stepper Driver `DIR`     |
+| `D13` | SPI `SCK` (shared: Lamprey neck & torso)   |
+| `D12` | SPI `MISO` (shared: Lamprey neck & torso)  |
+| `D0`  | Lamprey (head) `CS`                        |
+| `D1`  | Lamprey (torso) `CS`                       |
+| `A1`  | Head Tilt Potentiometer `SIG`              |
+| `A2`  | Torso Tilt Potentiometer 1 `SIG`           |
+| `A3`  | Torso Tilt Potentiometer 2 `SIG`           |
+| `D27` | Head Tilt Motor Driver 1 `EN`              |
+| `D2`  | Head Tilt Motor Driver 1 `LPWM`            |
+| `D3`  | Head Tilt Motor Driver 1 `RPWM`            |
+| `D28` | Head Tilt Motor Driver 2 `EN`              |
+| `D4`  | Head Tilt Motor Driver 2 `LPWM`            |
+| `D5`  | Head Tilt Motor Driver 2 `RPWM`            |
+| `D29` | Torso Tilt Motor Driver 1 `EN`             |
+| `D9`  | Torso Tilt Motor Driver 1 `LPWM`           |
+| `D10` | Torso Tilt Motor Driver 1 `RPWM`           |
+| `D30` | Torso Tilt Motor Driver 2 `EN`             |
+| `D22` | Torso Tilt Motor Driver 2 `LPWM`           |
+| `D23` | Torso Tilt Motor Driver 2 `RPWM`           |
+| `D26` | PerfectPass Servo `SIG`                    |
 
 ## Bill of Materials
 
@@ -88,10 +92,7 @@ The following external components are connected to the board via JST-XH locking 
 |[RC0603FR-07360KL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07360kl/727183)|555 Timer Resistor 360K|
 |[CC0603JRX7R7BB105](https://www.digikey.com/en/products/detail/yageo/CC0603JRX7R7BB105/7164369)|555 Timer Capacitor 1uF|
 |[C0402C103J4RACTU](https://www.digikey.com/en/products/detail/kemet/C0402C103J4RACTU/411041)|555 Timer Capacitor 0.01uF|
-|[JST_XH_B3B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b3b-xh-a/1651046)|Current Sensor, Head Tilt Potentiometer, Torso Tilt Potentiometer, Knee Potentiometers (`3V3`, `SIG`, `GND`)|
-|[JST_XH_B4B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b4b-xh-a/1651047)|IMU, INA260 (`3V3`, `SDA`, `SCL`, `GND`)|
-|[JST_XH_B3B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b3b-xh-a/1651046)|Head Tilt Driver, Torso Tilt Drivers (`LPWM`, `RPWM`, `EN`)|
-|[JST_XH_B4B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b4b-xh-a/1651047)|Leg Actuator Drivers, Leg Wheel Drivers (`LPWM`, `RPWM`, `L_EN`, `R_EN`)|
+|[JST_XH_B3B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b3b-xh-a/1651046)|Current Sensor (`3V3`, `VOUT`, `GND`), Head Tilt Potentiometer, Torso Tilt Potentiometer, Head Tilt Driver, Torso Tilt Drivers (`LPWM`, `RPWM`, `EN`)|
+|[JST_XH_B4B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b4b-xh-a/1651047)|INA260 (`3V3`, `SDA`, `SCL`, `GND`), TB6600 Driver (`3V3`, `PUL`, `DIR`, `ENA`)|
 |[JST_XH_B5B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b5b-xh-a/1530483)|AS5045 Encoder, Lamprey Encoder (`3V3`, `CS`, `SCK`, `MISO`, `GND`)|
-|[JST_XH_B8B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b8b-xh-a/1651049)|CPM-MCVC-3441S-RLN Driver (`EN+`, `EN-`, `A+`, `A-`, `B+`, `B-`, `ST+`, `ST-`)|
-|[JST_XH_B4B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b4b-xh-a/1651047)|TB6600 Driver (`3V3`, `PUL`, `DIR`, `ENA`)|
+|2x4 IDC connector|CPM-MCVC-3441S-RLN Driver (`EN+`, `EN-`, `A+`, `A-`, `B+`, `B-`, `ST+`, `ST-`)|
