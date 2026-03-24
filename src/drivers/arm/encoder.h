@@ -129,22 +129,48 @@ public:
   }
 };
 
-union AS5045Reading
+class AS5045Reading
 {
-  struct
-  {
-    uint16_t magInc   : 1;
-    uint16_t lin      : 1;
-    uint16_t cof      : 1;
-    uint16_t ocf      : 1;
-    uint16_t position : 12;
-  };
+public:
+  // AS5045 frame: [15:4]=position, [3]=ocf, [2]=cof, [1]=lin, [0]=magInc
+  static const uint16_t MAG_INC_MASK = 0x0001;
+  static const uint16_t LIN_MASK = 0x0002;
+  static const uint16_t COF_MASK = 0x0004;
+  static const uint16_t OCF_MASK = 0x0008;
+  static const uint16_t POSITION_MASK = 0xFFF0;
+  static const uint8_t POSITION_SHIFT = 4;
 
+public:
   uint16_t data;
+
+  bool magInc() const
+  {
+    return (data & MAG_INC_MASK) != 0;
+  }
+
+  bool lin() const
+  {
+    return (data & LIN_MASK) != 0;
+  }
+
+  bool cof() const
+  {
+    return (data & COF_MASK) != 0;
+  }
+
+  bool ocf() const
+  {
+    return (data & OCF_MASK) != 0;
+  }
+
+  uint16_t position() const
+  {
+    return (data & POSITION_MASK) >> POSITION_SHIFT;
+  }
 
   bool valid() const
   {
-    return ocf && !cof;
+    return ocf() && !cof();
   }
 };
 
@@ -259,7 +285,7 @@ public:
 
     // Normalize
     float norm = constrain(
-      float(reading.position - normMin) / float(normMax - normMin), 0.0, 1.0);
+      float(reading.position() - normMin) / float(normMax - normMin), 0.0, 1.0);
 
     // Invert
     if (invert)
@@ -273,7 +299,7 @@ public:
 
   int raw()
   {
-    return reading.position;
+    return reading.position();
   }
 
   void debug(ros::NodeHandle& node, const char* group)
