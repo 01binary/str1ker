@@ -19,7 +19,6 @@
 \*----------------------------------------------------------*/
 
 #include <SPI.h>
-#include <QuadratureEncoder.h>
 #include <ros.h>
 #include "params.h"
 

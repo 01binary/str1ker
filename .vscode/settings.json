@@ -1,4 +1,12 @@
 {
+    "arduino.useArduinoCli": true,
+    "arduino.path": "/home/val/.local/bin",
+    "arduino.commandPath": "arduino-cli",
+    "arduino.additionalUrls": [
+        "https://www.pjrc.com/teensy/package_teensy_index.json"
+    ],
+    "arduino.logLevel": "verbose",
+    "arduino.disableIntelliSenseAutoGen": true,
     "files.associations": {
         "optional": "cpp",
         "istream": "cpp",
