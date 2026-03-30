@@ -10,12 +10,12 @@ base/controller/tolerance: 0.2
 base/motor/enabled: 1
 base/motor/pwmMin: 65
 base/motor/pwmMax: 128
-base/motor/stallThreshold: 0.2454
+base/motor/stallThreshold: 1.0
 base/motor/stopBeforeReverse: 0
 base/motor/invert: 0
-base/encoder/normMin: 553
-base/encoder/normMax: 1585
-base/encoder/scaleMin: -1.0
+base/encoder/normMin: 400
+base/encoder/normMax: 1873
+base/encoder/scaleMin: 0.0
 base/encoder/scaleMax: 1.0
 #base/encoder/scaleMin: -1.5708
 #base/encoder/scaleMax: 1.5708
@@ -31,14 +31,16 @@ shoulder/controller/tolerance: 0.1
 shoulder/motor/enabled: 1
 shoulder/motor/pwmMin: 32
 shoulder/motor/pwmMax: 255
-shoulder/motor/stallThreshold: 0.2493
+shoulder/motor/stallThreshold: 1.0
 shoulder/motor/invert: 1
 shoulder/motor/stopBeforeReverse: 1
-shoulder/encoder/normMin: 210
-shoulder/encoder/normMax: 153
-shoulder/encoder/scaleMin: -0.054
-shoulder/encoder/scaleMax: -0.0005
-shoulder/encoder/invert: 0
+shoulder/encoder/normMin: 875
+shoulder/encoder/normMax: 1023
+#shoulder/encoder/scaleMin: -0.054
+#shoulder/encoder/scaleMax: -0.0005
+shoulder/encoder/scaleMin: 0
+shoulder/encoder/scaleMax: 1
+shoulder/encoder/invert: 1
 
 #elbow
 elbow/controller/Kp: 1.0
@@ -50,7 +52,7 @@ elbow/controller/tolerance: 0.1
 elbow/motor/enabled: 1
 elbow/motor/pwmMin: 200
 elbow/motor/pwmMax: 255
-elbow/motor/stallThreshold: 0.2493
+elbow/motor/stallThreshold: 1.0
 elbow/motor/invert: 0
 elbow/motor/stopBeforeReverse: 1
 elbow/encoder/normMin: 976
