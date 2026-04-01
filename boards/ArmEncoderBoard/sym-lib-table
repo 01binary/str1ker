@@ -13,4 +13,6 @@
   (lib (name "Resistor47K")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor47K/RC0603FR-0747KL.kicad_sym")(options "")(descr ""))
   (lib (name "Resistor470K")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor470K/RC0603FR-07470KL.kicad_sym")(options "")(descr ""))
   (lib (name "Resistor22")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor22/RC0603FR-0722RL.kicad_sym")(options "")(descr ""))
+  (lib (name "Capacitor10nF")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Capacitor10nF/GRM1885C1H103JA01D.kicad_sym")(options "")(descr ""))
+  (lib (name "Resistor10K")(type "KiCad")(uri "${KIPRJMOD}/dependencies/Resistor10K/CRCW060310K0FKEA.kicad_sym")(options "")(descr ""))
 )

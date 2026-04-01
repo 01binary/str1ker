@@ -7,6 +7,7 @@
   (lib (name "Gate")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Gate/SN74HC08DR.kicad_sym")(options "")(descr ""))
   (lib (name "LedBlue")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/LedBlue/150080BS75000.kicad_sym")(options "")(descr ""))
   (lib (name "Resistor1K")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor1K/RCG06031K00FKEA.kicad_sym")(options "")(descr ""))
+  (lib (name "Resistor2.2K")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor2.2K/RC0603FR-072K2L.kicad_sym")(options "")(descr ""))
   (lib (name "Resistor10K")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor10K/CRCW060310K0FKEA.kicad_sym")(options "")(descr ""))
   (lib (name "Resistor100K")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor100K/CRCW0603100KFKEA.kicad_sym")(options "")(descr ""))
   (lib (name "Resistor150")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor150/RC0603FR-07150RL.kicad_sym")(options "")(descr ""))

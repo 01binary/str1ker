@@ -174,6 +174,7 @@ The following components appear on the board other than the encoder and the conn
 |-|-|
 |[AS5045B-ASST SSOP16 LF T&RDP](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045b-asst-ssop16-lf-t-rdp/4896030)|Hall Effect Encoder|
 |[CC0603KRX7R9BB104](https://www.digikey.com/en/products/detail/yageo/cc0603krx7r9bb104/2103082)|`100nF` Decoupling Capacitor|
+|[GRM1885C1H103JA01D](https://www.digikey.com/en/models/4421555)|`10nF` Bypass Capacitor|
 |[CC0603JRX7R7BB105](https://www.digikey.com/en/products/detail/yageo/cc0603jrx7r7bb105/7164369)|`1uF` Capacitor|
 |[RCG06031K00FKEA](https://www.digikey.com/en/products/detail/vishay-dale/rcg06031k00fkea/4172389)|`1K` Red LED Resistor|
 |[CR0603-FX-4701ELF](https://www.digikey.com/en/products/detail/bourns-inc/cr0603-fx-4701elf/3740916)|`4.7K` Pull-Down/Pull-Up Resistor|

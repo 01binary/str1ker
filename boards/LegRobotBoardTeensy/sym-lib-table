@@ -16,4 +16,6 @@
   (lib (name "PCA9685PW,118")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/PWMDriver/PCA9685PW,118.kicad_sym")(options "")(descr ""))
   (lib (name "BNO055")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/BNO055.kicad_sym")(options "")(descr ""))
   (lib (name "CC0603KRX7R9BB104")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Capacitor100nF/CC0603KRX7R9BB104.kicad_sym")(options "")(descr ""))
+  (lib (name "RC0603FR-072K2L")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor2.2K/RC0603FR-072K2L.kicad_sym")(options "")(descr ""))
+  (lib (name "CL10B473KB8NNNC")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Capacitor47nF/CL10B473KB8NNNC.kicad_sym")(options "")(descr ""))
 )
