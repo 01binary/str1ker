@@ -4,3 +4,4 @@
 **/*Backups
 .DS_Store
 *.bak
+.arduino

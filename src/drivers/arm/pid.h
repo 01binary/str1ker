@@ -77,9 +77,9 @@ public:
     iMin(DEFAULT_IMIN),
     iMax(DEFAULT_IMAX),
     tolerance(DEFAULT_TOLERANCE),
+    goal(0.0),
     pe(0.0), ie(0.0), de(0.0),
     p(0.0), i(0.0), d(0.0),
-    goal(0.0),
     enabled(false),
     elapsed(0.0)
   {

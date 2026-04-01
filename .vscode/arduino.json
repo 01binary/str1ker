@@ -1,4 +1,8 @@
 {
-    "board": "arduino:avr:mega",
-    "port": "/dev/ttyACM0"
+    "board": "teensy:avr:teensy40",
+    "configuration": "usb=serial,speed=600,opt=o2std,keys=en-us",
+    "port": "/dev/ttyACM0",
+    "sketch": "src/drivers/arm/arm.ino",
+    "output": "../.arduino-vscode/arm",
+    "intelliSenseGen": "disable"
 }
