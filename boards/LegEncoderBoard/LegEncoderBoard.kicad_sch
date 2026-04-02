@@ -2763,12 +2763,6 @@
 		(uuid "7c5a4686-3213-46e9-b6c6-1a50b81cac9b")
 	)
 	(junction
-		(at 62.23 140.97)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "8c1a5baf-3e62-408b-9ebf-43699a55b0de")
-	)
-	(junction
 		(at 132.08 43.18)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2841,12 +2835,6 @@
 		(uuid "ea6b1897-cb62-4773-8915-b941abcab308")
 	)
 	(junction
-		(at 50.8 140.97)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ef5560b5-f235-48b0-b2c5-c80cbb672247")
-	)
-	(junction
 		(at 50.8 88.9)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2909,16 +2897,6 @@
 			(type default)
 		)
 		(uuid "11576478-a350-474c-a29b-36bf0871616c")
-	)
-	(wire
-		(pts
-			(xy 41.91 140.97) (xy 50.8 140.97)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "140e5569-08b9-4e1e-8339-a2ef84f453ce")
 	)
 	(wire
 		(pts
@@ -3109,16 +3087,6 @@
 			(type default)
 		)
 		(uuid "36001379-22a0-4aa1-842b-cf7f72ebaac2")
-	)
-	(wire
-		(pts
-			(xy 50.8 140.97) (xy 62.23 140.97)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3752769a-dd4e-4c41-a6fd-7a3e0985eef5")
 	)
 	(wire
 		(pts
@@ -3462,16 +3430,6 @@
 	)
 	(wire
 		(pts
-			(xy 50.8 151.13) (xy 50.8 148.59)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "85699e61-d7c9-477d-b681-0bc2e1d0cd6b")
-	)
-	(wire
-		(pts
 			(xy 93.98 140.97) (xy 114.3 140.97)
 		)
 		(stroke
@@ -3502,7 +3460,7 @@
 	)
 	(wire
 		(pts
-			(xy 29.21 140.97) (xy 36.83 140.97)
+			(xy 29.21 140.97) (xy 68.58 140.97)
 		)
 		(stroke
 			(width 0)
@@ -3732,16 +3690,6 @@
 	)
 	(wire
 		(pts
-			(xy 62.23 140.97) (xy 68.58 140.97)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ebba7078-6ce2-4182-951f-1b5be645fb52")
-	)
-	(wire
-		(pts
 			(xy 149.86 121.92) (xy 149.86 119.38)
 		)
 		(stroke
@@ -3940,16 +3888,6 @@
 		)
 		(uuid "c3996f4b-9234-4e53-95ea-1cfe978466a2")
 	)
-	(label "I_EDGE"
-		(at 29.21 140.97 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "c53ac514-cc8e-4688-8dbe-ce3f34c01e54")
-	)
 	(label "I_LED_ANODE"
 		(at 184.15 134.62 0)
 		(effects
@@ -3989,16 +3927,6 @@
 			(justify left bottom)
 		)
 		(uuid "dc6094a7-930b-40a6-971f-4e8a7dc8f950")
-	)
-	(label "I_PULSE"
-		(at 41.91 140.97 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "f6c67e1d-b62a-416e-a652-4ca789727156")
 	)
 	(label "B_EDGE"
 		(at 29.21 114.3 0)
@@ -7497,87 +7425,6 @@
 	)
 	(symbol
 		(lib_id "EnvelopeDiode:BAT54WS-7-F")
-		(at 62.23 151.13 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "98f30c57-e024-4a89-a21e-d4c1813b1dcc")
-		(property "Reference" "CR6"
-			(at 66.04 144.7799 90)
-			(effects
-				(font
-					(size 1.524 1.524)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "BAT54"
-			(at 66.04 147.3199 90)
-			(effects
-				(font
-					(size 1.524 1.524)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "EnvelopeDiode:BAT54WS-7-F"
-			(at 62.23 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-					(italic yes)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "BAT54WS-7-F"
-			(at 62.23 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-					(italic yes)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 62.23 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C124205"
-			(at 55.88 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "eb134c45-3444-430b-8665-82485559e458")
-		)
-		(pin "2"
-			(uuid "d25c5438-6ad9-4fc0-84ea-022a4f6bb7d0")
-		)
-		(instances
-			(project "LegEncoderBoard"
-				(path "/e3febdb5-abb1-4bc1-8dd2-9c5ab1adf099"
-					(reference "CR6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "EnvelopeDiode:BAT54WS-7-F")
 		(at 62.23 99.06 90)
 		(unit 1)
 		(exclude_from_sim no)
@@ -7956,85 +7803,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R_US")
-		(at 50.8 144.78 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "af839e1f-ba21-4f56-8791-cce27ad7ea18")
-		(property "Reference" "R18"
-			(at 53.34 143.5099 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100K"
-			(at 53.34 146.0499 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor100K:CRCW0603100KFKEA"
-			(at 51.816 145.034 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 50.8 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 50.8 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C844916"
-			(at 53.34 143.5099 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "1f920931-4fde-4717-8f7b-1ed47af837a7")
-		)
-		(pin "2"
-			(uuid "b0b6b358-4aab-4309-ae8c-ad0e0f9bc42d")
-		)
-		(instances
-			(project "LegEncoderBoard"
-				(path "/e3febdb5-abb1-4bc1-8dd2-9c5ab1adf099"
-					(reference "R18")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Mechanical:MountingHole")
 		(at 22.86 41.91 0)
 		(unit 1)
@@ -8227,83 +7995,6 @@
 			(project "LegEncoderBoard"
 				(path "/e3febdb5-abb1-4bc1-8dd2-9c5ab1adf099"
 					(reference "#PWR06")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Small_US")
-		(at 39.37 140.97 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "b5648a38-b407-47cf-a620-23640dcd86d6")
-		(property "Reference" "C10"
-			(at 39.497 134.62 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10nF"
-			(at 39.497 137.16 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor10nF:GRM1885C1H103JA01D"
-			(at 39.37 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 39.37 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "capacitor, small US symbol"
-			(at 39.37 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C85973"
-			(at 38.2269 138.43 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "e0c2b02f-680f-4088-afa8-30348a41247d")
-		)
-		(pin "1"
-			(uuid "592e2841-c659-49ce-82db-21949150ef4b")
-		)
-		(instances
-			(project "LegEncoderBoard"
-				(path "/e3febdb5-abb1-4bc1-8dd2-9c5ab1adf099"
-					(reference "C10")
 					(unit 1)
 				)
 			)
@@ -9864,72 +9555,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 62.23 151.13 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "ee031574-6e0b-42ee-bf16-b4ea123d5d94")
-		(property "Reference" "#PWR028"
-			(at 62.23 157.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 62.23 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 62.23 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 62.23 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 62.23 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "09c25e0a-0b5b-4373-852b-238ce2a2a5f1")
-		)
-		(instances
-			(project "LegEncoderBoard"
-				(path "/e3febdb5-abb1-4bc1-8dd2-9c5ab1adf099"
-					(reference "#PWR028")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C_Small_US")
 		(at 124.46 38.1 0)
 		(unit 1)
@@ -10291,72 +9916,6 @@
 			(project "ArmEncoderBoard"
 				(path "/e3febdb5-abb1-4bc1-8dd2-9c5ab1adf099"
 					(reference "C2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 50.8 151.13 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "fbf4d1cd-cfd2-4323-a2bf-4c7ee36cc465")
-		(property "Reference" "#PWR025"
-			(at 50.8 157.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 50.8 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 50.8 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 50.8 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 50.8 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "56d4fa73-0da4-48f4-839a-91d87bc6ef61")
-		)
-		(instances
-			(project "LegEncoderBoard"
-				(path "/e3febdb5-abb1-4bc1-8dd2-9c5ab1adf099"
-					(reference "#PWR025")
 					(unit 1)
 				)
 			)

@@ -23,20 +23,15 @@ The encoder continuously shifts out a 16-bit data frame in response to clock inp
 
 The 16-bit frame contains a 12-bit position value and status flags:
 
-```c++
-union AS5045Reading
-{
-  struct
-  {
-    unsigned int position : 12;
-    unsigned int status   : 4;
-  };
-
-  uint16_t data;
-
-  static const double MAX = 0b111111111111;
-};
-```
+|Offset|Size|Data|
+|-|-|-|
+|0|12|Position/Angle (MSB-first)|
+|12|1|`OCF` - Offset Compensation Finished|
+|13|1|`COF` - Cordic Overflow/Out of Range|
+|14|1|`LIN` - Linearity Alarm|
+|15|1|MacINC|
+|16|1|MagDec|
+|17|1|Parity|
 
 ## Indicators
 
