@@ -13,15 +13,6 @@
 */
 
 /*----------------------------------------------------------*\
-| Dependencies
-\*----------------------------------------------------------*/
-
-// - Encoder
-// - Adafruit BNO055
-// - Adafruit Unified Sensor
-// - Adafruit PWM Servo Driver Library
-
-/*----------------------------------------------------------*\
 | Includes
 \*----------------------------------------------------------*/
 
@@ -29,9 +20,9 @@
 #include <Encoder.h>
 #include <Adafruit_BNO055.h>
 #include <Adafruit_PWMServoDriver.h>
-#include "../common/pca9685_motor.h"
-#include "../common/potentiometer.h"
-#include "../common/wheel_encoder.h"
+#include "pca9685_motor.h"
+#include "potentiometer.h"
+#include "wheel_encoder.h"
 
 /*----------------------------------------------------------*\
 | Constants
@@ -46,7 +37,6 @@ const float TWO_PI_F = 6.28318530718f;              // One full revolution in ra
 
 const uint8_t PCA9685_ADDRESS = 0x40;               // Default PCA9685 I2C address
 const uint16_t PCA9685_FREQUENCY_HZ = 1526;         // Near PCA9685 max, suitable for IBT2 PWM inputs
-const uint8_t BNO055_ID = 55;                       // Adafruit_BNO055 default sensor id
 const uint8_t BNO055_ADDRESS = 0x28;                // Default BNO055 I2C address
 
 const float ENCODER_PPR = 1000.0;                   // AS5047 pulses per revolution
@@ -233,7 +223,7 @@ void rearRightIndexInterrupt();
 \*----------------------------------------------------------*/
 
 Adafruit_PWMServoDriver pwmDriver = Adafruit_PWMServoDriver(PCA9685_ADDRESS, Wire);
-Adafruit_BNO055 imu(BNO055_ID, BNO055_ADDRESS, &Wire);
+Adafruit_BNO055 accelerometer(BNO055_ID, BNO055_ADDRESS, &Wire);
 
 Leg frontLeft(
   "front_left",
@@ -305,7 +295,7 @@ Leg* legs[] =
 
 const size_t LEG_COUNT = sizeof(legs) / sizeof(legs[0]);
 
-bool imuReady = false;
+bool accelerometerInitialized = false;
 bool motorsEnabled = false;
 
 /*----------------------------------------------------------*\
@@ -408,15 +398,15 @@ void initializeImu()
   digitalWrite(BNO055_RESET_PIN, HIGH);
   delay(650);
 
-  imuReady = imu.begin();
+  accelerometerInitialized = accelerometer.begin();
 
-  if (imuReady)
+  if (accelerometerInitialized)
   {
-    imu.setExtCrystalUse(true);
+    accelerometer.setExtCrystalUse(true);
   }
 
-  Serial.print("imu ");
-  Serial.println(imuReady ? "ready" : "not detected");
+  Serial.print("accelerometer ");
+  Serial.println(accelerometerInitialized ? "ready" : "not detected");
 }
 
 void initializeLegs()
@@ -489,17 +479,17 @@ void reportState()
 
 void reportImu()
 {
-  if (!imuReady)
+  if (!accelerometerInitialized)
   {
-    Serial.println("imu unavailable");
+    Serial.println("accelerometer unavailable");
     return;
   }
 
-  imu::Vector<3> linear = imu.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-  imu::Vector<3> gyro = imu.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-  imu::Vector<3> euler = imu.getVector(Adafruit_BNO055::VECTOR_EULER);
+  imu::Vector<3> linear = accelerometer.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+  imu::Vector<3> gyro = accelerometer.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+  imu::Vector<3> euler = accelerometer.getVector(Adafruit_BNO055::VECTOR_EULER);
 
-  Serial.print("imu euler_deg ");
+  Serial.print("accelerometer euler_deg ");
   Serial.print(euler.x(), 3);
   Serial.print(" ");
   Serial.print(euler.y(), 3);
@@ -586,7 +576,7 @@ void printHelp()
 {
   Serial.println("legs firmware");
   Serial.println("commands: e=enable d=disable s=stop r=reset_encoders h=help");
-  Serial.println("telemetry reports actuator potentiometers, wheel encoders, and imu");
+  Serial.println("telemetry reports actuator potentiometers, wheel encoders, and accelerometer");
 }
 
 void frontLeftIndexInterrupt()
