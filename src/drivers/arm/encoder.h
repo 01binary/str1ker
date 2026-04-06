@@ -94,7 +94,8 @@ public:
     reading = analogRead(adcPin);
 
     // Normalize
-    float norm = float(reading - normMin) / float(normMax - normMin);
+    float norm = constrain(
+      float(reading - normMin) / float(normMax - normMin), 0.0, 1.0);
 
     // Invert
     if (invert)
