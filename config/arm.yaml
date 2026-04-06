@@ -13,7 +13,7 @@ base/motor/pwmMax: 128
 base/motor/stallThreshold: 1.0
 base/motor/stopBeforeReverse: 0
 base/motor/invert: 0
-base/encoder/normMin: 400
+base/encoder/normMin: 380
 base/encoder/normMax: 1873
 base/encoder/scaleMin: 0.0
 base/encoder/scaleMax: 1.0
@@ -53,10 +53,12 @@ elbow/motor/enabled: 1
 elbow/motor/pwmMin: 200
 elbow/motor/pwmMax: 255
 elbow/motor/stallThreshold: 1.0
-elbow/motor/invert: 0
+elbow/motor/invert: 1
 elbow/motor/stopBeforeReverse: 1
-elbow/encoder/normMin: 976
-elbow/encoder/normMax: 1014
-elbow/encoder/scaleMin: -0.0508
-elbow/encoder/scaleMax: 0.0
-elbow/encoder/invert: 0
+elbow/encoder/normMin: 259
+elbow/encoder/normMax: 406
+#elbow/encoder/scaleMin: -0.0508
+#elbow/encoder/scaleMax: 0.0
+elbow/encoder/scaleMin: 0
+elbow/encoder/scaleMax: 1
+elbow/encoder/invert: 1
