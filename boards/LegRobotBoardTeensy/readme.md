@@ -47,51 +47,51 @@ The [wheel encoders](../LegEncoderBoard/readme.md) are connected to each of the 
 
 ## Pins
 
-| Pin            | Function                       |
-| -------------- | ------------------------------ |
-| `A0`           | Actuator 1 Potentiometer `SIG` |
-| `A1`           | Actuator 2 Potentiometer `SIG` |
-| `A2`           | Actuator 3 Potentiometer `SIG` |
-| `A3`           | Actuator 4 Potentiometer `SIG` |
-| `A5`           | I2C `SCL` (PCA9685)            |
-| `A4`           | I2C `SDA` (PCA9685)            |
-| `D0`           | Wheel 1 Encoder `A`            |
-| `D1`           | Wheel 1 Encoder `B`            |
-| `D2`           | Wheel 2 Encoder `A`            |
-| `D3`           | Wheel 2 Encoder `B`            |
-| `D4`           | Wheel 3 Encoder `A`            |
-| `D5`           | Wheel 3 Encoder `B`            |
-| `D7`           | Wheel 4 Encoder `A`            |
-| `D8`           | Wheel 4 Encoder `B`            |
-| `D6`           | Wheel 1 Driver `EN`            |
-| `D9`           | Wheel 2 Driver `EN`            |
-| `D10`          | Wheel 3 Driver `EN`            |
-| `D11`          | Wheel 4 Driver `EN`            |
-| `D12`          | Actuator 1 Driver `EN`         |
-| `D13`          | Actuator 2 Driver `EN`         |
-| `D20`          | Actuator 3 Driver `EN`         |
-| `D21`          | Actuator 4 Driver `EN`         |
-| `D22`          | Wheel 1 Encoder `Index`        |
-| `D23`          | Wheel 2 Encoder `Index`        |
-| `D24`          | Wheel 3 Encoder `Index`        |
-| `D25`          | Wheel 4 Encoder `Index`        |
-| `D26`          | BNO055 `RST`                   |
-| `PCA9685 CH0`  | Wheel 1 Driver `LPWM`          |
-| `PCA9685 CH1`  | Wheel 1 Driver `RPWM`          |
-| `PCA9685 CH2`  | Wheel 2 Driver `LPWM`          |
-| `PCA9685 CH3`  | Wheel 2 Driver `RPWM`          |
-| `PCA9685 CH4`  | Wheel 3 Driver `LPWM`          |
-| `PCA9685 CH5`  | Wheel 3 Driver `RPWM`          |
-| `PCA9685 CH6`  | Wheel 4 Driver `LPWM`          |
-| `PCA9685 CH7`  | Wheel 4 Driver `RPWM`          |
-| `PCA9685 CH8`  | Actuator 1 Driver `LPWM`       |
-| `PCA9685 CH9`  | Actuator 1 Driver `RPWM`       |
-| `PCA9685 CH10` | Actuator 2 Driver `LPWM`       |
-| `PCA9685 CH11` | Actuator 2 Driver `RPWM`       |
-| `PCA9685 CH12` | Actuator 3 Driver `LPWM`       |
-| `PCA9685 CH13` | Actuator 3 Driver `RPWM`       |
-| `PCA9685 CH14` | Actuator 4 Driver `LPWM`       |
-| `PCA9685 CH15` | Actuator 4 Driver `RPWM`       |
+| Pin            | Function                       | Group                     |
+| -------------- | ------------------------------ | ------------------------- |
+| `A0`           | Actuator 1 Potentiometer `SIG` | Front Left Leg (Actuator) |
+| `D0`           | Quadrature Encoder 1 `A`       | Front Left Leg (Wheel)    |
+| `D1`           | Quadrature Encoder 1 `B`       | Front Left Leg (Wheel)    |
+| `D22`          | Quadrature Encoder 1 `Index`   | Front Left Leg (Wheel)    |
+| `D6`           | Motor Driver 1 `EN`            | Front Left Leg (Wheel)    |
+| `D9`           | Motor Driver 2 `EN`            | Front Left Leg (Actuator) |
+| `PCA9685 CH0`  | Motor Driver 1 `RPWM`          | Front Left Leg (Wheel)    |
+| `PCA9685 CH1`  | Motor Driver 1 `LPWM`          | Front Left Leg (Wheel)    |
+| `PCA9685 CH2`  | Motor Driver 2 `RPWM`          | Front Left Leg (Actuator) |
+| `PCA9685 CH3`  | Motor Driver 2 `LPWM`          | Front Left Leg (Actuator) |
+| `A1`           | Actuator 2 Potentiometer `SIG` | Front Right Leg (Actuator)|
+| `D2`           | Quadrature Encoder 2 `A`       | Front Right Leg (Wheel)   |
+| `D3`           | Quadrature Encoder 2 `B`       | Front Right Leg (Wheel)   |
+| `D23`          | Quadrature Encoder 2 `Index`   | Front Right Leg (Wheel)   |
+| `D10`          | Motor Driver 3 `EN`            | Front Right Leg (Wheel)   |
+| `D11`          | Motor Driver 4 `EN`            | Front Right Leg (Actuator)|
+| `PCA9685 CH4`  | Motor Driver 3 `RPWM`          | Front Right Leg (Wheel)   |
+| `PCA9685 CH5`  | Motor Driver 3 `LPWM`          | Front Right Leg (Wheel)   |
+| `PCA9685 CH6`  | Motor Driver 4 `RPWM`          | Front Right Leg (Actuator)|
+| `PCA9685 CH7`  | Motor Driver 4 `LPWM`          | Front Right Leg (Actuator)|
+| `A2`           | Actuator 3 Potentiometer `SIG` | Rear Left Leg (Actuator)  |
+| `D4`           | Quadrature Encoder 3 `A`       | Rear Left Leg (Wheel)     |
+| `D5`           | Quadrature Encoder 3 `B`       | Rear Left Leg (Wheel)     |
+| `D24`          | Quadrature Encoder 3 `Index`   | Rear Left Leg (Wheel)     |
+| `D12`          | Motor Driver 5 `EN`            | Rear Left Leg (Wheel)     |
+| `D13`          | Motor Driver 6 `EN`            | Rear Left Leg (Actuator)  |
+| `PCA9685 CH8`  | Motor Driver 5 `RPWM`          | Rear Left Leg (Wheel)     |
+| `PCA9685 CH9`  | Motor Driver 5 `LPWM`          | Rear Left Leg (Wheel)     |
+| `PCA9685 CH10` | Motor Driver 6 `RPWM`          | Rear Left Leg (Actuator)  |
+| `PCA9685 CH11` | Motor Driver 6 `LPWM`          | Rear Left Leg (Actuator)  |
+| `A3`           | Actuator 4 Potentiometer `SIG` | Rear Right Leg (Actuator) |
+| `D7`           | Quadrature Encoder 4 `A`       | Rear Right Leg (Wheel)    |
+| `D8`           | Quadrature Encoder 4 `B`       | Rear Right Leg (Wheel)    |
+| `D25`          | Quadrature Encoder 4 `Index`   | Rear Right Leg (Wheel)    |
+| `D20`          | Motor Driver 7 `EN`            | Rear Right Leg (Wheel)    |
+| `D21`          | Motor Driver 8 `EN`            | Rear Right Leg (Actuator) |
+| `PCA9685 CH12` | Motor Driver 7 `RPWM`          | Rear Right Leg (Wheel)    |
+| `PCA9685 CH13` | Motor Driver 7 `LPWM`          | Rear Right Leg (Wheel)    |
+| `PCA9685 CH14` | Motor Driver 8 `RPWM`          | Rear Right Leg (Actuator) |
+| `PCA9685 CH15` | Motor Driver 8 `LPWM`          | Rear Right Leg (Actuator) |
+| `A5`           | I2C `SCL` (PCA9685)            | PWM Servo Driver          |
+| `A4`           | I2C `SDA` (PCA9685)            | PWM Servo Driver          |
+| `D26`          | BNO055 `RST`                   | Accelerometer             |
 
 ## Bill of Materials
 
