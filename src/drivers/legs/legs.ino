@@ -176,16 +176,6 @@ Leg rearRight(
   REAR_RIGHT_WHEEL_INDEX
 );
 
-Leg* legs[] =
-{
-  &frontLeft,
-  &frontRight,
-  &rearLeft,
-  &rearRight
-};
-
-const size_t LEG_COUNT = sizeof(legs) / sizeof(legs[0]);
-
 bool accelerometerInitialized = false;
 bool motorsEnabled = false;
 
@@ -202,14 +192,22 @@ void setup()
   initializeLegs();
   initializeEncoders();
 
-  legs[0]->enable();
-  legs[0]->actuatorCommand = -1.0;
-  legs[0]->wheelCommand = -1.0;
+  //frontLeft->enable();
+  //frontLeft->wheelCommand = 1.0;
+
+  //frontRight->enable();
+  //frontRight->wheelCommand = -1.0;
+
+  rearLeft.enable();
+  rearLeft.wheelCommand = 1.0;
+
+  rearRight.enable();
+  rearRight.wheelCommand = 1.0;
 }
 
 void loop()
 {
-  static uint32_t lastUpdate = 0;
+  /*static uint32_t lastUpdate = 0;
   static uint32_t lastReport = 0;
 
   uint32_t now = millis();
@@ -250,7 +248,7 @@ void loop()
   {
     // TODO: publish report
     lastReport = now;
-  }
+  }*/
 }
 
 /*----------------------------------------------------------*\
@@ -303,10 +301,10 @@ void initializeImu()
 
 void initializeLegs()
 {
-  for (size_t index = 0; index < LEG_COUNT; ++index)
-  {
-    legs[index]->initialize();
-  }
+  frontLeft.initialize();
+  frontRight.initialize();
+  rearLeft.initialize();
+  rearRight.initialize();
 
   disableMotors();
 }
@@ -321,38 +319,38 @@ void initializeEncoders()
 
 void enableMotors()
 {
-  for (size_t index = 0; index < LEG_COUNT; ++index)
-  {
-    legs[index]->enable();
-  }
+  frontLeft.enable();
+  frontRight.enable();
+  rearLeft.enable();
+  rearRight.enable();
 
   motorsEnabled = true;
 }
 
 void disableMotors()
 {
-  for (size_t index = 0; index < LEG_COUNT; ++index)
-  {
-    legs[index]->disable();
-  }
+  frontLeft.disable();
+  frontRight.disable();
+  rearLeft.disable();
+  rearRight.disable();
 
   motorsEnabled = false;
 }
 
 void stopMotors()
 {
-  for (size_t index = 0; index < LEG_COUNT; ++index)
-  {
-    legs[index]->stop();
-  }
+  frontLeft.stop();
+  frontRight.stop();
+  rearLeft.stop();
+  rearRight.stop();
 }
 
 void updateLegs(float timeStep)
 {
-  for (size_t index = 0; index < LEG_COUNT; ++index)
-  {
-    legs[index]->update(timeStep);
-  }
+  frontLeft.update(timeStep);
+  frontRight.update(timeStep);
+  rearLeft.update(timeStep);
+  rearRight.update(timeStep);
 }
 
 void reportState()
@@ -360,10 +358,10 @@ void reportState()
   Serial.print("motors ");
   Serial.println(motorsEnabled ? "enabled" : "disabled");
 
-  for (size_t index = 0; index < LEG_COUNT; ++index)
-  {
-    reportLeg(*legs[index]);
-  }
+  reportLeg(frontLeft);
+  reportLeg(frontRight);
+  reportLeg(rearLeft);
+  reportLeg(rearRight);
 
   reportImu();
   Serial.println();
