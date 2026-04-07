@@ -24,12 +24,12 @@
 #include <str1ker/GripperCommand.h>
 #include <str1ker/StateFeedback.h>
 #include <str1ker/RawStateFeedback.h>
-#include "actuator.h"
-#include "motor.h"
-#include "encoder.h"
-#include "solenoid.h"
-#include "meter.h"
-#include "params.h"
+#include <common/actuator.h>
+#include <common/motor.h>
+#include <common/encoder.h>
+#include <common/solenoid.h>
+#include <common/meter.h>
+#include <common/params.h>
 
 /*----------------------------------------------------------*\
 | Constants

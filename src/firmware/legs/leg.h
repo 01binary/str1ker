@@ -15,10 +15,18 @@
 #pragma once
 
 /*----------------------------------------------------------*\
+| Includes
+\*----------------------------------------------------------*/
+
+#include <str1ker_common/quadratureEncoder.h>
+#include <str1ker_common/potentiometer.h>
+#include <str1ker_common/muxMotor.h>
+
+/*----------------------------------------------------------*\
 | Constants
 \*----------------------------------------------------------*/
 
-const float TWO_PI_F = 6.28318530718f;        // One full revolution in radians
+const float TWO_PI = 6.28318530718f;          // One full revolution in radians
 const float ENCODER_PPR = 1000.0;             // AS5047 pulses per revolution
 const float ENCODER_CPR = ENCODER_PPR * 4.0f; // AS5047 counts per revolution
 
@@ -26,7 +34,7 @@ const float ENCODER_CPR = ENCODER_PPR * 4.0f; // AS5047 counts per revolution
 | Classes
 \*----------------------------------------------------------*/
 
-struct Leg
+class Leg
 {
   const char* name;
   int actuatorPotPin;
@@ -37,9 +45,9 @@ struct Leg
   uint8_t wheelLeftChannel;
   uint8_t wheelRightChannel;
   Potentiometer actuatorSensor;
-  Pca9685Motor actuatorMotor;
-  Pca9685Motor wheelMotor;
-  WheelEncoder wheelEncoder;
+  MuxMotor actuatorMotor;
+  MuxMotor wheelMotor;
+  QuadratureEncoder QuadratureEncoder;
 
   float actuatorCommand;
   float wheelCommand;
@@ -71,7 +79,7 @@ struct Leg
     wheelRightChannel(wheelRightChannel),
     actuatorMotor(pwmDriver),
     wheelMotor(pwmDriver),
-    wheelEncoder(wheelPinA, wheelPinB, wheelIndexPin, ENCODER_CPR),
+    QuadratureEncoder(wheelPinA, wheelPinB, wheelIndexPin, ENCODER_CPR),
     actuatorCommand(0.0f),
     wheelCommand(0.0f),
     actuatorPosition(0.0f),
@@ -87,7 +95,7 @@ struct Leg
     actuatorMotor.initialize(actuatorEnablePin, actuatorLeftChannel, actuatorRightChannel);
     wheelMotor.initialize(wheelEnablePin, wheelLeftChannel, wheelRightChannel);
     actuatorSensor.read();
-    wheelEncoder.initialize();
+    QuadratureEncoder.initialize();
     stop();
   }
 
@@ -114,11 +122,11 @@ struct Leg
   void update(float timeStep)
   {
     actuatorPosition = actuatorSensor.read();
-    wheelEncoder.update(timeStep);
+    QuadratureEncoder.update(timeStep);
 
-    wheelRevolutions = wheelEncoder.revolutions;
-    wheelRadians = wheelRevolutions * TWO_PI_F;
-    wheelVelocity = wheelEncoder.velocity;
+    wheelRevolutions = QuadratureEncoder.revolutions;
+    wheelRadians = wheelRevolutions * TWO_PI;
+    wheelVelocity = QuadratureEncoder.velocity;
 
     actuatorMotor.write(actuatorCommand);
     wheelMotor.write(wheelCommand);

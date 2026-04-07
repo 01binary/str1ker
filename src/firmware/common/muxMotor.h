@@ -24,7 +24,7 @@
 | Classes
 \*----------------------------------------------------------*/
 
-class Pca9685Motor
+class MuxMotor
 {
 public:
   static const uint16_t PWM_MAX = 4095;
@@ -41,7 +41,7 @@ public:
   float command;
 
 public:
-  explicit Pca9685Motor(Adafruit_PWMServoDriver& driver):
+  explicit MuxMotor(Adafruit_PWMServoDriver& driver):
     pwm(driver),
     enPin(-1),
     lpwmChannel(0),

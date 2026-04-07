@@ -20,70 +20,67 @@
 #include <Encoder.h>
 #include <Adafruit_BNO055.h>
 #include <Adafruit_PWMServoDriver.h>
-#include "pca9685_motor.h"
-#include "potentiometer.h"
-#include "wheel_encoder.h"
 #include "leg.h"
 
 /*----------------------------------------------------------*\
 | Constants
 \*----------------------------------------------------------*/
 
-const int SERIAL_BAUD = 115200;               // USB serial console rate
-const int RATE_HZ = 100;                      // Main control/sampling rate
-const int REPORT_HZ = 10;                     // Human-readable telemetry rate
-const int STARTUP_DELAY = 1000;               // Allow USB serial to appear
-const float MILLISECONDS_TO_SECONDS = 0.001f; // Milliseconds to seconds conversion factor
+const int SERIAL_BAUD = 115200;           // USB serial console rate
+const int RATE_HZ = 100;                  // Main control/sampling rate
+const int REPORT_HZ = 10;                 // Human-readable telemetry rate
+const int STARTUP_DELAY = 1000;           // Allow USB serial to appear
+const float MS_TO_SECONDS = 0.001f;       // Milliseconds to seconds conversion factor
 
-const int PCA9685_ADDRESS = 0x40;             // Default PCA9685 I2C address
-const int PCA9685_FREQUENCY_HZ = 1526;        // Near PCA9685 max, suitable for IBT2 PWM inputs
+const int PCA9685_ADDRESS = 0x40;         // Default PCA9685 I2C address
+const int PCA9685_FREQUENCY_HZ = 1526;    // Near PCA9685 max, suitable for IBT2 PWM inputs
 
-const int BNO055_ADDRESS = 0x28;              // Default BNO055 I2C address
-const int BNO055_RESET_PIN = 26;              // BNO055 hardware reset pin
+const int BNO055_ADDRESS = 0x28;          // BNO055 default I2C address
+const int BNO055_RESET_PIN = 26;          // BNO055 hardware reset pin
 
-const int FRONT_LEFT_ACTUATOR_POT = A0;       // Front-left actuator feedback pin
-const int FRONT_LEFT_WHEEL_A = 0;             // Front-left wheel encoder A
-const int FRONT_LEFT_WHEEL_B = 1;             // Front-left wheel encoder B
-const int FRONT_LEFT_WHEEL_INDEX = 22;        // Front-left wheel encoder index
-const int FRONT_LEFT_WHEEL_EN = 6;            // Front-left wheel driver enable
-const int FRONT_LEFT_WHEEL_RPWM = 0;          // Front-left wheel RPWM
-const int FRONT_LEFT_WHEEL_LPWM = 1;          // Front-left wheel LPWM
-const int FRONT_LEFT_ACTUATOR_EN = 9;         // Front-left actuator driver enable
-const int FRONT_LEFT_ACTUATOR_RPWM = 2;       // Front-left actuator RPWM
-const int FRONT_LEFT_ACTUATOR_LPWM = 3;       // Front-left actuator LPWM
+const int FRONT_LEFT_ACTUATOR_POT = A0;   // Front-left actuator feedback pin
+const int FRONT_LEFT_WHEEL_A = 0;         // Front-left wheel encoder A
+const int FRONT_LEFT_WHEEL_B = 1;         // Front-left wheel encoder B
+const int FRONT_LEFT_WHEEL_INDEX = 22;    // Front-left wheel encoder index
+const int FRONT_LEFT_WHEEL_EN = 6;        // Front-left wheel driver enable
+const int FRONT_LEFT_WHEEL_RPWM = 0;      // Front-left wheel RPWM
+const int FRONT_LEFT_WHEEL_LPWM = 1;      // Front-left wheel LPWM
+const int FRONT_LEFT_ACTUATOR_EN = 9;     // Front-left actuator driver enable
+const int FRONT_LEFT_ACTUATOR_RPWM = 2;   // Front-left actuator RPWM
+const int FRONT_LEFT_ACTUATOR_LPWM = 3;   // Front-left actuator LPWM
 
-const int FRONT_RIGHT_ACTUATOR_POT = A1;      // Front-right actuator feedback pin
-const int FRONT_RIGHT_WHEEL_A = 2;            // Front-right wheel encoder A
-const int FRONT_RIGHT_WHEEL_B = 3;            // Front-right wheel encoder B
-const int FRONT_RIGHT_WHEEL_INDEX = 23;       // Front-right wheel encoder index
-const int FRONT_RIGHT_WHEEL_EN = 10;          // Front-right wheel driver enable
-const int FRONT_RIGHT_WHEEL_RPWM = 4;         // Front-right wheel RPWM
-const int FRONT_RIGHT_WHEEL_LPWM = 5;         // Front-right wheel LPWM
-const int FRONT_RIGHT_ACTUATOR_EN = 11;       // Front-right actuator driver enable
-const int FRONT_RIGHT_ACTUATOR_RPWM = 6;      // Front-right actuator RPWM
-const int FRONT_RIGHT_ACTUATOR_LPWM = 7;      // Front-right actuator LPWM
+const int FRONT_RIGHT_ACTUATOR_POT = A1;  // Front-right actuator feedback pin
+const int FRONT_RIGHT_WHEEL_A = 2;        // Front-right wheel encoder A
+const int FRONT_RIGHT_WHEEL_B = 3;        // Front-right wheel encoder B
+const int FRONT_RIGHT_WHEEL_INDEX = 23;   // Front-right wheel encoder index
+const int FRONT_RIGHT_WHEEL_EN = 10;      // Front-right wheel driver enable
+const int FRONT_RIGHT_WHEEL_RPWM = 4;     // Front-right wheel RPWM
+const int FRONT_RIGHT_WHEEL_LPWM = 5;     // Front-right wheel LPWM
+const int FRONT_RIGHT_ACTUATOR_EN = 11;   // Front-right actuator driver enable
+const int FRONT_RIGHT_ACTUATOR_RPWM = 6;  // Front-right actuator RPWM
+const int FRONT_RIGHT_ACTUATOR_LPWM = 7;  // Front-right actuator LPWM
 
-const int REAR_LEFT_ACTUATOR_POT = A2;        // Rear-left actuator feedback pin
-const int REAR_LEFT_WHEEL_A = 4;              // Rear-left wheel encoder A
-const int REAR_LEFT_WHEEL_B = 5;              // Rear-left wheel encoder B
-const int REAR_LEFT_WHEEL_INDEX = 24;         // Rear-left wheel encoder index
-const int REAR_LEFT_WHEEL_EN = 12;            // Rear-left wheel driver enable
-const int REAR_LEFT_WHEEL_RPWM = 8;           // Rear-left wheel RPWM
-const int REAR_LEFT_WHEEL_LPWM = 9;           // Rear-left wheel LPWM
-const int REAR_LEFT_ACTUATOR_EN = 13;         // Rear-left actuator driver enable
-const int REAR_LEFT_ACTUATOR_RPWM = 10;       // Rear-left actuator RPWM
-const int REAR_LEFT_ACTUATOR_LPWM = 11;       // Rear-left actuator LPWM
+const int REAR_LEFT_ACTUATOR_POT = A2;    // Rear-left actuator feedback pin
+const int REAR_LEFT_WHEEL_A = 4;          // Rear-left wheel encoder A
+const int REAR_LEFT_WHEEL_B = 5;          // Rear-left wheel encoder B
+const int REAR_LEFT_WHEEL_INDEX = 24;     // Rear-left wheel encoder index
+const int REAR_LEFT_WHEEL_EN = 12;        // Rear-left wheel driver enable
+const int REAR_LEFT_WHEEL_RPWM = 8;       // Rear-left wheel RPWM
+const int REAR_LEFT_WHEEL_LPWM = 9;       // Rear-left wheel LPWM
+const int REAR_LEFT_ACTUATOR_EN = 13;     // Rear-left actuator driver enable
+const int REAR_LEFT_ACTUATOR_RPWM = 10;   // Rear-left actuator RPWM
+const int REAR_LEFT_ACTUATOR_LPWM = 11;   // Rear-left actuator LPWM
 
-const int REAR_RIGHT_ACTUATOR_POT = A3;       // Rear-right actuator feedback pin
-const int REAR_RIGHT_WHEEL_A = 7;             // Rear-right wheel encoder A
-const int REAR_RIGHT_WHEEL_B = 8;             // Rear-right wheel encoder B
-const int REAR_RIGHT_WHEEL_INDEX = 25;        // Rear-right wheel encoder index
-const int REAR_RIGHT_WHEEL_EN = 20;           // Rear-right wheel driver enable
-const int REAR_RIGHT_WHEEL_RPWM = 12;         // Rear-right wheel RPWM
-const int REAR_RIGHT_WHEEL_LPWM = 13;         // Rear-right wheel LPWM
-const int REAR_RIGHT_ACTUATOR_EN = 21;        // Rear-right actuator driver enable
-const int REAR_RIGHT_ACTUATOR_RPWM = 14;      // Rear-right actuator RPWM
-const int REAR_RIGHT_ACTUATOR_LPWM = 15;      // Rear-right actuator LPWM
+const int REAR_RIGHT_ACTUATOR_POT = A3;   // Rear-right actuator feedback pin
+const int REAR_RIGHT_WHEEL_A = 7;         // Rear-right wheel encoder A
+const int REAR_RIGHT_WHEEL_B = 8;         // Rear-right wheel encoder B
+const int REAR_RIGHT_WHEEL_INDEX = 25;    // Rear-right wheel encoder index
+const int REAR_RIGHT_WHEEL_EN = 20;       // Rear-right wheel driver enable
+const int REAR_RIGHT_WHEEL_RPWM = 12;     // Rear-right wheel RPWM
+const int REAR_RIGHT_WHEEL_LPWM = 13;     // Rear-right wheel LPWM
+const int REAR_RIGHT_ACTUATOR_EN = 21;    // Rear-right actuator driver enable
+const int REAR_RIGHT_ACTUATOR_RPWM = 14;  // Rear-right actuator RPWM
+const int REAR_RIGHT_ACTUATOR_LPWM = 15;  // Rear-right actuator LPWM
 
 /*----------------------------------------------------------*\
 | Forward Declarations
@@ -233,7 +230,7 @@ void loop()
     return;
   }
 
-  float timeStep = elapsed * MILLISECONDS_TO_SECONDS;
+  float timeStep = elapsed * MS_TO_SECONDS;
 
   if (timeStep <= 0.0f)
   {
@@ -407,7 +404,7 @@ void reportLeg(const Leg& leg)
   Serial.print(" actuator_norm ");
   Serial.print(leg.actuatorPosition, 4);
   Serial.print(" wheel_counts ");
-  Serial.print(leg.wheelEncoder.counts);
+  Serial.print(leg.QuadratureEncoder.counts);
   Serial.print(" wheel_rev ");
   Serial.print(leg.wheelRevolutions, 5);
   Serial.print(" wheel_rad ");
@@ -415,27 +412,27 @@ void reportLeg(const Leg& leg)
   Serial.print(" wheel_rps ");
   Serial.print(leg.wheelVelocity, 5);
   Serial.print(" index_seen ");
-  Serial.print(leg.wheelEncoder.indexCount);
+  Serial.print(leg.QuadratureEncoder.indexCount);
   Serial.print(" index_state ");
-  Serial.println(leg.wheelEncoder.indexState ? 1 : 0);
+  Serial.println(leg.QuadratureEncoder.indexState ? 1 : 0);
 }
 
 void frontLeftIndexInterrupt()
 {
-  frontLeft.wheelEncoder.handleIndexRise();
+  frontLeft.QuadratureEncoder.handleIndexRise();
 }
 
 void frontRightIndexInterrupt()
 {
-  frontRight.wheelEncoder.handleIndexRise();
+  frontRight.QuadratureEncoder.handleIndexRise();
 }
 
 void rearLeftIndexInterrupt()
 {
-  rearLeft.wheelEncoder.handleIndexRise();
+  rearLeft.QuadratureEncoder.handleIndexRise();
 }
 
 void rearRightIndexInterrupt()
 {
-  rearRight.wheelEncoder.handleIndexRise();
+  rearRight.QuadratureEncoder.handleIndexRise();
 }

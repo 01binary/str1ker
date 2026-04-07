@@ -25,7 +25,7 @@
 | Classes
 \*----------------------------------------------------------*/
 
-class WheelEncoder
+class QuadratureEncoder
 {
 public:
   uint8_t pinA;
@@ -42,7 +42,7 @@ public:
   float velocity;
 
 public:
-  WheelEncoder(
+  QuadratureEncoder(
     uint8_t quadratureA,
     uint8_t quadratureB,
     uint8_t index,
