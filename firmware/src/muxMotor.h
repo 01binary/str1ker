@@ -6,7 +6,7 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
- pca9685_motor.h
+ muxMotor.h
  Bidirectional motor output using PCA9685 + enable pin
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3

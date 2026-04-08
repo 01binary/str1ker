@@ -24,12 +24,7 @@
 #include <str1ker/GripperCommand.h>
 #include <str1ker/StateFeedback.h>
 #include <str1ker/RawStateFeedback.h>
-#include <common/actuator.h>
-#include <common/motor.h>
-#include <common/encoder.h>
-#include <common/solenoid.h>
-#include <common/meter.h>
-#include <common/params.h>
+#include <firmware.h>
 
 /*----------------------------------------------------------*\
 | Constants
@@ -106,9 +101,9 @@ ros::Publisher rawPub(RAW_TOPIC, &rawFeedbackMsg);
 VelocitySubscriber velocitySub(VELOCITY_TOPIC, velocityCommand);
 PositionSubscriber positionSub(POSITION_TOPIC, positionCommand);
 GripperSubscriber gripperSub(GRIPPER_TOPIC, gripperCommand);
-Actuator<AS5045Encoder, Motor> baseJoint(node, PARAM_ROOT, "base");
-Actuator<Potentiometer, Motor> shoulderJoint(node, PARAM_ROOT, "shoulder");
-Actuator<Potentiometer, Motor> elbowJoint(node, PARAM_ROOT, "elbow");
+Actuator<AS5045Encoder, Motor> baseJoint(PARAM_ROOT, "base");
+Actuator<Potentiometer, Motor> shoulderJoint(PARAM_ROOT, "shoulder");
+Actuator<Potentiometer, Motor> elbowJoint(PARAM_ROOT, "elbow");
 Solenoid gripper;
 bool debug;
 
@@ -221,14 +216,9 @@ void loadSettings()
 {
   loadBoolParam(node, PARAM_ROOT, "debug", debug);
 
-  if (debug)
-  {
-    node.loginfo("Debugging enabled");
-  }
-
-  baseJoint.loadSettings();
-  shoulderJoint.loadSettings();
-  elbowJoint.loadSettings();
+  baseJoint.loadSettings(node);
+  shoulderJoint.loadSettings(node);
+  elbowJoint.loadSettings(node);
 }
 
 void updateJoints(float timeStep)

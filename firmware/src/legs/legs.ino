@@ -196,10 +196,10 @@ void setup()
   //frontRight->wheelCommand = -1.0;
 
   rearLeft.enable();
-  rearLeft.wheelCommand = 1.0;
+  //rearLeft.wheelCommand = 1.0;
 
   rearRight.enable();
-  rearRight.wheelCommand = 1.0;
+  //rearRight.wheelCommand = 1.0;
 }
 
 void loop()
@@ -404,7 +404,7 @@ void reportLeg(const Leg& leg)
   Serial.print(" actuator_norm ");
   Serial.print(leg.actuatorPosition, 4);
   Serial.print(" wheel_counts ");
-  Serial.print(leg.QuadratureEncoder.counts);
+  Serial.print(leg.quadratureEncoder.counts);
   Serial.print(" wheel_rev ");
   Serial.print(leg.wheelRevolutions, 5);
   Serial.print(" wheel_rad ");
@@ -412,27 +412,27 @@ void reportLeg(const Leg& leg)
   Serial.print(" wheel_rps ");
   Serial.print(leg.wheelVelocity, 5);
   Serial.print(" index_seen ");
-  Serial.print(leg.QuadratureEncoder.indexCount);
+  Serial.print(leg.quadratureEncoder.indexCount);
   Serial.print(" index_state ");
-  Serial.println(leg.QuadratureEncoder.indexState ? 1 : 0);
+  Serial.println(leg.quadratureEncoder.indexState ? 1 : 0);
 }
 
 void frontLeftIndexInterrupt()
 {
-  frontLeft.QuadratureEncoder.handleIndexRise();
+  frontLeft.quadratureEncoder.handleIndexRise();
 }
 
 void frontRightIndexInterrupt()
 {
-  frontRight.QuadratureEncoder.handleIndexRise();
+  frontRight.quadratureEncoder.handleIndexRise();
 }
 
 void rearLeftIndexInterrupt()
 {
-  rearLeft.QuadratureEncoder.handleIndexRise();
+  rearLeft.quadratureEncoder.handleIndexRise();
 }
 
 void rearRightIndexInterrupt()
 {
-  rearRight.QuadratureEncoder.handleIndexRise();
+  rearRight.quadratureEncoder.handleIndexRise();
 }

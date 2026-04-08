@@ -20,7 +20,10 @@
 \*----------------------------------------------------------*/
 
 #include "pid.h"
-#include "params.h"
+
+#ifdef ROS
+  #include "params.h"
+#endif
 
 /*----------------------------------------------------------*\
 | Classes
@@ -36,7 +39,6 @@ public:
   };
 
 public:
-  ros::NodeHandle& node;
   const char* group;
   const char* name;
   ControlMode mode;
@@ -51,11 +53,9 @@ public:
 
 public:
   Actuator(
-    ros::NodeHandle& rosNode,
     const char* groupName,
     const char* actuatorName
   ):
-    node(rosNode),
     group(groupName),
     name(actuatorName),
     mode(VELOCITY),
@@ -67,7 +67,8 @@ public:
   }
 
 public:
-  void loadSettings()
+  #ifdef ROS
+  void loadSettings(ros::NodeHandle& node)
   {
     char path[64] = {0};
     char controllerGroup[64] = {0};
@@ -85,6 +86,7 @@ public:
 
     debug();
   }
+  #endif
 
   void update(float timeStep)
   {
@@ -137,7 +139,8 @@ public:
     return stalled;
   }
 
-  void debug()
+  #ifdef ROS
+  void debug(ros::NodeHandle& node)
   {
     char path[64] = {0};
     char controllerGroup[64] = {0};
@@ -153,4 +156,5 @@ public:
     encoder.debug(node, encoderGroup);
     motor.debug(node, motorGroup);
   }
+  #endif
 };

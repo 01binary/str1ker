@@ -19,8 +19,10 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <ros.h>
-#include "params.h"
+#ifdef ROS
+  #include <ros.h>
+  #include "params.h"
+#endif
 
 /*----------------------------------------------------------*\
 | Classes
@@ -103,6 +105,7 @@ public:
     analogWriteFrequency(rpwmPin, PWM_FREQ);
   }
 
+  #ifdef ROS
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
     loadBoolParam(node, group, "enabled", enabled);
@@ -151,6 +154,7 @@ public:
       enable();
     }
   }
+  #endif
 
   void enable()
   {
@@ -229,6 +233,7 @@ public:
     }
   }
 
+  #ifdef ROS
   void debug(ros::NodeHandle& node, const char* group)
   {
     char buffer[256] = {0};
@@ -247,4 +252,5 @@ public:
 
     node.loginfo(buffer);
   }
+  #endif
 };

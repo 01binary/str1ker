@@ -18,15 +18,12 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <str1ker_common/quadratureEncoder.h>
-#include <str1ker_common/potentiometer.h>
-#include <str1ker_common/muxMotor.h>
+#include <firmware.h>
 
 /*----------------------------------------------------------*\
 | Constants
 \*----------------------------------------------------------*/
 
-const float TWO_PI = 6.28318530718f;          // One full revolution in radians
 const float ENCODER_PPR = 1000.0;             // AS5047 pulses per revolution
 const float ENCODER_CPR = ENCODER_PPR * 4.0f; // AS5047 counts per revolution
 
@@ -36,6 +33,7 @@ const float ENCODER_CPR = ENCODER_PPR * 4.0f; // AS5047 counts per revolution
 
 class Leg
 {
+public:
   const char* name;
   int actuatorPotPin;
   int actuatorEnablePin;
@@ -47,7 +45,7 @@ class Leg
   Potentiometer actuatorSensor;
   MuxMotor actuatorMotor;
   MuxMotor wheelMotor;
-  QuadratureEncoder QuadratureEncoder;
+  QuadratureEncoder quadratureEncoder;
 
   float actuatorCommand;
   float wheelCommand;
@@ -56,6 +54,7 @@ class Leg
   float wheelRadians;
   float wheelVelocity;
 
+public:
   Leg(
     const char* legName,
     Adafruit_PWMServoDriver& pwmDriver,
@@ -79,7 +78,7 @@ class Leg
     wheelRightChannel(wheelRightChannel),
     actuatorMotor(pwmDriver),
     wheelMotor(pwmDriver),
-    QuadratureEncoder(wheelPinA, wheelPinB, wheelIndexPin, ENCODER_CPR),
+    quadratureEncoder(wheelPinA, wheelPinB, wheelIndexPin, ENCODER_CPR),
     actuatorCommand(0.0f),
     wheelCommand(0.0f),
     actuatorPosition(0.0f),
@@ -89,13 +88,14 @@ class Leg
   {
   }
 
+public:
   void initialize()
   {
     actuatorSensor.initialize(actuatorPotPin);
     actuatorMotor.initialize(actuatorEnablePin, actuatorLeftChannel, actuatorRightChannel);
     wheelMotor.initialize(wheelEnablePin, wheelLeftChannel, wheelRightChannel);
     actuatorSensor.read();
-    QuadratureEncoder.initialize();
+    quadratureEncoder.initialize();
     stop();
   }
 
@@ -122,11 +122,11 @@ class Leg
   void update(float timeStep)
   {
     actuatorPosition = actuatorSensor.read();
-    QuadratureEncoder.update(timeStep);
+    quadratureEncoder.update(timeStep);
 
-    wheelRevolutions = QuadratureEncoder.revolutions;
+    wheelRevolutions = quadratureEncoder.revolutions;
     wheelRadians = wheelRevolutions * TWO_PI;
-    wheelVelocity = QuadratureEncoder.velocity;
+    wheelVelocity = quadratureEncoder.velocity;
 
     actuatorMotor.write(actuatorCommand);
     wheelMotor.write(wheelCommand);
