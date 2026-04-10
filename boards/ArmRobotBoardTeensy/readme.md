@@ -150,7 +150,7 @@ This encoder is built into the [DumaDynamics](https://www.robotshop.com/products
 
 ## Potentiometers
 
-Two external potentiometers are attached to Teensy pins `A0` and `A1` through locking connectors:
+Two external [NP24HS Series](https://p3america.com/np24hs-series/) potentiometers are attached to Teensy pins `A0` and `A1` through locking connectors:
 
 |Net         |Description
 |------------|----------------------------|
@@ -161,7 +161,7 @@ Two external potentiometers are attached to Teensy pins `A0` and `A1` through lo
 
 ## Voltage/Current Sensor
 
-An external voltage/current sensor (Adafruit INA260) is attached to Teensy I2C bus with pins `SCL` (I2C Clock) and `SDA` (I2C Data) through a locking connector. This sensor also takes Teensy Power and Ground.
+An external voltage/current sensor ([Adafruit INA260](https://www.adafruit.com/product/4226)) is attached to Teensy I2C bus with pins `SCL` (I2C Clock) and `SDA` (I2C Data) through a locking connector. This sensor also takes Teensy Power and Ground.
 
 |Net         |Description
 |------------|----------------------------|
