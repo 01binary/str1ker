@@ -40,7 +40,7 @@ Quadrature signals (`A` and `B`) are connected in the following network:
 |`A_BUF`, `B_BUF`|Schmitt buffer output
 |`A_EDGE`, `B_EDGE`|Cleaned edges from Schmitt buffer output
 |`A_PULSE`, `B_PULSE`|RC differentiator
-|`A_ENV`, `B_ENV`|Envelope capacitors
+|`A_ENV`, `B_ENV`|Envelope integrator capacitors
 |`A_BASE`, `B_BASE`|Transistor base
 |`A_LED_CATHODE`, `B_LED_CATHODE`|LED cathode
 |`A_LED_ANODE`, `B_LED_ANODE`|LED anode
