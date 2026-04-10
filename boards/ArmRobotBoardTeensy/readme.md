@@ -93,6 +93,8 @@ Each motor driver also has a *current sense* pin. These are connected to Teensy 
 + `V` is read voltage from the ADC
 + `R` is the chosen resistor, in this case `5.1K` chosen to produce `3V` on the ADC pin at `5A` (maximum rated) motor current.
 
+Motor drivers are labeled as follows on the schematic:
+
 |Net         |Description
 |------------|----------------------------|
 |`PWM1EN`    |PWM Channel `1` Enabled
