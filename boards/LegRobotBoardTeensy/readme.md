@@ -24,7 +24,7 @@ The following external components are connected to the board via `JST-XH` lockin
 |Device|Function|
 |-|-|
 |8x [IBT2 Motor Drivers](https://www.amazon.com/2-Piece-High-Power-Limiting-Function-Suitable/dp/B0DXKXKYRK)|Wheel Motor Drivers, Leg Actuator Drivers (`8` pin IDC connector: `3V3`, `GND`, `L_EN`, `R_EN`, `LPWM`, `RPWM`, `L_IS`, `R_IS`)|
-|4x [Feedback Rod Linear Actuator](https://www.firgelliauto.com/products/feedback-rod-actuator?variant=2632742851) Potentiometers|Leg Actuator Potentiometers (`3` pin connector: `3V3`, `SIG`, `GND`)|
+|4x [Feedback Rod Linear Actuator](https://www.firgelliauto.com/products/feedback-rod-actuator?variant=2632742851) Potentiometers|Leg Actuator Potentiometers (`3` pin JST-XH connector: `3V3`, `SIG`, `GND`)|
 |4x [Leg (Wheel) Encoder Board](../LegEncoderBoard/readme.md)|Wheel Encoders (`8` pin IDC connector: `A`, `B`, `I`, `3V3`, and four `GND`'s|
 
 ## Functionality
@@ -34,6 +34,8 @@ The following external components are connected to the board via `JST-XH` lockin
 There are four legs and each has two motors: a linear lift actuator and a brushed DC motor that runs the wheel.
 
 [PCA9685PW,118](https://www.digikey.com/en/products/detail/nxp-usa-inc/pca9685pw-118/2034325) PWM driver is used to run this large number of motors over `I2C` bus to avoid over-allocating Teensy pins.
+
+Each PWM channel gets its own `EN` (Enabled) signal. The current sense signals (`L_IS`, `R_IS`) are included in the connector layout and sent over the wire, but not used anywhere on the board because there aren't enough pins for them.
 
 ### ADC
 
