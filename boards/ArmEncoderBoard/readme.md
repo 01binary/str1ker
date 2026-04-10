@@ -159,6 +159,67 @@ The following components appear on the board other than the encoder and the conn
 + `4.7K` to `GND` on `SCK`: clock pull-down
 + `4.7K` to `VIN` on `CS`: chip select pull-up
 
+## Example
+
+```c++
+#define CS              10
+#define MAG_INC_MASK    0x0001
+#define LIN_MASK        0x0002
+#define COF_MASK        0x0004
+#define OCF_MASK        0x0008
+#define POSITION_MASK   0xFFF0
+#define POSITION_SHIFT  4
+
+SPISettings spiSettings(
+  1e6,
+  MSBFIRST,
+  SPI_MODE0
+);
+
+void setup()
+{
+  SPI.begin();
+
+  pinMode(CS, OUTPUT);
+  digitalWrite(CS, HIGH);
+}
+
+void loop()
+{
+  // Select
+  digitalWrite(CS, LOW);
+
+  // Read
+  SPI.beginTransaction(spiSettings);
+  uint16_t data = SPI.transfer16(0);
+  SPI.endTransaction();
+
+  // Deselect
+  digitalWrite(CS, HIGH);
+
+  // Position
+  uint16_t position = (data & POSITION_MASK) >> POSITION_SHIFT;
+
+  // Offset Compensation Finished (OCF)
+  bool ocf = data & OCF_MASK;
+
+  // CORDIC Overflow (COF)
+  bool cof = data & COF_MASK;
+
+  // Linearity Alarm (LIN)
+  bool lin = data & LIN_MASK;
+
+  // Magnetic field too low (MAGINC)
+  bool magInc = data & MAG_INC_MASK;
+
+  // Derive "is the reading valid?" from flags
+  bool valid = ocf && !cof;
+
+  // Derive "is the reading high quality?" from flags
+  bool quality = !lin && !magInc;
+}
+```
+
 ## Bill of Materials
 
 |Component|Description|
