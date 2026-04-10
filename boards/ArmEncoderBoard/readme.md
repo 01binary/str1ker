@@ -8,37 +8,45 @@ A custom board that simplifies mounting `AS5045` hall-effect on-axis encoder wit
 
 For `3.3V` operation `VDD5V` and `VDD3V3` are bridged and routed to `VIN` (3.3V). A single `100nF` decoupling capacitor is placed at the bridge (close to the IC) to `GND`.
 
-## Interface
+## Signal
 
 The following is documented in [AS5045 specifications](./doc/AS5045Encoder.pdf):
 
-+ SSI / synchronous serial output (no MOSI)
++ Synchronous Serial Interface ([SSI](https://knowledge.ni.com/KnowledgeArticleDetails?id=kA00Z0000019MgLSAU)) with one-way communication, `MOSI` line not used
 + Compatible with SPI mode 1 (`CPOL` = `0`, `CPHA` = `1`)
 + Transfer begins when `CSn` is `LOW`
 + MSB-first, clocked data output
 
-The encoder continuously shifts out a 16-bit data frame containing the absolute position and flags in response to clock input without having to request this information - that's what makes its interface *SSI* instead of *SPI*.
+> The encoder continuously shifts out an 18-bit data frame containing the absolute position and flags in response to clock input without having to request this information - that's what makes its interface *SSI* instead of *SPI*.
+
+In addition to the digital communication interface, AS5045 also exposes these pins:
+
++ Quadrature `A`, `B` which can take on different values (according to [grey code](https://cool-emerald.blogspot.com/2014/03/reading-rotary-encoder-using.html) specification) as the magnet angle is changing
++ Index `I`, which is signaled when the magnet passes the zero position (typically used to count complete revolutions)
++ Magnet `MagINC`, `MagDEC` pins that indicate magnetic field strength and changing of distance between sensor and magnet (can be used to troubleshoot bad readings or "wobbly" mounting where the magnet changes distance to sensor as it rotates)
 
 ## Data Format
 
-The data frame contains a 12-bit position value, status flags, and parity.
+The data frame contains 18 bits: 12 data bits, 5 status bits, and 1 parity bit.
 
-|Offset|Size|Data|
-|-|-|-|
-|0|12|Position/Angle (MSB-first)|
-|12|1|`OCF` - Offset Compensation Finished|
-|13|1|`COF` - Cordic Overflow/Out of Range|
-|14|1|`LIN` - Linearity Alarm|
-|15|1|`MacINC` - Magnet too far|
-|16|1|`MagDEC` - Magnet too close|
-|17|1|Parity for error-checking|
+| Bit  | Size | Name     | Description
+| ---- | ---- | -------- | -------------------------------
+| 0–11 | 12   | Position | Angle value (MSB first)
+| 12   | 1    | OCF      | Offset Compensation Finished
+| 13   | 1    | COF      | CORDIC overflow (invalid angle)
+| 14   | 1    | LIN      | Linearity alarm
+| 15   | 1    | MagINC   | Magnet too far
+| 16   | 1    | MagDEC   | Magnet too close
+| 17   | 1    | Parity   | Even parity over previous bits
+
+In practice, it's enough to simply read the first `16` bits using [SPI.transfer16](https://docs.arduino.cc/language-reference/en/functions/communication/SPI/transfer/) function commonly available on Arduino-like microcontrollers such as Teensy.
 
 ## Indicators
 
-LEDs are attached to quadrature and index outputs as well as magnetic field status outputs.
+LEDs are attached to quadrature and index pins as well as magnetic field status pins:
 
-+ The `A` LED blinks when receiving quadrature input (robot joint is moving)
-+ The `I` LED lights when the encoder is at zero position (robot joint at zero)
++ The `A` LED blinks when receiving quadrature input (magnet is moving)
++ The `I` LED lights when the encoder is at zero position (magnet is near zero position)
 + The `MagINC` and `MagDEC` LEDs indicate the quality of readings:
 
 |MagINC|MagDEC|Description
@@ -65,12 +73,11 @@ The `A` quadrature signal from the encoder indicates activity and is connected i
 |Signal|Pin|
 |-|-|
 |`A`|AS5045 `A` pin going to Schmitt buffer input
-|`A_BUF`|Schmitt buffer output
-|`A_EDGE`|Charging capacitor input
-|`A_PULSE`|Time-stretched signal
-|`A_ENV`|Envelope capacitor
-|`A_BLEED`|Bleed resistor
-|`A_BASE`|Transistor base
+|`A_EDGE`|Schmitt buffer output
+|`A_PULSE`|RC circuit that turns edges into pulses
+|`A_ENV`|Envelope circuit that makes pulses last longer
+|`A_BLEED`|Envelope bleed
+|`A_BASE`|Transistor base input
 |`BLUE_CATHODE`|Blue LED cathode
 |`BLUE_ANODE`|Blue LED anode
 
@@ -80,29 +87,41 @@ The `I` index signal from the encoder indicates zero position and is connected i
 |-|-|
 |`I`|AS5045 `I` pin going to Schmitt buffer input
 |`I_BUF`|Schmitt buffer output
-|`I_ENV`|Envelope capacitor
-|`I_BLEED`|Bleed resistor
-|`I_BASE`|Transistor base
+|`I_ENV`|Envelope circuit that makes pulses last longer
+|`I_BLEED`|Envelope bleed
+|`I_BASE`|Transistor base input
 |`BLUE_CATHODE`|Blue LED cathode
 |`BLUE_ANODE`|Blue LED anode
 
 ### Schmitt Buffer
 
-The buffer clamps the analog input to either `HIGH` or `LOW` on the output.
+The Schmitt Trigger Buffer clamps quadrature signals to either `HIGH` or `LOW`, which *cleans the edges* of these signals, making them a *sharp* square wave instead of a *noisy*, approximate, square wave with *soft* edges.
 
-+ AS5045 output (`RAW`) connects to buffer input (`1A`/`2A`)
-+ Schmitt buffer output (`1Y`/`2Y`) connects to buffer output (`BUF`)
-+ A `100nF` decoupling capacitor from `VCC` to `GND` is placed next to the buffer IC
+![schmitt buffer diagram](./doc/schmitt-buffer.png)
 
-### Envelope Generators
+This conditioning is needed because the later stages (a differentiator and an integrator) amplify, and therefore are very sensitive to, noise.
 
-The envelope generator modifies the transient characteristics of the incoming signal by making it rise quickly (fast attack) but decay slowly (slow release).
+### RC Filter (Differentiator)
 
-Without adding sustain, the LEDs would blink too quickly to be noticeable, and simply end up looking "weakly on".
+The differentiator, implemented by using an RC (*Resistor and Capacitor*) circuit, reacts to *changes* in voltage level.
 
-+ `BAT54` diode: anode connects to `BUF`, cathode to `ENV`
-+ `1uF` capacitor between `ENV` and `GND`
-+ `100K` resistor between `ENV` and `GND`
+If the input voltage changes from `HIGH` to `LOW`, the output from the differentiator is `HIGH`, same from `LOW` back to `HIGH`. The differentiator stays `LOW` when the voltage is not changing.
+
+![rc integrator](./doc/envelope-integrator.png)
+
+This makes the `A` LED light only when the quadrature signal changes. It's the only way to make an *activity* LED for this kind of signal because a quadrature channel may be left either `HIGH` or `LOW` depending on when the thing being measured stops moving (there is a truth table called the [grey code](https://cool-emerald.blogspot.com/2014/03/reading-rotary-encoder-using.html) that describes the possible states).
+
+![grey code](./doc/grey-code.png)
+
+### Envelope Generator (Integrator)
+
+Envelope generators modify the transient characteristics of the incoming signal. The one used here acts like an integrator (it accumulates a value over time) by making the signal rise quickly (fast attack) but decay slowly (slow release).
+
+> Fast attack/slow release combination creates "sustain" which enables the LED indicators to stay on long enough to be seen as a "blink" by the human eye after the differentiator detects a change (movement).
+
+![envelope generator](./doc/envelope-integrator.png)
+
+Without this part of the circuit, the LEDs would strobe so fast that to a human they would look dimly lit.
 
 ### Transistors
 
@@ -118,18 +137,20 @@ Transistors are used to drive LEDs from the power source, using AS5045's A/I pin
 
 The `MagINC` and `MagDEC` pins on AS5045 are open-drain, active-low outputs:
 
-+ When the signals are off, `10K` resistors are used to pull the lines up to `VIN` bus voltage, making the voltage potential across the corresponding LEDs zero and turning them off (both cathode and anode are bridged to `VIN`).
++ When the signals are off (`High-Z`), `10K` resistors are used to pull the lines up to `VIN` bus voltage, making the voltage potential across the corresponding LEDs zero and turning them off (both cathode and anode are bridged to `VIN`).
 + When the signals are on (`LOW`), the LED cathodes get bridged to `GND` through these AS5045 pins (and `1K` current-limiting resistors), while LED anodes remain bridged to `VIN` as before, generating a positive voltage potential and turning the LEDs on.
 
 ## Connector
 
-The `JST-XH` connector is designed to accomodate a 5-pin `SSI` interface (encoder continuously streams 16-bit words containing the current angle in response to clock input):
+The `JST-XH` connector is designed to accomodate a 5-pin `SSI` interface:
 
 |Position|1|2|3|4|5
 |-|-|-|-|-|-|
 |Signal|`3V3`|`CS`|`SCK`|`MISO`|`GND`|
 
-## Network
+This is designed for a simple 5-terminal ribbon with a JST-XH locking connector crimped on.
+
+## Miscellaneous
 
 The following components appear on the board other than the encoder and the connector:
 

@@ -4,15 +4,15 @@ A custom board that simplifies mounting `AS5047P` hall-effect on-axis encoder wi
 
 > Ready-made alternatives like [SideView Tech](https://www.amazon.com/AS5047P-Magnetic-Position-Breakout-Compatible/dp/B0DLJ6XDNM) and [AS5047P Adapter Board](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5047p-adapterboard/5452344) do exist, but have extra pins not used in this project and a board shape that makes them hard to mount.
 
-## Signal
-
-The [AS5047P documentation](./doc/AS5047P.pdf) specifies that `A` and `B` pins output a quadrature signal, and an additional `I` pin outputs index (one pulse per complete revolution). In practice, the index is `HIGH` whenever the encoder is approximately near its zero position.
-
 ## Power
 
 For `3.3V` operation `VDD` and `VDD3V3` are bridged and decoupled to `GND` via `100nF` decoupling capacitor and `10uF` bypass capacitor.
 
 Another `1uF` bulk capacitor is on `VDD3V3` line for additional stabilization.
+
+## Signal
+
+The [AS5047P documentation](./doc/AS5047P.pdf) specifies that `A` and `B` pins output a quadrature signal, and an additional `I` pin outputs index (one pulse per complete revolution). In practice, the index is `HIGH` whenever the encoder is approximately near its zero position.
 
 ## Indicators
 
@@ -60,17 +60,17 @@ Both Quadrature and Index signals use an integrator circuit to make fast changes
 
 ### Schmitt Buffer
 
-The Schmitt Trigger Buffer clamps AS5047 quadrature signals to either `HIGH` or `LOW`, which *cleans the edges* of these signals, making them a *sharp* square wave instead of a *noisy*, approximate, square wave with *soft* edges.
+The Schmitt Trigger Buffer clamps quadrature signals to either `HIGH` or `LOW`, which *cleans the edges* of these signals, making them a *sharp* square wave instead of a *noisy*, approximate, square wave with *soft* edges.
 
 ![schmitt buffer diagram](./doc/schmitt-buffer.png)
 
 This conditioning is needed because the later stages (a differentiator and an integrator) amplify, and therefore are very sensitive to, noise.
 
-### Resistor-Capacitor (RC) Differentiator
+### RC Filter (Differentiator)
 
 The differentiator, implemented by using an RC (*Resistor and Capacitor*) circuit, reacts to *changes* in voltage level.
 
-If the input voltage changes from `HIGH` to `LOW`, the output from the differentiator is `HIGH`, same from `LOW` back to `HIGH`. If the voltage is unchanged, the differentiator is `LOW`.
+If the input voltage changes from `HIGH` to `LOW`, the output from the differentiator is `HIGH`, same from `LOW` back to `HIGH`. The differentiator stays `LOW` when the voltage is not changing.
 
 ![rc integrator](./doc/envelope-integrator.png)
 
@@ -78,9 +78,9 @@ This makes the LEDs light only when the quadrature signal changes. It's the only
 
 ![grey code](./doc/grey-code.png)
 
-### Envelope Detector (Integrator)
+### Envelope Generator (Integrator)
 
-Envelope detectors modify the transient characteristics of the incoming signal. The one used here acts like an integrator (it accumulates a value over time) by making the signal rise quickly (fast attack) but decay slowly (slow release).
+Envelope generators modify the transient characteristics of the incoming signal. The one used here acts like an integrator (it accumulates a value over time) by making the signal rise quickly (fast attack) but decay slowly (slow release).
 
 > Fast attack/slow release combination creates "sustain" which enables the LED indicators to stay on long enough to be seen as a "blink" by the human eye after the differentiator detects a change (movement).
 
