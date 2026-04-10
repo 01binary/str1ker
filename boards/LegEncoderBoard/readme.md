@@ -104,7 +104,7 @@ Transistors are used to drive LEDs from the power source, using AS5047's A/B/I p
 
 ## Connector
 
-The board uses an IDC connector with 2 rows of 4 pins for each quadrature channel. This enables twisting each of the signal wires with ground for better interference rejection.
+The board uses an IDC connector with 2 rows of 4 pins. This enables twisting each of the four signal wires with ground for better interference rejection.
 
 Conveniently, [CAT5E](https://www.amazon.com/dp/B00KWS6TWS) cables have this precise layout: 8 wires, 4 of them signals, 4 of them grounds, each signal twisted with its ground along the entire length of the cable.
 
