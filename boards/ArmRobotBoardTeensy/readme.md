@@ -7,11 +7,11 @@
 A Teensy 4.0-based board that controls one 3-degree of freedom (DoF) robot arm with three motors and an end-effector solenoid.
 
 + The first joint has a digital absolute encoder (AS5045 on SPI bus, see the [custom encoder board](../ArmEncoderBoard/)) and a relative encoder (A/B quadrature interrupt pins), in addition to two limit switches that automatically cut off the "enabled" signal for the first motor driver.
-+ The other two joints have potentiometers and linear actuators with built-in limit switche connected to the remaining two motor drivers.
++ The other two joints have potentiometers and linear actuators with built-in limit switches connected to the remaining two motor drivers.
 + All three motor drivers have red *enabled* LEDs and blue *activity* LEDs.
-+ The solenoid has a blue *activity* LED that indicates when the signal is being sent to Adafruit MOSFET Driver.
++ The solenoid has a blue *activity* LED that indicates when the signal is being sent to [Adafruit MOSFET Driver](https://www.adafruit.com/product/5648).
 + The SPI connection for the absolute encoder has a red *status* LED.
-+ Adafruit INA260 Voltage and current sensor is attached to the I2C bus. This is used for system identification and PID controller tuning in the lab (not used in production).
++ [Adafruit INA260](https://www.adafruit.com/product/4226) Voltage and current sensor is attached to the I2C bus. This is used for system identification and PID controller tuning in the lab (not used in production).
 
 ## Software
 
@@ -19,7 +19,7 @@ A Teensy 4.0-based board that controls one 3-degree of freedom (DoF) robot arm w
 
 + All three actuators are PID controlled, with encoders normalized to the travel range.
 + Teensy is configured for 12-bit analog conversion.
-+ The PID constants for all three actuators are adjustable via [ROS parameters](../../config/arm.yaml).
++ The PID constants for all three actuators are adjustable via [ROS parameters](../../config/arm.yaml) loaded for the ROS Serial node running on the Teensy 4.0 MCU soldered onto this board.
 
 ### ROS Interface
 
