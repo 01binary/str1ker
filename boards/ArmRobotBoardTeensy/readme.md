@@ -77,11 +77,13 @@ There are three external [Mini IBT](https://www.amazon.com/L6201P-Module-H-Bridg
 
 Each motor driver has a *status LED* that lights up whenever the driver is enabled (`EN` is `HIGH`).
 
-Each motor driver also has two *activity LEDs* that blink whenever `RPWM` or `LPWM` pins are active. Logic *AND* gates are used along with a 555 timer to blink these activity LEDs twice each second whenever a non-zero PWM signal is being sent to LPWM or RPWM driver pins.
+Each motor driver also has two *activity LEDs* that blink whenever `RPWM` or `LPWM` pins are active. Logic *AND* gates are used along with a 555 timer to blink these activity LEDs whenever a non-zero PWM signal is being sent to these pins.
 
-The 555 timer is configured with two resistors, 10K and 360K, for a blink rate of ~2 Hz.
+The 555 timer is configured with two resistors, `10K` and `360K`, for a blink rate of `~2 Hz` (two blinks per second).
 
-The first PWM channel has two normally open limit switches that cut off the `EN` signal from microcontroller when closed by using a transistor. In this way, even if this PWM channel is enabled by the controller, closing either switch will disable it.
+The first PWM channel has two normally-open limit switches that cut off the `EN` signal from microcontroller when closed by using a transistor. In this way, even if this PWM channel is enabled by the controller, closing either switch will disable it.
+
+The two linear actuators that control forearm and elbow joints have built-in limit switches but the motor that rotates the arm will happily keep pushing when reaching the limits of its motion, which damages the hardware unnecessarily - these external limit switches solve that problem.
 
 Each motor driver also has a *current sense* pin. These are connected to Teensy ADC pins to read the current of each motor, which is accomplished by placing a `5.1K` resistor to `GND` on current sense lines. The current can be calculated using this formula:
 
