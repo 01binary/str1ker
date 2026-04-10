@@ -22,14 +22,15 @@ LEDs are attached to quadrature and index (`A`, `B`, `I`) encoder outputs:
 
 The following components are used to enable this:
 
-+ 1× `SN74LVC3G17DCTRE4` triple Schmitt buffer
-+ 3× `BAT54WS` Schottky diodes
-+ 3× `470K` resistors (transistor base bleed)
-+ 3× `47K` resistors (transistor base resistor)
-+ 3× `100K` resistors (envelope discharge)
-+ 3× `1 uF` capacitors (envelope storage)
-+ 1× `100 nF` capacitor (buffer decoupling)
-+ 3× `MMBT3904` transistors (LED sink drivers)
++ `SN74LVC3G17DCTRE4` triple Schmitt buffer
++ `BAT54WS` Schottky diodes
++ `470K` resistors (transistor base bleed)
++ `47K` resistors (transistor base resistor)
++ `100K` resistors (envelope discharge)
++ `1uF` capacitors (envelope storage)
++ `100nF` capacitor (buffer decoupling)
++ `10nF` capacitor (RC storage)
++ `MMBT3904` transistors (LED sink drivers)
 
 Quadrature signals (`A` and `B`) are connected in the following network:
 
@@ -37,8 +38,8 @@ Quadrature signals (`A` and `B`) are connected in the following network:
 |-|-|
 |`A`, `B`|AS5047 A, B pins going to Schmitt buffer inputs
 |`A_BUF`, `B_BUF`|Schmitt buffer output
-|`A_EDGE`, `B_EDGE`|Pulse-stretching charge capacitors
-|`A_PULSE`, `N_PULSE`|Time-stretched signals
+|`A_EDGE`, `B_EDGE`|Cleaned edges from Schmitt buffer output
+|`A_PULSE`, `B_PULSE`|RC differentiator
 |`A_ENV`, `B_ENV`|Envelope capacitors
 |`A_BASE`, `B_BASE`|Transistor base
 |`A_LED_CATHODE`, `B_LED_CATHODE`|LED cathode
@@ -55,25 +56,37 @@ Index signal (`I`) is connected in the following network:
 |`I_LED_CATHODE`|LED cathode
 |`I_LED_ANODE`|LED anode
 
+Both Quadrature and Index signals use an integrator circuit to make fast changes visible. Quadrature signals add a differentiator before the integrator to make the lights react only to changes in the quadrature signal, rather than the actual signal.
+
 ### Schmitt Buffer
 
-The buffer clamps the analog input to either `HIGH` or `LOW` on the output.
+The Schmitt Trigger Buffer clamps AS5047 quadrature signals to either `HIGH` or `LOW`, which *cleans the edges* of these signals, making them a *sharp* square wave instead of a *noisy*, approximate, square wave with *soft* edges.
 
-+ AS5047 output connects to buffer input (`1A`/`2A`/`3A`)
-+ Schmitt buffer output (`1Y`/`2Y`/`3Y`) connects to buffer output (`_BUF`)
-+ `100nF` capacitor from `VCC` to `GND` next to the buffer IC
+![schmitt buffer diagram](./doc/schmitt-buffer.png)
 
-### Envelope Generators
+This conditioning is needed because the later stages (a differentiator and an integrator) amplify, and therefore are very sensitive to, noise.
 
-Envelope generators modify the transient characteristics of the incoming signal by making it rise quickly (fast attack) but decay slowly (slow release).
+### Resistor-Capacitor (RC) Differentiator
 
-> Fast attack/slow release combination creates "sustain" which enables the LED indicators to stay on after being triggered from AS5047 A/B outputs through the Schmitt trigger.
+The differentiator, implemented by using an RC (*Resistor and Capacitor*) circuit, reacts to *changes* in voltage level.
 
-Without adding sustain, the LEDs would blink too quickly to be noticeable, and simply end up looking "weakly on".
+If the input voltage changes from `HIGH` to `LOW`, the output from the differentiator is `HIGH`, same from `LOW` back to `HIGH`. If the voltage is unchanged, the differentiator is `LOW`.
 
-+ `BAT54` diode: anode connects to `BUF`, cathode to `ENV`
-+ `1 uF` capacitor between `ENV` and `GND`
-+ `100K` resistor between `ENV` and `GND`
+![rc integrator](./doc/envelope-integrator.png)
+
+This makes the LEDs light only when the quadrature signal changes. It's the only way to make an *activity* LED for this kind of signal because quadrature `A` and `B` channels may be left either `HIGH` or `LOW` depending on when the thing being measured stops moving (there is a truth table called the [grey code](https://cool-emerald.blogspot.com/2014/03/reading-rotary-encoder-using.html) that describes the possible states).
+
+![grey code](./doc/grey-code.png)
+
+### Envelope Detector (Integrator)
+
+Envelope detectors modify the transient characteristics of the incoming signal. The one used here acts like an integrator (it accumulates a value over time) by making the signal rise quickly (fast attack) but decay slowly (slow release).
+
+> Fast attack/slow release combination creates "sustain" which enables the LED indicators to stay on long enough to be seen as a "blink" by the human eye after the differentiator detects a change (movement).
+
+![envelope generator](./doc/envelope-integrator.png)
+
+Without this part of the circuit, the LEDs would strobe so fast that to a human they would look dimly lit.
 
 ### Transistors
 
@@ -81,8 +94,8 @@ Transistors are used to drive LEDs from the power source, using AS5047's A/B/I p
 
 + Emitter connects to `GND`
 + Collector connects to `LED_CATHODE`
-+ Base connects to `ENV` through `47K` base resistor
-+ Base connects to `GND` through `470K` pull-down resistor
++ Base connects to `ENV` through `47K` base resistor (transitor base is a diode much like an LED, and needs a current-limiting resistor, otherwise Teensy will dump all its available current into the gate, which adds up quickly)
++ Base connects to `GND` through `470K` pull-down resistor (this helps ensure the gate stays closed when connected to nothing, such as during boot)
 
 ### Indicators
 
@@ -91,7 +104,11 @@ Transistors are used to drive LEDs from the power source, using AS5047's A/B/I p
 
 ## Connector
 
-The board uses an IDC connector with two rows of 4 pins. This enables twisting each of the signal wires with ground for better interference rejection.
+The board uses an IDC connector with 2 rows of 4 pins for each quadrature channel. This enables twisting each of the signal wires with ground for better interference rejection.
+
+Conveniently, [CAT5E](https://www.amazon.com/dp/B00KWS6TWS) cables have this precise layout: 8 wires, 4 of them signals, 4 of them grounds, each signal twisted with its ground along the entire length of the cable.
+
+All that remains is cutting off the `RJ45` connectors and crimping on [Molex 0022552082](https://www.digikey.com/en/products/detail/molex/0022552082/313629) / [Molex 0016020086](https://www.digikey.com/en/products/detail/molex/0016020086/467788) to make female locking connectors that fit into IDC male receptacles.
 
 |Column|1|2|3|4|
 |-|-|-|-|-|
