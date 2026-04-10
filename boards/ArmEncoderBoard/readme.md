@@ -73,7 +73,7 @@ The `A` quadrature signal from the encoder indicates activity and is connected i
 |Signal|Pin|
 |-|-|
 |`A`|AS5045 `A` pin going to Schmitt buffer input
-|`A_EDGE`|Schmitt buffer output
+|`A_EDGE`|Cleaned edges from Schmitt buffer output
 |`A_PULSE`|RC circuit that turns edges into pulses
 |`A_ENV`|Envelope circuit that makes pulses last longer
 |`A_BLEED`|Envelope bleed

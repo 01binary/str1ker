@@ -39,8 +39,8 @@ Quadrature signals (`A` and `B`) are connected in the following network:
 |`A`, `B`|AS5047 A, B pins going to Schmitt buffer inputs
 |`A_BUF`, `B_BUF`|Schmitt buffer output
 |`A_EDGE`, `B_EDGE`|Cleaned edges from Schmitt buffer output
-|`A_PULSE`, `B_PULSE`|RC differentiator
-|`A_ENV`, `B_ENV`|Envelope integrator capacitors
+|`A_PULSE`, `B_PULSE`|RC circuit that turns edges into pulses
+|`A_ENV`, `B_ENV`|Envelope circuit that makes pulses last longer
 |`A_BASE`, `B_BASE`|Transistor base
 |`A_LED_CATHODE`, `B_LED_CATHODE`|LED cathode
 |`A_LED_ANODE`, `B_LED_ANODE`|LED anode
@@ -51,7 +51,7 @@ Index signal (`I`) is connected in the following network:
 |-|-|
 |`I`|AS5047 I pin to Schmitt buffer input
 |`I_BUF`|Schmitt buffer output
-|`I_ENV`|Envelope capacitors
+|`I_ENV`|Envelope circuit that makes pulses last longer
 |`I_BASE`|Transistor base
 |`I_LED_CATHODE`|LED cathode
 |`I_LED_ANODE`|LED anode
