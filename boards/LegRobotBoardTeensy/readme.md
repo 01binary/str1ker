@@ -45,7 +45,7 @@ The linear lift actuators have built-in multi-turn potentiometers. These are rou
 
 The [wheel encoders](../LegEncoderBoard/readme.md) are connected to each of the four wheels, outputting `A`, `B`, and `I` pulses counting rotations (`1000` pulses per revolution).
 
-## Pins
+## Pin Mapping
 
 This board is essentially a shield, exposing convenient, labeled locking connectors for all of the devices, and indicating PWM enabled/activity with LEDs.
 

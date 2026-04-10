@@ -31,6 +31,8 @@ A Teensy 4.0-based board that controls one 3-degree of freedom (DoF) robot arm w
 
 ## Pin Mapping
 
+This board is essentially a shield, exposing convenient, labeled locking connectors for all of the devices, and indicating PWM enabled/activity with LEDs.
+
 |Pin              |Net        |Description
 |-----------------|-----------|-------------------
 |3V3              |`+3.3V`    |Power
