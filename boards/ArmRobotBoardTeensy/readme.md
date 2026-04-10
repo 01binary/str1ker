@@ -6,12 +6,22 @@
 
 A Teensy 4.0-based board that controls one 3-degree of freedom (DoF) robot arm with three motors and an end-effector solenoid.
 
-+ The first joint has a digital absolute encoder (AS5045 on SPI bus, see the [custom encoder board](../ArmEncoderBoard/)) and a relative encoder (A/B quadrature interrupt pins), in addition to two limit switches that automatically cut off the "enabled" signal for the first motor driver.
-+ The other two joints have potentiometers and linear actuators with built-in limit switches connected to the remaining two motor drivers.
++ The first joint has a digital absolute encoder (AS5045 on SPI bus, see the [custom encoder board](../ArmEncoderBoard/)) and a relative encoder (A/B quadrature interrupt pins), in addition to two limit switches that automatically cut off the "enabled" signal for the first [Mini IBT](https://www.amazon.com/L6201P-Module-H-Bridge-Control-12V-48V/dp/B09N7L9TLB) motor driver.
++ The other two joints have potentiometers and linear actuators with built-in limit switches connected to the remaining two [Mini IBT](https://www.amazon.com/L6201P-Module-H-Bridge-Control-12V-48V/dp/B09N7L9TLB) motor drivers.
 + All three motor drivers have red *enabled* LEDs and blue *activity* LEDs.
 + The solenoid has a blue *activity* LED that indicates when the signal is being sent to [Adafruit MOSFET Driver](https://www.adafruit.com/product/5648).
 + The SPI connection for the absolute encoder has a red *status* LED.
 + [Adafruit INA260](https://www.adafruit.com/product/4226) Voltage and current sensor is attached to the I2C bus. This is used for system identification and PID controller tuning in the lab (not used in production).
+
+The motor drivers control the following motors and actuators:
+
+|Joint|Description|Motor|
+|-|-|-|
+|Base|Rotates the arm|[DumaDynamics 56RPM Right Angle Gear Motor w/ 13PPR](https://www.robotshop.com/products/duma-dynamics-56rpm-right-angle-gear-motor-w-13ppr-hall-sensor-encoder)
+|Shoulder|Raises or lowers the arm|[Firgelli Classic Rod Linear Actuator](https://www.firgelliauto.com/products/linear-actuators?variant=843909131)
+|Elbow|Extends or contracts the arm|[Firgelli Bullet Mini Actuator](https://www.firgelliauto.com/products/bullet-series-mini-actuators?variant=20791982342)
+
+The potentiometers that measure shoulder and elbow joint positions are [NP24HS Series](https://p3america.com/np24hs-series/) from P3 America.
 
 ## Software
 
@@ -61,11 +71,9 @@ This board is essentially a shield, exposing convenient, labeled locking connect
 |`D23`            |`LPWM3`    |Motor Driver 3 LPWM
 |`D17`            |`SIG`      |Solenoid Driver Signal
 
-# Requirements
-
 ## Motor Drivers
 
-There are three external Mini IBT motor drivers, each with `EN` (enabled), `RPWM` (right PWM velocity), `LPWM` (left PWM velocity) and `VT` (current sense) pins.
+There are three external [Mini IBT](https://www.amazon.com/L6201P-Module-H-Bridge-Control-12V-48V/dp/B09N7L9TLB) motor drivers, each with `EN` (enabled), `RPWM` (right PWM velocity), `LPWM` (left PWM velocity) and `VT` (current sense) pins.
 
 Each motor driver has a *status LED* that lights up whenever the driver is enabled (`EN` is `HIGH`).
 
