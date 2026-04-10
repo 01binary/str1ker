@@ -112,9 +112,9 @@ Motor drivers are labeled as follows on the schematic:
 
 ## Solenoid
 
-There is one external solenoid with `VDD` (power), `GND` (ground), and `SIG` (signal) pins. The solenoid is enabled when it gets power from Teensy on the `VDD` pin, and gets triggered whenever `SIG` pin is `HIGH`.
+There is one external solenoid connected to [Adafruit MOSFET Driver](https://www.adafruit.com/product/5648) with `VDD` (power), `GND` (ground), and `SIG` (signal) pins. The solenoid driver is enabled when it gets power from Teensy on the `VDD` pin, and gets triggered whenever `SIG` pin is `HIGH`.
 
-The solenoid has its own activity LED called `SOLED` which lights up whenever the solenoid is triggered through the `SIG` pin.
+The solenoid signal pin has its own activity LED which lights up whenever the solenoid is triggered through the `SIG` pin.
 
 |Net         |Description
 |------------|----------------------------|
@@ -122,7 +122,7 @@ The solenoid has its own activity LED called `SOLED` which lights up whenever th
 
 ## Absolute Encoder
 
-An external absolute encoder (AS5045) is attached to Teensy SPI bus with pins `VDD` (power), `CS` (chip select), `SCK` (SPI clock), `MISO` (SPI input), and `GND` (ground).
+An external [absolute encoder board](../ArmEncoderBoard/) is attached to Teensy SPI bus with pins `VDD` (power), `CS` (chip select), `SCK` (SPI clock), `MISO` (SPI input), and `GND` (ground).
 
 When the communication with the encoder is initialized successfully, the controller will set pin `D9` to `HIGH`. This pin is connected to a red encoder status LED.
 
@@ -138,6 +138,8 @@ When the communication with the encoder is initialized successfully, the control
 ## Relative Encoder
 
 An external relative encoder is attached to Teensy interruptable pins `D2` and `D5`. Like the absolute encoder, it is powered through Teensy 3.3V and Ground pins.
+
+This encoder is built into the [DumaDynamics](https://www.robotshop.com/products/duma-dynamics-56rpm-right-angle-gear-motor-w-13ppr-hall-sensor-encoder) motor used to rotate the arm.
 
 |Net         |Description
 |------------|----------------------------|
