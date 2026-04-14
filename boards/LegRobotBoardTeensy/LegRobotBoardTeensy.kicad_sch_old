@@ -5310,9 +5310,9 @@
 		)
 		(uuid "54ad906c-a863-456c-b25b-4c1f9468abfa")
 	)
-	(text "Mount Holes"
+	(text "MOUNT HOLES"
 		(exclude_from_sim no)
-		(at 105.41 114.3 0)
+		(at 106.68 114.3 0)
 		(effects
 			(font
 				(size 2.54 2.54)
@@ -5390,16 +5390,6 @@
 		)
 		(uuid "69e52632-7f88-4dee-a34e-7c6736d6c400")
 	)
-	(text "LPWM / RPWM"
-		(exclude_from_sim no)
-		(at 194.31 184.15 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-		)
-		(uuid "6c522cd3-c825-419d-931e-5c58bbc961cc")
-	)
 	(text "PWM 3"
 		(exclude_from_sim no)
 		(at 34.29 288.29 0)
@@ -5422,13 +5412,13 @@
 	)
 	(text "PWM ENABLED"
 		(exclude_from_sim no)
-		(at 39.37 185.42 0)
+		(at 41.91 189.23 0)
 		(effects
 			(font
-				(size 1.778 1.778)
+				(size 2.54 2.54)
 			)
 		)
-		(uuid "8df4ab7f-f734-460e-998d-ebb89d77e9a5")
+		(uuid "93ab97b8-f472-463b-a47b-cae05ed07204")
 	)
 	(text "LPWM 8"
 		(exclude_from_sim no)
@@ -5469,6 +5459,16 @@
 			)
 		)
 		(uuid "c7c82cc3-5bc5-41af-ad85-c67a4f9d0237")
+	)
+	(text "LPWM / RPWM"
+		(exclude_from_sim no)
+		(at 199.39 189.23 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+			)
+		)
+		(uuid "ca97b652-c8aa-4e4d-bbf9-153426d2e73a")
 	)
 	(text "LPWM 1"
 		(exclude_from_sim no)
