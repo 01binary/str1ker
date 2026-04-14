@@ -18,4 +18,5 @@
   (lib (name "CC0603KRX7R9BB104")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Capacitor100nF/CC0603KRX7R9BB104.kicad_sym")(options "")(descr ""))
   (lib (name "RC0603FR-072K2L")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor2.2K/RC0603FR-072K2L.kicad_sym")(options "")(descr ""))
   (lib (name "CL10B473KB8NNNC")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Capacitor47nF/CL10B473KB8NNNC.kicad_sym")(options "")(descr ""))
+  (lib (name "AO3400A")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/AO3400A/AO3400A.kicad_sym")(options "")(descr ""))
 )

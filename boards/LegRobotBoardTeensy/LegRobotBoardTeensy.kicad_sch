@@ -5,6 +5,466 @@
 	(uuid "beb2de51-0800-4d36-919d-406321c54cb0")
 	(paper "A2")
 	(lib_symbols
+		(symbol "AO3400A:AO3400A"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "Q"
+				(at -8.89 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" "AO3400A"
+				(at -8.89 -7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Footprint" "AO3400A:AO3400A"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "MF" "UMW"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "PRICE" "None"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Package" "None"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Price" "None"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "MP" "AO3400A"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Availability" "In Stock"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "AVAILABILITY" "In Stock"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(symbol "AO3400A_0_0"
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0 -2.54)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 3.175) (xy 0.762 2.54)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 2.54) (xy 0.762 1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 2.54) (xy 3.81 2.54)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 0.762) (xy 0.762 0)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 0) (xy 0.762 -0.762)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 0) (xy 2.54 0)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 -1.905) (xy 0.762 -2.54)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 -2.54) (xy 0.762 -3.175)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.016 0) (xy 2.032 0.762) (xy 2.032 -0.762) (xy 1.016 0)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(circle
+					(center 2.54 2.54)
+					(radius 0.3592)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 0) (xy 2.54 -2.54)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -2.54) (xy 0.762 -2.54)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -2.54) (xy 3.81 -2.54)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.54 -2.54)
+					(radius 0.3592)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.81 2.54) (xy 3.81 0.508)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.81 0.508) (xy 3.302 0.508)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.81 0.508) (xy 3.81 -2.54)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.81 0.508) (xy 3.302 -0.254) (xy 4.318 -0.254) (xy 3.81 0.508)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 4.318 0.508) (xy 3.81 0.508)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -2.54 -2.54 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 5.08 270)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 -5.08 90)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "BNO055:BNO055"
 			(exclude_from_sim no)
 			(in_bom no)
@@ -1824,364 +2284,6 @@
 						(effects
 							(font
 								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "MMBT3904LT1G:MMBT3904LT1G"
-			(pin_names
-				(offset 1.016)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "Q"
-				(at 5.0823 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left bottom)
-				)
-			)
-			(property "Value" "MMBT3904LT1G"
-				(at 5.0898 -2.5449 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left bottom)
-				)
-			)
-			(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify bottom)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify bottom)
-					(hide yes)
-				)
-			)
-			(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify bottom)
-					(hide yes)
-				)
-			)
-			(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify bottom)
-					(hide yes)
-				)
-			)
-			(property "Package" "SOT-23-3 ON Semiconductor"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify bottom)
-					(hide yes)
-				)
-			)
-			(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify bottom)
-					(hide yes)
-				)
-			)
-			(property "MF" "ON Semiconductor"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify bottom)
-					(hide yes)
-				)
-			)
-			(property "MP" "MMBT3904LT1G"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify bottom)
-					(hide yes)
-				)
-			)
-			(property "MANUFACTURER" "ON Semiconductor"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify bottom)
-					(hide yes)
-				)
-			)
-			(symbol "MMBT3904LT1G_0_0"
-				(polyline
-					(pts
-						(xy -2.54 0) (xy 0 0)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start -0.2542 -2.5425)
-					(end 0.508 2.54)
-					(stroke
-						(width 0.1)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -2.54) (xy 1.778 -1.524)
-					)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.524 -2.286) (xy 1.905 -2.286)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.524 -2.413) (xy 2.286 -2.413)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.54 -2.04) (xy 0.308 -1.424)
-					)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.778 -1.524) (xy 2.54 -2.54)
-					)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.778 -1.778) (xy 1.524 -2.286)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.905 -2.286) (xy 1.778 -2.032)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.286 -2.413) (xy 1.778 -1.778)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.54 5.08) (xy 2.54 2.54)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.54 2.54) (xy 0.508 1.524)
-					)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.54 -2.54) (xy 1.27 -2.54)
-					)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.54 -2.54) (xy 2.54 -5.08)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin passive line
-					(at -5.08 0 0)
-					(length 2.54)
-					(name "B"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 2.54 7.62 270)
-					(length 2.54)
-					(name "C"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 2.54 -7.62 90)
-					(length 2.54)
-					(name "E"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.016 1.016)
 							)
 						)
 					)
@@ -5208,9 +5310,9 @@
 		)
 		(uuid "54ad906c-a863-456c-b25b-4c1f9468abfa")
 	)
-	(text "Mount Holes"
+	(text "MOUNT HOLES"
 		(exclude_from_sim no)
-		(at 105.41 114.3 0)
+		(at 106.68 114.3 0)
 		(effects
 			(font
 				(size 2.54 2.54)
@@ -5288,16 +5390,6 @@
 		)
 		(uuid "69e52632-7f88-4dee-a34e-7c6736d6c400")
 	)
-	(text "LPWM / RPWM"
-		(exclude_from_sim no)
-		(at 194.31 184.15 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-		)
-		(uuid "6c522cd3-c825-419d-931e-5c58bbc961cc")
-	)
 	(text "PWM 3"
 		(exclude_from_sim no)
 		(at 34.29 288.29 0)
@@ -5320,13 +5412,13 @@
 	)
 	(text "PWM ENABLED"
 		(exclude_from_sim no)
-		(at 39.37 185.42 0)
+		(at 41.91 189.23 0)
 		(effects
 			(font
-				(size 1.778 1.778)
+				(size 2.54 2.54)
 			)
 		)
-		(uuid "8df4ab7f-f734-460e-998d-ebb89d77e9a5")
+		(uuid "93ab97b8-f472-463b-a47b-cae05ed07204")
 	)
 	(text "LPWM 8"
 		(exclude_from_sim no)
@@ -5367,6 +5459,16 @@
 			)
 		)
 		(uuid "c7c82cc3-5bc5-41af-ad85-c67a4f9d0237")
+	)
+	(text "LPWM / RPWM"
+		(exclude_from_sim no)
+		(at 199.39 189.23 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+			)
+		)
+		(uuid "ca97b652-c8aa-4e4d-bbf9-153426d2e73a")
 	)
 	(text "LPWM 1"
 		(exclude_from_sim no)
@@ -5792,6 +5894,16 @@
 	)
 	(wire
 		(pts
+			(xy 293.37 242.57) (xy 293.37 246.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "021181c5-579e-4405-aa77-32ffdeaec00d")
+	)
+	(wire
+		(pts
 			(xy 63.5 99.06) (xy 66.04 99.06)
 		)
 		(stroke
@@ -5812,16 +5924,6 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 215.9) (xy 148.59 215.9)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "03b50eec-e220-4ece-97af-486f4fe153c9")
-	)
-	(wire
-		(pts
 			(xy 161.29 57.15) (xy 173.99 57.15)
 		)
 		(stroke
@@ -5829,6 +5931,26 @@
 			(type default)
 		)
 		(uuid "03d690d7-fc61-4008-9444-a5f108fabca0")
+	)
+	(wire
+		(pts
+			(xy 527.05 251.46) (xy 539.75 251.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "040907a8-0f28-4362-bf23-e1cba9d1e89a")
+	)
+	(wire
+		(pts
+			(xy 454.66 251.46) (xy 467.36 251.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "06263a40-65a3-4c17-82fa-9e9ed76ba440")
 	)
 	(wire
 		(pts
@@ -5842,26 +5964,6 @@
 	)
 	(wire
 		(pts
-			(xy 55.88 242.57) (xy 55.88 243.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0703b161-d176-4a7a-bdb1-cbf2388cd339")
-	)
-	(wire
-		(pts
-			(xy 459.74 251.46) (xy 467.36 251.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "08956cf2-6d2f-4c31-ae83-72dee85bc278")
-	)
-	(wire
-		(pts
 			(xy 165.1 251.46) (xy 163.83 251.46)
 		)
 		(stroke
@@ -5872,23 +5974,13 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 288.29) (xy 148.59 288.29)
+			(xy 373.38 208.28) (xy 373.38 209.55)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0bbba555-7283-409f-b8fd-8de3aa78749e")
-	)
-	(wire
-		(pts
-			(xy 63.5 328.93) (xy 71.12 328.93)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0dffbe52-8cdd-4eaa-bbdb-d8c08873ae4a")
+		(uuid "0ecaa8ff-7370-40b0-bb6a-3a039d087772")
 	)
 	(wire
 		(pts
@@ -5902,6 +5994,36 @@
 	)
 	(wire
 		(pts
+			(xy 58.42 288.29) (xy 71.12 288.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "11da12dc-d6fb-4da9-b15f-1b5cf6c48499")
+	)
+	(wire
+		(pts
+			(xy 55.88 242.57) (xy 55.88 246.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1277fbff-212f-4fbe-b1c0-4a7a2828e20b")
+	)
+	(wire
+		(pts
+			(xy 293.37 208.28) (xy 293.37 209.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1494679f-9696-4428-ab7c-d99b614a52ed")
+	)
+	(wire
+		(pts
 			(xy 238.76 313.69) (xy 223.52 313.69)
 		)
 		(stroke
@@ -5909,6 +6031,16 @@
 			(type default)
 		)
 		(uuid "14e4bd2d-6408-43e6-9ebb-d754d7d0be72")
+	)
+	(wire
+		(pts
+			(xy 215.9 214.63) (xy 228.6 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "161b1c9c-5f6c-4552-ae20-db5d44bc69e3")
 	)
 	(wire
 		(pts
@@ -5942,6 +6074,16 @@
 	)
 	(wire
 		(pts
+			(xy 135.89 288.29) (xy 148.59 288.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "199f9a8c-4a24-4a3f-bee5-9af9c39cf7ff")
+	)
+	(wire
+		(pts
 			(xy 158.75 54.61) (xy 184.15 54.61)
 		)
 		(stroke
@@ -5949,6 +6091,16 @@
 			(type default)
 		)
 		(uuid "1a745f20-f0c4-44b6-b8ae-8f13a0d86223")
+	)
+	(wire
+		(pts
+			(xy 452.12 207.01) (xy 452.12 209.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1b7ad99c-fc6a-49e8-b87e-62e859b06574")
 	)
 	(wire
 		(pts
@@ -5989,6 +6141,16 @@
 			(type default)
 		)
 		(uuid "1f521439-8a19-459c-856b-b680c63044d7")
+	)
+	(wire
+		(pts
+			(xy 135.89 251.46) (xy 148.59 251.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1f59005f-6fe8-45ee-976e-a81e91348bdd")
 	)
 	(wire
 		(pts
@@ -6052,16 +6214,6 @@
 	)
 	(wire
 		(pts
-			(xy 532.13 251.46) (xy 539.75 251.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "24994e05-ea1e-49dd-a30f-754f24a65d06")
-	)
-	(wire
-		(pts
 			(xy 322.58 43.18) (xy 322.58 54.61)
 		)
 		(stroke
@@ -6069,16 +6221,6 @@
 			(type default)
 		)
 		(uuid "24d956d5-397b-4779-970c-1631dd92118c")
-	)
-	(wire
-		(pts
-			(xy 220.98 214.63) (xy 228.6 214.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2556790c-848f-4bb6-adda-f6794a3c56c4")
 	)
 	(wire
 		(pts
@@ -6102,16 +6244,6 @@
 	)
 	(wire
 		(pts
-			(xy 220.98 289.56) (xy 228.6 289.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "25eb9efb-dfbe-4363-bb15-4477de09a204")
-	)
-	(wire
-		(pts
 			(xy 49.53 88.9) (xy 50.8 88.9)
 		)
 		(stroke
@@ -6119,6 +6251,16 @@
 			(type default)
 		)
 		(uuid "261529ef-6b32-49f1-8cd9-40bbec723638")
+	)
+	(wire
+		(pts
+			(xy 375.92 289.56) (xy 388.62 289.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "26235482-0ade-433d-8d20-6814f42b3535")
 	)
 	(wire
 		(pts
@@ -6172,7 +6314,7 @@
 	)
 	(wire
 		(pts
-			(xy 55.88 278.13) (xy 55.88 280.67)
+			(xy 55.88 278.13) (xy 55.88 283.21)
 		)
 		(stroke
 			(width 0)
@@ -6302,13 +6444,13 @@
 	)
 	(wire
 		(pts
-			(xy 381 251.46) (xy 388.62 251.46)
+			(xy 452.12 242.57) (xy 452.12 246.38)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "377e7623-127e-4b2c-9d84-5dab3eac05c4")
+		(uuid "36cbf50c-89f2-4c5a-b9fa-be46717adb58")
 	)
 	(wire
 		(pts
@@ -6322,7 +6464,7 @@
 	)
 	(wire
 		(pts
-			(xy 55.88 320.04) (xy 55.88 321.31)
+			(xy 55.88 320.04) (xy 55.88 323.85)
 		)
 		(stroke
 			(width 0)
@@ -6349,26 +6491,6 @@
 			(type default)
 		)
 		(uuid "393fd7c1-bf76-492c-87a3-712dd451708f")
-	)
-	(wire
-		(pts
-			(xy 373.38 208.28) (xy 373.38 207.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "396f2d35-ed56-476b-8316-f942e127f10f")
-	)
-	(wire
-		(pts
-			(xy 300.99 331.47) (xy 308.61 331.47)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3b3a7a68-7ee2-44fc-b0e1-78d6ea0a25c1")
 	)
 	(wire
 		(pts
@@ -6472,6 +6594,16 @@
 	)
 	(wire
 		(pts
+			(xy 295.91 289.56) (xy 308.61 289.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4e25346a-e52e-49cc-bb22-0fb108937980")
+	)
+	(wire
+		(pts
 			(xy 86.36 234.95) (xy 66.04 234.95)
 		)
 		(stroke
@@ -6479,6 +6611,26 @@
 			(type default)
 		)
 		(uuid "51eba484-a9b4-4a2f-ac5c-f7c36ea5d627")
+	)
+	(wire
+		(pts
+			(xy 375.92 214.63) (xy 388.62 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52c61624-d35a-4d4c-9acf-681794ca595c")
+	)
+	(wire
+		(pts
+			(xy 295.91 214.63) (xy 309.88 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "547e7e8a-445f-4f67-ac32-ad508fac1ee1")
 	)
 	(wire
 		(pts
@@ -6519,16 +6671,6 @@
 			(type default)
 		)
 		(uuid "5e2ee503-1bf0-4ad0-b47a-a9c45ef06ca0")
-	)
-	(wire
-		(pts
-			(xy 293.37 208.28) (xy 293.37 207.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5e2eefaa-3eb6-4892-9e87-ca0bc63bc90b")
 	)
 	(wire
 		(pts
@@ -6582,17 +6724,7 @@
 	)
 	(wire
 		(pts
-			(xy 300.99 214.63) (xy 309.88 214.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "68a6285c-9367-4544-9189-2bca7c46f259")
-	)
-	(wire
-		(pts
-			(xy 373.38 321.31) (xy 373.38 323.85)
+			(xy 373.38 321.31) (xy 373.38 326.39)
 		)
 		(stroke
 			(width 0)
@@ -6622,13 +6754,13 @@
 	)
 	(wire
 		(pts
-			(xy 524.51 242.57) (xy 524.51 243.84)
+			(xy 58.42 215.9) (xy 71.12 215.9)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "760e05ad-56cb-4a11-b8d4-9c0446f057ba")
+		(uuid "75ae3f93-fdb0-4c97-be89-fc798d5684d2")
 	)
 	(wire
 		(pts
@@ -6652,13 +6784,13 @@
 	)
 	(wire
 		(pts
-			(xy 293.37 242.57) (xy 293.37 243.84)
+			(xy 135.89 328.93) (xy 148.59 328.93)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "79a6b743-ac44-462a-9b51-27b8c431751e")
+		(uuid "799f9bf5-8c3e-4468-95c8-8764eb43e4c3")
 	)
 	(wire
 		(pts
@@ -6699,6 +6831,26 @@
 			(type default)
 		)
 		(uuid "7dd3afde-4902-4d6c-a5bd-cc64a79e8028")
+	)
+	(wire
+		(pts
+			(xy 454.66 214.63) (xy 467.36 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7e4a2863-c69f-4ba8-94c9-82ebba8677a7")
+	)
+	(wire
+		(pts
+			(xy 215.9 331.47) (xy 228.6 331.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7ea6ab91-1e8d-41a6-92e7-2e51fae49736")
 	)
 	(wire
 		(pts
@@ -6752,6 +6904,16 @@
 	)
 	(wire
 		(pts
+			(xy 293.37 279.4) (xy 293.37 284.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "803e7f0a-ba2d-4c0b-9d0c-6f799d8802c2")
+	)
+	(wire
+		(pts
 			(xy 163.83 234.95) (xy 143.51 234.95)
 		)
 		(stroke
@@ -6762,16 +6924,6 @@
 	)
 	(wire
 		(pts
-			(xy 300.99 251.46) (xy 308.61 251.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "81715cf8-4ee5-4fff-a5ed-41fd1f1b06bf")
-	)
-	(wire
-		(pts
 			(xy 223.52 313.69) (xy 213.36 313.69)
 		)
 		(stroke
@@ -6779,6 +6931,16 @@
 			(type default)
 		)
 		(uuid "8246e760-a474-418c-b292-e6bc3094dcce")
+	)
+	(wire
+		(pts
+			(xy 524.51 242.57) (xy 524.51 246.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "82473a68-0d16-43d4-93cf-601359d3d858")
 	)
 	(wire
 		(pts
@@ -6812,6 +6974,16 @@
 	)
 	(wire
 		(pts
+			(xy 524.51 207.01) (xy 524.51 209.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "864b2ad3-0995-45e9-940f-af67e31d5c1f")
+	)
+	(wire
+		(pts
 			(xy 143.51 271.78) (xy 133.35 271.78)
 		)
 		(stroke
@@ -6819,6 +6991,16 @@
 			(type default)
 		)
 		(uuid "8722c37e-68a6-41c1-a1b5-db5535226a22")
+	)
+	(wire
+		(pts
+			(xy 295.91 251.46) (xy 308.61 251.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "88a01423-06b5-41a1-8992-92adbe82f513")
 	)
 	(wire
 		(pts
@@ -6832,7 +7014,17 @@
 	)
 	(wire
 		(pts
-			(xy 373.38 242.57) (xy 373.38 243.84)
+			(xy 135.89 215.9) (xy 148.59 215.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "89891052-0058-4366-8d8a-a1829eea0060")
+	)
+	(wire
+		(pts
+			(xy 373.38 242.57) (xy 373.38 246.38)
 		)
 		(stroke
 			(width 0)
@@ -6892,7 +7084,17 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 279.4) (xy 133.35 280.67)
+			(xy 215.9 251.46) (xy 228.6 251.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94744d15-2358-4a15-91d2-2346816bbc5d")
+	)
+	(wire
+		(pts
+			(xy 133.35 279.4) (xy 133.35 283.21)
 		)
 		(stroke
 			(width 0)
@@ -6952,13 +7154,23 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 320.04) (xy 133.35 321.31)
+			(xy 133.35 320.04) (xy 133.35 323.85)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "9a28ea1f-86f5-4896-9799-f600059c486d")
+	)
+	(wire
+		(pts
+			(xy 215.9 289.56) (xy 228.6 289.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9a945d90-18f6-4072-89ad-c4867d4361fc")
 	)
 	(wire
 		(pts
@@ -6979,16 +7191,6 @@
 			(type default)
 		)
 		(uuid "9b636fa1-5df0-44ee-a677-5256ac33706c")
-	)
-	(wire
-		(pts
-			(xy 381 331.47) (xy 388.62 331.47)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9c0d2ebb-06ab-4aa1-addd-def4ca18e4e4")
 	)
 	(wire
 		(pts
@@ -7052,6 +7254,16 @@
 	)
 	(wire
 		(pts
+			(xy 375.92 331.47) (xy 388.62 331.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a2770f5e-0497-4f5b-af66-a0ee55809dde")
+	)
+	(wire
+		(pts
 			(xy 477.52 199.39) (xy 462.28 199.39)
 		)
 		(stroke
@@ -7082,27 +7294,7 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 242.57) (xy 213.36 243.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a917e71c-7083-4043-9b5b-c3cf4e4718c3")
-	)
-	(wire
-		(pts
-			(xy 140.97 328.93) (xy 148.59 328.93)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a921d3f9-4ae2-4221-946d-e0180517d6a5")
-	)
-	(wire
-		(pts
-			(xy 373.38 279.4) (xy 373.38 281.94)
+			(xy 373.38 279.4) (xy 373.38 284.48)
 		)
 		(stroke
 			(width 0)
@@ -7162,16 +7354,6 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 288.29) (xy 71.12 288.29)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b180fcc9-d24d-4185-bd43-cca01c63a121")
-	)
-	(wire
-		(pts
 			(xy 86.36 312.42) (xy 66.04 312.42)
 		)
 		(stroke
@@ -7179,16 +7361,6 @@
 			(type default)
 		)
 		(uuid "b1900db9-274d-42b1-a720-f056edebf3a6")
-	)
-	(wire
-		(pts
-			(xy 293.37 321.31) (xy 293.37 323.85)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b1e512c2-710f-499f-9df1-fa89b4d09a58")
 	)
 	(wire
 		(pts
@@ -7242,6 +7414,16 @@
 	)
 	(wire
 		(pts
+			(xy 213.36 279.4) (xy 213.36 284.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b4aec27e-8641-4478-bc13-e0bb9e111410")
+	)
+	(wire
+		(pts
 			(xy 181.61 39.37) (xy 184.15 39.37)
 		)
 		(stroke
@@ -7292,36 +7474,6 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 215.9) (xy 71.12 215.9)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b88e12fc-c9e4-4019-af74-6ba229df145f")
-	)
-	(wire
-		(pts
-			(xy 381 214.63) (xy 388.62 214.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b91fd62a-521d-47aa-9b7f-b35fa89a77e9")
-	)
-	(wire
-		(pts
-			(xy 300.99 289.56) (xy 308.61 289.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b9eb77b8-7d2c-45da-8348-0686e0b2bb02")
-	)
-	(wire
-		(pts
 			(xy 245.11 251.46) (xy 243.84 251.46)
 		)
 		(stroke
@@ -7329,6 +7481,16 @@
 			(type default)
 		)
 		(uuid "bacf2410-5b6b-4b9b-b376-9f759a4a159b")
+	)
+	(wire
+		(pts
+			(xy 58.42 328.93) (xy 71.12 328.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bc2d44c0-f74c-4f2a-a4f3-eefdc123407a")
 	)
 	(wire
 		(pts
@@ -7342,16 +7504,6 @@
 	)
 	(wire
 		(pts
-			(xy 452.12 242.57) (xy 452.12 243.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bd710abe-99ab-4354-9a44-55037f557a49")
-	)
-	(wire
-		(pts
 			(xy 49.53 119.38) (xy 50.8 119.38)
 		)
 		(stroke
@@ -7359,6 +7511,26 @@
 			(type default)
 		)
 		(uuid "bedb7572-9e87-4c71-9dfd-0a8d1e22b7f7")
+	)
+	(wire
+		(pts
+			(xy 375.92 251.46) (xy 388.62 251.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bffe0fc5-4be3-49ba-81a7-04fc81eb469a")
+	)
+	(wire
+		(pts
+			(xy 55.88 208.28) (xy 55.88 210.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c22f678c-ecdf-4eb8-8fec-21d6ed356631")
 	)
 	(wire
 		(pts
@@ -7379,16 +7551,6 @@
 			(type default)
 		)
 		(uuid "c3359504-9ce9-4496-bc39-c2f5d2451f77")
-	)
-	(wire
-		(pts
-			(xy 213.36 279.4) (xy 213.36 281.94)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c3a80ae8-9614-4208-8678-c47cbd5c0834")
 	)
 	(wire
 		(pts
@@ -7462,6 +7624,16 @@
 	)
 	(wire
 		(pts
+			(xy 213.36 208.28) (xy 213.36 209.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d2de0a3c-943f-4110-b7ab-591c3b9a1e77")
+	)
+	(wire
+		(pts
 			(xy 161.29 39.37) (xy 173.99 39.37)
 		)
 		(stroke
@@ -7469,16 +7641,6 @@
 			(type default)
 		)
 		(uuid "d5346bcc-7417-47ed-bb7e-c06f6a48b2d3")
-	)
-	(wire
-		(pts
-			(xy 213.36 208.28) (xy 213.36 207.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d5487146-c1e6-4ab5-8538-06b9ccb98f31")
 	)
 	(wire
 		(pts
@@ -7499,6 +7661,16 @@
 			(type default)
 		)
 		(uuid "d976649b-a1ff-4e77-a076-c5800f53e242")
+	)
+	(wire
+		(pts
+			(xy 527.05 214.63) (xy 539.75 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d9cbeec3-eaa8-4f47-8bb9-00c71348b153")
 	)
 	(wire
 		(pts
@@ -7532,16 +7704,6 @@
 	)
 	(wire
 		(pts
-			(xy 293.37 279.4) (xy 293.37 281.94)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dc6463c4-8582-42e1-a330-1320ee29d023")
-	)
-	(wire
-		(pts
 			(xy 162.56 271.78) (xy 143.51 271.78)
 		)
 		(stroke
@@ -7549,6 +7711,16 @@
 			(type default)
 		)
 		(uuid "dc91c873-d98e-48d9-b5a4-e90aeaa9ed63")
+	)
+	(wire
+		(pts
+			(xy 293.37 321.31) (xy 293.37 326.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dce75e08-76f1-4a20-b81b-64bb8844e9a8")
 	)
 	(wire
 		(pts
@@ -7562,16 +7734,6 @@
 	)
 	(wire
 		(pts
-			(xy 220.98 331.47) (xy 228.6 331.47)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dd802500-9c11-4301-a9f7-b5239e64e781")
-	)
-	(wire
-		(pts
 			(xy 405.13 251.46) (xy 403.86 251.46)
 		)
 		(stroke
@@ -7582,13 +7744,13 @@
 	)
 	(wire
 		(pts
-			(xy 381 289.56) (xy 388.62 289.56)
+			(xy 58.42 251.46) (xy 71.12 251.46)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "dffa29f5-a8a8-425d-a723-9ec3f489e0c9")
+		(uuid "e090c4e9-e39c-43c6-969d-3dd350d302ab")
 	)
 	(wire
 		(pts
@@ -7602,16 +7764,6 @@
 	)
 	(wire
 		(pts
-			(xy 459.74 214.63) (xy 467.36 214.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e2f26425-0c8d-4d5a-97b4-fdca7faf1254")
-	)
-	(wire
-		(pts
 			(xy 158.75 74.93) (xy 161.29 74.93)
 		)
 		(stroke
@@ -7619,16 +7771,6 @@
 			(type default)
 		)
 		(uuid "e3407a2f-57e9-42d2-995f-d0fca9e16d7c")
-	)
-	(wire
-		(pts
-			(xy 63.5 251.46) (xy 71.12 251.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e46c4868-525d-4ce8-86f8-5ee9d73c12e1")
 	)
 	(wire
 		(pts
@@ -7652,23 +7794,13 @@
 	)
 	(wire
 		(pts
-			(xy 220.98 251.46) (xy 228.6 251.46)
+			(xy 133.35 208.28) (xy 133.35 210.82)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e5ed2efb-f29e-4f20-a552-6f94f3cece74")
-	)
-	(wire
-		(pts
-			(xy 532.13 214.63) (xy 539.75 214.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e87a150a-90f0-4e79-9d01-a589cbf9e083")
+		(uuid "e7e505f8-d067-4c34-a9b8-1524ea02120f")
 	)
 	(wire
 		(pts
@@ -7792,7 +7924,7 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 242.57) (xy 133.35 243.84)
+			(xy 133.35 242.57) (xy 133.35 246.38)
 		)
 		(stroke
 			(width 0)
@@ -7802,13 +7934,13 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 251.46) (xy 148.59 251.46)
+			(xy 295.91 331.47) (xy 308.61 331.47)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fbcfdb7b-2155-4a0d-b90d-a39806941ba9")
+		(uuid "fcc0f33b-ce9b-47a6-95fd-67ab249340ca")
 	)
 	(wire
 		(pts
@@ -7832,13 +7964,23 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 321.31) (xy 213.36 323.85)
+			(xy 213.36 321.31) (xy 213.36 326.39)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "fd38a9cc-d5e1-46fb-be62-8ed47a0d5949")
+	)
+	(wire
+		(pts
+			(xy 213.36 242.57) (xy 213.36 246.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe023b4d-bfb1-4a19-b998-919dc440e0a7")
 	)
 	(wire
 		(pts
@@ -12094,6 +12236,198 @@
 		)
 	)
 	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 449.58 212.09 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "07700871-b8d7-4be3-97b6-84d82cd53ac9")
+		(property "Reference" "Q21"
+			(at 449.58 218.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 449.58 220.98 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 449.58 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "41a5bbd9-9a43-4e0b-8d16-6968a622f43f")
+		)
+		(pin "3"
+			(uuid "1693aa4a-20ac-4857-aae2-550cfab48963")
+		)
+		(pin "2"
+			(uuid "14760b83-5cba-4908-a1dc-f24d4fcb8032")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3.3V")
 		(at 325.12 214.63 270)
 		(mirror x)
@@ -12798,166 +13132,6 @@
 		)
 	)
 	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 524.51 212.09 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "11abc61c-c21d-4cb8-9b06-b665aa43cc1e")
-		(property "Reference" "Q23"
-			(at 524.51 215.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 524.51 218.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 524.51 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 524.51 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 524.51 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 524.51 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 524.51 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 524.51 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 524.51 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 524.51 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 524.51 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 524.51 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 524.51 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 524.51 215.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "83a0fe04-96ed-4d21-908e-285a5249c0f7")
-		)
-		(pin "3"
-			(uuid "c4dd50fa-17d4-400a-855b-0ac5c7991b0f")
-		)
-		(pin "2"
-			(uuid "32cfa391-9b5a-4be2-a7da-17c2d3b72d7e")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q23")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 48.26 288.29 270)
 		(unit 1)
@@ -13096,166 +13270,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "R27")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 55.88 248.92 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "13beb45d-d19e-4a28-b467-d38db90c4e06")
-		(property "Reference" "Q2"
-			(at 55.88 252.73 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 55.88 255.27 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 55.88 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 55.88 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 55.88 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 55.88 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 55.88 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 55.88 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 55.88 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 55.88 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 55.88 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 55.88 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 55.88 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 55.88 252.73 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "24f542d9-b6b5-4597-8509-ce7975abd7df")
-		)
-		(pin "3"
-			(uuid "613b3428-301e-4655-9db6-c993f8fee07e")
-		)
-		(pin "2"
-			(uuid "22c945bb-fc35-4fce-bde9-bcfe30c3cf05")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q2")
 					(unit 1)
 				)
 			)
@@ -14810,6 +14824,198 @@
 		)
 	)
 	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 370.84 248.92 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "233b4b80-fe0d-4774-ae31-5c78d19367d5")
+		(property "Reference" "Q18"
+			(at 370.84 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 370.84 257.81 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 370.84 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2ebf6528-4e6f-4bd4-aa66-bc015560db19")
+		)
+		(pin "3"
+			(uuid "49abe489-ff7f-4e62-ba56-605f6de162e2")
+		)
+		(pin "2"
+			(uuid "c8b618fd-aae7-48f6-985a-51ca2e673ff5")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3.3V")
 		(at 405.13 251.46 270)
 		(mirror x)
@@ -14870,166 +15076,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR064")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 133.35 213.36 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "25834b17-66bd-452f-9034-2c0f92413101")
-		(property "Reference" "Q5"
-			(at 133.35 217.17 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 133.35 219.71 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 133.35 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 133.35 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 133.35 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 133.35 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 133.35 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 133.35 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 133.35 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 133.35 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 133.35 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 133.35 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 133.35 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 133.35 217.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "3efdc0b9-1e88-4ab9-9e52-d4e45501a302")
-		)
-		(pin "3"
-			(uuid "fb63ef42-1356-4f88-ac3d-87c480244c94")
-		)
-		(pin "2"
-			(uuid "bfa09aae-b18a-4a0c-aff5-03534fbb7f6b")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q5")
 					(unit 1)
 				)
 			)
@@ -15297,6 +15343,198 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR0150")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 210.82 328.93 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "272c2b0c-9740-48d5-a095-fe6a15d15363")
+		(property "Reference" "Q12"
+			(at 210.82 335.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 210.82 337.82 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 210.82 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "836a4968-e60f-4177-8e3d-529c8bd69acd")
+		)
+		(pin "3"
+			(uuid "39c60a2b-ee35-49ee-a10e-46d4587c37d5")
+		)
+		(pin "2"
+			(uuid "db678da6-47ff-40e9-b6e0-e589fbb9e0e1")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q12")
 					(unit 1)
 				)
 			)
@@ -15680,166 +15918,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "R9")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 373.38 212.09 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "2a0288b8-56a9-45cf-9080-a3b1a5138a72")
-		(property "Reference" "Q17"
-			(at 373.38 215.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 373.38 218.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 373.38 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 373.38 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 373.38 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 373.38 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 373.38 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 373.38 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 373.38 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 373.38 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 373.38 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 373.38 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 373.38 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 373.38 215.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4005d059-2dbc-4dd5-a3db-69b583417f97")
-		)
-		(pin "3"
-			(uuid "f4a6effe-fa2b-488b-b630-4531ca849fc8")
-		)
-		(pin "2"
-			(uuid "00599065-3724-4b13-b1e5-fab1e1c82d77")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q17")
 					(unit 1)
 				)
 			)
@@ -16282,6 +16360,198 @@
 		)
 	)
 	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 210.82 212.09 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "307d4035-073d-41af-9682-26b4978d089a")
+		(property "Reference" "Q9"
+			(at 210.82 218.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 210.82 220.98 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 210.82 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d99a5a7e-09d0-4e1b-abe4-b7e42fb7c9d5")
+		)
+		(pin "3"
+			(uuid "e8d13e1a-ad4e-40e4-8b0d-eb310b3733fe")
+		)
+		(pin "2"
+			(uuid "bb51d61c-4655-4596-aeda-bdd97255e160")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3.3V")
 		(at 214.63 69.85 90)
 		(unit 1)
@@ -16341,6 +16611,198 @@
 			(project ""
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR017")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 290.83 287.02 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3184250d-4191-4f44-8900-58989a4c8374")
+		(property "Reference" "Q15"
+			(at 290.83 293.37 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 290.83 295.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 290.83 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a19e5e27-2194-4362-ba19-efb68db85a0b")
+		)
+		(pin "3"
+			(uuid "d8c50378-da68-44d0-83da-c05591478fa9")
+		)
+		(pin "2"
+			(uuid "78ddfc6b-c282-4cef-94b3-3a6213d8b467")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q15")
 					(unit 1)
 				)
 			)
@@ -16414,32 +16876,33 @@
 		)
 	)
 	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 293.37 328.93 270)
+		(lib_id "AO3400A:AO3400A")
+		(at 449.58 248.92 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "31919076-5711-4560-bbaf-efb6de2b1347")
-		(property "Reference" "Q16"
-			(at 293.37 332.74 90)
+		(uuid "3372c626-1735-40f3-bdb2-852f37db15d7")
+		(property "Reference" "Q22"
+			(at 449.58 255.27 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "MMBT3904LT1G"
-			(at 293.37 335.28 90)
+		(property "Value" "AO3400A"
+			(at 449.58 257.81 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 293.37 328.93 0)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 449.58 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16449,7 +16912,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 293.37 328.93 0)
+			(at 449.58 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16457,17 +16920,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 293.37 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 293.37 328.93 0)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 449.58 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16476,8 +16930,8 @@
 				(hide yes)
 			)
 		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 293.37 328.93 0)
+		(property "MF" "UMW"
+			(at 449.58 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16486,8 +16940,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 293.37 328.93 0)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 449.58 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16496,8 +16950,8 @@
 				(hide yes)
 			)
 		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 293.37 328.93 0)
+		(property "PRICE" "None"
+			(at 449.58 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16506,8 +16960,8 @@
 				(hide yes)
 			)
 		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 293.37 328.93 0)
+		(property "Package" "None"
+			(at 449.58 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16516,8 +16970,8 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "ON Semiconductor"
-			(at 293.37 328.93 0)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 449.58 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16526,8 +16980,8 @@
 				(hide yes)
 			)
 		)
-		(property "MP" "MMBT3904LT1G"
-			(at 293.37 328.93 0)
+		(property "Price" "None"
+			(at 449.58 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16536,8 +16990,8 @@
 				(hide yes)
 			)
 		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 293.37 328.93 0)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 449.58 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16546,8 +17000,48 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C81464"
-			(at 293.37 332.74 0)
+		(property "MP" "AO3400A"
+			(at 449.58 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 449.58 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 449.58 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 449.58 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 449.58 248.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16556,18 +17050,18 @@
 			)
 		)
 		(pin "1"
-			(uuid "77bd0cd3-e67c-4b40-9dbb-aef831490faf")
+			(uuid "32a1c596-1059-4e73-ba5b-8433cc45eb62")
 		)
 		(pin "3"
-			(uuid "83a693a5-1c67-48a5-b2f2-5e412b5a61c5")
+			(uuid "e892afcd-a443-4059-8738-5903390458de")
 		)
 		(pin "2"
-			(uuid "c16abf17-1be6-463c-ae37-aa2406e1589c")
+			(uuid "d22c5b5b-f790-47bf-ac94-5aa52b544f07")
 		)
 		(instances
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q16")
+					(reference "Q22")
 					(unit 1)
 				)
 			)
@@ -16956,6 +17450,198 @@
 		)
 	)
 	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 290.83 212.09 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "37f1c711-fe08-4e8e-8cec-a0ea3a2ac330")
+		(property "Reference" "Q13"
+			(at 290.83 218.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 290.83 220.98 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 290.83 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ddc4476a-22f4-4e01-9735-278d53fa1a5b")
+		)
+		(pin "3"
+			(uuid "8527844e-47fa-4c84-9bf0-5f97adb48695")
+		)
+		(pin "2"
+			(uuid "46d24f05-a10c-46fb-a666-5407b646429b")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 143.51 316.23 0)
 		(unit 1)
@@ -17172,6 +17858,198 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "R6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 53.34 213.36 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3c110c44-6764-41bf-a1fd-436861f2940b")
+		(property "Reference" "Q1"
+			(at 53.34 219.71 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 53.34 222.25 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 53.34 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1fd68ebf-b698-4a33-8555-de616c7cfb0c")
+		)
+		(pin "3"
+			(uuid "a596e08e-ec01-4f29-ba9a-cc493119fa14")
+		)
+		(pin "2"
+			(uuid "59932f3d-8c4d-4c51-90dd-928f76b735f5")
+		)
+		(instances
+			(project ""
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q1")
 					(unit 1)
 				)
 			)
@@ -18729,6 +19607,198 @@
 		)
 	)
 	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 290.83 248.92 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "51b86911-3017-4a32-9205-501dbb67530e")
+		(property "Reference" "Q14"
+			(at 290.83 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 290.83 257.81 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 290.83 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4e77aefa-efa2-4d4b-bff7-b4766ef061bf")
+		)
+		(pin "3"
+			(uuid "9ed71105-416e-4510-a89c-fdad8c84a0e9")
+		)
+		(pin "2"
+			(uuid "c3ade474-73eb-4e92-897b-88b99388a2c2")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 285.75 214.63 270)
 		(unit 1)
@@ -18856,166 +19926,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR063")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 213.36 287.02 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "542e7f05-ad4f-4a07-965c-16ec579b608b")
-		(property "Reference" "Q11"
-			(at 213.36 290.83 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 213.36 293.37 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 213.36 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 213.36 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 213.36 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 213.36 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 213.36 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 213.36 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 213.36 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 213.36 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 213.36 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 213.36 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 213.36 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 213.36 290.83 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "58ac4219-3b24-4f3f-8f92-dcbaa1434358")
-		)
-		(pin "3"
-			(uuid "463899a6-0e96-4011-ab74-7d5baff66c6e")
-		)
-		(pin "2"
-			(uuid "b107aa8c-ca7e-4b56-93a2-7a041f02b5b4")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q11")
 					(unit 1)
 				)
 			)
@@ -19358,166 +20268,6 @@
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "MH3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 452.12 212.09 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "57b75599-31f1-43a9-9e21-69b787f9125e")
-		(property "Reference" "Q21"
-			(at 452.12 215.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 452.12 218.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 452.12 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 452.12 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 452.12 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 452.12 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 452.12 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 452.12 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 452.12 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 452.12 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 452.12 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 452.12 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 452.12 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 452.12 215.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "fe93ce04-be81-484c-8c9b-73077f4063b4")
-		)
-		(pin "3"
-			(uuid "6d556201-2d2c-4e9e-bc5c-75e028fc50d0")
-		)
-		(pin "2"
-			(uuid "6a48f40f-f1e3-4e00-bffc-910d3d5eb465")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q21")
 					(unit 1)
 				)
 			)
@@ -20316,166 +21066,6 @@
 		)
 	)
 	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 55.88 285.75 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "6015c35c-b75e-49d7-b922-d44547611f52")
-		(property "Reference" "Q3"
-			(at 55.88 289.56 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 55.88 292.1 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 55.88 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 55.88 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 55.88 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 55.88 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 55.88 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 55.88 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 55.88 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 55.88 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 55.88 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 55.88 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 55.88 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 55.88 289.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "d7ac7cfe-24b6-46d6-887b-a004ee3642c8")
-		)
-		(pin "3"
-			(uuid "7713720c-f330-4fae-a872-160f96d5d0ea")
-		)
-		(pin "2"
-			(uuid "7b186319-4c76-4dec-a055-5c18df7b4078")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 133.35 316.23 0)
 		(unit 1)
@@ -20549,6 +21139,390 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "R77")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 130.81 326.39 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "61de7b6b-611c-44d4-ae4e-d150114e613f")
+		(property "Reference" "Q8"
+			(at 130.81 332.74 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 130.81 335.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 130.81 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "274b6c83-fe81-4492-a75a-93453209db37")
+		)
+		(pin "3"
+			(uuid "adea4554-d07e-4f72-b3ac-240f3ace7362")
+		)
+		(pin "2"
+			(uuid "c3b1972b-67f7-4e90-aa1f-b4d81f97a17f")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 53.34 326.39 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "621ef836-6fe0-453f-b18d-d6f3f1a94d51")
+		(property "Reference" "Q4"
+			(at 53.34 332.74 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 53.34 335.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 53.34 326.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e7f0fc3c-d2b5-4897-8c45-dcdba0322dff")
+		)
+		(pin "3"
+			(uuid "6ac35035-8a39-488a-9191-a65d2935d6b2")
+		)
+		(pin "2"
+			(uuid "4a39996f-8abc-4edb-8d01-fc5d83ba8fea")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q4")
 					(unit 1)
 				)
 			)
@@ -21195,6 +22169,198 @@
 		)
 	)
 	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 290.83 328.93 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6b14d8ee-81d9-4a09-9330-3c31c282c78d")
+		(property "Reference" "Q16"
+			(at 290.83 335.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 290.83 337.82 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 290.83 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d4d503b0-209f-4e09-81eb-75ae24ec252f")
+		)
+		(pin "3"
+			(uuid "d6ab8be4-aad2-48f5-9e71-680d10f8b448")
+		)
+		(pin "2"
+			(uuid "958ddcd2-f56f-498f-a34e-a49fa3c6c652")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q16")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 524.51 203.2 0)
 		(unit 1)
@@ -21417,166 +22583,6 @@
 		)
 	)
 	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 293.37 212.09 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "6e93d5ad-520f-49fe-8464-9fbb649b3fbb")
-		(property "Reference" "Q13"
-			(at 293.37 215.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 293.37 218.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 293.37 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 293.37 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 293.37 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 293.37 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 293.37 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 293.37 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 293.37 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 293.37 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 293.37 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 293.37 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 293.37 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 293.37 215.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "eff2c9a0-5310-4b47-a1f6-599d6cc5885b")
-		)
-		(pin "3"
-			(uuid "320b0b90-8715-4429-9037-506c6780d95e")
-		)
-		(pin "2"
-			(uuid "90f60fb8-9df1-489e-b906-bc03852a7ca0")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q13")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 82.55 288.29 90)
 		(unit 1)
@@ -21714,6 +22720,198 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR036")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 210.82 248.92 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6f20e149-b7e9-4825-8ef3-5810dd9a6e4b")
+		(property "Reference" "Q10"
+			(at 210.82 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 210.82 257.81 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 210.82 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "058ddb4f-b28d-4a30-981c-a0568425d446")
+		)
+		(pin "3"
+			(uuid "445259d8-b7bb-4a82-9c4c-b29c7d9b0224")
+		)
+		(pin "2"
+			(uuid "100fe791-5c86-4728-9e27-bb7df272e2ed")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q10")
 					(unit 1)
 				)
 			)
@@ -22221,6 +23419,198 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR077")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 130.81 213.36 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7375a61c-4f32-4175-99e9-4546262b4d83")
+		(property "Reference" "Q5"
+			(at 130.81 219.71 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 130.81 222.25 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 130.81 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "39020fcf-c473-4d65-b0d7-5ef4beedc00f")
+		)
+		(pin "3"
+			(uuid "275b1d85-e8bf-49a2-9e59-c257ad72e95a")
+		)
+		(pin "2"
+			(uuid "75f57158-c4d2-41b5-b848-ada93f0b2857")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q5")
 					(unit 1)
 				)
 			)
@@ -22740,166 +24130,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "J13")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 213.36 248.92 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7acc1df4-9dc1-4a47-a229-0c4ea7456a24")
-		(property "Reference" "Q10"
-			(at 213.36 252.73 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 213.36 255.27 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 213.36 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 213.36 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 213.36 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 213.36 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 213.36 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 213.36 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 213.36 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 213.36 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 213.36 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 213.36 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 213.36 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 213.36 252.73 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "1f302c7b-0e53-4843-a256-7947769a4303")
-		)
-		(pin "3"
-			(uuid "6821fc43-c683-4530-a2cb-590376216d6e")
-		)
-		(pin "2"
-			(uuid "26a1b88b-2c09-4fb7-9c69-33580686f2bf")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q10")
 					(unit 1)
 				)
 			)
@@ -23546,6 +24776,198 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 521.97 212.09 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7f8f48cf-e3d1-469d-af60-176240db1ed8")
+		(property "Reference" "Q23"
+			(at 521.97 218.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 521.97 220.98 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 521.97 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3a1e36d7-b48f-4f74-921e-47ddad54f1bc")
+		)
+		(pin "3"
+			(uuid "82162bb1-d994-487a-aa12-1f34cee6f7ac")
+		)
+		(pin "2"
+			(uuid "94e5df48-fa24-462d-bdc9-155425978586")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q23")
 					(unit 1)
 				)
 			)
@@ -24415,166 +25837,6 @@
 		)
 	)
 	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 133.35 248.92 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "8b5bce33-4beb-4079-b489-252cd53d8d6e")
-		(property "Reference" "Q6"
-			(at 133.35 252.73 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 133.35 255.27 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 133.35 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 133.35 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 133.35 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 133.35 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 133.35 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 133.35 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 133.35 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 133.35 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 133.35 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 133.35 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 133.35 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 133.35 252.73 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "5e2c2736-e503-4d59-9d94-efb82a745c44")
-		)
-		(pin "3"
-			(uuid "bfa62551-eca7-4fc8-908a-0265afc83f8d")
-		)
-		(pin "2"
-			(uuid "dec6c0f8-ef31-400e-9e83-f302f8084fb2")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 529.59 40.64 0)
 		(unit 1)
@@ -24788,6 +26050,198 @@
 			(project "ArmRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 370.84 287.02 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "8f9244aa-80fd-45dc-8662-166aee2f7442")
+		(property "Reference" "Q19"
+			(at 370.84 293.37 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 370.84 295.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 370.84 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c4f66c54-1a76-443d-bf87-a68c5d677840")
+		)
+		(pin "3"
+			(uuid "20cf8f3f-13c4-47b3-916b-d2aa2726da8c")
+		)
+		(pin "2"
+			(uuid "1e6faa68-6f17-4354-b17d-92ca96272759")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q19")
 					(unit 1)
 				)
 			)
@@ -25079,32 +26533,33 @@
 		)
 	)
 	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 133.35 326.39 270)
+		(lib_id "AO3400A:AO3400A")
+		(at 370.84 212.09 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "90f03053-e1e9-471e-ad2d-d430b170d41b")
-		(property "Reference" "Q8"
-			(at 133.35 330.2 90)
+		(uuid "9118ff61-f1ec-4b6a-a33f-2f35e25dcc2d")
+		(property "Reference" "Q17"
+			(at 370.84 218.44 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "MMBT3904LT1G"
-			(at 133.35 332.74 90)
+		(property "Value" "AO3400A"
+			(at 370.84 220.98 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 133.35 326.39 0)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 370.84 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25114,7 +26569,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 133.35 326.39 0)
+			(at 370.84 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25122,17 +26577,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 133.35 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 133.35 326.39 0)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 370.84 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25141,8 +26587,8 @@
 				(hide yes)
 			)
 		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 133.35 326.39 0)
+		(property "MF" "UMW"
+			(at 370.84 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25151,8 +26597,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 133.35 326.39 0)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 370.84 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25161,8 +26607,8 @@
 				(hide yes)
 			)
 		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 133.35 326.39 0)
+		(property "PRICE" "None"
+			(at 370.84 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25171,8 +26617,8 @@
 				(hide yes)
 			)
 		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 133.35 326.39 0)
+		(property "Package" "None"
+			(at 370.84 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25181,8 +26627,8 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "ON Semiconductor"
-			(at 133.35 326.39 0)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 370.84 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25191,8 +26637,8 @@
 				(hide yes)
 			)
 		)
-		(property "MP" "MMBT3904LT1G"
-			(at 133.35 326.39 0)
+		(property "Price" "None"
+			(at 370.84 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25201,8 +26647,8 @@
 				(hide yes)
 			)
 		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 133.35 326.39 0)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 370.84 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25211,8 +26657,48 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C81464"
-			(at 133.35 330.2 0)
+		(property "MP" "AO3400A"
+			(at 370.84 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 370.84 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 370.84 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 370.84 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 370.84 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25221,18 +26707,18 @@
 			)
 		)
 		(pin "1"
-			(uuid "97007edf-66df-4062-8711-0f50ba866e69")
+			(uuid "48e11f79-bf32-491c-b647-bf5ad6fa5104")
 		)
 		(pin "3"
-			(uuid "d8f15ab0-56f6-49b5-898f-e3eb2ba2fdd3")
+			(uuid "0f28ef47-809e-4088-b673-ef72d2c01af0")
 		)
 		(pin "2"
-			(uuid "8d5c3747-56b0-4692-b865-2fbc06029b72")
+			(uuid "b91bc8b5-c451-45aa-a25e-d60a1ae97b20")
 		)
 		(instances
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q8")
+					(reference "Q17")
 					(unit 1)
 				)
 			)
@@ -26039,166 +27525,6 @@
 		)
 	)
 	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 55.88 213.36 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "983c4179-a632-4af0-87d4-84bbd2086c5f")
-		(property "Reference" "Q1"
-			(at 55.88 217.17 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 55.88 219.71 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 55.88 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 55.88 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 55.88 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 55.88 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 55.88 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 55.88 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 55.88 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 55.88 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 55.88 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 55.88 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 55.88 213.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 55.88 217.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "e47a9c9b-fd51-4f48-b6b2-270d535713c5")
-		)
-		(pin "3"
-			(uuid "6a350564-57fc-4358-8913-f819667f52de")
-		)
-		(pin "2"
-			(uuid "720b57af-c9fe-4070-9303-c6c2fb444974")
-		)
-		(instances
-			(project ""
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 213.36 317.5 0)
 		(unit 1)
@@ -26472,166 +27798,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR0147")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 293.37 248.92 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "9bb06ff6-d36a-4297-ac9d-42b423abbb80")
-		(property "Reference" "Q14"
-			(at 293.37 252.73 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 293.37 255.27 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 293.37 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 293.37 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 293.37 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 293.37 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 293.37 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 293.37 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 293.37 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 293.37 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 293.37 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 293.37 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 293.37 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 293.37 252.73 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "75c75d48-1440-40ef-8b1a-7a2001e9b7d7")
-		)
-		(pin "3"
-			(uuid "e5dd0823-e06f-42aa-9150-a41b04fd4e7a")
-		)
-		(pin "2"
-			(uuid "1212c312-1044-45c3-b716-51d4685357ea")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q14")
 					(unit 1)
 				)
 			)
@@ -27547,6 +28713,198 @@
 		)
 	)
 	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 521.97 248.92 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a3a0781e-ca4e-4454-b10a-43795530e9da")
+		(property "Reference" "Q24"
+			(at 521.97 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 521.97 257.81 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 521.97 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "10f2445d-7d59-417c-8a74-538e1a2e7fa9")
+		)
+		(pin "3"
+			(uuid "2d7f0775-1b21-46ff-ba20-fa7c4e28a03a")
+		)
+		(pin "2"
+			(uuid "87056884-218e-45fe-bec8-abbfdee5e99e")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 400.05 331.47 90)
 		(unit 1)
@@ -27805,166 +29163,6 @@
 		)
 	)
 	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 373.38 248.92 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "a603bee0-9bcb-475d-a06d-8d9a8c9df0e3")
-		(property "Reference" "Q18"
-			(at 373.38 252.73 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 373.38 255.27 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 373.38 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 373.38 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 373.38 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 373.38 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 373.38 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 373.38 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 373.38 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 373.38 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 373.38 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 373.38 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 373.38 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 373.38 252.73 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "da285dc5-0c4a-488a-90b9-3c4f86b9e092")
-		)
-		(pin "3"
-			(uuid "59f2bfe8-3893-4350-81b4-8934c1794669")
-		)
-		(pin "2"
-			(uuid "442f63f7-0cd6-4f97-8c14-e54a77c44234")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q18")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:LED")
 		(at 543.56 251.46 0)
 		(unit 1)
@@ -28124,6 +29322,198 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "R34")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 370.84 328.93 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a748d50b-958b-48c3-9c06-58357b921fbc")
+		(property "Reference" "Q20"
+			(at 370.84 335.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 370.84 337.82 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 370.84 328.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2b3a7c9a-df31-4523-b9ab-2b716d6026d5")
+		)
+		(pin "3"
+			(uuid "e9cb0144-db1f-4f6a-a5f1-2163edd0979e")
+		)
+		(pin "2"
+			(uuid "8023b268-0e69-4930-a42d-f8f5a6e11baf")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q20")
 					(unit 1)
 				)
 			)
@@ -28484,6 +29874,198 @@
 		)
 	)
 	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 53.34 285.75 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "acf84631-4bac-48de-bbef-f64f8fac4aa5")
+		(property "Reference" "Q3"
+			(at 53.34 292.1 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 53.34 294.64 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 53.34 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c648254f-e2d5-408f-97e5-2c8e6a8600f3")
+		)
+		(pin "3"
+			(uuid "7324231f-34cb-4087-bcdd-4bb8d7df9333")
+		)
+		(pin "2"
+			(uuid "9f77a969-15ac-4011-8781-5945d377511f")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 516.89 214.63 270)
 		(unit 1)
@@ -28545,6 +30127,198 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR071")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 130.81 248.92 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ae09ffd5-ea0a-4e4d-9e30-41f3fe129cce")
+		(property "Reference" "Q6"
+			(at 130.81 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 130.81 257.81 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 130.81 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "74da2908-6561-4881-a433-a350cbd88605")
+		)
+		(pin "3"
+			(uuid "38605ddd-9610-479a-82dc-2ba4e4b51ce9")
+		)
+		(pin "2"
+			(uuid "de8049ef-49f3-4c9d-832d-88a7cb07634d")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q6")
 					(unit 1)
 				)
 			)
@@ -30036,166 +31810,6 @@
 		)
 	)
 	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 373.38 287.02 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "bcc657ff-1d5c-46b1-bcad-caee85505e7c")
-		(property "Reference" "Q19"
-			(at 373.38 290.83 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 373.38 293.37 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 373.38 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 373.38 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 373.38 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 373.38 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 373.38 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 373.38 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 373.38 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 373.38 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 373.38 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 373.38 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 373.38 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 373.38 290.83 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "6653f8e8-fe58-477c-bc17-31c98570ade3")
-		)
-		(pin "3"
-			(uuid "9c0c3c8a-4d40-433d-a4c2-c922ced134b8")
-		)
-		(pin "2"
-			(uuid "22129f48-466c-44a5-bce9-36c32bf31e85")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q19")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 223.52 275.59 0)
 		(unit 1)
@@ -30275,6 +31889,198 @@
 		)
 	)
 	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 53.34 248.92 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "beea3c9d-6c7c-48f6-9595-6cdeb6eff0e0")
+		(property "Reference" "Q2"
+			(at 53.34 255.27 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 53.34 257.81 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 53.34 248.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7894e2c6-b327-45a1-b2f0-e5953eb48d9f")
+		)
+		(pin "3"
+			(uuid "84e96e7c-c789-4896-a5a1-0d9816beeab0")
+		)
+		(pin "2"
+			(uuid "0c183b94-22be-43c3-9529-12371890e6de")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3.3V")
 		(at 63.5 50.8 270)
 		(mirror x)
@@ -30335,166 +32141,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR0115")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 213.36 212.09 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c0eadeab-8eda-4d84-8ae1-f1d62861e116")
-		(property "Reference" "Q9"
-			(at 213.36 215.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 213.36 218.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 213.36 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 213.36 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 213.36 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 213.36 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 213.36 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 213.36 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 213.36 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 213.36 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 213.36 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 213.36 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 213.36 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 213.36 215.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "6da48fa0-8627-4d2b-9576-ade743986708")
-		)
-		(pin "3"
-			(uuid "7e3929dd-734e-43e0-a718-23072991f81c")
-		)
-		(pin "2"
-			(uuid "2dab9312-cfcb-4ca8-8a66-9696b849d5fc")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q9")
 					(unit 1)
 				)
 			)
@@ -32075,166 +33721,6 @@
 		)
 	)
 	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 524.51 248.92 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "d132368e-e87c-4060-8c44-731d5c10ecee")
-		(property "Reference" "Q24"
-			(at 524.51 252.73 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 524.51 255.27 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 524.51 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 524.51 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 524.51 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 524.51 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 524.51 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 524.51 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 524.51 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 524.51 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 524.51 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 524.51 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 524.51 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 524.51 252.73 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "e84a56b9-9567-4994-b95a-856a1556ccf8")
-		)
-		(pin "3"
-			(uuid "898b2aca-f071-4ba3-a106-d5baeab632da")
-		)
-		(pin "2"
-			(uuid "dd86dba2-dd49-4c78-8786-15527518da03")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q24")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:+3.3V")
 		(at 63.5 66.04 270)
 		(mirror x)
@@ -32846,6 +34332,198 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR078")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 130.81 285.75 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d9c6ef29-6472-4e6c-a26d-386739f7d27e")
+		(property "Reference" "Q7"
+			(at 130.81 292.1 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 130.81 294.64 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 130.81 285.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "35eaa51d-520c-4bc2-bbbb-c4a2b221d53d")
+		)
+		(pin "3"
+			(uuid "e644aeb3-7d74-4a2b-bb4f-9e55677f3bcc")
+		)
+		(pin "2"
+			(uuid "69e999bd-2b28-4663-98dd-9e850a7a2075")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q7")
 					(unit 1)
 				)
 			)
@@ -33845,6 +35523,198 @@
 		)
 	)
 	(symbol
+		(lib_id "AO3400A:AO3400A")
+		(at 210.82 287.02 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e3f1288c-8c64-4fa7-86cf-640e61b8ca81")
+		(property "Reference" "Q11"
+			(at 210.82 293.37 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 210.82 295.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "AO3400A:AO3400A"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MF" "UMW"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PRICE" "None"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "AO3400A"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "AVAILABILITY" "In Stock"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
+			(at 210.82 287.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b5539ab7-e749-4a96-9d9b-a11d2d27720d")
+		)
+		(pin "3"
+			(uuid "42cd6ba1-76d1-408c-b5ed-d676a928047a")
+		)
+		(pin "2"
+			(uuid "e9491b7c-8e7a-4e34-9e2e-d36b1164440f")
+		)
+		(instances
+			(project "LegRobotBoardTeensy"
+				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
+					(reference "Q11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 160.02 215.9 90)
 		(unit 1)
@@ -33916,166 +35786,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "R7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 55.88 326.39 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "e47c4657-807f-4438-9020-b43042021b20")
-		(property "Reference" "Q4"
-			(at 55.88 330.2 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 55.88 332.74 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 55.88 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 55.88 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 55.88 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 55.88 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 55.88 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 55.88 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 55.88 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 55.88 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 55.88 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 55.88 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 55.88 326.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 55.88 330.2 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "560ca122-b4b6-4144-9adc-8ed155615a64")
-		)
-		(pin "3"
-			(uuid "6a3a3fcd-9263-484a-8f8e-364fa9a40266")
-		)
-		(pin "2"
-			(uuid "b5314e8d-e834-4299-a83d-a289bda03cf7")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q4")
 					(unit 1)
 				)
 			)
@@ -34307,326 +36017,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "R35")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 373.38 328.93 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "e61f0c09-a7da-46a4-9220-a9ed0fb44003")
-		(property "Reference" "Q20"
-			(at 373.38 332.74 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 373.38 335.28 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 373.38 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 373.38 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 373.38 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 373.38 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 373.38 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 373.38 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 373.38 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 373.38 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 373.38 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 373.38 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 373.38 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 373.38 332.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "aa3aec67-fe6d-4b3e-aa28-7cb36ddc60c1")
-		)
-		(pin "3"
-			(uuid "5605363c-91d7-4514-8dfd-86f6f16b4e6b")
-		)
-		(pin "2"
-			(uuid "a5070da1-37bc-45de-99ca-54e8dec76ed1")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q20")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 133.35 285.75 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "e6935534-15e6-42f0-9bd8-d6878fd549d0")
-		(property "Reference" "Q7"
-			(at 133.35 289.56 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 133.35 292.1 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 133.35 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 133.35 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 133.35 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 133.35 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 133.35 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 133.35 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 133.35 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 133.35 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 133.35 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 133.35 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 133.35 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 133.35 289.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ec437fb9-e869-483e-947f-08781c6d2f7a")
-		)
-		(pin "3"
-			(uuid "5684e679-19c9-47cd-a097-818bea417df0")
-		)
-		(pin "2"
-			(uuid "36031cdc-e6a1-4ba0-8db4-5a7ed5d3a47d")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q7")
 					(unit 1)
 				)
 			)
@@ -35334,166 +36724,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "R17")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 293.37 287.02 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f2afde57-19ba-4358-bdb7-3029f605aebe")
-		(property "Reference" "Q15"
-			(at 293.37 290.83 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 293.37 293.37 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 293.37 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 293.37 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 293.37 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 293.37 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 293.37 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 293.37 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 293.37 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 293.37 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 293.37 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 293.37 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 293.37 287.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 293.37 290.83 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f813999a-9ed1-4c52-b460-78bdaff31c9e")
-		)
-		(pin "3"
-			(uuid "ee68cda3-49d5-4358-bf0a-d0eafbebc700")
-		)
-		(pin "2"
-			(uuid "cbe1b142-16b0-44ba-9481-0f08039e229c")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q15")
 					(unit 1)
 				)
 			)
@@ -36279,166 +37509,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR0139")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 213.36 328.93 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f8efc3a1-ccb9-4191-9edd-4ce8810e322f")
-		(property "Reference" "Q12"
-			(at 213.36 332.74 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 213.36 335.28 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 213.36 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 213.36 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 213.36 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 213.36 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 213.36 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 213.36 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 213.36 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 213.36 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 213.36 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 213.36 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 213.36 328.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 213.36 332.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "712a6220-640a-4725-9443-dfd946965c62")
-		)
-		(pin "3"
-			(uuid "a90c5d1b-256d-46be-a8b9-da8bf310b2d1")
-		)
-		(pin "2"
-			(uuid "c5e8cbfb-aec6-4fb8-9504-e5e234c02598")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q12")
 					(unit 1)
 				)
 			)
@@ -37403,166 +38473,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR040")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MMBT3904LT1G:MMBT3904LT1G")
-		(at 452.12 248.92 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "ffb5e4b9-7c4a-471c-96b8-810b7762bbe4")
-		(property "Reference" "Q22"
-			(at 452.12 252.73 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MMBT3904LT1G"
-			(at 452.12 255.27 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SMMBT3904LT1G:MMBT3904LT1G"
-			(at 452.12 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 452.12 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 452.12 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "DigiKey_Part_Number" "MMBT3904LT1GOSCT-ND"
-			(at 452.12 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=snap"
-			(at 452.12 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Description_1" "Transistor, Bipolar,Si,NPN,General Purpose,VCEO 40VDC,IC 200mA,PD 225mW,SOT-23 | ON Semiconductor MMBT3904LT1G"
-			(at 452.12 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Package" "SOT-23-3 ON Semiconductor"
-			(at 452.12 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "Check_prices" "https://www.snapeda.com/parts/MMBT3904LT1G/Onsemi/view-part/?ref=eda"
-			(at 452.12 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MF" "ON Semiconductor"
-			(at 452.12 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MP" "MMBT3904LT1G"
-			(at 452.12 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "MANUFACTURER" "ON Semiconductor"
-			(at 452.12 248.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C81464"
-			(at 452.12 252.73 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ce671ca4-4545-4e2c-9f2f-e6ac109de278")
-		)
-		(pin "3"
-			(uuid "de277ac9-5eb7-4758-9ba0-1c34d71057bd")
-		)
-		(pin "2"
-			(uuid "e220d089-a28f-4129-b6db-59f46c309e5b")
-		)
-		(instances
-			(project "LegRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "Q22")
 					(unit 1)
 				)
 			)
