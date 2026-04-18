@@ -16,6 +16,7 @@ The following components are placed onto the board as modules:
 |[Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html)|[ROS](https://www.ros.org/) Node|
 |[INA260 Voltage Sensor](https://learn.adafruit.com/adafruit-ina260-current-voltage-power-sensor-breakout)|Bus Voltage Sensing|
 |[ACS37220 Current Sensor](https://www.pololu.com/product/5295)|Bus Current Sensing|
+|[SSD1306](https://www.amazon.com/dp/B00O2LKEW2)|Monochrome 0.96" 128x64 OLED Display|
 
 ## Devices
 
@@ -87,6 +88,8 @@ The following external components are connected to the board via JST-XH locking 
 |[CRCW060310K0FKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw060310k0fkea/1174782)|`10K` Pull-Down Resistor (PWM channels)|
 |[CL10B473KB8NNNC](https://www.digikey.com/en/products/detail/samsung-electro-mechanics/cl10b473kb8nnnc/3886721)|`47nF` Capacitor (ADC channels)|
 |[SN74HC08DR](https://www.digikey.com/en/products/detail/texas-instruments/sn74hc08dr/276834)|IC Gate|
+|[SN74HC595DR](https://www.digikey.com/en/products/detail/texas-instruments/sn74hc595dr/562919)|IC Shift Register|
+|[KWL-R1025BB](https://www.adafruit.com/product/1815)|LED Light Bar
 |[MMBT3904LT1G](https://www.digikey.com/en/products/detail/onsemi/MMBT3904LT1G/919601)|LED Transistor|
 |[TLC555CDR](https://www.digikey.com/en/products/detail/texas-instruments/tlc555cdr/276979)|555 Timer|
 |[RC0603FR-07360KL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07360kl/727183)|555 Timer Resistor `360K`|
