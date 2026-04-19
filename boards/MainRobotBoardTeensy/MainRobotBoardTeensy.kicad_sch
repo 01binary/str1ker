@@ -6676,6 +6676,10 @@
 		(uuid "e7f36f57-826f-4075-b416-fb1c71137a30")
 	)
 	(no_connect
+		(at 396.24 74.93)
+		(uuid "ebcbb57c-095f-48fc-883d-1e85bea26d57")
+	)
+	(no_connect
 		(at 487.68 166.37)
 		(uuid "eefbb3cb-7200-4e23-bddd-85110cbe0444")
 	)
@@ -9213,7 +9217,7 @@
 			)
 		)
 	)
-	(global_label "RCLK1"
+	(global_label "RCLK"
 		(shape input)
 		(at 270.51 353.06 180)
 		(fields_autoplaced yes)
@@ -9225,7 +9229,7 @@
 		)
 		(uuid "0d5f7d91-e17f-42e7-aa3d-996c9b25364c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 261.4772 353.06 0)
+			(at 262.6867 353.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9939,28 +9943,6 @@
 			)
 		)
 	)
-	(global_label "RCLK2"
-		(shape output)
-		(at 396.24 74.93 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "4111409d-eaac-430e-9b32-709c1cd65df6")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 405.2728 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "LED10"
 		(shape output)
 		(at 381 347.98 0)
@@ -10379,7 +10361,7 @@
 			)
 		)
 	)
-	(global_label "RCLK1"
+	(global_label "RCLK"
 		(shape output)
 		(at 396.24 77.47 0)
 		(fields_autoplaced yes)
@@ -10391,7 +10373,7 @@
 		)
 		(uuid "6a8019ee-38a9-478d-9e25-f13ad5261a27")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 405.2728 77.47 0)
+			(at 404.0633 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11589,7 +11571,7 @@
 			)
 		)
 	)
-	(global_label "RCLK2"
+	(global_label "RCLK"
 		(shape input)
 		(at 340.36 353.06 180)
 		(fields_autoplaced yes)
@@ -11601,7 +11583,7 @@
 		)
 		(uuid "da297c85-bbee-4377-87d7-bc108848b2c5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 331.3272 353.06 0)
+			(at 332.5367 353.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)

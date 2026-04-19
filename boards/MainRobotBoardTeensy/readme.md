@@ -1,6 +1,6 @@
 # Main Robot Board
 
-A board that controls robot head & body and measures battery charge.
+A board that controls robot head & body and measures voltage/current/battery charge.
 
 + Head Pan/Tilt
 + Torso Pan/Tilt
@@ -16,7 +16,7 @@ The following components are placed onto the board as modules:
 |[Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html)|[ROS](https://www.ros.org/) Node|
 |[INA260 Voltage Sensor](https://learn.adafruit.com/adafruit-ina260-current-voltage-power-sensor-breakout)|Bus Voltage Sensing|
 |[ACS37220 Current Sensor](https://www.pololu.com/product/5295)|Bus Current Sensing|
-|[SSD1306](https://www.amazon.com/dp/B00O2LKEW2)|Monochrome 0.96" 128x64 OLED Display|
+|[SSD1306 OLED Display](https://www.amazon.com/dp/B00O2LKEW2)|Monochrome 0.96" 128x64 Voltage/Current/Power display|
 
 ## Devices
 
@@ -29,50 +29,53 @@ The following external components are connected to the board via JST-XH locking 
 |[Lamprey 2 Absolute Encoder](https://andymark.com/products/lamprey2-absolute-encoder)|Head Pan Encoder|
 |[Lamprey 2 Absolute Encoder 4 inch](https://andymark.com/products/lamprey2-4-inch-absolute-encoder)|Torso Pan Encoder|
 |3x Hollow Shaft Potentiometers|1x Head Tilt Encoder, 2x Torso Tilt Encoders|
-|[PerfectPass 56Kg Servo](https://www.amazon.com/dp/B09Y4NZJBJ)|Mouth Movement|
+|[PerfectPass 56Kg Servo](https://www.amazon.com/dp/B09Y4NZJBJ)|Mouth Expressions|
 |[CPM-MCVC-3441S-RLN](https://teknic.com/model-info/CPM-MCVC-3441S-RLN/?model_voltage=75VDC)|Torso Pan Motor Driver
 
 ## Buses
 
-| Bus   | Devices                       |
-| ----- | ----------------------------- |
-| `I2C` | INA260 voltage/current sensor |
-| `SPI` | Lamprey encoders              |
+|Bus|Devices
+|-|-|
+| `I2C` | INA260 voltage/current sensor
+| `I2C` | SSD1306 voltage/current display
+| `SPI` | Lamprey encoders
+| `SPI` | Shift Registers for battery level LED meter
 
 ## Pins
 
-| Pin   | Function                                   |
-| ----- | ------------------------------------------ |
-| `D19` | I2C `SCL` (INA260)                         |
-| `D18` | I2C `SDA` (INA260)                         |
-| `A0`  | `ACS37220` Current Sensor `VOUT`           |
-| `D20` | `CPM-MCVC-3441S-RLN` Torso Motor `DIR` (A) |
-| `D21` | `CPM-MCVC-3441S-RLN` Torso Motor `PWM` (B) |
-| `D7`  | `CPM-MCVC-3441S-RLN` Torso Motor `Enable`  |
-| `D8`  | `CPM-MCVC-3441S-RLN` Torso Motor `Status`  |
-| `D6`  | `TB6600` Head Pan Stepper Driver `EN`      |
-| `D24` | `TB6600` Head Pan Stepper Driver `PUL`     |
-| `D25` | `TB6600` Head Pan Stepper Driver `DIR`     |
-| `D13` | SPI `SCK` (shared: Lamprey neck & torso)   |
-| `D12` | SPI `MISO` (shared: Lamprey neck & torso)  |
-| `D0`  | Lamprey (head) `CS`                        |
-| `D1`  | Lamprey (torso) `CS`                       |
-| `A1`  | Head Tilt Potentiometer `SIG`              |
-| `A2`  | Torso Tilt Potentiometer 1 `SIG`           |
-| `A3`  | Torso Tilt Potentiometer 2 `SIG`           |
-| `D27` | Head Tilt Motor Driver 1 `EN`              |
-| `D2`  | Head Tilt Motor Driver 1 `LPWM`            |
-| `D3`  | Head Tilt Motor Driver 1 `RPWM`            |
-| `D28` | Head Tilt Motor Driver 2 `EN`              |
-| `D4`  | Head Tilt Motor Driver 2 `LPWM`            |
-| `D5`  | Head Tilt Motor Driver 2 `RPWM`            |
-| `D29` | Torso Tilt Motor Driver 1 `EN`             |
-| `D9`  | Torso Tilt Motor Driver 1 `LPWM`           |
-| `D10` | Torso Tilt Motor Driver 1 `RPWM`           |
-| `D30` | Torso Tilt Motor Driver 2 `EN`             |
-| `D22` | Torso Tilt Motor Driver 2 `LPWM`           |
-| `D23` | Torso Tilt Motor Driver 2 `RPWM`           |
-| `D26` | PerfectPass Servo `SIG`                    |
+|Pin|Function|
+|-|-|
+| `D19` | I2C `SCL` (INA260, SSD1306)
+| `D18` | I2C `SDA` (INA260, SSD1306)
+| `A0`  | `ACS37220` Current Sensor `VOUT`
+| `D20` | `CPM-MCVC-3441S-RLN` Torso Motor `DIR` (A)
+| `D21` | `CPM-MCVC-3441S-RLN` Torso Motor `PWM` (B)
+| `D7`  | `CPM-MCVC-3441S-RLN` Torso Motor `Enable`
+| `D8`  | `CPM-MCVC-3441S-RLN` Torso Motor `Status`
+| `D6`  | `TB6600` Head Pan Stepper Driver `EN`
+| `D24` | `TB6600` Head Pan Stepper Driver `PUL`
+| `D25` | `TB6600` Head Pan Stepper Driver `DIR`
+| `D13` | SPI `SCK` (Lamprey encoders, Battery Meter Shift Registers)
+| `D12` | SPI `MISO` (Lamprey encoders, Battery Meter Shift Registers)
+| `D0`  | Lamprey (head) `CS`
+| `D1`  | Lamprey (torso) `CS`
+| `D31` | LED Light Bar shifter `CS`
+| `A1`  | Head Tilt Potentiometer `SIG`
+| `A2`  | Torso Tilt Potentiometer 1 `SIG`
+| `A3`  | Torso Tilt Potentiometer 2 `SIG`
+| `D27` | Head Tilt Motor Driver 1 `EN`
+| `D2`  | Head Tilt Motor Driver 1 `LPWM`
+| `D3`  | Head Tilt Motor Driver 1 `RPWM`
+| `D28` | Head Tilt Motor Driver 2 `EN`
+| `D4`  | Head Tilt Motor Driver 2 `LPWM`
+| `D5`  | Head Tilt Motor Driver 2 `RPWM`
+| `D29` | Torso Tilt Motor Driver 1 `EN`
+| `D9`  | Torso Tilt Motor Driver 1 `LPWM`
+| `D10` | Torso Tilt Motor Driver 1 `RPWM`
+| `D30` | Torso Tilt Motor Driver 2 `EN`
+| `D22` | Torso Tilt Motor Driver 2 `LPWM`
+| `D23` | Torso Tilt Motor Driver 2 `RPWM`
+| `D26` | PerfectPass Servo `SIG`
 
 ## Bill of Materials
 
