@@ -1,0 +1,6 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "Resistor1K")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor1K/RCG06031K00FKEA.kicad_sym")(options "")(descr ""))
+  (lib (name "Resistor100K")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor100K/CRCW0603100KFKEA.kicad_sym")(options "")(descr ""))
+  (lib (name "Teensy")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Teensy/teensy.kicad_sym")(options "")(descr ""))
+)
