@@ -23,9 +23,11 @@ The following components are used:
 |Pin|Function|
 |-|-|
 |`A0` | Audio input from Voltage Divider
-|`D13`| SPI `SCK`
-|`D12`| SPI `MISO`
-|`D0` | SPI `CS`
+|`D13`| OLED Display `SCK`
+|`D12`| OLED Display `MISO` (?)
+|`D11`| OLED Display `MOSI` (?)
+|`D0` | OLED Display `CS`
+|`D1` | OLED Display Reset
 |?|Seguins
 
 ## Bill of Materials
@@ -36,3 +38,4 @@ The following components are used:
 |[]()|Voltage Bias Capacitor `10uF`
 |[]()|Pull-Down Resistor `2K`
 |[]()|Current-Limiting Resistor `1K`
+|[]()|Audio Jack 3.5mm Stereo
