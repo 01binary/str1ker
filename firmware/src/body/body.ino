@@ -89,7 +89,7 @@ const int MOTOR_CURRENT_SENSE_UNUSED = -1;
 
 void initializeADC();
 void initializeI2C();
-void writeRegister(int id, bool value, void* context);
+void writeRegister(int id, bool value);
 
 /*----------------------------------------------------------*\
 | Variables
@@ -132,8 +132,7 @@ void setup()
     0.0,
     1.0,
     false,
-    writeRegister,
-    &statusLeds
+    writeRegister
   );
 
   // Head tilt
@@ -164,8 +163,7 @@ void setup()
     0.0,
     1.0,
     false,
-    writeRegister,
-    &statusLeds
+    writeRegister
   );
 
   // Torso tilt
@@ -206,8 +204,7 @@ void setup()
   batteryLevelMeter.initialize(
     BATTERY_METER_LEVELS,
     BATTERY_METER_REGISTERS,
-    writeRegister,
-    &statusLeds
+    writeRegister
   );
 
   delay(STARTUP_DELAY);
@@ -233,12 +230,7 @@ void initializeI2C()
   Wire.setClock(I2C_FREQUENCY);
 }
 
-void writeRegister(int id, bool value, void* context)
+void writeRegister(int id, bool value)
 {
-  ShiftRegister* outputs = static_cast<ShiftRegister*>(context);
-
-  if (outputs)
-  {
-    outputs->write(id, value);
-  }
+  statusLeds.write(id, value);
 }

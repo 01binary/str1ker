@@ -84,7 +84,7 @@ class AbsoluteEncoder: public BaseEncoder
 {
 public:
   static const unsigned int MAX = 4096;
-  typedef void (*StatusWriter)(int statusId, bool enabled, void* context);
+  typedef void (*StatusWriter)(int id, bool value);
 
 public:
   int statusPin;
@@ -97,7 +97,6 @@ public:
   bool initialized;
   bool valid;
   StatusWriter statusWriter;
-  void* statusWriterContext;
 
   SPISettings settings;
   Reading reading;
@@ -114,7 +113,6 @@ public:
     initialized(false),
     valid(false),
     statusWriter(nullptr),
-    statusWriterContext(nullptr),
     settings(1e6, MSBFIRST, SPI_MODE0)
   {
   }
@@ -133,8 +131,7 @@ public:
     float scaledMin = 0.0,
     float scaledMax = 1.0,
     bool invertReadings = false,
-    StatusWriter onStatusWrite = nullptr,
-    void* onStatusWriteContext = nullptr)
+    StatusWriter onStatusWrite = nullptr)
   {
     if (initialized)
     {
@@ -149,7 +146,6 @@ public:
     scaleMax = scaledMax;
     invert = invertReadings;
     statusWriter = onStatusWrite;
-    statusWriterContext = onStatusWriteContext;
     initialized = true;
     reading.data = 0;
 
@@ -243,7 +239,7 @@ private:
   {
     if (statusWriter != nullptr)
     {
-      statusWriter(statusPin, enabled, statusWriterContext);
+      statusWriter(statusPin, enabled);
       return;
     }
 

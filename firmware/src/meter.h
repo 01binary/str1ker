@@ -27,22 +27,20 @@
 class Meter
 {
 public:
-  typedef void (*StatusWriter)(int statusId, bool enabled, void* context);
+  typedef void (*StatusWriter)(int id, bool value);
 
 public:
   uint8_t levelCount;
   int* levelIds;
   float level;
   StatusWriter statusWriter;
-  void* statusWriterContext;
 
 public:
   Meter():
     levelCount(0),
     levelIds(nullptr),
     level(0.0f),
-    statusWriter(nullptr),
-    statusWriterContext(nullptr)
+    statusWriter(nullptr)
   {
   }
 
@@ -59,8 +57,7 @@ public:
   void initialize(
     uint8_t levels,
     const int* ids,
-    StatusWriter onStatusWrite = nullptr,
-    void* onStatusWriteContext = nullptr)
+    StatusWriter onStatusWrite = nullptr)
   {
     if (levelIds != nullptr)
     {
@@ -70,7 +67,6 @@ public:
 
     levelCount = levels;
     statusWriter = onStatusWrite;
-    statusWriterContext = onStatusWriteContext;
     level = 0.0f;
     levelIds = new int[levelCount];
 
@@ -119,7 +115,7 @@ private:
   {
     if (statusWriter != nullptr)
     {
-      statusWriter(id, enabled, statusWriterContext);
+      statusWriter(id, enabled);
       return;
     }
 
