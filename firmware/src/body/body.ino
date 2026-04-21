@@ -109,7 +109,7 @@ Potentiometer torsoTiltPot2;
 ServoMotor mouthServo;
 CurrentSensor busCurrentSensor;
 VoltageCurrentSensor busVoltageCurrentSensor;
-ShiftRegister statusLeds;
+ShiftRegister<SHIFT_REGISTER_COUNT> statusLeds;
 Meter batteryLevelMeter;
 
 /*----------------------------------------------------------*\
@@ -196,7 +196,6 @@ void setup()
     SHIFT_REGISTER_DATA_PIN,
     SHIFT_REGISTER_CLOCK_PIN,
     SHIFT_REGISTER_LATCH_PIN,
-    SHIFT_REGISTER_COUNT,
     SHIFT_REGISTER_OUTPUT_COUNT,
     HIGH
   );

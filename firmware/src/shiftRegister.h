@@ -25,18 +25,16 @@
 | Classes
 \*----------------------------------------------------------*/
 
+template <uint8_t RegisterCount>
 class ShiftRegister
 {
 public:
-  static const uint8_t MAX_SUPPORTED_REGISTERS = 4;
   static const uint8_t OUTPUTS_PER_REGISTER = 8;
-  static const uint8_t MAX_SUPPORTED_OUTPUTS =
-    MAX_SUPPORTED_REGISTERS * OUTPUTS_PER_REGISTER;
+  static const uint8_t MAX_SUPPORTED_OUTPUTS = RegisterCount * OUTPUTS_PER_REGISTER;
 
   ShiftRegister():
     output(nullptr),
     initialized(false),
-    registerCount(0),
     outputCount(0)
   {
   }
@@ -54,7 +52,6 @@ public:
     uint8_t dataPin,
     uint8_t clockPin,
     uint8_t latchPin,
-    uint8_t registers,
     uint8_t outputsCount,
     int defaultValue = LOW)
   {
@@ -65,10 +62,14 @@ public:
     }
 
     initialized = false;
-    registerCount = registers;
     outputCount = outputsCount;
 
-    output = new ShiftRegister74HC595<MAX_SUPPORTED_REGISTERS>(dataPin, clockPin, latchPin);
+    if (outputCount > MAX_SUPPORTED_OUTPUTS)
+    {
+      return;
+    }
+
+    output = new ShiftRegister74HC595<RegisterCount>(dataPin, clockPin, latchPin);
     if (output == nullptr)
     {
       return;
@@ -91,8 +92,7 @@ public:
   }
 
 private:
-  ShiftRegister74HC595<MAX_SUPPORTED_REGISTERS>* output;
+  ShiftRegister74HC595<RegisterCount>* output;
   bool initialized;
-  uint8_t registerCount;
   uint8_t outputCount;
 };
