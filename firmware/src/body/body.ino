@@ -60,21 +60,27 @@ const int TORSO_TILT_MOTOR_B_RPWM = 23;
 
 const int MOUTH_SERVO_SIG = 26;
 
+const int BATTERY_LEVEL_METER_LEVELS = 10;
+const int BATTERY_LEVEL_METER_IDS[BATTERY_LEVEL_METER_LEVELS] =
+{
+  0, // U8.QA
+  1, // U8.QB
+  2, // U8.QC
+  3, // U8.QD
+  4, // U8.QE
+  5, // U8.QF
+  6, // U8.QG
+  7, // U8.QH
+  8, // U9.QA
+  9  // U9.QB
+};
+
 const int SHIFT_REGISTER_DATA_PIN = 11;
 const int SHIFT_REGISTER_CLOCK_PIN = 13;
 const int SHIFT_REGISTER_LATCH_PIN = 31;
 const int SHIFT_REGISTER_COUNT = 2;
 const int SHIFT_REGISTER_OUTPUT_COUNT = 16;
-const int BATTERY_LEVEL_LED1_REGISTER = 0;   // U8.QA
-const int BATTERY_LEVEL_LED2_REGISTER = 1;   // U8.QB
-const int BATTERY_LEVEL_LED3_REGISTER = 2;   // U8.QC
-const int BATTERY_LEVEL_LED4_REGISTER = 3;   // U8.QD
-const int BATTERY_LEVEL_LED5_REGISTER = 4;   // U8.QE
-const int BATTERY_LEVEL_LED6_REGISTER = 5;   // U8.QF
-const int BATTERY_LEVEL_LED7_REGISTER = 6;   // U8.QG
-const int BATTERY_LEVEL_LED8_REGISTER = 7;   // U8.QH
-const int BATTERY_LEVEL_LED9_REGISTER = 8;   // U9.QA
-const int BATTERY_LEVEL_LED10_REGISTER = 9;  // U9.QB
+
 const int MOTOR_CURRENT_SENSE_UNUSED = -1;
 
 /*----------------------------------------------------------*\
@@ -104,6 +110,7 @@ ServoMotor mouthServo;
 CurrentSensor busCurrentSensor;
 VoltageCurrentSensor busVoltageCurrentSensor;
 ShiftRegister statusLeds;
+Meter batteryLevelMeter;
 
 /*----------------------------------------------------------*\
 | Entry Points
@@ -194,6 +201,13 @@ void setup()
     SHIFT_REGISTER_COUNT,
     SHIFT_REGISTER_OUTPUT_COUNT,
     HIGH
+  );
+
+  batteryLevelMeter.initialize(
+    BATTERY_LEVEL_METER_LEVELS,
+    BATTERY_LEVEL_METER_IDS,
+    setEncoderStatus,
+    &statusLeds
   );
 
   delay(STARTUP_DELAY);
