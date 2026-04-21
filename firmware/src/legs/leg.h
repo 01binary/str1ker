@@ -26,7 +26,6 @@
 
 const float ENCODER_PPR = 1000.0;             // AS5047 pulses per revolution
 const float ENCODER_CPR = ENCODER_PPR * 4.0f; // AS5047 counts per revolution
-const int MOTOR_CURRENT_SENSE_UNUSED = -1;    // Legs board motor current sense not wired
 
 /*----------------------------------------------------------*\
 | Classes
@@ -136,7 +135,7 @@ public:
       actuatorEnablePin,
       actuatorLeftChannel,
       actuatorRightChannel,
-      MOTOR_CURRENT_SENSE_UNUSED,
+      Motor::CURRENT_SENSE_UNUSED,
       0,
       Motor::PWM_MAX,
       false,
@@ -148,7 +147,7 @@ public:
       wheelEnablePin,
       wheelLeftChannel,
       wheelRightChannel,
-      MOTOR_CURRENT_SENSE_UNUSED,
+      Motor::CURRENT_SENSE_UNUSED,
       0,
       Motor::PWM_MAX,
       false,

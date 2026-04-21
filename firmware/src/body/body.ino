@@ -81,8 +81,6 @@ const int SHIFT_REGISTER_LATCH_PIN = 31;
 const int SHIFT_REGISTER_COUNT = 2;
 const int SHIFT_REGISTER_OUTPUT_COUNT = 16;
 
-const int MOTOR_CURRENT_SENSE_UNUSED = -1;
-
 /*----------------------------------------------------------*\
 | Forward Declarations
 \*----------------------------------------------------------*/
@@ -140,14 +138,14 @@ void setup()
     HEAD_TILT_MOTOR1_EN,
     HEAD_TILT_MOTOR1_LPWM,
     HEAD_TILT_MOTOR1_RPWM,
-    MOTOR_CURRENT_SENSE_UNUSED
+    Motor::CURRENT_SENSE_UNUSED
   );
 
   headTiltMotor2.initialize(
     HEAD_TILT_MOTOR2_EN,
     HEAD_TILT_MOTOR2_LPWM,
     HEAD_TILT_MOTOR2_RPWM,
-    MOTOR_CURRENT_SENSE_UNUSED
+    Motor::CURRENT_SENSE_UNUSED
   );
 
   headTiltPot.initialize(HEAD_TILT_POTENTIOMETER);
@@ -171,14 +169,14 @@ void setup()
     TORSO_TILT_MOTOR1_EN,
     TORSO_TILT_MOTOR1_LPWM,
     TORSO_TILT_MOTOR1_RPWM,
-    MOTOR_CURRENT_SENSE_UNUSED
+    Motor::CURRENT_SENSE_UNUSED
   );
 
   torsoTiltMotor2.initialize(
     TORSO_TILT_MOTOR2_EN,
     TORSO_TILT_MOTOR2_LPWM,
     TORSO_TILT_MOTOR2_RPWM,
-    MOTOR_CURRENT_SENSE_UNUSED
+    Motor::CURRENT_SENSE_UNUSED
   );
 
   torsoTiltPot1.initialize(TORSO_TILT_POTENTIOMETER1);

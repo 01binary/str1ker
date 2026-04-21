@@ -29,6 +29,8 @@
 class Motor
 {
 public:
+  static const int CURRENT_SENSE_UNUSED = -1;
+
   // Teensy ADC and current-sense conversion constants
   static constexpr float ADC_REFERENCE_VOLTS = 3.3f;
   static constexpr float ADC_MAX_COUNTS = 4095.0f;
