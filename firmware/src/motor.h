@@ -29,7 +29,18 @@
 class Motor
 {
 public:
-  static constexpr float CURRENT_MAX = 1023.0f;
+  // Teensy ADC and current-sense conversion constants
+  static constexpr float ADC_REFERENCE_VOLTS = 3.3f;
+  static constexpr float ADC_MAX_COUNTS = 4095.0f;
+
+  // BTS7960/IBT-2 current sense:
+  // I_load = V_is * (kILIS / R_is)
+  // kILIS is typically ~8500 (device-dependent spread in datasheet)
+  static constexpr float CURRENT_SENSE_RESISTOR_OHMS = 5100.0f;
+  static constexpr float CURRENT_SENSE_KILIS = 8500.0f;
+  static constexpr float CURRENT_SENSE_AMPS_PER_VOLT =
+    CURRENT_SENSE_KILIS / CURRENT_SENSE_RESISTOR_OHMS;
+
   static const unsigned int PWM_MAX = 255;
   static const unsigned int PWM_FREQ = 20000;
   typedef void (*PwmWriter)(int channelId, int pwmValue);
@@ -185,7 +196,8 @@ public:
     }
 
     rawCurrent = analogRead(isPin);
-    current = float(rawCurrent) / CURRENT_MAX;
+    float sensedVoltage = (float(rawCurrent) / ADC_MAX_COUNTS) * ADC_REFERENCE_VOLTS;
+    current = sensedVoltage * CURRENT_SENSE_AMPS_PER_VOLT;
     return current;
   }
 
