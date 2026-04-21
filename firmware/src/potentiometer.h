@@ -18,11 +18,8 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#ifdef ROS
-  #include <ros.h>
-  #include "params.h"
-#endif
-
+#include <ros.h>
+#include "params.h"
 #include "encoder.h"
 
 class Potentiometer: public BaseEncoder
@@ -70,7 +67,6 @@ public:
     pinMode(adcPin, INPUT_PULLUP);
   }
 
-  #ifdef ROS
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
     loadParam(node, group, "normMin", normMin);
@@ -79,7 +75,6 @@ public:
     loadParam(node, group, "scaleMax", scaleMax);
     loadBoolParam(node, group, "invert", invert);
   }
-  #endif
 
   float read()
   {
@@ -105,7 +100,6 @@ public:
     return reading;
   }
 
-  #ifdef ROS
   void debug(ros::NodeHandle& node, const char* group)
   {
     char buffer[256] = {0};
@@ -122,5 +116,4 @@ public:
 
     node.loginfo(buffer);
   }
-  #endif
 };

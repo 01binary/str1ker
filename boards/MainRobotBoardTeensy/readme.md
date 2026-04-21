@@ -49,14 +49,15 @@ The following external components are connected to the board via JST-XH locking 
 | `D20` | `CPM-MCVC-3441S-RLN` Torso Motor `DIR` (A) |
 | `D21` | `CPM-MCVC-3441S-RLN` Torso Motor `PWM` (B) |
 | `D7`  | `CPM-MCVC-3441S-RLN` Torso Motor `Enable`  |
-| `D8`  | `CPM-MCVC-3441S-RLN` Torso Motor `Status`  |
 | `D6`  | `TB6600` Head Pan Stepper Driver `EN`      |
 | `D24` | `TB6600` Head Pan Stepper Driver `PUL`     |
 | `D25` | `TB6600` Head Pan Stepper Driver `DIR`     |
-| `D13` | SPI `SCK` (shared: Lamprey neck & torso)   |
-| `D12` | SPI `MISO` (shared: Lamprey neck & torso)  |
-| `D0`  | Lamprey (head) `CS`                        |
-| `D1`  | Lamprey (torso) `CS`                       |
+| `D13` | SPI `SCK` (shared: Lamprey head & torso)   |
+| `D12` | SPI `MISO` (shared: Lamprey head & torso)  |
+| `D0`  | Lamprey head encoder `CS`                  |
+| `D1`  | Lamprey torso encoder `CS`                 |
+| `D8`  | Lamprey torso encoder `STATUS` LED         |
+| `D33` | Lamprey head encoder `STATUS` LED          |
 | `A1`  | Head Tilt Potentiometer `SIG`              |
 | `A2`  | Torso Tilt Potentiometer 1 `SIG`           |
 | `A3`  | Torso Tilt Potentiometer 2 `SIG`           |

@@ -18,9 +18,7 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#ifdef ROS
-  #include <ros.h>
-#endif
+#include <ros.h>
 
 /*----------------------------------------------------------*\
 | Classes
@@ -31,7 +29,5 @@ class BaseEncoder
 public:
   virtual float read() = 0;
   virtual int raw() const = 0;
-  #ifdef ROS
-    virtual void loadSettings(ros::NodeHandle& node, const char* group) = 0;
-  #endif
+  virtual void loadSettings(ros::NodeHandle& node, const char* group) = 0;
 };

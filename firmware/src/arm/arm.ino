@@ -8,7 +8,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
  arm.ino
- Arm Driver Board
+ Arm Board Firmware
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -101,10 +101,11 @@ ros::Publisher rawPub(RAW_TOPIC, &rawFeedbackMsg);
 VelocitySubscriber velocitySub(VELOCITY_TOPIC, velocityCommand);
 PositionSubscriber positionSub(POSITION_TOPIC, positionCommand);
 GripperSubscriber gripperSub(GRIPPER_TOPIC, gripperCommand);
-Actuator<AS5045Encoder, Motor> baseJoint(PARAM_ROOT, "base");
+Actuator<AbsoluteEncoder, Motor> baseJoint(PARAM_ROOT, "base");
 Actuator<Potentiometer, Motor> shoulderJoint(PARAM_ROOT, "shoulder");
 Actuator<Potentiometer, Motor> elbowJoint(PARAM_ROOT, "elbow");
 Solenoid gripper;
+VoltageCurrentSensor supplySensor;
 bool debug;
 
 /*----------------------------------------------------------*\
@@ -115,7 +116,7 @@ void setup()
 {
   initializeRos();
   initializeJoints();
-  initializeVoltageCurrentMeter();
+  supplySensor.initialize();
   loadSettings();
   initializeRosInterface();
 
@@ -272,8 +273,8 @@ void stateFeedback()
   stateFeedbackMsg.elbowCurrent = elbowJoint.getCurrent();
   stateFeedbackMsg.elbowStalled = elbowJoint.isStalled();
 
-  stateFeedbackMsg.voltage = measureVoltage();
-  stateFeedbackMsg.current = measureCurrent();
+  stateFeedbackMsg.voltage = supplySensor.readVoltage();
+  stateFeedbackMsg.current = supplySensor.readCurrent();
 
   statePub.publish(&stateFeedbackMsg);
 }

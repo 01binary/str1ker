@@ -20,10 +20,7 @@
 \*----------------------------------------------------------*/
 
 #include "pid.h"
-
-#ifdef ROS
-  #include "params.h"
-#endif
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Classes
@@ -67,7 +64,6 @@ public:
   }
 
 public:
-  #ifdef ROS
   void loadSettings(ros::NodeHandle& node)
   {
     char path[64] = {0};
@@ -84,9 +80,8 @@ public:
     encoder.loadSettings(node, encoderGroup);
     motor.loadSettings(node, motorGroup);
 
-    debug();
+    debug(node);
   }
-  #endif
 
   void update(float timeStep)
   {
@@ -139,7 +134,6 @@ public:
     return stalled;
   }
 
-  #ifdef ROS
   void debug(ros::NodeHandle& node)
   {
     char path[64] = {0};
@@ -156,5 +150,4 @@ public:
     encoder.debug(node, encoderGroup);
     motor.debug(node, motorGroup);
   }
-  #endif
 };
