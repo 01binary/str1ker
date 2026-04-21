@@ -41,7 +41,7 @@ const int TORSO_PAN_PWM = 21;
 const int TORSO_PAN_ENCODER_STATUS_REGISTER = 10; // U9.QC
 const int TORSO_PAN_CS = 1;
 
-const int HEAD_TILT_POT = A1;
+const int HEAD_TILT_POTENTIOMETER = A1;
 const int HEAD_TILT_MOTOR_A_EN = 27;
 const int HEAD_TILT_MOTOR_A_LPWM = 2;
 const int HEAD_TILT_MOTOR_A_RPWM = 3;
@@ -49,8 +49,8 @@ const int HEAD_TILT_MOTOR_B_EN = 28;
 const int HEAD_TILT_MOTOR_B_LPWM = 4;
 const int HEAD_TILT_MOTOR_B_RPWM = 5;
 
-const int TORSO_TILT_POT_A = A2;
-const int TORSO_TILT_POT_B = A3;
+const int TORSO_TILT_POTENTIOMETER1 = A2;
+const int TORSO_TILT_POTENTIOMETER2 = A3;
 const int TORSO_TILT_MOTOR_A_EN = 29;
 const int TORSO_TILT_MOTOR_A_LPWM = 9;
 const int TORSO_TILT_MOTOR_A_RPWM = 10;
@@ -60,8 +60,8 @@ const int TORSO_TILT_MOTOR_B_RPWM = 23;
 
 const int MOUTH_SERVO_SIG = 26;
 
-const int BATTERY_LEVEL_METER_LEVELS = 10;
-const int BATTERY_LEVEL_METER_IDS[BATTERY_LEVEL_METER_LEVELS] =
+const int BATTERY_METER_LEVELS = 10;
+const int BATTERY_METER_REGISTERS[BATTERY_METER_LEVELS] =
 {
   0, // U8.QA
   1, // U8.QB
@@ -89,7 +89,7 @@ const int MOTOR_CURRENT_SENSE_UNUSED = -1;
 
 void initializeADC();
 void initializeI2C();
-void setEncoderStatus(int statusId, bool enabled, void* context);
+void writeRegister(int id, bool value, void* context);
 
 /*----------------------------------------------------------*\
 | Variables
@@ -132,7 +132,7 @@ void setup()
     0.0,
     1.0,
     false,
-    setEncoderStatus,
+    writeRegister,
     &statusLeds
   );
 
@@ -151,7 +151,7 @@ void setup()
     MOTOR_CURRENT_SENSE_UNUSED
   );
 
-  headTiltPot.initialize(HEAD_TILT_POT);
+  headTiltPot.initialize(HEAD_TILT_POTENTIOMETER);
 
   // Torso pan
   torsoPanMotor.initialize(TORSO_PAN_ENABLE, TORSO_PAN_DIR, TORSO_PAN_PWM, TORSO_PAN_STATUS);
@@ -164,7 +164,7 @@ void setup()
     0.0,
     1.0,
     false,
-    setEncoderStatus,
+    writeRegister,
     &statusLeds
   );
 
@@ -183,17 +183,17 @@ void setup()
     MOTOR_CURRENT_SENSE_UNUSED
   );
 
-  torsoTiltPot1.initialize(TORSO_TILT_POT_A);
-  torsoTiltPot2.initialize(TORSO_TILT_POT_B);
+  torsoTiltPot1.initialize(TORSO_TILT_POTENTIOMETER1);
+  torsoTiltPot2.initialize(TORSO_TILT_POTENTIOMETER2);
 
   // Mouth
   mouthServo.initialize(MOUTH_SERVO_SIG);
 
-  // Meters
+  // Sensors
   busCurrentSensor.initialize(BUS_CURRENT_SENSOR_PIN);
   busVoltageCurrentSensor.initialize();
 
-  // LEDs
+  // Indicators
   statusLeds.initialize(
     SHIFT_REGISTER_DATA_PIN,
     SHIFT_REGISTER_CLOCK_PIN,
@@ -204,9 +204,9 @@ void setup()
   );
 
   batteryLevelMeter.initialize(
-    BATTERY_LEVEL_METER_LEVELS,
-    BATTERY_LEVEL_METER_IDS,
-    setEncoderStatus,
+    BATTERY_METER_LEVELS,
+    BATTERY_METER_REGISTERS,
+    writeRegister,
     &statusLeds
   );
 
@@ -233,7 +233,7 @@ void initializeI2C()
   Wire.setClock(I2C_FREQUENCY);
 }
 
-void setEncoderStatus(int id, bool value, void* context)
+void writeRegister(int id, bool value, void* context)
 {
   ShiftRegister* outputs = static_cast<ShiftRegister*>(context);
 
