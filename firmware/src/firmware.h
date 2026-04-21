@@ -10,3 +10,4 @@
 #include "actuator.h"
 #include "currentSensor.h"
 #include "voltageCurrentSensor.h"
+#include "shiftRegister.h"

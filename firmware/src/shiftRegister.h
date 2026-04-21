@@ -6,9 +6,8 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
- currentSensor.h
- Analog current sensor
- Pololu ACS37220LEZATR-100B3 (100A, 3.3V)
+ shiftRegister.h
+ 74HC595 output helper for chained shift registers
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -16,48 +15,84 @@
 #pragma once
 
 /*----------------------------------------------------------*\
-| Constants
+| Includes
 \*----------------------------------------------------------*/
 
 #include <Arduino.h>
-
-const float ADC_REFERENCE_VOLTS = 3.3f;
-const float ADC_MAX_COUNTS = 4095.0f;
-const float ACS37220_ZERO_VOLTAGE = 1.65f;
-const float ACS37220_SENSITIVITY_VOLTS_PER_AMP = 0.0132f;
+#include <ShiftRegister74HC595.h>
 
 /*----------------------------------------------------------*\
 | Classes
 \*----------------------------------------------------------*/
 
-class CurrentSensor
+class ShiftRegister
 {
 public:
-  int adcPin;
-  int reading;
+  static const uint8_t MAX_SUPPORTED_REGISTERS = 4;
+  static const uint8_t OUTPUTS_PER_REGISTER = 8;
+  static const uint8_t MAX_SUPPORTED_OUTPUTS =
+    MAX_SUPPORTED_REGISTERS * OUTPUTS_PER_REGISTER;
+
+  ShiftRegister():
+    output(nullptr),
+    initialized(false),
+    registerCount(0),
+    outputCount(0)
+  {
+  }
+
+  ~ShiftRegister()
+  {
+    if (output != nullptr)
+    {
+      delete output;
+    }
+  }
 
 public:
-  CurrentSensor():
-    adcPin(0),
-    reading(0)
+  void initialize(
+    uint8_t dataPin,
+    uint8_t clockPin,
+    uint8_t latchPin,
+    uint8_t registers,
+    uint8_t outputsCount,
+    int defaultValue = LOW)
   {
+    if (output != nullptr)
+    {
+      delete output;
+      output = nullptr;
+    }
+
+    initialized = false;
+    registerCount = registers;
+    outputCount = outputsCount;
+
+    output = new ShiftRegister74HC595<MAX_SUPPORTED_REGISTERS>(dataPin, clockPin, latchPin);
+    if (output == nullptr)
+    {
+      return;
+    }
+
+    for (uint8_t i = 0; i < outputCount; i++)
+    {
+      output->set(i, defaultValue);
+    }
+
+    initialized = true;
   }
 
-  void initialize(int adc)
+  void write(uint8_t outputPin, bool value)
   {
-    adcPin = adc;
-    pinMode(adcPin, INPUT);
+    if (initialized && outputPin < outputCount)
+    {
+      output->set(outputPin, value ? HIGH : LOW);
+    }
   }
 
-  float read()
-  {
-    reading = analogRead(adcPin);
-    float voltage = (float(reading) / ADC_MAX_COUNTS) * ADC_REFERENCE_VOLTS;
-    return (voltage - ACS37220_ZERO_VOLTAGE) / ACS37220_SENSITIVITY_VOLTS_PER_AMP;
-  }
-
-  int raw() const
-  {
-    return reading;
-  }
+private:
+  ShiftRegister74HC595<MAX_SUPPORTED_REGISTERS>* output;
+  bool initialized;
+  uint8_t registerCount;
+  uint8_t outputCount;
 };

@@ -43,39 +43,59 @@ The following external components are connected to the board via JST-XH locking 
 
 ## Pins
 
-| Pin   | Function                                   |
-| ----- | ------------------------------------------ |
-| `D19` | I2C `SCL` (INA260)                         |
-| `D18` | I2C `SDA` (INA260)                         |
-| `A0`  | `ACS37220` Current Sensor `VOUT`           |
-| `D20` | `CPM-MCVC-3441S-RLN` Torso Motor `DIR` (A) |
-| `D21` | `CPM-MCVC-3441S-RLN` Torso Motor `PWM` (B) |
-| `D7`  | `CPM-MCVC-3441S-RLN` Torso Motor `Enable`  |
-| `D6`  | `TB6600` Head Pan Stepper Driver `EN`      |
-| `D24` | `TB6600` Head Pan Stepper Driver `PUL`     |
-| `D25` | `TB6600` Head Pan Stepper Driver `DIR`     |
-| `D13` | SPI `SCK` (shared: Lamprey head & torso)   |
-| `D12` | SPI `MISO` (shared: Lamprey head & torso)  |
-| `D0`  | Lamprey head encoder `CS`                  |
-| `D1`  | Lamprey torso encoder `CS`                 |
-| `D8`  | Lamprey torso encoder `STATUS` LED         |
-| `D33` | Lamprey head encoder `STATUS` LED          |
-| `A1`  | Head Tilt Potentiometer `SIG`              |
-| `A2`  | Torso Tilt Potentiometer 1 `SIG`           |
-| `A3`  | Torso Tilt Potentiometer 2 `SIG`           |
-| `D27` | Head Tilt Motor Driver 1 `EN`              |
-| `D2`  | Head Tilt Motor Driver 1 `LPWM`            |
-| `D3`  | Head Tilt Motor Driver 1 `RPWM`            |
-| `D28` | Head Tilt Motor Driver 2 `EN`              |
-| `D4`  | Head Tilt Motor Driver 2 `LPWM`            |
-| `D5`  | Head Tilt Motor Driver 2 `RPWM`            |
-| `D29` | Torso Tilt Motor Driver 1 `EN`             |
-| `D9`  | Torso Tilt Motor Driver 1 `LPWM`           |
-| `D10` | Torso Tilt Motor Driver 1 `RPWM`           |
-| `D30` | Torso Tilt Motor Driver 2 `EN`             |
-| `D22` | Torso Tilt Motor Driver 2 `LPWM`           |
-| `D23` | Torso Tilt Motor Driver 2 `RPWM`           |
-| `D26` | PerfectPass Servo `SIG`                    |
+|Pin|Function
+|-|-|
+| `D19` | I2C `SCL` (INA260)
+| `D18` | I2C `SDA` (INA260)
+| `A0`  | `ACS37220` Current Sensor `VOUT`
+| `D20` | `CPM-MCVC-3441S-RLN` Torso Motor `DIR` (A)
+| `D21` | `CPM-MCVC-3441S-RLN` Torso Motor `PWM` (B)
+| `D7`  | `CPM-MCVC-3441S-RLN` Torso Motor `Enable`
+| `D8`  | `CPM-MCVC-3441S-RLN` Torso Motor `Status`
+| `D6`  | `TB6600` Head Pan Stepper Driver `EN`
+| `D24` | `TB6600` Head Pan Stepper Driver `PUL`
+| `D25` | `TB6600` Head Pan Stepper Driver `DIR`
+| `D13` | SPI `SCK` (Lamprey Encoders, Shift Registers)
+| `D11` | SPI `MOSI` (Shift Registers)
+| `D12` | SPI `MISO` (Lamprey Encoders)
+| `D31` | Shift Register `RCLK` (latch)
+| `D0`  | Lamprey head encoder `CS`
+| `D1`  | Lamprey torso encoder `CS`
+| `A1`  | Head Tilt Potentiometer `SIG`
+| `A2`  | Torso Tilt Potentiometer 1 `SIG`
+| `A3`  | Torso Tilt Potentiometer 2 `SIG`
+| `D27` | Head Tilt Motor Driver 1 `EN`
+| `D2`  | Head Tilt Motor Driver 1 `LPWM`
+| `D3`  | Head Tilt Motor Driver 1 `RPWM`
+| `D28` | Head Tilt Motor Driver 2 `EN`
+| `D4`  | Head Tilt Motor Driver 2 `LPWM`
+| `D5`  | Head Tilt Motor Driver 2 `RPWM`
+| `D29` | Torso Tilt Motor Driver 1 `EN`
+| `D9`  | Torso Tilt Motor Driver 1 `LPWM`
+| `D10` | Torso Tilt Motor Driver 1 `RPWM`
+| `D30` | Torso Tilt Motor Driver 2 `EN`
+| `D22` | Torso Tilt Motor Driver 2 `LPWM`
+| `D23` | Torso Tilt Motor Driver 2 `RPWM`
+| `D26` | PerfectPass Servo `SIG`
+
+## Shift Registers
+
+Two shift registers are used to expand Teensy I/O capabilities, adding a total of 16 digital pins:
+
+| Shift Register | Pin | Function
+|-|-|-|
+| `U8` | `QA` | Battery Level Meter `LED1`
+| `U8` | `QB` | Battery Level Meter `LED2`
+| `U8` | `QC` | Battery Level Meter `LED3`
+| `U8` | `QD` | Battery Level Meter `LED4`
+| `U8` | `QE` | Battery Level Meter `LED5`
+| `U8` | `QF` | Battery Level Meter `LED6`
+| `U8` | `QG` | Battery Level Meter `LED7`
+| `U8` | `QH` | Battery Level Meter `LED8`
+| `U9` | `QA` | Battery Level Meter `LED9`
+| `U9` | `QB` | Battery Level Meter `LED10`
+| `U9` | `QC` | Torso Encoder Status `TORSOENCODERST`
+| `U9` | `QD` | Head Encoder Status `HEADENCODERST`
 
 ## Bill of Materials
 

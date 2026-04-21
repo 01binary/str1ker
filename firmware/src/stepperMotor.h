@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
  stepperMotor.h
- Step/dir stepper motor driver
+ Step/direction stepper motor driver
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -18,10 +18,9 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#ifdef ROS
-  #include <ros.h>
-  #include "params.h"
-#endif
+#include <AccelStepper.h>
+#include <ros.h>
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Classes
@@ -30,7 +29,7 @@
 class StepperMotor
 {
 public:
-  static const unsigned int STEP_PULSE_US = 4;
+  static const int DRIVER_INTERFACE = AccelStepper::DRIVER;
 
 public:
   int enablePin;
@@ -38,15 +37,11 @@ public:
   int directionPin;
 
   bool enabled;
-  float stallThreshold;
   bool invert;
-  bool stopBeforeReverse;
-  float stepRateMin;
-  float stepRateMax;
+  float acceleration;
+  float maxSpeed;
+  uint16_t minPulseWidthUs;
   float velocity;
-  float current;
-  int rawStatus;
-  uint32_t lastUpdateUs;
 
 public:
   StepperMotor():
@@ -54,193 +49,159 @@ public:
     stepPin(0),
     directionPin(0),
     enabled(false),
-    stallThreshold(1.0f),
     invert(false),
-    stopBeforeReverse(false),
-    stepRateMin(0.0f),
-    stepRateMax(2000.0f),
+    acceleration(2000.0f),
+    maxSpeed(2000.0f),
+    minPulseWidthUs(2),
     velocity(0.0f),
-    current(0.0f),
-    rawStatus(0),
-    lastUpdateUs(0)
+    driver(nullptr)
   {
   }
 
+  ~StepperMotor()
+  {
+    if (driver != nullptr)
+    {
+      delete driver;
+      driver = nullptr;
+    }
+  }
+
+public:
   void initialize(
     int enable,
     int step,
     int direction,
-    float minRate = 0.0f,
-    float maxRate = 2000.0f,
-    bool invertCommand = false,
-    float stallCurrentThreshold = 1.0f)
+    float accelerationValue = 2000.0f,
+    float maxSpeedValue = 2000.0f,
+    uint16_t minPulseWidthValueUs = 2,
+    bool invertDirection = false)
   {
+    if (driver != nullptr)
+    {
+      delete driver;
+      driver = nullptr;
+    }
+
     enablePin = enable;
     stepPin = step;
     directionPin = direction;
-    stepRateMin = minRate;
-    stepRateMax = maxRate;
-    invert = invertCommand;
-    stallThreshold = stallCurrentThreshold;
-    stopBeforeReverse = false;
+    acceleration = accelerationValue;
+    maxSpeed = maxSpeedValue;
+    minPulseWidthUs = minPulseWidthValueUs;
+    invert = invertDirection;
     velocity = 0.0f;
-    current = 0.0f;
-    rawStatus = 0;
-    lastUpdateUs = micros();
 
     pinMode(enablePin, OUTPUT);
-    pinMode(stepPin, OUTPUT);
-    pinMode(directionPin, OUTPUT);
+    digitalWrite(enablePin, LOW);
 
-    digitalWrite(stepPin, LOW);
-    digitalWrite(directionPin, LOW);
-    disable();
+    driver = new AccelStepper(DRIVER_INTERFACE, stepPin, directionPin);
+    if (driver == nullptr)
+    {
+      enabled = false;
+      return;
+    }
+
+    driver->setEnablePin(enablePin);
+    driver->setPinsInverted(invert, false, false);
+    driver->setMinPulseWidth(minPulseWidthUs);
+    driver->setMaxSpeed(maxSpeed);
+    driver->setAcceleration(acceleration);
+    driver->setSpeed(0.0f);
+    driver->disableOutputs();
+
+    enabled = false;
   }
 
-  #ifdef ROS
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
     loadBoolParam(node, group, "enabled", enabled);
-    loadParam(node, group, "stallThreshold", stallThreshold);
-    loadBoolParam(node, group, "stopBeforeReverse", stopBeforeReverse);
     loadBoolParam(node, group, "invert", invert);
-    loadParam(node, group, "stepRateMin", stepRateMin);
-    loadParam(node, group, "stepRateMax", stepRateMax);
+    loadParam(node, group, "acceleration", acceleration);
+    loadParam(node, group, "maxSpeed", maxSpeed);
+    loadParam(node, group, "minPulseWidthUs", minPulseWidthUs);
+
+    if (driver != nullptr)
+    {
+      driver->setPinsInverted(invert, false, false);
+      driver->setMinPulseWidth(minPulseWidthUs);
+      driver->setMaxSpeed(maxSpeed);
+      driver->setAcceleration(acceleration);
+    }
 
     if (enabled)
     {
       enable();
     }
+    else
+    {
+      disable();
+    }
   }
-  #endif
 
   void enable()
   {
     enabled = true;
+
+    if (driver != nullptr)
+    {
+      driver->enableOutputs();
+    }
+
     digitalWrite(enablePin, HIGH);
   }
 
   void disable()
   {
     enabled = false;
-    digitalWrite(enablePin, LOW);
     velocity = 0.0f;
-  }
 
-  float read()
-  {
-    current = 0.0f;
-    return current;
-  }
+    if (driver != nullptr)
+    {
+      driver->setSpeed(0.0f);
+      driver->disableOutputs();
+    }
 
-  int readRaw() const
-  {
-    return rawStatus;
+    digitalWrite(enablePin, LOW);
   }
 
   void write(float command)
   {
-    uint32_t nowUs = micros();
-
-    if (!enabled)
+    if (!enabled || driver == nullptr)
     {
-      lastUpdateUs = nowUs;
       return;
     }
 
-    float speed = constrain(abs(command), 0.0f, 1.0f);
-    int direction = command >= 0.0f ? 1 : -1;
+    float speed = constrain(command, -1.0f, 1.0f);
+    float targetSpeed = speed * maxSpeed;
 
-    if (invert)
-    {
-      direction *= -1;
-    }
-
-    float nextVelocity = direction * speed;
-    bool reversedDirection =
-      (velocity > 0.0f && nextVelocity < 0.0f) ||
-      (velocity < 0.0f && nextVelocity > 0.0f);
-
-    if (stopBeforeReverse && reversedDirection)
-    {
-      velocity = 0.0f;
-      lastUpdateUs = nowUs;
-      return;
-    }
-
-    if (speed == 0.0f)
-    {
-      velocity = 0.0f;
-      lastUpdateUs = nowUs;
-      return;
-    }
-
-    digitalWrite(directionPin, direction > 0 ? HIGH : LOW);
-
-    float stepRate = stepRateMin + speed * (stepRateMax - stepRateMin);
-
-    if (stepRate <= 0.0f)
-    {
-      velocity = nextVelocity;
-      lastUpdateUs = nowUs;
-      return;
-    }
-
-    uint32_t intervalUs = uint32_t(1000000.0f / stepRate);
-
-    if (intervalUs == 0)
-    {
-      intervalUs = 1;
-    }
-
-    uint32_t elapsedUs = nowUs - lastUpdateUs;
-    int pulses = int(elapsedUs / intervalUs);
-
-    if (pulses > 64)
-    {
-      pulses = 64;
-    }
-
-    for (int i = 0; i < pulses; ++i)
-    {
-      digitalWrite(stepPin, HIGH);
-      delayMicroseconds(STEP_PULSE_US);
-      digitalWrite(stepPin, LOW);
-      delayMicroseconds(STEP_PULSE_US);
-    }
-
-    if (pulses > 0)
-    {
-      lastUpdateUs += uint32_t(pulses) * intervalUs;
-    }
-    else
-    {
-      lastUpdateUs = nowUs;
-    }
-
-    velocity = nextVelocity;
+    driver->setSpeed(targetSpeed);
+    driver->runSpeed();
+    velocity = speed;
   }
 
-  #ifdef ROS
   void debug(ros::NodeHandle& node, const char* group)
   {
     char buffer[256] = {0};
-    char minRate_s[16];
-    char maxRate_s[16];
+    char acceleration_s[16];
+    char maxSpeed_s[16];
 
-    dtostrf(stepRateMin, 0, 2, minRate_s);
-    dtostrf(stepRateMax, 0, 2, maxRate_s);
+    dtostrf(acceleration, 0, 2, acceleration_s);
+    dtostrf(maxSpeed, 0, 2, maxSpeed_s);
 
     snprintf(
       buffer,
       sizeof(buffer),
-      "%s: stepRateMin=%s stepRateMax=%s %s%s",
+      "%s: acceleration=%s maxSpeed=%s minPulseWidthUs=%u %s%s",
       group,
-      minRate_s,
-      maxRate_s,
+      acceleration_s,
+      maxSpeed_s,
+      minPulseWidthUs,
       enabled ? "enabled" : "disabled",
       invert ? " invert" : "");
     node.loginfo(buffer);
   }
-  #endif
+
+private:
+  AccelStepper* driver;
 };

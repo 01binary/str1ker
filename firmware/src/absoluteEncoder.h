@@ -6,7 +6,7 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
- encoder.h
+ absoluteEncoder.h
  Absolute encoder firmware
  Copyright (C) 2025 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
@@ -84,6 +84,7 @@ class AbsoluteEncoder: public BaseEncoder
 {
 public:
   static const unsigned int MAX = 4096;
+  typedef void (*StatusWriter)(int statusId, bool enabled, void* context);
 
 public:
   int statusPin;
@@ -95,6 +96,8 @@ public:
   bool invert;
   bool initialized;
   bool valid;
+  StatusWriter statusWriter;
+  void* statusWriterContext;
 
   SPISettings settings;
   Reading reading;
@@ -110,6 +113,8 @@ public:
     invert(false),
     initialized(false),
     valid(false),
+    statusWriter(nullptr),
+    statusWriterContext(nullptr),
     settings(1e6, MSBFIRST, SPI_MODE0)
   {
   }
@@ -127,7 +132,9 @@ public:
     int normalizedMax = MAX,
     float scaledMin = 0.0,
     float scaledMax = 1.0,
-    bool invertReadings = false)
+    bool invertReadings = false,
+    StatusWriter onStatusWrite = nullptr,
+    void* onStatusWriteContext = nullptr)
   {
     if (initialized)
     {
@@ -141,16 +148,22 @@ public:
     scaleMin = scaledMin;
     scaleMax = scaledMax;
     invert = invertReadings;
+    statusWriter = onStatusWrite;
+    statusWriterContext = onStatusWriteContext;
     initialized = true;
     reading.data = 0;
 
     SPI.begin();
 
-    pinMode(statusPin, OUTPUT);
+    if (statusWriter == nullptr)
+    {
+      pinMode(statusPin, OUTPUT);
+    }
+
     pinMode(csPin, OUTPUT);
 
     digitalWrite(csPin, HIGH);
-    digitalWrite(statusPin, LOW);
+    writeStatus(false);
   }
 
   void loadSettings(ros::NodeHandle& node, const char* group)
@@ -179,14 +192,14 @@ public:
     if (!reading.valid())
     {
       valid = false;
-      digitalWrite(statusPin, LOW);
+      writeStatus(false);
       return invert ? scaleMax : scaleMin;
     }
 
     if (!valid)
     {
       valid = true;
-      digitalWrite(statusPin, HIGH);
+      writeStatus(true);
     }
 
     // Normalize
@@ -223,5 +236,17 @@ public:
     );
 
     node.loginfo(buffer);
+  }
+
+private:
+  void writeStatus(bool enabled)
+  {
+    if (statusWriter != nullptr)
+    {
+      statusWriter(statusPin, enabled, statusWriterContext);
+      return;
+    }
+
+    digitalWrite(statusPin, enabled ? HIGH : LOW);
   }
 };

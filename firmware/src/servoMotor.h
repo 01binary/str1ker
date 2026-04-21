@@ -19,11 +19,8 @@
 \*----------------------------------------------------------*/
 
 #include <Servo.h>
-
-#ifdef ROS
-  #include <ros.h>
-  #include "params.h"
-#endif
+#include <ros.h>
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Classes
@@ -39,25 +36,16 @@ public:
 public:
   ServoMotor():
     signalPin(0),
-    position(90)
+    position(0)
   {
   }
 
-  void initialize(int pin, int initialPosition = 90)
+  void initialize(int pin)
   {
     signalPin = pin;
-    position = initialPosition;
+    position = 0;
     servo.attach(signalPin);
-    servo.write(position);
   }
-
-  #ifdef ROS
-  void loadSettings(ros::NodeHandle& node, const char* group)
-  {
-    loadParam(node, group, "position", position);
-    servo.write(position);
-  }
-  #endif
 
   void write(int nextPosition)
   {

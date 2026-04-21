@@ -24,19 +24,21 @@
 \*----------------------------------------------------------*/
 
 const int STARTUP_DELAY = 1000;
+const int I2C_FREQUENCY = 400000;
 
 const int BUS_CURRENT_SENSOR_PIN = A0;
 
 const int HEAD_PAN_ENABLE = 6;
 const int HEAD_PAN_STEP = 24;
 const int HEAD_PAN_DIR = 25;
-const int HEAD_PAN_ENCODER_STATUS = 33;
+const int HEAD_PAN_ENCODER_STATUS_REGISTER = 11; // U9.QD
 const int HEAD_PAN_CS = 0;
 
 const int TORSO_PAN_ENABLE = 7;
+const int TORSO_PAN_STATUS = 8;
 const int TORSO_PAN_DIR = 20;
 const int TORSO_PAN_PWM = 21;
-const int TORSO_PAN_ENCODER_STATUS = 8;
+const int TORSO_PAN_ENCODER_STATUS_REGISTER = 10; // U9.QC
 const int TORSO_PAN_CS = 1;
 
 const int HEAD_TILT_POT = A1;
@@ -56,14 +58,32 @@ const int TORSO_TILT_MOTOR_B_EN = 30;
 const int TORSO_TILT_MOTOR_B_LPWM = 22;
 const int TORSO_TILT_MOTOR_B_RPWM = 23;
 
-const int MOUTH_SERVO_PIN = 26;
+const int MOUTH_SERVO_SIG = 26;
+
+const int SHIFT_REGISTER_DATA_PIN = 11;
+const int SHIFT_REGISTER_CLOCK_PIN = 13;
+const int SHIFT_REGISTER_LATCH_PIN = 31;
+const int SHIFT_REGISTER_COUNT = 2;
+const int SHIFT_REGISTER_OUTPUT_COUNT = 16;
+const int BATTERY_LEVEL_LED1_REGISTER = 0;   // U8.QA
+const int BATTERY_LEVEL_LED2_REGISTER = 1;   // U8.QB
+const int BATTERY_LEVEL_LED3_REGISTER = 2;   // U8.QC
+const int BATTERY_LEVEL_LED4_REGISTER = 3;   // U8.QD
+const int BATTERY_LEVEL_LED5_REGISTER = 4;   // U8.QE
+const int BATTERY_LEVEL_LED6_REGISTER = 5;   // U8.QF
+const int BATTERY_LEVEL_LED7_REGISTER = 6;   // U8.QG
+const int BATTERY_LEVEL_LED8_REGISTER = 7;   // U8.QH
+const int BATTERY_LEVEL_LED9_REGISTER = 8;   // U9.QA
+const int BATTERY_LEVEL_LED10_REGISTER = 9;  // U9.QB
+const int MOTOR_CURRENT_SENSE_UNUSED = -1;
 
 /*----------------------------------------------------------*\
 | Forward Declarations
 \*----------------------------------------------------------*/
 
-void initializeBoard();
-void initializeDevices();
+void initializeADC();
+void initializeI2C();
+void setEncoderStatus(int statusId, bool enabled, void* context);
 
 /*----------------------------------------------------------*\
 | Variables
@@ -73,9 +93,17 @@ StepperMotor headPanMotor;
 AbsoluteEncoder headPanEncoder;
 TeknicMotor torsoPanMotor;
 AbsoluteEncoder torsoPanEncoder;
+Motor headTiltMotor1;
+Motor headTiltMotor2;
+Potentiometer headTiltPot;
+Motor torsoTiltMotor1;
+Motor torsoTiltMotor2;
+Potentiometer torsoTiltPot1;
+Potentiometer torsoTiltPot2;
 ServoMotor mouthServo;
 CurrentSensor busCurrentSensor;
 VoltageCurrentSensor busVoltageCurrentSensor;
+ShiftRegister statusLeds;
 
 /*----------------------------------------------------------*\
 | Entry Points
@@ -83,8 +111,91 @@ VoltageCurrentSensor busVoltageCurrentSensor;
 
 void setup()
 {
-  initializeBoard();
-  initializeDevices();
+  initializeADC();
+  initializeI2C();
+
+  // Head pan
+  headPanMotor.initialize(HEAD_PAN_ENABLE, HEAD_PAN_STEP, HEAD_PAN_DIR);
+
+  headPanEncoder.initialize(
+    HEAD_PAN_ENCODER_STATUS_REGISTER,
+    HEAD_PAN_CS,
+    0,
+    AbsoluteEncoder::MAX,
+    0.0,
+    1.0,
+    false,
+    setEncoderStatus,
+    &statusLeds
+  );
+
+  // Head tilt
+  headTiltMotor1.initialize(
+    HEAD_TILT_MOTOR_A_EN,
+    HEAD_TILT_MOTOR_A_LPWM,
+    HEAD_TILT_MOTOR_A_RPWM,
+    MOTOR_CURRENT_SENSE_UNUSED
+  );
+
+  headTiltMotor2.initialize(
+    HEAD_TILT_MOTOR_B_EN,
+    HEAD_TILT_MOTOR_B_LPWM,
+    HEAD_TILT_MOTOR_B_RPWM,
+    MOTOR_CURRENT_SENSE_UNUSED
+  );
+
+  headTiltPot.initialize(HEAD_TILT_POT);
+
+  // Torso pan
+  torsoPanMotor.initialize(TORSO_PAN_ENABLE, TORSO_PAN_DIR, TORSO_PAN_PWM, TORSO_PAN_STATUS);
+
+  torsoPanEncoder.initialize(
+    TORSO_PAN_ENCODER_STATUS_REGISTER,
+    TORSO_PAN_CS,
+    0,
+    AbsoluteEncoder::MAX,
+    0.0,
+    1.0,
+    false,
+    setEncoderStatus,
+    &statusLeds
+  );
+
+  // Torso tilt
+  torsoTiltMotor1.initialize(
+    TORSO_TILT_MOTOR_A_EN,
+    TORSO_TILT_MOTOR_A_LPWM,
+    TORSO_TILT_MOTOR_A_RPWM,
+    MOTOR_CURRENT_SENSE_UNUSED
+  );
+
+  torsoTiltMotor2.initialize(
+    TORSO_TILT_MOTOR_B_EN,
+    TORSO_TILT_MOTOR_B_LPWM,
+    TORSO_TILT_MOTOR_B_RPWM,
+    MOTOR_CURRENT_SENSE_UNUSED
+  );
+
+  torsoTiltPot1.initialize(TORSO_TILT_POT_A);
+  torsoTiltPot2.initialize(TORSO_TILT_POT_B);
+
+  // Mouth
+  mouthServo.initialize(MOUTH_SERVO_SIG);
+
+  // Meters
+  busCurrentSensor.initialize(BUS_CURRENT_SENSOR_PIN);
+  busVoltageCurrentSensor.initialize();
+
+  // LEDs
+  statusLeds.initialize(
+    SHIFT_REGISTER_DATA_PIN,
+    SHIFT_REGISTER_CLOCK_PIN,
+    SHIFT_REGISTER_LATCH_PIN,
+    SHIFT_REGISTER_COUNT,
+    SHIFT_REGISTER_OUTPUT_COUNT,
+    HIGH
+  );
+
   delay(STARTUP_DELAY);
 }
 
@@ -96,28 +207,24 @@ void loop()
 | Functions
 \*----------------------------------------------------------*/
 
-void initializeBoard()
+void initializeADC()
 {
   analogReadResolution(12);
   analogReadAveraging(8);
-
-  Wire.begin();
-  Wire.setClock(400000);
 }
 
-void initializeDevices()
+void initializeI2C()
 {
-  headPanMotor.initialize(HEAD_PAN_ENABLE, HEAD_PAN_STEP, HEAD_PAN_DIR);
-  headPanEncoder.initialize(HEAD_PAN_ENCODER_STATUS, HEAD_PAN_CS);
+  Wire.begin();
+  Wire.setClock(I2C_FREQUENCY);
+}
 
-  torsoPanMotor.initialize(TORSO_PAN_ENABLE, TORSO_PAN_DIR, TORSO_PAN_PWM);
-  torsoPanEncoder.initialize(TORSO_PAN_ENCODER_STATUS, TORSO_PAN_CS);
+void setEncoderStatus(int id, bool value, void* context)
+{
+  ShiftRegister* outputs = static_cast<ShiftRegister*>(context);
 
-  mouthServo.initialize(MOUTH_SERVO_PIN);
-
-  busCurrentSensor.initialize(BUS_CURRENT_SENSOR_PIN);
-  busVoltageCurrentSensor.initialize();
-
-  // The remaining head-tilt and torso-tilt devices are intentionally left at the
-  // pin-definition stage until the ROS interface and control strategy are finalized.
+  if (outputs)
+  {
+    outputs->write(id, value);
+  }
 }
