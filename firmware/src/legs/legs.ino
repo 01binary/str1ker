@@ -27,6 +27,7 @@
 \*----------------------------------------------------------*/
 
 const int SERIAL_BAUD = 115200;           // USB serial console rate
+const int I2C_FREQUENCY_HZ = 400000;      // I2C bus frequency
 const int RATE_HZ = 100;                  // Main control/sampling rate
 const int REPORT_HZ = 10;                 // Human-readable telemetry rate
 const int STARTUP_DELAY = 1000;           // Allow USB serial to appear
@@ -87,7 +88,8 @@ const int REAR_RIGHT_ACTUATOR_LPWM = 15;  // Rear-right actuator LPWM
 \*----------------------------------------------------------*/
 
 void initializeSerial();
-void initializeI2c();
+void initializeADC();
+void initializeI2C();
 void initializePwmDriver();
 void initializeImu();
 void initializeLegs();
@@ -101,6 +103,7 @@ void reportImu();
 void reportLeg(const Leg& leg);
 void handleSerial();
 void printHelp();
+void writeMuxPwmChannel(int channel, int pwm);
 void frontLeftIndexInterrupt();
 void frontRightIndexInterrupt();
 void rearLeftIndexInterrupt();
@@ -113,65 +116,10 @@ void rearRightIndexInterrupt();
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(PCA9685_ADDRESS, Wire);
 Adafruit_BNO055 accelerometer(BNO055_ID, BNO055_ADDRESS, &Wire);
 
-Leg frontLeft(
-  "front_left",
-  pwm,
-  FRONT_LEFT_ACTUATOR_POT,
-  FRONT_LEFT_ACTUATOR_EN,
-  FRONT_LEFT_ACTUATOR_LPWM,
-  FRONT_LEFT_ACTUATOR_RPWM,
-  FRONT_LEFT_WHEEL_EN,
-  FRONT_LEFT_WHEEL_LPWM,
-  FRONT_LEFT_WHEEL_RPWM,
-  FRONT_LEFT_WHEEL_A,
-  FRONT_LEFT_WHEEL_B,
-  FRONT_LEFT_WHEEL_INDEX
-);
-
-Leg frontRight(
-  "front_right",
-  pwm,
-  FRONT_RIGHT_ACTUATOR_POT,
-  FRONT_RIGHT_ACTUATOR_EN,
-  FRONT_RIGHT_ACTUATOR_LPWM,
-  FRONT_RIGHT_ACTUATOR_RPWM,
-  FRONT_RIGHT_WHEEL_EN,
-  FRONT_RIGHT_WHEEL_LPWM,
-  FRONT_RIGHT_WHEEL_RPWM,
-  FRONT_RIGHT_WHEEL_A,
-  FRONT_RIGHT_WHEEL_B,
-  FRONT_RIGHT_WHEEL_INDEX
-);
-
-Leg rearLeft(
-  "rear_left",
-  pwm,
-  REAR_LEFT_ACTUATOR_POT,
-  REAR_LEFT_ACTUATOR_EN,
-  REAR_LEFT_ACTUATOR_LPWM,
-  REAR_LEFT_ACTUATOR_RPWM,
-  REAR_LEFT_WHEEL_EN,
-  REAR_LEFT_WHEEL_LPWM,
-  REAR_LEFT_WHEEL_RPWM,
-  REAR_LEFT_WHEEL_A,
-  REAR_LEFT_WHEEL_B,
-  REAR_LEFT_WHEEL_INDEX
-);
-
-Leg rearRight(
-  "rear_right",
-  pwm,
-  REAR_RIGHT_ACTUATOR_POT,
-  REAR_RIGHT_ACTUATOR_EN,
-  REAR_RIGHT_ACTUATOR_LPWM,
-  REAR_RIGHT_ACTUATOR_RPWM,
-  REAR_RIGHT_WHEEL_EN,
-  REAR_RIGHT_WHEEL_LPWM,
-  REAR_RIGHT_WHEEL_RPWM,
-  REAR_RIGHT_WHEEL_A,
-  REAR_RIGHT_WHEEL_B,
-  REAR_RIGHT_WHEEL_INDEX
-);
+Leg frontLeft;
+Leg frontRight;
+Leg rearLeft;
+Leg rearRight;
 
 bool accelerometerInitialized = false;
 bool motorsEnabled = false;
@@ -183,7 +131,8 @@ bool motorsEnabled = false;
 void setup()
 {
   initializeSerial();
-  initializeI2c();
+  initializeADC();
+  initializeI2C();
   initializePwmDriver();
   initializeImu();
   initializeLegs();
@@ -260,21 +209,31 @@ void initializeSerial()
   {
     delay(10);
   }
+}
 
+void initializeADC()
+{
   analogReadResolution(12);
   analogReadAveraging(8);
 }
 
-void initializeI2c()
+void initializeI2C()
 {
   Wire.begin();
-  Wire.setClock(400000);
+  Wire.setClock(I2C_FREQUENCY_HZ);
 }
 
 void initializePwmDriver()
 {
   pwm.begin();
   pwm.setPWMFreq(PCA9685_FREQUENCY_HZ);
+}
+
+void writeMuxPwmChannel(int channelId, int pwmValue)
+{
+  int limited = constrain(pwmValue, 0, int(Motor::PWM_MAX));
+  uint16_t scaled = uint16_t((uint32_t(limited) * 4095u) / uint32_t(Motor::PWM_MAX));
+  pwm.setPWM(channelId, 0, scaled);
 }
 
 void initializeImu()
@@ -298,10 +257,65 @@ void initializeImu()
 
 void initializeLegs()
 {
-  frontLeft.initialize();
-  frontRight.initialize();
-  rearLeft.initialize();
-  rearRight.initialize();
+  frontLeft.initialize(
+    "front_left",
+    FRONT_LEFT_ACTUATOR_POT,
+    FRONT_LEFT_ACTUATOR_EN,
+    FRONT_LEFT_ACTUATOR_LPWM,
+    FRONT_LEFT_ACTUATOR_RPWM,
+    FRONT_LEFT_WHEEL_EN,
+    FRONT_LEFT_WHEEL_LPWM,
+    FRONT_LEFT_WHEEL_RPWM,
+    FRONT_LEFT_WHEEL_A,
+    FRONT_LEFT_WHEEL_B,
+    FRONT_LEFT_WHEEL_INDEX,
+    writeMuxPwmChannel
+  );
+
+  frontRight.initialize(
+    "front_right",
+    FRONT_RIGHT_ACTUATOR_POT,
+    FRONT_RIGHT_ACTUATOR_EN,
+    FRONT_RIGHT_ACTUATOR_LPWM,
+    FRONT_RIGHT_ACTUATOR_RPWM,
+    FRONT_RIGHT_WHEEL_EN,
+    FRONT_RIGHT_WHEEL_LPWM,
+    FRONT_RIGHT_WHEEL_RPWM,
+    FRONT_RIGHT_WHEEL_A,
+    FRONT_RIGHT_WHEEL_B,
+    FRONT_RIGHT_WHEEL_INDEX,
+    writeMuxPwmChannel
+  );
+
+  rearLeft.initialize(
+    "rear_left",
+    REAR_LEFT_ACTUATOR_POT,
+    REAR_LEFT_ACTUATOR_EN,
+    REAR_LEFT_ACTUATOR_LPWM,
+    REAR_LEFT_ACTUATOR_RPWM,
+    REAR_LEFT_WHEEL_EN,
+    REAR_LEFT_WHEEL_LPWM,
+    REAR_LEFT_WHEEL_RPWM,
+    REAR_LEFT_WHEEL_A,
+    REAR_LEFT_WHEEL_B,
+    REAR_LEFT_WHEEL_INDEX,
+    writeMuxPwmChannel
+  );
+
+  rearRight.initialize(
+    "rear_right",
+    REAR_RIGHT_ACTUATOR_POT,
+    REAR_RIGHT_ACTUATOR_EN,
+    REAR_RIGHT_ACTUATOR_LPWM,
+    REAR_RIGHT_ACTUATOR_RPWM,
+    REAR_RIGHT_WHEEL_EN,
+    REAR_RIGHT_WHEEL_LPWM,
+    REAR_RIGHT_WHEEL_RPWM,
+    REAR_RIGHT_WHEEL_A,
+    REAR_RIGHT_WHEEL_B,
+    REAR_RIGHT_WHEEL_INDEX,
+    writeMuxPwmChannel
+  );
 
   disableMotors();
 }
@@ -404,7 +418,7 @@ void reportLeg(const Leg& leg)
   Serial.print(" actuator_norm ");
   Serial.print(leg.actuatorPosition, 4);
   Serial.print(" wheel_counts ");
-  Serial.print(leg.quadratureEncoder.counts);
+  Serial.print(leg.quadratureEncoder ? leg.quadratureEncoder->counts : 0);
   Serial.print(" wheel_rev ");
   Serial.print(leg.wheelRevolutions, 5);
   Serial.print(" wheel_rad ");
@@ -412,27 +426,39 @@ void reportLeg(const Leg& leg)
   Serial.print(" wheel_rps ");
   Serial.print(leg.wheelVelocity, 5);
   Serial.print(" index_seen ");
-  Serial.print(leg.quadratureEncoder.indexCount);
+  Serial.print(leg.quadratureEncoder ? leg.quadratureEncoder->indexCount : 0);
   Serial.print(" index_state ");
-  Serial.println(leg.quadratureEncoder.indexState ? 1 : 0);
+  Serial.println((leg.quadratureEncoder && leg.quadratureEncoder->indexState) ? 1 : 0);
 }
 
 void frontLeftIndexInterrupt()
 {
-  frontLeft.quadratureEncoder.handleIndexRise();
+  if (frontLeft.quadratureEncoder)
+  {
+    frontLeft.quadratureEncoder->handleIndexRise();
+  }
 }
 
 void frontRightIndexInterrupt()
 {
-  frontRight.quadratureEncoder.handleIndexRise();
+  if (frontRight.quadratureEncoder)
+  {
+    frontRight.quadratureEncoder->handleIndexRise();
+  }
 }
 
 void rearLeftIndexInterrupt()
 {
-  rearLeft.quadratureEncoder.handleIndexRise();
+  if (rearLeft.quadratureEncoder)
+  {
+    rearLeft.quadratureEncoder->handleIndexRise();
+  }
 }
 
 void rearRightIndexInterrupt()
 {
-  rearRight.quadratureEncoder.handleIndexRise();
+  if (rearRight.quadratureEncoder)
+  {
+    rearRight.quadratureEncoder->handleIndexRise();
+  }
 }

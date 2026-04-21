@@ -6,7 +6,6 @@
 #include "teknicMotor.h"
 #include "stepperMotor.h"
 #include "servoMotor.h"
-#include "muxMotor.h"
 #include "actuator.h"
 #include "currentSensor.h"
 #include "voltageCurrentSensor.h"

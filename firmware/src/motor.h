@@ -32,6 +32,7 @@ public:
   static constexpr float CURRENT_MAX = 1023.0f;
   static const unsigned int PWM_MAX = 255;
   static const unsigned int PWM_FREQ = 20000;
+  typedef void (*PwmWriter)(int channelId, int pwmValue);
 
 public:
   int lpwmPin;
@@ -49,6 +50,7 @@ public:
   float velocity;
   float current;
   int rawCurrent;
+  PwmWriter pwmWriter;
 
 public:
   Motor():
@@ -64,7 +66,8 @@ public:
     stopBeforeReverse(false),
     velocity(0.0),
     current(0.0),
-    rawCurrent(0)
+    rawCurrent(0),
+    pwmWriter(nullptr)
   {
   }
 
@@ -77,7 +80,8 @@ public:
     int min = 0,
     int max = PWM_MAX,
     bool invertCommand = false,
-    float stallCurrentThreshold = 1.0)
+    float stallCurrentThreshold = 1.0,
+    PwmWriter onPwmWrite = nullptr)
   {
     enPin = en;
     lpwmPin = lpwm;
@@ -90,17 +94,21 @@ public:
     stallThreshold = stallCurrentThreshold;
     velocity = 0.0;
     current = 0.0;
+    pwmWriter = onPwmWrite;
 
-    pinMode(lpwmPin, OUTPUT);
-    pinMode(rpwmPin, OUTPUT);
     pinMode(enPin, OUTPUT);
-
-    digitalWrite(lpwmPin, LOW);
-    digitalWrite(rpwmPin, LOW);
     digitalWrite(enPin, LOW);
 
-    analogWriteFrequency(lpwmPin, PWM_FREQ);
-    analogWriteFrequency(rpwmPin, PWM_FREQ);
+    if (pwmWriter == nullptr)
+    {
+      pinMode(lpwmPin, OUTPUT);
+      pinMode(rpwmPin, OUTPUT);
+      analogWriteFrequency(lpwmPin, PWM_FREQ);
+      analogWriteFrequency(rpwmPin, PWM_FREQ);
+    }
+
+    writePwm(lpwmPin, 0);
+    writePwm(rpwmPin, 0);
   }
 
   void loadSettings(ros::NodeHandle& node, const char* group)
@@ -162,10 +170,20 @@ public:
   {
     enabled = false;
     digitalWrite(enPin, LOW);
+    writePwm(lpwmPin, 0);
+    writePwm(rpwmPin, 0);
+    velocity = 0.0f;
   }
 
   float read()
   {
+    if (isPin < 0)
+    {
+      rawCurrent = 0;
+      current = 0.0f;
+      return current;
+    }
+
     rawCurrent = analogRead(isPin);
     current = float(rawCurrent) / CURRENT_MAX;
     return current;
@@ -211,8 +229,8 @@ public:
 
     if (stopBeforeReverse && reversedDirection)
     {
-      analogWrite(lpwmPin, 0);
-      analogWrite(rpwmPin, 0);
+      writePwm(lpwmPin, 0);
+      writePwm(rpwmPin, 0);
       velocity = 0.0f;
       return;
     }
@@ -222,8 +240,8 @@ public:
       int lpwm = direction < 0 ? 0 : pwm;
       int rpwm = direction > 0 ? 0 : pwm;
 
-      analogWrite(lpwmPin, lpwm);
-      analogWrite(rpwmPin, rpwm);
+      writePwm(lpwmPin, lpwm);
+      writePwm(rpwmPin, rpwm);
 
       velocity = direction * limitedSpeed;
     }
@@ -246,5 +264,17 @@ public:
       stopBeforeReverse ? " stopBeforeReverse" : "");
 
     node.loginfo(buffer);
+  }
+
+private:
+  void writePwm(int channelOrPin, int value)
+  {
+    if (pwmWriter != nullptr)
+    {
+      pwmWriter(channelOrPin, value);
+      return;
+    }
+
+    analogWrite(channelOrPin, value);
   }
 };
