@@ -18,10 +18,8 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#ifdef ROS
-  #include <ros.h>
-  #include "params.h"
-#endif
+#include <ros.h>
+#include "params.h"
 
 /*----------------------------------------------------------*\
 | Constants
@@ -106,7 +104,6 @@ public:
     tolerance = positionTolerance;
   }
 
-  #ifdef ROS
   void loadSettings(ros::NodeHandle& node, const char* group)
   {
     loadParam(node, group, "Kp", Kp);
@@ -116,7 +113,6 @@ public:
     loadParam(node, group, "iMax", iMax);
     loadParam(node, group, "tolerance", tolerance);
   }
-  #endif
 
   void start(float goalPosition)
   {
@@ -186,7 +182,6 @@ public:
     return p + i + d;
   }
 
-  #ifdef ROS
   void debug(ros::NodeHandle& node, const char* group)
   {
     char buffer[255] = {0};
@@ -205,5 +200,4 @@ public:
 
     node.loginfo(buffer);
   }
-  #endif
 };

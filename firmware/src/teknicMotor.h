@@ -1,0 +1,213 @@
+/*
+                                                                                     ███████
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████
+ teknicMotor.h
+ Teknic motor driver using enable, direction, torque PWM, and status
+ Copyright (C) 2026 Valeriy Novytskyy
+ This software is licensed under GNU GPLv3
+*/
+
+#pragma once
+
+/*----------------------------------------------------------*\
+| Includes
+\*----------------------------------------------------------*/
+
+#ifdef ROS
+  #include <ros.h>
+  #include "params.h"
+#endif
+
+/*----------------------------------------------------------*\
+| Classes
+\*----------------------------------------------------------*/
+
+class TeknicMotor
+{
+public:
+  static const unsigned int PWM_MAX = 255;
+  static const unsigned int PWM_FREQ = 20000;
+
+public:
+  int enablePin;
+  int directionPin;
+  int torquePin;
+  int statusPin;
+
+  bool enabled;
+  int pwmMin;
+  int pwmMax;
+  float stallThreshold;
+  bool invert;
+  bool stopBeforeReverse;
+
+  float velocity;
+  float current;
+
+public:
+  TeknicMotor():
+    enablePin(0),
+    directionPin(0),
+    torquePin(0),
+    statusPin(-1),
+    enabled(false),
+    pwmMin(0),
+    pwmMax(PWM_MAX),
+    stallThreshold(1.0f),
+    invert(false),
+    stopBeforeReverse(false),
+    velocity(0.0f),
+    current(0.0f)
+  {
+  }
+
+  void initialize(
+    int enable,
+    int direction,
+    int torque,
+    int status = -1,
+    int min = 0,
+    int max = PWM_MAX,
+    bool invertCommand = false,
+    float stallCurrentThreshold = 1.0f)
+  {
+    enablePin = enable;
+    directionPin = direction;
+    torquePin = torque;
+    statusPin = status;
+    pwmMin = min;
+    pwmMax = max;
+    invert = invertCommand;
+    stallThreshold = stallCurrentThreshold;
+    stopBeforeReverse = false;
+    velocity = 0.0f;
+    current = 0.0f;
+
+    pinMode(enablePin, OUTPUT);
+    pinMode(directionPin, OUTPUT);
+    pinMode(torquePin, OUTPUT);
+    if (statusPin >= 0)
+    {
+      pinMode(statusPin, INPUT);
+    }
+
+    analogWriteFrequency(torquePin, PWM_FREQ);
+    disable();
+  }
+
+  #ifdef ROS
+  void loadSettings(ros::NodeHandle& node, const char* group)
+  {
+    loadBoolParam(node, group, "enabled", enabled);
+    loadParam(node, group, "pwmMin", pwmMin);
+    loadParam(node, group, "pwmMax", pwmMax);
+    loadParam(node, group, "stallThreshold", stallThreshold);
+    loadBoolParam(node, group, "stopBeforeReverse", stopBeforeReverse);
+    loadBoolParam(node, group, "invert", invert);
+
+    if (enabled)
+    {
+      enable();
+    }
+  }
+  #endif
+
+  void enable()
+  {
+    enabled = true;
+    digitalWrite(enablePin, HIGH);
+  }
+
+  void disable()
+  {
+    enabled = false;
+    digitalWrite(enablePin, LOW);
+    analogWrite(torquePin, 0);
+    velocity = 0.0f;
+  }
+
+  float read()
+  {
+    current = 0.0f;
+    return current;
+  }
+
+  int readRaw() const
+  {
+    if (statusPin < 0)
+    {
+      return 0;
+    }
+
+    return digitalRead(statusPin);
+  }
+
+  void write(float command)
+  {
+    if (!enabled)
+    {
+      return;
+    }
+
+    float speed = constrain(abs(command), 0.0f, 1.0f);
+    int direction = command >= 0.0f ? 1 : -1;
+
+    if (invert)
+    {
+      direction *= -1;
+    }
+
+    int pwm = int(speed * float(PWM_MAX));
+
+    if (pwm != 0)
+    {
+      if (pwm < pwmMin)
+      {
+        pwm = pwmMin;
+      }
+      else if (pwm > pwmMax)
+      {
+        pwm = pwmMax;
+      }
+    }
+
+    float limitedSpeed = float(pwm) / float(PWM_MAX);
+    float nextVelocity = direction * limitedSpeed;
+    bool reversedDirection =
+      (velocity > 0.0f && nextVelocity < 0.0f) ||
+      (velocity < 0.0f && nextVelocity > 0.0f);
+
+    if (stopBeforeReverse && reversedDirection)
+    {
+      analogWrite(torquePin, 0);
+      velocity = 0.0f;
+      return;
+    }
+
+    digitalWrite(directionPin, direction > 0 ? HIGH : LOW);
+    analogWrite(torquePin, pwm);
+    velocity = nextVelocity;
+  }
+
+  #ifdef ROS
+  void debug(ros::NodeHandle& node, const char* group)
+  {
+    char buffer[256] = {0};
+    snprintf(
+      buffer,
+      sizeof(buffer),
+      "%s: pwmMin=%d pwmMax=%d %s%s",
+      group,
+      pwmMin,
+      pwmMax,
+      enabled ? "enabled" : "disabled",
+      invert ? " invert" : "");
+    node.loginfo(buffer);
+  }
+  #endif
+};
