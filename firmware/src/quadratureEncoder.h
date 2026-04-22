@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
  quadratureEncoder.h
- Digital Quadrature Encoder with Index
+ AS5047 Digital Quadrature Encoder with Index: https://www.digikey.com/en/ptm/a/ams/as5047p-high-resolution-rotary-position-sensor
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
