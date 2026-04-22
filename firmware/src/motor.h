@@ -34,14 +34,15 @@ public:
   static constexpr float ADC_REFERENCE_VOLTS = 3.3f;
   static constexpr float ADC_MAX_COUNTS = 4095.0f;
 
-  // BTS7960/IBT-2 current sense: I_load = V_is * (kILIS / R_is)
-  static constexpr float CURRENT_SENSE_RESISTOR_OHMS = 5100.0f;
+  // BTS7960/IBT-2 current sense: I = V * (kILIS / R)
+  static constexpr float CURRENT_SENSE_RESISTOR = 5100.0f;
   static constexpr float CURRENT_SENSE_KILIS = 8500.0f;
-  static constexpr float CURRENT_SENSE_AMPS_PER_VOLT =
-    CURRENT_SENSE_KILIS / CURRENT_SENSE_RESISTOR_OHMS;
+  static constexpr float CURRENT_SENSE_MULTIPLIER = CURRENT_SENSE_KILIS / CURRENT_SENSE_RESISTOR;
 
   static const unsigned int PWM_MAX = 255;
   static const unsigned int PWM_FREQ = 20000;
+
+public:
   typedef void (*PwmWriter)(int channelId, int pwmValue);
 
 public:
@@ -196,7 +197,7 @@ public:
 
     rawCurrent = analogRead(isPin);
     float sensedVoltage = (float(rawCurrent) / ADC_MAX_COUNTS) * ADC_REFERENCE_VOLTS;
-    current = sensedVoltage * CURRENT_SENSE_AMPS_PER_VOLT;
+    current = sensedVoltage * CURRENT_SENSE_MULTIPLIER;
     return current;
   }
 
