@@ -24,7 +24,7 @@
 #include <str1ker/GripperCommand.h>     // Gripper message
 #include <str1ker/StateFeedback.h>      // State message
 #include <str1ker/RawStateFeedback.h>   // Raw state message
-#include <firmware.h>                   // See readme.md
+#include <firmware.h>                   // See ../readme.md
 
 /*----------------------------------------------------------*\
 | Constants

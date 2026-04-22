@@ -17,7 +17,7 @@
 \*----------------------------------------------------------*/
 
 #include <Wire.h>       // I2C
-#include <firmware.h>   // See readme.md
+#include <firmware.h>   // See ../readme.md
 
 /*----------------------------------------------------------*\
 | Constants
