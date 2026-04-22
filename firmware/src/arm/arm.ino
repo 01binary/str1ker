@@ -93,9 +93,9 @@ ros::Publisher rawPub("arm/raw", &rawFeedbackMsg);
 VelocitySubscriber velocitySub("arm/velocity", velocityCommand);
 PositionSubscriber positionSub("arm/position", positionCommand);
 GripperSubscriber gripperSub("arm/gripper", gripperCommand);
-Actuator<AbsoluteEncoder, Motor> baseJoint(PARAM_ROOT, "base");
-Actuator<Potentiometer, Motor> shoulderJoint(PARAM_ROOT, "shoulder");
-Actuator<Potentiometer, Motor> elbowJoint(PARAM_ROOT, "elbow");
+Actuator<AbsoluteEncoder, Motor> baseJoint("base");
+Actuator<Potentiometer, Motor> shoulderJoint("shoulder");
+Actuator<Potentiometer, Motor> elbowJoint("elbow");
 Solenoid gripper;
 VoltageCurrentSensor supplySensor;
 bool debug;
@@ -207,7 +207,7 @@ void initializeJoints()
 
 void loadSettings()
 {
-  loadBoolParam(node, PARAM_ROOT, "debug", debug);
+  loadBoolParam(node, NULL, "debug", debug);
 
   baseJoint.loadSettings(node);
   shoulderJoint.loadSettings(node);
