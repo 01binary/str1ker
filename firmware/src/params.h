@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
  params.h
- Shared parameter-loading helpers
+ Parameter Loader
  Copyright (C) 2025 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */

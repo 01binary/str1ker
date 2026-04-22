@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
  teknicMotor.h
- Teknic motor driver using enable, direction, torque PWM, and status
+ Teknic Motor Driver: https://teknic.com/model-info/CPM-MCVC-3441S-RLN
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */

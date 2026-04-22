@@ -6,8 +6,8 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
- wheel_encoder.h
- Quadrature wheel encoder with index pulse tracking
+ quadratureEncoder.h
+ Digital Quadrature Encoder with Index
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */

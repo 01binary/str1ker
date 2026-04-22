@@ -8,7 +8,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
  actuator.h
- Actuator consisting of motor and encoder
+ Actuator Controller
  Copyright (C) 2025 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -54,6 +54,17 @@ public:
     const char* actuatorName
   ):
     group(groupName),
+    name(actuatorName),
+    mode(VELOCITY),
+    position(0.0),
+    velocity(0.0),
+    current(0.0),
+    stalled(false)
+  {
+  }
+
+  Actuator(const char* actuatorName):
+    group(""),
     name(actuatorName),
     mode(VELOCITY),
     position(0.0),

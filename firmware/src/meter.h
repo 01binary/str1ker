@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
  meter.h
- LED level meter with optional callback-based pin writer
+ LED Level Meter: https://www.adafruit.com/product/1815
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */

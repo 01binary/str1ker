@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
  legs.ino
- Mobile platform firmware
+ Mobile Robot Platform Firmware
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -115,14 +115,12 @@ void rearRightIndexInterrupt();
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(PCA9685_ADDRESS, Wire);
 Adafruit_BNO055 accelerometer(BNO055_ID, BNO055_ADDRESS, &Wire);
-
+bool accelerometerInitialized = false;
+bool motorsEnabled = false;
 Leg frontLeft;
 Leg frontRight;
 Leg rearLeft;
 Leg rearRight;
-
-bool accelerometerInitialized = false;
-bool motorsEnabled = false;
 
 /*----------------------------------------------------------*\
 | Entry Points

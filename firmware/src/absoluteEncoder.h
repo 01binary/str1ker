@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
  absoluteEncoder.h
- Absolute encoder firmware
+ AS5045 Absolute Encoder: https://www.digikey.com/en/products/detail/ams-osram-usa-inc/AS5045-ASST/2334769
  Copyright (C) 2025 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */

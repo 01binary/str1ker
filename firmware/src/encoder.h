@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
  encoder.h
- Absolute and Quadrature encoder drivers
+ Abstract Encoder Base Class
  Copyright (C) 2025 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */

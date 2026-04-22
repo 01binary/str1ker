@@ -7,8 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
  currentSensor.h
- Analog current sensor
- Pololu ACS37220LEZATR-100B3 (100A, 3.3V)
+ ACS37220LEZATR-100B3 Analog Current Sensor: https://www.pololu.com/product/5295
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */

@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
  stepperMotor.h
- Step/direction stepper motor driver
+ TB6600 Stepper Motor Driver: https://www.amazon.com/HiLetgo-TB6600HG-Stepper-Controller-Replace
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */

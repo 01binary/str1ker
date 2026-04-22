@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
  shiftRegister.h
- 74HC595 output helper for chained shift registers
+ 74HC595 Chained Shift Register Controller
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -70,6 +70,7 @@ public:
     }
 
     output = new ShiftRegister74HC595<RegisterCount>(dataPin, clockPin, latchPin);
+
     if (output == nullptr)
     {
       return;

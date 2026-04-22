@@ -8,7 +8,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
  solenoid.h
- Solenoid Driver
+ Solenoid Driver: https://www.adafruit.com/product/5648
  Copyright (C) 2025 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */

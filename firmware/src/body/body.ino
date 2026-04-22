@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
  body.ino
- Main Board Firmware
+ Main Robot Board Firmware
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -16,8 +16,8 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <Wire.h>
-#include <firmware.h>
+#include <Wire.h>       // I2C
+#include <firmware.h>   // See readme.md
 
 /*----------------------------------------------------------*\
 | Constants

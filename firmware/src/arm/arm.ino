@@ -8,7 +8,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
  arm.ino
- Arm Board Firmware
+ Arm Motor Control Board Firmware
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -17,54 +17,46 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <ros.h>
-#include <ros/time.h>
-#include <str1ker/VelocityCommand.h>
-#include <str1ker/PositionCommand.h>
-#include <str1ker/GripperCommand.h>
-#include <str1ker/StateFeedback.h>
-#include <str1ker/RawStateFeedback.h>
-#include <firmware.h>
+#include <ros.h>                        // See ../../../readme.md
+#include <ros/time.h>                   // ROS time tracking
+#include <str1ker/VelocityCommand.h>    // Velocity message
+#include <str1ker/PositionCommand.h>    // Position message
+#include <str1ker/GripperCommand.h>     // Gripper message
+#include <str1ker/StateFeedback.h>      // State message
+#include <str1ker/RawStateFeedback.h>   // Raw state message
+#include <firmware.h>                   // See readme.md
 
 /*----------------------------------------------------------*\
 | Constants
 \*----------------------------------------------------------*/
 
-const int RATE_HZ = 50;                       // Default real time update rate
-const int STARTUP_DELAY = 3000;               // Prevent "published too soon" errors
-const float MILLISECONDS_TO_SECONDS = 0.001f; // Milliseconds to seconds conversion factor
+const int RATE_HZ = 50;                 // Default real time update rate
+const int STARTUP_DELAY = 3000;         // Prevent "published too soon" errors
 
-const int BASE_EN = 0;                        // Base motor driver Enabled pin
-const int BASE_RPWM = 1;                      // Base motor driver right PWM pin
-const int BASE_LPWM = 3;                      // Base motor driver left PWM pin
-const int BASE_SENSE = A2;                    // Base motor driver current sense pin
-const int BASE_A = 2;                         // Base quadrature encoder A pin
-const int BASE_B = 5;                         // Base quadrature encoder B pin
-const int BASE_CS = 10;                       // Base absolute encoder chip select pin
-const int BASE_SCK = 13;                      // Base absolute encoder clock pin
-const int BASE_MISO = 12;                     // Base absolute encoder data pin
-const int BASE_STATUS = 9;                    // Base absolute encoder status pin
+const int BASE_EN = 0;                  // Base motor driver Enabled pin
+const int BASE_RPWM = 1;                // Base motor driver right PWM pin
+const int BASE_LPWM = 3;                // Base motor driver left PWM pin
+const int BASE_SENSE = A2;              // Base motor driver current sense pin
+const int BASE_A = 2;                   // Base quadrature encoder A pin
+const int BASE_B = 5;                   // Base quadrature encoder B pin
+const int BASE_CS = 10;                 // Base absolute encoder chip select pin
+const int BASE_SCK = 13;                // Base absolute encoder clock pin
+const int BASE_MISO = 12;               // Base absolute encoder data pin
+const int BASE_STATUS = 9;              // Base absolute encoder status pin
 
-const int SHOULDER_EN = 6;                    // Shoulder motor driver Enabled pin
-const int SHOULDER_RPWM = 7;                  // Shoulder motor driver right PWM pin
-const int SHOULDER_LPWM = 8;                  // Shoulder motor driver left PWM pin
-const int SHOULDER_SENSE = 4;                 // Shoulder motor driver current sense pin
-const int SHOULDER_POTENTIOMETER = A0;        // Shoulder potentiometer pin
+const int SHOULDER_EN = 6;              // Shoulder motor driver Enabled pin
+const int SHOULDER_RPWM = 7;            // Shoulder motor driver right PWM pin
+const int SHOULDER_LPWM = 8;            // Shoulder motor driver left PWM pin
+const int SHOULDER_SENSE = 4;           // Shoulder motor driver current sense pin
+const int SHOULDER_POTENTIOMETER = A0;  // Shoulder potentiometer pin
 
-const int ELBOW_EN = 21;                      // Elbow motor driver Enabled pin
-const int ELBOW_RPWM = 22;                    // Elbow motor right PWM pin
-const int ELBOW_LPWM = 23;                    // Elbow motor left PWM pin
-const int ELBOW_SENSE = 20;                   // Elbow motor current sense pin
-const int ELBOW_POTENTIOMETER = A1;           // Elbow motor potentiometer pin
+const int ELBOW_EN = 21;                // Elbow motor driver Enabled pin
+const int ELBOW_RPWM = 22;              // Elbow motor right PWM pin
+const int ELBOW_LPWM = 23;              // Elbow motor left PWM pin
+const int ELBOW_SENSE = 20;             // Elbow motor current sense pin
+const int ELBOW_POTENTIOMETER = A1;     // Elbow motor potentiometer pin
 
-const int GRIPPER_PIN = 17;                   // Gripper solenoid pin
-
-const char PARAM_ROOT[] = "";                 // Node private namespace root
-const char VELOCITY_TOPIC[] = "arm/velocity"; // Velocity command topic
-const char POSITION_TOPIC[] = "arm/position"; // Position command topic
-const char GRIPPER_TOPIC[] = "arm/gripper";   // Gripper command topic
-const char STATE_TOPIC[] = "arm/state";       // State topic
-const char RAW_TOPIC[] = "arm/raw";           // Raw sensor topic
+const int GRIPPER_PIN = 17;             // Gripper solenoid pin
 
 /*----------------------------------------------------------*\
 | Definitions
@@ -75,7 +67,7 @@ typedef ros::Subscriber<str1ker::PositionCommand> PositionSubscriber;
 typedef ros::Subscriber<str1ker::GripperCommand> GripperSubscriber;
 
 /*----------------------------------------------------------*\
-| Forward Declarations
+| Declarations
 \*----------------------------------------------------------*/
 
 ros::NodeHandle& initializeRos();
@@ -96,11 +88,11 @@ void rawFeedback();
 ros::NodeHandle node;
 str1ker::StateFeedback stateFeedbackMsg;
 str1ker::RawStateFeedback rawFeedbackMsg;
-ros::Publisher statePub(STATE_TOPIC, &stateFeedbackMsg);
-ros::Publisher rawPub(RAW_TOPIC, &rawFeedbackMsg);
-VelocitySubscriber velocitySub(VELOCITY_TOPIC, velocityCommand);
-PositionSubscriber positionSub(POSITION_TOPIC, positionCommand);
-GripperSubscriber gripperSub(GRIPPER_TOPIC, gripperCommand);
+ros::Publisher statePub("arm/state", &stateFeedbackMsg);
+ros::Publisher rawPub("arm/raw", &rawFeedbackMsg);
+VelocitySubscriber velocitySub("arm/velocity", velocityCommand);
+PositionSubscriber positionSub("arm/position", positionCommand);
+GripperSubscriber gripperSub("arm/gripper", gripperCommand);
 Actuator<AbsoluteEncoder, Motor> baseJoint(PARAM_ROOT, "base");
 Actuator<Potentiometer, Motor> shoulderJoint(PARAM_ROOT, "shoulder");
 Actuator<Potentiometer, Motor> elbowJoint(PARAM_ROOT, "elbow");
@@ -152,7 +144,7 @@ void loop()
     return;
   }
 
-  float timeStep = elapsed * MILLISECONDS_TO_SECONDS;
+  float timeStep = elapsed * 0.001f;
 
   if (timeStep <= 0.0f)
   {

@@ -8,7 +8,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
  motor.h
- Motor PWM driver
+ BTS7960 Motor Driver: https://www.amazon.com/HiLetgo-BTS7960-Driver-Arduino-Current
  Copyright (C) 2025 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -31,13 +31,10 @@ class Motor
 public:
   static const int CURRENT_SENSE_UNUSED = -1;
 
-  // Teensy ADC and current-sense conversion constants
   static constexpr float ADC_REFERENCE_VOLTS = 3.3f;
   static constexpr float ADC_MAX_COUNTS = 4095.0f;
 
-  // BTS7960/IBT-2 current sense:
-  // I_load = V_is * (kILIS / R_is)
-  // kILIS is typically ~8500 (device-dependent spread in datasheet)
+  // BTS7960/IBT-2 current sense: I_load = V_is * (kILIS / R_is)
   static constexpr float CURRENT_SENSE_RESISTOR_OHMS = 5100.0f;
   static constexpr float CURRENT_SENSE_KILIS = 8500.0f;
   static constexpr float CURRENT_SENSE_AMPS_PER_VOLT =

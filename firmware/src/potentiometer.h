@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████                  
  potentiometer.h
- Absolute and Quadrature encoder drivers
+ Analog Potentiometer: https://p3america.com/np24hs-series
  Copyright (C) 2025 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */

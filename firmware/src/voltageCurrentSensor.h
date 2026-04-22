@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
  voltageCurrentSensor.h
- INA260 voltage/current sensor
+ INA260 Digital Voltage/Current Sensor: https://learn.adafruit.com/adafruit-ina260-current-voltage-power-sensor-breakout
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
