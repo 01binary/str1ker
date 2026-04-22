@@ -1,5 +1,5 @@
 {
     "board": "teensy:avr:teensy40",
     "port": "/dev/ttyACM0",
-    "sketch": "firmware/src/arm/arm.ino"
+    "sketch": "firmware/src/body/body.ino"
 }

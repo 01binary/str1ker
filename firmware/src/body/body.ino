@@ -85,6 +85,7 @@ const int SHIFT_REGISTER_OUTPUT_COUNT = 16;
 | Forward Declarations
 \*----------------------------------------------------------*/
 
+void initializeSerial();
 void initializeADC();
 void initializeI2C();
 void writeRegister(int id, bool value);
@@ -118,6 +119,7 @@ void setup()
 {
   initializeADC();
   initializeI2C();
+  initializeSerial();
 
   // Head pan
   headPanMotor.initialize(HEAD_PAN_ENABLE, HEAD_PAN_STEP, HEAD_PAN_DIR);
@@ -203,6 +205,25 @@ void setup()
     BATTERY_METER_REGISTERS,
     writeRegister
   );
+  
+  //
+  // Testing
+  //
+
+  digitalWrite(HEAD_PAN_ENABLE, HIGH);
+  digitalWrite(HEAD_PAN_STEP, HIGH);
+  digitalWrite(HEAD_PAN_DIR, HIGH);
+
+  digitalWrite(TORSO_PAN_ENABLE, HIGH);
+  digitalWrite(TORSO_PAN_DIR, HIGH);
+  digitalWrite(TORSO_PAN_PWM, HIGH);
+
+  digitalWrite(HEAD_TILT_MOTOR1_EN, HIGH);
+  digitalWrite(HEAD_TILT_MOTOR1_LPWM, HIGH);
+  digitalWrite(HEAD_TILT_MOTOR1_RPWM, HIGH);
+  digitalWrite(HEAD_TILT_MOTOR2_EN, HIGH);
+  digitalWrite(HEAD_TILT_MOTOR2_LPWM, HIGH);
+  digitalWrite(HEAD_TILT_MOTOR2_RPWM, HIGH);
 
   delay(STARTUP_DELAY);
 }
@@ -225,6 +246,13 @@ void initializeI2C()
 {
   Wire.begin();
   Wire.setClock(I2C_FREQUENCY);
+}
+
+void initializeSerial()
+{
+  Serial.begin(115200);
+  while (!Serial && millis() < 2000);
+  Serial.write("setup starting");
 }
 
 void writeRegister(int id, bool value)
