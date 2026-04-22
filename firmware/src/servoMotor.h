@@ -18,9 +18,9 @@
 | Includes
 \*----------------------------------------------------------*/
 
-#include <Servo.h>
-#include <ros.h>
-#include "params.h"
+#include <PWMServo.h> // Servo-motor control on Teensy
+#include <ros.h>      // Robot Operating System
+#include "params.h"   // Parameter loading
 
 /*----------------------------------------------------------*\
 | Classes
@@ -31,7 +31,7 @@ class ServoMotor
 public:
   int signalPin;
   int position;
-  Servo servo;
+  PWMServo servo;
 
 public:
   ServoMotor():

@@ -40,7 +40,7 @@ public:
   bool invert;
   float acceleration;
   float maxSpeed;
-  uint16_t minPulseWidthUs;
+  int minPulseWidthUs;
   float velocity;
 
 public:
@@ -96,6 +96,7 @@ public:
     digitalWrite(enablePin, LOW);
 
     driver = new AccelStepper(DRIVER_INTERFACE, stepPin, directionPin);
+
     if (driver == nullptr)
     {
       enabled = false;

@@ -60,6 +60,7 @@ inline void loadParam(
   T& value)
 {
   char path[96] = {0};
+
   if (group != nullptr && group[0] != '\0')
   {
     snprintf(path, sizeof(path), "~%s/%s", group, key);
