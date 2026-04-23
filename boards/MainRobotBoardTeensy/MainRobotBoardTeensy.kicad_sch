@@ -6176,12 +6176,6 @@
 		(uuid "fc5bb780-3bdd-4af5-afcb-922bd183a1a1")
 	)
 	(junction
-		(at 186.69 196.85)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "013bc2b8-2cf8-41d1-af8e-b68d4f0054eb")
-	)
-	(junction
 		(at 266.7 64.77)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6204,12 +6198,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "25b520ef-8ed4-4419-8bb0-9c3f7ddf1dfd")
-	)
-	(junction
-		(at 110.49 222.25)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "33626cb2-e67e-4af2-acd2-8f48334d1dfa")
 	)
 	(junction
 		(at 478.79 350.52)
@@ -6338,12 +6326,6 @@
 		(uuid "9f393494-27ee-4b7e-bc39-0ac5009a2bb2")
 	)
 	(junction
-		(at 110.49 196.85)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "a40bb5f7-ecf8-4fd9-944a-7eaa9a641ebb")
-	)
-	(junction
 		(at 387.35 279.4)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6360,12 +6342,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a68a7c5e-977a-4dc7-bd15-8cc2b7138f33")
-	)
-	(junction
-		(at 110.49 278.13)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ab86f576-274f-44b0-bd58-8bb1199e1d87")
 	)
 	(junction
 		(at 327.66 85.09)
@@ -6408,12 +6384,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c7c8610e-ce8a-4eec-8aaf-9b4d578387e4")
-	)
-	(junction
-		(at 186.69 222.25)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "c7ff1c18-d69c-44a6-b502-fe67c2466de6")
 	)
 	(junction
 		(at 478.79 347.98)
@@ -6474,12 +6444,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e221d54f-46fb-4f04-a854-949ed9570f09")
-	)
-	(junction
-		(at 110.49 250.19)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e6ad0941-c8f8-427e-894e-03a74e65e91e")
 	)
 	(junction
 		(at 107.95 54.61)
@@ -6811,7 +6775,7 @@
 	)
 	(wire
 		(pts
-			(xy 204.47 222.25) (xy 186.69 222.25)
+			(xy 177.8 222.25) (xy 204.47 222.25)
 		)
 		(stroke
 			(width 0)
@@ -6888,16 +6852,6 @@
 			(type default)
 		)
 		(uuid "15a03486-ad8d-4aeb-b880-c18357a66114")
-	)
-	(wire
-		(pts
-			(xy 110.49 278.13) (xy 101.6 278.13)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "15fb958a-db70-4be1-bcff-505ebd270fac")
 	)
 	(wire
 		(pts
@@ -7181,7 +7135,7 @@
 	)
 	(wire
 		(pts
-			(xy 127 278.13) (xy 110.49 278.13)
+			(xy 101.6 278.13) (xy 127 278.13)
 		)
 		(stroke
 			(width 0)
@@ -7521,16 +7475,6 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 222.25) (xy 177.8 222.25)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5462a695-112c-4b3c-ade3-7545daacee20")
-	)
-	(wire
-		(pts
 			(xy 156.21 152.4) (xy 158.75 152.4)
 		)
 		(stroke
@@ -7588,16 +7532,6 @@
 			(type default)
 		)
 		(uuid "5b704b10-aab6-4979-858b-692352051c88")
-	)
-	(wire
-		(pts
-			(xy 186.69 196.85) (xy 177.8 196.85)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5c8c4890-5a72-4651-be6e-f367d192c38e")
 	)
 	(wire
 		(pts
@@ -7698,16 +7632,6 @@
 			(type default)
 		)
 		(uuid "635dbf28-3809-4794-af21-e5d2e2516e9a")
-	)
-	(wire
-		(pts
-			(xy 110.49 196.85) (xy 127 196.85)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "655f6cdf-80a9-4522-a268-2c178bd88638")
 	)
 	(wire
 		(pts
@@ -7901,7 +7825,7 @@
 	)
 	(wire
 		(pts
-			(xy 203.2 196.85) (xy 186.69 196.85)
+			(xy 177.8 196.85) (xy 203.2 196.85)
 		)
 		(stroke
 			(width 0)
@@ -7978,16 +7902,6 @@
 			(type default)
 		)
 		(uuid "800e49d5-da0a-43ce-9998-16e145209210")
-	)
-	(wire
-		(pts
-			(xy 110.49 250.19) (xy 101.6 250.19)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "811d72af-6cd9-4cbc-951a-938682a7de3b")
 	)
 	(wire
 		(pts
@@ -8168,16 +8082,6 @@
 			(type default)
 		)
 		(uuid "909a60e6-32b6-4d06-af60-5131c9ad6756")
-	)
-	(wire
-		(pts
-			(xy 125.73 222.25) (xy 110.49 222.25)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "90c37560-2c76-4a23-b903-c07934bc76ef")
 	)
 	(wire
 		(pts
@@ -8441,7 +8345,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 196.85) (xy 110.49 196.85)
+			(xy 101.6 196.85) (xy 127 196.85)
 		)
 		(stroke
 			(width 0)
@@ -8811,7 +8715,7 @@
 	)
 	(wire
 		(pts
-			(xy 127 250.19) (xy 110.49 250.19)
+			(xy 101.6 250.19) (xy 127 250.19)
 		)
 		(stroke
 			(width 0)
@@ -8961,7 +8865,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 222.25) (xy 101.6 222.25)
+			(xy 101.6 222.25) (xy 125.73 222.25)
 		)
 		(stroke
 			(width 0)
@@ -9318,7 +9222,7 @@
 		)
 	)
 	(global_label "TORSOPANDIR"
-		(shape output)
+		(shape input)
 		(at 247.65 100.33 0)
 		(fields_autoplaced yes)
 		(effects
@@ -9934,7 +9838,7 @@
 		)
 	)
 	(global_label "TORSOPANEN"
-		(shape output)
+		(shape input)
 		(at 276.86 97.79 0)
 		(fields_autoplaced yes)
 		(effects
@@ -10902,7 +10806,7 @@
 		)
 	)
 	(global_label "TORSOPANPWM"
-		(shape output)
+		(shape input)
 		(at 276.86 102.87 0)
 		(fields_autoplaced yes)
 		(effects
@@ -12454,7 +12358,7 @@
 		(dnp no)
 		(uuid "05c572f7-7832-45ef-ac4f-a86520f3b39d")
 		(property "Reference" "R101"
-			(at 485.14 342.9 90)
+			(at 485.14 340.36 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14282,7 +14186,7 @@
 		(dnp no)
 		(uuid "14dab3d3-6250-4359-8cbf-877d058bd62b")
 		(property "Reference" "R107"
-			(at 473.71 364.49 90)
+			(at 478.79 363.22 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14291,7 +14195,7 @@
 			)
 		)
 		(property "Value" "150R"
-			(at 473.71 361.95 90)
+			(at 478.79 360.68 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15272,73 +15176,6 @@
 			(project "MainRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "J14")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 186.69 229.87 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "2055db15-947b-46a9-9286-89cd88629a81")
-		(property "Reference" "#PWR0102"
-			(at 186.69 236.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 184.8272 234.1186 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 186.69 229.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 186.69 229.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 186.69 229.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "43fa8665-0d68-430f-8a3d-300b39dad7c1")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR0102")
 					(unit 1)
 				)
 			)
@@ -16761,7 +16598,7 @@
 		(dnp no)
 		(uuid "2c380be5-841d-432c-9901-383b44863eea")
 		(property "Reference" "R99"
-			(at 483.87 337.82 90)
+			(at 483.87 335.28 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17325,73 +17162,6 @@
 			(project "MainRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "R91")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 110.49 229.87 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "334101de-ecb3-4893-a09b-ae709e56551f")
-		(property "Reference" "#PWR098"
-			(at 110.49 236.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 108.6272 234.1186 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 110.49 229.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 110.49 229.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 110.49 229.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f1bbfb23-d3db-443a-a10d-5a9904de5ab8")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR098")
 					(unit 1)
 				)
 			)
@@ -18965,85 +18735,6 @@
 			(project "LegRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR043")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_US")
-		(at 186.69 200.66 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "47c93c2c-5c43-4068-b333-93535377aa3d")
-		(property "Reference" "R67"
-			(at 189.23 199.3899 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100K"
-			(at 189.23 201.9299 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor100K:CRCW0603100KFKEA"
-			(at 187.706 200.914 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 186.69 200.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 186.69 200.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C844916"
-			(at 193.04 200.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "7cc15115-3d13-47aa-9aae-a1693dd1c24a")
-		)
-		(pin "1"
-			(uuid "fbf4e0fe-2488-4104-9efb-bf3bb241ac16")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "R67")
 					(unit 1)
 				)
 			)
@@ -21753,85 +21444,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R_US")
-		(at 110.49 226.06 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "60cc65f5-2a12-4223-9c21-cdb34cd97fea")
-		(property "Reference" "R61"
-			(at 113.03 224.7899 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100K"
-			(at 113.03 227.3299 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor100K:CRCW0603100KFKEA"
-			(at 111.506 226.314 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 110.49 226.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 110.49 226.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C844916"
-			(at 116.84 226.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "858240c9-8cbf-4bcc-8531-acfd6dad5e7b")
-		)
-		(pin "1"
-			(uuid "e31f961c-aa59-4800-8b6d-6fb903cc6791")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "R61")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:+3.3V")
 		(at 245.11 143.51 270)
 		(mirror x)
@@ -22644,85 +22256,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R_US")
-		(at 110.49 281.94 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "6967b747-35bb-42ad-bcbd-f88b8200157e")
-		(property "Reference" "R65"
-			(at 113.03 280.6699 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100K"
-			(at 113.03 283.2099 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor100K:CRCW0603100KFKEA"
-			(at 111.506 282.194 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 110.49 281.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 110.49 281.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C844916"
-			(at 116.84 281.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "c8ef7df0-58dd-45a3-90a3-8630369dc3f2")
-		)
-		(pin "1"
-			(uuid "f221f0bb-b14e-467d-8602-05568f76c3dc")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "R65")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 86.36 146.05 90)
 		(mirror x)
@@ -22784,73 +22317,6 @@
 			(project "MainRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR069")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 110.49 257.81 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "6a598664-b7a2-44d3-83f9-86f77ae1e42c")
-		(property "Reference" "#PWR099"
-			(at 110.49 264.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 108.6272 262.0586 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 110.49 257.81 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 110.49 257.81 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 110.49 257.81 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "092df23f-3b48-4043-9945-a169b3f38759")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR099")
 					(unit 1)
 				)
 			)
@@ -26244,7 +25710,7 @@
 		(dnp no)
 		(uuid "922a8941-4ecf-4070-9f94-bc4473fd689d")
 		(property "Reference" "R98"
-			(at 473.71 331.47 90)
+			(at 477.52 332.74 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26253,7 +25719,7 @@
 			)
 		)
 		(property "Value" "150R"
-			(at 473.71 328.93 90)
+			(at 477.52 330.2 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26884,85 +26350,6 @@
 			(project "MainRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR088")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_US")
-		(at 110.49 200.66 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "95bc6eac-954b-46cf-95ea-c19c50f13c06")
-		(property "Reference" "R59"
-			(at 113.03 199.3899 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100K"
-			(at 113.03 201.9299 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor100K:CRCW0603100KFKEA"
-			(at 111.506 200.914 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 110.49 200.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 110.49 200.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C844916"
-			(at 116.84 200.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "7c261adf-528d-43a8-bab6-f407643d7bf1")
-		)
-		(pin "1"
-			(uuid "282dd536-9aee-4c78-8635-6489c8c5bfb6")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "R59")
 					(unit 1)
 				)
 			)
@@ -28677,73 +28064,6 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 110.49 285.75 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "a1051083-e233-4165-b5b7-0e7e02da734c")
-		(property "Reference" "#PWR0100"
-			(at 110.49 292.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 108.6272 289.9986 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 110.49 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 110.49 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 110.49 285.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "dfd0d6be-4afc-468a-8c51-f38dcebf775a")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR0100")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
 		(at 467.36 231.14 0)
 		(mirror y)
 		(unit 1)
@@ -29288,73 +28608,6 @@
 			(project "MainRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "R94")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 186.69 204.47 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "a8a5a73e-fa71-4200-aeb9-8ce98d12fb67")
-		(property "Reference" "#PWR0101"
-			(at 186.69 210.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 184.8272 208.7186 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 186.69 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 186.69 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 186.69 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ee9ce676-347d-4004-a894-fd52334e3cef")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR0101")
 					(unit 1)
 				)
 			)
@@ -31318,7 +30571,7 @@
 		(dnp no)
 		(uuid "c358d653-cd7d-4a85-be58-f43538576155")
 		(property "Reference" "R100"
-			(at 485.14 340.36 90)
+			(at 485.14 337.82 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -33306,7 +32559,7 @@
 		(dnp no)
 		(uuid "d5357327-f256-4d65-babb-fe600fcd03fb")
 		(property "Reference" "R102"
-			(at 491.49 342.9 90)
+			(at 485.14 342.9 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -33986,85 +33239,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R_US")
-		(at 110.49 254 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "dcc866b5-8975-495d-9514-6f85fe020c58")
-		(property "Reference" "R63"
-			(at 113.03 252.7299 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100K"
-			(at 113.03 255.2699 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor100K:CRCW0603100KFKEA"
-			(at 111.506 254.254 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 110.49 254 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 110.49 254 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C844916"
-			(at 116.84 254 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "3eaeba71-054b-461c-bde5-2c2b8b296a09")
-		)
-		(pin "1"
-			(uuid "9d680d4f-1475-41d2-939e-a6e7e8f82b7b")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "R63")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:LED")
 		(at 318.77 212.09 0)
 		(unit 1)
@@ -34501,85 +33675,6 @@
 			(project "MainRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "#PWR067")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_US")
-		(at 186.69 226.06 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "e1fa7505-d6e8-44c7-a856-8b9c23117efd")
-		(property "Reference" "R69"
-			(at 189.23 224.7899 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100K"
-			(at 189.23 227.3299 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor100K:CRCW0603100KFKEA"
-			(at 187.706 226.314 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 186.69 226.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 186.69 226.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C844916"
-			(at 193.04 226.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "db73f73f-c611-423c-803e-f0d17628934c")
-		)
-		(pin "1"
-			(uuid "f133c005-2b26-42cd-a0fa-526e71b11f29")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "R69")
 					(unit 1)
 				)
 			)
@@ -36861,73 +35956,6 @@
 			(project "MainRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "Q3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 110.49 204.47 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f853362f-c123-4359-bb6e-b80b1965e4ab")
-		(property "Reference" "#PWR097"
-			(at 110.49 210.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 108.6272 208.7186 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 110.49 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 110.49 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 110.49 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2e650adb-26c0-42d5-82f5-45d4fd5f2c6e")
-		)
-		(instances
-			(project "MainRobotBoardTeensy"
-				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
-					(reference "#PWR097")
 					(unit 1)
 				)
 			)

@@ -540,7 +540,7 @@
       "plot": "",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "../../../../LegRobotBoardTeensy.step",
+      "step": "../../../../MainRobotBoardTeensy.step",
       "svg": "",
       "vrml": ""
     },
