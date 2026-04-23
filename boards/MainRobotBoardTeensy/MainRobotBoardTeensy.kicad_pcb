@@ -11743,7 +11743,7 @@
 		(path "/c794aa93-4015-40d5-96db-cf82898ba174")
 		(sheetname "/")
 		(sheetfile "MainRobotBoardTeensy.kicad_sch")
-		(attr smd exclude_from_pos_files)
+		(attr smd exclude_from_pos_files exclude_from_bom)
 		(fp_rect
 			(start -12.75 -5.05)
 			(end 12.75 5.05)
@@ -28356,7 +28356,7 @@
 		(path "/e72af36f-f3db-4d63-a47a-f3b638cb82fb")
 		(sheetname "/")
 		(sheetfile "MainRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start 5.83 -5.21)
 			(end 5.83 12.83)
@@ -36166,7 +36166,7 @@
 		(path "/36aee22b-0f03-46f0-849f-39af207762d4")
 		(sheetname "/")
 		(sheetfile "MainRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start 10.06 3.51)
 			(end 10.06 -2.46)
@@ -37089,7 +37089,7 @@
 		(path "/4ca296ee-69db-4f89-9b0c-5bb4e85522d2")
 		(sheetname "/")
 		(sheetfile "MainRobotBoardTeensy.kicad_sch")
-		(attr smd exclude_from_pos_files)
+		(attr smd exclude_from_pos_files exclude_from_bom)
 		(fp_rect
 			(start -13.65 -13.65)
 			(end 13.65 13.65)
@@ -40531,7 +40531,7 @@
 		(path "/934e406c-6a14-453d-ac78-e3ed50b3f77d")
 		(sheetname "/")
 		(sheetfile "MainRobotBoardTeensy.kicad_sch")
-		(attr smd exclude_from_pos_files)
+		(attr smd exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -11.29 -8.3468)
 			(end -11.29 9.0014)
@@ -41637,7 +41637,7 @@
 		(path "/201702c5-a808-472c-90fd-ea4a658ec5ec")
 		(sheetname "/")
 		(sheetfile "MainRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start 12.56 3.51)
 			(end 12.56 -2.46)
@@ -42111,7 +42111,7 @@
 		(path "/953c6944-5c13-4b8f-875b-d8b25781afb5")
 		(sheetname "/")
 		(sheetfile "MainRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start 17.78 -8.89)
 			(end 17.78 8.89)
@@ -44140,7 +44140,7 @@
 		(path "/eb5ded0c-f199-428c-ba1d-26d5c8e9ed04")
 		(sheetname "/")
 		(sheetfile "MainRobotBoardTeensy.kicad_sch")
-		(attr through_hole exclude_from_pos_files)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start 12.56 3.51)
 			(end 12.56 -2.46)
