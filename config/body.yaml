@@ -1,0 +1,14 @@
+debug: 1
+
+# headPan stepper motor
+headPan/motor/enabled: 1
+headPan/motor/invert: 0
+headPan/motor/acceleration: 2000.0
+headPan/motor/maxSpeed: 2000.0
+headPan/motor/minPulseWidthUs: 2
+
+# torsoPan teknic motor
+torsoPan/motor/enabled: 1
+torsoPan/motor/pwmMin: 0
+torsoPan/motor/pwmMax: 255
+torsoPan/motor/invert: 0

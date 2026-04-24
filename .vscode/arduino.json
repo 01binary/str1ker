@@ -1,4 +1,5 @@
 {
-    "board": "arduino:avr:mega",
-    "port": "/dev/ttyACM0"
+    "board": "teensy:avr:teensy40",
+    "port": "/dev/ttyACM0",
+    "sketch": "firmware/src/body/body.ino"
 }

@@ -175,6 +175,26 @@ rosrun rosserial_arduino make_libraries.py ~/Arduino/libraries
 
 Compile and upload the ROS node. The default launch configuration in `robot.launch` will connect to `/dev/ttyACM0` automatically.
 
+### VSCode + Arduino CLI
+
+This workspace includes VSCode tasks for compiling and uploading the Teensy firmware without Arduino IDE 2.
+
+Install `arduino-cli`:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR="$HOME/.local/bin" sh
+arduino-cli version
+```
+
+Then in VSCode:
+
+1. Open the Command Palette and run `C/C++: Select a Configuration...`
+2. Pick `Arduino Teensy 4.0`
+3. Run `Tasks: Run Task`
+4. Use `Arduino: Compile Arm` or `Arduino: Upload Arm`
+
+The checked-in VSCode configuration targets `teensy:avr:teensy40` on `/dev/ttyACM0` and uses the PJRC package index through `.vscode/arduino-cli.yaml`.
+
 ## Launch
 
 ### Hardware

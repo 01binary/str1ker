@@ -1,4 +1,4 @@
-26822270066547143
+26818928887836792
 150080BS75000
 150080BS75000
 
@@ -73492,6 +73492,13 @@ threaded screw
 0
 4
 1
+NCD0603R1
+NCD0603R1
+
+
+0
+2
+2
 NetTie
 NetTie-2_SMD_Pad0.5mm
 Net tie, 2 pin, 0.5mm square SMD pads
@@ -93729,6 +93736,13 @@ Potentiometer vertical vishay
 0
 3
 3
+RC0603FR-075K1L
+RC0603FR-075K1L
+
+
+0
+2
+2
 RC0603FR-07150RL
 RESC1607X60N
 
@@ -93739,13 +93753,6 @@ RESC1607X60N
 RC0603FR-07360KL
 RC0603FR-07360KL
 
-
-0
-2
-2
-RC0603FR-07470RL
-RC0603FR-07470RL
-<b>RESISTOR</b>
 
 0
 2
@@ -106543,27 +106550,6 @@ Varistor
 Varistor_Panasonic_VF
 Panasonic VF series varistor, 6x8mm body, 3.2mm height, https://mediap.industry.panasonic.eu/assets/imported/industrial.panasonic.com/cdbs/www-data/pdf/AWA0000/AWA0000C4.pdf
 Varistor VF
-0
-2
-2
-XL-2012UPC
-LED_XL-2012SURC_XLG
-
-XL-2012SURC 
-0
-2
-2
-XL-2012UPC
-LED_XL-2012SURC_XLG-L
-
-XL-2012SURC 
-0
-2
-2
-XL-2012UPC
-LED_XL-2012SURC_XLG-M
-
-XL-2012SURC 
 0
 2
 2
