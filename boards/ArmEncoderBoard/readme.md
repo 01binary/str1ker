@@ -2,6 +2,8 @@
 
 A custom board that simplifies mounting `AS5045` hall-effect on-axis encoder with 12-bit resolution onto robot joints.
 
+![arm encoder board](./doc/arm-encoder-board.png)
+
 > Ready-made alternatives like [AS5045 Adapter Board](https://www.digikey.com/en/products/detail/ams-osram-usa-inc/as5045-adapterboard/2339623) do exist, but have extra pins not used in this project, and a footprint that makes them hard to mount.
 
 ## Power
