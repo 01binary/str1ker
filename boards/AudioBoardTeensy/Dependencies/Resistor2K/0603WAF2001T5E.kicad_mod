@@ -1,27 +1,27 @@
-(footprint "CL10A106KP8NNNC"
+(footprint "0603WAF2001T5E"
 	(version 20241229)
 	(generator "pcbnew")
 	(generator_version "9.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at -0.21 -1.05 0)
+		(at 0.79 -1.508 0)
 		(layer "F.SilkS")
-		(uuid "f06ef16c-3c43-4baa-9f4e-6edecc672183")
+		(uuid "780439f8-c950-4490-8a17-b319c722c2e1")
 		(effects
 			(font
-				(size 0.393701 0.393701)
-				(thickness 0.098425)
+				(size 0.8 0.8)
+				(thickness 0.15)
 			)
 		)
 	)
-	(property "Value" "CAPC1608X90N"
-		(at 1.54 1.05 0)
+	(property "Value" "RESC1608X55N"
+		(at 4.346 1.492 0)
 		(layer "F.Fab")
-		(uuid "122afddc-b887-4588-a849-cb4dc8e3efc2")
+		(uuid "381ff939-577f-46c7-9963-175bc834b8d1")
 		(effects
 			(font
-				(size 0.393701 0.393701)
-				(thickness 0.098425)
+				(size 0.8 0.8)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -29,7 +29,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "581e795e-b003-4341-b949-33b4fa5017c2")
+		(uuid "fdada847-023e-4c1c-97c9-fa27ea31299c")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -41,7 +41,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "44f0cd99-bcfc-442d-9cd7-0f8f66a95f6b")
+		(uuid "23611b06-3ed6-40b4-a86f-510e77d863cf")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -51,44 +51,54 @@
 	)
 	(attr smd)
 	(fp_line
-		(start -1.465 -0.715)
-		(end 1.465 -0.715)
+		(start -1.485 -0.735)
+		(end 1.485 -0.735)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "5bcf85cd-1d38-4734-bf72-220186103043")
+		(uuid "76b11ad7-9b42-4f11-b252-08e4af68a4c2")
 	)
 	(fp_line
-		(start -1.465 0.715)
-		(end -1.465 -0.715)
+		(start -1.485 0.735)
+		(end -1.485 -0.735)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "c29af79b-3104-4fef-8383-58a180eeedf3")
+		(uuid "ba184b5c-15ef-4d44-b046-933436c2b8fd")
 	)
 	(fp_line
-		(start -1.465 0.715)
-		(end 1.465 0.715)
+		(start 1.485 -0.735)
+		(end 1.485 0.735)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "2aeb32f6-9706-4d69-a3b8-197c12d7c545")
+		(uuid "b50235d3-dcea-4c5a-a4af-e055c774a579")
 	)
 	(fp_line
-		(start 1.465 0.715)
-		(end 1.465 -0.715)
+		(start 1.485 0.735)
+		(end -1.485 0.735)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "e5ef7bb4-262d-453a-8048-4e2fc911881f")
+		(uuid "0e131cb4-e4d0-4df9-a746-b5fe117c16c8")
+	)
+	(fp_line
+		(start -0.8 -0.4)
+		(end 0.8 -0.4)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "473693d6-338b-4477-90bb-3f6100aae181")
 	)
 	(fp_line
 		(start -0.8 0.4)
@@ -98,17 +108,17 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "8b6454f8-f3fd-4167-b62c-f4db826a997c")
+		(uuid "46b2d65d-5747-4886-88e1-9f482069a467")
 	)
 	(fp_line
 		(start 0.8 -0.4)
-		(end -0.8 -0.4)
+		(end 0.8 0.4)
 		(stroke
 			(width 0.127)
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "c70656f7-882a-4349-9fe4-3513f8ff2d74")
+		(uuid "d634d8f8-0520-4495-a212-eecc46e1f563")
 	)
 	(fp_line
 		(start 0.8 0.4)
@@ -118,44 +128,34 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "3f654a7d-28d8-4c47-8717-119beac4f681")
-	)
-	(fp_line
-		(start 0.8 0.4)
-		(end 0.8 -0.4)
-		(stroke
-			(width 0.127)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "06095e7c-968a-4204-9145-0d407f1b2161")
+		(uuid "fcf7d50d-4e60-42d6-955a-d0065be8afcf")
 	)
 	(pad "1" smd roundrect
-		(at -0.78 0)
-		(size 0.87 0.93)
+		(at -0.785 0)
+		(size 0.9 0.97)
 		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.125)
 		(solder_mask_margin 0.102)
-		(uuid "c851d8f4-a700-494b-a872-ee52a4338ead")
+		(uuid "0c2aca67-4d88-41c3-8290-399dd5e3cc9a")
 	)
 	(pad "2" smd roundrect
-		(at 0.78 0)
-		(size 0.87 0.93)
+		(at 0.785 0)
+		(size 0.9 0.97)
 		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.125)
 		(solder_mask_margin 0.102)
-		(uuid "dc980571-f557-44e1-ab2d-ef7ea9e559e9")
+		(uuid "ab3d2bba-3612-4d30-acd4-10ea5db8fa48")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/Dependencies/Capacitor10uF/CL10A106KP8NNNC.step"
+	(model "${KIPRJMOD}/Dependencies/Resistor2K/0603WAF2001T5E.step"
 		(offset
-			(xyz 0 -0.45 0)
+			(xyz 0 0 0)
 		)
 		(scale
 			(xyz 1 1 1)
 		)
 		(rotate
-			(xyz -0 -0 -0)
+			(xyz -90 -0 -0)
 		)
 	)
 )

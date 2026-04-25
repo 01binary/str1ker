@@ -3,4 +3,7 @@
   (lib (name "Resistor1K")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor1K")(options "")(descr ""))
   (lib (name "Resistor100K")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor100K")(options "")(descr ""))
   (lib (name "Teensy")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Teensy")(options "")(descr ""))
+  (lib (name "Resistor2K")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor2K")(options "")(descr ""))
+  (lib (name "AudioJack")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/AudioJack")(options "")(descr ""))
+  (lib (name "Capacitor10uF")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Capacitor10uF")(options "")(descr ""))
 )
