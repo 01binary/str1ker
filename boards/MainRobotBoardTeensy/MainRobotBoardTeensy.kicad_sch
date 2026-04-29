@@ -5845,13 +5845,14 @@
 		)
 		(uuid "4b098ed9-ffec-41e1-8264-10b9d3f65526")
 	)
-	(text "HEAD ENCODER"
+	(text "HEAD\nENCODER"
 		(exclude_from_sim no)
-		(at 163.83 279.4 0)
+		(at 153.67 279.4 0)
 		(effects
 			(font
 				(size 1.778 1.778)
 			)
+			(justify left)
 		)
 		(uuid "4d9cb7d9-22f7-4e00-8735-7f7332437624")
 	)
@@ -5935,13 +5936,14 @@
 		)
 		(uuid "61fcbfd6-44da-419e-9795-bcd267eb7fd6")
 	)
-	(text "TORSO ENCODER"
+	(text "TORSO\nENCODER"
 		(exclude_from_sim no)
-		(at 163.83 251.46 0)
+		(at 153.67 251.46 0)
 		(effects
 			(font
 				(size 1.778 1.778)
 			)
+			(justify left)
 		)
 		(uuid "640a0b6b-b56e-4df5-97d6-e0aaf88a64b4")
 	)
@@ -6775,7 +6777,7 @@
 	)
 	(wire
 		(pts
-			(xy 177.8 222.25) (xy 204.47 222.25)
+			(xy 172.72 222.25) (xy 204.47 222.25)
 		)
 		(stroke
 			(width 0)
@@ -6965,7 +6967,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 237.49) (xy 118.11 237.49)
+			(xy 107.95 237.49) (xy 118.11 237.49)
 		)
 		(stroke
 			(width 0)
@@ -6995,7 +6997,7 @@
 	)
 	(wire
 		(pts
-			(xy 381 266.7) (xy 394.97 266.7)
+			(xy 386.08 266.7) (xy 394.97 266.7)
 		)
 		(stroke
 			(width 0)
@@ -7015,7 +7017,7 @@
 	)
 	(wire
 		(pts
-			(xy 300.99 212.09) (xy 314.96 212.09)
+			(xy 306.07 212.09) (xy 314.96 212.09)
 		)
 		(stroke
 			(width 0)
@@ -7045,7 +7047,7 @@
 	)
 	(wire
 		(pts
-			(xy 461.01 238.76) (xy 474.98 238.76)
+			(xy 466.09 238.76) (xy 474.98 238.76)
 		)
 		(stroke
 			(width 0)
@@ -7055,7 +7057,7 @@
 	)
 	(wire
 		(pts
-			(xy 461.01 212.09) (xy 474.98 212.09)
+			(xy 466.09 212.09) (xy 474.98 212.09)
 		)
 		(stroke
 			(width 0)
@@ -7075,7 +7077,7 @@
 	)
 	(wire
 		(pts
-			(xy 300.99 294.64) (xy 316.23 294.64)
+			(xy 306.07 294.64) (xy 316.23 294.64)
 		)
 		(stroke
 			(width 0)
@@ -7105,7 +7107,7 @@
 	)
 	(wire
 		(pts
-			(xy 381 294.64) (xy 394.97 294.64)
+			(xy 386.08 294.64) (xy 394.97 294.64)
 		)
 		(stroke
 			(width 0)
@@ -7135,7 +7137,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 278.13) (xy 127 278.13)
+			(xy 100.33 278.13) (xy 127 278.13)
 		)
 		(stroke
 			(width 0)
@@ -7205,7 +7207,7 @@
 	)
 	(wire
 		(pts
-			(xy 177.8 229.87) (xy 177.8 232.41)
+			(xy 172.72 229.87) (xy 172.72 232.41)
 		)
 		(stroke
 			(width 0)
@@ -7235,7 +7237,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 204.47) (xy 101.6 205.74)
+			(xy 100.33 204.47) (xy 100.33 205.74)
 		)
 		(stroke
 			(width 0)
@@ -7275,7 +7277,7 @@
 	)
 	(wire
 		(pts
-			(xy 177.8 204.47) (xy 177.8 205.74)
+			(xy 172.72 204.47) (xy 172.72 205.74)
 		)
 		(stroke
 			(width 0)
@@ -7305,7 +7307,7 @@
 	)
 	(wire
 		(pts
-			(xy 300.99 266.7) (xy 314.96 266.7)
+			(xy 306.07 266.7) (xy 314.96 266.7)
 		)
 		(stroke
 			(width 0)
@@ -7385,7 +7387,7 @@
 	)
 	(wire
 		(pts
-			(xy 461.01 294.64) (xy 474.98 294.64)
+			(xy 466.09 294.64) (xy 474.98 294.64)
 		)
 		(stroke
 			(width 0)
@@ -7785,7 +7787,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 210.82) (xy 118.11 210.82)
+			(xy 107.95 210.82) (xy 118.11 210.82)
 		)
 		(stroke
 			(width 0)
@@ -7815,7 +7817,7 @@
 	)
 	(wire
 		(pts
-			(xy 381 238.76) (xy 394.97 238.76)
+			(xy 386.08 238.76) (xy 394.97 238.76)
 		)
 		(stroke
 			(width 0)
@@ -7825,7 +7827,7 @@
 	)
 	(wire
 		(pts
-			(xy 177.8 196.85) (xy 203.2 196.85)
+			(xy 172.72 196.85) (xy 203.2 196.85)
 		)
 		(stroke
 			(width 0)
@@ -7945,7 +7947,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 265.43) (xy 118.11 265.43)
+			(xy 107.95 265.43) (xy 118.11 265.43)
 		)
 		(stroke
 			(width 0)
@@ -7955,7 +7957,7 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 278.13) (xy 177.8 278.13)
+			(xy 186.69 278.13) (xy 172.72 278.13)
 		)
 		(stroke
 			(width 0)
@@ -8265,7 +8267,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 285.75) (xy 101.6 288.29)
+			(xy 100.33 285.75) (xy 100.33 288.29)
 		)
 		(stroke
 			(width 0)
@@ -8285,7 +8287,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 257.81) (xy 101.6 260.35)
+			(xy 100.33 257.81) (xy 100.33 260.35)
 		)
 		(stroke
 			(width 0)
@@ -8325,7 +8327,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 229.87) (xy 101.6 232.41)
+			(xy 100.33 229.87) (xy 100.33 232.41)
 		)
 		(stroke
 			(width 0)
@@ -8345,7 +8347,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 196.85) (xy 127 196.85)
+			(xy 100.33 196.85) (xy 127 196.85)
 		)
 		(stroke
 			(width 0)
@@ -8505,7 +8507,7 @@
 	)
 	(wire
 		(pts
-			(xy 381 212.09) (xy 394.97 212.09)
+			(xy 386.08 212.09) (xy 394.97 212.09)
 		)
 		(stroke
 			(width 0)
@@ -8525,7 +8527,7 @@
 	)
 	(wire
 		(pts
-			(xy 300.99 238.76) (xy 314.96 238.76)
+			(xy 306.07 238.76) (xy 314.96 238.76)
 		)
 		(stroke
 			(width 0)
@@ -8585,7 +8587,7 @@
 	)
 	(wire
 		(pts
-			(xy 461.01 266.7) (xy 474.98 266.7)
+			(xy 466.09 266.7) (xy 474.98 266.7)
 		)
 		(stroke
 			(width 0)
@@ -8695,7 +8697,7 @@
 	)
 	(wire
 		(pts
-			(xy 177.8 257.81) (xy 177.8 260.35)
+			(xy 172.72 257.81) (xy 172.72 260.35)
 		)
 		(stroke
 			(width 0)
@@ -8715,7 +8717,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 250.19) (xy 127 250.19)
+			(xy 100.33 250.19) (xy 127 250.19)
 		)
 		(stroke
 			(width 0)
@@ -8825,7 +8827,7 @@
 	)
 	(wire
 		(pts
-			(xy 104.14 293.37) (xy 118.11 293.37)
+			(xy 107.95 293.37) (xy 118.11 293.37)
 		)
 		(stroke
 			(width 0)
@@ -8865,7 +8867,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 222.25) (xy 125.73 222.25)
+			(xy 100.33 222.25) (xy 125.73 222.25)
 		)
 		(stroke
 			(width 0)
@@ -8925,7 +8927,7 @@
 	)
 	(wire
 		(pts
-			(xy 177.8 285.75) (xy 177.8 288.29)
+			(xy 172.72 285.75) (xy 172.72 288.29)
 		)
 		(stroke
 			(width 0)
@@ -8985,7 +8987,7 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 250.19) (xy 177.8 250.19)
+			(xy 186.69 250.19) (xy 172.72 250.19)
 		)
 		(stroke
 			(width 0)
@@ -12505,7 +12507,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 177.8 200.66 0)
+		(at 172.72 200.66 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12514,7 +12516,7 @@
 		(fields_autoplaced yes)
 		(uuid "072946b7-d1a3-4a29-bf87-7597ad113a90")
 		(property "Reference" "R66"
-			(at 180.34 199.3899 0)
+			(at 175.26 199.3899 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12523,7 +12525,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 180.34 201.9299 0)
+			(at 175.26 201.9299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12532,7 +12534,7 @@
 			)
 		)
 		(property "Footprint" "Resistor10K:CRCW060310K0FKEA"
-			(at 178.816 200.914 90)
+			(at 173.736 200.914 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12541,7 +12543,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 177.8 200.66 0)
+			(at 172.72 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12550,7 +12552,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 177.8 200.66 0)
+			(at 172.72 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12559,7 +12561,7 @@
 			)
 		)
 		(property "LCSC" "C844918"
-			(at 184.15 200.66 0)
+			(at 179.07 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12784,8 +12786,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 295.91 236.22 90)
-		(mirror x)
+		(at 300.99 236.22 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12793,7 +12794,7 @@
 		(dnp no)
 		(uuid "091f5a69-5e71-4776-95d7-5e5e489f5e35")
 		(property "Reference" "Q10"
-			(at 295.91 242.57 90)
+			(at 300.99 242.57 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12801,7 +12802,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 295.91 245.11 90)
+			(at 300.99 245.11 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12809,7 +12810,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12819,7 +12820,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12828,7 +12829,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12838,7 +12839,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12848,7 +12849,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12858,7 +12859,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12868,7 +12869,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12878,7 +12879,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12888,7 +12889,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12898,7 +12899,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12908,7 +12909,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12918,7 +12919,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12928,7 +12929,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12938,7 +12939,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 295.91 236.22 0)
+			(at 300.99 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12948,7 +12949,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 295.91 242.57 0)
+			(at 300.99 242.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13118,7 +13119,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 370.84 294.64 270)
+		(at 375.92 294.64 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13127,7 +13128,7 @@
 		(fields_autoplaced yes)
 		(uuid "0acd8d7c-1437-4631-ac75-09efbb764ce8")
 		(property "Reference" "#PWR054"
-			(at 364.49 294.64 0)
+			(at 369.57 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13136,7 +13137,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 367.03 294.6399 90)
+			(at 372.11 294.6399 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13145,7 +13146,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 370.84 294.64 0)
+			(at 375.92 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13154,7 +13155,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 370.84 294.64 0)
+			(at 375.92 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13163,7 +13164,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 370.84 294.64 0)
+			(at 375.92 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13545,8 +13546,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 175.26 262.89 90)
-		(mirror x)
+		(at 175.26 262.89 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14034,7 +14034,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 93.98 265.43 270)
+		(at 97.79 265.43 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14043,7 +14043,7 @@
 		(fields_autoplaced yes)
 		(uuid "12945d02-db8f-4a22-bc77-8137d131ca70")
 		(property "Reference" "#PWR023"
-			(at 87.63 265.43 0)
+			(at 91.44 265.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14052,7 +14052,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 90.17 265.4299 90)
+			(at 93.98 265.4299 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14061,7 +14061,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 93.98 265.43 0)
+			(at 97.79 265.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14070,7 +14070,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 265.43 0)
+			(at 97.79 265.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14079,7 +14079,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 265.43 0)
+			(at 97.79 265.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15393,8 +15393,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 375.92 209.55 90)
-		(mirror x)
+		(at 381 209.55 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15402,7 +15401,7 @@
 		(dnp no)
 		(uuid "219e003a-30fd-44e8-aae7-257c05f27847")
 		(property "Reference" "Q13"
-			(at 375.92 215.9 90)
+			(at 381 215.9 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15410,7 +15409,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 375.92 218.44 90)
+			(at 381 218.44 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15418,7 +15417,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15428,7 +15427,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15437,7 +15436,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15447,7 +15446,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15457,7 +15456,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15467,7 +15466,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15477,7 +15476,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15487,7 +15486,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15497,7 +15496,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15507,7 +15506,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15517,7 +15516,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15527,7 +15526,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15537,7 +15536,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15547,7 +15546,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 375.92 209.55 0)
+			(at 381 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15557,7 +15556,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 375.92 215.9 0)
+			(at 381 215.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15651,7 +15650,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 370.84 238.76 270)
+		(at 375.92 238.76 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15660,7 +15659,7 @@
 		(fields_autoplaced yes)
 		(uuid "2306bf44-6ad8-465e-95e4-fd81907ecaec")
 		(property "Reference" "#PWR052"
-			(at 364.49 238.76 0)
+			(at 369.57 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15669,7 +15668,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 367.03 238.7599 90)
+			(at 372.11 238.7599 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15678,7 +15677,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 370.84 238.76 0)
+			(at 375.92 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15687,7 +15686,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 370.84 238.76 0)
+			(at 375.92 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15696,7 +15695,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 370.84 238.76 0)
+			(at 375.92 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15918,7 +15917,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 177.8 281.94 0)
+		(at 172.72 281.94 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15927,7 +15926,7 @@
 		(fields_autoplaced yes)
 		(uuid "2608368d-e465-49e0-9a88-da4df71875dd")
 		(property "Reference" "R72"
-			(at 180.34 280.6699 0)
+			(at 175.26 280.6699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15936,7 +15935,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 180.34 283.2099 0)
+			(at 175.26 283.2099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15945,7 +15944,7 @@
 			)
 		)
 		(property "Footprint" "Resistor10K:CRCW060310K0FKEA"
-			(at 178.816 282.194 90)
+			(at 173.736 282.194 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15954,7 +15953,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 177.8 281.94 0)
+			(at 172.72 281.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15963,7 +15962,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 177.8 281.94 0)
+			(at 172.72 281.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15972,7 +15971,7 @@
 			)
 		)
 		(property "LCSC" "C844918"
-			(at 184.15 281.94 0)
+			(at 179.07 281.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16891,7 +16890,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 450.85 266.7 270)
+		(at 455.93 266.7 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -16900,7 +16899,7 @@
 		(fields_autoplaced yes)
 		(uuid "3031f8c1-2ea7-492b-8252-821abd41e344")
 		(property "Reference" "#PWR061"
-			(at 444.5 266.7 0)
+			(at 449.58 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16909,7 +16908,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 447.04 266.6999 90)
+			(at 452.12 266.6999 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16918,7 +16917,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 450.85 266.7 0)
+			(at 455.93 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16927,7 +16926,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 450.85 266.7 0)
+			(at 455.93 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16936,7 +16935,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 450.85 266.7 0)
+			(at 455.93 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17831,8 +17830,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 99.06 208.28 90)
-		(mirror x)
+		(at 102.87 208.28 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -17840,7 +17838,7 @@
 		(dnp no)
 		(uuid "3d720960-8f83-4039-a195-daea918ca95e")
 		(property "Reference" "Q1"
-			(at 99.06 214.63 90)
+			(at 102.87 214.63 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17848,7 +17846,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 99.06 217.17 90)
+			(at 102.87 217.17 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17856,7 +17854,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17866,7 +17864,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17875,7 +17873,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17885,7 +17883,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17895,7 +17893,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17905,7 +17903,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17915,7 +17913,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17925,7 +17923,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17935,7 +17933,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17945,7 +17943,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17955,7 +17953,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17965,7 +17963,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17975,7 +17973,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17985,7 +17983,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 99.06 208.28 0)
+			(at 102.87 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17995,7 +17993,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 99.06 214.63 0)
+			(at 102.87 214.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18013,7 +18011,7 @@
 			(uuid "a49559f6-2b64-43b3-bf15-869c482d074e")
 		)
 		(instances
-			(project ""
+			(project "MainRobotBoardTeensy"
 				(path "/beb2de51-0800-4d36-919d-406321c54cb0"
 					(reference "Q1")
 					(unit 1)
@@ -18483,8 +18481,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 99.06 234.95 90)
-		(mirror x)
+		(at 102.87 234.95 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -18492,7 +18489,7 @@
 		(dnp no)
 		(uuid "432d1a15-7f5d-4003-83be-7300096b4209")
 		(property "Reference" "Q2"
-			(at 99.06 241.3 90)
+			(at 102.87 241.3 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18500,7 +18497,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 99.06 243.84 90)
+			(at 102.87 243.84 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18508,7 +18505,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18518,7 +18515,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18527,7 +18524,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18537,7 +18534,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18547,7 +18544,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18557,7 +18554,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18567,7 +18564,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18577,7 +18574,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18587,7 +18584,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18597,7 +18594,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18607,7 +18604,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18617,7 +18614,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18627,7 +18624,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18637,7 +18634,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 99.06 234.95 0)
+			(at 102.87 234.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18647,7 +18644,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 99.06 241.3 0)
+			(at 102.87 241.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18675,7 +18672,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 290.83 212.09 270)
+		(at 295.91 212.09 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -18684,7 +18681,7 @@
 		(fields_autoplaced yes)
 		(uuid "472a3edd-3718-4bcf-901d-516d8d6d2272")
 		(property "Reference" "#PWR043"
-			(at 284.48 212.09 0)
+			(at 289.56 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18693,7 +18690,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 287.02 212.0899 90)
+			(at 292.1 212.0899 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18702,7 +18699,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 290.83 212.09 0)
+			(at 295.91 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18711,7 +18708,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 290.83 212.09 0)
+			(at 295.91 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18720,7 +18717,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 290.83 212.09 0)
+			(at 295.91 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19473,8 +19470,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 375.92 264.16 90)
-		(mirror x)
+		(at 381 264.16 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19482,7 +19478,7 @@
 		(dnp no)
 		(uuid "4ffdd7c6-43aa-4cce-954a-3bf52296cec7")
 		(property "Reference" "Q15"
-			(at 375.92 270.51 90)
+			(at 381 270.51 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19490,7 +19486,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 375.92 273.05 90)
+			(at 381 273.05 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19498,7 +19494,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19508,7 +19504,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19517,7 +19513,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19527,7 +19523,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19537,7 +19533,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19547,7 +19543,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19557,7 +19553,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19567,7 +19563,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19577,7 +19573,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19587,7 +19583,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19597,7 +19593,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19607,7 +19603,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19617,7 +19613,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19627,7 +19623,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 375.92 264.16 0)
+			(at 381 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19637,7 +19633,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 375.92 270.51 0)
+			(at 381 270.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19953,7 +19949,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 370.84 212.09 270)
+		(at 375.92 212.09 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19962,7 +19958,7 @@
 		(fields_autoplaced yes)
 		(uuid "51f4de39-ca88-49f1-b5b4-4d02497700f4")
 		(property "Reference" "#PWR051"
-			(at 364.49 212.09 0)
+			(at 369.57 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19971,7 +19967,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 367.03 212.0899 90)
+			(at 372.11 212.0899 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19980,7 +19976,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 370.84 212.09 0)
+			(at 375.92 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19989,7 +19985,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 370.84 212.09 0)
+			(at 375.92 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19998,7 +19994,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 370.84 212.09 0)
+			(at 375.92 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20020,8 +20016,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 295.91 292.1 90)
-		(mirror x)
+		(at 300.99 292.1 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20029,7 +20024,7 @@
 		(dnp no)
 		(uuid "5200c0a8-63bc-4369-8117-ecd112ce6e7b")
 		(property "Reference" "Q12"
-			(at 295.91 298.45 90)
+			(at 300.99 298.45 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20037,7 +20032,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 295.91 300.99 90)
+			(at 300.99 300.99 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20045,7 +20040,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20055,7 +20050,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20064,7 +20059,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20074,7 +20069,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20084,7 +20079,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20094,7 +20089,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20104,7 +20099,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20114,7 +20109,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20124,7 +20119,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20134,7 +20129,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20144,7 +20139,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20154,7 +20149,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20164,7 +20159,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20174,7 +20169,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 295.91 292.1 0)
+			(at 300.99 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20184,7 +20179,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 295.91 298.45 0)
+			(at 300.99 298.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20768,7 +20763,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 450.85 294.64 270)
+		(at 455.93 294.64 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20777,7 +20772,7 @@
 		(fields_autoplaced yes)
 		(uuid "56287025-4750-4411-b504-940583cbd677")
 		(property "Reference" "#PWR062"
-			(at 444.5 294.64 0)
+			(at 449.58 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20786,7 +20781,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 447.04 294.6399 90)
+			(at 452.12 294.6399 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20795,7 +20790,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 450.85 294.64 0)
+			(at 455.93 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20804,7 +20799,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 450.85 294.64 0)
+			(at 455.93 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20813,7 +20808,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 450.85 294.64 0)
+			(at 455.93 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21099,7 +21094,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 93.98 237.49 270)
+		(at 97.79 237.49 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -21108,7 +21103,7 @@
 		(fields_autoplaced yes)
 		(uuid "5ab2c77a-2c65-4453-8d18-81b2a48cd09d")
 		(property "Reference" "#PWR011"
-			(at 87.63 237.49 0)
+			(at 91.44 237.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21117,7 +21112,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 90.17 237.4899 90)
+			(at 93.98 237.4899 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21126,7 +21121,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 93.98 237.49 0)
+			(at 97.79 237.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21135,7 +21130,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 237.49 0)
+			(at 97.79 237.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21144,7 +21139,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 237.49 0)
+			(at 97.79 237.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21664,7 +21659,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 450.85 212.09 270)
+		(at 455.93 212.09 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -21673,7 +21668,7 @@
 		(fields_autoplaced yes)
 		(uuid "62904e63-b145-4d7a-8175-10a16fab6869")
 		(property "Reference" "#PWR059"
-			(at 444.5 212.09 0)
+			(at 449.58 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21682,7 +21677,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 447.04 212.0899 90)
+			(at 452.12 212.0899 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21691,7 +21686,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 450.85 212.09 0)
+			(at 455.93 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21700,7 +21695,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 450.85 212.09 0)
+			(at 455.93 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21709,7 +21704,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 450.85 212.09 0)
+			(at 455.93 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21731,7 +21726,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 290.83 238.76 270)
+		(at 295.91 238.76 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -21740,7 +21735,7 @@
 		(fields_autoplaced yes)
 		(uuid "62a84b8f-71a5-4060-b2c3-06b5c1d67c04")
 		(property "Reference" "#PWR045"
-			(at 284.48 238.76 0)
+			(at 289.56 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21749,7 +21744,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 287.02 238.7599 90)
+			(at 292.1 238.7599 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21758,7 +21753,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 290.83 238.76 0)
+			(at 295.91 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21767,7 +21762,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 290.83 238.76 0)
+			(at 295.91 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21776,7 +21771,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 290.83 238.76 0)
+			(at 295.91 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21998,8 +21993,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 375.92 236.22 90)
-		(mirror x)
+		(at 381 236.22 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -22007,7 +22001,7 @@
 		(dnp no)
 		(uuid "679b7205-d1b6-40d9-b91f-f7a152da7fbb")
 		(property "Reference" "Q14"
-			(at 375.92 242.57 90)
+			(at 381 242.57 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22015,7 +22009,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 375.92 245.11 90)
+			(at 381 245.11 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22023,7 +22017,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22033,7 +22027,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22042,7 +22036,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22052,7 +22046,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22062,7 +22056,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22072,7 +22066,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22082,7 +22076,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22092,7 +22086,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22102,7 +22096,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22112,7 +22106,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22122,7 +22116,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22132,7 +22126,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22142,7 +22136,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22152,7 +22146,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 375.92 236.22 0)
+			(at 381 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22162,7 +22156,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 375.92 242.57 0)
+			(at 381 242.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22190,7 +22184,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 450.85 238.76 270)
+		(at 455.93 238.76 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -22199,7 +22193,7 @@
 		(fields_autoplaced yes)
 		(uuid "6948d7b0-0739-4162-811a-d3e82cc6b58d")
 		(property "Reference" "#PWR060"
-			(at 444.5 238.76 0)
+			(at 449.58 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22208,7 +22202,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 447.04 238.7599 90)
+			(at 452.12 238.7599 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22217,7 +22211,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 450.85 238.76 0)
+			(at 455.93 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22226,7 +22220,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 450.85 238.76 0)
+			(at 455.93 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22235,7 +22229,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 450.85 238.76 0)
+			(at 455.93 238.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23375,8 +23369,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 455.93 209.55 90)
-		(mirror x)
+		(at 461.01 209.55 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -23384,7 +23377,7 @@
 		(dnp no)
 		(uuid "7c32a2d3-c351-45ec-8b61-2f8f51deea07")
 		(property "Reference" "Q17"
-			(at 455.93 215.9 90)
+			(at 461.01 215.9 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23392,7 +23385,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 455.93 218.44 90)
+			(at 461.01 218.44 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23400,7 +23393,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23410,7 +23403,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23419,7 +23412,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23429,7 +23422,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23439,7 +23432,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23449,7 +23442,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23459,7 +23452,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23469,7 +23462,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23479,7 +23472,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23489,7 +23482,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23499,7 +23492,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23509,7 +23502,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23519,7 +23512,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23529,7 +23522,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 455.93 209.55 0)
+			(at 461.01 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23539,7 +23532,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 455.93 215.9 0)
+			(at 461.01 215.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23713,8 +23706,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 295.91 209.55 90)
-		(mirror x)
+		(at 300.99 209.55 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -23722,7 +23714,7 @@
 		(dnp no)
 		(uuid "7ea7ffe1-40fe-4888-8d59-56425cb7866c")
 		(property "Reference" "Q9"
-			(at 295.91 215.9 90)
+			(at 300.99 215.9 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23730,7 +23722,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 295.91 218.44 90)
+			(at 300.99 218.44 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23738,7 +23730,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23748,7 +23740,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23757,7 +23749,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23767,7 +23759,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23777,7 +23769,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23787,7 +23779,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23797,7 +23789,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23807,7 +23799,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23817,7 +23809,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23827,7 +23819,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23837,7 +23829,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23847,7 +23839,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23857,7 +23849,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23867,7 +23859,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 295.91 209.55 0)
+			(at 300.99 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23877,7 +23869,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 295.91 215.9 0)
+			(at 300.99 215.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24462,8 +24454,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 175.26 290.83 90)
-		(mirror x)
+		(at 175.26 290.83 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -25183,7 +25174,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 101.6 281.94 0)
+		(at 100.33 281.94 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -25192,7 +25183,7 @@
 		(fields_autoplaced yes)
 		(uuid "8d81d65f-ca6e-4062-99c3-4ba4a2f1796a")
 		(property "Reference" "R64"
-			(at 104.14 280.6699 0)
+			(at 102.87 280.6699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25201,7 +25192,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 104.14 283.2099 0)
+			(at 102.87 283.2099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25210,7 +25201,7 @@
 			)
 		)
 		(property "Footprint" "Resistor10K:CRCW060310K0FKEA"
-			(at 102.616 282.194 90)
+			(at 101.346 282.194 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25219,7 +25210,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 101.6 281.94 0)
+			(at 100.33 281.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25228,7 +25219,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 101.6 281.94 0)
+			(at 100.33 281.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25237,7 +25228,7 @@
 			)
 		)
 		(property "LCSC" "C844918"
-			(at 107.95 281.94 0)
+			(at 106.68 281.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25854,7 +25845,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 93.98 210.82 270)
+		(at 97.79 210.82 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -25863,7 +25854,7 @@
 		(fields_autoplaced yes)
 		(uuid "937aa9ce-8f2a-4d4c-a5cc-094cc7a0f9b3")
 		(property "Reference" "#PWR010"
-			(at 87.63 210.82 0)
+			(at 91.44 210.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25872,7 +25863,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 90.17 210.8199 90)
+			(at 93.98 210.8199 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25881,7 +25872,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 93.98 210.82 0)
+			(at 97.79 210.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25890,7 +25881,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 210.82 0)
+			(at 97.79 210.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25899,7 +25890,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 210.82 0)
+			(at 97.79 210.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25999,7 +25990,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 370.84 266.7 270)
+		(at 375.92 266.7 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -26008,7 +25999,7 @@
 		(fields_autoplaced yes)
 		(uuid "95339ece-43fd-47ca-91ef-9b3eebf5f3c8")
 		(property "Reference" "#PWR053"
-			(at 364.49 266.7 0)
+			(at 369.57 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26017,7 +26008,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 367.03 266.6999 90)
+			(at 372.11 266.6999 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26026,7 +26017,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 370.84 266.7 0)
+			(at 375.92 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26035,7 +26026,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 370.84 266.7 0)
+			(at 375.92 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26044,7 +26035,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 370.84 266.7 0)
+			(at 375.92 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26633,8 +26624,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 175.26 208.28 90)
-		(mirror x)
+		(at 175.26 208.28 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -26901,7 +26891,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 290.83 294.64 270)
+		(at 295.91 294.64 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -26910,7 +26900,7 @@
 		(fields_autoplaced yes)
 		(uuid "9b0d33b0-0b40-4c28-8e0f-cd7cf088029f")
 		(property "Reference" "#PWR048"
-			(at 284.48 294.64 0)
+			(at 289.56 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26919,7 +26909,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 287.02 294.6399 90)
+			(at 292.1 294.6399 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26928,7 +26918,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 290.83 294.64 0)
+			(at 295.91 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26937,7 +26927,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 290.83 294.64 0)
+			(at 295.91 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -26946,7 +26936,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 290.83 294.64 0)
+			(at 295.91 294.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27253,8 +27243,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 295.91 264.16 90)
-		(mirror x)
+		(at 300.99 264.16 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -27262,7 +27251,7 @@
 		(dnp no)
 		(uuid "9d53ac02-e932-4e3e-901e-45b59a52f298")
 		(property "Reference" "Q11"
-			(at 295.91 270.51 90)
+			(at 300.99 270.51 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27270,7 +27259,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 295.91 273.05 90)
+			(at 300.99 273.05 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27278,7 +27267,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27288,7 +27277,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27297,7 +27286,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27307,7 +27296,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27317,7 +27306,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27327,7 +27316,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27337,7 +27326,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27347,7 +27336,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27357,7 +27346,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27367,7 +27356,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27377,7 +27366,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27387,7 +27376,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27397,7 +27386,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27407,7 +27396,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 295.91 264.16 0)
+			(at 300.99 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27417,7 +27406,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 295.91 270.51 0)
+			(at 300.99 270.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27445,8 +27434,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 375.92 292.1 90)
-		(mirror x)
+		(at 381 292.1 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -27454,7 +27442,7 @@
 		(dnp no)
 		(uuid "9daa0dfe-6c53-40e4-b091-4aa47977c28f")
 		(property "Reference" "Q16"
-			(at 375.92 298.45 90)
+			(at 381 298.45 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27462,7 +27450,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 375.92 300.99 90)
+			(at 381 300.99 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27470,7 +27458,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27480,7 +27468,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27489,7 +27477,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27499,7 +27487,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27509,7 +27497,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27519,7 +27507,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27529,7 +27517,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27539,7 +27527,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27549,7 +27537,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27559,7 +27547,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27569,7 +27557,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27579,7 +27567,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27589,7 +27577,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27599,7 +27587,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 375.92 292.1 0)
+			(at 381 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -27609,7 +27597,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 375.92 298.45 0)
+			(at 381 298.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -29412,7 +29400,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 101.6 226.06 0)
+		(at 100.33 226.06 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -29421,7 +29409,7 @@
 		(fields_autoplaced yes)
 		(uuid "b428063e-6ddb-4735-8d24-492853de4371")
 		(property "Reference" "R60"
-			(at 104.14 224.7899 0)
+			(at 102.87 224.7899 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -29430,7 +29418,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 104.14 227.3299 0)
+			(at 102.87 227.3299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -29439,7 +29427,7 @@
 			)
 		)
 		(property "Footprint" "Resistor10K:CRCW060310K0FKEA"
-			(at 102.616 226.314 90)
+			(at 101.346 226.314 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -29448,7 +29436,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 101.6 226.06 0)
+			(at 100.33 226.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -29457,7 +29445,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 101.6 226.06 0)
+			(at 100.33 226.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -29466,7 +29454,7 @@
 			)
 		)
 		(property "LCSC" "C844918"
-			(at 107.95 226.06 0)
+			(at 106.68 226.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30076,7 +30064,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 290.83 266.7 270)
+		(at 295.91 266.7 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -30085,7 +30073,7 @@
 		(fields_autoplaced yes)
 		(uuid "bbb36663-b595-4509-bdb9-da3dcec8922c")
 		(property "Reference" "#PWR047"
-			(at 284.48 266.7 0)
+			(at 289.56 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30094,7 +30082,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 287.02 266.6999 90)
+			(at 292.1 266.6999 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30103,7 +30091,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 290.83 266.7 0)
+			(at 295.91 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30112,7 +30100,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 290.83 266.7 0)
+			(at 295.91 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30121,7 +30109,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 290.83 266.7 0)
+			(at 295.91 266.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30143,8 +30131,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 99.06 290.83 90)
-		(mirror x)
+		(at 102.87 290.83 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -30152,7 +30139,7 @@
 		(dnp no)
 		(uuid "bd3cae5c-7a09-4379-88c2-102ff9381a1f")
 		(property "Reference" "Q4"
-			(at 99.06 297.18 90)
+			(at 102.87 297.18 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30160,7 +30147,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 99.06 299.72 90)
+			(at 102.87 299.72 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30168,7 +30155,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30178,7 +30165,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30187,7 +30174,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30197,7 +30184,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30207,7 +30194,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30217,7 +30204,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30227,7 +30214,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30237,7 +30224,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30247,7 +30234,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30257,7 +30244,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30267,7 +30254,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30277,7 +30264,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30287,7 +30274,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30297,7 +30284,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 99.06 290.83 0)
+			(at 102.87 290.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30307,7 +30294,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 99.06 297.18 0)
+			(at 102.87 297.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30642,8 +30629,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 455.93 264.16 90)
-		(mirror x)
+		(at 461.01 264.16 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -30651,7 +30637,7 @@
 		(dnp no)
 		(uuid "c4ccdc57-5cf7-4e5f-aca9-67f5caa2753b")
 		(property "Reference" "Q19"
-			(at 455.93 270.51 90)
+			(at 461.01 270.51 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30659,7 +30645,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 455.93 273.05 90)
+			(at 461.01 273.05 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30667,7 +30653,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30677,7 +30663,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30686,7 +30672,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30696,7 +30682,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30706,7 +30692,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30716,7 +30702,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30726,7 +30712,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30736,7 +30722,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30746,7 +30732,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30756,7 +30742,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30766,7 +30752,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30776,7 +30762,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30786,7 +30772,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30796,7 +30782,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 455.93 264.16 0)
+			(at 461.01 264.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30806,7 +30792,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 455.93 270.51 0)
+			(at 461.01 270.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30900,7 +30886,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 177.8 254 0)
+		(at 172.72 254 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -30909,7 +30895,7 @@
 		(fields_autoplaced yes)
 		(uuid "c5dd6469-e1d3-4e76-91a8-4884679e2449")
 		(property "Reference" "R70"
-			(at 180.34 252.7299 0)
+			(at 175.26 252.7299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30918,7 +30904,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 180.34 255.2699 0)
+			(at 175.26 255.2699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30927,7 +30913,7 @@
 			)
 		)
 		(property "Footprint" "Resistor10K:CRCW060310K0FKEA"
-			(at 178.816 254.254 90)
+			(at 173.736 254.254 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30936,7 +30922,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 177.8 254 0)
+			(at 172.72 254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30945,7 +30931,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 177.8 254 0)
+			(at 172.72 254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30954,7 +30940,7 @@
 			)
 		)
 		(property "LCSC" "C844918"
-			(at 184.15 254 0)
+			(at 179.07 254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31179,7 +31165,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 101.6 254 0)
+		(at 100.33 254 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -31188,7 +31174,7 @@
 		(fields_autoplaced yes)
 		(uuid "c8a90eb9-a3f2-48a9-aabf-73bf328f5f65")
 		(property "Reference" "R62"
-			(at 104.14 252.7299 0)
+			(at 102.87 252.7299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31197,7 +31183,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 104.14 255.2699 0)
+			(at 102.87 255.2699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31206,7 +31192,7 @@
 			)
 		)
 		(property "Footprint" "Resistor10K:CRCW060310K0FKEA"
-			(at 102.616 254.254 90)
+			(at 101.346 254.254 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31215,7 +31201,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 101.6 254 0)
+			(at 100.33 254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31224,7 +31210,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 101.6 254 0)
+			(at 100.33 254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31233,7 +31219,7 @@
 			)
 		)
 		(property "LCSC" "C844918"
-			(at 107.95 254 0)
+			(at 106.68 254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31545,8 +31531,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 455.93 236.22 90)
-		(mirror x)
+		(at 461.01 236.22 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -31554,7 +31539,7 @@
 		(dnp no)
 		(uuid "ccbb8ef5-ea24-4ec0-9040-510069131e6c")
 		(property "Reference" "Q18"
-			(at 455.93 242.57 90)
+			(at 461.01 242.57 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31562,7 +31547,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 455.93 245.11 90)
+			(at 461.01 245.11 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31570,7 +31555,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31580,7 +31565,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31589,7 +31574,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31599,7 +31584,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31609,7 +31594,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31619,7 +31604,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31629,7 +31614,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31639,7 +31624,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31649,7 +31634,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31659,7 +31644,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31669,7 +31654,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31679,7 +31664,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31689,7 +31674,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31699,7 +31684,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 455.93 236.22 0)
+			(at 461.01 236.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31709,7 +31694,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 455.93 242.57 0)
+			(at 461.01 242.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32841,8 +32826,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 455.93 292.1 90)
-		(mirror x)
+		(at 461.01 292.1 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -32850,7 +32834,7 @@
 		(dnp no)
 		(uuid "d7f7a1a1-19e3-4a26-9858-0b1db98f01d4")
 		(property "Reference" "Q20"
-			(at 455.93 298.45 90)
+			(at 461.01 298.45 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32858,7 +32842,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 455.93 300.99 90)
+			(at 461.01 300.99 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32866,7 +32850,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32876,7 +32860,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32885,7 +32869,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32895,7 +32879,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32905,7 +32889,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32915,7 +32899,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32925,7 +32909,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32935,7 +32919,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32945,7 +32929,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32955,7 +32939,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32965,7 +32949,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32975,7 +32959,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32985,7 +32969,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -32995,7 +32979,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 455.93 292.1 0)
+			(at 461.01 292.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -33005,7 +32989,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 455.93 298.45 0)
+			(at 461.01 298.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -34135,8 +34119,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 175.26 234.95 90)
-		(mirror x)
+		(at 175.26 234.95 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -35317,7 +35300,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 177.8 226.06 0)
+		(at 172.72 226.06 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -35326,7 +35309,7 @@
 		(fields_autoplaced yes)
 		(uuid "f464ba9c-e63d-4de9-a6de-2b811f07df0e")
 		(property "Reference" "R68"
-			(at 180.34 224.7899 0)
+			(at 175.26 224.7899 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35335,7 +35318,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 180.34 227.3299 0)
+			(at 175.26 227.3299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35344,7 +35327,7 @@
 			)
 		)
 		(property "Footprint" "Resistor10K:CRCW060310K0FKEA"
-			(at 178.816 226.314 90)
+			(at 173.736 226.314 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35353,7 +35336,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 177.8 226.06 0)
+			(at 172.72 226.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35362,7 +35345,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 177.8 226.06 0)
+			(at 172.72 226.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35371,7 +35354,7 @@
 			)
 		)
 		(property "LCSC" "C844918"
-			(at 184.15 226.06 0)
+			(at 179.07 226.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35692,7 +35675,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 101.6 200.66 0)
+		(at 100.33 200.66 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -35701,7 +35684,7 @@
 		(fields_autoplaced yes)
 		(uuid "f7817d18-370f-4b73-9207-440fce5c04c9")
 		(property "Reference" "R58"
-			(at 104.14 199.3899 0)
+			(at 102.87 199.3899 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35710,7 +35693,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 104.14 201.9299 0)
+			(at 102.87 201.9299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35719,7 +35702,7 @@
 			)
 		)
 		(property "Footprint" "Resistor10K:CRCW060310K0FKEA"
-			(at 102.616 200.914 90)
+			(at 101.346 200.914 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35728,7 +35711,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 101.6 200.66 0)
+			(at 100.33 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35737,7 +35720,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 101.6 200.66 0)
+			(at 100.33 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35746,7 +35729,7 @@
 			)
 		)
 		(property "LCSC" "C844918"
-			(at 107.95 200.66 0)
+			(at 106.68 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35771,8 +35754,7 @@
 	)
 	(symbol
 		(lib_id "AO3400A:AO3400A")
-		(at 99.06 262.89 90)
-		(mirror x)
+		(at 102.87 262.89 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -35780,7 +35762,7 @@
 		(dnp no)
 		(uuid "f7c29fc8-0aa9-47b3-83b4-a6e32c71a7a6")
 		(property "Reference" "Q3"
-			(at 99.06 269.24 90)
+			(at 102.87 269.24 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35788,7 +35770,7 @@
 			)
 		)
 		(property "Value" "AO3400A"
-			(at 99.06 271.78 90)
+			(at 102.87 271.78 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35796,7 +35778,7 @@
 			)
 		)
 		(property "Footprint" "AO3400A:AO3400A"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35806,7 +35788,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35815,7 +35797,7 @@
 			)
 		)
 		(property "Description" "N-Channel 30 V 5.7A (Ta) 1.4W (Ta) Surface Mount SOT-23-3"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35825,7 +35807,7 @@
 			)
 		)
 		(property "MF" "UMW"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35835,7 +35817,7 @@
 			)
 		)
 		(property "PACKAGE" "SOT-23 Alpha &amp; Omega Semiconductor"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35845,7 +35827,7 @@
 			)
 		)
 		(property "PRICE" "None"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35855,7 +35837,7 @@
 			)
 		)
 		(property "Package" "None"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35865,7 +35847,7 @@
 			)
 		)
 		(property "Check_prices" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=eda"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35875,7 +35857,7 @@
 			)
 		)
 		(property "Price" "None"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35885,7 +35867,7 @@
 			)
 		)
 		(property "SnapEDA_Link" "https://www.snapeda.com/parts/AO3400A/UMW/view-part/?ref=snap"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35895,7 +35877,7 @@
 			)
 		)
 		(property "MP" "AO3400A"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35905,7 +35887,7 @@
 			)
 		)
 		(property "Availability" "In Stock"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35915,7 +35897,7 @@
 			)
 		)
 		(property "AVAILABILITY" "In Stock"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35925,7 +35907,7 @@
 			)
 		)
 		(property "Description_1" "N-Channel 30 V 5.8A (Ta) 1.4W (Ta) Surface Mount SOT-23"
-			(at 99.06 262.89 0)
+			(at 102.87 262.89 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -35935,7 +35917,7 @@
 			)
 		)
 		(property "LCSC" "C20917"
-			(at 99.06 269.24 0)
+			(at 102.87 269.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -36272,7 +36254,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 93.98 293.37 270)
+		(at 97.79 293.37 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -36281,7 +36263,7 @@
 		(fields_autoplaced yes)
 		(uuid "fbb11ec3-7366-4500-b86b-fff128f3e5c6")
 		(property "Reference" "#PWR025"
-			(at 87.63 293.37 0)
+			(at 91.44 293.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -36290,7 +36272,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 90.17 293.3699 90)
+			(at 93.98 293.3699 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -36299,7 +36281,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 93.98 293.37 0)
+			(at 97.79 293.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -36308,7 +36290,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 293.37 0)
+			(at 97.79 293.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -36317,7 +36299,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 293.37 0)
+			(at 97.79 293.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
