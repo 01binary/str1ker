@@ -38,8 +38,8 @@ shoulder/encoder/normMin: 875
 shoulder/encoder/normMax: 1023
 #shoulder/encoder/scaleMin: -0.054
 #shoulder/encoder/scaleMax: -0.0005
-shoulder/encoder/scaleMin: 0
-shoulder/encoder/scaleMax: 1
+shoulder/encoder/scaleMin: 0.0
+shoulder/encoder/scaleMax: 1.0
 shoulder/encoder/invert: 1
 
 #elbow
@@ -59,6 +59,6 @@ elbow/encoder/normMin: 259
 elbow/encoder/normMax: 406
 #elbow/encoder/scaleMin: -0.0508
 #elbow/encoder/scaleMax: 0.0
-elbow/encoder/scaleMin: 0
-elbow/encoder/scaleMax: 1
+elbow/encoder/scaleMin: 0.0
+elbow/encoder/scaleMax: 1.0
 elbow/encoder/invert: 1
