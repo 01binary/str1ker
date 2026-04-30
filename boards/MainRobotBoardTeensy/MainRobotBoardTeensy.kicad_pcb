@@ -3224,7 +3224,7 @@
 		(path "/4ca296ee-69db-4f89-9b0c-5bb4e85522d2")
 		(sheetname "/")
 		(sheetfile "MainRobotBoardTeensy.kicad_sch")
-		(attr smd)
+		(attr smd exclude_from_pos_files exclude_from_bom)
 		(fp_rect
 			(start -13.65 -13.65)
 			(end 13.65 13.65)
@@ -18862,7 +18862,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C2167451"
+		(property "LCSC" "C152817"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -44643,7 +44643,7 @@
 		(path "/f1886d49-e345-4c00-832e-1d134c830b23")
 		(sheetname "/")
 		(sheetfile "MainRobotBoardTeensy.kicad_sch")
-		(attr smd)
+		(attr smd exclude_from_pos_files exclude_from_bom)
 		(fp_rect
 			(start 17.8 -15.25)
 			(end -17.8 15.25)
