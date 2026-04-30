@@ -5367,7 +5367,7 @@
 		(path "/4b6febfc-a7e5-4592-bc0e-1cae5f5ba5f8")
 		(sheetname "/")
 		(sheetfile "LegRobotBoardTeensy.kicad_sch")
-		(attr through_hole)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -15971,7 +15971,7 @@
 		(path "/25ddbd6d-45a8-489a-93c6-1a04f93d3f2d")
 		(sheetname "/")
 		(sheetfile "LegRobotBoardTeensy.kicad_sch")
-		(attr through_hole)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start 1.38 1.27)
 			(end 1.38 11.54)
@@ -17315,7 +17315,7 @@
 		(path "/793acb4c-5664-4fbf-a771-8fd243dd875c")
 		(sheetname "/")
 		(sheetfile "LegRobotBoardTeensy.kicad_sch")
-		(attr through_hole)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -22720,7 +22720,7 @@
 				)
 			)
 		)
-		(property "LCSC" ""
+		(property "LCSC" "C17673"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -31681,7 +31681,7 @@
 		(path "/b21a2698-511d-4e20-a20c-1507b271d3a1")
 		(sheetname "/")
 		(sheetfile "LegRobotBoardTeensy.kicad_sch")
-		(attr through_hole)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start 1.38 1.27)
 			(end 1.38 11.54)
@@ -42165,7 +42165,7 @@
 		(path "/53e7621d-d999-429c-9f8f-63fbe158c8f0")
 		(sheetname "/")
 		(sheetfile "LegRobotBoardTeensy.kicad_sch")
-		(attr through_hole)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
@@ -43709,7 +43709,7 @@
 		(path "/4927bd70-8585-49bd-a285-3c4d0444e4e1")
 		(sheetname "/")
 		(sheetfile "LegRobotBoardTeensy.kicad_sch")
-		(attr through_hole)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start 1.38 1.27)
 			(end 1.38 11.54)
@@ -48586,7 +48586,7 @@
 				)
 			)
 		)
-		(property "LCSC" ""
+		(property "LCSC" "C17673"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -50153,7 +50153,7 @@
 		(path "/5424ae97-871f-4a64-a009-190ac09faa32")
 		(sheetname "/")
 		(sheetfile "LegRobotBoardTeensy.kicad_sch")
-		(attr through_hole)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start 1.38 1.27)
 			(end 1.38 11.54)
@@ -50815,7 +50815,7 @@
 		(path "/1e4f1c3b-356e-467b-87bb-3886747def99")
 		(sheetname "/")
 		(sheetfile "LegRobotBoardTeensy.kicad_sch")
-		(attr through_hole)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(fp_line
 			(start -1.38 -1.38)
 			(end 0 -1.38)
