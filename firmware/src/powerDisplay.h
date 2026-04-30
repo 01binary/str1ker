@@ -155,32 +155,33 @@ private:
 
   void drawVoltageCurrent()
   {
-    display.setTextSize(1);
-    display.setCursor(0, 0);
-    display.print("BUS");
-
-    drawValue(0, 14, voltage, "V", 2);
-    drawValue(0, 40, current, "A", 2);
+    drawIndicator(0, 0, "Voltage", "V", voltage);
+    drawIndicator(0, 32, "Current", "A", current);
   }
 
   void drawWatts()
   {
-    display.setTextSize(1);
-    display.setCursor(0, 0);
-    display.print("POWER");
-
-    drawValue(0, 12, watts, "W", 1);
-    drawGraph(0, 38, WIDTH, 26);
+    drawIndicator(0, 0, "Power", "W", watts);
+    drawGraph(0, 36, WIDTH, 28);
   }
 
-  void drawValue(int16_t x, int16_t y, float value, const char* unit, uint8_t decimals)
+  void drawIndicator(
+    int16_t x,
+    int16_t y,
+    const char* label,
+    const char* unit,
+    float value)
   {
-    display.setTextSize(2);
-    display.setCursor(x, y);
-    display.print(value, decimals);
     display.setTextSize(1);
-    display.print(" ");
+    display.setCursor(x, y);
+    display.print(label);
+    display.print(" (");
     display.print(unit);
+    display.print(")");
+
+    display.setTextSize(2);
+    display.setCursor(x + 30, y + 10);
+    display.print(value, 3);
   }
 
   void drawGraph(int16_t x, int16_t y, int16_t width, int16_t height)
