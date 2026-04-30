@@ -11,3 +11,4 @@
 #include "voltageCurrentSensor.h"
 #include "shiftRegister.h"
 #include "meter.h"
+#include "powerDisplay.h"
