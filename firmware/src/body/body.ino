@@ -199,36 +199,19 @@ void setup()
     SHIFT_REGISTER_DATA_PIN,
     SHIFT_REGISTER_CLOCK_PIN,
     SHIFT_REGISTER_LATCH_PIN,
-    SHIFT_REGISTER_OUTPUT_COUNT,
-    HIGH
+    SHIFT_REGISTER_OUTPUT_COUNT
   );
 
   batteryLevelMeter.initialize(
     BATTERY_METER_LEVELS,
     BATTERY_METER_REGISTERS,
-    writeRegister
+    writeRegister,
+    true
   );
+  batteryLevelMeter.write(1.0f);
 
   powerDisplay.initialize();
-  
-  //
-  // Testing
-  //
 
-  digitalWrite(HEAD_PAN_ENABLE, HIGH);
-  digitalWrite(HEAD_PAN_STEP, HIGH);
-  digitalWrite(HEAD_PAN_DIR, HIGH);
-
-  digitalWrite(TORSO_PAN_ENABLE, HIGH);
-  digitalWrite(TORSO_PAN_DIR, HIGH);
-  digitalWrite(TORSO_PAN_PWM, HIGH);
-
-  digitalWrite(HEAD_TILT_MOTOR1_EN, HIGH);
-  digitalWrite(HEAD_TILT_MOTOR1_LPWM, HIGH);
-  digitalWrite(HEAD_TILT_MOTOR1_RPWM, HIGH);
-  digitalWrite(HEAD_TILT_MOTOR2_EN, HIGH);
-  digitalWrite(HEAD_TILT_MOTOR2_LPWM, HIGH);
-  digitalWrite(HEAD_TILT_MOTOR2_RPWM, HIGH);
 
   delay(STARTUP_DELAY);
 }
