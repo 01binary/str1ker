@@ -27,14 +27,9 @@
 class PowerController
 {
 public:
-  static constexpr unsigned long UPDATE_INTERVAL_MS = 100;
-
-  // 24V LiFePO4 packs are typically 8 cells in series.
-  static constexpr uint8_t BATTERY_SERIES_CELLS = 8;
-  static constexpr float LIFEPO4_CELL_FULL_VOLTS = 3.65f;
-  static constexpr float LIFEPO4_CELL_EMPTY_VOLTS = 2.80f;
-  static constexpr float BATTERY_FULL_VOLTS = LIFEPO4_CELL_FULL_VOLTS * float(BATTERY_SERIES_CELLS);
-  static constexpr float BATTERY_EMPTY_VOLTS = LIFEPO4_CELL_EMPTY_VOLTS * float(BATTERY_SERIES_CELLS);
+  static constexpr unsigned long UPDATE_INTERVAL = 100;
+  static constexpr float BATTERY_FULL_VOLTS = 29.2f;
+  static constexpr float BATTERY_EMPTY_VOLTS = 20.0f;
   static constexpr float CHARGE_SMOOTHING_ALPHA = 0.15f;
 
 public:
@@ -68,7 +63,7 @@ public:
   {
     unsigned long now = millis();
 
-    if (lastUpdateMs != 0 && now - lastUpdateMs < UPDATE_INTERVAL_MS)
+    if (lastUpdateMs != 0 && now - lastUpdateMs < UPDATE_INTERVAL)
     {
       return;
     }
