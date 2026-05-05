@@ -6,7 +6,7 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
- body.ino
+ main.ino
  Main Robot Board Firmware
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
@@ -25,7 +25,6 @@
 
 const int STARTUP_DELAY = 1000;
 const int I2C_FREQUENCY = 400000;
-const unsigned long POWER_DISPLAY_UPDATE_INTERVAL = 100;
 
 const int BUS_CURRENT_SENSOR_PIN = A0;
 
@@ -89,7 +88,6 @@ const int SHIFT_REGISTER_OUTPUT_COUNT = 16;
 void initializeSerial();
 void initializeADC();
 void initializeI2C();
-void updatePowerDisplay();
 void writeRegister(int id, bool value);
 
 /*----------------------------------------------------------*\
@@ -113,6 +111,12 @@ VoltageCurrentSensor busVoltageCurrentSensor;
 ShiftRegister<SHIFT_REGISTER_COUNT> statusLeds;
 Meter batteryLevelMeter;
 PowerDisplay powerDisplay;
+PowerController powerController(
+  busCurrentSensor,
+  busVoltageCurrentSensor,
+  batteryLevelMeter,
+  powerDisplay
+);
 
 /*----------------------------------------------------------*\
 | Entry Points
@@ -199,43 +203,24 @@ void setup()
     SHIFT_REGISTER_DATA_PIN,
     SHIFT_REGISTER_CLOCK_PIN,
     SHIFT_REGISTER_LATCH_PIN,
-    SHIFT_REGISTER_OUTPUT_COUNT,
-    HIGH
+    SHIFT_REGISTER_OUTPUT_COUNT
   );
 
   batteryLevelMeter.initialize(
     BATTERY_METER_LEVELS,
     BATTERY_METER_REGISTERS,
-    writeRegister
+    writeRegister,
+    true
   );
-
   powerDisplay.initialize();
-  
-  //
-  // Testing
-  //
 
-  digitalWrite(HEAD_PAN_ENABLE, HIGH);
-  digitalWrite(HEAD_PAN_STEP, HIGH);
-  digitalWrite(HEAD_PAN_DIR, HIGH);
-
-  digitalWrite(TORSO_PAN_ENABLE, HIGH);
-  digitalWrite(TORSO_PAN_DIR, HIGH);
-  digitalWrite(TORSO_PAN_PWM, HIGH);
-
-  digitalWrite(HEAD_TILT_MOTOR1_EN, HIGH);
-  digitalWrite(HEAD_TILT_MOTOR1_LPWM, HIGH);
-  digitalWrite(HEAD_TILT_MOTOR1_RPWM, HIGH);
-  digitalWrite(HEAD_TILT_MOTOR2_EN, HIGH);
-  digitalWrite(HEAD_TILT_MOTOR2_LPWM, HIGH);
-  digitalWrite(HEAD_TILT_MOTOR2_RPWM, HIGH);
 
   delay(STARTUP_DELAY);
 }
 
 void loop()
 {
-  updatePowerDisplay();
+  powerController.update();
 }
 
 /*----------------------------------------------------------*\
@@ -259,24 +244,6 @@ void initializeSerial()
   Serial.begin(115200);
   while (!Serial && millis() < 2000);
   Serial.write("setup starting");
-}
-
-void updatePowerDisplay()
-{
-  static unsigned long lastUpdate = 0;
-  unsigned long now = millis();
-
-  if (lastUpdate != 0 && now - lastUpdate < POWER_DISPLAY_UPDATE_INTERVAL)
-  {
-    return;
-  }
-
-  lastUpdate = now;
-
-  float voltage = busVoltageCurrentSensor.readVoltage();
-  float current = busVoltageCurrentSensor.readCurrent();
-
-  powerDisplay.update(voltage, current);
 }
 
 void writeRegister(int id, bool value)

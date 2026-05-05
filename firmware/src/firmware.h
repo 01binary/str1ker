@@ -12,3 +12,4 @@
 #include "shiftRegister.h"
 #include "meter.h"
 #include "powerDisplay.h"
+#include "powerController.h"

@@ -129,6 +129,8 @@ public:
       return;
     }
 
+    velocity = command;
+
     float speed = constrain(abs(command), 0.0f, 1.0f);
     int direction = command >= 0.0f ? 1 : -1;
 
@@ -151,13 +153,8 @@ public:
       }
     }
 
-    float limitedSpeed = float(pwm) / float(PWM_MAX);
-    float nextVelocity = direction * limitedSpeed;
-
     digitalWrite(directionPin, direction > 0 ? HIGH : LOW);
     analogWrite(torquePin, pwm);
-
-    velocity = nextVelocity;
   }
 
   void debug(ros::NodeHandle& node, const char* group)
