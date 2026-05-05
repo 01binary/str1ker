@@ -12368,7 +12368,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "150R"
+		(property "Value" "470R"
 			(at 496.57 334.01 90)
 			(effects
 				(font
@@ -12378,7 +12378,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor150:RESC1607X60N"
+		(property "Footprint" "Resistor470:RC0603FR-07470RL"
 			(at 471.424 341.884 90)
 			(effects
 				(font
@@ -12405,7 +12405,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C114608"
+		(property "LCSC" "C114669"
 			(at 471.17 336.55 0)
 			(effects
 				(font
@@ -14192,18 +14192,20 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
-		(property "Value" "150R"
+		(property "Value" "470R"
 			(at 478.79 360.68 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor150:RESC1607X60N"
+		(property "Footprint" "Resistor470:RC0603FR-07470RL"
 			(at 471.424 357.124 90)
 			(effects
 				(font
@@ -14230,7 +14232,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C114608"
+		(property "LCSC" "C114669"
 			(at 471.17 351.79 0)
 			(effects
 				(font
@@ -14414,7 +14416,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "150R"
+		(property "Value" "470R"
 			(at 496.57 356.87 90)
 			(effects
 				(font
@@ -14424,7 +14426,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor150:RESC1607X60N"
+		(property "Footprint" "Resistor470:RC0603FR-07470RL"
 			(at 471.424 349.504 90)
 			(effects
 				(font
@@ -14451,7 +14453,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C114608"
+		(property "LCSC" "C114669"
 			(at 471.17 344.17 0)
 			(effects
 				(font
@@ -16605,7 +16607,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "150R"
+		(property "Value" "470R"
 			(at 481.33 328.93 90)
 			(effects
 				(font
@@ -16615,7 +16617,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor150:RESC1607X60N"
+		(property "Footprint" "Resistor470:RC0603FR-07470RL"
 			(at 471.424 336.804 90)
 			(effects
 				(font
@@ -16642,7 +16644,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C114608"
+		(property "LCSC" "C114669"
 			(at 471.17 331.47 0)
 			(effects
 				(font
@@ -25701,7 +25703,7 @@
 		(dnp no)
 		(uuid "922a8941-4ecf-4070-9f94-bc4473fd689d")
 		(property "Reference" "R98"
-			(at 477.52 332.74 90)
+			(at 472.44 331.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25709,8 +25711,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "150R"
-			(at 477.52 330.2 90)
+		(property "Value" "470R"
+			(at 472.44 328.93 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -25718,7 +25720,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor150:RESC1607X60N"
+		(property "Footprint" "Resistor470:RC0603FR-07470RL"
 			(at 471.424 334.264 90)
 			(effects
 				(font
@@ -25745,7 +25747,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C114608"
+		(property "LCSC" "C114669"
 			(at 471.17 328.93 0)
 			(effects
 				(font
@@ -29194,7 +29196,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "150R"
+		(property "Value" "470R"
 			(at 481.33 361.95 90)
 			(effects
 				(font
@@ -29204,7 +29206,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor150:RESC1607X60N"
+		(property "Footprint" "Resistor470:RC0603FR-07470RL"
 			(at 471.424 354.584 90)
 			(effects
 				(font
@@ -29231,7 +29233,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C114608"
+		(property "LCSC" "C114669"
 			(at 471.17 349.25 0)
 			(effects
 				(font
@@ -29658,7 +29660,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "150R"
+		(property "Value" "470R"
 			(at 504.19 354.33 90)
 			(effects
 				(font
@@ -29668,7 +29670,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor150:RESC1607X60N"
+		(property "Footprint" "Resistor470:RC0603FR-07470RL"
 			(at 471.424 346.964 90)
 			(effects
 				(font
@@ -29695,7 +29697,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C114608"
+		(property "LCSC" "C114669"
 			(at 471.17 341.63 0)
 			(effects
 				(font
@@ -30566,7 +30568,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "150R"
+		(property "Value" "470R"
 			(at 488.95 331.47 90)
 			(effects
 				(font
@@ -30576,7 +30578,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor150:RESC1607X60N"
+		(property "Footprint" "Resistor470:RC0603FR-07470RL"
 			(at 471.424 339.344 90)
 			(effects
 				(font
@@ -30603,7 +30605,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C114608"
+		(property "LCSC" "C114669"
 			(at 471.17 334.01 0)
 			(effects
 				(font
@@ -32552,7 +32554,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "150R"
+		(property "Value" "470R"
 			(at 504.19 336.55 90)
 			(effects
 				(font
@@ -32562,7 +32564,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor150:RESC1607X60N"
+		(property "Footprint" "Resistor470:RC0603FR-07470RL"
 			(at 471.424 344.424 90)
 			(effects
 				(font
@@ -32589,7 +32591,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C114608"
+		(property "LCSC" "C114669"
 			(at 471.17 339.09 0)
 			(effects
 				(font
@@ -32696,7 +32698,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "150R"
+		(property "Value" "470R"
 			(at 488.95 359.41 90)
 			(effects
 				(font
@@ -32706,7 +32708,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Resistor150:RESC1607X60N"
+		(property "Footprint" "Resistor470:RC0603FR-07470RL"
 			(at 471.424 352.044 90)
 			(effects
 				(font
@@ -32733,7 +32735,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C114608"
+		(property "LCSC" "C114669"
 			(at 471.17 346.71 0)
 			(effects
 				(font
