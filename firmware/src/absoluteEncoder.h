@@ -113,7 +113,8 @@ public:
     initialized(false),
     valid(false),
     statusWriter(nullptr),
-    settings(1e6, MSBFIRST, SPI_MODE0)
+    // AS5045 shifts data on rising edges, so the master must sample on falling edges.
+    settings(1e6, MSBFIRST, SPI_MODE1)
   {
   }
 

@@ -28,7 +28,11 @@ The following components are used:
 |`D11`| OLED Display `MOSI`
 |`D0` | OLED Display `CS`
 |`D1` | OLED Display Reset
-|?|Seguins
+|`D2` | LED 1
+|`D3` | LED 2
+|`D4` | LED 3
+|`D5` | LED 4
+|`D6` | LED 5
 
 ## Bill of Materials
 
@@ -38,4 +42,4 @@ The following components are used:
 |[CL10A106KP8NNNC](https://www.digikey.com/en/products/detail/samsung-electro-mechanics/cl10a106kp8nnnc/3886850)|Voltage Bias Capacitor `10uF`
 |[0603WAF2001T5E](https://www.lcsc.com/product-detail/C22975.html)|Pull-Down Resistor `2K`
 |[RCG06031K00FKEA](https://www.digikey.com/en/products/detail/vishay-dale/rcg06031k00fkea/4172389)|Current-Limiting Resistor `1K`
-|[]()|Audio Jack 3.5mm Stereo
+|[54-00174](https://www.digikey.com/en/products/detail/tensility-international-corp/54-00174/12140150)|Audio Jack 3.5mm TRRS (2 Stereo channels and Microphone mono channel which is unused)

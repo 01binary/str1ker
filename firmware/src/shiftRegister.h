@@ -52,8 +52,7 @@ public:
     uint8_t dataPin,
     uint8_t clockPin,
     uint8_t latchPin,
-    uint8_t outputsCount,
-    int defaultValue = LOW)
+    uint8_t outputsCount)
   {
     if (output != nullptr)
     {
@@ -74,11 +73,6 @@ public:
     if (output == nullptr)
     {
       return;
-    }
-
-    for (uint8_t i = 0; i < outputCount; i++)
-    {
-      output->set(i, defaultValue);
     }
 
     initialized = true;

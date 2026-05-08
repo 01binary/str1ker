@@ -1,6 +1,6 @@
 # Arm Motor Control Board
 
-![board](./Graphics/Board3D.png)
+![board](./Graphics/arm-board.png)
 
 ## Hardware
 

@@ -135,23 +135,11 @@ void setup()
   initializeImu();
   initializeLegs();
   initializeEncoders();
-
-  //frontLeft->enable();
-  //frontLeft->wheelCommand = 1.0;
-
-  //frontRight->enable();
-  //frontRight->wheelCommand = -1.0;
-
-  rearLeft.enable();
-  //rearLeft.wheelCommand = 1.0;
-
-  rearRight.enable();
-  //rearRight.wheelCommand = 1.0;
 }
 
 void loop()
 {
-  /*static uint32_t lastUpdate = 0;
+  static uint32_t lastUpdate = 0;
   static uint32_t lastReport = 0;
 
   uint32_t now = millis();
@@ -190,9 +178,9 @@ void loop()
 
   if ((now - lastReport) >= reportPeriod)
   {
-    // TODO: publish report
+    reportImu();
     lastReport = now;
-  }*/
+  }
 }
 
 /*----------------------------------------------------------*\

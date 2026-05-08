@@ -34,13 +34,15 @@ public:
   int* levelIds;
   float level;
   StatusWriter statusWriter;
+  bool activeLow;
 
 public:
   Meter():
     levelCount(0),
     levelIds(nullptr),
     level(0.0f),
-    statusWriter(nullptr)
+    statusWriter(nullptr),
+    activeLow(false)
   {
   }
 
@@ -57,7 +59,8 @@ public:
   void initialize(
     uint8_t levels,
     const int* ids,
-    StatusWriter onStatusWrite = nullptr)
+    StatusWriter onStatusWrite = nullptr,
+    bool useActiveLow = false)
   {
     if (levelIds != nullptr)
     {
@@ -68,6 +71,7 @@ public:
     levelCount = levels;
     statusWriter = onStatusWrite;
     level = 0.0f;
+    activeLow = useActiveLow;
     levelIds = new int[levelCount];
 
     for (uint8_t i = 0; i < levelCount; i++)
@@ -113,12 +117,14 @@ public:
 private:
   void writeLevel(int id, bool enabled)
   {
+    bool levelValue = activeLow ? !enabled : enabled;
+
     if (statusWriter != nullptr)
     {
-      statusWriter(id, enabled);
+      statusWriter(id, levelValue);
       return;
     }
 
-    digitalWrite(id, enabled ? HIGH : LOW);
+    digitalWrite(id, levelValue ? HIGH : LOW);
   }
 };
