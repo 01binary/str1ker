@@ -1,210 +1,345 @@
-#include <Wire.h>
+/*
+                                                                                     ███████
+ ████████████  ████████████   ████████████       █  █████████████  █           █  ███       ███  ████████████
+█              █ █           █            █    █ █  █              █        ███      ███████    █            █
+ ████████████  █   █         █████████████   █   █   █             █   █████      ███       ███ █████████████
+             █ █     █       █            █      █    █            ████      █                  █            █
+ ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
+                                                                                     ███████
+ audio.ino
+ Audio Face Board Firmware
+ Copyright (C) 2026 Valeriy Novytskyy
+ This software is licensed under GNU GPLv3
+*/
+
+/*----------------------------------------------------------*\
+| Includes
+\*----------------------------------------------------------*/
+
+#include <Arduino.h>
 #include <SPI.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1305.h>
+#include <U8g2lib.h>
 
-// Place splash.h into Adafruit_SSD1305 folder on your machine to replace Adafruit logo
-#include "splash.h"
+/*----------------------------------------------------------*\
+| Constants
+\*----------------------------------------------------------*/
 
-/*
-  SSD1305 pins (left to right)
+const int SERIAL_BAUD = 115200;       // USB serial console rate
+const int STARTUP_DELAY = 250;        // Small boot delay before first redraw
+const int OLED_CS_PIN = 0;            // SSD1309 chip select
+const int OLED_RESET_PIN = 1;         // SSD1309 reset
+const int OLED_SPI_CLOCK_HZ = 1000000;
+const int OLED_FLIP_MODE = 1;         // Try the alternate COM scan direction
+const int LED_PINS[] = {2, 3, 4, 5, 6};
+const int LED_COUNT = sizeof(LED_PINS) / sizeof(LED_PINS[0]);
+const int AUDIO_PIN = A0;             // Audio input after onboard bias divider
+const int OLED_DC_PIN = 12;           // SSD1309 data/command
 
-  Screen    Arduino                 ItsyBitsy 3u4   Definition
- 
-  [1] GND   GND                     GND             Ground
-  [2] 3V3   3V3                     3V3             Power
-  
-  [4] DC    [8] Digital (shifted)   [8] Digital     OLED_DC
-  [7] SCLK  [13] SCLK (shifted)     SCLK            Hardware Clock Pin
-  [8] DIN   [11] MOSI (shifted)     MOSI            Hardware MOSI Pin
-  [15] CS   [10] CS (shifted)       [6] CS          OLED_CS
-  [16] RST  [9] Digital (shifted)   [9] Digital     Reset Pin
+const int ADC_BITS = 12;              // Teensy ADC resolution
+const int ADC_MAX = (1 << ADC_BITS) - 1;
+const int ADC_BIAS = ADC_MAX / 2;
+const int SIGNAL_THRESHOLD = -180;    // Rough gate for "no signal"
+const int DISPLAY_WIDTH = 128;
+const int DISPLAY_HEIGHT = 64;
+const int DISPLAY_MIDLINE = DISPLAY_HEIGHT / 2;
+const int ANTIALIAS_FACTOR = 2;       // Horizontal oversampling for smoother lines
+const int SAMPLE_COUNT = DISPLAY_WIDTH * ANTIALIAS_FACTOR;
+const int RANGE_AVERAGE_COUNT = 32;   // Moving average window for min/max tracking
+const float RANGE_RELAX_FACTOR = 0.1f;
+const int DRAW_DELAY_MS = 25;         // Prevents redraw flicker
+const int LED_LEVEL_SMOOTHING = 3;    // Heavier smoothing => calmer level meter
+const int LED_LEVEL_FLOOR = 24;       // Ignore low-level noise for bar graph
+const int LED_LEVEL_CEILING = 180;    // Lower ceiling makes the meter more lively
 
-  For 5V boards like Arduino Uno, everything goes through 5V to 3.3V level shifter
- 
-*/
+/*----------------------------------------------------------*\
+| Forward Declarations
+\*----------------------------------------------------------*/
 
-/*
-  When audio source is Left or Right audio channel from a bluetooth board such as Sunrom M28,
-  the Analog Ground of the bluetooth board has to be connected to Arduino/Itsy Bitsy ground.
-  In general, controller must always have common ground with audio signal or you get garbage.
-*/
+void initializeSerial();
+void initializeAdc();
+void initializePins();
+void initializeDisplay();
+void captureSample();
+void updateTrackedRange(int value, int* current, short* history, int* index, bool trackMinimum);
+void tuneRange();
+void drawFrame();
+void drawWaveform();
+void drawIdleFrame();
+void updateLevelMeter();
+int mapSample(int value);
+int computeFrameLevel();
+void writeLedChannel(int index, bool enabled);
 
-const int OLED_DC = 8;
-const int OLED_CS = 10;
-const int OLED_RESET = 9;
-const int AUDIO = A2;
+/*----------------------------------------------------------*\
+| Variables
+\*----------------------------------------------------------*/
 
-const int MIN = 0;
-const int MAX = 1024;
-const int BIAS = 512;
-// Signal level for "no signal"
-//const int THRESHOLD = -50;  // Uncomment if audio source is computer audio jack
-const int THRESHOLD = -60;  // Uncomment if audio source is bluetooth
-const int WIDTH = 128;
-// Anti-alias smoothing multiplier
-const int ALIAS = 2;
-const int SAMPLES = WIDTH * ALIAS;
-const int HEIGHT = 32;
-const int HALF = HEIGHT / 2;
-// Sample average count
-const int AVG_COUNT = 32;
-const double AVG_MUL = 0.1;
-const int DRAW_DELAY = 50;
+U8G2_SSD1309_128X64_NONAME0_1_4W_HW_SPI display(U8G2_R0, OLED_CS_PIN, OLED_DC_PIN, OLED_RESET_PIN);
+short audioSamples[SAMPLE_COUNT] = {0};
+short minHistory[RANGE_AVERAGE_COUNT] = {0};
+short maxHistory[RANGE_AVERAGE_COUNT] = {0};
+int sampleIndex = 0;
+int minHistoryIndex = 0;
+int maxHistoryIndex = 0;
+int trackedMin = ADC_MAX;
+int trackedMax = -ADC_MAX;
+int smoothedLevel = 0;
 
-// Using hardware SPI
-Adafruit_SSD1305 display(WIDTH, HEIGHT, &SPI, OLED_DC, OLED_RESET, OLED_CS, 7000000UL);
+/*----------------------------------------------------------*\
+| Entry Points
+\*----------------------------------------------------------*/
 
-short aud[SAMPLES] = {0};
-int sample = 0;
-
-int minCur = MAX;
-short minAvg[AVG_COUNT] = {0};
-int minSample = 0;
-
-int maxCur = MIN;
-short maxAvg[AVG_COUNT] = {0};
-int maxSample = 0;
-
-void setup() {
-  pinMode(AUDIO, INPUT);
-
-  initDisplay();
-}
-
-void loop() {
-  int value = analogRead(AUDIO) - BIAS;
- 
-  aud[sample++] = value;
-
-  averageRange(value, &minCur, minAvg, &minSample, true);
-  averageRange(value, &maxCur, maxAvg, &maxSample, false);
- 
-  if (sample >= SAMPLES)
-  {
-    sample = 0;
-
-    tuneRange();
- 
-    draw();
-  }
-}
-
-int averageRange(int value, int* current, short* samples, int* sample, bool minOrMax)
+void setup()
 {
-  if ((minOrMax && value < *current) || (!minOrMax && value > *current))
-    *current = value;
+  initializeSerial();
+  initializeAdc();
+  initializePins();
+  initializeDisplay();
 
-  samples[*sample] = *current;
-  *sample = *sample + 1;
+  delay(STARTUP_DELAY);
+}
 
-  if (*sample >= AVG_COUNT)
+void loop()
+{
+  captureSample();
+
+  if (sampleIndex < SAMPLE_COUNT)
   {
-    int sum = 0;
-   
-    for (int n = 0; n < AVG_COUNT; ++n)
-    {
-      sum += samples[n];
-    }
-
-    *current = sum / AVG_COUNT;
-    *sample = 0;
+    return;
   }
+
+  sampleIndex = 0;
+  tuneRange();
+  drawFrame();
+}
+
+/*----------------------------------------------------------*\
+| Functions
+\*----------------------------------------------------------*/
+
+void initializeSerial()
+{
+  Serial.begin(SERIAL_BAUD);
+
+  while (!Serial && millis() < 2000)
+  {
+    delay(10);
+  }
+}
+
+void initializeAdc()
+{
+  analogReadResolution(ADC_BITS);
+  analogReadAveraging(8);
+  pinMode(AUDIO_PIN, INPUT);
+}
+
+void initializePins()
+{
+  for (int led = 0; led < LED_COUNT; ++led)
+  {
+    pinMode(LED_PINS[led], OUTPUT);
+    writeLedChannel(led, false);
+  }
+}
+
+void initializeDisplay()
+{
+  display.setBusClock(OLED_SPI_CLOCK_HZ);
+  display.begin();
+  display.setContrast(255);
+  display.setFlipMode(OLED_FLIP_MODE);
+
+  drawIdleFrame();
+
+  Serial.println("audio display ready");
+}
+
+void captureSample()
+{
+  int value = analogRead(AUDIO_PIN) - ADC_BIAS;
+
+  audioSamples[sampleIndex++] = value;
+  updateTrackedRange(value, &trackedMin, minHistory, &minHistoryIndex, true);
+  updateTrackedRange(value, &trackedMax, maxHistory, &maxHistoryIndex, false);
+}
+
+void updateTrackedRange(int value, int* current, short* history, int* index, bool trackMinimum)
+{
+  if ((trackMinimum && value < *current) || (!trackMinimum && value > *current))
+  {
+    *current = value;
+  }
+
+  history[*index] = *current;
+  *index += 1;
+
+  if (*index < RANGE_AVERAGE_COUNT)
+  {
+    return;
+  }
+
+  int sum = 0;
+
+  for (int n = 0; n < RANGE_AVERAGE_COUNT; ++n)
+  {
+    sum += history[n];
+  }
+
+  *current = sum / RANGE_AVERAGE_COUNT;
+  *index = 0;
 }
 
 void tuneRange()
 {
-  int localMin = MAX;
-  int localMax = MIN;
- 
-  for (int n = 0; n < SAMPLES; ++n)
+  int localMin = ADC_MAX;
+  int localMax = -ADC_MAX;
+
+  for (int n = 0; n < SAMPLE_COUNT; ++n)
   {
-    if (aud[n] < localMin)
-      localMin = aud[n];
-    else if (aud[n] > localMax)
-      localMax = aud[n];
+    if (audioSamples[n] < localMin)
+    {
+      localMin = audioSamples[n];
+    }
+
+    if (audioSamples[n] > localMax)
+    {
+      localMax = audioSamples[n];
+    }
   }
 
-  if (localMin > minCur)
+  if (localMin > trackedMin)
   {
-    minCur += ceil((localMin - minCur) * AVG_MUL);
+    trackedMin += int(ceilf((localMin - trackedMin) * RANGE_RELAX_FACTOR));
   }
 
-  if (localMax < maxCur)
+  if (localMax < trackedMax)
   {
-    maxCur -= ceil((maxCur - localMax) * AVG_MUL);
+    trackedMax -= int(ceilf((trackedMax - localMax) * RANGE_RELAX_FACTOR));
+  }
+
+  if (trackedMax <= trackedMin)
+  {
+    trackedMin = localMin;
+    trackedMax = localMax + 1;
   }
 }
 
-void draw()
+void drawFrame()
 {
-  if (minCur < THRESHOLD) {
-    // Prevents from drawing too fast, which can look ugly and flickery
-    if (DRAW_DELAY) delay(DRAW_DELAY);
+  if (trackedMin >= SIGNAL_THRESHOLD)
+  {
+    drawIdleFrame();
 
-    display.clearDisplay();
-  
-    int lastx = 0;
-    int lasty = mapSample(aud[0]);
-    int smoothy = lasty;
-   
-    for (int x = 0; x < WIDTH; ++x)
+    for (int led = 0; led < LED_COUNT; ++led)
+    {
+      writeLedChannel(led, false);
+    }
+
+    return;
+  }
+
+  if (DRAW_DELAY_MS > 0)
+  {
+    delay(DRAW_DELAY_MS);
+  }
+
+  updateLevelMeter();
+  drawWaveform();
+}
+
+void drawWaveform()
+{
+  display.firstPage();
+
+  do
+  {
+    int lastX = 0;
+    int lastY = mapSample(audioSamples[0]);
+    int smoothY = lastY;
+
+    for (int x = 0; x < DISPLAY_WIDTH; ++x)
     {
       int sum = 0;
-     
-      for (int oversample = 0; oversample < ALIAS; ++oversample)
+
+      for (int oversample = 0; oversample < ANTIALIAS_FACTOR; ++oversample)
       {
-        sum += aud[x];
+        int index = (x * ANTIALIAS_FACTOR) + oversample;
+        sum += audioSamples[index];
       }
-  
-      int y = (mapSample(sum / ALIAS) + lasty + smoothy) / 3;
-     
-      display.drawLine(lastx, lasty, x, y, WHITE);
-  
-      smoothy = lasty;
-      lasty = y;
-      lastx = x;
+
+      int y = (mapSample(sum / ANTIALIAS_FACTOR) + lastY + smoothY) / 3;
+      display.drawLine(lastX, lastY, x, y);
+
+      smoothY = lastY;
+      lastY = y;
+      lastX = x;
     }
-  
-    display.display();
-  } else {
-    // When "no signal", present the logo
-    drawSplash();
+  }
+  while (display.nextPage());
+}
+
+void drawIdleFrame()
+{
+  display.firstPage();
+
+  do
+  {
+    display.drawFrame(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    display.drawHLine(0, DISPLAY_HEIGHT / 4, DISPLAY_WIDTH);
+    display.drawHLine(0, DISPLAY_MIDLINE, DISPLAY_WIDTH);
+    display.drawHLine(0, (DISPLAY_HEIGHT * 3) / 4, DISPLAY_WIDTH);
+    display.drawVLine(DISPLAY_WIDTH / 2, 0, DISPLAY_HEIGHT);
+  }
+  while (display.nextPage());
+}
+
+void updateLevelMeter()
+{
+  int frameLevel = computeFrameLevel();
+  smoothedLevel = ((smoothedLevel * LED_LEVEL_SMOOTHING) + frameLevel) / (LED_LEVEL_SMOOTHING + 1);
+  int litChannels = map(
+    constrain(smoothedLevel, LED_LEVEL_FLOOR, LED_LEVEL_CEILING),
+    LED_LEVEL_FLOOR,
+    LED_LEVEL_CEILING,
+    0,
+    LED_COUNT
+  );
+  litChannels = constrain(litChannels, 0, LED_COUNT);
+
+  for (int led = 0; led < LED_COUNT; ++led)
+  {
+    writeLedChannel(led, led < litChannels);
   }
 }
 
-inline int mapSample(int value)
+int mapSample(int value)
 {
-  return max(map(value, minCur, maxCur, HEIGHT - 1, 0), 0);
-}
-
-void initDisplay()
-{
-  Serial.begin(9600);
-
-  if (!display.begin(0x3C) ) {
-     Serial.println("Unable to initialize OLED");
-     while (1) yield();
+  if (trackedMax <= trackedMin)
+  {
+    return DISPLAY_MIDLINE;
   }
 
-  display.display();
-  delay(1000);
-  display.clearDisplay();
-
-  Serial.println("Initialized");
+  return constrain(
+    map(value, trackedMin, trackedMax, DISPLAY_HEIGHT - 1, 0),
+    0,
+    DISPLAY_HEIGHT - 1
+  );
 }
 
-void drawSplash()
+int computeFrameLevel()
 {
-  display.clearDisplay();
-    
-  display.drawBitmap(
-    (WIDTH - splash2_width) / 2,
-    (HEIGHT - splash2_height) / 2,
-    splash2_data,
-    splash2_width,
-    splash2_height,
-    1);
-    
-  display.display();
+  long sum = 0;
+
+  for (int n = 0; n < SAMPLE_COUNT; ++n)
+  {
+    sum += abs(audioSamples[n]);
+  }
+
+  return int(sum / SAMPLE_COUNT);
+}
+
+void writeLedChannel(int index, bool enabled)
+{
+  digitalWrite(LED_PINS[index], enabled ? LOW : HIGH);
 }
