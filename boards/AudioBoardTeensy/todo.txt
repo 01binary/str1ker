@@ -1,0 +1,1 @@
+Swap AUDIO and GND on schematic and board
