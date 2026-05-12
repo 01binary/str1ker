@@ -24,29 +24,34 @@
 | Constants
 \*----------------------------------------------------------*/
 
-const int SERIAL_BAUD = 115200;       // USB serial console rate
-const int STARTUP_DELAY = 250;        // Small boot delay before first redraw
 const int OLED_CS_PIN = 0;            // SSD1309 chip select
 const int OLED_RESET_PIN = 1;         // SSD1309 reset
-const int OLED_SPI_CLOCK_HZ = 1000000;
-const int OLED_FLIP_MODE = 1;         // Try the alternate COM scan direction
+const int OLED_DC_PIN = 12;           // SSD1309 data/command
+const int OLED_CLOCK_PIN = 13;        // SSD1309 clock
+const int OLED_MOSI_PIN = 11;         // SSD1309 MOSI
+const int AUDIO_PIN = A0;             // Audio input after onboard bias divider
+
 const int LED_PINS[] = {2, 3, 4, 5, 6};
 const int LED_COUNT = sizeof(LED_PINS) / sizeof(LED_PINS[0]);
-const int AUDIO_PIN = A0;             // Audio input after onboard bias divider
-const int OLED_DC_PIN = 12;           // SSD1309 data/command
 
 const int ADC_BITS = 12;              // Teensy ADC resolution
 const int ADC_MAX = (1 << ADC_BITS) - 1;
 const int ADC_BIAS = ADC_MAX / 2;
-const int SIGNAL_THRESHOLD = -180;    // Rough gate for "no signal"
+
+const int SERIAL_BAUD = 115200;       // USB serial console rate
+const int STARTUP_DELAY = 250;        // Small boot delay before first redraw
+
 const int DISPLAY_WIDTH = 128;
 const int DISPLAY_HEIGHT = 64;
 const int DISPLAY_MIDLINE = DISPLAY_HEIGHT / 2;
 const int ANTIALIAS_FACTOR = 2;       // Horizontal oversampling for smoother lines
+const int SIGNAL_THRESHOLD = -180;    // Rough gate for "no signal"
 const int SAMPLE_COUNT = DISPLAY_WIDTH * ANTIALIAS_FACTOR;
 const int RANGE_AVERAGE_COUNT = 32;   // Moving average window for min/max tracking
 const float RANGE_RELAX_FACTOR = 0.1f;
+const int MIN_SIGNAL_SPAN = 48;       // Prevent tiny spans from collapsing the waveform
 const int DRAW_DELAY_MS = 25;         // Prevents redraw flicker
+
 const int LED_LEVEL_SMOOTHING = 3;    // Heavier smoothing => calmer level meter
 const int LED_LEVEL_FLOOR = 24;       // Ignore low-level noise for bar graph
 const int LED_LEVEL_CEILING = 180;    // Lower ceiling makes the meter more lively
@@ -66,6 +71,7 @@ void drawFrame();
 void drawWaveform();
 void drawIdleFrame();
 void updateLevelMeter();
+int readBucket(int x);
 int mapSample(int value);
 int computeFrameLevel();
 void writeLedChannel(int index, bool enabled);
@@ -74,7 +80,14 @@ void writeLedChannel(int index, bool enabled);
 | Variables
 \*----------------------------------------------------------*/
 
-U8G2_SSD1309_128X64_NONAME0_1_4W_HW_SPI display(U8G2_R0, OLED_CS_PIN, OLED_DC_PIN, OLED_RESET_PIN);
+U8G2_SSD1309_128X64_NONAME2_1_4W_SW_SPI display(
+  U8G2_R0,
+  OLED_CLOCK_PIN,
+  OLED_MOSI_PIN,
+  OLED_CS_PIN,
+  OLED_DC_PIN,
+  OLED_RESET_PIN
+);
 short audioSamples[SAMPLE_COUNT] = {0};
 short minHistory[RANGE_AVERAGE_COUNT] = {0};
 short maxHistory[RANGE_AVERAGE_COUNT] = {0};
@@ -145,11 +158,7 @@ void initializePins()
 
 void initializeDisplay()
 {
-  display.setBusClock(OLED_SPI_CLOCK_HZ);
   display.begin();
-  display.setContrast(255);
-  display.setFlipMode(OLED_FLIP_MODE);
-
   drawIdleFrame();
 
   Serial.println("audio display ready");
@@ -223,6 +232,11 @@ void tuneRange()
     trackedMin = localMin;
     trackedMax = localMax + 1;
   }
+
+  int span = max(abs(trackedMin), abs(trackedMax));
+  span = max(span, MIN_SIGNAL_SPAN);
+  trackedMin = -span;
+  trackedMax = span;
 }
 
 void drawFrame()
@@ -255,20 +269,12 @@ void drawWaveform()
   do
   {
     int lastX = 0;
-    int lastY = mapSample(audioSamples[0]);
+    int lastY = mapSample(readBucket(0));
     int smoothY = lastY;
 
-    for (int x = 0; x < DISPLAY_WIDTH; ++x)
+    for (int x = 1; x < DISPLAY_WIDTH; ++x)
     {
-      int sum = 0;
-
-      for (int oversample = 0; oversample < ANTIALIAS_FACTOR; ++oversample)
-      {
-        int index = (x * ANTIALIAS_FACTOR) + oversample;
-        sum += audioSamples[index];
-      }
-
-      int y = (mapSample(sum / ANTIALIAS_FACTOR) + lastY + smoothY) / 3;
+      int y = (mapSample(readBucket(x)) + lastY + smoothY) / 3;
       display.drawLine(lastX, lastY, x, y);
 
       smoothY = lastY;
@@ -279,17 +285,26 @@ void drawWaveform()
   while (display.nextPage());
 }
 
+int readBucket(int x)
+{
+  int sum = 0;
+
+  for (int oversample = 0; oversample < ANTIALIAS_FACTOR; ++oversample)
+  {
+    int index = (x * ANTIALIAS_FACTOR) + oversample;
+    sum += audioSamples[index];
+  }
+
+  return sum / ANTIALIAS_FACTOR;
+}
+
 void drawIdleFrame()
 {
   display.firstPage();
 
   do
   {
-    display.drawFrame(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-    display.drawHLine(0, DISPLAY_HEIGHT / 4, DISPLAY_WIDTH);
     display.drawHLine(0, DISPLAY_MIDLINE, DISPLAY_WIDTH);
-    display.drawHLine(0, (DISPLAY_HEIGHT * 3) / 4, DISPLAY_WIDTH);
-    display.drawVLine(DISPLAY_WIDTH / 2, 0, DISPLAY_HEIGHT);
   }
   while (display.nextPage());
 }
