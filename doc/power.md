@@ -37,4 +37,4 @@ Most of the actuators and motors are on the `12V` bus, but the large torso servo
 |[Baomain DC Analog Ammeter](https://www.amazon.com/dp/B01FAVYELY)|DC Bus `0-100A` Current Meter|
 |[Baomain AC Analog Voltmeter](https://www.amazon.com/dp/B07S376BV3)|AC Bus `0-150V` Voltage Meter|
 |[Red/Green Pilot Lights](https://www.amazon.com/dp/B0CSZ6S7LH)|AC `110V` Power Supply light, Battery Charger light|
-|[E-Stop](https://www.amazon.com/dp/B079FKJG26)|AC `10A` Emergency Stop/Reset|
+|[E-Stop](https://www.amazon.com/dp/B079FKJG26)|AC `600V` `10A` Emergency Stop/Reset|
