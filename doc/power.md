@@ -2,7 +2,7 @@
 
 ## Overview
 
-The robot runs from the battery, charging if plugged in. A circuit breaker or an E-Stop can be used to turn off the robot.
+The robot runs from the battery, charging if plugged in. A circuit breaker or an E-Stop can be used to turn off the robot while the battery is charging.
 
 ![Power System Schematic](./power-schematic.svg)
 
