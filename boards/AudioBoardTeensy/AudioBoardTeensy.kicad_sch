@@ -4459,28 +4459,6 @@
 		)
 		(uuid "f8837ba7-9120-4457-97b3-a500a4fb5c38")
 	)
-	(global_label "AUDIO"
-		(shape output)
-		(at 41.91 54.61 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "10e42793-2b0b-4ca2-87f7-acdb58ec86e1")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 50.5196 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "MOSI"
 		(shape output)
 		(at 201.93 80.01 180)
@@ -4521,6 +4499,28 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "AUDIO"
+		(shape output)
+		(at 40.64 64.77 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1cff7b26-22f0-4194-9b22-aaf99583fa02")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 49.2496 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -5400,7 +5400,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 40.64 64.77 90)
+		(at 41.91 54.61 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5409,7 +5409,7 @@
 		(fields_autoplaced yes)
 		(uuid "13cc2a0b-2c84-44eb-a524-ac6bc548e020")
 		(property "Reference" "#PWR01"
-			(at 46.99 64.77 0)
+			(at 48.26 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5418,7 +5418,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 44.45 64.7699 90)
+			(at 45.72 54.6099 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5427,7 +5427,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 40.64 64.77 0)
+			(at 41.91 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5436,7 +5436,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 40.64 64.77 0)
+			(at 41.91 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5445,7 +5445,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 40.64 64.77 0)
+			(at 41.91 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5457,7 +5457,7 @@
 			(uuid "fef1bc7d-1a68-4de8-85da-4e51a7259d9b")
 		)
 		(instances
-			(project ""
+			(project "AudioBoardTeensy"
 				(path "/eab36e20-2eac-4566-809f-58ea7d09a296"
 					(reference "#PWR01")
 					(unit 1)
