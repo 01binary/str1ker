@@ -7,6 +7,8 @@ A board that controls the mobile platform with four mecanum wheels:
 + Leg Wheels
 + Leg Wheel Encoders
 + 9-DOF IMU
++ Enabled and PWM activity LEDs
++ Wheel Speed 7-Segment LED Indicators
 
 ## Modules
 
@@ -44,6 +46,18 @@ The linear lift actuators have built-in multi-turn potentiometers. These are rou
 ### Quadrature
 
 The [wheel encoders](../LegEncoderBoard/readme.md) are connected to each of the four wheels, outputting `A`, `B`, and `I` pulses counting rotations (`1000` pulses per revolution).
+
+### Number Displays
+
+Four 7-segment LED number displays with decimal points display the speed of each wheel from `0.0` to `1.0`. They are driven by an LED multiplexer.
+
+The LED multiplexer is mapped to four 2-digit LED displays with decimal point as follows:
+
+| Display function                 | `IS31FL3730` pins |
+| -------------------------------- | --------------- |
+| Digit commons                    | `SW1–SW8`       |
+| Segments A, B, C, D, E, F, G, DP | `CS1–CS8`       |
+
 
 ## Pin Mapping
 
@@ -100,14 +114,14 @@ This board is essentially a shield, exposing convenient, labeled locking connect
 |Device|Bus|Address
 |-|-|-|
 |IMU|I2C|`0x40`|
-|LCD|I2C|`0x70`|
+|IS31FL3730|I2C|`0x74`|
 
 ## Bill of Materials
 
 |Component|Description|
 |-|-|
 |[PCA9685PW,118](https://www.digikey.com/en/products/detail/nxp-usa-inc/pca9685pw-118/2034325)|PWM Multiplexer|
-|[HT16K33A-28SSOP](https://www.lcsc.com/product-detail/C5444738.html)|LCD Multiplexer
+|[IS31FL3730](https://www.digikey.com/en/products/detail/lumissil-microsystems/IS31FL3730-QFLS2-TR/5319756)|LED Driver/Multiplexer
 |[LDD-C516RI](https://www.digikey.com/en/products/detail/lumex-opto-components-inc/LDD-C516RI/252619)|LCD Displays (2-Digit, 7-Segment, Common Cathode) for Wheel Speeds
 |[NCD0603R1](https://www.lcsc.com/product-detail/C84263.html?s_z=s_C84263)|Red LED for PWM `EN` signals|
 |[150080BS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/)|Blue LED for `LPWM`/`RPWM` signals|
@@ -116,6 +130,7 @@ This board is essentially a shield, exposing convenient, labeled locking connect
 |[RC0603FR-072K2L](https://www.digikey.com/en/products/detail/yageo/rc0603fr-072k2l/727016)|`2.2K` Series Resistor (ADC channels)|
 |[CR0603-FX-4701ELF](https://www.digikey.com/en/products/detail/bourns-inc/cr0603-fx-4701elf/3740916)|`4.7K` Pull-Up Resistor for LCD Multiplexer|
 |[CRCW060310K0FKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw060310k0fkea/1174782)|`10K` 555 Timer Pull-Up Resistor, Transistor Base Resistor|
+|[HoAR0603-1/10W-20KR-1%-TCR25](https://jlcpcb.com/partdetail/C5123585)|`20K` LED Driver Current Setting Resistor|
 |[CRCW0603100KFKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw0603100kfkea/1174896)|`100K` Transistor Base Pull-Down Resistor|
 |[RC0603FR-07360KL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07360kl/727183)|`360K` 555 Timer Resistor|
 |[C0402C103J4RACTU](https://www.digikey.com/en/products/detail/kemet/C0402C103J4RACTU/411041)|`10nF` 555 Timer Capacitor|
