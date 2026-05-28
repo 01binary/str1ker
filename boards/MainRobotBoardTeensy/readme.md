@@ -97,6 +97,43 @@ Two shift registers are used to expand Teensy I/O capabilities, adding a total o
 | `U9` | `QC` | Torso Encoder Status `TORSOENCODERST`
 | `U9` | `QD` | Head Encoder Status `HEADENCODERST`
 
+## Encoders
+
+The Lamprey 2 Absolute Encoders accept a [JST Molex PicoBlade](https://www.amazon.com/dp/B07S18D3RN) 5x2 connector with 10P ribbon cable:
+
+```
+SCK   TX    RX    A     RST
+GND   MOSI  PWM   MISO  VSS
+```
+
+|Pin|Function|
+|-|-|
+|1|`RESET`
+|2|`VSS`
+|3|`ANALOG OUT`
+|4|`MISO`
+|5|`RX`
+|6|`PWM OUT`
+|7|`TX`
+|8|`MOSI`
+|9|`SCK`
+|10|`GND`
+
+The Lamprey 2 Absolute Encoder (4 Inch) also supports a USB interface. When the device is assigned a Linux port (e.g. `ttyACM0`) the following commands can be sent:
+
+|Command|Description|
+|-|-|
+|`d`|Output in degrees (default)
+|`r`|Output in radians
+|`a`|Debug output
+|`p`|PWM output (`0`- `4095`)
+|`5`|5V analog output
+|`3`|3.3V analog output
+|`0`|Set zero point
+|`f`|Enable [Finite Impulse Response](https://wirelesspi.com/finite-impulse-response-fir-filters/) filter
+
+> Both encoders require calibration, see [Lamprey 4 inch instructions](https://andymark.com/products/lamprey2-4-inch-absolute-encoder) and [Lamprey instructions](https://s3.amazonaws.com/docusync-files/8e336754b99eaa57f816a158bf15fce1721f511b38099a9a28875963cc3a0f22/am-4179a%20Lamprey%20Encoder%20Calibration%20Instructions.pdf). 
+
 ## Bill of Materials
 
 |Component|Description|
