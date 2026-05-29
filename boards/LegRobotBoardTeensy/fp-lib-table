@@ -21,4 +21,6 @@
   (lib (name "AO3400A")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/AO3400A")(options "")(descr ""))
   (lib (name "CR0603-FX-4701ELF")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor4.7K")(options "")(descr ""))
   (lib (name "IS31FL3730-QFLS2-TR")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/LEDDriver")(options "")(descr ""))
+  (lib (name "DIP")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/DIP")(options "")(descr ""))
+  (lib (name "BNO055")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/BNO055")(options "")(descr ""))
 )
