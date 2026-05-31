@@ -212,10 +212,22 @@ void setup()
     writeRegister,
     true
   );
+
   powerDisplay.initialize();
 
-
   delay(STARTUP_DELAY);
+
+  torsoTiltMotor1.enable();
+  torsoTiltMotor1.write(0.5);
+  torsoTiltMotor2.enable();
+  torsoTiltMotor2.write(0.5);
+
+  headTiltMotor1.enable();
+  headTiltMotor1.write(1.0);
+  headTiltMotor2.enable();
+  headTiltMotor2.write(1.0);
+
+  batteryLevelMeter.write(0.5);
 }
 
 void loop()
