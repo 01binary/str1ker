@@ -1,81 +1,203 @@
-#include <Arduino.h>
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-#include <ShiftRegister74HC595.h>
+#include <Adafruit_PWMServoDriver.h>
+#include <Encoder.h>
 
+const int I2C_FREQUENCY_HZ = 400000;      // I2C bus frequency
 
-const int I2C_FREQUENCY = 400000;
+const int PCA9685_ADDRESS = 0x40;         // Default PCA9685 I2C address
+const int PCA9685_FREQUENCY_HZ = 1526;    // Near PCA9685 max, suitable for IBT2 PWM inputs
+const int LED_MUX_ADDRESS = 0x70;         // HT16K33 LED mux I2C address
 
-const int BUS_CURRENT_SENSOR_PIN = A0;
+const int FRONT_LEFT_ACTUATOR_POT = A0;   // Front-left actuator feedback pin
+const int FRONT_LEFT_WHEEL_A = 0;         // Front-left wheel encoder A
+const int FRONT_LEFT_WHEEL_B = 1;         // Front-left wheel encoder B
+const int FRONT_LEFT_WHEEL_INDEX = 22;    // Front-left wheel encoder index
+const int FRONT_LEFT_WHEEL_EN = 6;        // Front-left wheel driver enable
+const int FRONT_LEFT_WHEEL_RPWM = 0;      // Front-left wheel RPWM
+const int FRONT_LEFT_WHEEL_LPWM = 1;      // Front-left wheel LPWM
+const int FRONT_LEFT_ACTUATOR_EN = 9;     // Front-left actuator driver enable
+const int FRONT_LEFT_ACTUATOR_RPWM = 2;   // Front-left actuator RPWM
+const int FRONT_LEFT_ACTUATOR_LPWM = 3;   // Front-left actuator LPWM
 
-const int HEAD_PAN_ENABLE = 6;
-const int HEAD_PAN_STEP = 24;
-const int HEAD_PAN_DIR = 25;
-const int HEAD_PAN_ENCODER_STATUS_REGISTER = 11; // U9.QD
-const int HEAD_PAN_CS = 0;
+const int FRONT_RIGHT_ACTUATOR_POT = A1;  // Front-right actuator feedback pin
+const int FRONT_RIGHT_WHEEL_A = 2;        // Front-right wheel encoder A
+const int FRONT_RIGHT_WHEEL_B = 3;        // Front-right wheel encoder B
+const int FRONT_RIGHT_WHEEL_INDEX = 23;   // Front-right wheel encoder index
+const int FRONT_RIGHT_WHEEL_EN = 10;      // Front-right wheel driver enable
+const int FRONT_RIGHT_WHEEL_RPWM = 4;     // Front-right wheel RPWM
+const int FRONT_RIGHT_WHEEL_LPWM = 5;     // Front-right wheel LPWM
+const int FRONT_RIGHT_ACTUATOR_EN = 11;   // Front-right actuator driver enable
+const int FRONT_RIGHT_ACTUATOR_RPWM = 6;  // Front-right actuator RPWM
+const int FRONT_RIGHT_ACTUATOR_LPWM = 7;  // Front-right actuator LPWM
 
-const int TORSO_PAN_ENABLE = 7;
-const int TORSO_PAN_STATUS = 8;
-const int TORSO_PAN_DIR = 20;
-const int TORSO_PAN_PWM = 21;
-const int TORSO_PAN_ENCODER_STATUS_REGISTER = 10; // U9.QC
-const int TORSO_PAN_CS = 1;
+const int REAR_LEFT_ACTUATOR_POT = A2;    // Rear-left actuator feedback pin
+const int REAR_LEFT_WHEEL_A = 4;          // Rear-left wheel encoder A
+const int REAR_LEFT_WHEEL_B = 5;          // Rear-left wheel encoder B
+const int REAR_LEFT_WHEEL_INDEX = 24;     // Rear-left wheel encoder index
+const int REAR_LEFT_WHEEL_EN = 12;        // Rear-left wheel driver enable
+const int REAR_LEFT_WHEEL_RPWM = 8;       // Rear-left wheel RPWM
+const int REAR_LEFT_WHEEL_LPWM = 9;       // Rear-left wheel LPWM
+const int REAR_LEFT_ACTUATOR_EN = 13;     // Rear-left actuator driver enable
+const int REAR_LEFT_ACTUATOR_RPWM = 10;   // Rear-left actuator RPWM
+const int REAR_LEFT_ACTUATOR_LPWM = 11;   // Rear-left actuator LPWM
 
-const int HEAD_TILT_POTENTIOMETER = A1;
-const int HEAD_TILT_MOTOR1_EN = 27;
-const int HEAD_TILT_MOTOR1_LPWM = 2;
-const int HEAD_TILT_MOTOR1_RPWM = 3;
-const int HEAD_TILT_MOTOR2_EN = 28;
-const int HEAD_TILT_MOTOR2_LPWM = 4;
-const int HEAD_TILT_MOTOR2_RPWM = 5;
+const int REAR_RIGHT_ACTUATOR_POT = A3;   // Rear-right actuator feedback pin
+const int REAR_RIGHT_WHEEL_A = 7;         // Rear-right wheel encoder A
+const int REAR_RIGHT_WHEEL_B = 8;         // Rear-right wheel encoder B
+const int REAR_RIGHT_WHEEL_INDEX = 25;    // Rear-right wheel encoder index
+const int REAR_RIGHT_WHEEL_EN = 20;       // Rear-right wheel driver enable
+const int REAR_RIGHT_WHEEL_RPWM = 12;     // Rear-right wheel RPWM
+const int REAR_RIGHT_WHEEL_LPWM = 13;     // Rear-right wheel LPWM
+const int REAR_RIGHT_ACTUATOR_EN = 21;    // Rear-right actuator driver enable
+const int REAR_RIGHT_ACTUATOR_RPWM = 14;  // Rear-right actuator RPWM
+const int REAR_RIGHT_ACTUATOR_LPWM = 15;  // Rear-right actuator LPWM
 
-const int TORSO_TILT_POTENTIOMETER1 = A2;
-const int TORSO_TILT_POTENTIOMETER2 = A3;
-const int TORSO_TILT_MOTOR1_EN = 29;
-const int TORSO_TILT_MOTOR1_LPWM = 9;
-const int TORSO_TILT_MOTOR1_RPWM = 10;
-const int TORSO_TILT_MOTOR2_EN = 30;
-const int TORSO_TILT_MOTOR2_LPWM = 22;
-const int TORSO_TILT_MOTOR2_RPWM = 23;
+const int PWM_MAX = 4095;
+const double ADC_MAX = 4095.0;
 
-const int MOUTH_SERVO_SIG = 26;
+const int SERIAL_BAUD = 115200;
+const int REPORT_PERIOD_MS = 100;
 
-const int BATTERY_METER_LEVELS = 10;
-const int BATTERY_METER_REGISTERS[BATTERY_METER_LEVELS] =
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(PCA9685_ADDRESS, Wire);
+Encoder wheelEncoder(FRONT_RIGHT_WHEEL_A, FRONT_RIGHT_WHEEL_B);
+volatile uint32_t frontLeftIndexRevolutions = 0;
+uint16_t lcdDisplayRam[8] = {0};
+
+const uint8_t LCD_OSCILLATOR_ON = 0x21;
+const uint8_t LCD_DISPLAY_ON = 0x81;
+const uint8_t LCD_BRIGHTNESS_MAX = 0xEF;
+
+const uint8_t SEGMENT_A = 1 << 0;
+const uint8_t SEGMENT_B = 1 << 1;
+const uint8_t SEGMENT_C = 1 << 2;
+const uint8_t SEGMENT_D = 1 << 3;
+const uint8_t SEGMENT_E = 1 << 4;
+const uint8_t SEGMENT_F = 1 << 5;
+const uint8_t SEGMENT_G = 1 << 6;
+const uint8_t SEGMENT_DP = 1 << 7;
+
+const uint8_t DIGIT_ZERO_SEGMENTS = SEGMENT_A | SEGMENT_B | SEGMENT_C |
+                                    SEGMENT_D | SEGMENT_E | SEGMENT_F;
+
+void frontLeftIndexInterrupt()
 {
-  0, // U8.QA
-  1, // U8.QB
-  2, // U8.QC
-  3, // U8.QD
-  4, // U8.QE
-  5, // U8.QF
-  6, // U8.QG
-  7, // U8.QH
-  8, // U9.QA
-  9  // U9.QB
-};
+  frontLeftIndexRevolutions++;
+}
 
-const int SHIFT_REGISTER_DATA_PIN = 11;
-const int SHIFT_REGISTER_CLOCK_PIN = 13;
-const int SHIFT_REGISTER_LATCH_PIN = 31;
-const int SHIFT_REGISTER_COUNT = 2;
-const int SHIFT_REGISTER_OUTPUT_COUNT = 16;
+void writeLcdCommand(uint8_t command)
+{
+  Wire.beginTransmission(LCD_MUX_ADDRESS);
+  Wire.write(command);
+  Wire.endTransmission();
+}
+
+void writeLcdDisplayRam()
+{
+  Wire.beginTransmission(LCD_MUX_ADDRESS);
+  Wire.write(0x00);
+
+  for (uint8_t com = 0; com < 8; com++)
+  {
+    Wire.write(lcdDisplayRam[com] & 0xFF);
+    Wire.write(lcdDisplayRam[com] >> 8);
+  }
+
+  Wire.endTransmission();
+}
+
+void setWheelDisplayDigit(uint8_t com, uint8_t segments)
+{
+  lcdDisplayRam[com] = segments;
+}
+
+void initializeWheelDisplays()
+{
+  writeLcdCommand(LCD_OSCILLATOR_ON);
+  writeLcdCommand(LCD_DISPLAY_ON);
+  writeLcdCommand(LCD_BRIGHTNESS_MAX);
+
+  for (uint8_t com = 0; com < 8; com++)
+  {
+    setWheelDisplayDigit(com, DIGIT_ZERO_SEGMENTS);
+  }
+
+  writeLcdDisplayRam();
+}
 
 void setup()
 {
-    analogReadResolution(12);
-    analogReadAveraging(8);
+  analogReadResolution(12);
+  analogReadAveraging(8);
 
-    Wire.begin();
-    Wire.setClock(I2C_FREQUENCY);
+  pinMode(FRONT_LEFT_WHEEL_EN, OUTPUT);
+  pinMode(FRONT_LEFT_ACTUATOR_EN, OUTPUT);
+  pinMode(FRONT_RIGHT_WHEEL_EN, OUTPUT);
+  pinMode(FRONT_RIGHT_ACTUATOR_EN, OUTPUT);
+  pinMode(REAR_LEFT_WHEEL_EN, OUTPUT);
+  pinMode(REAR_LEFT_ACTUATOR_EN, OUTPUT);
+  pinMode(REAR_RIGHT_WHEEL_EN, OUTPUT);
+  pinMode(REAR_RIGHT_ACTUATOR_EN, OUTPUT);
 
-    pinMode(HEAD_PAN_ENABLE, OUTPUT);
-    digitalWrite(HEAD_PAN_ENABLE, HIGH);
-    digitalWrite(HEAD_PAN_ENABLE, LOW);
+  digitalWrite(FRONT_LEFT_WHEEL_EN, HIGH);
+  digitalWrite(FRONT_LEFT_ACTUATOR_EN, HIGH);
+  digitalWrite(FRONT_RIGHT_WHEEL_EN, HIGH);
+  digitalWrite(FRONT_RIGHT_ACTUATOR_EN, HIGH);
+  digitalWrite(REAR_LEFT_WHEEL_EN, HIGH);
+  digitalWrite(REAR_LEFT_ACTUATOR_EN, HIGH);
+  digitalWrite(REAR_RIGHT_WHEEL_EN, HIGH);
+  digitalWrite(REAR_RIGHT_ACTUATOR_EN, HIGH);
+
+  Wire.begin();
+  Wire.setClock(I2C_FREQUENCY_HZ);
+  initializeWheelDisplays();
+
+  pwm.begin();
+  pwm.setPWMFreq(PCA9685_FREQUENCY_HZ);
+  pwm.setPin(FRONT_LEFT_WHEEL_RPWM, PWM_MAX);
+  pwm.setPin(FRONT_LEFT_WHEEL_LPWM, PWM_MAX);
+  pwm.setPin(FRONT_LEFT_ACTUATOR_RPWM, PWM_MAX);
+  pwm.setPin(FRONT_LEFT_ACTUATOR_LPWM, PWM_MAX);
+  pwm.setPin(FRONT_RIGHT_WHEEL_RPWM, PWM_MAX);
+  pwm.setPin(FRONT_RIGHT_WHEEL_LPWM, PWM_MAX);
+  pwm.setPin(FRONT_RIGHT_ACTUATOR_RPWM, PWM_MAX);
+  pwm.setPin(FRONT_RIGHT_ACTUATOR_LPWM, PWM_MAX);
+  pwm.setPin(REAR_LEFT_WHEEL_RPWM, PWM_MAX);
+  pwm.setPin(REAR_LEFT_WHEEL_LPWM, PWM_MAX);
+  pwm.setPin(REAR_LEFT_ACTUATOR_RPWM, PWM_MAX);
+  pwm.setPin(REAR_LEFT_ACTUATOR_LPWM, PWM_MAX);
+  pwm.setPin(REAR_RIGHT_WHEEL_RPWM, PWM_MAX);
+  pwm.setPin(REAR_RIGHT_WHEEL_LPWM, PWM_MAX);
+  pwm.setPin(REAR_RIGHT_ACTUATOR_RPWM, PWM_MAX);
+  pwm.setPin(REAR_RIGHT_ACTUATOR_LPWM, PWM_MAX);
+
+  pinMode(FRONT_RIGHT_WHEEL_A, INPUT);
+  pinMode(FRONT_RIGHT_WHEEL_B, INPUT);
+  pinMode(FRONT_RIGHT_WHEEL_INDEX, INPUT);
+  wheelEncoder.write(0);
+  attachInterrupt(digitalPinToInterrupt(FRONT_RIGHT_WHEEL_INDEX), frontLeftIndexInterrupt, RISING);
+
+  Serial.begin(SERIAL_BAUD);
+  Serial.println("front_left_encoder_test");
+  Serial.println("pulses revolutions_from_index");
 }
 
 void loop()
 {
-    delay(1000);
+  static uint32_t lastReport = 0;
+
+  if ((millis() - lastReport) >= REPORT_PERIOD_MS)
+  {
+    lastReport = millis();
+
+    const int32_t pulses = wheelEncoder.read();
+
+    noInterrupts();
+    const uint32_t revolutionsFromIndex = frontLeftIndexRevolutions;
+    interrupts();
+
+    Serial.print(pulses);
+    Serial.print(" ");
+    Serial.println(revolutionsFromIndex);
+  }
+
+  delay(1000);
 }
