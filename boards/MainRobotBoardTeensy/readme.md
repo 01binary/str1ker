@@ -14,7 +14,6 @@ The following components are placed onto the board as modules:
 |Module|Function|
 |-|-|
 |[Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html)|[ROS](https://www.ros.org/) Node|
-|[INA260 Voltage Sensor](https://learn.adafruit.com/adafruit-ina260-current-voltage-power-sensor-breakout)|Bus Voltage Sensing|
 |[ACS37220 Current Sensor](https://www.pololu.com/product/5295)|Bus Current Sensing|
 |[SSD1306 OLED Display](https://www.amazon.com/dp/B00O2LKEW2)|Monochrome 0.96" 128x64 Voltage/Current/Power display|
 
@@ -32,11 +31,12 @@ The following external components are connected to the board via JST-XH locking 
 |[PerfectPass 56Kg Servo](https://www.amazon.com/dp/B09Y4NZJBJ)|Mouth Expressions|
 |[CPM-MCVC-3441S-RLN](https://teknic.com/model-info/CPM-MCVC-3441S-RLN/?model_voltage=75VDC)|Torso Pan Motor Driver
 
+The two encoders can also be connected through USB.
+
 ## Buses
 
 |Bus|Devices
 |-|-|
-| `I2C` | INA260 voltage/current sensor
 | `I2C` | SSD1306 voltage/current display
 | `SPI` | Lamprey encoders
 | `SPI` | Shift Registers for battery level LED meter
@@ -45,8 +45,8 @@ The following external components are connected to the board via JST-XH locking 
 
 |Pin|Function
 |-|-|
-| `D19` | I2C `SCL` (INA260)
-| `D18` | I2C `SDA` (INA260)
+| `D19` | I2C `SCL` (SSD1306)
+| `D18` | I2C `SDA` (SSD1306)
 | `A0`  | `ACS37220` Current Sensor `VOUT`
 | `D20` | `CPM-MCVC-3441S-RLN` Torso Motor `DIR` (A)
 | `D21` | `CPM-MCVC-3441S-RLN` Torso Motor `PWM` (B)
@@ -62,8 +62,8 @@ The following external components are connected to the board via JST-XH locking 
 | `D0`  | Lamprey head encoder `CS`
 | `D1`  | Lamprey torso encoder `CS`
 | `A1`  | Head Tilt Potentiometer `SIG`
-| `A2`  | Torso Tilt Potentiometer 1 `SIG`
-| `A3`  | Torso Tilt Potentiometer 2 `SIG`
+| `A2`  | Torso Tilt Potentiometers (Average) `SIG`
+| `A3`  | Voltage Sense `SIG`
 | `D27` | Head Tilt Motor Driver 1 `EN`
 | `D2`  | Head Tilt Motor Driver 1 `LPWM`
 | `D3`  | Head Tilt Motor Driver 1 `RPWM`
@@ -84,7 +84,7 @@ Two shift registers are used to expand Teensy I/O capabilities, adding a total o
 
 | Shift Register | Pin | Function
 |-|-|-|
-| `U8` | `QA` | Battery Level Meter `LED1`
+| `U8` | `QA` | Battery Level Meter `LED1` (Lowest Charge)
 | `U8` | `QB` | Battery Level Meter `LED2`
 | `U8` | `QC` | Battery Level Meter `LED3`
 | `U8` | `QD` | Battery Level Meter `LED4`
@@ -93,9 +93,46 @@ Two shift registers are used to expand Teensy I/O capabilities, adding a total o
 | `U8` | `QG` | Battery Level Meter `LED7`
 | `U8` | `QH` | Battery Level Meter `LED8`
 | `U9` | `QA` | Battery Level Meter `LED9`
-| `U9` | `QB` | Battery Level Meter `LED10`
+| `U9` | `QB` | Battery Level Meter `LED10` (Highest Charge)
 | `U9` | `QC` | Torso Encoder Status `TORSOENCODERST`
 | `U9` | `QD` | Head Encoder Status `HEADENCODERST`
+
+## Encoders
+
+The Lamprey 2 Absolute Encoders accept a [JST Molex PicoBlade](https://www.amazon.com/dp/B07S18D3RN) 5x2 connector with a 10-wire ribbon cable:
+
+```
+SCK   TX    RX    A     RST
+GND   MOSI  PWM   MISO  VSS
+```
+
+|Pin|Function|
+|-|-|
+|1|`RESET`
+|2|`VSS`
+|3|`ANALOG OUT`
+|4|`MISO`
+|5|`RX`
+|6|`PWM OUT`
+|7|`TX`
+|8|`MOSI`
+|9|`SCK`
+|10|`GND`
+
+The Lamprey 2 Absolute Encoder (4 Inch) also supports a USB interface. When the device is assigned a Linux port (e.g. `ttyACM0`) the following commands can be sent:
+
+|Command|Description|
+|-|-|
+|`d`|Output in degrees (default)
+|`r`|Output in radians
+|`a`|Debug output
+|`p`|PWM output (`0`- `4095`)
+|`5`|5V analog output
+|`3`|3.3V analog output
+|`0`|Set zero point
+|`f`|Enable [Finite Impulse Response](https://wirelesspi.com/finite-impulse-response-fir-filters/) filter
+
+> Both encoders require calibration, see [Lamprey 4 inch instructions](https://andymark.com/products/lamprey2-4-inch-absolute-encoder) and [Lamprey instructions](https://s3.amazonaws.com/docusync-files/8e336754b99eaa57f816a158bf15fce1721f511b38099a9a28875963cc3a0f22/am-4179a%20Lamprey%20Encoder%20Calibration%20Instructions.pdf). 
 
 ## Bill of Materials
 
@@ -109,6 +146,7 @@ Two shift registers are used to expand Teensy I/O capabilities, adding a total o
 |[RCG06031K00FKEA](https://www.digikey.com/en/products/detail/vishay-dale/rcg06031k00fkea/4172389)|`1K` Red LED Resistor|
 |[RC0603FR-072K2L](https://www.digikey.com/en/products/detail/yageo/RC0603FR-072K2L/727016)|`2.2K` Series Resistor (ADC channels)|
 |[CRCW060310K0FKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw060310k0fkea/1174782)|`10K` Pull-Down Resistor (PWM channels)|
+|[0603WAF2202T5E](https://jlcpcb.com/partdetail/32812-0603WAF2202T5E/C31850)|`22K` Voltage Sense Divider Resistor|
 |[CL10B473KB8NNNC](https://www.digikey.com/en/products/detail/samsung-electro-mechanics/cl10b473kb8nnnc/3886721)|`47nF` Capacitor (ADC channels)|
 |[SN74HC08DR](https://www.digikey.com/en/products/detail/texas-instruments/sn74hc08dr/276834)|IC Gate|
 |[SN74HC595DR](https://www.digikey.com/en/products/detail/texas-instruments/sn74hc595dr/562919)|IC Shift Register|
