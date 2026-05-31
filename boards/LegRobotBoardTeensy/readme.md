@@ -99,22 +99,23 @@ This board is essentially a shield, exposing convenient, labeled locking connect
 
 |Device|Bus|Address
 |-|-|-|
-|IMU|I2C|`0x40`|
-|LCD|I2C|`0x70`|
+|IMU|I2C|`0x28` (`ADR` tied to `GND` to set address)|
+|PCA9685|I2C|`0x40`|
+|LED MUX|I2C|`0x70`|
 
 ## Bill of Materials
 
 |Component|Description|
 |-|-|
 |[PCA9685PW,118](https://www.digikey.com/en/products/detail/nxp-usa-inc/pca9685pw-118/2034325)|PWM Multiplexer|
-|[HT16K33A-28SSOP](https://www.lcsc.com/product-detail/C5444738.html)|LCD Multiplexer
-|[LDD-C516RI](https://www.digikey.com/en/products/detail/lumex-opto-components-inc/LDD-C516RI/252619)|LCD Displays (2-Digit, 7-Segment, Common Cathode) for Wheel Speeds
+|[HT16K33A-28SSOP](https://www.lcsc.com/product-detail/C5444738.html)|LED Multiplexer
+|[LDD-C516RI](https://www.digikey.com/en/products/detail/lumex-opto-components-inc/LDD-C516RI/252619)|LED Displays (2-Digit, 7-Segment, Common Cathode) for Wheel Speeds
 |[NCD0603R1](https://www.lcsc.com/product-detail/C84263.html?s_z=s_C84263)|Red LED for PWM `EN` signals|
 |[150080BS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/)|Blue LED for `LPWM`/`RPWM` signals|
 |[RC0603FR-07150RL](https://www.digikey.com/en/products/detail/yageo/RC0603FR-07150RL/726958)|`150 Ohm` LED Resistor|
 |[RCG06031K00FKEA](https://www.digikey.com/en/products/detail/vishay-dale/rcg06031k00fkea/4172389)|`1K` LED Resistor|
 |[RC0603FR-072K2L](https://www.digikey.com/en/products/detail/yageo/rc0603fr-072k2l/727016)|`2.2K` Series Resistor (ADC channels)|
-|[CR0603-FX-4701ELF](https://www.digikey.com/en/products/detail/bourns-inc/cr0603-fx-4701elf/3740916)|`4.7K` Pull-Up Resistor for LCD Multiplexer|
+|[CR0603-FX-4701ELF](https://www.digikey.com/en/products/detail/bourns-inc/cr0603-fx-4701elf/3740916)|`4.7K` Pull-Up Resistor for LED Multiplexer|
 |[CRCW060310K0FKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw060310k0fkea/1174782)|`10K` 555 Timer Pull-Up Resistor, Transistor Base Resistor|
 |[CRCW0603100KFKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw0603100kfkea/1174896)|`100K` Transistor Base Pull-Down Resistor|
 |[RC0603FR-07360KL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07360kl/727183)|`360K` 555 Timer Resistor|
