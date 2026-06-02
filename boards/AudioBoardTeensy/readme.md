@@ -34,6 +34,17 @@ The following components are used:
 |`D5` | LED 4
 |`D6` | LED 5
 
+Only a single pin from the TRRS audio jack (stereo audio + mono mic) is used as the audio signal for this board:
+
+|Jack Pin|Description|Function
+|-|-|-|
+|`4`|Tip|Left audio channel output to Voltage Divider
+|`3`|Ring 1|Right audio channel (unconnected)
+|`2`|Ring 2|`GND`
+|`1`|Sleeve|Mic (unconnected)
+
+> This audio jack was used because it's more commonly in stock by various manufacturers than mono audio jacks or stereo audio jacks with no mic.
+
 ## Bill of Materials
 
 |Component|Description|
@@ -43,3 +54,5 @@ The following components are used:
 |[0603WAF2001T5E](https://www.lcsc.com/product-detail/C22975.html)|Pull-Down Resistor `2K`
 |[RCG06031K00FKEA](https://www.digikey.com/en/products/detail/vishay-dale/rcg06031k00fkea/4172389)|Current-Limiting Resistor `1K`
 |[54-00174](https://www.digikey.com/en/products/detail/tensility-international-corp/54-00174/12140150)|Audio Jack 3.5mm TRRS (2 Stereo channels and Microphone mono channel which is unused)
+|[1792](https://www.digikey.com/en/products/detail/adafruit-industries-llc/1792/5774409)|Adafruit LED Sequins Pink
+|[Teensy 4.0](https://www.sparkfun.com/teensy-4-0-headers.html)|Teensy 4.0 with Headers
