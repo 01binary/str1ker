@@ -123,7 +123,7 @@ This board is essentially a shield, exposing convenient, labeled locking connect
 |-|-|
 |[PCA9685PW,118](https://www.digikey.com/en/products/detail/nxp-usa-inc/pca9685pw-118/2034325)|PWM Multiplexer|
 |[IS31FL3730](https://www.digikey.com/en/products/detail/lumissil-microsystems/IS31FL3730-QFLS2-TR/5319756)|LED Driver/Multiplexer
-|[LDD-C516RI](https://www.digikey.com/en/products/detail/lumex-opto-components-inc/LDD-C516RI/252619)|LED Displays (2-Digit, 7-Segment, Common Cathode) for Wheel Speeds
+|[5621AH](https://www.amazon.com/dp/B07GTRBR8Z)|LED Displays (2-Digit, 7-Segment, Common Cathode) for Wheel Speeds
 |[NCD0603R1](https://www.lcsc.com/product-detail/C84263.html?s_z=s_C84263)|Red LED for PWM `EN` signals|
 |[150080BS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/)|Blue LED for `LPWM`/`RPWM` signals|
 |[RC0603FR-07150RL](https://www.digikey.com/en/products/detail/yageo/RC0603FR-07150RL/726958)|`150 Ohm` LED Resistor|
@@ -144,3 +144,5 @@ This board is essentially a shield, exposing convenient, labeled locking connect
 |[JST_XH_B3B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b3b-xh-a/1651046)|Actuator Potentiometers (`3V3`, `SIG`, `GND`)|
 |[Molex 0702460802](https://www.digikey.com/en/products/detail/molex/0702460802/760180)|Motor Drivers (`LPWM`, `RPWM`, `L_EN`, `R_EN`, `L_IS`, `R_IS`, `3V3`, `GND`)|
 |[Teensy 4.0](https://www.sparkfun.com/teensy-4-0-headers.html)|Teensy 4.0 with Headers
+|[Millmax 823-22-010-10-001101](https://www.digikey.com/en/products/detail/digikey-va/823-22-010-10-001101/1146931)|Spring-loaded 2x5 connector for bottom Teensy pins|
+|[Millmax 0531-0-15-15-31-27-10-0](https://www.digikey.com/en/products/detail/mill-max-manufacturing-corp/0531-0-15-15-31-27-10-0/4879975)|Pin receptacle connector for side Teensy pins|

@@ -56,3 +56,4 @@ Only a single pin from the TRRS audio jack (stereo audio + mono mic) is used as 
 |[54-00174](https://www.digikey.com/en/products/detail/tensility-international-corp/54-00174/12140150)|Audio Jack 3.5mm TRRS (2 Stereo channels and Microphone mono channel which is unused)
 |[1792](https://www.digikey.com/en/products/detail/adafruit-industries-llc/1792/5774409)|Adafruit LED Sequins Pink
 |[Teensy 4.0](https://www.sparkfun.com/teensy-4-0-headers.html)|Teensy 4.0 with Headers
+|[Millmax 0531-0-15-15-31-27-10-0](https://www.digikey.com/en/products/detail/mill-max-manufacturing-corp/0531-0-15-15-31-27-10-0/4879975)|Pin receptacle connector for side Teensy pins|

@@ -192,4 +192,5 @@ An external voltage/current sensor ([Adafruit INA260](https://www.adafruit.com/p
 |[JST_XH_B4B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b4b-xh-a/1651047)|Relative Encoder Connector, Voltage/Current Sensor Connector, PWM connectors
 |[JST_XH_B3B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b3b-xh-a/1651046)|Solenoid Connector
 |[JST_XH_B2B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b2b-xh-a/1651045)|Limit Switch Connectors
-
+|[Millmax 823-22-010-10-001101](https://www.digikey.com/en/products/detail/digikey-va/823-22-010-10-001101/1146931)|Spring-loaded 2x5 connector for bottom Teensy pins|
+|[Millmax 0531-0-15-15-31-27-10-0](https://www.digikey.com/en/products/detail/mill-max-manufacturing-corp/0531-0-15-15-31-27-10-0/4879975)|Pin receptacle connector for side Teensy pins|

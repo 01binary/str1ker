@@ -160,4 +160,6 @@ The Lamprey 2 Absolute Encoder (4 Inch) also supports a USB interface. When the 
 |[JST_XH_B4B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b4b-xh-a/1651047)|TB6600 Driver (`3V3`, `PUL`, `DIR`, `ENA`)|
 |[JST_XH_B5B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b5b-xh-a/1530483)|Lamprey Encoders (`3V3`, `CS`, `SCK`, `MISO`, `GND`)|
 |2x4 IDC connector|CPM-MCVC-3441S-RLN Driver (`EN+`, `EN-`, `A+`, `A-`, `B+`, `B-`, `ST+`, `ST-`)|
-|[Teensy 4.0](https://www.sparkfun.com/teensy-4-0-headers.html)|Teensy 4.0 with Headers
+|[Teensy 4.0](https://www.sparkfun.com/teensy-4-0-headers.html)|Teensy 4.0 with Headers|
+|[Millmax 823-22-010-10-001101](https://www.digikey.com/en/products/detail/digikey-va/823-22-010-10-001101/1146931)|Spring-loaded 2x5 connector for bottom Teensy pins|
+|[Millmax 0531-0-15-15-31-27-10-0](https://www.digikey.com/en/products/detail/mill-max-manufacturing-corp/0531-0-15-15-31-27-10-0/4879975)|Pin receptacle connector for side Teensy pins|
