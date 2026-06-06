@@ -1,4 +1,4 @@
-26827815579122769
+26831369581257679
 150080BS75000
 150080BS75000
 
@@ -34,6 +34,13 @@ audio belton reverb
 0
 7
 7
+BNO055
+BNO055
+
+
+0
+10
+10
 Battery
 BatteryClip_Keystone_54_D16-19mm
 Battery clip for batteries with a diameter between 16-19 mm: https://www.keyelco.com/product.cfm/product_id/826
@@ -59450,6 +59457,13 @@ ceramic
 0
 3
 3
+DIP
+DIP-10_W15.24mm
+24-lead though-hole mounted DIP package, row spacing 15.24mm (600 mils)
+THT DIP DIL PDIP 2.54mm 15.24mm 600mil
+0
+10
+10
 Diode_SMD
 D_0201_0603Metric
 Diode SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: https://www.vishay.com/docs/20052/crcw0201e3.pdf), generated with kicad-footprint-generator

@@ -14,7 +14,6 @@ The following components are placed onto the board as modules:
 |Module|Function|
 |-|-|
 |[Teensy 4.0](https://www.sparkfun.com/teensy-4-0.html)|[ROS](https://www.ros.org/) Node|
-|[INA260 Voltage Sensor](https://learn.adafruit.com/adafruit-ina260-current-voltage-power-sensor-breakout)|Bus Voltage Sensing|
 |[ACS37220 Current Sensor](https://www.pololu.com/product/5295)|Bus Current Sensing|
 |[SSD1306 OLED Display](https://www.amazon.com/dp/B00O2LKEW2)|Monochrome 0.96" 128x64 Voltage/Current/Power display|
 
@@ -32,11 +31,12 @@ The following external components are connected to the board via JST-XH locking 
 |[PerfectPass 56Kg Servo](https://www.amazon.com/dp/B09Y4NZJBJ)|Mouth Expressions|
 |[CPM-MCVC-3441S-RLN](https://teknic.com/model-info/CPM-MCVC-3441S-RLN/?model_voltage=75VDC)|Torso Pan Motor Driver
 
+The two encoders can also be connected through USB.
+
 ## Buses
 
 |Bus|Devices
 |-|-|
-| `I2C` | INA260 voltage/current sensor
 | `I2C` | SSD1306 voltage/current display
 | `SPI` | Lamprey encoders
 | `SPI` | Shift Registers for battery level LED meter
@@ -45,8 +45,8 @@ The following external components are connected to the board via JST-XH locking 
 
 |Pin|Function
 |-|-|
-| `D19` | I2C `SCL` (INA260)
-| `D18` | I2C `SDA` (INA260)
+| `D19` | I2C `SCL` (SSD1306)
+| `D18` | I2C `SDA` (SSD1306)
 | `A0`  | `ACS37220` Current Sensor `VOUT`
 | `D20` | `CPM-MCVC-3441S-RLN` Torso Motor `DIR` (A)
 | `D21` | `CPM-MCVC-3441S-RLN` Torso Motor `PWM` (B)
@@ -62,8 +62,8 @@ The following external components are connected to the board via JST-XH locking 
 | `D0`  | Lamprey head encoder `CS`
 | `D1`  | Lamprey torso encoder `CS`
 | `A1`  | Head Tilt Potentiometer `SIG`
-| `A2`  | Torso Tilt Potentiometer 1 `SIG`
-| `A3`  | Torso Tilt Potentiometer 2 `SIG`
+| `A2`  | Torso Tilt Potentiometers (Average) `SIG`
+| `A3`  | Voltage Sense `SIG`
 | `D27` | Head Tilt Motor Driver 1 `EN`
 | `D2`  | Head Tilt Motor Driver 1 `LPWM`
 | `D3`  | Head Tilt Motor Driver 1 `RPWM`
@@ -84,7 +84,7 @@ Two shift registers are used to expand Teensy I/O capabilities, adding a total o
 
 | Shift Register | Pin | Function
 |-|-|-|
-| `U8` | `QA` | Battery Level Meter `LED1`
+| `U8` | `QA` | Battery Level Meter `LED1` (Lowest Charge)
 | `U8` | `QB` | Battery Level Meter `LED2`
 | `U8` | `QC` | Battery Level Meter `LED3`
 | `U8` | `QD` | Battery Level Meter `LED4`
@@ -93,13 +93,13 @@ Two shift registers are used to expand Teensy I/O capabilities, adding a total o
 | `U8` | `QG` | Battery Level Meter `LED7`
 | `U8` | `QH` | Battery Level Meter `LED8`
 | `U9` | `QA` | Battery Level Meter `LED9`
-| `U9` | `QB` | Battery Level Meter `LED10`
+| `U9` | `QB` | Battery Level Meter `LED10` (Highest Charge)
 | `U9` | `QC` | Torso Encoder Status `TORSOENCODERST`
 | `U9` | `QD` | Head Encoder Status `HEADENCODERST`
 
 ## Encoders
 
-The Lamprey 2 Absolute Encoders accept a [JST Molex PicoBlade](https://www.amazon.com/dp/B07S18D3RN) 5x2 connector with 10P ribbon cable:
+The Lamprey 2 Absolute Encoders accept a [JST Molex PicoBlade](https://www.amazon.com/dp/B07S18D3RN) 5x2 connector with a 10-wire ribbon cable:
 
 ```
 SCK   TX    RX    A     RST
@@ -146,6 +146,7 @@ The Lamprey 2 Absolute Encoder (4 Inch) also supports a USB interface. When the 
 |[RCG06031K00FKEA](https://www.digikey.com/en/products/detail/vishay-dale/rcg06031k00fkea/4172389)|`1K` Red LED Resistor|
 |[RC0603FR-072K2L](https://www.digikey.com/en/products/detail/yageo/RC0603FR-072K2L/727016)|`2.2K` Series Resistor (ADC channels)|
 |[CRCW060310K0FKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw060310k0fkea/1174782)|`10K` Pull-Down Resistor (PWM channels)|
+|[0603WAF2202T5E](https://jlcpcb.com/partdetail/32812-0603WAF2202T5E/C31850)|`22K` Voltage Sense Divider Resistor|
 |[CL10B473KB8NNNC](https://www.digikey.com/en/products/detail/samsung-electro-mechanics/cl10b473kb8nnnc/3886721)|`47nF` Capacitor (ADC channels)|
 |[SN74HC08DR](https://www.digikey.com/en/products/detail/texas-instruments/sn74hc08dr/276834)|IC Gate|
 |[SN74HC595DR](https://www.digikey.com/en/products/detail/texas-instruments/sn74hc595dr/562919)|IC Shift Register|
@@ -155,7 +156,10 @@ The Lamprey 2 Absolute Encoder (4 Inch) also supports a USB interface. When the 
 |[RC0603FR-07360KL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07360kl/727183)|555 Timer Resistor `360K`|
 |[CC0603JRX7R7BB105](https://www.digikey.com/en/products/detail/yageo/CC0603JRX7R7BB105/7164369)|555 Timer Capacitor `1uF`|
 |[C0402C103J4RACTU](https://www.digikey.com/en/products/detail/kemet/C0402C103J4RACTU/411041)|555 Timer Capacitor `0.01uF`|
-|[JST_XH_B3B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b3b-xh-a/1651046)|Current Sensor (`3V3`, `VOUT`, `GND`), Head Tilt Potentiometer, Torso Tilt Potentiometer, Head Tilt Driver, Torso Tilt Drivers (`LPWM`, `RPWM`, `EN`)|
-|[JST_XH_B4B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b4b-xh-a/1651047)|INA260 (`3V3`, `SDA`, `SCL`, `GND`), TB6600 Driver (`3V3`, `PUL`, `DIR`, `ENA`)|
-|[JST_XH_B5B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b5b-xh-a/1530483)|AS5045 Encoder, Lamprey Encoder (`3V3`, `CS`, `SCK`, `MISO`, `GND`)|
+|[JST_XH_B3B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b3b-xh-a/1651046)|Head Tilt Potentiometer, Torso Tilt Potentiometer, Head Tilt Driver, Torso Tilt Drivers (`LPWM`, `RPWM`, `EN`)|
+|[JST_XH_B4B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b4b-xh-a/1651047)|TB6600 Driver (`3V3`, `PUL`, `DIR`, `ENA`)|
+|[JST_XH_B5B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b5b-xh-a/1530483)|Lamprey Encoders (`3V3`, `CS`, `SCK`, `MISO`, `GND`)|
 |2x4 IDC connector|CPM-MCVC-3441S-RLN Driver (`EN+`, `EN-`, `A+`, `A-`, `B+`, `B-`, `ST+`, `ST-`)|
+|[Teensy 4.0](https://www.sparkfun.com/teensy-4-0-headers.html)|Teensy 4.0 with Headers|
+|[Millmax 823-22-010-10-001101](https://www.digikey.com/en/products/detail/digikey-va/823-22-010-10-001101/1146931)|Spring-loaded 2x5 connector for bottom Teensy pins|
+|[Millmax 0531-0-15-15-31-27-10-0](https://www.digikey.com/en/products/detail/mill-max-manufacturing-corp/0531-0-15-15-31-27-10-0/4879975)|Pin receptacle connector for side Teensy pins|

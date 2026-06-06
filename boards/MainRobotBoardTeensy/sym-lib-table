@@ -21,4 +21,5 @@
   (lib (name "ShiftRegister")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/ShiftRegister/SN74HC595DR.kicad_sym")(options "")(descr ""))
   (lib (name "LedBar")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/LedBar/KWL-R1025BB.kicad_sym")(options "")(descr ""))
   (lib (name "SSD1306")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/OLED/SSD1306.kicad_sym")(options "")(descr ""))
+  (lib (name "Resistor22K")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor22K/0603WAF2202T5E.kicad_sym")(options "")(descr ""))
 )
