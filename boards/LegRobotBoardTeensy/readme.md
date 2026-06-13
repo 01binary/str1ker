@@ -49,15 +49,21 @@ The [wheel encoders](../LegEncoderBoard/readme.md) are connected to each of the 
 
 ### Number Displays
 
-Four 7-segment LED number displays with decimal points display the speed of each wheel from `0.0` to `1.0`. They are driven by an LED multiplexer.
+Four 7-segment common-anode LED number displays with decimal points display the speed of each wheel from `0.0` to `1.0`. They are driven by an LED multiplexer.
 
 The LED multiplexer is mapped to four 2-digit LED displays with decimal point as follows:
 
 | Display function                 | `IS31FL3730` pins |
-| -------------------------------- | --------------- |
-| Digit commons                    | `SW1–SW8`       |
-| Segments A, B, C, D, E, F, G, DP | `CS1–CS8`       |
+| -------------------------------- | ----------------- |
+| Digit common anodes              | `SW1–SW8`         |
+| Segments A, B, C, D, E, F, G, DP | `CS1–CS8`         |
 
+The [3621BH](https://www.amazon.com/uxcell-Common-Segment-Display-Digital/dp/B07GTRS9L2) common-anode LED displays have the following pin footprint:
+
+| |1|2|3|4|5|
+|-|-|-|-|-|-|
+|1|`COM0`|`B`|`C`|`E`|`D`|
+|2|`G`|`DP`|`A`|`F`|`COM1`|
 
 ## Pin Mapping
 
@@ -115,7 +121,7 @@ This board is essentially a shield, exposing convenient, labeled locking connect
 |-|-|-|
 |IMU|I2C|`0x28` (`ADR` tied to `GND` to set address)|
 |PCA9685|I2C|`0x40`|
-|IS31FL3730|I2C|`0x74`|
+|IS31FL3730|I2C|`0x34`|
 
 ## Bill of Materials
 
@@ -123,7 +129,7 @@ This board is essentially a shield, exposing convenient, labeled locking connect
 |-|-|
 |[PCA9685PW,118](https://www.digikey.com/en/products/detail/nxp-usa-inc/pca9685pw-118/2034325)|PWM Multiplexer|
 |[IS31FL3730](https://www.digikey.com/en/products/detail/lumissil-microsystems/IS31FL3730-QFLS2-TR/5319756)|LED Driver/Multiplexer
-|[5621AH](https://www.amazon.com/dp/B07GTRBR8Z)|LED Displays (2-Digit, 7-Segment, Common Cathode) for Wheel Speeds
+|[3621BH](https://www.amazon.com/uxcell-Common-Segment-Display-Digital/dp/B07GTRS9L2)|LED Displays (2-Digit, 7-Segment, Common Cathode) for Wheel Speeds
 |[NCD0603R1](https://www.lcsc.com/product-detail/C84263.html?s_z=s_C84263)|Red LED for PWM `EN` signals|
 |[150080BS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/)|Blue LED for `LPWM`/`RPWM` signals|
 |[RC0603FR-07150RL](https://www.digikey.com/en/products/detail/yageo/RC0603FR-07150RL/726958)|`150 Ohm` LED Resistor|
@@ -145,4 +151,3 @@ This board is essentially a shield, exposing convenient, labeled locking connect
 |[Molex 0702460802](https://www.digikey.com/en/products/detail/molex/0702460802/760180)|Motor Drivers (`LPWM`, `RPWM`, `L_EN`, `R_EN`, `L_IS`, `R_IS`, `3V3`, `GND`)|
 |[Teensy 4.0](https://www.sparkfun.com/teensy-4-0-headers.html)|Teensy 4.0 with Headers
 |[Millmax 823-22-010-10-001101](https://www.digikey.com/en/products/detail/digikey-va/823-22-010-10-001101/1146931)|Spring-loaded 2x5 connector for bottom Teensy pins|
-|[Millmax 0531-0-15-15-31-27-10-0](https://www.digikey.com/en/products/detail/mill-max-manufacturing-corp/0531-0-15-15-31-27-10-0/4879975)|Pin receptacle connector for side Teensy pins|

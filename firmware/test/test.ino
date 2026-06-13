@@ -5,7 +5,7 @@ const int I2C_FREQUENCY_HZ = 400000;      // I2C bus frequency
 
 const int PCA9685_ADDRESS = 0x40;         // Default PCA9685 I2C address
 const int PCA9685_FREQUENCY_HZ = 1526;    // Near PCA9685 max, suitable for IBT2 PWM inputs
-const int LED_MUX_ADDRESS = 0x70;         // HT16K33 LED mux I2C address
+const int LED_MUX_ADDRESS = 0x34;         // IS31FL3739 I2C address with AD tied to GND
 
 const int FRONT_LEFT_ACTUATOR_POT = A0;   // Front-left actuator feedback pin
 const int FRONT_LEFT_WHEEL_A = 0;         // Front-left wheel encoder A
@@ -60,67 +60,61 @@ const int REPORT_PERIOD_MS = 100;
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(PCA9685_ADDRESS, Wire);
 Encoder wheelEncoder(FRONT_RIGHT_WHEEL_A, FRONT_RIGHT_WHEEL_B);
 volatile uint32_t frontLeftIndexRevolutions = 0;
-uint16_t lcdDisplayRam[8] = {0};
 
-const uint8_t LCD_OSCILLATOR_ON = 0x21;
-const uint8_t LCD_DISPLAY_ON = 0x81;
-const uint8_t LCD_BRIGHTNESS_MAX = 0xEF;
+const uint8_t IS31FL3739_PWM_START = 0x03;
+const uint8_t IS31FL3739_PWM_END = 0x8F;
+const uint8_t IS31FL3739_SCALING_START = 0x92;
+const uint8_t IS31FL3739_SCALING_COUNT = 14;
+const uint8_t IS31FL3739_CONFIGURATION = 0xA0;
+const uint8_t IS31FL3739_GLOBAL_CURRENT = 0xA1;
+const uint8_t IS31FL3739_PULL_RESISTORS = 0xB0;
+const uint8_t IS31FL3739_PWM_FREQUENCY = 0xB2;
+const uint8_t IS31FL3739_RESET = 0xCF;
 
-const uint8_t SEGMENT_A = 1 << 0;
-const uint8_t SEGMENT_B = 1 << 1;
-const uint8_t SEGMENT_C = 1 << 2;
-const uint8_t SEGMENT_D = 1 << 3;
-const uint8_t SEGMENT_E = 1 << 4;
-const uint8_t SEGMENT_F = 1 << 5;
-const uint8_t SEGMENT_G = 1 << 6;
-const uint8_t SEGMENT_DP = 1 << 7;
-
-const uint8_t DIGIT_ZERO_SEGMENTS = SEGMENT_A | SEGMENT_B | SEGMENT_C |
-                                    SEGMENT_D | SEGMENT_E | SEGMENT_F;
+const uint8_t IS31FL3739_RESET_COMMAND = 0xAE;
+const uint8_t IS31FL3739_8_SW_8_CS_NORMAL = 0x11;
+const uint8_t IS31FL3739_GLOBAL_CURRENT_TEST = 0x20;
+const uint8_t IS31FL3739_2K_PULLS_WHEN_OFF = 0x33;
+const uint8_t IS31FL3739_PWM_32_KHZ = 0x01;
+const uint8_t LED_FULL_ON = 0xFF;
 
 void frontLeftIndexInterrupt()
 {
   frontLeftIndexRevolutions++;
 }
 
-void writeLcdCommand(uint8_t command)
+void writeLedMuxRegister(uint8_t address, uint8_t value)
 {
-  Wire.beginTransmission(LCD_MUX_ADDRESS);
-  Wire.write(command);
+  Wire.beginTransmission(LED_MUX_ADDRESS);
+  Wire.write(address);
+  Wire.write(value);
   Wire.endTransmission();
 }
 
-void writeLcdDisplayRam()
+void fillLedMuxRegisters(uint8_t startAddress, uint8_t count, uint8_t value)
 {
-  Wire.beginTransmission(LCD_MUX_ADDRESS);
-  Wire.write(0x00);
+  Wire.beginTransmission(LED_MUX_ADDRESS);
+  Wire.write(startAddress);
 
-  for (uint8_t com = 0; com < 8; com++)
+  for (uint8_t index = 0; index < count; index++)
   {
-    Wire.write(lcdDisplayRam[com] & 0xFF);
-    Wire.write(lcdDisplayRam[com] >> 8);
+    Wire.write(value);
   }
 
   Wire.endTransmission();
-}
-
-void setWheelDisplayDigit(uint8_t com, uint8_t segments)
-{
-  lcdDisplayRam[com] = segments;
 }
 
 void initializeWheelDisplays()
 {
-  writeLcdCommand(LCD_OSCILLATOR_ON);
-  writeLcdCommand(LCD_DISPLAY_ON);
-  writeLcdCommand(LCD_BRIGHTNESS_MAX);
+  writeLedMuxRegister(IS31FL3739_RESET, IS31FL3739_RESET_COMMAND);
+  delay(1);
 
-  for (uint8_t com = 0; com < 8; com++)
-  {
-    setWheelDisplayDigit(com, DIGIT_ZERO_SEGMENTS);
-  }
-
-  writeLcdDisplayRam();
+  writeLedMuxRegister(IS31FL3739_CONFIGURATION, IS31FL3739_8_SW_8_CS_NORMAL);
+  writeLedMuxRegister(IS31FL3739_GLOBAL_CURRENT, IS31FL3739_GLOBAL_CURRENT_TEST);
+  writeLedMuxRegister(IS31FL3739_PULL_RESISTORS, IS31FL3739_2K_PULLS_WHEN_OFF);
+  writeLedMuxRegister(IS31FL3739_PWM_FREQUENCY, IS31FL3739_PWM_32_KHZ);
+  fillLedMuxRegisters(IS31FL3739_SCALING_START, IS31FL3739_SCALING_COUNT, LED_FULL_ON);
+  fillLedMuxRegisters(IS31FL3739_PWM_START, IS31FL3739_PWM_END - IS31FL3739_PWM_START + 1, LED_FULL_ON);
 }
 
 void setup()
