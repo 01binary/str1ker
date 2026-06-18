@@ -97,10 +97,11 @@ The following external components are connected to the board via JST-XH locking 
 |[RC0603FR-07360KL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07360kl/727183)|555 Timer Resistor `360K`|
 |[CC0603JRX7R7BB105](https://www.digikey.com/en/products/detail/yageo/CC0603JRX7R7BB105/7164369)|555 Timer Capacitor `1uF`|
 |[C0402C103J4RACTU](https://www.digikey.com/en/products/detail/kemet/C0402C103J4RACTU/411041)|555 Timer Capacitor `0.01uF`|
+|[74HCT125D,653](https://www.digikey.com/en/products/detail/nexperia-usa-inc/74hct125d-653/763113)|`3.3V` to `5V` Level Shifter|
 |[JST_XH_B3B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b3b-xh-a/1651046)|3-pin male receptacle for Head Tilt Potentiometer, Torso Tilt Potentiometer (`3V3`, `SIG`, `GND`), Head Tilt Driver, Torso Tilt Drivers (`LPWM`, `RPWM`, `EN`)|
 |[JST_XH_B4B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b4b-xh-a/1651047)|4-pin male receptacle for `TB6600` Driver (`3V3`, `PUL`, `DIR`, `ENA`)|
 |[Molex 0702460802](https://www.digikey.com/en/products/detail/molex/0702460802/760180)|2-row 4-pin male receptacle for `CPM-MCVC-3441S-RLN` Driver (`EN+`, `EN-`, `A+`, `A-`, `B+`, `B-`, `ST+`, `ST-`)|
 |[Teensy 4.1](https://www.sparkfun.com/teensy-4-1.html)|Teensy 4.1 without Headers|
-|[Needle Headers](https://www.amazon.com/dp/B09WH8N3HX)|Removable Socket Headers|
+|[ICM-648-1-GT-HT](https://www.digikey.com/en/products/detail/adam-tech/ICM-648-1-GT-HT/9832918)|Teensy IC DIP Socket, 48P|
 |[ACS37220](https://www.pololu.com/product/5295)|Current Sensor `100A`, `3.3V` Logic|
 |2x [SSD1306](https://www.amazon.com/dp/B00O2LKEW2)|Monochrome I2C OLED Displays `3.3V`|
