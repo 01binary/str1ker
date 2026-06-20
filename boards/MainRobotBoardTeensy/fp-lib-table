@@ -23,5 +23,5 @@
   (lib (name "SSD1306")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/OLED")(options "")(descr ""))
   (lib (name "Resistor22K")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor22K")(options "")(descr ""))
   (lib (name "Teensy4.1")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Teensy4.1")(options "")(descr ""))
-  (lib (name "PWMDriver")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/PWMDriver")(options "")(descr ""))
+  (lib (name "LevelShifter")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/LevelShifter")(options "")(descr ""))
 )
