@@ -51,7 +51,6 @@ The following external components are connected to the board via JST-XH locking 
 | `D3` | `CPM-MCVC-3441S-RLN` Torso Motor `EN`
 | `D4` | `CPM-MCVC-3441S-RLN` Torso Motor `DIR` (A)
 | `D5` | `CPM-MCVC-3441S-RLN` Torso Motor `PWM` (B)
-| `D6` | `CPM-MCVC-3441S-RLN` Torso Motor `Status`
 | `D7` | Head Tilt Motor Driver 1 `EN`
 | `D8` | Head Tilt Motor Driver 2 `EN`
 | `D20` | Torso Tilt Motor Driver 1 `EN`
@@ -84,19 +83,21 @@ The following external components are connected to the board via JST-XH locking 
 |[XL-1608SURC-06](https://www.lcsc.com/product-detail/C965799.html)|Red LED for `EN` status|
 |[RC0603FR-0747RL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-0747rl/727252)|`47R` Series Resistor (PWM channels)|
 |[RC0603FR-07150RL](https://www.digikey.com/en/products/detail/yageo/RC0603FR-07150RL/726958)|`150R` Blue LED Resistor|
-|[RC0603FR-07470RL](https://www.digikey.com/en/products/detail/yageo/RC0603FR-07470RL/727256)|`470R` Red LED Resistor|
+|[RC0603FR-07470RL](https://www.digikey.com/en/products/detail/yageo/RC0603FR-07470RL/727256)|`470R` Red LED and Battery Bar Segment Resistor|
 |[RCG06031K00FKEA](https://www.digikey.com/en/products/detail/vishay-dale/rcg06031k00fkea/4172389)|`1K` Red LED Resistor|
 |[RC0603FR-072K2L](https://www.digikey.com/en/products/detail/yageo/RC0603FR-072K2L/727016)|`2.2K` Series Resistor (ADC channels)|
 |[CRCW060310K0FKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw060310k0fkea/1174782)|`10K` Pull-Down Resistor (PWM channels)|
 |[0603WAF2202T5E](https://jlcpcb.com/partdetail/32812-0603WAF2202T5E/C31850)|`22K` Voltage Sense Divider Resistor|
+|[CRCW0603100KFKEA](https://www.digikey.com/en/products/detail/vishay-dale/crcw0603100kfkea/1174896)|`100K` Pull-Dowh Resistor|
 |[CL10B473KB8NNNC](https://www.digikey.com/en/products/detail/samsung-electro-mechanics/cl10b473kb8nnnc/3886721)|`47nF` Capacitor (ADC channels)|
 |[SN74HC08DR](https://www.digikey.com/en/products/detail/texas-instruments/sn74hc08dr/276834)|IC Gate|
 |[B10 1B4PG3Y2R](https://www.amazon.com/dp/B0C9QGMGFB)|LED Light Bar (Red/Blue/Green) with `DIP-20` Socket (Battery Charge Meter)|
-|[MMBT3904LT1G](https://www.digikey.com/en/products/detail/onsemi/MMBT3904LT1G/919601)|LED Transistor|
+|[AO3400A](https://www.digikey.com/en/products/detail/alpha-omega-semiconductor-inc/ao3400a/1855772)|LED Transistor|
 |[TLC555CDR](https://www.digikey.com/en/products/detail/texas-instruments/tlc555cdr/276979)|555 Timer|
 |[RC0603FR-07360KL](https://www.digikey.com/en/products/detail/yageo/rc0603fr-07360kl/727183)|555 Timer Resistor `360K`|
 |[CC0603JRX7R7BB105](https://www.digikey.com/en/products/detail/yageo/CC0603JRX7R7BB105/7164369)|555 Timer Capacitor `1uF`|
 |[C0402C103J4RACTU](https://www.digikey.com/en/products/detail/kemet/C0402C103J4RACTU/411041)|555 Timer Capacitor `0.01uF`|
+|[CC0603KRX7R9BB104](https://www.digikey.com/en/products/detail/yageo/cc0603krx7r9bb104/2103082)|`100nF` Voltage Sense Capacitor|
 |[74HCT125D,653](https://www.digikey.com/en/products/detail/nexperia-usa-inc/74hct125d-653/763113)|`3.3V` to `5V` Level Shifter|
 |[JST_XH_B3B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b3b-xh-a/1651046)|3-pin male receptacle for Head Tilt Potentiometer, Torso Tilt Potentiometer (`3V3`, `SIG`, `GND`), Head Tilt Driver, Torso Tilt Drivers (`LPWM`, `RPWM`, `EN`)|
 |[JST_XH_B4B-XH-A](https://www.digikey.com/en/products/detail/jst-sales-america-inc/b4b-xh-a/1651047)|4-pin male receptacle for `TB6600` Driver (`3V3`, `PUL`, `DIR`, `ENA`)|
