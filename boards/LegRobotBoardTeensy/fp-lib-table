@@ -13,7 +13,6 @@
   (lib (name "RC0603FR-07360KL")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor360K")(options "")(descr ""))
   (lib (name "RC0603FR-07470RL")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor470")(options "")(descr ""))
   (lib (name "SMMBT3904LT1G")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Transistor")(options "")(descr ""))
-  (lib (name "PCA9685PW,118")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/PWMDriver")(options "")(descr ""))
   (lib (name "CC0603KRX7R9BB104")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Capacitor100nF")(options "")(descr ""))
   (lib (name "CL10B473KB8NNNC")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Capacitor47nF")(options "")(descr ""))
   (lib (name "RC0603FR-072K2L")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Resistor2.2K")(options "")(descr ""))
