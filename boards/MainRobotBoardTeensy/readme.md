@@ -104,5 +104,6 @@ The following external components are connected to the board via JST-XH locking 
 |[Molex 0702460802](https://www.digikey.com/en/products/detail/molex/0702460802/760180)|2-row 4-pin male receptacle for `CPM-MCVC-3441S-RLN` Driver (`EN+`, `EN-`, `A+`, `A-`, `B+`, `B-`, `ST+`, `ST-`)|
 |[Teensy 4.1](https://www.sparkfun.com/teensy-4-1.html)|Teensy 4.1 without Headers|
 |[ICM-648-1-GT-HT](https://www.digikey.com/en/products/detail/adam-tech/ICM-648-1-GT-HT/9832918)|Teensy IC DIP Socket, 48P|
+|[Needle Headers](https://www.amazon.com/dp/B09WH8N3HX)|Teensy Needle Headers for DIP Socket|
 |[ACS37220](https://www.pololu.com/product/5295)|Current Sensor `100A`, `3.3V` Logic|
 |2x [SSD1306](https://www.amazon.com/dp/B00O2LKEW2)|Monochrome I2C OLED Displays `3.3V`|
