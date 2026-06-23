@@ -6135,7 +6135,7 @@
 		(uuid 4167a4f2-2410-4a86-98ee-7d8a7664e6f0)
 	)
 	(rectangle
-		(start 36.83 316.23)
+		(start 35.56 316.23)
 		(end 118.11 365.76)
 		(stroke
 			(width 0)
@@ -6473,7 +6473,7 @@
 	)
 	(text "555 Timer"
 		(exclude_from_sim no)
-		(at 205.74 309.88 0)
+		(at 205.74 311.15 0)
 		(effects
 			(font
 				(size 2.54 2.54)
@@ -6493,7 +6493,7 @@
 	)
 	(text "Voltage Sensing"
 		(exclude_from_sim no)
-		(at 53.34 320.04 0)
+		(at 53.34 321.31 0)
 		(effects
 			(font
 				(size 2.54 2.54)
@@ -6633,7 +6633,7 @@
 	)
 	(text "Current Sensing"
 		(exclude_from_sim no)
-		(at 139.7 320.04 0)
+		(at 139.7 321.31 0)
 		(effects
 			(font
 				(size 2.54 2.54)
