@@ -6,3 +6,5 @@
 *.bak
 .arduino
 .history
+arduino.json
+**/*-backups/*
