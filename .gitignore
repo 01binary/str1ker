@@ -8,3 +8,4 @@
 .history
 arduino.json
 **/*-backups/*
+fp-info-cache
