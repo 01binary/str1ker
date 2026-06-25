@@ -1,4 +1,4 @@
-26831369581257679
+26824296678284669
 150080BS75000
 150080BS75000
 
@@ -59457,13 +59457,6 @@ ceramic
 0
 3
 3
-DIP
-DIP-10_W15.24mm
-24-lead though-hole mounted DIP package, row spacing 15.24mm (600 mils)
-THT DIP DIL PDIP 2.54mm 15.24mm 600mil
-0
-10
-10
 Diode_SMD
 D_0201_0603Metric
 Diode SMD 0201 (0603 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: https://www.vishay.com/docs/20052/crcw0201e3.pdf), generated with kicad-footprint-generator
@@ -73541,13 +73534,6 @@ threaded screw
 0
 4
 1
-NCD0603R1
-NCD0603R1
-
-
-0
-2
-2
 NetTie
 NetTie-2_SMD_Pad0.5mm
 Net tie, 2 pin, 0.5mm square SMD pads
@@ -74843,13 +74829,6 @@ DIL DIP PDIP 2.54mm 7.62mm 300mil
 0
 4
 4
-PCA9685PW,118
-PCA9685PW,118
-
-PCA9685PW_118 
-0
-28
-28
 Package_BGA
 Alliance_TFBGA-36_6x8mm_Layout6x8_P0.75mm
 Alliance TFBGA-36, NSMD, 6.0x8.0mm, 36 Ball, 6x8 Layout, 0.75mm Pitch, generated with kicad-footprint-generator ipc_bga_generator.py, https://www.alliancememory.com/wp-content/uploads/pdf/AS6C1008_Mar_2023V1.2.pdf#page=13
@@ -99595,21 +99574,7 @@ TLC555CDR
 0
 8
 8
-Teensy40
-Teensy40
-
-
-0
-44
-44
-Teensy40
-Teensy40_SMT
-
-
-0
-54
-54
-Teensy40
+Teensy4.1
 Teensy41
 
 
@@ -106599,6 +106564,13 @@ Varistor
 Varistor_Panasonic_VF
 Panasonic VF series varistor, 6x8mm body, 3.2mm height, https://mediap.industry.panasonic.eu/assets/imported/industrial.panasonic.com/cdbs/www-data/pdf/AWA0000/AWA0000C4.pdf
 Varistor VF
+0
+2
+2
+XL-1608SURC-06
+XL-1608SURC-06
+
+XL-1608SURC-06 
 0
 2
 2

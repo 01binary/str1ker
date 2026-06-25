@@ -1,0 +1,69 @@
+#include <Arduino.h>
+
+const float ADC_REFERENCE_VOLTS = 3.3f;
+const float ADC_MAX_COUNTS = 4095.0f;
+const float DIVIDER_R_HIGH_OHMS = 22000.0f;
+const float DIVIDER_R_LOW_OHMS = 2200.0f;
+const float DIVIDER_SCALE = (DIVIDER_R_HIGH_OHMS + DIVIDER_R_LOW_OHMS) / DIVIDER_R_LOW_OHMS;
+const float VOLTAGE_CALIBRATION_QUADRATIC = 0.00485965f;
+const float VOLTAGE_CALIBRATION_GAIN = 0.83284587f;
+const float VOLTAGE_CALIBRATION_OFFSET_VOLTS = 0.23993933f;
+const int VOLTAGE_SENSE_PIN = A3;
+const unsigned long PRINT_INTERVAL_MS = 250;
+
+float readAdcPinVoltage(int rawCounts)
+{
+  return (float(rawCounts) / ADC_MAX_COUNTS) * ADC_REFERENCE_VOLTS;
+}
+
+float readInputVoltage(int rawCounts)
+{
+  return readAdcPinVoltage(rawCounts) * DIVIDER_SCALE;
+}
+
+float readCorrectedInputVoltage(int rawCounts)
+{
+  const float nominalVoltage = readInputVoltage(rawCounts);
+  return (VOLTAGE_CALIBRATION_QUADRATIC * nominalVoltage * nominalVoltage) +
+         (VOLTAGE_CALIBRATION_GAIN * nominalVoltage) +
+         VOLTAGE_CALIBRATION_OFFSET_VOLTS;
+}
+
+void setup()
+{
+  pinMode(VOLTAGE_SENSE_PIN, INPUT);
+  analogReadResolution(12);
+  analogReadAveraging(8);
+
+  Serial.begin(115200);
+  while (!Serial && millis() < 2000);
+  Serial.println("Starting voltage divider test");
+  Serial.print("Divider scale: ");
+  Serial.println(DIVIDER_SCALE, 4);
+  Serial.print("Calibration gain: ");
+  Serial.println(VOLTAGE_CALIBRATION_GAIN, 8);
+  Serial.print("Calibration quadratic: ");
+  Serial.println(VOLTAGE_CALIBRATION_QUADRATIC, 8);
+  Serial.print("Calibration offset: ");
+  Serial.println(VOLTAGE_CALIBRATION_OFFSET_VOLTS, 6);
+}
+
+void loop()
+{
+  const int rawCounts = analogRead(VOLTAGE_SENSE_PIN);
+  const float adcPinVoltage = readAdcPinVoltage(rawCounts);
+  const float inputVoltage = readInputVoltage(rawCounts);
+  const float correctedInputVoltage = readCorrectedInputVoltage(rawCounts);
+
+  Serial.print("raw=");
+  Serial.print(rawCounts);
+  Serial.print(" adc=");
+  Serial.print(adcPinVoltage, 4);
+  Serial.print(" V nominal=");
+  Serial.print(inputVoltage, 4);
+  Serial.print(" V corrected=");
+  Serial.print(correctedInputVoltage, 4);
+  Serial.println(" V");
+
+  delay(PRINT_INTERVAL_MS);
+}
