@@ -27,69 +27,27 @@
 class Meter
 {
 public:
-  typedef void (*StatusWriter)(int id, bool value);
-
-public:
   uint8_t levelCount;
-  int* levelIds;
+  const int* levelPins;
   float level;
-  StatusWriter statusWriter;
-  bool activeLow;
 
 public:
-  Meter():
-    levelCount(0),
-    levelIds(nullptr),
-    level(0.0f),
-    statusWriter(nullptr),
-    activeLow(false)
+  Meter(uint8_t levels, const int* pins):
+    levelCount(levels),
+    levelPins(pins),
+    level(0.0f)
   {
-  }
-
-  ~Meter()
-  {
-    if (levelIds != nullptr)
-    {
-      delete[] levelIds;
-      levelIds = nullptr;
-    }
-  }
-
-public:
-  void initialize(
-    uint8_t levels,
-    const int* ids,
-    StatusWriter onStatusWrite = nullptr,
-    bool useActiveLow = false)
-  {
-    if (levelIds != nullptr)
-    {
-      delete[] levelIds;
-      levelIds = nullptr;
-    }
-
-    levelCount = levels;
-    statusWriter = onStatusWrite;
-    level = 0.0f;
-    activeLow = useActiveLow;
-    levelIds = new int[levelCount];
-
     for (uint8_t i = 0; i < levelCount; i++)
     {
-      levelIds[i] = ids[i];
-
-      if (statusWriter == nullptr)
-      {
-        pinMode(levelIds[i], OUTPUT);
-      }
-
-      writeLevel(levelIds[i], false);
+      pinMode(levelPins[i], OUTPUT);
+      digitalWrite(levelPins[i], LOW);
     }
   }
 
+public:
   void write(float normalizedLevel)
   {
-    if (!levelCount || !levelIds)
+    if (!levelCount || !levelPins)
     {
       return;
     }
@@ -105,26 +63,7 @@ public:
 
     for (uint8_t i = 0; i < levelCount; i++)
     {
-      writeLevel(levelIds[i], int(i) < activeLevels);
+      digitalWrite(levelPins[i], int(i) < activeLevels ? HIGH : LOW);
     }
-  }
-
-  float read() const
-  {
-    return level;
-  }
-
-private:
-  void writeLevel(int id, bool enabled)
-  {
-    bool levelValue = activeLow ? !enabled : enabled;
-
-    if (statusWriter != nullptr)
-    {
-      statusWriter(id, levelValue);
-      return;
-    }
-
-    digitalWrite(id, levelValue ? HIGH : LOW);
   }
 };

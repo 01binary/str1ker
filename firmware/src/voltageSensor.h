@@ -6,8 +6,8 @@
              █ █     █       █            █      █    █            ████      █                  █            █
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
- shiftRegister.h
- 74HC595 Chained Shift Register Controller
+ voltageSensor.h
+ Analog Voltage Sensor via Divider
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -19,75 +19,59 @@
 \*----------------------------------------------------------*/
 
 #include <Arduino.h>
-#include <ShiftRegister74HC595.h>
 
 /*----------------------------------------------------------*\
 | Classes
 \*----------------------------------------------------------*/
 
-template <uint8_t RegisterCount>
-class ShiftRegister
+class VoltageSensor
 {
 public:
-  static const uint8_t OUTPUTS_PER_REGISTER = 8;
-  static const uint8_t MAX_SUPPORTED_OUTPUTS = RegisterCount * OUTPUTS_PER_REGISTER;
-
-  ShiftRegister():
-    output(nullptr),
-    initialized(false),
-    outputCount(0)
-  {
-  }
-
-  ~ShiftRegister()
-  {
-    if (output != nullptr)
-    {
-      delete output;
-    }
-  }
+  static constexpr float ADC_REFERENCE_VOLTS = 3.3f;
+  static constexpr float ADC_MAX_COUNTS = 4095.0f;
+  static constexpr float DIVIDER_R_HIGH_OHMS = 200000.0f;
+  static constexpr float DIVIDER_R_LOW_OHMS = 22000.0f;
+  static constexpr float DIVIDER_SCALE =
+    (DIVIDER_R_HIGH_OHMS + DIVIDER_R_LOW_OHMS) / DIVIDER_R_LOW_OHMS;
+  static constexpr float VOLTAGE_CALIBRATION_QUADRATIC = 0.0f;
+  static constexpr float VOLTAGE_CALIBRATION_GAIN = 1.0f;
+  static constexpr float VOLTAGE_CALIBRATION_OFFSET_VOLTS = 0.0f;
 
 public:
-  void initialize(
-    uint8_t dataPin,
-    uint8_t clockPin,
-    uint8_t latchPin,
-    uint8_t outputsCount)
+  int adcPin;
+  int reading;
+
+public:
+  VoltageSensor():
+    adcPin(0),
+    reading(0)
   {
-    if (output != nullptr)
-    {
-      delete output;
-      output = nullptr;
-    }
-
-    initialized = false;
-    outputCount = outputsCount;
-
-    if (outputCount > MAX_SUPPORTED_OUTPUTS)
-    {
-      return;
-    }
-
-    output = new ShiftRegister74HC595<RegisterCount>(dataPin, clockPin, latchPin);
-
-    if (output == nullptr)
-    {
-      return;
-    }
-
-    initialized = true;
   }
 
-  void write(uint8_t outputPin, bool value)
+  void initialize(int adc)
   {
-    if (initialized && outputPin < outputCount)
-    {
-      output->set(outputPin, value ? HIGH : LOW);
-    }
+    adcPin = adc;
+    pinMode(adcPin, INPUT);
+  }
+
+  float read()
+  {
+    reading = analogRead(adcPin);
+    const float sensedVoltage = (float(reading) / ADC_MAX_COUNTS) * ADC_REFERENCE_VOLTS;
+    const float nominalVoltage = sensedVoltage * DIVIDER_SCALE;
+    return correctVoltage(nominalVoltage);
+  }
+
+  int raw() const
+  {
+    return reading;
   }
 
 private:
-  ShiftRegister74HC595<RegisterCount>* output;
-  bool initialized;
-  uint8_t outputCount;
+  float correctVoltage(float nominalVoltage) const
+  {
+    return (VOLTAGE_CALIBRATION_QUADRATIC * nominalVoltage * nominalVoltage) +
+           (VOLTAGE_CALIBRATION_GAIN * nominalVoltage) +
+           VOLTAGE_CALIBRATION_OFFSET_VOLTS;
+  }
 };

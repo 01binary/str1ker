@@ -48,7 +48,7 @@ public:
     pinMode(adcPin, INPUT);
   }
 
-  float readCurrent()
+  float read()
   {
     reading = analogRead(adcPin);
     float voltage = (float(reading) / ADC_MAX_COUNTS) * ADC_REFERENCE_VOLTS;

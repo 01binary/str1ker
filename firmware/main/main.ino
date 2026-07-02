@@ -23,63 +23,59 @@
 | Constants
 \*----------------------------------------------------------*/
 
+const int CURRENT_SENSE_PIN = A0;
+const int VOLTAGE_SENSE_PIN = A3;
+
+const int HEAD_PAN_ENABLE = 0;
+const int HEAD_PAN_DIR = 1;
+const int HEAD_PAN_STEP = 2;
+
+const int TORSO_PAN_ENABLE = 3;
+const int TORSO_PAN_DIR = 4;
+const int TORSO_PAN_PWM = 5;
+
+const int HEAD_TILT_POTENTIOMETER = A1;
+const int HEAD_TILT_MOTOR1_EN = 7;
+const int HEAD_TILT_MOTOR1_LPWM = 9;
+const int HEAD_TILT_MOTOR1_RPWM = 10;
+const int HEAD_TILT_MOTOR2_EN = 8;
+const int HEAD_TILT_MOTOR2_LPWM = 11;
+const int HEAD_TILT_MOTOR2_RPWM = 12;
+
+const int TORSO_TILT_POTENTIOMETER = A2;
+const int TORSO_TILT_MOTOR1_EN = 20;
+const int TORSO_TILT_MOTOR1_LPWM = 22;
+const int TORSO_TILT_MOTOR1_RPWM = 23;
+const int TORSO_TILT_MOTOR2_EN = 21;
+const int TORSO_TILT_MOTOR2_LPWM = 28;
+const int TORSO_TILT_MOTOR2_RPWM = 29;
+
+const int MOUTH_SERVO_SIG = 36;
+
+const int BATTERY_METER_LEVELS = 10;
+const int BATTERY_METER_PINS[BATTERY_METER_LEVELS] =
+{
+  24, // LED1 (Lowest charge)
+  25, // LED2
+  26, // LED3
+  27, // LED4
+  30, // LED5
+  31, // LED6
+  32, // LED7
+  33, // LED8
+  34, // LED9
+  35  // LED10 (Highest charge)
+};
+
 const int STARTUP_DELAY = 1000;
 const int I2C_FREQUENCY = 400000;
 
-const int BUS_CURRENT_SENSOR_PIN = A0;
-
-const int HEAD_PAN_ENABLE = 6;
-const int HEAD_PAN_STEP = 24;
-const int HEAD_PAN_DIR = 25;
-const int HEAD_PAN_ENCODER_STATUS_REGISTER = 11; // U9.QD
-const int HEAD_PAN_CS = 0;
-
-const int TORSO_PAN_ENABLE = 7;
-const int TORSO_PAN_STATUS = 8;
-const int TORSO_PAN_DIR = 20;
-const int TORSO_PAN_PWM = 21;
-const int TORSO_PAN_ENCODER_STATUS_REGISTER = 10; // U9.QC
-const int TORSO_PAN_CS = 1;
-
-const int HEAD_TILT_POTENTIOMETER = A1;
-const int HEAD_TILT_MOTOR1_EN = 27;
-const int HEAD_TILT_MOTOR1_LPWM = 2;
-const int HEAD_TILT_MOTOR1_RPWM = 3;
-const int HEAD_TILT_MOTOR2_EN = 28;
-const int HEAD_TILT_MOTOR2_LPWM = 4;
-const int HEAD_TILT_MOTOR2_RPWM = 5;
-
-const int TORSO_TILT_POTENTIOMETER1 = A2;
-const int TORSO_TILT_POTENTIOMETER2 = A3;
-const int TORSO_TILT_MOTOR1_EN = 29;
-const int TORSO_TILT_MOTOR1_LPWM = 9;
-const int TORSO_TILT_MOTOR1_RPWM = 10;
-const int TORSO_TILT_MOTOR2_EN = 30;
-const int TORSO_TILT_MOTOR2_LPWM = 22;
-const int TORSO_TILT_MOTOR2_RPWM = 23;
-
-const int MOUTH_SERVO_SIG = 26;
-
-const int BATTERY_METER_LEVELS = 10;
-const int BATTERY_METER_REGISTERS[BATTERY_METER_LEVELS] =
-{
-  0, // U8.QA
-  1, // U8.QB
-  2, // U8.QC
-  3, // U8.QD
-  4, // U8.QE
-  5, // U8.QF
-  6, // U8.QG
-  7, // U8.QH
-  8, // U9.QA
-  9  // U9.QB
-};
-
-const int SHIFT_REGISTER_DATA_PIN = 11;
-const int SHIFT_REGISTER_CLOCK_PIN = 13;
-const int SHIFT_REGISTER_LATCH_PIN = 31;
-const int SHIFT_REGISTER_COUNT = 2;
-const int SHIFT_REGISTER_OUTPUT_COUNT = 16;
+const uint8_t POWER_DISPLAY_ADDRESS_1 = 0x3C;
+const uint8_t POWER_DISPLAY_ADDRESS_2 = 0x3D;
+const unsigned long POWER_UPDATE_INTERVAL = 100;
+const float BATTERY_FULL_VOLTS = 29.2f;
+const float BATTERY_EMPTY_VOLTS = 20.0f;
+const float CHARGE_SMOOTHING_ALPHA = 0.15f;
 
 /*----------------------------------------------------------*\
 | Forward Declarations
@@ -88,7 +84,8 @@ const int SHIFT_REGISTER_OUTPUT_COUNT = 16;
 void initializeSerial();
 void initializeADC();
 void initializeI2C();
-void writeRegister(int id, bool value);
+void updatePowerMonitoring();
+float estimateBatteryCharge(float packVoltage);
 
 /*----------------------------------------------------------*\
 | Variables
@@ -103,20 +100,30 @@ Motor headTiltMotor2;
 Potentiometer headTiltPot;
 Motor torsoTiltMotor1;
 Motor torsoTiltMotor2;
-Potentiometer torsoTiltPot1;
-Potentiometer torsoTiltPot2;
+Potentiometer torsoTiltPot;
 ServoMotor mouthServo;
-CurrentSensor busCurrentSensor;
-VoltageCurrentSensor busVoltageCurrentSensor;
-ShiftRegister<SHIFT_REGISTER_COUNT> statusLeds;
-Meter batteryLevelMeter;
-PowerDisplay powerDisplay;
-PowerController powerController(
-  busCurrentSensor,
-  busVoltageCurrentSensor,
-  batteryLevelMeter,
-  powerDisplay
+
+CurrentSensor currentSensor;
+VoltageSensor voltageSensor;
+
+Meter batteryLevelMeter(
+  BATTERY_METER_LEVELS,
+  BATTERY_METER_PINS
 );
+
+PowerDisplay voltageCurrentDisplay(
+  POWER_DISPLAY_ADDRESS_1,
+  PowerDisplay::VOLTAGE_CURRENT
+);
+
+PowerDisplay powerDisplay(
+  POWER_DISPLAY_ADDRESS_2,
+  PowerDisplay::POWER
+);
+
+float busVoltage = 0.0f;
+float busCurrent = 0.0f;
+float batteryCharge = 0.0f;
 
 /*----------------------------------------------------------*\
 | Entry Points
@@ -127,20 +134,6 @@ void setup()
   initializeADC();
   initializeI2C();
   initializeSerial();
-
-  // Head pan
-  headPanMotor.initialize(HEAD_PAN_ENABLE, HEAD_PAN_STEP, HEAD_PAN_DIR);
-
-  headPanEncoder.initialize(
-    HEAD_PAN_ENCODER_STATUS_REGISTER,
-    HEAD_PAN_CS,
-    0,
-    AbsoluteEncoder::MAX,
-    0.0,
-    1.0,
-    false,
-    writeRegister
-  );
 
   // Head tilt
   headTiltMotor1.initialize(
@@ -159,20 +152,6 @@ void setup()
 
   headTiltPot.initialize(HEAD_TILT_POTENTIOMETER);
 
-  // Torso pan
-  torsoPanMotor.initialize(TORSO_PAN_ENABLE, TORSO_PAN_DIR, TORSO_PAN_PWM, TORSO_PAN_STATUS);
-
-  torsoPanEncoder.initialize(
-    TORSO_PAN_ENCODER_STATUS_REGISTER,
-    TORSO_PAN_CS,
-    0,
-    AbsoluteEncoder::MAX,
-    0.0,
-    1.0,
-    false,
-    writeRegister
-  );
-
   // Torso tilt
   torsoTiltMotor1.initialize(
     TORSO_TILT_MOTOR1_EN,
@@ -188,31 +167,16 @@ void setup()
     Motor::CURRENT_SENSE_UNUSED
   );
 
-  torsoTiltPot1.initialize(TORSO_TILT_POTENTIOMETER1);
-  torsoTiltPot2.initialize(TORSO_TILT_POTENTIOMETER2);
+  torsoTiltPot.initialize(TORSO_TILT_POTENTIOMETER);
 
   // Mouth
   mouthServo.initialize(MOUTH_SERVO_SIG);
 
   // Sensors
-  busCurrentSensor.initialize(BUS_CURRENT_SENSOR_PIN);
-  busVoltageCurrentSensor.initialize();
+  currentSensor.initialize(CURRENT_SENSE_PIN);
+  voltageSensor.initialize(VOLTAGE_SENSE_PIN);
 
-  // Indicators
-  statusLeds.initialize(
-    SHIFT_REGISTER_DATA_PIN,
-    SHIFT_REGISTER_CLOCK_PIN,
-    SHIFT_REGISTER_LATCH_PIN,
-    SHIFT_REGISTER_OUTPUT_COUNT
-  );
-
-  batteryLevelMeter.initialize(
-    BATTERY_METER_LEVELS,
-    BATTERY_METER_REGISTERS,
-    writeRegister,
-    true
-  );
-
+  voltageCurrentDisplay.initialize();
   powerDisplay.initialize();
 
   delay(STARTUP_DELAY);
@@ -223,16 +187,16 @@ void setup()
   torsoTiltMotor2.write(0.5);
 
   headTiltMotor1.enable();
-  headTiltMotor1.write(1.0);
+  headTiltMotor1.write(0.5);
   headTiltMotor2.enable();
-  headTiltMotor2.write(1.0);
+  headTiltMotor2.write(0.5);
 
-  batteryLevelMeter.write(0.5);
+  batteryLevelMeter.write(1.0);
 }
 
 void loop()
 {
-  powerController.update();
+  updatePowerMonitoring();
 }
 
 /*----------------------------------------------------------*\
@@ -255,10 +219,43 @@ void initializeSerial()
 {
   Serial.begin(115200);
   while (!Serial && millis() < 2000);
-  Serial.write("setup starting");
 }
 
-void writeRegister(int id, bool value)
+void updatePowerMonitoring()
 {
-  statusLeds.write(id, value);
+  static unsigned long lastPowerUpdateMs = 0;
+  unsigned long now = millis();
+
+  if (lastPowerUpdateMs != 0 && now - lastPowerUpdateMs < POWER_UPDATE_INTERVAL)
+  {
+    return;
+  }
+
+  lastPowerUpdateMs = now;
+  busVoltage = voltageSensor.read();
+  busCurrent = currentSensor.read();
+
+  float measuredCharge = estimateBatteryCharge(busVoltage);
+
+  if (batteryCharge <= 0.0f)
+  {
+    batteryCharge = measuredCharge;
+  }
+  else
+  {
+    batteryCharge += (measuredCharge - batteryCharge) * CHARGE_SMOOTHING_ALPHA;
+  }
+
+  //batteryLevelMeter.write(batteryCharge);
+  voltageCurrentDisplay.update(busVoltage, busCurrent);
+  powerDisplay.update(busVoltage, busCurrent);
+}
+
+float estimateBatteryCharge(float packVoltage)
+{
+  return constrain(
+    (packVoltage - BATTERY_EMPTY_VOLTS) / (BATTERY_FULL_VOLTS - BATTERY_EMPTY_VOLTS),
+    0.0f,
+    1.0f
+  );
 }

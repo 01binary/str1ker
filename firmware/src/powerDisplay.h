@@ -7,7 +7,7 @@
  ████████████  █       █     █            █      █      █████████  █          █   ███       ███ █            █
                                                                                      ███████
  powerDisplay.h
- SSD1306 Voltage / Current / Power Display
+ SSD1306 I2C Voltage / Current / Power Display
  Copyright (C) 2026 Valeriy Novytskyy
  This software is licensed under GNU GPLv3
 */
@@ -30,20 +30,24 @@
 class PowerDisplay
 {
 public:
+  enum MODE
+  {
+    VOLTAGE_CURRENT,
+    POWER
+  };
+
   static constexpr uint8_t WIDTH = 128;
   static constexpr uint8_t HEIGHT = 64;
   static constexpr int8_t RESET_PIN = -1;
-  static constexpr uint8_t I2C_ADDRESS = 0x3C;
-  static constexpr unsigned long MODE_INTERVAL_MS = 5000;
   static constexpr unsigned long SAMPLE_INTERVAL_MS = 250;
   static constexpr unsigned long HISTORY_MS = 10000;
   static constexpr uint8_t SAMPLE_COUNT = HISTORY_MS / SAMPLE_INTERVAL_MS;
 
 public:
   Adafruit_SSD1306 display;
+  uint8_t i2cAddress;
   bool initialized;
-  bool showWatts;
-  unsigned long lastModeChangeMs;
+  MODE mode;
   unsigned long lastSampleMs;
   float voltage;
   float current;
@@ -55,11 +59,11 @@ public:
   uint16_t accumulatedSamples;
 
 public:
-  PowerDisplay():
+  PowerDisplay(uint8_t address, MODE displayMode):
     display(WIDTH, HEIGHT, &Wire, RESET_PIN),
+    i2cAddress(address),
     initialized(false),
-    showWatts(false),
-    lastModeChangeMs(0),
+    mode(displayMode),
     lastSampleMs(0),
     voltage(0.0f),
     current(0.0f),
@@ -75,9 +79,9 @@ public:
     }
   }
 
-  bool initialize(uint8_t address = I2C_ADDRESS)
+  bool initialize()
   {
-    initialized = display.begin(SSD1306_SWITCHCAPVCC, address);
+    initialized = display.begin(SSD1306_SWITCHCAPVCC, i2cAddress);
 
     if (!initialized)
     {
@@ -89,7 +93,6 @@ public:
     display.setTextWrap(false);
     display.display();
 
-    lastModeChangeMs = millis();
     lastSampleMs = 0;
     return true;
   }
@@ -104,22 +107,20 @@ public:
     unsigned long now = millis();
     voltage = newVoltage;
     current = newCurrent;
-    watts = voltage * current;
-    accumulatedWatts += watts;
-    accumulatedSamples++;
 
-    if (now - lastModeChangeMs >= MODE_INTERVAL_MS)
+    if (mode == POWER)
     {
-      showWatts = !showWatts;
-      lastModeChangeMs = now;
-    }
+      watts = voltage * current;
+      accumulatedWatts += watts;
+      accumulatedSamples++;
 
-    if (lastSampleMs == 0 || now - lastSampleMs >= SAMPLE_INTERVAL_MS)
-    {
-      writeSample(accumulatedWatts / float(accumulatedSamples));
-      accumulatedWatts = 0.0f;
-      accumulatedSamples = 0;
-      lastSampleMs = now;
+      if (lastSampleMs == 0 || now - lastSampleMs >= SAMPLE_INTERVAL_MS)
+      {
+        writeSample(accumulatedWatts / float(accumulatedSamples));
+        accumulatedWatts = 0.0f;
+        accumulatedSamples = 0;
+        lastSampleMs = now;
+      }
     }
 
     draw();
@@ -141,9 +142,9 @@ private:
   {
     display.clearDisplay();
 
-    if (showWatts)
+    if (mode == POWER)
     {
-      drawWatts();
+      drawPower();
     }
     else
     {
@@ -159,7 +160,7 @@ private:
     drawIndicator(0, 32, "Current", "A", current);
   }
 
-  void drawWatts()
+  void drawPower()
   {
     drawIndicator(0, 0, "Power", "W", watts);
     drawGraph(0, 36, WIDTH, 28);
