@@ -63,6 +63,12 @@ The [3621BH](https://www.amazon.com/uxcell-Common-Segment-Display-Digital/dp/B07
 |1|`COM0`|`B`|`C`|`E`|`D`|
 |2|`G`|`DP`|`A`|`F`|`COM1`|
 
+The digit segments are mapped as follows:
+
+|Digit|Segments
+|-|-|
+|![digit](./doc/digit.svg)|`A` - Top of upper square<br>`F` - Left of upper square<br>`B` - Right of upper square<br>`G` - Link of both squares<br>`E` - Left of lower square<br>`C` - Right of lower square<br>`D` - Bottom of lower square<br>`DP` - Decimal point
+
 ## Pin Mapping
 
 This board is essentially a shield. Labeled locking connectors are provided for all of the devices, PWM enabled/activity is indicated by LEDs, and wheel speeds are indicated by number displays.
