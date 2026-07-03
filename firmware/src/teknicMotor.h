@@ -62,7 +62,7 @@ public:
     int enable,
     int direction,
     int torque,
-    int status,
+    int status = -1,
     int min = 0,
     int max = PWM_MAX,
     bool invertCommand = false)

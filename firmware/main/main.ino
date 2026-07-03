@@ -92,9 +92,7 @@ float estimateBatteryCharge(float packVoltage);
 \*----------------------------------------------------------*/
 
 StepperMotor headPanMotor;
-AbsoluteEncoder headPanEncoder;
 TeknicMotor torsoPanMotor;
-AbsoluteEncoder torsoPanEncoder;
 Motor headTiltMotor1;
 Motor headTiltMotor2;
 Potentiometer headTiltPot;
@@ -134,6 +132,12 @@ void setup()
   initializeADC();
   initializeI2C();
   initializeSerial();
+
+  // Head pan
+  headPanMotor.initialize(HEAD_PAN_ENABLE, HEAD_PAN_STEP, HEAD_PAN_DIR);
+
+  // Torso pan
+  torsoPanMotor.initialize(TORSO_PAN_ENABLE, TORSO_PAN_DIR, TORSO_PAN_PWM);
 
   // Head tilt
   headTiltMotor1.initialize(
@@ -190,6 +194,12 @@ void setup()
   headTiltMotor1.write(0.5);
   headTiltMotor2.enable();
   headTiltMotor2.write(0.5);
+
+  torsoPanMotor.enable();
+  torsoPanMotor.write(0.5);
+
+  headPanMotor.enable();
+  headPanMotor.write(0.5);
 
   batteryLevelMeter.write(1.0);
 }
