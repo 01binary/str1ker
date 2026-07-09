@@ -200,8 +200,6 @@ void setup()
 
   headPanMotor.enable();
   headPanMotor.write(0.5);
-
-  batteryLevelMeter.write(1.0);
 }
 
 void loop()
@@ -256,7 +254,7 @@ void updatePowerMonitoring()
     batteryCharge += (measuredCharge - batteryCharge) * CHARGE_SMOOTHING_ALPHA;
   }
 
-  //batteryLevelMeter.write(batteryCharge);
+  batteryLevelMeter.write(batteryCharge);
   voltageCurrentDisplay.update(busVoltage, busCurrent);
   powerDisplay.update(busVoltage, busCurrent);
 }
