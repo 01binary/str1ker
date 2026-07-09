@@ -9,3 +9,5 @@
 arduino.json
 **/*-backups/*
 fp-info-cache
+freerouting.dsn
+temp-freerouting.dsn
