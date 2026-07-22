@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   genmsg
   message_generation
   std_msgs
+  geometry_msgs
   controller_manager
   control_toolbox
   moveit_core

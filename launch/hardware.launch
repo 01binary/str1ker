@@ -1,10 +1,21 @@
 <launch>
   <!-- Serial bridge to the arm firmware -->
   <node
-    name="arm_node"
+    name="arm1_node"
     pkg="rosserial_python"
     type="serial_node.py"
-    args="/dev/ttyACM0"
+    args="/dev/teensy_arm1"
+    required="true"
+    output="screen"
+  >
+    <rosparam command="load" file="$(find str1ker)/config/arm.yaml" />
+  </node>
+
+  <node
+    name="arm2_node"
+    pkg="rosserial_python"
+    type="serial_node.py"
+    args="/dev/teensy_arm2"
     required="true"
     output="screen"
   >

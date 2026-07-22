@@ -1,0 +1,13 @@
+<launch>
+    <arg name="serial_port" default="/dev/teensy_legs"   />
+    <arg name="serial_baud" default="11520" />
+
+    <node
+        name="legs_node"
+        pkg="rosserial_python"
+        type="serial_node.py"
+        args="$(arg serial_port) _baud:=$(arg serial_baud)"
+        required="true"
+        output="screen"
+    />
+</launch>

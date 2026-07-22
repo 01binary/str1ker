@@ -254,7 +254,7 @@ void updatePowerMonitoring()
     batteryCharge += (measuredCharge - batteryCharge) * CHARGE_SMOOTHING_ALPHA;
   }
 
-  batteryLevelMeter.write(batteryCharge);
+  batteryLevelMeter.write(1.0);
   voltageCurrentDisplay.update(busVoltage, busCurrent);
   powerDisplay.update(busVoltage, busCurrent);
 }
