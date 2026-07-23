@@ -37,6 +37,8 @@ add_message_files(
   GripperCommand.msg
   StateFeedback.msg
   RawStateFeedback.msg
+  MainCommand.msg
+  PowerState.msg
 )
 
 generate_messages(
