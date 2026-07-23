@@ -45,7 +45,6 @@ public:
   uint8_t wheelPinA;
   uint8_t wheelPinB;
   uint8_t wheelIndexPin;
-  Motor::PwmWriter pwmWriter;
   Potentiometer actuatorSensor;
   Motor actuatorMotor;
   Motor wheelMotor;
@@ -71,7 +70,6 @@ public:
     wheelPinA(0),
     wheelPinB(0),
     wheelIndexPin(0),
-    pwmWriter(nullptr),
     actuatorMotor(),
     wheelMotor(),
     quadratureEncoder(nullptr),
