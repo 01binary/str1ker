@@ -21,4 +21,5 @@
   (lib (name "IS31FL3730-QFLS2-TR")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/LEDDriver")(options "")(descr ""))
   (lib (name "BNO055")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/BNO055")(options "")(descr ""))
   (lib (name "Teensy4.1")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Teensy4.1")(options "")(descr ""))
+  (lib (name "LevelShifter")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/LevelShifter")(options "")(descr ""))
 )

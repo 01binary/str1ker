@@ -20,4 +20,5 @@
   (lib (name "150080BS75000")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/LedBlue/150080BS75000.kicad_sym")(options "")(descr ""))
   (lib (name "XL-1608SURC-06")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/LedRed/XL-1608SURC-06.kicad_sym")(options "")(descr ""))
   (lib (name "Teensy4.1")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/Teensy4.1/teensy.kicad_sym")(options "")(descr ""))
+  (lib (name "LevelShifter")(type "KiCad")(uri "${KIPRJMOD}/Dependencies/LevelShifter/74HCT125D.kicad_sym")(options "")(descr ""))
 )

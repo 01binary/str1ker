@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   genmsg
   message_generation
   std_msgs
+  geometry_msgs
   controller_manager
   control_toolbox
   moveit_core
@@ -52,6 +53,7 @@ catkin_package(
     tf2
     tf2_ros
     std_msgs
+    geometry_msgs
     sensor_msgs
     genmsg
     cmake_modules

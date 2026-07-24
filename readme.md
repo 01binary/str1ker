@@ -264,6 +264,23 @@ If you want to bypass by-id and use the current kernel device path:
 roslaunch str1ker laserscan.launch serial_port:=/dev/ttyACM0
 ```
 
+### Mecanum Legs
+
+The legs firmware runs as a rosserial Arduino node and subscribes to `cmd_vel`
+using `geometry_msgs/Twist` (`linear.x`, `linear.y`, and `angular.z`).
+
+To launch the serial bridge:
+
+```
+roslaunch str1ker legs.launch serial_port:=/dev/ttyACM0
+```
+
+Quick forward-motion smoke test:
+
+```
+rostopic pub -r 10 /cmd_vel geometry_msgs/Twist "{linear: {x: 0.2, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
+```
+
 ### Teleoperation
 
 To teleoperate the robot:
