@@ -75,6 +75,24 @@ The following external components are connected to the board via JST-XH locking 
 | `D35` | Battery Level Meter `LED10` (Highest Charge)
 | `D36` | PerfectPass Servo `SIG`
 
+## ROS Interface
+
+The main-board Teensy is a rosserial node at `115200` baud. Its USB serial
+port is reserved for ROS framing; the sketch does not print diagnostic text.
+
+|Topic|Type|Direction|Rate / behavior|
+|-|-|-|-|
+|`main/command`|`str1ker/MainCommand`|Subscribe|Normalized `[-1, 1]` velocity commands for head pan/tilt and torso pan/tilt, plus mouth position in degrees. Motion stops if commands are absent for 500 ms.|
+|`main/power`|`str1ker/PowerState`|Publish|Voltage (V), current (A), and power (W), at 10 Hz.|
+|`main/battery`|`sensor_msgs/BatteryState`|Publish|LiFePO4 pack voltage, current, and estimated charge percentage, at 10 Hz.|
+|`main/joint_states`|`sensor_msgs/JointState`|Publish|`head_tilt_joint`, `torso_tilt_joint`, and `mouth_joint` positions, at 10 Hz.|
+
+The mouth servo is commanded to 90 degrees during startup. The two
+potentiometer positions are currently normalized to `[0, 1]`; calibrate their
+ADC endpoints and angular ranges in the firmware before treating them as
+radians in a robot model. Head pan and torso pan are omitted from feedback
+because this board has no position sensors for those axes.
+
 ## Bill of Materials
 
 |Component|Description|

@@ -202,7 +202,13 @@ The checked-in VSCode configuration targets `teensy:avr:teensy40` on `/dev/ttyAC
 To launch only the serial bridge to the arm firmware:
 
 ```
-roslaunch str1ker hardware.launch
+roslaunch str1ker arms.launch
+```
+
+To launch only the serial bridge to the main board firmware:
+
+```
+roslaunch str1ker main.launch
 ```
 
 ### Controllers

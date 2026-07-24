@@ -1,0 +1,12 @@
+# Arm 1 Teensy 4.0
+SUBSYSTEM=="tty", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="0483", ATTRS{serial}=="19780530", SYMLINK+="teensy_arm1", GROUP="dialout", MODE="0660"
+
+# Arm 2 Teensy 4.0
+SUBSYSTEM=="tty", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="0483", ATTRS{serial}=="19177970", SYMLINK+="teensy_arm2", GROUP="dialout", MODE="0660"
+
+# Main Teensy 4.1
+SUBSYSTEM=="tty", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="0483", ATTRS{serial}=="20374850", SYMLINK+="teensy_main", GROUP="dialout", MODE="0660"
+
+# Legs Teensy 4.1
+SUBSYSTEM=="tty", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="0483", ATTRS{serial}=="20386390", SYMLINK+="teensy_legs", GROUP="dialout", MODE="0660"
+

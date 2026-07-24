@@ -45,7 +45,6 @@ public:
   uint8_t wheelPinA;
   uint8_t wheelPinB;
   uint8_t wheelIndexPin;
-  Motor::PwmWriter pwmWriter;
   Potentiometer actuatorSensor;
   Motor actuatorMotor;
   Motor wheelMotor;
@@ -71,7 +70,6 @@ public:
     wheelPinA(0),
     wheelPinB(0),
     wheelIndexPin(0),
-    pwmWriter(nullptr),
     actuatorMotor(),
     wheelMotor(),
     quadratureEncoder(nullptr),
@@ -105,8 +103,7 @@ public:
     int wheelRChannel,
     uint8_t quadratureA,
     uint8_t quadratureB,
-    uint8_t indexPin,
-    Motor::PwmWriter onPwmWrite)
+    uint8_t indexPin)
   {
     name = legName;
     actuatorPotPin = actuatorPotentiometerPin;
@@ -119,7 +116,6 @@ public:
     wheelPinA = quadratureA;
     wheelPinB = quadratureB;
     wheelIndexPin = indexPin;
-    pwmWriter = onPwmWrite;
 
     if (quadratureEncoder != nullptr)
     {
@@ -139,8 +135,7 @@ public:
       0,
       Motor::PWM_MAX,
       false,
-      1.0f,
-      pwmWriter
+      1.0f
     );
 
     wheelMotor.initialize(
@@ -151,8 +146,7 @@ public:
       0,
       Motor::PWM_MAX,
       false,
-      1.0f,
-      pwmWriter
+      1.0f
     );
 
     actuatorSensor.read();

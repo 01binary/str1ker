@@ -1,6 +1,9 @@
 <launch>
-  <!-- Serial bridge -->
-  <include file="$(find str1ker)/launch/hardware.launch" />
+  <!-- Serial bridge to arms -->
+  <include file="$(find str1ker)/launch/arms.launch" />
+
+  <!-- Serial bridge to main board -->
+  <include file="$(find str1ker)/launch/main.launch" />
 
   <!-- ROS control stack -->
   <include file="$(find str1ker)/launch/controllers.launch" />

@@ -1,0 +1,13 @@
+<launch>
+    <arg name="serial_port" default="/dev/teensy_main"   />
+    <arg name="serial_baud" default="115200" />
+
+    <node
+        name="main_node"
+        pkg="rosserial_python"
+        type="serial_node.py"
+        args="$(arg serial_port) _baud:=$(arg serial_baud)"
+        required="true"
+        output="screen"
+    />
+</launch>
