@@ -1,6 +1,6 @@
 # Str1ker: The Drumming Mech
 
-This repository contains source code, mechanical parts, and printed circuit boards for [Str1ker](https://www.01binary.us/projects/drumming-robot/) drumming robot.
+> [Str1ker](https://www.01binary.us/projects/drumming-robot/) is a human size, open-source mech integrated with Robot Operating System.
 
 ![body](./readme/hero.png)
 
@@ -9,6 +9,10 @@ This repository contains source code, mechanical parts, and printed circuit boar
 Striker is a human-scale teleoperated mech built with metal casting, CNC machining, 3D printing, sheet metal parts, tube frame chassis, and pre-made components.
 
 > This open-source educational project features custom electronics and [Robot Operating System](https://www.ros.org/) integration, demonstrating how to design and build a large robot that combines mobility, sensing, and manipulation.
+
+| | | |
+|-|-|-|
+|![photo 1](./readme/photo%201.png)|![photo 3](./readme/photo%203.png)|![photo 2](./readme/photo%202.png)|
 
 The robot moves on a mecanum base, articulates its head and arms, and visualizes live lidar and RGB-D perception in Robot Visualization tool ([RViz](https://wiki.ros.org/rviz/Tutorials)).
 
