@@ -8,17 +8,21 @@
 
 Striker is a human-scale teleoperated mech built with metal casting, CNC machining, 3D printing, sheet metal parts, tube frame chassis, and pre-made components.
 
-> This open-source educational project features custom electronics and [Robot Operating System](https://www.ros.org/) integration, demonstrating how to design and build a large robot that combines mobility, sensing, and manipulation.
+This open-source educational project features custom electronics and [Robot Operating System](https://www.ros.org/) integration, demonstrating how to design and build a large robot that combines mobility, sensing, and manipulation.
+
+> See the [presentation](https://docs.google.com/presentation/d/125Y3McedITN_gVbnEh7SqTWY80QppUtimkaTmMLYEUg/edit?usp=sharing) about the robot at August 2026 [Portland Area Robotics Society](https://portlandrobotics.org/home.php?link_id=1) meeting.
 
 | | | |
 |-|-|-|
-|![photo 1](./readme/photo%201.jpg)|![photo 3](./readme/photo%203.png)|![photo 2](./readme/photo%202.jpg)|
+|![Front of the robot](./readme/photo%201.jpg)|![Back of the robot](./readme/photo%203.png)|![Robot rolling up a ramp](./readme/photo%202.jpg)|
 
 The robot moves on a mecanum base, articulates its head and arms, and visualizes live lidar and RGB-D perception in Robot Visualization tool ([RViz](https://wiki.ros.org/rviz/Tutorials)).
 
 The arms terminate in percussive end-effectors, designed for future live drum performance.
 
 More details on [my blog](https://www.01binary.us/projects/drumming-robot/) and media on [instagram](https://www.instagram.com/01binaryus/). Say hello at the next [Portland Area Robotics Society](https://portlandrobotics.org/home.php?link_id=1) monthly meetup!
+
+![Maintaining robot at Open Sauce](./readme/photo%204.jpg)
 
 ## Details
 
