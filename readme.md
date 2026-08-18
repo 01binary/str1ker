@@ -12,7 +12,7 @@ Striker is a human-scale teleoperated mech built with metal casting, CNC machini
 
 | | | |
 |-|-|-|
-|![photo 1](./readme/photo%201.png)|![photo 3](./readme/photo%203.png)|![photo 2](./readme/photo%202.png)|
+|![photo 1](./readme/photo%201.jpg)|![photo 3](./readme/photo%203.png)|![photo 2](./readme/photo%202.jpg)|
 
 The robot moves on a mecanum base, articulates its head and arms, and visualizes live lidar and RGB-D perception in Robot Visualization tool ([RViz](https://wiki.ros.org/rviz/Tutorials)).
 
